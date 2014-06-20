@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ECFEB381-B713-4E8B-A591-660E70CD33AC}</ProjectGuid>
+    <ProjectGuid>{4EF58BB8-B2FF-49B3-BD1F-EF59F58DC1B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AR.Domain</RootNamespace>
-    <AssemblyName>AR.Domain</AssemblyName>
+    <RootNamespace>AR.RescueGroups</RootNamespace>
+    <AssemblyName>AR.RescueGroups</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,22 +30,47 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TOTD.Utility">
+      <HintPath>..\packages\TOTD.Utility.1.0.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BaseException.cs" />
-    <Compile Include="Contracts\IStorageContext.cs" />
-    <Compile Include="Models\AnimalStatus.cs" />
+    <Compile Include="Configuration\RescueGroupsConfigurationSection.cs" />
+    <Compile Include="Mappings\AnimalStatusMapping.cs" />
+    <Compile Include="Mappings\BaseRescueGroupsMapping.cs" />
+    <Compile Include="Mappings\IRescueGroupsMapping.cs" />
+    <Compile Include="Mappings\RescueGroupsMappingFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RescueGroupsException.cs" />
+    <Compile Include="RescueGroupsStorage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AR.Domain\AR.Domain.csproj">
+      <Project>{ecfeb381-b713-4e8b-a591-660e70cd33ac}</Project>
+      <Name>AR.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="RescueGroups.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
