@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("AR.Domain")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("AR.Domain")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
