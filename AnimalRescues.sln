@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AR.Test", "AR.Test\AR.Test.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AR.RescueGroups", "AR.RescueGroups\AR.RescueGroups.csproj", "{4EF58BB8-B2FF-49B3-BD1F-EF59F58DC1B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AR.Azure", "AR.Azure\AR.Azure.csproj", "{A2A9C940-8AAB-4B6A-A80F-6E60AFA8E5FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{4EF58BB8-B2FF-49B3-BD1F-EF59F58DC1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EF58BB8-B2FF-49B3-BD1F-EF59F58DC1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EF58BB8-B2FF-49B3-BD1F-EF59F58DC1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A9C940-8AAB-4B6A-A80F-6E60AFA8E5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A9C940-8AAB-4B6A-A80F-6E60AFA8E5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A9C940-8AAB-4B6A-A80F-6E60AFA8E5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A9C940-8AAB-4B6A-A80F-6E60AFA8E5FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
