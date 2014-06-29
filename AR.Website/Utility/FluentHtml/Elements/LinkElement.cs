@@ -1,35 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 using System.Web.Mvc;
+using AR.Website.Utility.FluentHtml.Contracts;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
-    public class LinkElement : Element<LinkElement>
+    public class LinkElement : BaseContainerElement<LinkElement>
     {
-        private UrlHelper helperUrl;
-
-        public LinkElement(UrlHelper urlHelper)
-            :base("a")
+        public LinkElement(ViewContext viewContext)
+            : base("a", viewContext)
         {
-            this.helperUrl = urlHelper;
         }
 
-        public LinkElement Url(string actionName, string controllerName)
+        public LinkElement ActionLink(string actionName, string controllerName)
         {
-            return Url(actionName, controllerName, null);
+            return ActionLink(actionName, controllerName, null);
         }
 
-        public LinkElement Url(string actionName, string controllerName, object routeValues)
+        public LinkElement ActionLink(string actionName, string controllerName, object routeValues)
         {
-            string url = helperUrl.Action(actionName, controllerName, routeValues);
+            string url = Url.Action(actionName, controllerName, routeValues);
             return this.Attribute("href", url);
+        }
+
+        public LinkElement AsJavascriptLink()
+        {
+            return this.Attribute("href","#");
         }
 
         public LinkElement Text(string text)
         {
-            Builder.InnerHtml = text;
+            AddInnerHtml(text);
             return this;
         }
     }

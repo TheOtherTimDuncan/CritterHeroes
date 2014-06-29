@@ -8,9 +8,9 @@ namespace AR.Website.Utility
 {
     public static class ElementExtensions
     {
-        public static LinkElement Url(this LinkElement linkElement, string actionName, string controllerName, AreaName areaName)
+        public static LinkElement ActionLink(this LinkElement linkElement, string actionName, string controllerName, AreaName areaName)
         {
-            return linkElement.Url(actionName, controllerName, areaName.RouteValue);
+            return linkElement.ActionLink(actionName, controllerName, areaName.RouteValue);
         }
     }
 }

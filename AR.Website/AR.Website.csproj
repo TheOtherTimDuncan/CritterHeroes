@@ -126,9 +126,16 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AreaName.cs" />
+    <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
     <Compile Include="Utility\FluentHtml\Contracts\IElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\Element.cs" />
     <Compile Include="Utility\FluentHtml\Elements\LinkElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseListElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\OrderedListElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\SpanElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\UnorderedListElement.cs" />
     <Compile Include="Utility\FluentHtml\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
   </ItemGroup>
