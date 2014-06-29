@@ -21,7 +21,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
         {
             this.Tag = tag;
             this.Builder = new TagBuilder(tag);
-            this.Url = new UrlHelper(viewContext.RequestContext);
+            this.UrlHelper = new UrlHelper(viewContext.RequestContext);
             this.TagRenderMode = renderMode;
 
             innerHtmlBuilder = new StringBuilder();
@@ -33,7 +33,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
             private set;
         }
 
-        protected UrlHelper Url
+        protected UrlHelper UrlHelper
         {
             get;
             set;
@@ -80,8 +80,8 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         protected void AddInnerHtml(string text)
         {
-            MvcHtmlString htmlString = new MvcHtmlString(text);
-            AddInnerHtml(htmlString);
+            string encoded = HttpUtility.HtmlEncode(text);
+            innerHtmlBuilder.Append(encoded);
         }
 
         protected void AddInnerHtml(IHtmlString innerHtml)

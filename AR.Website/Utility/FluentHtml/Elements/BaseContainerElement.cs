@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -24,8 +23,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
         public T AddElement(Func<IElement> elementBuilder)
         {
             IElement element = elementBuilder();
-            AddElement(element);
-            return (T)this;
+            return AddElement(element);
         }
     }
 }

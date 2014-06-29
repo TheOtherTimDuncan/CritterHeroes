@@ -21,13 +21,18 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         public LinkElement ActionLink(string actionName, string controllerName, object routeValues)
         {
-            string url = Url.Action(actionName, controllerName, routeValues);
+            string url = UrlHelper.Action(actionName, controllerName, routeValues);
+            return this.Url(url);
+        }
+
+        public LinkElement Url(string url)
+        {
             return this.Attribute("href", url);
         }
 
         public LinkElement AsJavascriptLink()
         {
-            return this.Attribute("href","#");
+            return this.Attribute("href", "#");
         }
 
         public LinkElement Text(string text)
