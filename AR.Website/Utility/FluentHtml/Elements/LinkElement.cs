@@ -7,11 +7,23 @@ using AR.Website.Utility.FluentHtml.Contracts;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
-    public class LinkElement : BaseContainerElement<LinkElement>
+    public class LinkElement : BaseContainerElement<LinkElement>, IUrlContext
     {
+        private IUrlContext _urlContext;
+
         public LinkElement(ViewContext viewContext)
             : base("a", viewContext)
         {
+        }
+
+        public bool Matches(IUrlContext urlContext)
+        {
+            if (this._urlContext == null)
+            {
+                return false;
+            }
+
+            return this._urlContext.Matches(urlContext);
         }
 
         public LinkElement ActionLink(string actionName, string controllerName)
@@ -21,13 +33,19 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         public LinkElement ActionLink(string actionName, string controllerName, object routeValues)
         {
+            _urlContext = new InternalUrlContext(actionName, controllerName, routeValues);
+
             string url = UrlHelper.Action(actionName, controllerName, routeValues);
-            return this.Url(url);
+            SetUrl(url);
+
+            return this;
         }
 
         public LinkElement Url(string url)
         {
-            return this.Attribute("href", url);
+            _urlContext = new ExternalUrlContext(url);
+            SetUrl(url);
+            return this;
         }
 
         public LinkElement AsJavascriptLink()
@@ -39,6 +57,11 @@ namespace AR.Website.Utility.FluentHtml.Elements
         {
             AddInnerHtml(text);
             return this;
+        }
+
+        private void SetUrl(string url)
+        {
+            this.Attribute("href", url);
         }
     }
 }

@@ -8,5 +8,20 @@ namespace AR.Website.Utility.FluentHtml.Contracts
     {
         //IElement Attribute(string name, object value);
         //IElement Class(string className);
+
+        string CurrentArea
+        {
+            get;
+        }
+
+        string CurrentControllerName
+        {
+            get;
+        }
+
+        string CurrentActionName
+        {
+            get;
+        }
     }
 }

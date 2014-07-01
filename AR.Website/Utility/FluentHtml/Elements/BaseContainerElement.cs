@@ -7,16 +7,28 @@ using AR.Website.Utility.FluentHtml.Contracts;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
-    public class BaseContainerElement<T> : Element<T> where T : BaseContainerElement<T>
+    public class BaseContainerElement<T> : Element<T>, IContainerElement where T : BaseContainerElement<T>
     {
+        private List<IElement> _children;
+
         public BaseContainerElement(string tag, ViewContext viewContext)
             : base(tag, viewContext)
         {
+            _children = new List<IElement>();
+        }
+
+        public IEnumerable<IElement> Children
+        {
+            get
+            {
+                return _children;
+            }
         }
 
         public T AddElement(IElement element)
         {
             AddInnerHtml(element);
+            _children.Add(element);
             return (T)this;
         }
 

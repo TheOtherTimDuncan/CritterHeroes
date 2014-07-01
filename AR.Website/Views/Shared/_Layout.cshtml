@@ -19,19 +19,19 @@
                 @Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("FFLAH - Admin").Class("navbar-brand")
             </div>
             <div class="navbar-collapse collapse">
-                @Html.BootstrapNav().AddElement(() =>
+                @Html.BootstrapNav().AsNavBar().AddElement(() =>
                 {
-                    return Html.ListItem().AddElement(() =>
+                    return Html.BootstrapNavItem().SetActiveByControllerAndAction().AddElement(() =>
                     {
                         return Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("Home");
                     });
                 }).AddElement(() =>
                 {
-                    return Html.BootstrapNavDropdownItem("Maintenance").AddElement(() =>
+                    return Html.BootstrapNavItem().SetActiveByControllerAndAction().AsDropdown("Maintenance").AddElement(() =>
                     {
-                        return Html.BootstrapNavDropdown().AddElement(() =>
+                        return Html.BootstrapNav().AsDropdown().AddElement(() =>
                         {
-                            return Html.ListItem().AddElement(() =>
+                            return Html.BootstrapNavItem().SetActiveByControllerAndAction().AddElement(() =>
                             {
                                 return Html.Link().ActionLink("Index", "DataMaintenance", areaName: AreaName.Admin).Text("Data");
                             });

@@ -127,8 +127,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AreaName.cs" />
     <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
+    <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNav.cs" />
+    <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNavItem.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IContainerElement.cs" />
     <Compile Include="Utility\FluentHtml\Contracts\IElement.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IUrlContext.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\Element.cs" />
     <Compile Include="Utility\FluentHtml\Elements\LinkElement.cs" />
@@ -136,8 +141,10 @@
     <Compile Include="Utility\FluentHtml\Elements\OrderedListElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\SpanElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\UnorderedListElement.cs" />
+    <Compile Include="Utility\FluentHtml\ExternalUrlContext.cs" />
     <Compile Include="Utility\FluentHtml\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
+    <Compile Include="Utility\FluentHtml\InternalUrlContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

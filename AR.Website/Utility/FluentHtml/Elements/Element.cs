@@ -24,6 +24,12 @@ namespace AR.Website.Utility.FluentHtml.Elements
             this.UrlHelper = new UrlHelper(viewContext.RequestContext);
             this.TagRenderMode = renderMode;
 
+            this.CurrentArea = (viewContext.RouteData.DataTokens["area"] as string) ?? string.Empty; // We need an empty string not null so it will match correctly later
+            this.CurrentControllerName = viewContext.RouteData.GetRequiredString("controller");
+            this.CurrentActionName = viewContext.RouteData.GetRequiredString("action");
+
+            string test = UrlHelper.Action(CurrentActionName, CurrentControllerName, viewContext.RouteData);
+
             innerHtmlBuilder = new StringBuilder();
         }
 
@@ -51,6 +57,24 @@ namespace AR.Website.Utility.FluentHtml.Elements
             private set;
         }
 
+        public string CurrentArea
+        {
+            get;
+            private set;
+        }
+
+        public string CurrentControllerName
+        {
+            get;
+            private set;
+        }
+
+        public string CurrentActionName
+        {
+            get;
+            set;
+        }
+
         public T Attribute(string name, object value)
         {
             var valueString = value == null ? null : value.ToString();
@@ -73,14 +97,24 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         public string ToHtmlString()
         {
+            PreRender();
             Builder.InnerHtml = innerHtmlBuilder.ToString();
             string result = Builder.ToString(TagRenderMode);
             return result;
         }
 
+        protected virtual void PreRender()
+        {
+        }
+
+        protected string HtmlEncode(string text)
+        {
+            return HttpUtility.HtmlEncode(text);
+        }
+
         protected void AddInnerHtml(string text)
         {
-            string encoded = HttpUtility.HtmlEncode(text);
+            string encoded = HtmlEncode(text);
             innerHtmlBuilder.Append(encoded);
         }
 

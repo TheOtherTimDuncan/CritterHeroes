@@ -7,17 +7,11 @@ using AR.Website.Utility.FluentHtml.Contracts;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
-    public class ListItemElement : BaseContainerElement<ListItemElement>
+    public class ListItemElement : BaseListItemElement<ListItemElement>
     {
         public ListItemElement(ViewContext viewContext)
-            : base("li", viewContext)
+            : base(viewContext)
         {
-        }
-
-        public ListItemElement Text(string text)
-        {
-            AddInnerHtml(text);
-            return this;
         }
     }
 }
