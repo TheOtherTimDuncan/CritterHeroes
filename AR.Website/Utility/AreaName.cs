@@ -7,7 +7,7 @@ using TOTD.Utility.Misc;
 
 namespace AR.Website.Utility
 {
-    public class AreaName : Enumeration
+    public class AreaName : Enumeration<AreaName>
     {
         public static AreaName None = new AreaName(0, "");
         public static AreaName Admin = new AreaName(1, "Admin");

@@ -102,9 +102,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Utility, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.1.0.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Utility.1.0.1.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -120,6 +120,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
+    <Compile Include="Areas\Admin\Json\DashboardItemStatus.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardItemColumn.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -145,6 +149,7 @@
     <Compile Include="Utility\FluentHtml\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
     <Compile Include="Utility\FluentHtml\InternalUrlContext.cs" />
+    <Compile Include="Utility\StorageSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -153,6 +158,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.yeti.css" />
     <Content Include="Content\bootstrap.yeti.min.css" />
+    <Content Include="Content\Images\spinner.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -164,7 +170,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\DataMaintenance\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DataMaintenance\Dashboard.cshtml" />
+    <Content Include="..\AR.Azure\Azure.config">
+      <Link>Azure.config</Link>
+    </Content>
+    <Content Include="..\AR.RescueGroups\RescueGroups.config">
+      <Link>RescueGroups.config</Link>
+    </Content>
     <None Include="Scripts\Libraries\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\Libraries\bootstrap.js" />
     <Content Include="Scripts\Libraries\bootstrap.min.js" />
@@ -197,7 +209,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Models\" />
   </ItemGroup>

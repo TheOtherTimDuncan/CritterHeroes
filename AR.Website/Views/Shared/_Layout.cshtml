@@ -33,7 +33,7 @@
                         {
                             return Html.BootstrapNavItem().SetActiveByControllerAndAction().AddElement(() =>
                             {
-                                return Html.Link().ActionLink("Index", "DataMaintenance", areaName: AreaName.Admin).Text("Data");
+                                return Html.Link().ActionLink("Dashboard", "DataMaintenance", areaName: AreaName.Admin).Text("Dashboard");
                             });
                         });
                     });

@@ -14,7 +14,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
         {
         }
 
-        public class ListType : Enumeration
+        public class ListType : Enumeration<ListType>
         {
             public static ListType Ordered = new ListType(0, "ol");
             public static ListType Unordered = new ListType(1, "ul");
