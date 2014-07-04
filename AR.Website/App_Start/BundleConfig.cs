@@ -24,7 +24,6 @@ namespace AR.Website
                       "~/Scripts/Libraries/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.yeti.css",
                       "~/Content/site.css"));
         }
     }
