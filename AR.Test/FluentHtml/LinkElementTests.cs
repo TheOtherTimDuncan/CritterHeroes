@@ -6,45 +6,40 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class LinkElementTests
+    public class LinkElementTests : BaseHtmlTest
     {
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            ViewContext viewContext = new ViewContext();
-            LinkElement linkElement = new LinkElement(viewContext);
+            LinkElement linkElement = new LinkElement(GetViewContext());
             Assert.AreEqual(@"<a></a>", linkElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            ViewContext viewContext = new ViewContext();
-            LinkElement linkElement = new LinkElement(viewContext).Text("text");
+            LinkElement linkElement = new LinkElement(GetViewContext()).Text("text");
             Assert.AreEqual(@"<a>text</a>", linkElement.ToHtmlString());
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            ViewContext viewContext = new ViewContext();
-            LinkElement linkElement = new LinkElement(viewContext).Text(@"<br/>");
+            LinkElement linkElement = new LinkElement(GetViewContext()).Text(@"<br/>");
             Assert.AreEqual(@"<a>&lt;br/&gt;</a>", linkElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsJavascriptLink()
         {
-            ViewContext viewContext = new ViewContext();
-            LinkElement linkElement = new LinkElement(viewContext).AsJavascriptLink();
+            LinkElement linkElement = new LinkElement(GetViewContext()).AsJavascriptLink();
             Assert.AreEqual(@"<a href=""#""></a>", linkElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsUrl()
         {
-            ViewContext viewContext = new ViewContext();
-            LinkElement linkElement = new LinkElement(viewContext).Url("http://www.google.com");
+            LinkElement linkElement = new LinkElement(GetViewContext()).Url("http://www.google.com");
             Assert.AreEqual(@"<a href=""http://www.google.com""></a>", linkElement.ToHtmlString());
         }
     }

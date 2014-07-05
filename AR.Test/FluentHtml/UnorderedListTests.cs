@@ -6,20 +6,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class UnorderedListTests
+    public class UnorderedListTests : BaseHtmlTest
     {
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            ViewContext viewContext = new ViewContext();
-            UnorderedListElement listElement = new UnorderedListElement(viewContext);
+            UnorderedListElement listElement = new UnorderedListElement(GetViewContext());
             Assert.AreEqual(@"<ul></ul>", listElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlyAddsInnerElement()
         {
-            ViewContext viewContext = new ViewContext();
+            ViewContext viewContext = GetViewContext();
             UnorderedListElement listElement = new UnorderedListElement(viewContext).AddElement(() =>
             {
                 return new ListItemElement(viewContext).Text("text");

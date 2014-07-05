@@ -21,11 +21,7 @@ namespace AR.Test.Azure
         //[TestMethod]
         public async Task TestSave()
         {
-            AnimalStatus animalStatus = new AnimalStatus()
-            {
-                Name = "Name",
-                Description = "Description"
-            };
+            AnimalStatus animalStatus = new AnimalStatus("Name", "Description");
             AzureStorage storage = new AzureStorage("fflah");
             await storage.SaveAsync<AnimalStatus>(animalStatus);
         }

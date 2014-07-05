@@ -6,7 +6,7 @@ using AR.Website.Utility.FluentHtml.Elements;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class BaseElementTests
+    public class BaseElementTests : BaseHtmlTest
     {
         public class TestElement : Element<TestElement>
         {
@@ -19,32 +19,28 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            ViewContext viewContext = new ViewContext();
-            TestElement testElement = new TestElement(viewContext);
+            TestElement testElement = new TestElement(GetViewContext());
             Assert.AreEqual(@"<test></test>", testElement.ToHtmlString());
         }
 
         [TestMethod]
         public void SuccessfullyAddsAttribute()
         {
-            ViewContext viewContext = new ViewContext();
-            TestElement testElement = new TestElement(viewContext).Attribute("test", "value");
+            TestElement testElement = new TestElement(GetViewContext()).Attribute("test", "value");
             Assert.AreEqual(@"<test test=""value""></test>", testElement.ToHtmlString());
         }
 
         [TestMethod]
         public void SuccessfullyAddsDataAttribute()
         {
-            ViewContext viewContext = new ViewContext();
-            TestElement testElement = new TestElement(viewContext).Data("test", "value");
+            TestElement testElement = new TestElement(GetViewContext()).Data("test", "value");
             Assert.AreEqual(@"<test data-test=""value""></test>", testElement.ToHtmlString());
         }
 
         [TestMethod]
         public void SuccessfullyAddsClass()
         {
-            ViewContext viewContext = new ViewContext();
-            TestElement testElement = new TestElement(viewContext).Class("test");
+            TestElement testElement = new TestElement(GetViewContext()).Class("test");
             Assert.AreEqual(@"<test class=""test""></test>", testElement.ToHtmlString());
         }
     }

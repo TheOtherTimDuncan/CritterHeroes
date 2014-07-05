@@ -10,16 +10,12 @@ namespace AR.Test.Azure
     public class MappingTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestAnimalStatusMapping()
         {
             IAzureMapping<AnimalStatus> mapping = AzureMappingFactory.GetMapping<AnimalStatus>();
             Assert.IsNotNull(mapping);
 
-            AnimalStatus animalStatus = new AnimalStatus()
-            {
-                Name = "name",
-                Description = "desccription"
-            };
+            AnimalStatus animalStatus = new AnimalStatus("name", "desccription");
 
             DynamicTableEntity entity = (DynamicTableEntity)mapping.ToEntity(animalStatus);
             Assert.AreEqual(2, entity.Properties.Count);

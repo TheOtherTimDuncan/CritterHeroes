@@ -22,7 +22,7 @@ namespace AR.Test.RescueGroups
             Assert.IsFalse(storage.Password.IsNullOrEmpty());
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task TestGet()
         {
             RescueGroupsStorage storage = new RescueGroupsStorage();

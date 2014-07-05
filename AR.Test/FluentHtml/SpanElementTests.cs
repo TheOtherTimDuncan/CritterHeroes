@@ -6,29 +6,26 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class SpanElementTests
+    public class SpanElementTests : BaseHtmlTest
     {
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            ViewContext viewContext = new ViewContext();
-            SpanElement spanElement = new SpanElement(viewContext);
+            SpanElement spanElement = new SpanElement(GetViewContext());
             Assert.AreEqual(@"<span></span>", spanElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            ViewContext viewContext = new ViewContext();
-            SpanElement spanElement = new SpanElement(viewContext).Text("text");
+            SpanElement spanElement = new SpanElement(GetViewContext()).Text("text");
             Assert.AreEqual(@"<span>text</span>", spanElement.ToHtmlString());
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            ViewContext viewContext = new ViewContext();
-            SpanElement spanElement = new SpanElement(viewContext).Text(@"<br/>");
+            SpanElement spanElement = new SpanElement(GetViewContext()).Text(@"<br/>");
             Assert.AreEqual(@"<span>&lt;br/&gt;</span>", spanElement.ToHtmlString());
         }
     }

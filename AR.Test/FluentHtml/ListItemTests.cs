@@ -6,36 +6,33 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class ListItemTests
+    public class ListItemTests : BaseHtmlTest
     {
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            ViewContext viewContext = new ViewContext();
-            ListItemElement itemElement = new ListItemElement(viewContext);
+            ListItemElement itemElement = new ListItemElement(GetViewContext());
             Assert.AreEqual(@"<li></li>", itemElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            ViewContext viewContext = new ViewContext();
-            ListItemElement itemElement = new ListItemElement(viewContext).Text("text");
+            ListItemElement itemElement = new ListItemElement(GetViewContext()).Text("text");
             Assert.AreEqual(@"<li>text</li>", itemElement.ToHtmlString());
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            ViewContext viewContext = new ViewContext();
-            ListItemElement itemElement = new ListItemElement(viewContext).Text(@"<br/>");
+            ListItemElement itemElement = new ListItemElement(GetViewContext()).Text(@"<br/>");
             Assert.AreEqual(@"<li>&lt;br/&gt;</li>", itemElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlyAddsInnerElement()
         {
-            ViewContext viewContext = new ViewContext();
+            ViewContext viewContext = GetViewContext();
             ListItemElement itemElement = new ListItemElement(viewContext).AddElement(() =>
             {
                 return new SpanElement(viewContext).Text("text");

@@ -20,11 +20,7 @@ namespace AR.Azure.Mapping
 
         public override AnimalStatus ToModel(DynamicTableEntity entity)
         {
-            return new AnimalStatus()
-            {
-                Name = entity["Name"].StringValue,
-                Description = entity["Description"].StringValue
-            };
+            return new AnimalStatus(entity["Name"].StringValue, entity["Description"].StringValue);
         }
     }
 }

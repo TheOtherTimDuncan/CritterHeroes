@@ -114,12 +114,14 @@
     <Compile Include="Azure\StorageTests.cs" />
     <Compile Include="Azure\MappingTests.cs" />
     <Compile Include="FluentHtml\BaseElementTests.cs" />
+    <Compile Include="FluentHtml\BaseHtmlTest.cs" />
     <Compile Include="FluentHtml\SpanElementTests.cs" />
     <Compile Include="FluentHtml\LinkElementTests.cs" />
     <Compile Include="FluentHtml\ListItemTests.cs" />
     <Compile Include="FluentHtml\UrlContextTests.cs" />
     <Compile Include="FluentHtml\UnorderedListTests.cs" />
     <Compile Include="FluentHtml\OrderedListTests.cs" />
+    <Compile Include="Models\AnimalStatusTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RescueGroups\MappingTests.cs" />
     <Compile Include="RescueGroups\StorageTests.cs" />

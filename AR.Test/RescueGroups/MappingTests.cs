@@ -31,17 +31,8 @@ namespace AR.Test.RescueGroups
             [TestMethod]
             public void ConvertsJsonResultToModel()
             {
-                AnimalStatus animalStatus1 = new AnimalStatus()
-                {
-                    Name = "Name 1",
-                    Description = " Description 1"
-                };
-
-                AnimalStatus animalStatus2 = new AnimalStatus()
-                {
-                    Name = "Name 2",
-                    Description = "Description 2"
-                };
+                AnimalStatus animalStatus1 = new AnimalStatus("Name 1", "Description 1");
+                AnimalStatus animalStatus2 = new AnimalStatus("Name 2", "Description 2");
 
                 JProperty element1 = new JProperty("1", new JObject(new JProperty("name", animalStatus1.Name), new JProperty("description", animalStatus1.Description)));
                 JProperty element2 = new JProperty("2", new JObject(new JProperty("name", animalStatus2.Name), new JProperty("description", animalStatus2.Description)));

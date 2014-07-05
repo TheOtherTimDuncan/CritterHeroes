@@ -30,11 +30,7 @@ namespace AR.RescueGroups.Mappings
         {
             return
                 from v in values
-                select new AnimalStatus()
-                {
-                    Name = v.Value<string>("name"),
-                    Description = v.Value<string>("description")
-                };
+                select new AnimalStatus(v.Value<string>("name"), v.Value<string>("description"));
         }
     }
 }
