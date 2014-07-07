@@ -26,6 +26,12 @@ namespace AR.Azure
             this.TableName = tableName;
         }
 
+        public int ID
+        {
+            get;
+            set;
+        }
+
         public string ConnectionString
         {
             get;

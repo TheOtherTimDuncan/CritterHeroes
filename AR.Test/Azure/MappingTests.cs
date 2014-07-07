@@ -1,6 +1,6 @@
 ﻿using System;
 using AR.Azure.Mapping;
-using AR.Domain.Models;
+using AR.Domain.Models.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Table;
 

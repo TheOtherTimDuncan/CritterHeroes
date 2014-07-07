@@ -39,6 +39,12 @@ namespace AR.RescueGroups
             this.AccountNumber = accountNumber;
         }
 
+        public int ID
+        {
+            get;
+            set;
+        }
+
         public string Url
         {
             get;

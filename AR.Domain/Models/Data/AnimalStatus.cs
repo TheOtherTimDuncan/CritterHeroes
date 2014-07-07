@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TOTD.Utility.StringHelpers;
 
-namespace AR.Domain.Models
+namespace AR.Domain.Models.Data
 {
     public class AnimalStatus
     {

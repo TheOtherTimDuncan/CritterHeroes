@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AR.Domain.Models;
+using AR.Domain.Models.Data;
 using AR.RescueGroups;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TOTD.Utility.StringHelpers;

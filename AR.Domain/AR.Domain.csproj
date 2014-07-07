@@ -37,8 +37,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TOTD.Utility">
-      <HintPath>..\packages\TOTD.Utility.1.0.1.0\lib\net451\TOTD.Utility.dll</HintPath>
+    <Reference Include="TOTD.Utility, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TOTD.Utility.1.0.2.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -46,8 +47,14 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseException.cs" />
+    <Compile Include="Contracts\IDataStatusHandler.cs" />
     <Compile Include="Contracts\IStorageContext.cs" />
-    <Compile Include="Models\AnimalStatus.cs" />
+    <Compile Include="Handlers\DataStatus\AnimalStatusStatusHandler.cs" />
+    <Compile Include="Handlers\DataStatus\BaseModelStatusHandler.cs" />
+    <Compile Include="Models\Status\DataItem.cs" />
+    <Compile Include="Models\Status\DataStatusModel.cs" />
+    <Compile Include="Models\Data\AnimalStatus.cs" />
+    <Compile Include="Models\Status\StorageItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

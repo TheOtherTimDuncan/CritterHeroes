@@ -13,12 +13,18 @@ namespace AR.Website.Utility
     {
         public static readonly StorageSource Azure = new StorageSource(0, "Azure", () =>
         {
-            return new AzureStorage("fflah");
+            return new AzureStorage("fflah")
+            {
+                ID = 0
+            };
         });
 
         public static readonly StorageSource RescueGroups = new StorageSource(1, "Rescue Groups", () =>
         {
-            return new RescueGroupsStorage();
+            return new RescueGroupsStorage()
+            {
+                ID = 1
+            };
         });
 
         private StorageSource()

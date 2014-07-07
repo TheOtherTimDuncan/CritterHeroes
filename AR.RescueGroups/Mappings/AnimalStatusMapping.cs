@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AR.Domain.Models;
+using AR.Domain.Models.Data;
 using Newtonsoft.Json.Linq;
 
 namespace AR.RescueGroups.Mappings

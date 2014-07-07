@@ -1,5 +1,7 @@
 ﻿using System;
-using AR.Domain.Models;
+using System.Collections.Generic;
+using System.Linq;
+using AR.Domain.Models.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.Models
