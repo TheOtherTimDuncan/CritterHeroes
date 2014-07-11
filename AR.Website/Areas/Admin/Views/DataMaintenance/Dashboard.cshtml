@@ -20,7 +20,7 @@
 
     @foreach (DashboardItemModel item in Model.Items)
     {
-        <tr data-url="@item.StatusUrl">
+        <tr data-id="@item.ID">
             <td>@item.Title<span class="busy pull-right margin-left-small">&nbsp;</span></td>
             @foreach (DashboardItemColumn column in Model.Columns)
             {

@@ -121,6 +121,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
     <Compile Include="Areas\Admin\Json\DashboardItemStatus.cs" />
+    <Compile Include="Areas\Admin\Json\DashboardStorageItemStatus.cs" />
     <Compile Include="Areas\Admin\Models\DashboardItemColumn.cs" />
     <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
     <Compile Include="Areas\Admin\Models\DashboardModel.cs" />
@@ -130,6 +131,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AreaName.cs" />
+    <Compile Include="Utility\DataModelSource.cs" />
     <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
     <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNav.cs" />
     <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNavItem.cs" />

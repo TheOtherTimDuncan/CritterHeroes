@@ -5,19 +5,19 @@ namespace AR.Website.Areas.Admin.Models
 {
     public class DashboardItemModel
     {
-        public DashboardItemModel(string description, string statusUrl)
+        public DashboardItemModel(int id, string title)
         {
-            this.Title = description;
-            this.StatusUrl = statusUrl;
+            this.ID = id;
+            this.Title = title;
         }
 
-        public string Title
+        public int ID
         {
             get;
             set;
         }
 
-        public string StatusUrl
+        public string Title
         {
             get;
             set;

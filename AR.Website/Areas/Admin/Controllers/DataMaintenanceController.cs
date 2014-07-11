@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AR.Website.Areas.Admin.Json;
 using AR.Website.Areas.Admin.Models;
 using AR.Website.Utility;
 
@@ -13,14 +14,25 @@ namespace AR.Website.Areas.Admin.Controllers
         [HttpGet]
         public  ViewResult Dashboard()
         {
-            List<DashboardItemModel> items = new List<DashboardItemModel>();
-            items.Add(new DashboardItemModel("Animal Status", "status"));
-
             DashboardModel model = new DashboardModel();
-            model.Items = items;
-            model.Columns = StorageSource.GetAll().Select(x => new DashboardItemColumn(x.Value, x.Title));
+
+            model.Items =
+                from m in DataModelSource.GetAll()
+                select new DashboardItemModel(m.Value, m.Title);
+
+            model.Columns =
+                from s in StorageSource.GetAll()
+                select new DashboardItemColumn(s.Value, s.Title);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public JsonResult GetModelStatus(int modelID)
+        {
+            DashboardItemStatus model = new DashboardItemStatus();
+            model.StorageItems = new DashboardStorageItemStatus[] { new DashboardStorageItemStatus() { StorageID = 0, ValidCount = 1, InvalidCount = 2 } };
+            return Json(model);
         }
     }
 }

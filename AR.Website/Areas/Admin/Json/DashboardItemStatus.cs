@@ -6,5 +6,10 @@ namespace AR.Website.Areas.Admin.Json
 {
     public class DashboardItemStatus
     {
+        public IEnumerable<DashboardStorageItemStatus> StorageItems
+        {
+            get;
+            set;
+        }
     }
 }
