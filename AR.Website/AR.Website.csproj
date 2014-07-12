@@ -166,11 +166,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\DataMaintenance\Dashboard.cshtml" />
@@ -180,9 +175,14 @@
     <Content Include="..\AR.RescueGroups\RescueGroups.config">
       <Link>RescueGroups.config</Link>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\Libraries\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\Libraries\bootstrap.js" />
-    <Content Include="Scripts\Libraries\bootstrap.min.js" />
+    <Content Include="Scripts\Libraries\bootstrap-3.2.0.js" />
+    <Content Include="Scripts\Libraries\bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\Libraries\jquery-2.1.1.js" />
     <Content Include="Scripts\Libraries\jquery-2.1.1.min.js" />
     <Content Include="Scripts\Libraries\jquery-2.1.1.min.map" />
@@ -252,7 +252,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63102</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:63102/</IISUrl>
+          <IISUrl>http://localhost:63102/totd</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
