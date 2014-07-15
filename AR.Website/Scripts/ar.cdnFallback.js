@@ -22,7 +22,7 @@
     }
 
     var bootstrapFallback = function (bundleName) {
-        $.fn.model || writeScriptBundleUrl(bundleName);
+        $.fn.modal || writeScriptBundleUrl(bundleName);
     }
 
     var respondFallback = function (bundleName) {
@@ -30,7 +30,7 @@
     }
 
     var modernizerFallback = function (bundleName) {
-        window.modernizer || writeScriptBundleUrl(bundleName);
+        window.Modernizr || writeScriptBundleUrl(bundleName);
     }
 
     var cssBootStrapFallback = function (bundlePath)
