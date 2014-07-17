@@ -11,28 +11,31 @@ namespace AR.Website.Utility
 {
     public class StorageSource : Enumeration<StorageSource>
     {
-        public static readonly StorageSource Azure = new StorageSource(0, "Azure", () =>
-        {
-            return new AzureStorage("fflah")
-            {
-                ID = 0
-            };
-        });
+        public static readonly StorageSource Azure = new StorageSource(0, "Azure", () => StorageContextFactory.Azure());
+        public static readonly StorageSource RescueGroups = new StorageSource(1, "Rescue Groups", () => StorageContextFactory.RescueGroups());
 
-        public static readonly StorageSource RescueGroups = new StorageSource(1, "Rescue Groups", () =>
+        private static class StorageContextFactory
         {
-            return new RescueGroupsStorage()
+            public static IStorageContext Azure()
             {
-                ID = 1
-            };
-        });
+                return new AzureStorage("fflah");
+            }
+
+            public static IStorageContext RescueGroups()
+            {
+                return new RescueGroupsStorage()
+                {
+                    ID = 1
+                };
+            }
+        }
 
         private StorageSource()
         {
         }
 
         private StorageSource(int value, string displayName, Func<IStorageContext> getStorageContext)
-            :base(value, displayName)
+            : base(value, displayName)
         {
             this.GetStorageContext = getStorageContext;
         }
