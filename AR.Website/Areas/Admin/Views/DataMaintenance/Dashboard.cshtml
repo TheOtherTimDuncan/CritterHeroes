@@ -4,6 +4,10 @@
     ViewBag.Title = "Data Maintenance - Dashboard";
 }
 
+@section scripts{
+    @Scripts.Render("~/bundles/datadashboard")
+}
+
 <h2>Data Maintenance Dashboard</h2>
 
 <table class="table table-striped table-condensed">
@@ -12,7 +16,7 @@
             <th>&nbsp;</th>
             @foreach (DashboardItemColumn column in Model.Columns)
             {
-                <th colspan="2">@column.Title</th>
+                <th colspan="2" class="col-sm-2 text-center">@column.Title</th>
             }
         </tr>
     </thead>
@@ -21,11 +25,11 @@
     @foreach (DashboardItemModel item in Model.Items)
     {
         <tr data-id="@item.ID">
-            <td>@item.Title<span class="busy pull-right margin-left-small">&nbsp;</span></td>
+            <td class="border-right">@item.Title<span class="busy indicator pull-right margin-left-small"><a href="#" title="Refresh" class="refresh">Refresh</a></span></td>
             @foreach (DashboardItemColumn column in Model.Columns)
             {
-                <td data-storage="@column.StorageSourceID" data-status="valid"><span class="badge"></span></td>
-                <td data-storage="@column.StorageSourceID" data-status="invalid"><span class="badge"></span></td>
+                <td data-storage="@column.StorageSourceID" data-status="valid" class="text-center"><span class="badge badge-valid"></span></td>
+                <td data-storage="@column.StorageSourceID" data-status="invalid" class="text-center border-right"><span class="badge badge-invalid"></span></td>
             }
         </tr>
     }

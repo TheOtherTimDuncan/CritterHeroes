@@ -14,6 +14,12 @@ namespace AR.Website
 
             bundles.Add(new ScriptBundle("~/bundles/cdnFallback").Include("~/Scripts/ar.cdnFallback.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/arescues")
+                .Include("~/Scripts/ar.data.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datadashboard")
+                .Include("~/Scripts/ar.data-dashboard.js"));
+
             // jQuery
             Bundle jqueryBundle = new ScriptBundle("~/bundles/jquery", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js")
                 .Include("~/Scripts/Libraries/jquery-2.1.1.*");

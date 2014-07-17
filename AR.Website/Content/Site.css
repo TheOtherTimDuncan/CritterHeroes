@@ -30,3 +30,17 @@ textarea {
     width: 46px;
     height: 45px;
 }
+
+.badge-invalid {
+    color: #ffffff;
+    background-color: #d32a0e;
+}
+
+.badge-valid {
+    color: #ffffff;
+    background-color: #358753;
+}
+
+.border-right {
+    border-right: 1px solid #dddddd;
+}

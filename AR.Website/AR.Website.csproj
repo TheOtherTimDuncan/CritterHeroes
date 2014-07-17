@@ -181,7 +181,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\ar.cdnFallback.js" />
+    <Content Include="Scripts\ar.data-dashboard.js" />
     <None Include="Scripts\Libraries\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\ar.data.js" />
     <Content Include="Scripts\Libraries\bootstrap-3.2.0.js" />
     <Content Include="Scripts\Libraries\bootstrap-3.2.0.min.js" />
     <Content Include="Scripts\Libraries\jquery-2.1.1.js" />
