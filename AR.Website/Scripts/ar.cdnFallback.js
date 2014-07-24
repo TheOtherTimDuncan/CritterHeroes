@@ -1,58 +1,50 @@
-﻿var cdnFallback = (function () {
+﻿var cdnFallback = (function ($) {
 
-    var options = {
-        siteRoot: '/',
-        bundleRoot: 'bundles'
-    };
+    'use strict';
 
-    function writeScriptBundleUrl(bundleName) {
-        document.write('<script src="' + options.siteRoot + options.bundleRoot + '/' + bundleName + '"><\/script>');
-    }
-
-    var jqueryFallback = function (bundleName) {
-        window.jQuery || writeScriptBundleUrl(bundleName);
-    }
-
-    var jqueryValidationFallback = function (bundleName) {
-        window.jQuery.validator || writeScriptBundleUrl(bundleName);
-    }
-
-    var unobtrusiveFallback = function (bundleName) {
-        window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
-    }
-
-    var bootstrapFallback = function (bundleName) {
-        $.fn.modal || writeScriptBundleUrl(bundleName);
-    }
-
-    var respondFallback = function (bundleName) {
-        window.respond || writeScriptBundleUrl(bundleName);
-    }
-
-    var modernizerFallback = function (bundleName) {
-        window.Modernizr || writeScriptBundleUrl(bundleName);
-    }
-
-    var cssBootStrapFallback = function (bundlePath)
-    {
-        var checkElement = $('<div>', { id: 'bootstrap-check', class: 'hidden' }).appendTo('body');
-        if ($('#bootstrap-check').is(':visible') == true) {
-            $('<link rel="stylesheet" type="text/css" href="' + options.siteRoot + '/' + bundlePath + '">').appendTo('head');
-        }
-        checkElement.remove();
+    function writeScriptBundleUrl(bundleName ) {
+        document.write('<script src="' + result.options.siteRoot + result.options.bundleRoot + '/' + bundleName + '"><\/script>');
     }
 
     var result = {
-        options: options,
-        jqueryFallback: jqueryFallback,
-        jqueryValidationFallback: jqueryValidationFallback,
-        unobtrusiveFallback: unobtrusiveFallback,
-        bootstrapFallback: bootstrapFallback,
-        respondFallback: respondFallback,
-        modernizerFallback: modernizerFallback,
-        cssBootStrapFallback: cssBootStrapFallback
-    }
+        options: {
+            siteRoot: '/',
+            bundleRoot: 'bundles'
+        },
+
+        jqueryFallback: function (bundleName) {
+            window.jQuery || writeScriptBundleUrl(bundleName);
+        },
+
+        jqueryValidationFallback: function (bundleName) {
+            window.jQuery.validator || writeScriptBundleUrl(bundleName);
+        },
+
+        unobtrusiveFallback: function (bundleName) {
+            window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
+        },
+
+        bootstrapFallback: function (bundleName) {
+            $.fn.modal || writeScriptBundleUrl(bundleName);
+        },
+
+        respondFallback: function (bundleName) {
+            window.respond || writeScriptBundleUrl(bundleName);
+        },
+
+        modernizerFallback: function (bundleName) {
+            window.Modernizr || writeScriptBundleUrl(bundleName);
+        },
+
+        cssBootStrapFallback: function (bundlePath) {
+            var checkElement = $('<div>', { id: 'bootstrap-check', class: 'hidden' }).appendTo('body');
+            if ($('#bootstrap-check').is(':visible') === true) {
+                $('<link rel="stylesheet" type="text/css" href="' + result.options.siteRoot + '/' + bundlePath + '">').appendTo('head');
+            }
+            checkElement.remove();
+        }
+    };
 
     return result;
 
-})();
+})(jQuery);
