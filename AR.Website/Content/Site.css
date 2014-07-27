@@ -16,12 +16,14 @@ textarea {
     max-width: 280px;
 }
 
+/* Misc */
+
 .margin-left-small {
     margin-left: 1em;
 }
 
 .busy {
-    background:  url(Images/spinner.gif) no-repeat;
+    background: url(Images/spinner.gif) no-repeat;
     min-width: 16px;
     min-height: 16px;
 }
@@ -30,6 +32,12 @@ textarea {
     width: 46px;
     height: 45px;
 }
+
+.border-right {
+    border-right: 1px solid #dddddd;
+}
+
+/* Badges */
 
 .badge-invalid {
     color: #ffffff;
@@ -41,6 +49,6 @@ textarea {
     background-color: #358753;
 }
 
-.border-right {
-    border-right: 1px solid #dddddd;
+/* Data Maintenance dashboard */
+.storage-source {
 }

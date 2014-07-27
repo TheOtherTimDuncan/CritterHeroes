@@ -1,6 +1,8 @@
 ﻿(function (arescues, $) {
 
-    $('tr[data-id]').each(function () {
+    'use strict';
+
+    $('[data-id]').each(function () {
         var that = $(this);
         that.find('.refresh').each(function(){
             $(this).click(function () {
@@ -20,13 +22,14 @@
 
             for (var i = 0; i < data.StorageItems.length; i++) {
                 var storageItem = data.StorageItems[i];
-                parentRow.find('[data-storage="' + storageItem.StorageID + '"][data-status="valid"]').find('.badge').text(storageItem.ValidCount);
-                parentRow.find('[data-storage="' + storageItem.StorageID + '"][data-status="invalid"]').find('.badge').text(storageItem.InvalidCount);
+                var storageElement = parentRow.find('[data-storage="' + storageItem.StorageID + '"]');
+                storageElement.find('[data-status="valid"]').find('.badge').text(storageItem.ValidCount);
+                storageElement.find('[data-status="invalid"]').find('.badge').text(storageItem.InvalidCount);
             }
 
             parentRow.find('.indicator').removeClass('busy');
             element.show();
-        }
+        };
 
         var options = {
             data: {
