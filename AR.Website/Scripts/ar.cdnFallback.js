@@ -25,7 +25,7 @@
         },
 
         bootstrapFallback: function (bundleName) {
-            $.fn.modal || writeScriptBundleUrl(bundleName);
+            window.jQuery.fn.modal || writeScriptBundleUrl(bundleName);
         },
 
         respondFallback: function (bundleName) {
@@ -37,9 +37,9 @@
         },
 
         cssBootStrapFallback: function (bundlePath) {
-            var checkElement = $('<div>', { id: 'bootstrap-check', class: 'hidden' }).appendTo('body');
-            if ($('#bootstrap-check').is(':visible') === true) {
-                $('<link rel="stylesheet" type="text/css" href="' + result.options.siteRoot + '/' + bundlePath + '">').appendTo('head');
+            var checkElement = window.jQuery('<div>', { id: 'bootstrap-check', class: 'hidden' }).appendTo('body');
+            if (window.jQuery('#bootstrap-check').is(':visible') === true) {
+                window.jQuery('<link rel="stylesheet" type="text/css" href="' + result.options.siteRoot + '/' + bundlePath + '">').appendTo('head');
             }
             checkElement.remove();
         }
@@ -47,4 +47,4 @@
 
     return result;
 
-})(jQuery);
+})();
