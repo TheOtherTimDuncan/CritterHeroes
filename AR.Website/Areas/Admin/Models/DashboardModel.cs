@@ -5,7 +5,13 @@ namespace AR.Website.Areas.Admin.Models
 {
     public class DashboardModel
     {
-        public IEnumerable<DashboardItemColumn> Columns
+        public DashboardStorageItem TargetStorageItem
+        {
+            get;
+            set;
+        }
+
+        public DashboardStorageItem SourceStorageItem
         {
             get;
             set;

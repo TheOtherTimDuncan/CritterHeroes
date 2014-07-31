@@ -19,13 +19,12 @@ namespace AR.Website.Areas.Admin.Controllers
         {
             DashboardModel model = new DashboardModel();
 
+            model.TargetStorageItem = new DashboardStorageItem(StorageSource.Azure);
+            model.SourceStorageItem = new DashboardStorageItem(StorageSource.RescueGroups);
+
             model.Items =
                 from m in DataModelSource.GetAll()
                 select new DashboardItemModel(m.Value, m.Title);
-
-            model.Columns =
-                from s in StorageSource.GetAll()
-                select new DashboardItemColumn(s.Value, s.Title);
 
             return View(model);
         }
@@ -44,14 +43,9 @@ namespace AR.Website.Areas.Admin.Controllers
             DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(storageContexts.ToArray());
 
             DashboardItemStatus model = new DashboardItemStatus();
-            model.StorageItems =
-                from s in dataStatus.Items
-                select new DashboardStorageItemStatus()
-                {
-                    StorageID = s.StorageID,
-                    ValidCount = s.ValidCount,
-                    InvalidCount = s.InvalidCount
-                };
+            model.TargetItem = dataStatus.Items.First(x => x.StorageID == StorageSource.Azure.Value);
+            model.SourceItem = dataStatus.Items.First(x => x.StorageID == StorageSource.RescueGroups.Value);
+            model.DataItemCount = dataStatus.DataItemCount;
 
             return Json(model);
         }

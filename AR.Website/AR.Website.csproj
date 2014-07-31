@@ -122,9 +122,9 @@
     <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
     <Compile Include="Areas\Admin\Json\DashboardItemStatus.cs" />
     <Compile Include="Areas\Admin\Json\DashboardStorageItemStatus.cs" />
-    <Compile Include="Areas\Admin\Models\DashboardItemColumn.cs" />
     <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
     <Compile Include="Areas\Admin\Models\DashboardModel.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardStorageItem.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -156,20 +156,20 @@
   <ItemGroup>
     <Content Include="Content\Images\Logo46x45.png" />
     <Content Include="Content\Images\spinner.gif" />
-	<Content Include="Content\bootstrap-theme.css"/>
-	<Content Include="Content\bootstrap-theme.css.map">
-		<DependentUpon>bootstrap-theme.css</DependentUpon>
-	</Content>
-	<Content Include="Content\bootstrap-theme.min.css">
-		<DependentUpon>bootstrap-theme.css</DependentUpon>
-	</Content>
-	<Content Include="Content\bootstrap.css"/>
-	<Content Include="Content\bootstrap.css.map">
-		<DependentUpon>bootstrap.css</DependentUpon>
-	</Content>
-	<Content Include="Content\bootstrap.min.css">
-		<DependentUpon>bootstrap.css</DependentUpon>
-	</Content>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.css.map">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-theme.min.css">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
@@ -182,16 +182,16 @@
     <Content Include="Content\Site.css.map">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
-	<Content Include="Content\bootstrap.yeti.css">
-		<DependentUpon>bootstrap.yeti.less</DependentUpon>
-	</Content>
-	<Content Include="Content\variables.less">
-		<DependentUpon>bootstrap.yeti.less</DependentUpon>
-	</Content>
+    <Content Include="Content\bootstrap.yeti.css">
+      <DependentUpon>bootstrap.yeti.less</DependentUpon>
+    </Content>
+    <Content Include="Content\variables.less">
+      <DependentUpon>bootstrap.yeti.less</DependentUpon>
+    </Content>
     <None Include="Content\bootstrap.yeti.less" />
-	<Content Include="Content\bootstrap.yeti.min.css">
-		<DependentUpon>bootstrap.yeti.css</DependentUpon>
-	</Content>
+    <Content Include="Content\bootstrap.yeti.min.css">
+      <DependentUpon>bootstrap.yeti.css</DependentUpon>
+    </Content>
     <None Include="Content\Site.less" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
@@ -208,42 +208,42 @@
     <Content Include="Scripts\ar.cdnFallback.js" />
     <Content Include="Scripts\ar.data-dashboard.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
-		<DependentUpon>jquery-2.1.1.js</DependentUpon>
-	</None>
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </None>
     <Content Include="Scripts\ar.data.js" />
     <Content Include="Scripts\bootstrap-3.2.0.js" />
     <Content Include="Scripts\bootstrap-3.2.0.min.js">
-		<DependentUpon>bootstrap-3.2.0.js</DependentUpon>
-	</Content>
+      <DependentUpon>bootstrap-3.2.0.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js">
-		<DependentUpon>jquery-2.1.1.js</DependentUpon>
-	</Content>
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-2.1.1.min.map">
-		<DependentUpon>jquery-2.1.1.js</DependentUpon>
-	</Content>
-    <None Include="Scripts\jquery.validate-vsdoc.js" >
-		<DependentUpon>jquery.validate.js</DependentUpon>
-	</None>
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery.validate-vsdoc.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </None>
     <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" >
-		<DependentUpon>jquery.validate.js</DependentUpon>
-	</Content>
+    <Content Include="Scripts\jquery.validate.min.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" >
-		<DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
-	</Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\modernizr-2.7.2.js" />
     <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.js" >
-		<DependentUpon>respond.js</DependentUpon>
-	</Content>
-    <Content Include="Scripts\respond.matchmedia.addListener.min.js" >
-		<DependentUpon>respond.js</DependentUpon>
-	</Content>
-    <Content Include="Scripts\respond.min.js" >
-		<DependentUpon>respond.js</DependentUpon>
-	</Content>
+    <Content Include="Scripts\respond.matchmedia.addListener.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

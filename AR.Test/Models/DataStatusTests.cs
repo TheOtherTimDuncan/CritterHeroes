@@ -29,6 +29,7 @@ namespace AR.Test.Models
             DataStatusModel model = await handler.GetModelStatusAsync(context1, context2);
 
             Assert.AreEqual(2, model.Items.Count());
+            Assert.AreEqual(3, model.DataItemCount);
 
             StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == context1.ID);
             Assert.IsNotNull(storageItem1);

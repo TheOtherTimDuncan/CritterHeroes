@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using AR.Website.Utility;
 
 namespace AR.Website.Areas.Admin.Models
 {
-    public class DashboardItemColumn
+    public class DashboardStorageItem
     {
-        public DashboardItemColumn(int storageSourceID, string title)
+        public DashboardStorageItem(StorageSource storageSource)
         {
-            this.StorageSourceID = storageSourceID;
-            this.Title = title;
+            this.StorageSourceID = storageSource.Value;
+            this.Title = storageSource.Title;
         }
 
         public int StorageSourceID

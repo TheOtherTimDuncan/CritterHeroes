@@ -19,8 +19,10 @@ textarea {
 }
 .busy {
   background: url(Images/spinner.gif) no-repeat;
-  min-width: 16px;
+  min-width: 24px;
   min-height: 16px;
+  background-position-x: 4px;
+  background-position-y: 8px;
 }
 .logo-46-45 {
   width: 46px;
@@ -28,6 +30,18 @@ textarea {
 }
 .border-right {
   border-right: 1px solid #dddddd;
+}
+.text-with-button {
+  padding-top: 4px;
+  display: inline-block;
+}
+.item-container {
+  list-style: none;
+  margin: 5px 0 5px 0;
+  padding: 0;
+}
+.sync-container {
+  list-style: none;
 }
 /* Badges */
 .badge-invalid {

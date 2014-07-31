@@ -14,5 +14,10 @@ namespace AR.Domain.Handlers.DataStatus
         {
             dataItem.Value = source.Name;
         }
+
+        protected override IEnumerable<AnimalStatus> Sort(IEnumerable<AnimalStatus> source)
+        {
+            return source.OrderBy(x => x.Name);
+        }
     }
 }

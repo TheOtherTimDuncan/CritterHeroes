@@ -13,5 +13,11 @@ namespace AR.Domain.Models.Status
             get;
             set;
         }
+
+        public int DataItemCount
+        {
+            get;
+            set;
+        }
     }
 }

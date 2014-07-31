@@ -25,6 +25,7 @@ namespace AR.Domain.Handlers.DataStatus
             {
                 master = master.Union(dataResult.Items);
             }
+            master = Sort(master);
 
             DataStatusModel model = new DataStatusModel();
             model.Items =
@@ -36,11 +37,13 @@ namespace AR.Domain.Handlers.DataStatus
                         from m in master
                         select CreateDataItem(r.Items, m)
                 };
+            model.DataItemCount = master.Count();
 
             return model;
         }
 
         protected abstract void FillDataItem(DataItem dataItem, T source);
+        protected abstract IEnumerable<T> Sort(IEnumerable<T> source);
 
         private DataItem CreateDataItem(IEnumerable<T> sourceItems, T masterItem)
         {
