@@ -149,11 +149,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\AR.Azure\Azure.config">
-      <Link>Azure.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="..\AR.RescueGroups\RescueGroups.config">
       <Link>RescueGroups.config</Link>
     </None>

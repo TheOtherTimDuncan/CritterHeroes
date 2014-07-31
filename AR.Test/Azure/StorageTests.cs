@@ -18,7 +18,7 @@ namespace AR.Test.Azure
             Assert.IsFalse(storage.ConnectionString.IsNullOrEmpty());
         }
 
-        //[TestMethod]
+        [TestMethod]
         public async Task TestSave()
         {
             AnimalStatus animalStatus = new AnimalStatus("Name", "Description");
@@ -26,7 +26,7 @@ namespace AR.Test.Azure
             await storage.SaveAsync<AnimalStatus>(animalStatus);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public async Task TestGet()
         {
             AzureStorage storage = new AzureStorage("fflah");
