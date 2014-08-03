@@ -43,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -120,6 +123,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorLogController.cs" />
     <Compile Include="Areas\Admin\Json\DashboardItemStatus.cs" />
     <Compile Include="Areas\Admin\Json\DashboardStorageItemStatus.cs" />
     <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
@@ -188,6 +192,7 @@
     <Content Include="Content\variables.less">
       <DependentUpon>bootstrap.yeti.less</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\ErrorLog\Index.cshtml" />
     <None Include="Content\bootstrap.yeti.less" />
     <Content Include="Content\bootstrap.yeti.min.css">
       <DependentUpon>bootstrap.yeti.css</DependentUpon>
@@ -245,7 +250,9 @@
       <DependentUpon>respond.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

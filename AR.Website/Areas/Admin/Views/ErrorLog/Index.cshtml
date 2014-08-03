@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Error Log";
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        (function($){
+            $('#errorlog').css('height', $(document).outerHeight())
+        }(jQuery));
+    </script>
+}
+
+<iframe id="errorlog" src="~/elmah.axd" scrolling="auto" style="width: 100%;" frameborder="0"></iframe>

@@ -37,6 +37,12 @@
                     });
                 }).AddElement(() =>
                 {
+                    return Html.BootstrapNavItem().SetActiveByControllerAndAction().AddElement(() =>
+                    {
+                        return Html.Link().ActionLink("Index", "ErrorLog", areaName: AreaName.Admin).Text("Error Log");
+                    });
+                }).AddElement(() =>
+                {
                     return Html.BootstrapNavItem().SetActiveByControllerAndAction().AsDropdown("Maintenance").AddElement(() =>
                     {
                         return Html.BootstrapNav().AsDropdown().AddElement(() =>
