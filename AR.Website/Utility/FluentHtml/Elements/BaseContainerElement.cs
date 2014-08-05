@@ -7,9 +7,10 @@ using AR.Website.Utility.FluentHtml.Contracts;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
-    public class BaseContainerElement<T> : Element<T>, IContainerElement where T : BaseContainerElement<T>
+    public class BaseContainerElement<T> : Element<T>, IDisposable, IContainerElement where T : BaseContainerElement<T>
     {
         private List<IElement> _children;
+        public bool _isDisposed;
 
         public BaseContainerElement(string tag, ViewContext viewContext)
             : base(tag, viewContext)
@@ -36,6 +37,36 @@ namespace AR.Website.Utility.FluentHtml.Elements
         {
             IElement element = elementBuilder();
             return AddElement(element);
+        }
+
+        public T Begin()
+        {
+            ViewWriter.Write(Builder.ToString(TagRenderMode.StartTag));
+            if (innerHtmlBuilder.Length > 0)
+            {
+                ViewWriter.Write(innerHtmlBuilder.ToString());
+            }
+            return (T)this;
+        }
+
+        public void End()
+        {
+            ViewWriter.Write(Builder.ToString(TagRenderMode.EndTag));
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                End();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

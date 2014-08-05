@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -23,6 +24,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
             this.Builder = new TagBuilder(tag);
             this.UrlHelper = new UrlHelper(viewContext.RequestContext);
             this.TagRenderMode = renderMode;
+            this.ViewWriter = viewContext.Writer;
 
             this.CurrentArea = (viewContext.RouteData.DataTokens["area"] as string) ?? string.Empty; // We need an empty string not null so it will match correctly later
             this.CurrentControllerName = viewContext.RouteData.GetRequiredString("controller");
@@ -34,6 +36,12 @@ namespace AR.Website.Utility.FluentHtml.Elements
         }
 
         protected TagBuilder Builder
+        {
+            get;
+            private set;
+        }
+
+        protected TextWriter ViewWriter
         {
             get;
             private set;
