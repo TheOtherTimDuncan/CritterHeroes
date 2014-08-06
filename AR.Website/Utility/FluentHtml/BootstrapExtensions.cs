@@ -10,12 +10,12 @@ namespace AR.Website.Utility.FluentHtml
     {
         public static BootstrapNav BootstrapNav(this HtmlHelper htmlHelper)
         {
-            return new BootstrapNav(htmlHelper.ViewContext);
+            return ElementFactory.CreateElement<BootstrapNav>(htmlHelper.ViewContext);
         }
 
         public static BootstrapNavItem BootstrapNavItem(this HtmlHelper htmlHelper)
         {
-            return new Bootstrap.BootstrapNavItem(htmlHelper.ViewContext);
+            return ElementFactory.CreateElement<BootstrapNavItem>(htmlHelper.ViewContext);
         }
     }
 }

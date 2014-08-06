@@ -29,80 +29,108 @@
                 @Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("FFLAH - Admin").Class("navbar-brand")
             </div>
             <div class="navbar-collapse collapse">
-                @using (@Html.BootstrapNav().AsNavBar().Begin())
-                {
-                    using (Html.BootstrapNavItem().SetActiveByControllerAndAction().Begin())
-                    {
-                        @Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("Home")
-                    }
+                @{
+                    var nav = Html.BootstrapNav()
+                        .AsNavBar()
+                        .AddElement(
+                            Html.BootstrapNavItem().AddElement(
+                                Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("Home")
+                            )
+                        )
+                        .AddElement(
+                            Html.BootstrapNavItem().AddElement(
+                                Html.Link().ActionLink("Index", "ErrorLog", areaName: AreaName.Admin).Text("Error Log")
+                            )
+                        );
 
-                    using(Html.BootstrapNavItem().SetActiveByControllerAndAction().Begin())
-                    {
-                        @Html.Link().ActionLink("Index", "ErrorLog", areaName: AreaName.Admin).Text("Error Log")
-                    }
-
-                    using(Html.BootstrapNavItem().SetActiveByControllerAndAction().AsDropdown("Maintenance").Begin())
-                    {
-                        using(Html.BootstrapNav().AsDropdown().Begin())
-                        {
-                            using(Html.BootstrapNavItem().SetActiveByControllerAndAction().Begin())
-                            {
-                                @Html.Link().ActionLink("Dashboard", "DataMaintenance", areaName: AreaName.Admin).Text("Dashboard")
-                            }
-                        }
-                    }
+                    var dropdownMaintenance = Html.BootstrapNavItem()
+                        .AsDropdown("Maintenance")
+                        .AddElement(
+                            Html.BootstrapNav()
+                                .AsDropdown()
+                                .AddElement(
+                                    Html.BootstrapNavItem().AddElement(
+                                        Html.Link().ActionLink("Dashboard", "DataMaintenance", areaName: AreaName.Admin).Text("Dashboard")
+                                    )
+                                )
+                            );
+                    nav.AddElement(dropdownMaintenance);
                 }
+                @nav
+
                 <img src="~/Content/Images/Logo46x45.png" title="Logo" class="pull-right logo-46-45" />
             </div>
         </div>
     </div>
-                    <div class="container body-content">
-                        @RenderBody()
-                        <hr />
-                        <footer>
-                            <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Animal Rescues</p>
-                        </footer>
-                    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Animal Rescues</p>
+        </footer>
+    </div>
 
-                    @Scripts.Render("~/bundles/jquery")
-                    <script type="text/javascript">
-                        cdnFallback.jqueryFallback('jquery');
-                    </script>
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        cdnFallback.jqueryFallback('jquery');
+    </script>
 
-                    @Scripts.Render("~/bundles/jqueryvalidation")
-                    <script type="text/javascript">
-                        cdnFallback.jqueryValidationFallback('jqueryvalidation');
-                    </script>
+    @Scripts.Render("~/bundles/jqueryvalidation")
+    <script type="text/javascript">
+        cdnFallback.jqueryValidationFallback('jqueryvalidation');
+    </script>
 
-                    @Scripts.Render("~/bundles/jqueryunobtrusive")
-                    <script type="text/javascript">
-                        cdnFallback.unobtrusiveFallback('jqueryunobtrusive');
-                    </script>
+    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script type="text/javascript">
+        cdnFallback.unobtrusiveFallback('jqueryunobtrusive');
+    </script>
 
-                    @Scripts.Render("~/bundles/bootstrap")
-                    <script type="text/javascript">
-                        cdnFallback.bootstrapFallback('bootstrap');
-                    </script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        cdnFallback.bootstrapFallback('bootstrap');
+    </script>
 
 
-                    @Scripts.Render("~/bundles/respond")
-                    <script type="text/javascript">
-                        cdnFallback.respondFallback('respond');
-                    </script>
+    @Scripts.Render("~/bundles/respond")
+    <script type="text/javascript">
+        cdnFallback.respondFallback('respond');
+    </script>
 
-                    <script type="text/javascript">
-                        cdnFallback.cssBootStrapFallback("Content/bootstrap");
+    <script type="text/javascript">
+        cdnFallback.cssBootStrapFallback("Content/bootstrap");
 
-                        $(function (arescues) {
-                            arescues.rootUrl = '@Url.Content("~")';
-                        }(this.arescues = this.arescues || {}));
-                    </script>
+        $(function (arescues) {
+            arescues.rootUrl = '@Url.Content("~")';
+        }(this.arescues = this.arescues || {}));
+    </script>
 
-                    @Scripts.Render("~/bundles/arescues")
+    @Scripts.Render("~/bundles/arescues")
 
-                    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)
 
-                </body>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

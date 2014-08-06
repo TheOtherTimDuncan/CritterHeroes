@@ -10,22 +10,22 @@ namespace AR.Website.Utility.FluentHtml
     {
         public static LinkElement Link(this HtmlHelper htmlHelper)
         {
-            return new LinkElement(htmlHelper.ViewContext);
+            return ElementFactory.CreateElement<LinkElement>(htmlHelper.ViewContext);
         }
 
         public static ListItemElement ListItem(this HtmlHelper htmlHelper)
         {
-            return new ListItemElement(htmlHelper.ViewContext);
+            return ElementFactory.CreateElement<ListItemElement>(htmlHelper.ViewContext);
         }
 
         public static UnorderedListElement UnorderedList(this HtmlHelper htmlHelper)
         {
-            return new UnorderedListElement(htmlHelper.ViewContext);
+            return ElementFactory.CreateElement<UnorderedListElement>(htmlHelper.ViewContext);
         }
 
         public static SpanElement Span(this HtmlHelper htmlHelper)
         {
-            return new SpanElement(htmlHelper.ViewContext);
+            return ElementFactory.CreateElement<SpanElement>(htmlHelper.ViewContext);
         }
     }
 }
