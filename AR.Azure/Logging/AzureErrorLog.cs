@@ -9,6 +9,7 @@ using Elmah;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace AR.Azure.Logging
 {
@@ -19,10 +20,7 @@ namespace AR.Azure.Logging
 
         public AzureErrorLog(IDictionary config)
         {
-            if (config == null)
-            {
-                throw new ArgumentNullException("config");
-            }
+            ThrowIf.Argument.IsNull(config, "config");
 
             this.ConnectionString = GetConnectionString(config);
         }
@@ -52,14 +50,7 @@ namespace AR.Azure.Logging
 
         public override ErrorLogEntry GetError(string id)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException("id");
-            }
-            if (id.Length == 0)
-            {
-                throw new ArgumentException(null, "id");
-            }
+            ThrowIf.Argument.IsNullOrEmpty(id, "id");
 
             CloudTable table = GetCloudTable();
 
@@ -73,15 +64,8 @@ namespace AR.Azure.Logging
 
         public override int GetErrors(int pageIndex, int pageSize, System.Collections.IList errorEntryList)
         {
-            if (pageIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("pageIndex", pageIndex, null);
-            }
-
-            if (pageSize < 0)
-            {
-                throw new ArgumentOutOfRangeException("pageSize", pageSize, null);
-            }
+            ThrowIf.Argument.IsLessThan(pageIndex, "pageIndex", 0);
+            ThrowIf.Argument.IsLessThan(pageSize, "pageSize", 0);
 
             //TODO: Improve this query
             CloudTable table = GetCloudTable();

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TOTD.Utility.StringHelpers;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace AR.Domain.Models.Data
 {
@@ -8,10 +8,7 @@ namespace AR.Domain.Models.Data
     {
         public AnimalStatus(string name, string description)
         {
-            if (name.IsNullOrEmpty())
-            {
-                throw new ArgumentNullException("name");
-            }
+            ThrowIf.Argument.IsNullOrEmpty(name, "name");
 
             this.Name = name;
             this.Description = description;

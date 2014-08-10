@@ -103,9 +103,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Utility, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.1.0.2.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Utility.1.0.3.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>

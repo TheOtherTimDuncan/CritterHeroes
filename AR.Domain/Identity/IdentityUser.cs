@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace AR.Domain.Identity
 {
@@ -25,11 +26,7 @@ namespace AR.Domain.Identity
         public IdentityUser(string username)
             : this()
         {
-            if (string.IsNullOrEmpty(username))
-            {
-                throw new ArgumentNullException("username");
-            }
-
+            ThrowIf.Argument.IsNull(username, "username");
             this.UserName = username;
         }
 

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
+using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace AR.Azure.Identity
@@ -29,15 +30,8 @@ namespace AR.Azure.Identity
 
         public UserStore(string connectionString, string tableName)
         {
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentNullException("connectionString");
-            }
-
-            if (string.IsNullOrEmpty(tableName))
-            {
-                throw new ArgumentNullException("tableName");
-            }
+            ThrowIf.Argument.IsNullOrEmpty(connectionString, "connectionString");
+            ThrowIf.Argument.IsNullOrEmpty(tableName, "tableName");
 
             this._account = CloudStorageAccount.Parse(connectionString);
             this.TableName = tableName;
@@ -53,10 +47,7 @@ namespace AR.Azure.Identity
 
         public async Task CreateAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
 
             DynamicTableEntity entity = userMapping.ToStorage(user);
             TableOperation operation = TableOperation.Insert(entity);
@@ -65,10 +56,7 @@ namespace AR.Azure.Identity
 
         public async Task DeleteAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
 
             DynamicTableEntity entity = userMapping.ToStorage(user);
             entity.ETag = "*";
@@ -78,10 +66,7 @@ namespace AR.Azure.Identity
 
         public async Task UpdateAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
 
             DynamicTableEntity entity = userMapping.ToStorage(user);
             entity.ETag = "*";
@@ -115,28 +100,22 @@ namespace AR.Azure.Identity
 
         public Task<string> GetPasswordHashAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             return Task.FromResult(user.PasswordHash);
         }
 
         public Task<bool> HasPasswordAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             return Task.FromResult(user.PasswordHash != null);
         }
 
         public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             user.PasswordHash = passwordHash;
             return Task.FromResult(0);
         }
@@ -160,38 +139,30 @@ namespace AR.Azure.Identity
 
         public Task<string> GetEmailAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             return Task.FromResult(user.Email);
         }
 
         public Task<bool> GetEmailConfirmedAsync(IdentityUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             return Task.FromResult(user.IsEmailConfirmed);
         }
 
         public Task SetEmailAsync(IdentityUser user, string email)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             user.Email = email;
             return Task.FromResult(0);
         }
 
         public Task SetEmailConfirmedAsync(IdentityUser user, bool isConfirmed)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
+            ThrowIf.Argument.IsNull(user, "user");
+
             user.IsEmailConfirmed = isConfirmed;
             return Task.FromResult(0);
         }
