@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+
+namespace AR.Domain.Identity
+{
+    public class IdentityUser : IUser
+    {
+        private List<IdentityRole> _roles = new List<IdentityRole>();
+
+        public IdentityUser()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
+        public IdentityUser(string userID, string userName)
+            : this(userName)
+        {
+            this.Id = userID;
+        }
+
+        public IdentityUser(string username)
+            : this()
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentNullException("username");
+            }
+
+            this.UserName = username;
+        }
+
+        public string Id
+        {
+            get;
+            private set;
+        }
+
+        public string UserName
+        {
+            get;
+            set;
+        }
+
+        public string PasswordHash
+        {
+            get;
+            set;
+        }
+
+        public string Email
+        {
+            get;
+            set;
+        }
+
+        public bool IsEmailConfirmed
+        {
+            get;
+            set;
+        }
+
+        public IEnumerable<IdentityRole> Roles
+        {
+            get
+            {
+                return _roles;
+            }
+        }
+
+        public void AddRole(IdentityRole role)
+        {
+            _roles.Add(role);
+        }
+
+        public void RemoveRole(IdentityRole role)
+        {
+            _roles.Remove(role);
+        }
+    }
+}

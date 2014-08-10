@@ -33,6 +33,9 @@
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,6 +57,8 @@
     <Compile Include="Contracts\IStorageContext.cs" />
     <Compile Include="Handlers\DataStatus\AnimalStatusStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\BaseModelStatusHandler.cs" />
+    <Compile Include="Identity\IdentityRole.cs" />
+    <Compile Include="Identity\IdentityUser.cs" />
     <Compile Include="Models\Status\DataItem.cs" />
     <Compile Include="Models\Status\DataStatusModel.cs" />
     <Compile Include="Models\Data\AnimalStatus.cs" />

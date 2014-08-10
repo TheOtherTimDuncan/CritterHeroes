@@ -46,10 +46,34 @@
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.0.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -119,7 +143,9 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DefaultHtmlConventions.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
@@ -129,11 +155,14 @@
     <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
     <Compile Include="Areas\Admin\Models\DashboardModel.cs" />
     <Compile Include="Areas\Admin\Models\DashboardStorageItem.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Utility\AreaName.cs" />
     <Compile Include="Utility\DataModelSource.cs" />
     <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
@@ -141,7 +170,11 @@
     <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNavItem.cs" />
     <Compile Include="Utility\FluentHtml\Contracts\IContainerElement.cs" />
     <Compile Include="Utility\FluentHtml\Contracts\IElement.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IHtmlConvention.cs" />
     <Compile Include="Utility\FluentHtml\Contracts\IUrlContext.cs" />
+    <Compile Include="Utility\FluentHtml\Conventions\HtmlConvention.cs" />
+    <Compile Include="Utility\FluentHtml\Conventions\HtmlConventionBuilder.cs" />
+    <Compile Include="Utility\FluentHtml\ElementFactory.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
@@ -193,6 +226,7 @@
       <DependentUpon>bootstrap.yeti.less</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\ErrorLog\Index.cshtml" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <None Include="Content\bootstrap.yeti.less" />
     <Content Include="Content\bootstrap.yeti.min.css">
       <DependentUpon>bootstrap.yeti.css</DependentUpon>
@@ -264,11 +298,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
