@@ -1,5 +1,5 @@
 ﻿body {
-  padding-top: 50px;
+  padding-top: 45px;
   padding-bottom: 20px;
 }
 /* Set padding to keep content from hitting the edges */
@@ -13,6 +13,22 @@ select,
 textarea {
   max-width: 280px;
 }
+.page-banner {
+  background-color: #b8edff;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: none;
+  margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+  .page-banner {
+    display: block;
+  }
+}
+.page-banner blockquote {
+  border-style: none;
+  margin-bottom: 0;
+}
 /* Misc */
 .margin-left-small {
   margin-left: 1em;
@@ -24,9 +40,21 @@ textarea {
   background-position-x: 4px;
   background-position-y: 8px;
 }
-.logo-46-45 {
-  width: 46px;
-  height: 45px;
+.logo-medium {
+  width: 140px;
+  height: 136px;
+}
+.logo-small {
+  width: 36px;
+  height: 35px;
+  margin-top: 5px;
+  margin-left: 5px;
+  display: none;
+}
+@media (max-width: 768px) {
+  .logo-small {
+    display: block;
+  }
 }
 .border-right {
   border-right: 1px solid #dddddd;

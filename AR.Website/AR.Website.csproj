@@ -191,6 +191,8 @@
     <Compile Include="Utility\StorageSource.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\Logo140x136.png" />
+    <Content Include="Content\Images\Logo36x35.png" />
     <Content Include="Content\Images\Logo46x45.png" />
     <Content Include="Content\Images\spinner.gif" />
     <Content Include="Content\bootstrap-theme.css" />
