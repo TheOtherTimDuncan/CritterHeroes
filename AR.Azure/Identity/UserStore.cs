@@ -180,7 +180,9 @@ namespace AR.Azure.Identity
 
         public Task<IList<string>> GetRolesAsync(IdentityUser user)
         {
-            IList<string> result = IdentityRole.All.Select(x => x.Name).ToList();
+            ThrowIf.Argument.IsNull(user, "user");
+
+            IList<string> result = user.Roles.Select(x => x.Name).ToList();
             return Task.FromResult(result);
         }
 

@@ -96,5 +96,11 @@ namespace AR.Website.Controllers
 
             return View(model);
         }
+
+        public ActionResult LogOut()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

@@ -1,0 +1,76 @@
+﻿@model AR.Website.Models.MenuModel
+@using AR.Domain.Identity
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="@Url.Content("~/Content/Images/Logo36x35.png")" class="logo-small pull-left" />
+            @Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("FFLAH").Class("navbar-brand")
+        </div>
+        <div class="navbar-collapse collapse">
+            @{
+                var menuNav = Html.BootstrapNav()
+                    .AsNavBar()
+                    .Class("navbar-left")
+                    .AddElement(
+                        Html.BootstrapNavItem().AddElement(
+                            Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("Home")
+                        )
+                    );
+
+                if (Model.UserRoles.Any(x => x == IdentityRole.MasterAdmin))
+                {
+                    menuNav.AddElement(
+                        Html.BootstrapNavItem().AddElement(
+                            Html.Link().ActionLink("Index", "ErrorLog", areaName: AreaName.Admin).Text("Error Log")
+                        )
+                    );
+
+                    var dropdownMaintenance = Html.BootstrapNavItem()
+                        .AsDropdown("Maintenance")
+                        .AddElement(
+                            Html.BootstrapNav()
+                                .AsDropdown()
+                                .AddElement(
+                                    Html.BootstrapNavItem().AddElement(
+                                        Html.Link().ActionLink("Dashboard", "DataMaintenance", areaName: AreaName.Admin).Text("Dashboard")
+                                    )
+                                )
+                            );
+                    menuNav.AddElement(dropdownMaintenance);
+                }
+
+            }
+            @menuNav
+
+            @{
+                var loginNav = Html.BootstrapNav()
+                    .AsNavBar()
+                    .Class("navbar-right");
+
+                if (Model.IsAuthenticated)
+                {
+                    loginNav.AddElement(
+                        Html.BootstrapNavItem().AddElement(
+                        Html.Link().ActionLink("Logout", "Account", areaName: AreaName.None).Text("Logout")
+                        )
+                    );
+                }
+                else
+                {
+                    loginNav.AddElement(
+                        Html.BootstrapNavItem().AddElement(
+                        Html.Link().ActionLink("Login", "Account", areaName: AreaName.None).Text("Login")
+                        )
+                    );
+                }
+            }
+            @loginNav
+        </div>
+    </div>
+</div>
