@@ -15,7 +15,7 @@ namespace AR.Domain.Identity
         // Require to use these with the AuthorizeAttribute
         public class RoleNames
         {
-            public const string MasterAdmin     = "Master Admin";
+            public const string MasterAdmin     = "MasterAdmin";
             public const string Admin           = "Admin";
             public const string Volunteer       = "Volunteer";
             public const string Foster          = "Foster";

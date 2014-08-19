@@ -71,7 +71,7 @@ namespace AR.Test.Azure
             Assert.IsNull(deleted);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task SeedUser()
         {
             IdentityUser user = new IdentityUser("Tim.Duncan");
