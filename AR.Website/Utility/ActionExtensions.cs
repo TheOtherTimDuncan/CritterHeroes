@@ -18,8 +18,7 @@ namespace AR.Website.Utility
 
         public static void RenderAction<T>(this HtmlHelper htmlHelper, Expression<Func<T, ActionResult>> actionSelector, object routeValues) where T : IController
         {
-            RouteValueDictionary actionRouteValues = (routeValues != null ? new RouteValueDictionary(routeValues) : null);
-            ActionHelperResult actionResult = ActionHelper.GetRouteValues<T>(actionSelector, actionRouteValues);
+            ActionHelperResult actionResult = ActionHelper.GetRouteValues<T>(actionSelector, routeValues);
             htmlHelper.RenderAction(actionResult.ActionName, actionResult.ControllerName, actionResult.RouteValues);
         }
     }

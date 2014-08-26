@@ -17,6 +17,12 @@ namespace AR.Website.Utility
             return GetRouteValues<T>(actionSelector, null);
         }
 
+        public static ActionHelperResult GetRouteValues<T>(Expression<Func<T, ActionResult>> actionSelector, object routeValues) where T : IController
+        {
+            RouteValueDictionary dictionaryValues = new RouteValueDictionary(routeValues);
+            return GetRouteValues<T>(actionSelector, dictionaryValues);
+        }
+
         public static ActionHelperResult GetRouteValues<T>(Expression<Func<T, ActionResult>> actionSelector, RouteValueDictionary routeValues) where T : IController
         {
             ActionHelperResult result = new ActionHelperResult()
