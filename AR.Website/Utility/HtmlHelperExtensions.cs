@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using AR.Website.Controllers;
 
 namespace AR.Website.Utility
 {
     public static class HtmlHelperExtensions
     {
-        public static void RenderAction(this HtmlHelper htmlHelper, string actionName, string controllerName, AreaName areaName)
+        public static void RenderHomeAction(this HtmlHelper htmlHelper, Expression<Func<HomeController, ActionResult>> actionSelector)
         {
-            htmlHelper.RenderAction(actionName, controllerName, routeValues: areaName.RouteValue);
+            htmlHelper.RenderAction(actionSelector, null);
         }
     }
 }

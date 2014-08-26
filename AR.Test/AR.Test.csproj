@@ -138,6 +138,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RescueGroups\MappingTests.cs" />
     <Compile Include="RescueGroups\StorageTests.cs" />
+    <Compile Include="ActionHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AR.Azure\AR.Azure.csproj">

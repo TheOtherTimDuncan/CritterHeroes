@@ -8,15 +8,18 @@ namespace AR.Website.Utility.FluentHtml
 {
     public class InternalUrlContext : IUrlContext
     {
-        public InternalUrlContext(string actionName, string controllerName, object routeValues)
-            : this(actionName, controllerName)
+        public InternalUrlContext(string actionName, string controllerName, RouteValueDictionary routeValues)
+            : this(actionName, controllerName, GetAreaFromRouteValues(routeValues))
         {
-            RouteValueDictionary routeValueDictionary = new RouteValueDictionary(routeValues);
-            this.Area = routeValueDictionary["area"] as string;
+        }
+
+        public InternalUrlContext(string actionName, string controllerName, object routeValues)
+            : this(actionName, controllerName, GetAreaFromRouteValues(new RouteValueDictionary(routeValues)))
+        {
         }
 
         public InternalUrlContext(string actionName, string controllerName)
-            : this(actionName, controllerName, null)
+            : this(actionName, controllerName, (string)null)
         {
         }
 
@@ -55,6 +58,11 @@ namespace AR.Website.Utility.FluentHtml
             }
 
             return this.Area.SafeEquals(otherUlr.Area) && this.ControllerName.SafeEquals(otherUlr.ControllerName) && this.ActionName.SafeEquals(otherUlr.ActionName);
+        }
+
+        private static string GetAreaFromRouteValues(RouteValueDictionary routeValues)
+        {
+            return routeValues["area"] as string;
         }
     }
 }

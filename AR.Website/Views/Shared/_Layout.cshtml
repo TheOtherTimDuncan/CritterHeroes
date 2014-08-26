@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    @{Html.RenderAction("Menu", "Home", areaName: AreaName.None);}
+    @{Html.RenderHomeAction(x => x.Menu());}
 
     <div class="page-banner">
         <div class="container">

@@ -164,8 +164,10 @@
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\ActionHelper.cs" />
     <Compile Include="Utility\AreaName.cs" />
     <Compile Include="Utility\DataModelSource.cs" />
+    <Compile Include="Utility\ElementExtensions.cs" />
     <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
     <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNav.cs" />
     <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNavItem.cs" />
@@ -187,10 +189,11 @@
     <Compile Include="Utility\FluentHtml\Elements\UnorderedListElement.cs" />
     <Compile Include="Utility\FluentHtml\ExternalUrlContext.cs" />
     <Compile Include="Utility\FluentHtml\HtmlHelperExtensions.cs" />
-    <Compile Include="Utility\ElementExtensions.cs" />
     <Compile Include="Utility\FluentHtml\InternalUrlContext.cs" />
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\StorageSource.cs" />
+    <Compile Include="Utility\ActionExtensions.cs" />
+    <Compile Include="Utility\UrlHelperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\Logo140x136.png" />
@@ -297,7 +300,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

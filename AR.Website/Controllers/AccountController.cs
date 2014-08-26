@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using AR.Domain.Identity;
 using AR.Website.Identity;
 using AR.Website.Models;
+using AR.Website.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;

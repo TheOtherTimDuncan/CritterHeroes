@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AR.Domain.Identity;
+using AR.Website.Utility;
 
 namespace AR.Website.Areas.Admin.Controllers
 {
-    [Authorize(Roles=IdentityRole.RoleNames.MasterAdmin)]
+    [RouteArea(AreaName.Admin)]
+    [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
     public class ErrorLogController : Controller
     {
-        public ViewResult Index(string resource)
+        public ViewResult Index()
         {
             return View();
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AR.Domain.Contracts;
+using AR.Domain.Identity;
 using AR.Domain.Models.Status;
 using AR.Website.Areas.Admin.Json;
 using AR.Website.Areas.Admin.Models;
@@ -12,6 +13,8 @@ using AR.Website.Utility;
 
 namespace AR.Website.Areas.Admin.Controllers
 {
+    [RouteArea(AreaName.Admin)]
+    [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
     public class DataMaintenanceController : Controller
     {
         [HttpGet]

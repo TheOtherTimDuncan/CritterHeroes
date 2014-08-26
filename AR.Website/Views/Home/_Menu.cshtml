@@ -10,8 +10,8 @@
                 <span class="icon-bar"></span>
             </button>
             <img src="@Url.Content("~/Content/Images/Logo36x35.png")" class="logo-small pull-left" />
-            @Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("FFLAH").Class("navbar-brand")
-        </div>
+            @Html.Link().HomeActionLink(x => x.Index()).Text("FFLAH").Class("navbar-brand")
+</div>
         <div class="navbar-collapse collapse">
             @{
                 var menuNav = Html.BootstrapNav()
@@ -19,7 +19,7 @@
                     .Class("navbar-left")
                     .AddElement(
                         Html.BootstrapNavItem().AddElement(
-                            Html.Link().ActionLink("Index", "Home", areaName: AreaName.None).Text("Home")
+                            Html.Link().ActionLink<HomeController>(x => x.Index()).Text("Home")
                         )
                     );
 
@@ -27,7 +27,7 @@
                 {
                     menuNav.AddElement(
                         Html.BootstrapNavItem().AddElement(
-                            Html.Link().ActionLink("Index", "ErrorLog", areaName: AreaName.Admin).Text("Error Log")
+                            Html.Link().ActionLink<ErrorLogController>(x => x.Index()).Text("Error Log")
                         )
                     );
 
@@ -38,7 +38,7 @@
                                 .AsDropdown()
                                 .AddElement(
                                     Html.BootstrapNavItem().AddElement(
-                                        Html.Link().ActionLink("Dashboard", "DataMaintenance", areaName: AreaName.Admin).Text("Dashboard")
+                                        Html.Link().ActionLink<DataMaintenanceController>(x => x.Dashboard()).Text("Dashboard")
                                     )
                                 )
                             );
@@ -57,7 +57,7 @@
                 {
                     loginNav.AddElement(
                         Html.BootstrapNavItem().AddElement(
-                        Html.Link().ActionLink("Logout", "Account", areaName: AreaName.None).Text("Logout")
+                        Html.Link().ActionLink<AccountController>(x => x.LogOut()).Text("Logout")
                         )
                     );
                 }
@@ -65,7 +65,7 @@
                 {
                     loginNav.AddElement(
                         Html.BootstrapNavItem().AddElement(
-                        Html.Link().ActionLink("Login", "Account", areaName: AreaName.None).Text("Login")
+                        Html.Link().ActionLink<AccountController>(x => x.Login(null)).Text("Login")
                         )
                     );
                 }
