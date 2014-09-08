@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AR.Website.Utility;
@@ -55,6 +56,19 @@ namespace AR.Test
             Assert.IsTrue(helperResult.RouteValues.ContainsKey("actionID"));
             object value = helperResult.RouteValues["actionID"];
             Assert.AreEqual(1, value);
+        }
+
+        //[TestMethod]
+        public void TestTiming()
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+            int max = 1000000;
+            for (var i = 1; i <= max; i++)
+            {
+                ActionHelperResult helperResult = ActionHelper.GetRouteValues<TestController>(x => x.TestAction(1));
+            }
+            watch.Stop();
+            Console.WriteLine("Total time: {0}; Average time: {1}", watch.ElapsedMilliseconds, (double)watch.ElapsedMilliseconds / max);
         }
 
         [RouteArea("TestArea")]

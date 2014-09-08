@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,6 +12,8 @@ namespace AR.Website.Utility
     public static class ActionHelper
     {
         private const string controllerSuffix = "Controller";
+
+        private static ConcurrentDictionary<Type, ControllerContext> cache = new ConcurrentDictionary<Type, ControllerContext>();
 
         public static ActionHelperResult GetRouteValues<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController
         {
@@ -31,23 +34,6 @@ namespace AR.Website.Utility
             };
 
             Type controllerType = typeof(T);
-
-            // Only set the area if it is not already there
-            if (!result.RouteValues.ContainsKey("area"))
-            {
-                // Get the area from the controller if it has the attribute
-                RouteAreaAttribute controllerArea = controllerType.GetCustomAttribute<RouteAreaAttribute>();
-                if (controllerArea != null)
-                {
-                    result.RouteValues.Add("area", controllerArea.AreaName);
-                }
-                else
-                {
-                    // Default area for non-area based actions is an empty string
-                    result.RouteValues.Add("area", string.Empty);
-                }
-            }
-
             MethodCallExpression methodExpression = actionSelector.Body as MethodCallExpression;
 
             if (methodExpression == null || methodExpression.Object.Type != controllerType)
@@ -55,24 +41,63 @@ namespace AR.Website.Utility
                 throw new ArgumentException("You must call a method of " + controllerType.Name, "actionSelector");
             }
 
-            // Controller name is name of controller class with Controller removed from the end if it is there
-            if (controllerType.Name.EndsWith(controllerSuffix))
+            string areaName = string.Empty;  // Default area for non-area based actions is an empty string
+
+            // Check for cached controller context
+            ControllerContext controllerContext;
+            if (cache.TryGetValue(controllerType, out controllerContext))
             {
-                result.ControllerName = controllerType.Name.Substring(0, controllerType.Name.Length - controllerSuffix.Length);
+                // Use cached values
+                result.ControllerName = controllerContext.ControllerName;
+                areaName = controllerContext.AreaName;
             }
             else
             {
-                result.ControllerName = controllerType.Name;
+                // Controller name is name of controller class with Controller removed from the end if it is there
+                if (controllerType.Name.EndsWith(controllerSuffix))
+                {
+                    result.ControllerName = controllerType.Name.Substring(0, controllerType.Name.Length - controllerSuffix.Length);
+                }
+                else
+                {
+                    result.ControllerName = controllerType.Name;
+                }
+
+                // Get the area from the controller if it has the attribute
+                RouteAreaAttribute controllerArea = controllerType.GetCustomAttribute<RouteAreaAttribute>();
+                if (controllerArea != null)
+                {
+                    areaName = controllerArea.AreaName;
+                }
+
+                // Cache the results
+                controllerContext = new ControllerContext(result.ControllerName, areaName);
+                cache.TryAdd(controllerType, controllerContext);
+            }
+
+            // Only set the area if it is not already there
+            if (!result.RouteValues.ContainsKey("area"))
+            {
+                result.RouteValues.Add("area", areaName);
             }
 
             // Action name is the name of the method being called
             result.ActionName = methodExpression.Method.Name;
 
+            // Check for cached action 
+            string[] parameterNames;
+            if (!controllerContext.TryGetActionParameterNames(result.ActionName, out parameterNames))
+            {
+                parameterNames = methodExpression.Method.GetParameters().Select(x => x.Name).ToArray();
+
+                // Cache parameter names
+                controllerContext.AddAction(result.ActionName, parameterNames);
+            }
+
             int i = 0;
-            ParameterInfo[] parameters = methodExpression.Method.GetParameters();
             foreach (Expression arg in methodExpression.Arguments)
             {
-                string parameterName = parameters[i].Name;
+                string parameterName = parameterNames[i];
                 if (!result.RouteValues.ContainsKey(parameterName))
                 {
                     object parameterValue;
@@ -92,6 +117,41 @@ namespace AR.Website.Utility
             }
 
             return result;
+        }
+
+        private class ControllerContext
+        {
+            private ConcurrentDictionary<string, string[]> _actions;
+
+            public ControllerContext(string controllerName, string areaName)
+            {
+                this.ControllerName = controllerName;
+                this.AreaName = areaName;
+
+                this._actions = new ConcurrentDictionary<string, string[]>();
+            }
+
+            public string ControllerName
+            {
+                get;
+                private set;
+            }
+
+            public string AreaName
+            {
+                get;
+                private set;
+            }
+
+            public bool TryGetActionParameterNames(string actionName, out string[] parameterNames)
+            {
+                return _actions.TryGetValue(actionName, out parameterNames);
+            }
+
+            public void AddAction(string actionName, string[] parameterNames)
+            {
+                _actions.TryAdd(actionName, parameterNames);
+            }
         }
     }
 
