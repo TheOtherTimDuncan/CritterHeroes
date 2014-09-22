@@ -22,19 +22,7 @@ namespace AR.Website.Controllers
         public PartialViewResult Menu()
         {
             MenuModel model = new MenuModel();
-
-            if (User.Identity.IsAuthenticated)
-            {
-                model.IsAuthenticated = true;
-                IEnumerable<string> roleNames = ((ClaimsIdentity)User.Identity).Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value);
-                model.UserRoles = IdentityRole.All.Where(x => roleNames.Any(r => r == x.Name));
-            }
-            else
-            {
-                model.IsAuthenticated = false;
-                model.UserRoles = Enumerable.Empty<IdentityRole>();
-            }
-
+            model.CurrentUser = User;
             return PartialView("_Menu", model);
         }
     }
