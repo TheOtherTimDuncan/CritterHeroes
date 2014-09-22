@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -75,9 +76,9 @@ namespace AR.Website.Controllers
                 IdentityUser user = await UserManager.FindAsync(model.Username, model.Password);
                 if (user != null)
                 {
-                    var userIdentity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    ClaimsIdentity userIdentity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
-                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignIn(new AuthenticationProperties()
                     {
                         IsPersistent = false
