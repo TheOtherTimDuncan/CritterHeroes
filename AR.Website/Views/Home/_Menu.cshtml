@@ -23,7 +23,7 @@
                         )
                     );
 
-                if (Model.UserRoles.Any(x => x == IdentityRole.MasterAdmin))
+                if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
                 {
                     menuNav.AddElement(
                         Html.BootstrapNavItem().AddElement(
@@ -53,7 +53,7 @@
                     .AsNavBar()
                     .Class("navbar-right");
 
-                if (Model.IsAuthenticated)
+                if (Model.CurrentUser.Identity.IsAuthenticated)
                 {
                     loginNav.AddElement(
                         Html.BootstrapNavItem().AddElement(
