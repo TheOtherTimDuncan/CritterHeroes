@@ -18,20 +18,31 @@ textarea {
     max-width: 280px;
 }
 
-.page-banner{
+ul {
+    -webkit-padding-start: 0;
+}
+
+.page-banner {
     background-color: #b8edff;
     padding-top: 15px;
     padding-bottom: 15px;
     display: none;
     margin-bottom: 20px;
 
-    @media (min-width: @screen-sm-min){
+    @media (min-width: @screen-sm-min) {
         display: block;
     }
-
 }
 
-.page-banner blockquote{
+.optional-text {
+    display: none;
+
+    @media (min-width: @screen-sm-min) {
+        display: inline-block;
+    }
+}
+
+.page-banner blockquote {
     border-style: none;
     margin-bottom: 0;
 }
@@ -40,6 +51,11 @@ textarea {
 
 .margin-left-small {
     margin-left: 1em;
+}
+
+.padding-vertical-small{
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .busy {
@@ -55,14 +71,14 @@ textarea {
     height: 136px;
 }
 
-.logo-small{
+.logo-small {
     width: 36px;
     height: 35px;
     margin-top: 5px;
     margin-left: 5px;
     display: none;
 
-    @media (max-width: @screen-sm-min){
+    @media (max-width: @screen-sm-min) {
         display: block;
     }
 }
@@ -71,18 +87,49 @@ textarea {
     border-right: 1px solid #dddddd;
 }
 
-.text-with-button{
+.border-left {
+    border-left: 1px solid #dddddd;
+}
+
+  .border-left.border-left-xs{
+        @media (max-width: @screen-sm-max) {
+            border-left-style: none;
+        }
+    }
+.border-bottom {
+    border-bottom: 1px solid #dddddd;
+}
+
+.border-top {
+    border-top: 1px solid #dddddd;
+}
+
+    .border-top.border-top-md{
+        @media (min-width: @screen-md-min) {
+            border-top-style: none;
+        }
+    }
+
+    .border-top.border-top-thick{
+        border-width: 3px;
+    }
+
+.border-box{
+    border: 1px solid #dddddd;
+}
+
+.text-with-button {
     padding-top: 4px;
     display: inline-block;
 }
 
-.item-container{
+.item-container {
     list-style: none;
     margin: 5px 0 5px 0;
     padding: 0;
 }
 
-.sync-container{
+.sync-container {
     list-style: none;
 }
 
@@ -97,6 +144,3 @@ textarea {
     color: @label-color;
     background-color: @brand-success;
 }
-
-/* Data Maintenance dashboard */
-

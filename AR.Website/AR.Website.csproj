@@ -234,6 +234,7 @@
     </Content>
     <Content Include="Areas\Admin\Views\ErrorLog\Index.cshtml" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Content Include="Areas\Admin\Views\DataMaintenance\Dashboard.cshtml" />
     <None Include="Content\bootstrap.yeti.less" />
     <Content Include="Content\bootstrap.yeti.min.css">
       <DependentUpon>bootstrap.yeti.css</DependentUpon>
@@ -241,7 +242,6 @@
     <None Include="Content\Site.less" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\DataMaintenance\Dashboard.cshtml" />
     <Content Include="..\AR.Azure\Azure.config">
       <Link>Azure.config</Link>
     </Content>
@@ -252,10 +252,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\ar.cdnFallback.js" />
-    <Content Include="Scripts\ar.data-dashboard.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
+    <Content Include="Scripts\ar.data-dashboard.js" />
     <Content Include="Scripts\ar.data.js" />
     <Content Include="Scripts\bootstrap-3.2.0.js" />
     <Content Include="Scripts\bootstrap-3.2.0.min.js">

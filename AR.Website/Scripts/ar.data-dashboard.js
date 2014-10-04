@@ -2,45 +2,27 @@
 
     'use strict';
 
+    $('[data-item-container]').hide();
+
     $('[data-id]').each(function () {
-        var that = $(this);
-        that.find('.refresh').each(function(){
+
+        var dataContainer = $(this);
+
+        dataContainer.find('.refresh').each(function () {
             $(this).click(function () {
-                refreshStatus($(this), that);
+                refreshStatus($(this), dataContainer);
             });
-            refreshStatus($(this), that);
+            refreshStatus($(this), dataContainer);
         });
 
+        dataContainer.find('[data-toggle-values]').click(function () {
+            var itemContainers = dataContainer.find('[data-item-container]').toggle();
+            var isVisible = itemContainers.is(':visible');
+            dataContainer.find('.glyphicon')
+                .toggleClass('glyphicon-plus', !isVisible)
+                .toggleClass('glyphicon-minus', isVisible);
+        });
     });
-
-    $('.item-container').hide();
-    $('.sync-container').hide();
-
-    $('[data-toggle-values]').click(function () {
-        var _this = $(this);
-        _this.parent().parent().find('.sync-container').toggle();
-        var container = _this.parent().parent().find('.item-container').toggle();
-        var isVisible = container.is(':visible');
-        _this.find('.glyphicon')
-            .toggleClass('glyphicon-plus', !isVisible)
-            .toggleClass('glyphicon-minus', isVisible);
-    });
-
-    function getStatusIcon(targetItem, sourceItem) {
-        if (!targetItem.Value && sourceItem.Value) {
-            return 'glyphicon-arrow-left text-warning';
-        }
-
-        if (targetItem.Value && !sourceItem.Value) {
-            return 'glyphicon-remove text-danger';
-        }
-
-        if (targetItem.Value && sourceItem.Value && (targetItem.Value === sourceItem.Value)) {
-            return 'glyphicon-ok text-success';
-        }
-
-        return ''; // Default
-    }
 
     function setStatusCount(element, storageItem) {
         element
@@ -56,14 +38,26 @@
             .toggle(storageItem.InvalidCount > 0);
     }
 
-    function addDataItem(parentElement, item) {
+    function addDataItem(parentElement, item, originalVisibility, iconClass) {
         parentElement.append(
-            $('<li/>')
+            $('<div>')
+                .toggle(originalVisibility)
+                .addClass('row border-top')
+                .attr('data-item-container', '')
                 .append(
-                    $("<span>")
+                    $('<div>')
+                        .addClass('col-xs-10')
                         .text(item.Value)
                 )
-                .append('&nbsp;')
+                .append(
+                    $('<div>')
+                        .addClass('col-xs-2 border-left')
+                        .append(
+                            $('<span>')
+                                .addClass(iconClass)
+                                .html('&nbsp;')
+                        )
+                )
         );
     }
 
@@ -78,40 +72,38 @@
             var target = parentRow.find('[data-target]');
             var source = parentRow.find('[data-source]');
 
+            var originalVisibility = parentRow.find('[data-item-container]').is(':visible');
+
             setStatusCount(target, data.TargetItem);
             setStatusCount(source, data.SourceItem);
 
-            var targetContainer = target.find('.item-container');
-            var targetOriginalVisibility = targetContainer.is(':visible');
-            targetContainer.hide().empty();
+            var targetContainer = target.find('[data-item-container]');
+            targetContainer.remove();
 
-            var sourceContainer = source.find('.item-container');
-            var sourceOriginalVisibility = sourceContainer.is(':visible');
-            sourceContainer.hide().empty();
-
-            var syncContainer = parentRow.find('.sync-container');
-            var syncOriginalVisibility = syncContainer.is(':visible');
-            syncContainer.hide().empty();
+            var sourceContainer = source.find('[data-item-container]');
+            sourceContainer.remove();
 
             for (var i = 0; i < data.DataItemCount; i++) {
+
                 var targetItem = data.TargetItem.Items[i];
-                addDataItem(targetContainer, targetItem);
-
                 var sourceItem = data.SourceItem.Items[i];
-                addDataItem(sourceContainer, sourceItem);
 
-                syncContainer.append(
-                    $('<li>').append(
-                        $('<span>')
-                            .addClass('glyphicon')
-                            .addClass(getStatusIcon(targetItem, sourceItem))
-                    )
-                );
+                var targetClass = '';
+                if (!targetItem.Value && sourceItem.Value) {
+                    targetClass = 'glyphicon glyphicon-arrow-left text-warning';
+                } else if (targetItem.Value && !sourceItem.Value) {
+                    targetClass = 'glyphicon glyphicon-remove text-danger';
+                }
+
+                var sourceClass = '';
+                if (targetItem.Value && sourceItem.Value && (targetItem.Value === sourceItem.Value)) {
+                    sourceClass = 'glyphicon glyphicon-ok text-success';
+                    targetClass = sourceClass;
+                }
+
+                addDataItem(target, targetItem, originalVisibility, targetClass);
+                addDataItem(source, sourceItem, originalVisibility, sourceClass);
             }
-
-            targetContainer.toggle(targetOriginalVisibility);
-            sourceContainer.toggle(sourceOriginalVisibility);
-            syncContainer.toggle(syncOriginalVisibility);
 
             indicator.hide();
             element.show();

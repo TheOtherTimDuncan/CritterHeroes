@@ -13,6 +13,9 @@ select,
 textarea {
   max-width: 280px;
 }
+ul {
+  -webkit-padding-start: 0;
+}
 .page-banner {
   background-color: #b8edff;
   padding-top: 15px;
@@ -25,6 +28,14 @@ textarea {
     display: block;
   }
 }
+.optional-text {
+  display: none;
+}
+@media (min-width: 768px) {
+  .optional-text {
+    display: inline-block;
+  }
+}
 .page-banner blockquote {
   border-style: none;
   margin-bottom: 0;
@@ -32,6 +43,10 @@ textarea {
 /* Misc */
 .margin-left-small {
   margin-left: 1em;
+}
+.padding-vertical-small {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .busy {
   background: url(Images/spinner.gif) no-repeat;
@@ -59,6 +74,31 @@ textarea {
 .border-right {
   border-right: 1px solid #dddddd;
 }
+.border-left {
+  border-left: 1px solid #dddddd;
+}
+@media (max-width: 991px) {
+  .border-left.border-left-xs {
+    border-left-style: none;
+  }
+}
+.border-bottom {
+  border-bottom: 1px solid #dddddd;
+}
+.border-top {
+  border-top: 1px solid #dddddd;
+}
+@media (min-width: 992px) {
+  .border-top.border-top-md {
+    border-top-style: none;
+  }
+}
+.border-top.border-top-thick {
+  border-width: 3px;
+}
+.border-box {
+  border: 1px solid #dddddd;
+}
 .text-with-button {
   padding-top: 4px;
   display: inline-block;
@@ -80,5 +120,4 @@ textarea {
   color: #ffffff;
   background-color: #43ac6a;
 }
-/* Data Maintenance dashboard */
 /*# sourceMappingURL=Site.css.map */
