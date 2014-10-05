@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AR.Azure;
 using AR.Domain.Models.Data;
@@ -19,11 +20,19 @@ namespace AR.Test.Azure
         }
 
         [TestMethod]
-        public async Task TestSave()
+        public async Task TestCRUD()
         {
             AnimalStatus animalStatus = new AnimalStatus("Name", "Description");
             AzureStorage storage = new AzureStorage("fflah");
             await storage.SaveAsync<AnimalStatus>(animalStatus);
+
+            AnimalStatus result = await storage.GetAsync<AnimalStatus>(animalStatus.Name);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(animalStatus.Description, result.Description);
+
+            await storage.DeleteAsync<AnimalStatus>(animalStatus);
+            AnimalStatus deleted = await storage.GetAsync<AnimalStatus>(animalStatus.Name);
+            Assert.IsNull(deleted);
         }
 
         [TestMethod]

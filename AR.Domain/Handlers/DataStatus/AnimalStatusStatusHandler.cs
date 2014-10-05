@@ -8,7 +8,7 @@ using AR.Domain.Models.Data;
 
 namespace AR.Domain.Handlers.DataStatus
 {
-    public class AnimalStatusStatusHandler :BaseModelStatusHandler<AnimalStatus>
+    public class AnimalStatusStatusHandler : BaseModelStatusHandler<AnimalStatus>
     {
         protected override void FillDataItem(DataItem dataItem, AnimalStatus source)
         {

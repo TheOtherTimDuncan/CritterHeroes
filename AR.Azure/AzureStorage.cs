@@ -16,7 +16,7 @@ namespace AR.Azure
         private const int batchSize = 100;
 
         public AzureStorage(string tableName)
-            : this(tableName,ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString)
+            : this(tableName, ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString)
         {
         }
 
@@ -42,6 +42,23 @@ namespace AR.Azure
         {
             get;
             set;
+        }
+
+        public async Task<T> GetAsync<T>(string entityID) where T : class
+        {
+            IAzureMapping<T> mapping = AzureMappingFactory.GetMapping<T>();
+
+            CloudTable cloudTable = await GetCloudTable();
+
+            DynamicTableEntity storageEntity = await GetAsync(cloudTable, mapping.PartitionKey, entityID);
+
+            if (storageEntity == null)
+            {
+                return null;
+            }
+
+            T result = mapping.ToModel((DynamicTableEntity)storageEntity);
+            return result;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
@@ -73,6 +90,27 @@ namespace AR.Azure
             throw new NotImplementedException();
         }
 
+        public async Task DeleteAsync<T>(T entity) where T : class
+        {
+            IAzureMapping<T> mapping = AzureMappingFactory.GetMapping<T>();
+            ITableEntity tableEntity = mapping.ToEntity(entity);
+
+            CloudTable cloudTable = await GetCloudTable();
+
+            DynamicTableEntity storageEntity = await GetAsync(cloudTable, tableEntity.PartitionKey, tableEntity.RowKey);
+
+            if (storageEntity != null)
+            {
+                TableOperation deleteOperation = TableOperation.Delete(storageEntity);
+                await cloudTable.ExecuteAsync(deleteOperation);
+            }
+        }
+
+        public async Task DeleteAsync<T>(IEnumerable<T> entities) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task<CloudTable> GetCloudTable()
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConnectionString);
@@ -80,6 +118,19 @@ namespace AR.Azure
             CloudTable table = client.GetTableReference(TableName);
             await table.CreateIfNotExistsAsync();
             return table;
+        }
+
+        private async Task<DynamicTableEntity> GetAsync(CloudTable cloudTable, string partitionKey, string rowKey)
+        {
+            TableOperation operation = TableOperation.Retrieve<DynamicTableEntity>(partitionKey, rowKey);
+            TableResult tableResult = await cloudTable.ExecuteAsync(operation);
+
+            if (tableResult.Result == null)
+            {
+                return null;
+            }
+
+            return (DynamicTableEntity)tableResult.Result;
         }
     }
 }

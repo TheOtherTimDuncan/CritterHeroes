@@ -15,8 +15,13 @@ namespace AR.Domain.Contracts
             set;
         }
 
+        Task<T> GetAsync<T>(string entityID) where T : class;
         Task<IEnumerable<T>> GetAllAsync<T>() where T : class;
+
         Task SaveAsync<T>(T entity) where T : class;
         Task SaveAsync<T>(IEnumerable<T> entities) where T : class;
+
+        Task DeleteAsync<T>(T entity) where T : class;
+        Task DeleteAsync<T>(IEnumerable<T> entities) where T : class;
     }
 }

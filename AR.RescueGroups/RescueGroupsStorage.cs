@@ -75,6 +75,11 @@ namespace AR.RescueGroups
             set;
         }
 
+        public async Task<T> GetAsync<T>(string entityID) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
         {
             IRescueGroupsMapping<T> mapping = RescueGroupsMappingFactory.GetMapping<T>();
@@ -107,6 +112,16 @@ namespace AR.RescueGroups
         }
 
         public async Task SaveAsync<T>(IEnumerable<T> entities) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteAsync<T>(T entity) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteAsync<T>(IEnumerable<T> entities) where T : class
         {
             throw new NotImplementedException();
         }
