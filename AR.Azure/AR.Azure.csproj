@@ -81,11 +81,10 @@
     <Compile Include="Identity\IdentityUserMapping.cs" />
     <Compile Include="Identity\UserStore.cs" />
     <Compile Include="Logging\AzureErrorLog.cs" />
-    <Compile Include="Mapping\AnimalStatusMapping.cs" />
-    <Compile Include="Mapping\AzureMappingFactory.cs" />
-    <Compile Include="Mapping\BaseAzureMapping.cs" />
-    <Compile Include="Mapping\IAzureMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\AnimalStatusStorageEntity.cs" />
+    <Compile Include="Storage\StorageEntity.cs" />
+    <Compile Include="Storage\StorageEntityFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Azure.config" />

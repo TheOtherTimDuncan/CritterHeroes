@@ -121,7 +121,7 @@ namespace AR.RescueGroups
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync<T>(IEnumerable<T> entities) where T : class
+        public async Task DeleteAllAsync<T>() where T : class
         {
             throw new NotImplementedException();
         }

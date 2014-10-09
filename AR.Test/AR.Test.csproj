@@ -122,7 +122,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Azure\StorageTests.cs" />
-    <Compile Include="Azure\MappingTests.cs" />
+    <Compile Include="Azure\StorageEntityTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
     <Compile Include="Azure\IdentityTests.cs" />
     <Compile Include="FluentHtml\BaseElementTests.cs" />
