@@ -10,9 +10,15 @@
 
         dataContainer.find('.refresh').each(function () {
             $(this).click(function () {
-                refreshStatus($(this), dataContainer);
+                refreshStatus($(this), dataContainer, 'refresh');
             });
-            refreshStatus($(this), dataContainer);
+            refreshStatus($(this), dataContainer, 'refresh');
+        });
+
+        dataContainer.find('.sync').each(function () {
+            $(this).click(function () {
+                refreshStatus($(this), dataContainer, 'sync');
+            });
         });
 
         dataContainer.find('[data-toggle-values]').click(function () {
@@ -61,7 +67,7 @@
         );
     }
 
-    function refreshStatus(element, parentRow) {
+    function refreshStatus(element, parentRow, action) {
 
         element.hide();
         var indicator = parentRow.find('.indicator');
@@ -114,7 +120,7 @@
                 modelID: parentRow.data('id')
             },
             success: success,
-            url: arescues.rootUrl + 'admin/datamaintenance/getmodelstatus'
+            url: arescues.rootUrl + 'admin/datamaintenance/' + action
         };
 
         arescues.dataManager.sendRequest(options);

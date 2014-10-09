@@ -33,7 +33,7 @@ namespace AR.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetModelStatus(int modelID)
+        public async Task<JsonResult> Refresh(int modelID)
         {
             DataModelSource modelSource = DataModelSource.FromValue(modelID);
             if (modelSource == null)
@@ -44,6 +44,34 @@ namespace AR.Website.Areas.Admin.Controllers
             IEnumerable<IStorageContext> storageContexts = StorageSource.GetAll().Select(x => x.StorageContext);
             IDataStatusHandler statusHandler = modelSource.StatusHandler;
             DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(storageContexts.ToArray());
+
+            DashboardItemStatus model = new DashboardItemStatus();
+            model.TargetItem = dataStatus.Items.First(x => x.StorageID == StorageSource.Azure.Value);
+            model.SourceItem = dataStatus.Items.First(x => x.StorageID == StorageSource.RescueGroups.Value);
+            model.DataItemCount = dataStatus.DataItemCount;
+
+            return Json(model);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Sync(int modelID)
+        {
+            DataModelSource modelSource = DataModelSource.FromValue(modelID);
+            if (modelSource == null)
+            {
+                return Json(null);
+            }
+
+            IStorageContext azureContext = StorageSource.Azure.StorageContext;
+            await azureContext.DeleteAllAsync<AR.Domain.Models.Data.AnimalStatus>();
+
+            IStorageContext rgContext = StorageSource.RescueGroups.StorageContext;
+            IEnumerable<AR.Domain.Models.Data.AnimalStatus> data = await rgContext.GetAllAsync<AR.Domain.Models.Data.AnimalStatus>();
+
+            await azureContext.SaveAsync<AR.Domain.Models.Data.AnimalStatus>(data);
+
+            IDataStatusHandler statusHandler = modelSource.StatusHandler;
+            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(azureContext, rgContext);
 
             DashboardItemStatus model = new DashboardItemStatus();
             model.TargetItem = dataStatus.Items.First(x => x.StorageID == StorageSource.Azure.Value);
