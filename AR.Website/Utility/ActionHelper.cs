@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -26,7 +27,23 @@ namespace AR.Website.Utility
             return GetRouteValues<T>(actionSelector, dictionaryValues);
         }
 
+        public static ActionHelperResult GetRouteValues<T>(Expression<Func<T, Task<ActionResult>>> actionSelector) where T : IController
+        {
+            return GetRouteValues<T>((actionSelector.Body as MethodCallExpression), null);
+        }
+
+        public static ActionHelperResult GetRouteValues<T>(Expression<Func<T, Task<ActionResult>>> actionSelector, object routeValues) where T : IController
+        {
+            RouteValueDictionary dictionaryValues = new RouteValueDictionary(routeValues);
+            return GetRouteValues<T>((actionSelector.Body as MethodCallExpression), dictionaryValues);
+        }
+
         public static ActionHelperResult GetRouteValues<T>(Expression<Func<T, ActionResult>> actionSelector, RouteValueDictionary routeValues) where T : IController
+        {
+            return GetRouteValues<T>((actionSelector.Body as MethodCallExpression), routeValues);
+        }
+
+        public static ActionHelperResult GetRouteValues<T>(MethodCallExpression methodExpression, RouteValueDictionary routeValues) where T : IController
         {
             ActionHelperResult result = new ActionHelperResult()
             {
@@ -34,7 +51,6 @@ namespace AR.Website.Utility
             };
 
             Type controllerType = typeof(T);
-            MethodCallExpression methodExpression = actionSelector.Body as MethodCallExpression;
 
             if (methodExpression == null || methodExpression.Object.Type != controllerType)
             {
