@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AR.Website.Utility.FluentHtml.Html;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
     public class SpanElement : BaseContainerElement<SpanElement>
     {
         public SpanElement(ViewContext viewContext)
-            : base("span", viewContext)
+            : base(HtmlTag.Span, viewContext)
         {
         }
 

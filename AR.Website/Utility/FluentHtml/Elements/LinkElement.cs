@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using AR.Website.Utility.FluentHtml.Contracts;
+using AR.Website.Utility.FluentHtml.Html;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
@@ -13,7 +14,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
         private IUrlContext _urlContext;
 
         public LinkElement(ViewContext viewContext)
-            : base("a", viewContext)
+            : base(HtmlTag.Link, viewContext)
         {
         }
 
@@ -63,7 +64,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         public LinkElement AsJavascriptLink()
         {
-            return this.Attribute("href", "#");
+            return this.Attribute(HtmlAttribute.HRef, "#");
         }
 
         public LinkElement Text(string text)
@@ -74,7 +75,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         private void SetUrl(string url)
         {
-            this.Attribute("href", url);
+            this.Attribute(HtmlAttribute.HRef, url);
         }
     }
 }
