@@ -26,9 +26,9 @@ namespace AR.Website.Utility.FluentHtml.Elements
             this.TagRenderMode = renderMode;
             this.ViewWriter = viewContext.Writer;
 
-            this.CurrentArea = (viewContext.RouteData.DataTokens["area"] as string) ?? string.Empty; // We need an empty string not null so it will match correctly later
-            this.CurrentControllerName = viewContext.RouteData.GetRequiredString("controller");
-            this.CurrentActionName = viewContext.RouteData.GetRequiredString("action");
+            this.CurrentArea = (viewContext.RouteData.DataTokens[RouteDataKeys.Area] as string) ?? string.Empty; // We need an empty string not null so it will match correctly later
+            this.CurrentControllerName = viewContext.RouteData.GetRequiredString(RouteDataKeys.Controller);
+            this.CurrentActionName = viewContext.RouteData.GetRequiredString(RouteDataKeys.Action);
 
             string test = UrlHelper.Action(CurrentActionName, CurrentControllerName, viewContext.RouteData);
 

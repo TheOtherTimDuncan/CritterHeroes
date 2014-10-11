@@ -8,14 +8,14 @@ namespace AR.Website.Utility.FluentHtml
 {
     public static class BootstrapExtensions
     {
-        public static BootstrapNav BootstrapNav(this HtmlHelper htmlHelper)
+        public static BootstrapNav BootstrapNav(this ElementFactory elementFactory)
         {
-            return ElementFactory.CreateElement<BootstrapNav>(htmlHelper.ViewContext);
+            return elementFactory.CreateElement<BootstrapNav>();
         }
 
-        public static BootstrapNavItem BootstrapNavItem(this HtmlHelper htmlHelper)
+        public static BootstrapNavItem BootstrapNavItem(this ElementFactory elementFactory)
         {
-            return ElementFactory.CreateElement<BootstrapNavItem>(htmlHelper.ViewContext);
+            return elementFactory.CreateElement<BootstrapNavItem>();
         }
     }
 }

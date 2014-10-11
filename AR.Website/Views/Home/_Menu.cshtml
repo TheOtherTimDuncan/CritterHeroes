@@ -10,35 +10,35 @@
                 <span class="icon-bar"></span>
             </button>
             <img src="@Url.Content("~/Content/Images/Logo36x35.png")" class="logo-small pull-left" />
-            @Html.Link().HomeActionLink(x => x.Index()).Text("FFLAH").Class("navbar-brand")
+            @Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text("FFLAH").Class("navbar-brand")
 </div>
         <div class="navbar-collapse collapse">
             @{
-                var menuNav = Html.BootstrapNav()
+                var menuNav = Html.FluentHtml().BootstrapNav()
                     .AsNavBar()
                     .Class("navbar-left")
                     .AddElement(
-                        Html.BootstrapNavItem().AddElement(
-                            Html.Link().ActionLink<HomeController>(x => x.Index()).Text("Home")
+                        Html.FluentHtml().BootstrapNavItem().AddElement(
+                            Html.FluentHtml().Link().ActionLink<HomeController>(x => x.Index()).Text("Home")
                         )
                     );
 
                 if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
                 {
                     menuNav.AddElement(
-                        Html.BootstrapNavItem().AddElement(
-                            Html.Link().ActionLink<ErrorLogController>(x => x.Index()).Text("Error Log")
+                        Html.FluentHtml().BootstrapNavItem().AddElement(
+                            Html.FluentHtml().Link().ActionLink<ErrorLogController>(x => x.Index()).Text("Error Log")
                         )
                     );
 
-                    var dropdownMaintenance = Html.BootstrapNavItem()
+                    var dropdownMaintenance = Html.FluentHtml().BootstrapNavItem()
                         .AsDropdown("Maintenance")
                         .AddElement(
-                            Html.BootstrapNav()
+                            Html.FluentHtml().BootstrapNav()
                                 .AsDropdown()
                                 .AddElement(
-                                    Html.BootstrapNavItem().AddElement(
-                                        Html.Link().ActionLink<DataMaintenanceController>(x => x.Dashboard()).Text("Dashboard")
+                                    Html.FluentHtml().BootstrapNavItem().AddElement(
+                                        Html.FluentHtml().Link().ActionLink<DataMaintenanceController>(x => x.Dashboard()).Text("Dashboard")
                                     )
                                 )
                             );
@@ -49,23 +49,23 @@
             @menuNav
 
             @{
-                var loginNav = Html.BootstrapNav()
+                var loginNav = Html.FluentHtml().BootstrapNav()
                     .AsNavBar()
                     .Class("navbar-right");
 
                 if (Model.CurrentUser.Identity.IsAuthenticated)
                 {
                     loginNav.AddElement(
-                        Html.BootstrapNavItem().AddElement(
-                        Html.Link().ActionLink<AccountController>(x => x.LogOut()).Text("Logout")
+                        Html.FluentHtml().BootstrapNavItem().AddElement(
+                        Html.FluentHtml().Link().ActionLink<AccountController>(x => x.LogOut()).Text("Logout")
                         )
                     );
                 }
                 else
                 {
                     loginNav.AddElement(
-                        Html.BootstrapNavItem().AddElement(
-                        Html.Link().ActionLink<AccountController>(x => x.Login(null)).Text("Login")
+                        Html.FluentHtml().BootstrapNavItem().AddElement(
+                        Html.FluentHtml().Link().ActionLink<AccountController>(x => x.Login(null)).Text("Login")
                         )
                     );
                 }

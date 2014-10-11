@@ -11,9 +11,16 @@ namespace AR.Website.Utility.FluentHtml
     {
         private static List<IHtmlConvention> _conventions = new List<IHtmlConvention>();
 
-        public static T CreateElement<T>(ViewContext viewContext) where T : IElement
+        private HtmlHelper _htmlHelper;
+
+        public ElementFactory(HtmlHelper htmlHelper)
         {
-            T result = (T)Activator.CreateInstance(typeof(T), viewContext);
+            this._htmlHelper = htmlHelper;
+        }
+
+        public T CreateElement<T>() where T : IElement
+        {
+            T result = (T)Activator.CreateInstance(typeof(T), _htmlHelper.ViewContext);
 
             foreach (IHtmlConvention convention in _conventions)
             {
@@ -26,6 +33,14 @@ namespace AR.Website.Utility.FluentHtml
         public static void AddConvention(IHtmlConvention convention)
         {
             _conventions.Add(convention);
+        }
+    }
+
+    public static class ElementFactoryExtension
+    {
+        public static ElementFactory FluentHtml(this HtmlHelper htmlHelper)
+        {
+            return new ElementFactory(htmlHelper);
         }
     }
 }

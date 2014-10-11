@@ -178,6 +178,7 @@
     <Compile Include="Utility\FluentHtml\Conventions\HtmlConvention.cs" />
     <Compile Include="Utility\FluentHtml\Conventions\HtmlConventionBuilder.cs" />
     <Compile Include="Utility\FluentHtml\ElementFactory.cs" />
+    <Compile Include="Utility\FluentHtml\ElementFactoryExtensions.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
@@ -188,8 +189,10 @@
     <Compile Include="Utility\FluentHtml\Elements\SpanElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\UnorderedListElement.cs" />
     <Compile Include="Utility\FluentHtml\ExternalUrlContext.cs" />
-    <Compile Include="Utility\FluentHtml\HtmlHelperExtensions.cs" />
+    <Compile Include="Utility\FluentHtml\Html\HtmlAttribute.cs" />
     <Compile Include="Utility\FluentHtml\InternalUrlContext.cs" />
+    <Compile Include="Utility\FluentHtml\Html\HtmlTag.cs" />
+    <Compile Include="Utility\FluentHtml\RouteDataKeys.cs" />
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\StorageSource.cs" />
     <Compile Include="Utility\ActionExtensions.cs" />

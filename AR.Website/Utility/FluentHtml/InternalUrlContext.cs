@@ -62,7 +62,7 @@ namespace AR.Website.Utility.FluentHtml
 
         private static string GetAreaFromRouteValues(RouteValueDictionary routeValues)
         {
-            return routeValues["area"] as string;
+            return routeValues[RouteDataKeys.Area] as string;
         }
     }
 }
