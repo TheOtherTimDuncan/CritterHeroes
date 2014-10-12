@@ -8,8 +8,8 @@ namespace AR.Website.Utility.FluentHtml.Elements
 {
     public class BaseListItemElement<T> : BaseContainerElement<T> where T : BaseListItemElement<T>
     {
-        public BaseListItemElement(ViewContext viewContext)
-            : base(HtmlTag.ListItem, viewContext)
+        public BaseListItemElement(HtmlHelper htmlHelper)
+            : base(HtmlTag.ListItem, htmlHelper)
         {
         }
 

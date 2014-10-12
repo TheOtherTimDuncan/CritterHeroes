@@ -20,7 +20,7 @@ namespace AR.Website.Utility.FluentHtml
 
         public T CreateElement<T>() where T : IElement
         {
-            T result = (T)Activator.CreateInstance(typeof(T), _htmlHelper.ViewContext);
+            T result = (T)Activator.CreateInstance(typeof(T), _htmlHelper);
 
             foreach (IHtmlConvention convention in _conventions)
             {

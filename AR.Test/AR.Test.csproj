@@ -130,6 +130,8 @@
     <Compile Include="FluentHtml\SpanElementTests.cs" />
     <Compile Include="FluentHtml\LinkElementTests.cs" />
     <Compile Include="FluentHtml\ListItemTests.cs" />
+    <Compile Include="FluentHtml\BaseInputElementTests.cs" />
+    <Compile Include="FluentHtml\InputTextElementTests.cs" />
     <Compile Include="FluentHtml\UrlContextTests.cs" />
     <Compile Include="FluentHtml\UnorderedListTests.cs" />
     <Compile Include="FluentHtml\OrderedListTests.cs" />

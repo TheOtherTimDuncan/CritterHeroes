@@ -10,13 +10,11 @@ namespace AR.Website.Utility.FluentHtml.Bootstrap
 {
     public class BootstrapNavItem : BaseListItemElement<BootstrapNavItem>
     {
-        private ViewContext _viewContext;
         private bool _setActive;
 
-        public BootstrapNavItem(ViewContext viewContext)
-            : base(viewContext)
+        public BootstrapNavItem(HtmlHelper htmlHelper)
+            : base(htmlHelper)
         {
-            this._viewContext = viewContext;
             this._setActive = false;
         }
 
@@ -25,14 +23,14 @@ namespace AR.Website.Utility.FluentHtml.Bootstrap
             return this.Class("dropdown")
                 .AddElement
                 (
-                    new LinkElement(_viewContext)
+                    CreateElement<LinkElement>()
                         .Class("dropdown-toggle")
                         .Data("toggle", "dropdown")
                         .AsJavascriptLink()
                         .Text(text)
                         .AddElement
                         (
-                            new SpanElement(_viewContext)
+                            CreateElement<SpanElement>()
                                 .Class("caret")
                         )
                 );

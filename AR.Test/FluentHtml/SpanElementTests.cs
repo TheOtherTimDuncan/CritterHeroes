@@ -11,21 +11,21 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            SpanElement spanElement = new SpanElement(GetViewContext());
+            SpanElement spanElement = new SpanElement(GetHtmlHelper());
             Assert.AreEqual(@"<span></span>", spanElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            SpanElement spanElement = new SpanElement(GetViewContext()).Text("text");
+            SpanElement spanElement = new SpanElement(GetHtmlHelper()).Text("text");
             Assert.AreEqual(@"<span>text</span>", spanElement.ToHtmlString());
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            SpanElement spanElement = new SpanElement(GetViewContext()).Text(@"<br/>");
+            SpanElement spanElement = new SpanElement(GetHtmlHelper()).Text(@"<br/>");
             Assert.AreEqual(@"<span>&lt;br/&gt;</span>", spanElement.ToHtmlString());
         }
     }

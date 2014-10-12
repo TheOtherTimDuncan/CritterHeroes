@@ -11,17 +11,17 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            UnorderedListElement listElement = new UnorderedListElement(GetViewContext());
+            UnorderedListElement listElement = new UnorderedListElement(GetHtmlHelper());
             Assert.AreEqual(@"<ul></ul>", listElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlyAddsInnerElement()
         {
-            ViewContext viewContext = GetViewContext();
-            UnorderedListElement listElement = new UnorderedListElement(viewContext).AddElement(() =>
+            HtmlHelper htmlHelper = GetHtmlHelper();
+            UnorderedListElement listElement = new UnorderedListElement(htmlHelper).AddElement(() =>
             {
-                return new ListItemElement(viewContext).Text("text");
+                return new ListItemElement(htmlHelper).Text("text");
             });
             Assert.AreEqual(@"<ul><li>text</li></ul>", listElement.ToHtmlString());
         }

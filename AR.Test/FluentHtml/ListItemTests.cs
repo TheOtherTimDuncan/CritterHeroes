@@ -11,31 +11,31 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            ListItemElement itemElement = new ListItemElement(GetViewContext());
+            ListItemElement itemElement = new ListItemElement(GetHtmlHelper());
             Assert.AreEqual(@"<li></li>", itemElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            ListItemElement itemElement = new ListItemElement(GetViewContext()).Text("text");
+            ListItemElement itemElement = new ListItemElement(GetHtmlHelper()).Text("text");
             Assert.AreEqual(@"<li>text</li>", itemElement.ToHtmlString());
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            ListItemElement itemElement = new ListItemElement(GetViewContext()).Text(@"<br/>");
+            ListItemElement itemElement = new ListItemElement(GetHtmlHelper()).Text(@"<br/>");
             Assert.AreEqual(@"<li>&lt;br/&gt;</li>", itemElement.ToHtmlString());
         }
 
         [TestMethod]
         public void CorrectlyAddsInnerElement()
         {
-            ViewContext viewContext = GetViewContext();
-            ListItemElement itemElement = new ListItemElement(viewContext).AddElement(() =>
+            HtmlHelper htmlHelper = GetHtmlHelper();
+            ListItemElement itemElement = new ListItemElement(htmlHelper).AddElement(() =>
             {
-                return new SpanElement(viewContext).Text("text");
+                return new SpanElement(htmlHelper).Text("text");
             });
             Assert.AreEqual(@"<li><span>text</span></li>", itemElement.ToHtmlString());
         }

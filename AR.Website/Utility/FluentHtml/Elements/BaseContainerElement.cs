@@ -11,8 +11,8 @@ namespace AR.Website.Utility.FluentHtml.Elements
     {
         private List<IElement> _children;
 
-        public BaseContainerElement(string tag, ViewContext viewContext)
-            : base(tag, viewContext)
+        public BaseContainerElement(string tag, HtmlHelper htmlHelper)
+            : base(tag, htmlHelper)
         {
             _children = new List<IElement>();
         }

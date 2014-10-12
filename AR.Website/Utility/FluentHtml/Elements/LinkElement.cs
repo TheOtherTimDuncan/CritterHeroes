@@ -13,8 +13,8 @@ namespace AR.Website.Utility.FluentHtml.Elements
     {
         private IUrlContext _urlContext;
 
-        public LinkElement(ViewContext viewContext)
-            : base(HtmlTag.Link, viewContext)
+        public LinkElement(HtmlHelper htmlHelper)
+            : base(HtmlTag.Link, htmlHelper)
         {
         }
 

@@ -8,8 +8,8 @@ namespace AR.Website.Utility.FluentHtml.Elements
 {
     public class SpanElement : BaseContainerElement<SpanElement>
     {
-        public SpanElement(ViewContext viewContext)
-            : base(HtmlTag.Span, viewContext)
+        public SpanElement(HtmlHelper htmlHelper)
+            : base(HtmlTag.Span, htmlHelper)
         {
         }
 

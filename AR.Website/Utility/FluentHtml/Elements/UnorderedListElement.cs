@@ -8,8 +8,8 @@ namespace AR.Website.Utility.FluentHtml.Elements
 {
     public class UnorderedListElement : BaseListElement<UnorderedListElement>
     {
-        public UnorderedListElement(ViewContext viewContext)
-            : base(HtmlTag.ListUnordered, viewContext)
+        public UnorderedListElement(HtmlHelper htmlHelper)
+            : base(HtmlTag.ListUnordered, htmlHelper)
         {
         }
     }

@@ -9,8 +9,8 @@ namespace AR.Website.Utility.FluentHtml.Bootstrap
 {
     public class BootstrapNav : BaseListElement<BootstrapNav>
     {
-        public BootstrapNav(ViewContext viewContext)
-            : base(HtmlTag.ListUnordered, viewContext)
+        public BootstrapNav(HtmlHelper htmlHelper)
+            : base(HtmlTag.ListUnordered, htmlHelper)
         {
         }
 

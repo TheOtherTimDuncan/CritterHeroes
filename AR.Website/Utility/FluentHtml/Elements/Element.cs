@@ -6,33 +6,36 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using AR.Website.Utility.FluentHtml.Contracts;
+using AR.Website.Utility.FluentHtml.Html;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
     public class Element<T> : IElement where T : Element<T>, IElement
     {
-        protected StringBuilder innerHtmlBuilder;
+        private StringBuilder _innerHtmlBuilder;
+        private HtmlHelper _htmlHelper;
+        private ElementFactory _elementFactory;
 
-        public Element(string tag, ViewContext viewContext)
-            : this(tag, TagRenderMode.Normal, viewContext)
+        public Element(string tag, HtmlHelper htmlHelper)
+            : this(tag, TagRenderMode.Normal, htmlHelper)
         {
         }
 
-        public Element(string tag, TagRenderMode renderMode, ViewContext viewContext)
+        public Element(string tag, TagRenderMode renderMode, HtmlHelper htmlHelper)
         {
             this.Tag = tag;
             this.Builder = new TagBuilder(tag);
-            this.UrlHelper = new UrlHelper(viewContext.RequestContext);
+            this.UrlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
             this.TagRenderMode = renderMode;
-            this.ViewWriter = viewContext.Writer;
+            this.ViewWriter = htmlHelper.ViewContext.Writer;
 
-            this.CurrentArea = (viewContext.RouteData.DataTokens[RouteDataKeys.Area] as string) ?? string.Empty; // We need an empty string not null so it will match correctly later
-            this.CurrentControllerName = viewContext.RouteData.GetRequiredString(RouteDataKeys.Controller);
-            this.CurrentActionName = viewContext.RouteData.GetRequiredString(RouteDataKeys.Action);
+            this.CurrentArea = (htmlHelper.ViewContext.RouteData.DataTokens[RouteDataKeys.Area] as string) ?? string.Empty; // We need an empty string not null so it will match correctly later
+            this.CurrentControllerName = htmlHelper.ViewContext.RouteData.GetRequiredString(RouteDataKeys.Controller);
+            this.CurrentActionName = htmlHelper.ViewContext.RouteData.GetRequiredString(RouteDataKeys.Action);
 
-            string test = UrlHelper.Action(CurrentActionName, CurrentControllerName, viewContext.RouteData);
-
-            innerHtmlBuilder = new StringBuilder();
+            this._innerHtmlBuilder = new StringBuilder();
+            this._elementFactory = new ElementFactory(htmlHelper);
+            this._htmlHelper = htmlHelper;
         }
 
         protected TagBuilder Builder
@@ -83,6 +86,32 @@ namespace AR.Website.Utility.FluentHtml.Elements
             set;
         }
 
+        protected string ElementID
+        {
+            get;
+            private set;
+        }
+
+        public string ElementName
+        {
+            get;
+            set;
+        }
+
+        public T ID (string elementID)
+        {
+            this.ElementID = elementID;
+            Builder.MergeAttribute(HtmlAttribute.ID, elementID);
+            return (T)this;
+        }
+
+        public T Name(string elementName)
+        {
+            this.ElementName = elementName;
+            Builder.MergeAttribute(HtmlAttribute.Name, elementName);
+            return (T)this;
+        }
+
         public T Attribute(string name, object value)
         {
             var valueString = value == null ? null : value.ToString();
@@ -106,9 +135,14 @@ namespace AR.Website.Utility.FluentHtml.Elements
         public string ToHtmlString()
         {
             PreRender();
-            Builder.InnerHtml = innerHtmlBuilder.ToString();
+            Builder.InnerHtml = _innerHtmlBuilder.ToString();
             string result = Builder.ToString(TagRenderMode);
             return result;
+        }
+
+        protected ElementType CreateElement<ElementType>() where ElementType : IElement
+        {
+            return _elementFactory.CreateElement<ElementType>();
         }
 
         protected virtual void PreRender()
@@ -123,12 +157,12 @@ namespace AR.Website.Utility.FluentHtml.Elements
         protected void AddInnerHtml(string text)
         {
             string encoded = HtmlEncode(text);
-            innerHtmlBuilder.Append(encoded);
+            _innerHtmlBuilder.Append(encoded);
         }
 
         protected void AddInnerHtml(IHtmlString innerHtml)
         {
-            innerHtmlBuilder.Append(innerHtml.ToHtmlString());
+            _innerHtmlBuilder.Append(innerHtml.ToHtmlString());
         }
     }
 }
