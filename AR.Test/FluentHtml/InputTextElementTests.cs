@@ -1,5 +1,6 @@
 ﻿using System;
 using AR.Website.Utility.FluentHtml.Elements;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.FluentHtml
@@ -10,10 +11,10 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void SuccessfullySetsInputType()
         {
-            //HtmlHelper<TestModel> htmlHelper = GetHtmlHelper(GetViewData());
-            //MvcHtmlString test = htmlHelper.TextBoxFor(x => x.Child.ChildStringProperty);
-            InputTextElement inputElement = new InputTextElement(GetHtmlHelper());
-            Assert.AreEqual(@"<input type=""text"" />", inputElement.ToHtmlString());
+            new InputTextElement(GetHtmlHelper())
+                .ToHtmlString()
+                .Should()
+                .Be(@"<input type=""text"" />");
         }
     }
 }

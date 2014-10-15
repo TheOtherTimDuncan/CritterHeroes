@@ -3,6 +3,7 @@ using System.Collections;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using AR.Website.Utility.FluentHtml.Elements;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -37,7 +38,19 @@ namespace AR.Test.FluentHtml
             ViewDataDictionary<TestModel> viewData = GetViewData(model);
             HtmlHelper<TestModel> htmlHelper = GetHtmlHelper(viewData);
             InputTextElement element = new InputTextElement(htmlHelper).For<TestModel>(x => x.StringProperty);
-            Assert.AreEqual(@"<input id=""StringProperty"" name=""StringProperty"" type=""text"" value=""StringValue"" />", element.ToHtmlString());
+
+            element.ToHtmlString().Should()
+                .StartWith("<input")
+                .And
+                .EndWith("/>")
+                .And
+                .Contain("id=\"StringProperty\"")
+                .And
+                .Contain("name=\"StringProperty\"")
+                .And
+                .Contain("type=\"text\"")
+                .And
+                .Contain("value=\"StringValue\"");
         }
 
         public class TestModel

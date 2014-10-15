@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AR.Website.Utility.FluentHtml.Elements;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.FluentHtml
 {
@@ -19,43 +20,60 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            TestElement testElement = new TestElement(GetHtmlHelper());
-            Assert.AreEqual(@"<test></test>", testElement.ToHtmlString());
+            new TestElement(GetHtmlHelper())
+                .ToHtmlString()
+                .Should()
+                .Be("<test></test>");
         }
 
         [TestMethod]
         public void SuccessfullyAddsAttribute()
         {
-            TestElement testElement = new TestElement(GetHtmlHelper()).Attribute("test", "value");
-            Assert.AreEqual(@"<test test=""value""></test>", testElement.ToHtmlString());
+            new TestElement(GetHtmlHelper())
+                .Attribute("test", "value")
+                .ToHtmlString()
+                .Should()
+                .Be("<test test=\"value\"></test>");
         }
 
         [TestMethod]
         public void SuccessfullyAddsDataAttribute()
         {
-            TestElement testElement = new TestElement(GetHtmlHelper()).Data("test", "value");
-            Assert.AreEqual(@"<test data-test=""value""></test>", testElement.ToHtmlString());
+            new TestElement(GetHtmlHelper())
+                .Data("test", "value")
+                .ToHtmlString()
+                .Should()
+                .Be("<test data-test=\"value\"></test>");
         }
 
         [TestMethod]
         public void SuccessfullyAddsClass()
         {
-            TestElement testElement = new TestElement(GetHtmlHelper()).Class("test");
-            Assert.AreEqual(@"<test class=""test""></test>", testElement.ToHtmlString());
+            new TestElement(GetHtmlHelper())
+                .Class("test")
+                .ToHtmlString()
+                .Should()
+                .Be("<test class=\"test\"></test>");
         }
 
         [TestMethod]
         public void SuccessfullySetsElementID()
         {
-            TestElement testElement = new TestElement(GetHtmlHelper()).ID("test");
-            Assert.AreEqual(@"<test id=""test""></test>", testElement.ToHtmlString());
+            new TestElement(GetHtmlHelper())
+                .ID("test")
+                .ToHtmlString()
+                .Should()
+                .Be("<test id=\"test\"></test>");
         }
 
         [TestMethod]
         public void SuccessfullySetsElementName()
         {
-            TestElement testElement = new TestElement(GetHtmlHelper()).Name("test");
-            Assert.AreEqual(@"<test name=""test""></test>", testElement.ToHtmlString());
+            new TestElement(GetHtmlHelper())
+                .Name("test")
+                .ToHtmlString()
+                .Should()
+                .Be("<test name=\"test\"></test>");
         }
     }
 }

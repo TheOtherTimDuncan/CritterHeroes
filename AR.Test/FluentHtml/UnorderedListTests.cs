@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using AR.Website.Utility.FluentHtml.Elements;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.FluentHtml
@@ -11,19 +12,24 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            UnorderedListElement listElement = new UnorderedListElement(GetHtmlHelper());
-            Assert.AreEqual(@"<ul></ul>", listElement.ToHtmlString());
+            new UnorderedListElement(GetHtmlHelper())
+                .ToHtmlString()
+                .Should()
+                .Be("<ul></ul>");
         }
 
         [TestMethod]
         public void CorrectlyAddsInnerElement()
         {
             HtmlHelper htmlHelper = GetHtmlHelper();
-            UnorderedListElement listElement = new UnorderedListElement(htmlHelper).AddElement(() =>
-            {
-                return new ListItemElement(htmlHelper).Text("text");
-            });
-            Assert.AreEqual(@"<ul><li>text</li></ul>", listElement.ToHtmlString());
+            new UnorderedListElement(htmlHelper)
+                .AddElement(() =>
+                {
+                    return new ListItemElement(htmlHelper).Text("text");
+                })
+                .ToHtmlString()
+                .Should()
+                .Be("<ul><li>text</li></ul>");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using AR.Website.Utility.FluentHtml.Elements;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.FluentHtml
@@ -11,22 +12,30 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            SpanElement spanElement = new SpanElement(GetHtmlHelper());
-            Assert.AreEqual(@"<span></span>", spanElement.ToHtmlString());
+            new SpanElement(GetHtmlHelper())
+                .ToHtmlString()
+                .Should()
+                .Be("<span></span>");
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            SpanElement spanElement = new SpanElement(GetHtmlHelper()).Text("text");
-            Assert.AreEqual(@"<span>text</span>", spanElement.ToHtmlString());
+            new SpanElement(GetHtmlHelper())
+                .Text("text")
+                .ToHtmlString()
+                .Should()
+                .Be("<span>text</span>");
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            SpanElement spanElement = new SpanElement(GetHtmlHelper()).Text(@"<br/>");
-            Assert.AreEqual(@"<span>&lt;br/&gt;</span>", spanElement.ToHtmlString());
+            new SpanElement(GetHtmlHelper())
+                .Text(@"<br/>")
+                .ToHtmlString()
+                .Should()
+                .Be("<span>&lt;br/&gt;</span>");
         }
     }
 }

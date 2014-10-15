@@ -1,5 +1,6 @@
 ﻿using System;
 using AR.Website.Utility.FluentHtml;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.FluentHtml
@@ -17,9 +18,10 @@ namespace AR.Test.FluentHtml
                 {
                     area = "area"
                 });
-                Assert.AreEqual("area", urlContext.Area);
-                Assert.AreEqual("controller", urlContext.ControllerName);
-                Assert.AreEqual("action", urlContext.ActionName);
+
+                urlContext.Area.Should().Be("area");
+                urlContext.ControllerName.Should().Be("controller");
+                urlContext.ActionName.Should().Be("action");
             }
 
             [TestMethod]
@@ -27,7 +29,7 @@ namespace AR.Test.FluentHtml
             {
                 InternalUrlContext context1 = new InternalUrlContext("action", "controller");
                 InternalUrlContext context2 = new InternalUrlContext("action", "controller");
-                Assert.IsTrue(context1.Matches(context2));
+                context1.Matches(context2).Should().BeTrue();
             }
         }
     }

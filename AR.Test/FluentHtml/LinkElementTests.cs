@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using AR.Website.Utility.FluentHtml.Elements;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AR.Test.FluentHtml
@@ -11,36 +12,50 @@ namespace AR.Test.FluentHtml
         [TestMethod]
         public void CreatesValidHtmlForElement()
         {
-            LinkElement linkElement = new LinkElement(GetHtmlHelper());
-            Assert.AreEqual(@"<a></a>", linkElement.ToHtmlString());
+            new LinkElement(GetHtmlHelper())
+                .ToHtmlString()
+                .Should()
+                .Be("<a></a>");
         }
 
         [TestMethod]
         public void CorrectlySetsInnerText()
         {
-            LinkElement linkElement = new LinkElement(GetHtmlHelper()).Text("text");
-            Assert.AreEqual(@"<a>text</a>", linkElement.ToHtmlString());
+            new LinkElement(GetHtmlHelper())
+                .Text("text")
+                .ToHtmlString()
+                .Should()
+                .Be("<a>text</a>");
         }
 
         [TestMethod]
         public void HtmlEncodesInnerText()
         {
-            LinkElement linkElement = new LinkElement(GetHtmlHelper()).Text(@"<br/>");
-            Assert.AreEqual(@"<a>&lt;br/&gt;</a>", linkElement.ToHtmlString());
+            new LinkElement(GetHtmlHelper())
+                .Text("<br/>")
+                .ToHtmlString()
+                .Should()
+                .Be("<a>&lt;br/&gt;</a>");
         }
 
         [TestMethod]
         public void CorrectlySetsJavascriptLink()
         {
-            LinkElement linkElement = new LinkElement(GetHtmlHelper()).AsJavascriptLink();
-            Assert.AreEqual(@"<a href=""#""></a>", linkElement.ToHtmlString());
+            new LinkElement(GetHtmlHelper())
+                .AsJavascriptLink()
+                .ToHtmlString()
+                .Should()
+                .Be("<a href=\"#\"></a>");
         }
 
         [TestMethod]
         public void CorrectlySetsUrl()
         {
-            LinkElement linkElement = new LinkElement(GetHtmlHelper()).Url("http://www.google.com");
-            Assert.AreEqual(@"<a href=""http://www.google.com""></a>", linkElement.ToHtmlString());
+            new LinkElement(GetHtmlHelper())
+                .Url("http://www.google.com")
+                .ToHtmlString()
+                .Should()
+                .Be("<a href=\"http://www.google.com\"></a>");
         }
     }
 }
