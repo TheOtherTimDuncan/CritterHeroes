@@ -187,8 +187,15 @@
     <Compile Include="Utility\FluentHtml\ElementFactory.cs" />
     <Compile Include="Utility\FluentHtml\ElementFactoryExtensions.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseFormElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseInputElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputButtonElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputCheckboxElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputHiddenElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputPasswordElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputRadioElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputSubmitElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\InputTextElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\Element.cs" />

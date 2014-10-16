@@ -10,19 +10,16 @@ using Moq;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class BaseInputElementTests : BaseElementTests
+    public class BaseFormElementTests : BaseElementTests
     {
         private ViewDataDictionary<TestModel> GetViewData(TestModel model)
         {
             ViewDataDictionary<TestModel> viewData = new ViewDataDictionary<TestModel>(model)
             {
-                {"StringProperty", "StringValue"}
+                {"StringProperty", model.StringProperty},
+                {"IntegerProperty", model.IntegerProperty}
             };
-            viewData.Model = new TestModel
-            {
-                IntegerProperty = 1,
-                StringProperty = "StringValue"
-            };
+            viewData.Model = model;
 
             return viewData;
         }
@@ -37,9 +34,9 @@ namespace AR.Test.FluentHtml
 
             ViewDataDictionary<TestModel> viewData = GetViewData(model);
             HtmlHelper<TestModel> htmlHelper = GetHtmlHelper(viewData);
-            InputTextElement element = new InputTextElement(htmlHelper).For<TestModel>(x => x.StringProperty);
-
-            element.ToHtmlString().Should()
+            new InputTextElement(htmlHelper)
+                .For<TestModel>(x => x.StringProperty)
+                .ToHtmlString().Should()
                 .StartWith("<input")
                 .And
                 .EndWith("/>")
@@ -51,6 +48,44 @@ namespace AR.Test.FluentHtml
                 .Contain("type=\"text\"")
                 .And
                 .Contain("value=\"StringValue\"");
+        }
+
+        [TestMethod]
+        public void CorrectlySetsAutoFocusAttribute()
+        {
+            TestModel model = new TestModel
+            {
+                StringProperty = "StringValue"
+            };
+            ViewDataDictionary<TestModel> viewData = GetViewData(model);
+            new InputTextElement(GetHtmlHelper(viewData))
+                .AutoFocus()
+                .ToHtmlString()
+                .Should()
+                .StartWith("<input")
+                .And
+                .EndWith("/>")
+                .And
+                .Contain("autofocus=\"autofocus\"");
+        }
+
+        [TestMethod]
+        public void CorrectlySetsRequiredAttribute()
+        {
+            TestModel model = new TestModel
+            {
+                StringProperty = "StringValue"
+            };
+            ViewDataDictionary<TestModel> viewData = GetViewData(model);
+            new InputTextElement(GetHtmlHelper(viewData))
+                .Required()
+                .ToHtmlString()
+                .Should()
+                .StartWith("<input")
+                .And
+                .EndWith("/>")
+                .And
+                .Contain("required=\"required\"");
         }
 
         public class TestModel

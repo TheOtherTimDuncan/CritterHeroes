@@ -6,15 +6,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AR.Test.FluentHtml
 {
     [TestClass]
-    public class InputTextElementTests : BaseFormElementTests
+    public class InputCheckboxElementTests : BaseFormElementTests
     {
         [TestMethod]
         public void SuccessfullySetsInputType()
         {
-            new InputTextElement(GetHtmlHelper())
+            new InputCheckboxElement(GetHtmlHelper())
                 .ToHtmlString()
                 .Should()
-                .Be(@"<input type=""text"" />");
+                .Be(@"<input type=""checkbox"" />");
         }
     }
 }

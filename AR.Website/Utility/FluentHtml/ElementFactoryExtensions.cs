@@ -27,5 +27,40 @@ namespace AR.Website.Utility.FluentHtml
         {
             return elementFactory.CreateElement<SpanElement>();
         }
+
+        public static InputButtonElement InputButton(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputButtonElement>();
+        }
+
+        public static InputCheckboxElement InputCheckbox(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputCheckboxElement>();
+        }
+
+        public static InputHiddenElement InputHidden(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputHiddenElement>();
+        }
+
+        public static InputPasswordElement InputPassword(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputPasswordElement>();
+        }
+
+        public static InputRadioElement InputRadio(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputRadioElement>();
+        }
+
+        public static InputSubmitElement InputSubmit(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputSubmitElement>();
+        }
+
+        public static InputTextElement InputText(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<InputTextElement>();
+        }
     }
 }
