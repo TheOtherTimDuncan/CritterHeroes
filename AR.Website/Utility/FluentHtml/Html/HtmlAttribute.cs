@@ -4,6 +4,7 @@ namespace AR.Website.Utility.FluentHtml.Html
 {
     public static class HtmlAttribute
     {
+        public const string AutoComplete = "autocomplete";
         public const string AutoFocus = "autofocus";
         public const string Class = "class";
         public const string HRef = "href";

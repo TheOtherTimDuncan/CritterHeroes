@@ -148,6 +148,7 @@
     <Compile Include="FluentHtml\InputPasswordElementTests.cs" />
     <Compile Include="FluentHtml\InputRadioElementTests.cs" />
     <Compile Include="FluentHtml\InputSubmitElementTests.cs" />
+    <Compile Include="FluentHtml\FormElementTests.cs" />
     <Compile Include="FluentHtml\UrlContextTests.cs" />
     <Compile Include="FluentHtml\UnorderedListTests.cs" />
     <Compile Include="FluentHtml\OrderedListTests.cs" />

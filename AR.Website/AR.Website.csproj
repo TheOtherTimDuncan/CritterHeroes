@@ -190,6 +190,7 @@
     <Compile Include="Utility\FluentHtml\Elements\BaseFormElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseInputElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\FormElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\InputButtonElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\InputCheckboxElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\InputHiddenElement.cs" />

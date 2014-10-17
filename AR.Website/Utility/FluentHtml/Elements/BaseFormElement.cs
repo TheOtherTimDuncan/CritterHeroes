@@ -40,9 +40,13 @@ namespace AR.Website.Utility.FluentHtml.Elements
 
         public T For<TModel>(Expression<Func<TModel, object>> expression)
         {
-            this.Name(GetElementNameFromExpression(expression));
+            string name = GetElementNameFromExpression(expression);
+
+            this.Name(name);
             this.ID(GetElementIDFromExpression(expression));
             this.ValueFor<TModel>(expression);
+            this.Builder.MergeAttributes(_htmlHelper.GetUnobtrusiveValidationAttributes(name));
+
             return (T)this;
         }
 

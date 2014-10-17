@@ -8,6 +8,11 @@ namespace AR.Website.Utility.FluentHtml
 {
     public static class ElementFactoryExtensions
     {
+        public static FormElement Form(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<FormElement>();
+        }
+
         public static LinkElement Link(this ElementFactory elementFactory)
         {
             return elementFactory.CreateElement<LinkElement>();

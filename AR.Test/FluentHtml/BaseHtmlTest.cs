@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace AR.Test.FluentHtml
             ViewContext result = new ViewContext();
             result.RouteData.Values["controller"] = "controller";
             result.RouteData.Values["action"] = "action";
+            result.Writer = new StringWriter();
             return result;
         }
 
