@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using AR.Website.Utility.FluentHtml;
 using AR.Website.Utility.FluentHtml.Elements;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +14,7 @@ namespace AR.Test.FluentHtml
     [TestClass]
     public class BaseFormElementTests : BaseElementTests
     {
-        private ViewDataDictionary<TestModel> GetViewData(TestModel model)
+        public ViewDataDictionary<TestModel> GetViewData(TestModel model)
         {
             ViewDataDictionary<TestModel> viewData = new ViewDataDictionary<TestModel>(model)
             {
@@ -22,32 +24,6 @@ namespace AR.Test.FluentHtml
             viewData.Model = model;
 
             return viewData;
-        }
-
-        [TestMethod]
-        public void SetsElementIDNameAndValueFromModelExpression()
-        {
-            TestModel model = new TestModel
-            {
-                StringProperty = "StringValue"
-            };
-
-            ViewDataDictionary<TestModel> viewData = GetViewData(model);
-            HtmlHelper<TestModel> htmlHelper = GetHtmlHelper(viewData);
-            new InputTextElement(htmlHelper)
-                .For<TestModel>(x => x.StringProperty)
-                .ToHtmlString().Should()
-                .StartWith("<input")
-                .And
-                .EndWith("/>")
-                .And
-                .Contain("id=\"StringProperty\"")
-                .And
-                .Contain("name=\"StringProperty\"")
-                .And
-                .Contain("type=\"text\"")
-                .And
-                .Contain("value=\"StringValue\"");
         }
 
         [TestMethod]
@@ -97,6 +73,13 @@ namespace AR.Test.FluentHtml
             }
 
             public string StringProperty
+            {
+                get;
+                set;
+            }
+
+            [Display(Name = "Display Label")]
+            public string DisplayProperty
             {
                 get;
                 set;

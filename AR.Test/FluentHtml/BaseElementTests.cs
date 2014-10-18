@@ -18,15 +18,6 @@ namespace AR.Test.FluentHtml
         }
 
         [TestMethod]
-        public void CreatesValidHtmlForElement()
-        {
-            new TestElement(GetHtmlHelper())
-                .ToHtmlString()
-                .Should()
-                .Be("<test></test>");
-        }
-
-        [TestMethod]
         public void SuccessfullyAddsAttribute()
         {
             new TestElement(GetHtmlHelper())

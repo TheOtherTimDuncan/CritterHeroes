@@ -13,6 +13,16 @@ namespace AR.Website.Utility.FluentHtml
             return elementFactory.CreateElement<FormElement>();
         }
 
+        public static LabelElement Label(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<LabelElement>();
+        }
+
+        public static LabelElement<T> Label<T>(this ElementFactory<T> elementFactory)
+        {
+            return elementFactory.CreateElement<LabelElement<T>>();
+        }
+
         public static LinkElement Link(this ElementFactory elementFactory)
         {
             return elementFactory.CreateElement<LinkElement>();
@@ -21,11 +31,6 @@ namespace AR.Website.Utility.FluentHtml
         public static ListItemElement ListItem(this ElementFactory elementFactory)
         {
             return elementFactory.CreateElement<ListItemElement>();
-        }
-
-        public static UnorderedListElement UnorderedList(this ElementFactory elementFactory)
-        {
-            return elementFactory.CreateElement<UnorderedListElement>();
         }
 
         public static SpanElement Span(this ElementFactory elementFactory)
@@ -48,9 +53,19 @@ namespace AR.Website.Utility.FluentHtml
             return elementFactory.CreateElement<InputHiddenElement>();
         }
 
+        public static InputHiddenElement<T> InputHidden<T>(this ElementFactory<T> elementFactory)
+        {
+            return elementFactory.CreateElement<InputHiddenElement<T>>();
+        }
+
         public static InputPasswordElement InputPassword(this ElementFactory elementFactory)
         {
             return elementFactory.CreateElement<InputPasswordElement>();
+        }
+
+        public static InputPasswordElement<T> InputPassword<T>(this ElementFactory<T> elementFactory)
+        {
+            return elementFactory.CreateElement<InputPasswordElement<T>>();
         }
 
         public static InputRadioElement InputRadio(this ElementFactory elementFactory)
@@ -66,6 +81,16 @@ namespace AR.Website.Utility.FluentHtml
         public static InputTextElement InputText(this ElementFactory elementFactory)
         {
             return elementFactory.CreateElement<InputTextElement>();
+        }
+
+        public static InputTextElement<T> InputText<T>(this ElementFactory<T> elementFactory)
+        {
+            return elementFactory.CreateElement<InputTextElement<T>>();
+        }
+
+        public static UnorderedListElement UnorderedList(this ElementFactory elementFactory)
+        {
+            return elementFactory.CreateElement<UnorderedListElement>();
         }
     }
 }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using AR.Website.Utility.FluentHtml.Contracts;
 using AR.Website.Utility.FluentHtml.Html;
 
@@ -25,7 +27,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
         {
             this.Tag = tag;
             this.Builder = new TagBuilder(tag);
-            this.UrlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
+            this.UrlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext, htmlHelper.RouteCollection);
             this.TagRenderMode = renderMode;
             this.ViewWriter = htmlHelper.ViewContext.Writer;
 
@@ -98,7 +100,7 @@ namespace AR.Website.Utility.FluentHtml.Elements
             set;
         }
 
-        public T ID (string elementID)
+        public T ID(string elementID)
         {
             this.ElementID = elementID;
             Builder.MergeAttribute(HtmlAttribute.ID, elementID);
@@ -163,6 +165,12 @@ namespace AR.Website.Utility.FluentHtml.Elements
         protected void AddInnerHtml(IHtmlString innerHtml)
         {
             _innerHtmlBuilder.Append(innerHtml.ToHtmlString());
+        }
+
+        protected string GetElementIDFromExpression(LambdaExpression expression)
+        {
+            string expressionName = ExpressionHelper.GetExpressionText(expression);
+            return _htmlHelper.Id(expressionName).ToHtmlString();
         }
     }
 }

@@ -198,6 +198,7 @@
     <Compile Include="Utility\FluentHtml\Elements\InputRadioElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\InputSubmitElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\InputTextElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\LabelElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
     <Compile Include="Utility\FluentHtml\Elements\Element.cs" />
     <Compile Include="Utility\FluentHtml\Elements\LinkElement.cs" />

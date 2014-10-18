@@ -18,15 +18,10 @@ namespace AR.Website.Utility.FluentHtml
             this._htmlHelper = htmlHelper;
         }
 
-        public T CreateElement<T>() where T : IElement
+        public virtual ElementType CreateElement<ElementType>() where ElementType : IElement
         {
-            T result = (T)Activator.CreateInstance(typeof(T), _htmlHelper);
-
-            foreach (IHtmlConvention convention in _conventions)
-            {
-                convention.ApplyConvention(result);
-            }
-
+            ElementType result = (ElementType)Activator.CreateInstance(typeof(ElementType), _htmlHelper);
+            ApplyConventions(result);
             return result;
         }
 
@@ -34,6 +29,33 @@ namespace AR.Website.Utility.FluentHtml
         {
             _conventions.Add(convention);
         }
+
+        protected void ApplyConventions(IElement element)
+        {
+            foreach (IHtmlConvention convention in _conventions)
+            {
+                convention.ApplyConvention(element);
+            }
+        }
+    }
+
+    public class ElementFactory<ModelType> : ElementFactory
+    {
+        private HtmlHelper<ModelType> _htmlHelper;
+
+        public ElementFactory(HtmlHelper<ModelType> htmlHelper)
+            : base(htmlHelper)
+        {
+            this._htmlHelper = htmlHelper;
+        }
+
+        public override ElementType CreateElement<ElementType>()
+        {
+            ElementType result = (ElementType)Activator.CreateInstance(typeof(ElementType), _htmlHelper);
+            ApplyConventions(result);
+            return result;
+        }
+
     }
 
     public static class ElementFactoryExtension
@@ -41,6 +63,11 @@ namespace AR.Website.Utility.FluentHtml
         public static ElementFactory FluentHtml(this HtmlHelper htmlHelper)
         {
             return new ElementFactory(htmlHelper);
+        }
+
+        public static ElementFactory<T> FluentHtml<T>(this HtmlHelper<T> htmlHelper)
+        {
+            return new ElementFactory<T>(htmlHelper);
         }
     }
 }

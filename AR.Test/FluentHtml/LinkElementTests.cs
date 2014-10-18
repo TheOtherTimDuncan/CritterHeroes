@@ -57,5 +57,15 @@ namespace AR.Test.FluentHtml
                 .Should()
                 .Be("<a href=\"http://www.google.com\"></a>");
         }
+
+        [TestMethod]
+        public void CorrectlySetsUrlFromControllerAction()
+        {
+            new LinkElement(GetHtmlHelper())
+                .ActionLink<TestController>(x => x.TestAction(1))
+                .ToHtmlString()
+                .Should()
+                .Be("<a href=\"/Test/TestAction?actionID=1\"></a>");
+        }
     }
 }

@@ -9,7 +9,7 @@ using AR.Website.Utility.FluentHtml.Html;
 
 namespace AR.Website.Utility.FluentHtml.Elements
 {
-    public class BaseFormElement<T>: Element<T> where T : BaseFormElement<T>
+    public class BaseFormElement<T> : Element<T> where T : BaseFormElement<T>
     {
         private HtmlHelper _htmlHelper;
 
@@ -31,29 +31,14 @@ namespace AR.Website.Utility.FluentHtml.Elements
             return (T)this;
         }
 
-        public T ValueFor<TModel>(Expression<Func<TModel, object>> expression)
-        {
-            string value = GetElementValueFromExpression(expression);
-            SetValue(value);
-            return (T)this;
-        }
-
-        public T For<TModel>(Expression<Func<TModel, object>> expression)
+        protected void SetAttributesFromModelProperty(LambdaExpression expression)
         {
             string name = GetElementNameFromExpression(expression);
 
             this.Name(name);
             this.ID(GetElementIDFromExpression(expression));
-            this.ValueFor<TModel>(expression);
+            this.SetValue(GetElementValueFromExpression(expression));
             this.Builder.MergeAttributes(_htmlHelper.GetUnobtrusiveValidationAttributes(name));
-
-            return (T)this;
-        }
-
-        protected string GetElementIDFromExpression(LambdaExpression expression)
-        {
-            string expressionName = ExpressionHelper.GetExpressionText(expression);
-            return _htmlHelper.Id(expressionName).ToHtmlString();
         }
 
         protected string GetElementNameFromExpression(LambdaExpression expression)

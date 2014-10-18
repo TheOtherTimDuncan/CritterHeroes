@@ -120,4 +120,11 @@ ul {
   color: #ffffff;
   background-color: #43ac6a;
 }
+/* Validation */
+.field-validation-error {
+  color: #f04124;
+}
+.validation-summary-errors {
+  color: #f04124;
+}
 /*# sourceMappingURL=Site.css.map */

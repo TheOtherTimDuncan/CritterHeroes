@@ -10,12 +10,18 @@ namespace AR.Test.FluentHtml
     public class FormElementTests : BaseElementTests
     {
         [TestMethod]
-        public void DefaultsFormMethodToPost()
+        public void DefaultsFormMethodToPostAndActionUrlToSelf()
         {
             new FormElement(GetHtmlHelper())
                 .ToHtmlString()
                 .Should()
-                .Be("<form method=\"post\"></form>");
+                .StartWith("<form")
+                .And
+                .Contain("method=\"post\"", because: "post is the default")
+                .And
+                .Contain("action=\"/test/action\"", because: "Test is default controller and Action is default Action from RouteData defaults")
+                .And
+                .EndWith("></form>");
         }
 
         [TestMethod]
@@ -25,7 +31,7 @@ namespace AR.Test.FluentHtml
                 .Method(FormMethod.Post)
                 .ToHtmlString()
                 .Should()
-                .Be("<form method=\"post\"></form>");
+                .Contain("method=\"post\"", because: "post is assigned to Method");
         }
 
         [TestMethod]
@@ -35,18 +41,64 @@ namespace AR.Test.FluentHtml
                 .Method(FormMethod.Get)
                 .ToHtmlString()
                 .Should()
-                .Be("<form method=\"get\"></form>");
+                .Contain("method=\"get\"", because: "get is assigned to Method");
+        }
+
+        [TestMethod]
+        public void CorrectlySetsFormActionToUrl()
+        {
+            new FormElement(GetHtmlHelper())
+                .Action("http://google.com")
+                .ToHtmlString()
+                .Should()
+                .StartWith("<form")
+                .And
+                .Contain("method=\"post\"", because: "post is the default")
+                .And
+                .Contain("action=\"http://google.com\"", because: "this is the url passed to action")
+                .And
+                .EndWith("></form>");
+        }
+
+        [TestMethod]
+        public void CorrectlySetsFormActionToControllerAction()
+        {
+            new FormElement(GetHtmlHelper())
+                .Action<TestController>(x => x.FormAction("returnUrl"))
+                .ToHtmlString()
+                .Should()
+                .StartWith("<form")
+                .And
+                .Contain("method=\"post\"", because: "post is the default")
+                .And
+                .Contain("action=\"/Test/FormAction?returnUrl=returnUrl\"", because: "this is the url for the controller action")
+                .And
+                .EndWith("></form>");
         }
 
         [TestMethod]
         public void CorrectlyStartsAndEndsTagInUsingBlock()
         {
             HtmlHelper htmlHelper = GetHtmlHelper();
+
             using (FormElement formElement = new FormElement(htmlHelper).Begin())
             {
-                htmlHelper.ViewContext.Writer.ToString().Should().Be("<form method=\"post\">");
+                htmlHelper
+                    .ViewContext
+                    .Writer
+                    .ToString()
+                    .Should()
+                    .StartWith("<form")
+                    .And
+                    .EndWith(">");
             }
-            htmlHelper.ViewContext.Writer.ToString().Should().Be("<form method=\"post\"></form>");
+
+            htmlHelper
+                .ViewContext
+                .Writer
+                .ToString()
+                .Should()
+                .EndWith("</form>");
         }
     }
 }

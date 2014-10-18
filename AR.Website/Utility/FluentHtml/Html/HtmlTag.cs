@@ -6,6 +6,7 @@ namespace AR.Website.Utility.FluentHtml.Html
     {
         public const string Form = "form";
         public const string Input = "input";
+        public const string Label = "label";
         public const string Link = "a";
         public const string ListItem = "li";
         public const string ListUnordered = "ul";
