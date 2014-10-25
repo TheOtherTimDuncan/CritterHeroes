@@ -42,6 +42,14 @@ namespace AR.Domain.Handlers.DataStatus
             return model;
         }
 
+        public virtual async Task<DataStatusModel> SyncModelAsync(IStorageContext source, IStorageContext target)
+        {
+            await target.DeleteAllAsync<T>();
+            IEnumerable<T> data = await source.GetAllAsync<T>();
+            await target.SaveAsync<T>(data);
+            return await GetModelStatusAsync(source, target);
+        }
+
         protected abstract void FillDataItem(DataItem dataItem, T source);
         protected abstract IEnumerable<T> Sort(IEnumerable<T> source);
 
@@ -81,5 +89,5 @@ namespace AR.Domain.Handlers.DataStatus
                 set;
             }
         }
-    }
+   }
 }

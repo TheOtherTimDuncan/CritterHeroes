@@ -167,16 +167,13 @@ namespace AR.Azure
             foreach (ITableEntity tableEntity in tableEntities)
             {
                 batchOperation.Add(operation(tableEntity));
+                batchCount++;
 
                 if (batchCount >= batchSize)
                 {
-                    await cloudTable.ExecuteBatchAsync(batchOperation);
+                    IEnumerable<TableResult> results = await cloudTable.ExecuteBatchAsync(batchOperation);
                     batchOperation.Clear();
                     batchCount = 0;
-                }
-                else
-                {
-                    batchCount++;
                 }
             }
 

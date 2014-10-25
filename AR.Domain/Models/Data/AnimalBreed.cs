@@ -4,16 +4,16 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace AR.Domain.Models.Data
 {
-    public class AnimalStatus
+    public class AnimalBreed
     {
-        public AnimalStatus(string id, string name, string description)
+        public AnimalBreed(string id, string species, string breedName)
         {
             ThrowIf.Argument.IsNullOrEmpty(id, "id");
-            ThrowIf.Argument.IsNullOrEmpty(name, "name");
+            ThrowIf.Argument.IsNullOrEmpty(species, "species");
 
             this.ID = id;
-            this.Name = name;
-            this.Description = description;
+            this.Species = species;
+            this.BreedName = breedName;
         }
 
         public string ID
@@ -22,13 +22,13 @@ namespace AR.Domain.Models.Data
             private set;
         }
 
-        public string Name
+        public string Species
         {
             get;
             private set;
         }
 
-        public string Description
+        public string BreedName
         {
             get;
             private set;
@@ -39,7 +39,7 @@ namespace AR.Domain.Models.Data
             return this.ID.GetHashCode();
         }
 
-        public bool Equals(AnimalStatus other)
+        public bool Equals(AnimalBreed other)
         {
             if (other == null)
             {
@@ -51,17 +51,17 @@ namespace AR.Domain.Models.Data
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as AnimalStatus);
+            return Equals(obj as AnimalBreed);
         }
 
-        public static bool operator ==(AnimalStatus animalStatus1, AnimalStatus animalStatus2)
+        public static bool operator ==(AnimalBreed animalBreed1, AnimalBreed animalBreed2)
         {
-            return Object.Equals(animalStatus1, animalStatus2);
+            return Object.Equals(animalBreed1, animalBreed2);
         }
 
-        public static bool operator !=(AnimalStatus animalStatus1, AnimalStatus animalStatus2)
+        public static bool operator !=(AnimalBreed animalBreed1, AnimalBreed animalBreed2)
         {
-            return !(animalStatus1 == animalStatus2);
+            return !(animalBreed1 == animalBreed2);
         }
     }
 }

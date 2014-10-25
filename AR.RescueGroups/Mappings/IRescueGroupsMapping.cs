@@ -19,6 +19,6 @@ namespace AR.RescueGroups.Mappings
             get;
         }
 
-        IEnumerable<T> ToModel(IEnumerable<JToken> values);
+        IEnumerable<T> ToModel(IEnumerable<JProperty> tokens);
     }
 }

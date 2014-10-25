@@ -6,6 +6,7 @@ using AR.Domain.Contracts;
 using AR.Domain.Handlers.DataStatus;
 using AR.Domain.Models.Data;
 using AR.Domain.Models.Status;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -15,43 +16,81 @@ namespace AR.Test.Models
     public class DataStatusTests
     {
         [TestMethod]
-        public async Task TestBehavior()
+        public async Task TestAnimalStatusBehavior()
         {
-            AnimalStatus[] entities1 = new AnimalStatus[] { new AnimalStatus("1", "Status1"), new AnimalStatus("2", "Status2") };
+            AnimalStatus[] entities1 = new AnimalStatus[] { new AnimalStatus("1", "Name1", "Status1"), new AnimalStatus("2", "Name2", "Status2") };
             IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalStatus>() == Task.FromResult<IEnumerable<AnimalStatus>>(entities1));
             context1.ID = 1;
 
-            AnimalStatus[] entities2 = new AnimalStatus[] { new AnimalStatus("2", "Status2"), new AnimalStatus("3", "Status3") };
+            AnimalStatus[] entities2 = new AnimalStatus[] { new AnimalStatus("2", "Name2", "Status2"), new AnimalStatus("3", "Name3", "Status3") };
             IStorageContext context2 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalStatus>() == Task.FromResult<IEnumerable<AnimalStatus>>(entities2));
             context2.ID = 2;
 
             IDataStatusHandler handler = new AnimalStatusStatusHandler();
             DataStatusModel model = await handler.GetModelStatusAsync(context1, context2);
 
-            Assert.AreEqual(2, model.Items.Count());
-            Assert.AreEqual(3, model.DataItemCount);
+            model.Items.Count().Should().Be(2);
+            model.DataItemCount.Should().Be(3);
 
             StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == context1.ID);
-            Assert.IsNotNull(storageItem1);
-            Assert.AreEqual(1, storageItem1.InvalidCount);
-            Assert.AreEqual(2, storageItem1.ValidCount);
+            storageItem1.Should().NotBeNull();
+            storageItem1.InvalidCount.Should().Be(1);
+            storageItem1.ValidCount.Should().Be(2);
+
             ValidateDataItem(storageItem1.Items.ElementAt(0), entities1[0].Name, true);
             ValidateDataItem(storageItem1.Items.ElementAt(1), entities1[1].Name, true);
             ValidateDataItem(storageItem1.Items.ElementAt(2), null, false);
 
             StorageItem storageItem2 = model.Items.FirstOrDefault(x => x.StorageID == context2.ID);
-            Assert.IsNotNull(storageItem2);
-            Assert.AreEqual(1, storageItem2.InvalidCount);
-            Assert.AreEqual(2, storageItem2.ValidCount);
+            storageItem2.Should().NotBeNull();
+            storageItem2.InvalidCount.Should().Be(1);
+            storageItem2.ValidCount.Should().Be(2);
+
             ValidateDataItem(storageItem2.Items.ElementAt(1), entities2[0].Name, true);
             ValidateDataItem(storageItem2.Items.ElementAt(2), entities2[1].Name, true);
             ValidateDataItem(storageItem2.Items.ElementAt(0), null, false);
         }
 
+        [TestMethod]
+        public async Task TestAnimalBreedBehavior()
+        {
+            AnimalBreed[] entities1 = new AnimalBreed[] { new AnimalBreed("1", "Species1", "Breed1"), new AnimalBreed("2", "Species2", "Breed2") };
+            IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalBreed>() == Task.FromResult<IEnumerable<AnimalBreed>>(entities1));
+            context1.ID = 1;
+
+            AnimalBreed[] entities2 = new AnimalBreed[] { new AnimalBreed("2", "Species2", "Breed2"), new AnimalBreed("3", "Species3", "Breed3") };
+            IStorageContext context2 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalBreed>() == Task.FromResult<IEnumerable<AnimalBreed>>(entities2));
+            context2.ID = 2;
+
+            IDataStatusHandler handler = new AnimalBreedStatusHandler();
+            DataStatusModel model = await handler.GetModelStatusAsync(context1, context2);
+
+            model.Items.Count().Should().Be(2);
+            model.DataItemCount.Should().Be(3);
+
+            StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == context1.ID);
+            storageItem1.Should().NotBeNull();
+            storageItem1.InvalidCount.Should().Be(1);
+            storageItem1.ValidCount.Should().Be(2);
+
+            ValidateDataItem(storageItem1.Items.ElementAt(0), entities1[0].Species + " - " + entities1[0].BreedName, true);
+            ValidateDataItem(storageItem1.Items.ElementAt(1), entities1[1].Species + " - " + entities1[1].BreedName, true);
+            ValidateDataItem(storageItem1.Items.ElementAt(2), null, false);
+
+            StorageItem storageItem2 = model.Items.FirstOrDefault(x => x.StorageID == context2.ID);
+            storageItem2.Should().NotBeNull();
+            storageItem2.InvalidCount.Should().Be(1);
+            storageItem2.ValidCount.Should().Be(2);
+
+            ValidateDataItem(storageItem2.Items.ElementAt(1), entities2[0].Species + " - " + entities2[0].BreedName, true);
+            ValidateDataItem(storageItem2.Items.ElementAt(2), entities2[1].Species + " - " + entities2[1].BreedName, true);
+            ValidateDataItem(storageItem2.Items.ElementAt(0), null, false);
+        }
+
         private void ValidateDataItem(DataItem dataItem, string expectedValue, bool isValid)
         {
-            Assert.AreEqual(expectedValue, dataItem.Value);
-            Assert.AreEqual(isValid, dataItem.IsValid);
+            dataItem.Value.Should().Be(expectedValue);
+            dataItem.IsValid.Should().Be(isValid);
         }
     }
 }

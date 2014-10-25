@@ -53,6 +53,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Configuration\RescueGroupsConfigurationSection.cs" />
+    <Compile Include="Mappings\AnimalBreedMapping.cs" />
     <Compile Include="Mappings\AnimalStatusMapping.cs" />
     <Compile Include="Mappings\BaseRescueGroupsMapping.cs" />
     <Compile Include="Mappings\IRescueGroupsMapping.cs" />

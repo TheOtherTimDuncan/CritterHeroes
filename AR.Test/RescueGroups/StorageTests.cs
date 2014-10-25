@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AR.Domain.Models.Data;
 using AR.RescueGroups;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TOTD.Utility.StringHelpers;
 
 namespace AR.Test.RescueGroups
 {
@@ -15,18 +16,11 @@ namespace AR.Test.RescueGroups
         public void GetsConfigurationFromConfigurationFileByDefalt()
         {
             RescueGroupsStorage storage = new RescueGroupsStorage();
-            Assert.IsFalse(storage.Url.IsNullOrEmpty());
-            Assert.IsFalse(storage.APIKey.IsNullOrEmpty());
-            Assert.IsFalse(storage.AccountNumber.IsNullOrEmpty());
-            Assert.IsFalse(storage.Username.IsNullOrEmpty());
-            Assert.IsFalse(storage.Password.IsNullOrEmpty());
-        }
-
-        [TestMethod]
-        public async Task TestGet()
-        {
-            RescueGroupsStorage storage = new RescueGroupsStorage();
-            IEnumerable<AnimalStatus> result = await storage.GetAllAsync<AnimalStatus>();
+            storage.Url.Should().NotBeNullOrEmpty();
+            storage.APIKey.Should().NotBeNullOrEmpty();
+            storage.AccountNumber.Should().NotBeNullOrEmpty();
+            storage.Username.Should().NotBeNullOrEmpty();
+            storage.Password.Should().NotBeNullOrEmpty();
         }
     }
 }

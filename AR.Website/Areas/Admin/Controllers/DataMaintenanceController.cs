@@ -62,16 +62,8 @@ namespace AR.Website.Areas.Admin.Controllers
                 return Json(null);
             }
 
-            IStorageContext azureContext = StorageSource.Azure.StorageContext;
-            await azureContext.DeleteAllAsync<AR.Domain.Models.Data.AnimalStatus>();
-
-            IStorageContext rgContext = StorageSource.RescueGroups.StorageContext;
-            IEnumerable<AR.Domain.Models.Data.AnimalStatus> data = await rgContext.GetAllAsync<AR.Domain.Models.Data.AnimalStatus>();
-
-            await azureContext.SaveAsync<AR.Domain.Models.Data.AnimalStatus>(data);
-
             IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(azureContext, rgContext);
+            DataStatusModel dataStatus = await statusHandler.SyncModelAsync(StorageSource.RescueGroups.StorageContext, StorageSource.Azure.StorageContext);
 
             DashboardItemStatus model = new DashboardItemStatus();
             model.TargetItem = dataStatus.Items.First(x => x.StorageID == StorageSource.Azure.Value);

@@ -22,6 +22,6 @@ namespace AR.RescueGroups.Mappings
             }
         }
 
-        public abstract IEnumerable<T> ToModel(IEnumerable<JToken> values);
+        public abstract IEnumerable<T> ToModel(IEnumerable<JProperty> tokens);
     }
 }

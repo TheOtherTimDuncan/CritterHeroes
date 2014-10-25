@@ -8,13 +8,13 @@ using Newtonsoft.Json.Linq;
 
 namespace AR.RescueGroups.Mappings
 {
-    public class AnimalStatusMapping : BaseRescueGroupsMapping<AnimalStatus>
+    public class AnimalBreedMapping : BaseRescueGroupsMapping<AnimalBreed>
     {
         public override string ObjectType
         {
             get
             {
-                return "animalStatuses";
+                return "animalBreeds";
             }
         }
 
@@ -26,11 +26,11 @@ namespace AR.RescueGroups.Mappings
             }
         }
 
-        public override IEnumerable<AnimalStatus> ToModel(IEnumerable<JProperty> tokens)
+        public override IEnumerable<AnimalBreed> ToModel(IEnumerable<JProperty> tokens)
         {
             return
                 from t in tokens
-                select new AnimalStatus(t.Name, t.Value.Value<string>("name"), t.Value.Value<string>("description"));
+                select new AnimalBreed(t.Name, t.Value.Value<string>("species"), t.Value.Value<string>("name"));
         }
     }
 }

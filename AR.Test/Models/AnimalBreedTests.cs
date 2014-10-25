@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using AR.Domain.Models.Data;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 
 namespace AR.Test.Models
 {
     [TestClass]
-    public class AnimalStatusTests
+    public class AnimalBreedTests
     {
         [TestMethod]
         public void InstancesWithSameIDAreEqual()
         {
-            AnimalStatus animalStatus1 = new AnimalStatus("1", "name", "description 1");
-            AnimalStatus animalStatus2 = new AnimalStatus("1", "name", "description 2");
+            AnimalBreed animalStatus1 = new AnimalBreed("1", "species", "breed 1");
+            AnimalBreed animalStatus2 = new AnimalBreed("1", "species", "breed 2");
             animalStatus1.Should().Be(animalStatus2);
         }
 
         [TestMethod]
         public void InstancesWithDifferentIDAreNotEqual()
         {
-            AnimalStatus animalStatus1 = new AnimalStatus("1", "name1", "description");
-            AnimalStatus animalStatus2 = new AnimalStatus("2", "name2", "description");
+            AnimalBreed animalStatus1 = new AnimalBreed("1", "species", "breed 1");
+            AnimalBreed animalStatus2 = new AnimalBreed("2", "species", "breed 2");
             animalStatus1.Should().NotBe(animalStatus2);
         }
 
@@ -30,7 +32,7 @@ namespace AR.Test.Models
         [ExpectedException(typeof(ArgumentNullException))]
         public void ThrowsExceptionIfCreatedWithInvalidName()
         {
-            AnimalStatus test = new AnimalStatus(null, null, null);
+            AnimalBreed test = new AnimalBreed(null, null, null);
         }
     }
 }

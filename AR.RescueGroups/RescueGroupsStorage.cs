@@ -103,7 +103,7 @@ namespace AR.RescueGroups
             ValidateResponse(response);
 
             JObject data = response.Value<JObject>("data");
-            return mapping.ToModel(data.Values());
+            return mapping.ToModel(data.Properties());
         }
 
         public async Task SaveAsync<T>(T entity) where T : class

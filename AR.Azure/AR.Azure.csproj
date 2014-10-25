@@ -84,6 +84,7 @@
     <Compile Include="Identity\UserStore.cs" />
     <Compile Include="Logging\AzureErrorLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\AnimalBreedStorageEntity.cs" />
     <Compile Include="Storage\AnimalStatusStorageEntity.cs" />
     <Compile Include="Storage\StorageEntity.cs" />
     <Compile Include="Storage\StorageEntityFactory.cs" />

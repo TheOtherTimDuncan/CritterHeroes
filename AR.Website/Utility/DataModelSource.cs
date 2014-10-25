@@ -11,12 +11,18 @@ namespace AR.Website.Utility
     public class DataModelSource : Enumeration<DataModelSource>
     {
         public static readonly DataModelSource AnimalStatus = new DataModelSource(0, "Animal Status", () => DataStatusHandlerFactory.AnimalStatus());
+        public static readonly DataModelSource AnimalBreed = new DataModelSource(1, "Animal Breeds", () => DataStatusHandlerFactory.AnimalBreed());
 
         private static class DataStatusHandlerFactory
         {
             public static IDataStatusHandler AnimalStatus()
             {
                 return new AnimalStatusStatusHandler();
+            }
+
+            public static IDataStatusHandler AnimalBreed()
+            {
+                return new AnimalBreedStatusHandler();
             }
         }
 
