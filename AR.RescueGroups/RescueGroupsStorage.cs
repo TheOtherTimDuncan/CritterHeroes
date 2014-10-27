@@ -126,7 +126,7 @@ namespace AR.RescueGroups
             throw new NotImplementedException();
         }
 
-        private JObject CreateRequest(params JProperty[] requestProperties)
+        public JObject CreateRequest(params JProperty[] requestProperties)
         {
             // API key is required for all requests
             JObject result = new JObject(new JProperty("apikey", APIKey));
@@ -137,7 +137,7 @@ namespace AR.RescueGroups
             return result;
         }
 
-        private async Task<IEnumerable<JProperty>> LoginAsync()
+        public async Task<IEnumerable<JProperty>> LoginAsync()
         {
             JObject request = CreateRequest
             (
@@ -177,7 +177,7 @@ namespace AR.RescueGroups
             }
         }
 
-        private async Task<JObject> GetDataAsync(JObject request)
+        public async Task<JObject> GetDataAsync(JObject request)
         {
             using (HttpClient client = new HttpClient())
             {
