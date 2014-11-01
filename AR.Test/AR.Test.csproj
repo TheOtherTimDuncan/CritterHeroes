@@ -164,6 +164,9 @@
     <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\StorageTests.cs" />
     <Compile Include="ActionHelperTests.cs" />
+    <Compile Include="StateManagementTests\BaseContextTest.cs" />
+    <Compile Include="StateManagementTests\OrganizationContextTests.cs" />
+    <Compile Include="StateManagementTests\StateManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AR.Azure\AR.Azure.csproj">
