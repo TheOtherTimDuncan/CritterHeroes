@@ -218,6 +218,42 @@
     <Compile Include="Utility\UrlHelperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="apple-touch-icon-114x114.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-120x120.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-144x144.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-152x152.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-180x180.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-57x57.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-60x60.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-72x72.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-76x76.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-precomposed.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="browserconfig.xml">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
     <Content Include="Content\Images\spinner.gif" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.css.map">
@@ -238,6 +274,21 @@
     </Content>
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="favicon-160x160.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-16x16.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-192x192.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-32x32.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-96x96.png">
+      <DependentUpon>favicon.ico</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -270,6 +321,21 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="mstile-144x144.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-150x150.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-310x150.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-310x310.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-70x70.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
     <Content Include="Scripts\ar.cdnFallback.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
