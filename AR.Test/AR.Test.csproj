@@ -134,6 +134,7 @@
   <ItemGroup>
     <Compile Include="Azure\StorageEntityTests\AnimalBreedStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\AnimalStatusStorageEntityTests.cs" />
+    <Compile Include="Azure\StorageEntityTests\OrganizationStorageEntityTests.cs" />
     <Compile Include="Azure\StorageTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
     <Compile Include="Azure\IdentityTests.cs" />
