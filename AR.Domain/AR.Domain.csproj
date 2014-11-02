@@ -40,10 +40,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -61,11 +59,13 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseException.cs" />
+    <Compile Include="Contracts\IAppConfiguration.cs" />
     <Compile Include="Contracts\IDataStatusHandler.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
+    <Compile Include="Contracts\IStateManager.cs" />
     <Compile Include="Contracts\IStorageContext.cs" />
-    <Compile Include="Dependency\DependencyContainer.cs" />
-    <Compile Include="Dependency\DependencyModule.cs" />
+    <Compile Include="Contracts\IStorageContextForModel.cs" />
+    <Compile Include="Handlers\CreateOrganizationContext.cs" />
     <Compile Include="Handlers\DataStatus\AnimalBreedStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\AnimalStatusStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\BaseModelStatusHandler.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Models\Data\AnimalStatus.cs" />
     <Compile Include="Models\Status\StorageItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\AppConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

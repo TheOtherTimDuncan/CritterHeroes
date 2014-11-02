@@ -11,7 +11,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace AR.Domain.StateManagement
 {
-    public class StateManager<T>
+    public class StateManager<T> : IStateManager<T>
     {
         private IHttpContext _httpContext;
         private string _key;

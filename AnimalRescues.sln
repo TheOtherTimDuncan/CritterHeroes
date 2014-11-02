@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AR.Website", "AR.Website\AR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AR.RescueGroupsExplorer", "AR.RescueGroupsExplorer\AR.RescueGroupsExplorer.csproj", "{7392F72B-38E5-4532-A906-9F23080D9ADB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AR.Dependency", "AR.Dependency\AR.Dependency.csproj", "{43126EA6-B797-4F4A-A920-4B7019DE7D2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{7392F72B-38E5-4532-A906-9F23080D9ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7392F72B-38E5-4532-A906-9F23080D9ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7392F72B-38E5-4532-A906-9F23080D9ADB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43126EA6-B797-4F4A-A920-4B7019DE7D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43126EA6-B797-4F4A-A920-4B7019DE7D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43126EA6-B797-4F4A-A920-4B7019DE7D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43126EA6-B797-4F4A-A920-4B7019DE7D2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

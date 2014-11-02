@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ninject;
 
-namespace AR.Domain.Dependency
+namespace AR.Dependency
 {
     public class DependencyContainer
     {

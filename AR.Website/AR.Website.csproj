@@ -409,6 +409,10 @@
       <Project>{a2a9c940-8aab-4b6a-a80f-6e60afa8e5fc}</Project>
       <Name>AR.Azure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AR.Dependency\AR.Dependency.csproj">
+      <Project>{43126ea6-b797-4f4a-a920-4b7019de7d2f}</Project>
+      <Name>AR.Dependency</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AR.Domain\AR.Domain.csproj">
       <Project>{ecfeb381-b713-4e8b-a591-660e70cd33ac}</Project>
       <Name>AR.Domain</Name>

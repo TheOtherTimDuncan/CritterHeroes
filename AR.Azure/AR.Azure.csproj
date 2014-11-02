@@ -80,9 +80,11 @@
   <ItemGroup>
     <Compile Include="AzureException.cs" />
     <Compile Include="AzureStorage.cs" />
+    <Compile Include="AzureStorageForModel.cs" />
     <Compile Include="Identity\IdentityUserMapping.cs" />
     <Compile Include="Identity\UserStore.cs" />
     <Compile Include="Logging\AzureErrorLog.cs" />
+    <Compile Include="OrganizationAzureStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Data\AnimalBreedStorageEntity.cs" />
     <Compile Include="Storage\Data\AnimalStatusStorageEntity.cs" />
