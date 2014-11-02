@@ -14,10 +14,5 @@ namespace AR.Website.Utility
         {
             return urlHelper.Action<HomeController>(actionSelector);
         }
-
-        public static string Blob(this UrlHelper urlHelper, string filename)
-        {
-            return string.Format("{0}/{1}/{2}", ConfigurationManager.AppSettings["BlobBaseUrl"], ConfigurationManager.AppSettings["Account"], filename.ToLower());
-        }
     }
 }

@@ -21,5 +21,13 @@ namespace AR.Domain.Proxies
                 throw new ApplicationException("Organization ID not found or invalid: " + setting);
             }
         }
+
+        public string BlobBaseUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BlobBaseUrl"];
+            }
+        }
     }
 }

@@ -13,7 +13,8 @@ namespace AR.Domain.StateManagement
                 OrganizationID = organization.ID,
                 FullName = organization.FullName,
                 ShortName = organization.ShortName,
-                AzureTableName = organization.AzureTableName,
+                AzureName = organization.AzureName,
+                LogoFilename = organization.LogoFilename,
                 SupportedCritters = organization.SupportedCritters
             };
         }
@@ -36,7 +37,13 @@ namespace AR.Domain.StateManagement
             set;
         }
 
-        public string AzureTableName
+        public string AzureName
+        {
+            get;
+            set;
+        }
+
+        public string LogoFilename
         {
             get;
             set;

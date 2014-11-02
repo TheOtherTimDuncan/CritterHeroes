@@ -7,10 +7,11 @@ using System.Web.Mvc;
 using AR.Domain.Identity;
 using AR.Website.Models;
 using AR.Website.Utility;
+using TOTD.Utility.Misc;
 
 namespace AR.Website.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -23,7 +24,17 @@ namespace AR.Website.Controllers
         {
             MenuModel model = new MenuModel();
             model.CurrentUser = User;
+            model.OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName);
             return PartialView("_Menu", model);
+        }
+
+        [ChildActionOnly]
+        [AllowAnonymous]
+        public PartialViewResult Logo()
+        {
+            LogoModel model = new LogoModel();
+            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
+            return PartialView(model);
         }
     }
 }

@@ -16,7 +16,7 @@ using Microsoft.Owin.Security;
 
 namespace AR.Website.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationUserManager _userManager;
         private IAuthenticationManager _authenticationManager;

@@ -24,7 +24,8 @@ namespace AR.Azure.Storage
             tableEntity["ID"] = new EntityProperty(entity.ID);
             tableEntity["FullName"] = new EntityProperty(entity.FullName);
             tableEntity["ShortName"] = new EntityProperty(entity.ShortName);
-            tableEntity["AzureTableName"] = new EntityProperty(entity.AzureTableName);
+            tableEntity["AzureName"] = new EntityProperty(entity.AzureName);
+            tableEntity["LogoFilename"] = new EntityProperty(entity.LogoFilename);
             tableEntity["SupportedCritters"] = new EntityProperty(string.Join("|", entity.SupportedCritters));
         }
 
@@ -40,7 +41,8 @@ namespace AR.Azure.Storage
             {
                 FullName = tableEntity["FullName"].StringValue,
                 ShortName = tableEntity["ShortName"].StringValue,
-                AzureTableName = tableEntity["AzureTableName"].StringValue,
+                AzureName = tableEntity["AzureName"].StringValue,
+                LogoFilename = tableEntity["LogoFilename"].StringValue,
                 SupportedCritters = tableEntity["SupportedCritters"].StringValue.IfNotNull(x => x.Split('|'))
             };
         }

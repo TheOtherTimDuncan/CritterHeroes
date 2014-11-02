@@ -12,5 +12,11 @@ namespace AR.Website.Models
             get;
             set;
         }
+
+        public string OrganizationShortName
+        {
+            get;
+            set;
+        }
     }
 }

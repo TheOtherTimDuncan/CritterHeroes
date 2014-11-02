@@ -9,5 +9,10 @@ namespace AR.Domain.Contracts
         {
             get;
         }
+
+        string BlobBaseUrl
+        {
+            get;
+        }
     }
 }

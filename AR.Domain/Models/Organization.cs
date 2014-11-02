@@ -34,7 +34,13 @@ namespace AR.Domain.Models
             set;
         }
 
-        public string AzureTableName
+        public string AzureName
+        {
+            get;
+            set;
+        }
+
+        public string LogoFilename
         {
             get;
             set;

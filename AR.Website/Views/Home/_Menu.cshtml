@@ -9,8 +9,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img src="@Url.Blob("logo.svg")" class="logo-small pull-left" />
-            @Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text("FFLAH").Class("navbar-brand")
+            <img src="@Model.LogoUrl" class="logo-small pull-left" />
+            @Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text(Model.OrganizationShortName).Class("navbar-brand")
         </div>
         <div class="navbar-collapse collapse">
             @{

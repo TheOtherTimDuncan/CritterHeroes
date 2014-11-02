@@ -21,7 +21,8 @@ namespace AR.Test.Azure.StorageEntityTests
             {
                 FullName = "FullName",
                 ShortName = "ShortName",
-                AzureTableName = "Azure",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
                 SupportedCritters = new string[] { "Critter1", "Critter2" }
             };
 
@@ -29,11 +30,12 @@ namespace AR.Test.Azure.StorageEntityTests
             storageEntity.Should().NotBeNull();
 
             storageEntity.Entity = organization;
-            storageEntity.TableEntity.Properties.Count.Should().Be(5);
+            storageEntity.TableEntity.Properties.Count.Should().Be(6);
             storageEntity.TableEntity["ID"].GuidValue.Should().Be(organization.ID);
             storageEntity.TableEntity["FullName"].StringValue.Should().Be(organization.FullName);
             storageEntity.TableEntity["ShortName"].StringValue.Should().Be(organization.ShortName);
-            storageEntity.TableEntity["AzureTableName"].StringValue.Should().Be(organization.AzureTableName);
+            storageEntity.TableEntity["AzureName"].StringValue.Should().Be(organization.AzureName);
+            storageEntity.TableEntity["LogoFilename"].StringValue.Should().Be(organization.LogoFilename);
             storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("Critter1|Critter2");
         }
 
@@ -44,7 +46,8 @@ namespace AR.Test.Azure.StorageEntityTests
             {
                 FullName = "FullName",
                 ShortName = "ShortName",
-                AzureTableName = "Azure",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
                 SupportedCritters = new string[] { "Critter1", "Critter2" }
             };
 
@@ -59,7 +62,8 @@ namespace AR.Test.Azure.StorageEntityTests
             storageEntity2.Entity.ID.Should().Be(organization.ID);
             storageEntity2.Entity.FullName.Should().Be(organization.FullName);
             storageEntity2.Entity.ShortName.Should().Be(organization.ShortName);
-            storageEntity2.Entity.AzureTableName.Should().Be(organization.AzureTableName);
+            storageEntity2.Entity.AzureName.Should().Be(organization.AzureName);
+            storageEntity2.Entity.LogoFilename.Should().Be(organization.LogoFilename);
             storageEntity2.Entity.SupportedCritters.Should().Equal(organization.SupportedCritters);
         }
 
@@ -70,7 +74,8 @@ namespace AR.Test.Azure.StorageEntityTests
             {
                 FullName = "FullName",
                 ShortName = "ShortName",
-                AzureTableName = "Azure",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
                 SupportedCritters = new string[] { "Critter1", "Critter2" }
             };
 
@@ -81,7 +86,8 @@ namespace AR.Test.Azure.StorageEntityTests
             result.Should().NotBeNull();
             result.FullName.Should().Be(organization.FullName);
             result.ShortName.Should().Be(organization.ShortName);
-            result.AzureTableName.Should().Be(organization.AzureTableName);
+            result.AzureName.Should().Be(organization.AzureName);
+            result.LogoFilename.Should().Be(organization.LogoFilename);
             result.SupportedCritters.Should().Equal(organization.SupportedCritters);
 
             await storage.DeleteAsync<Organization>(organization);

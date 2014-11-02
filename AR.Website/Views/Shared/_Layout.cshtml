@@ -43,9 +43,7 @@
     <div class="page-banner">
         <div class="container">
             <div class="row">
-                <div class="col-md-2 col-sm-4">
-                    <img src="@Url.Blob("logo.svg")" class="logo-medium" />
-                </div>
+                <div class="col-md-2 col-sm-4">@{Html.RenderHomeAction(x => x.Logo());}</div>
                 <div class="col-md-7 col-sm-4">
                     <blockquote>
                         <p>I believe in animal rights, and high among them is the right to the gentle stroke of a human hand.</p>
