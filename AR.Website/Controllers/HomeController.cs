@@ -25,6 +25,7 @@ namespace AR.Website.Controllers
             MenuModel model = new MenuModel();
             model.CurrentUser = User;
             model.OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName);
+            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
             return PartialView("_Menu", model);
         }
 

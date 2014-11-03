@@ -18,5 +18,11 @@ namespace AR.Website.Models
             get;
             set;
         }
+
+        public string LogoUrl
+        {
+            get;
+            set;
+        }
     }
 }
