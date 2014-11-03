@@ -160,3 +160,5 @@ AR.Azure/Azure.config
 AR.RescueGroups/RescueGroups.config
 ConfigLinks.bat
 Devices.xlsx
+AR.Website/Azure.config
+AR.Website/RescueGroups.config
