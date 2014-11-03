@@ -20,19 +20,23 @@ namespace AR.Test.Models
         {
             AnimalStatus[] entities1 = new AnimalStatus[] { new AnimalStatus("1", "Name1", "Status1"), new AnimalStatus("2", "Name2", "Status2") };
             IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalStatus>() == Task.FromResult<IEnumerable<AnimalStatus>>(entities1));
-            context1.ID = 1;
+            Mock<IStorageSource> mockSource1 = new Mock<IStorageSource>();
+            mockSource1.Setup(x => x.ID).Returns(1);
+            mockSource1.Setup(x => x.StorageContext).Returns(context1);
 
             AnimalStatus[] entities2 = new AnimalStatus[] { new AnimalStatus("2", "Name2", "Status2"), new AnimalStatus("3", "Name3", "Status3") };
             IStorageContext context2 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalStatus>() == Task.FromResult<IEnumerable<AnimalStatus>>(entities2));
-            context2.ID = 2;
+            Mock<IStorageSource> mockSource2 = new Mock<IStorageSource>();
+            mockSource2.Setup(x => x.ID).Returns(2);
+            mockSource2.Setup(x => x.StorageContext).Returns(context2);
 
             IDataStatusHandler handler = new AnimalStatusStatusHandler();
-            DataStatusModel model = await handler.GetModelStatusAsync(context1, context2);
+            DataStatusModel model = await handler.GetModelStatusAsync(mockSource1.Object, mockSource2.Object);
 
             model.Items.Count().Should().Be(2);
             model.DataItemCount.Should().Be(3);
 
-            StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == context1.ID);
+            StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == mockSource1.Object.ID);
             storageItem1.Should().NotBeNull();
             storageItem1.InvalidCount.Should().Be(1);
             storageItem1.ValidCount.Should().Be(2);
@@ -41,7 +45,7 @@ namespace AR.Test.Models
             ValidateDataItem(storageItem1.Items.ElementAt(1), entities1[1].Name, true);
             ValidateDataItem(storageItem1.Items.ElementAt(2), null, false);
 
-            StorageItem storageItem2 = model.Items.FirstOrDefault(x => x.StorageID == context2.ID);
+            StorageItem storageItem2 = model.Items.FirstOrDefault(x => x.StorageID == mockSource2.Object.ID);
             storageItem2.Should().NotBeNull();
             storageItem2.InvalidCount.Should().Be(1);
             storageItem2.ValidCount.Should().Be(2);
@@ -56,19 +60,23 @@ namespace AR.Test.Models
         {
             AnimalBreed[] entities1 = new AnimalBreed[] { new AnimalBreed("1", "Species1", "Breed1"), new AnimalBreed("2", "Species2", "Breed2") };
             IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalBreed>() == Task.FromResult<IEnumerable<AnimalBreed>>(entities1));
-            context1.ID = 1;
+            Mock<IStorageSource> mockSource1 = new Mock<IStorageSource>();
+            mockSource1.Setup(x => x.ID).Returns(1);
+            mockSource1.Setup(x => x.StorageContext).Returns(context1);
 
             AnimalBreed[] entities2 = new AnimalBreed[] { new AnimalBreed("2", "Species2", "Breed2"), new AnimalBreed("3", "Species3", "Breed3") };
             IStorageContext context2 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalBreed>() == Task.FromResult<IEnumerable<AnimalBreed>>(entities2));
-            context2.ID = 2;
+            Mock<IStorageSource> mockSource2 = new Mock<IStorageSource>();
+            mockSource2.Setup(x => x.ID).Returns(2);
+            mockSource2.Setup(x => x.StorageContext).Returns(context2);
 
             IDataStatusHandler handler = new AnimalBreedStatusHandler();
-            DataStatusModel model = await handler.GetModelStatusAsync(context1, context2);
+            DataStatusModel model = await handler.GetModelStatusAsync(mockSource1.Object, mockSource2.Object);
 
             model.Items.Count().Should().Be(2);
             model.DataItemCount.Should().Be(3);
 
-            StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == context1.ID);
+            StorageItem storageItem1 = model.Items.FirstOrDefault(x => x.StorageID == mockSource1.Object.ID);
             storageItem1.Should().NotBeNull();
             storageItem1.InvalidCount.Should().Be(1);
             storageItem1.ValidCount.Should().Be(2);
@@ -77,7 +85,7 @@ namespace AR.Test.Models
             ValidateDataItem(storageItem1.Items.ElementAt(1), entities1[1].Species + " - " + entities1[1].BreedName, true);
             ValidateDataItem(storageItem1.Items.ElementAt(2), null, false);
 
-            StorageItem storageItem2 = model.Items.FirstOrDefault(x => x.StorageID == context2.ID);
+            StorageItem storageItem2 = model.Items.FirstOrDefault(x => x.StorageID == mockSource2.Object.ID);
             storageItem2.Should().NotBeNull();
             storageItem2.InvalidCount.Should().Be(1);
             storageItem2.ValidCount.Should().Be(2);

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using AR.Website.Utility;
+using AR.Domain.Contracts;
 
 namespace AR.Website.Areas.Admin.Models
 {
     public class DashboardStorageItem
     {
-        public DashboardStorageItem(StorageSource storageSource)
+        public DashboardStorageItem(IStorageSource storageSource)
         {
-            this.StorageSourceID = storageSource.Value;
+            this.StorageSourceID = storageSource.ID;
             this.Title = storageSource.Title;
         }
 

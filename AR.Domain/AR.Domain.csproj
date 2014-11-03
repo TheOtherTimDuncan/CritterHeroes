@@ -65,6 +65,7 @@
     <Compile Include="Contracts\IStateManager.cs" />
     <Compile Include="Contracts\IStorageContext.cs" />
     <Compile Include="Contracts\IStorageContextForModel.cs" />
+    <Compile Include="Contracts\IStorageSource.cs" />
     <Compile Include="Handlers\DataStatus\AnimalBreedStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\AnimalStatusStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\BaseModelStatusHandler.cs" />

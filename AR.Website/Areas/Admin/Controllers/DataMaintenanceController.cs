@@ -9,21 +9,23 @@ using AR.Domain.Identity;
 using AR.Domain.Models.Status;
 using AR.Website.Areas.Admin.Json;
 using AR.Website.Areas.Admin.Models;
+using AR.Website.Controllers;
+using AR.Website.Sources.Storage;
 using AR.Website.Utility;
 
 namespace AR.Website.Areas.Admin.Controllers
 {
     [RouteArea(AreaName.Admin)]
     [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
-    public class DataMaintenanceController : Controller
+    public class DataMaintenanceController : BaseController
     {
         [HttpGet]
         public ViewResult Dashboard()
         {
             DashboardModel model = new DashboardModel();
 
-            model.TargetStorageItem = new DashboardStorageItem(StorageSource.Azure);
-            model.SourceStorageItem = new DashboardStorageItem(StorageSource.RescueGroups);
+            model.TargetStorageItem = new DashboardStorageItem(GetTarget());
+            model.SourceStorageItem = new DashboardStorageItem(GetSource());
 
             model.Items =
                 from m in DataModelSource.GetAll()
@@ -41,13 +43,15 @@ namespace AR.Website.Areas.Admin.Controllers
                 return Json(null);
             }
 
-            IEnumerable<IStorageContext> storageContexts = StorageSource.GetAll().Select(x => x.StorageContext);
+            IStorageSource target = GetTarget();
+            IStorageSource source = GetSource();
+
             IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(storageContexts.ToArray());
+            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(target, source);
 
             DashboardItemStatus model = new DashboardItemStatus();
-            model.TargetItem = dataStatus.Items.First(x => x.StorageID == StorageSource.Azure.Value);
-            model.SourceItem = dataStatus.Items.First(x => x.StorageID == StorageSource.RescueGroups.Value);
+            model.TargetItem = dataStatus.Items.First(x => x.StorageID == target.ID);
+            model.SourceItem = dataStatus.Items.First(x => x.StorageID == source.ID);
             model.DataItemCount = dataStatus.DataItemCount;
 
             return Json(model);
@@ -62,15 +66,28 @@ namespace AR.Website.Areas.Admin.Controllers
                 return Json(null);
             }
 
+            IStorageSource target = GetTarget();
+            IStorageSource source = GetSource();
+
             IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.SyncModelAsync(StorageSource.RescueGroups.StorageContext, StorageSource.Azure.StorageContext);
+            DataStatusModel dataStatus = await statusHandler.SyncModelAsync(source, target);
 
             DashboardItemStatus model = new DashboardItemStatus();
-            model.TargetItem = dataStatus.Items.First(x => x.StorageID == StorageSource.Azure.Value);
-            model.SourceItem = dataStatus.Items.First(x => x.StorageID == StorageSource.RescueGroups.Value);
+            model.TargetItem = dataStatus.Items.First(x => x.StorageID == target.ID);
+            model.SourceItem = dataStatus.Items.First(x => x.StorageID == source.ID);
             model.DataItemCount = dataStatus.DataItemCount;
 
             return Json(model);
+        }
+
+        private IStorageSource GetTarget()
+        {
+            return new AzureStorageSource(OrganizationContext.AzureName);
+        }
+
+        private IStorageSource GetSource()
+        {
+            return new RescueGroupsStorageSource();
         }
     }
 }

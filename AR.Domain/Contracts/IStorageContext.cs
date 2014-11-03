@@ -8,13 +8,6 @@ namespace AR.Domain.Contracts
 {
     public interface IStorageContext
     {
-        // ID will be managed by website not by individual contexts
-        int ID
-        {
-            get;
-            set;
-        }
-
         Task<T> GetAsync<T>(string entityID) where T : class;
         Task<IEnumerable<T>> GetAllAsync<T>() where T : class;
 

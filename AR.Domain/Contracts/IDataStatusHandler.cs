@@ -9,7 +9,7 @@ namespace AR.Domain.Contracts
 {
     public interface IDataStatusHandler
     {
-        Task<DataStatusModel> GetModelStatusAsync(params IStorageContext[] storageContexts);
-        Task<DataStatusModel> SyncModelAsync(IStorageContext source, IStorageContext target);
+        Task<DataStatusModel> GetModelStatusAsync(params IStorageSource[] storageSources);
+        Task<DataStatusModel> SyncModelAsync(IStorageSource source, IStorageSource target);
     }
 }

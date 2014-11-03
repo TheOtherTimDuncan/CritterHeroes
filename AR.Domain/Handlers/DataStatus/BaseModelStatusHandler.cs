@@ -10,12 +10,12 @@ namespace AR.Domain.Handlers.DataStatus
 {
     public abstract class BaseModelStatusHandler<T> : IDataStatusHandler where T : class
     {
-        public async Task<DataStatusModel> GetModelStatusAsync(params IStorageContext[] storageContexts)
+        public async Task<DataStatusModel> GetModelStatusAsync(params IStorageSource[] storageSources)
         {
             // Get data items from each storage context
             IEnumerable<DataResult> dataResults = await Task.WhenAll
             (
-                from x in storageContexts
+                from x in storageSources
                 select GetDataResult(x)
             );
 
@@ -42,11 +42,11 @@ namespace AR.Domain.Handlers.DataStatus
             return model;
         }
 
-        public virtual async Task<DataStatusModel> SyncModelAsync(IStorageContext source, IStorageContext target)
+        public virtual async Task<DataStatusModel> SyncModelAsync(IStorageSource source, IStorageSource target)
         {
-            await target.DeleteAllAsync<T>();
-            IEnumerable<T> data = await source.GetAllAsync<T>();
-            await target.SaveAsync<T>(data);
+            await target.StorageContext.DeleteAllAsync<T>();
+            IEnumerable<T> data = await source.StorageContext.GetAllAsync<T>();
+            await target.StorageContext.SaveAsync<T>(data);
             return await GetModelStatusAsync(source, target);
         }
 
@@ -66,12 +66,12 @@ namespace AR.Domain.Handlers.DataStatus
             return result;
         }
 
-        private async Task<DataResult> GetDataResult(IStorageContext storageContext)
+        private async Task<DataResult> GetDataResult(IStorageSource storageSource)
         {
             return new DataResult()
             {
-                StorageID = storageContext.ID,
-                Items = await storageContext.GetAllAsync<T>()
+                StorageID = storageSource.ID,
+                Items = await storageSource.StorageContext.GetAllAsync<T>()
             };
         }
 
