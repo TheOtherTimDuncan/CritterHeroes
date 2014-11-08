@@ -156,11 +156,9 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
-AR.Azure/Azure.config
-AR.RescueGroups/RescueGroups.config
+CH.Azure/Azure.config
+CH.RescueGroups/RescueGroups.config
 ConfigLinks.bat
 Devices.xlsx
-AR.Website/Azure.config
-AR.Website/RescueGroups.config
 CH.Website/Azure.config
 CH.Website/RescueGroups.config
