@@ -44,7 +44,7 @@
             .toggle(storageItem.InvalidCount > 0);
     }
 
-    function addDataItem(parentElement, item, originalVisibility, iconClass) {
+    function addDataItem(parentElement, itemValue, originalVisibility, iconClass, textClass) {
         parentElement.append(
             $('<div>')
                 .toggle(originalVisibility)
@@ -52,12 +52,13 @@
                 .attr('data-item-container', '')
                 .append(
                     $('<div>')
-                        .addClass('col-xs-10')
-                        .text(item.Value)
+                        .addClass('col-xs-10 border-right')
+                        .addClass(textClass)
+                        .text(itemValue)
                 )
                 .append(
                     $('<div>')
-                        .addClass('col-xs-2 border-left')
+                        .addClass('col-xs-2')
                         .append(
                             $('<span>')
                                 .addClass(iconClass)
@@ -94,21 +95,27 @@
                 var targetItem = data.TargetItem.Items[i];
                 var sourceItem = data.SourceItem.Items[i];
 
-                var targetClass = '';
+                var targetIconClass = '';
+                var targetTextClass = '';
+                var targetValue = targetItem.Value;
                 if (!targetItem.Value && sourceItem.Value) {
-                    targetClass = 'glyphicon glyphicon-arrow-left text-warning';
+                    targetIconClass = 'glyphicon glyphicon-arrow-left text-warning';
+                    targetTextClass = 'text-transparent';
+                    targetValue = sourceItem.Value;
                 } else if (targetItem.Value && !sourceItem.Value) {
-                    targetClass = 'glyphicon glyphicon-remove text-danger';
+                    targetIconClass = 'glyphicon glyphicon-remove text-danger';
                 }
 
-                var sourceClass = '';
+                var sourceIconClass = '';
+                var sourceTextClass = '';
+                var sourceValue = sourceItem.Value;
                 if (targetItem.Value && sourceItem.Value && (targetItem.Value === sourceItem.Value)) {
-                    sourceClass = 'glyphicon glyphicon-ok text-success';
-                    targetClass = sourceClass;
+                    sourceIconClass = 'glyphicon glyphicon-ok text-success';
+                    targetIconClass = sourceIconClass;
                 }
 
-                addDataItem(target, targetItem, originalVisibility, targetClass);
-                addDataItem(source, sourceItem, originalVisibility, sourceClass);
+                addDataItem(target, targetValue, originalVisibility, targetIconClass, targetTextClass);
+                addDataItem(source, sourceValue, originalVisibility, sourceIconClass, sourceTextClass);
             }
 
             indicator.hide();

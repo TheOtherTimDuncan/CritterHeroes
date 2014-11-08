@@ -36,6 +36,9 @@ ul {
     display: inline-block;
   }
 }
+.text-transparent {
+  color: #ffffff;
+}
 .page-banner blockquote {
   border-style: none;
   margin-bottom: 0;
