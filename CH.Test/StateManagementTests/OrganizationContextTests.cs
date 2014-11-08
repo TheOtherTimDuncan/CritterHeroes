@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Handlers;
 using CH.Domain.Models;
+using CH.Domain.Models.Data;
 using CH.Domain.StateManagement;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,7 +27,11 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new string[] { "Critter1", "Critter2" }
+                SupportedCritters = new Species[] 
+                { 
+                    new Species("1","singular-1","plural-2", null, null),
+                    new Species("2","singular-2","plural-2", null, null) 
+                }
             };
 
             OrganizationStateManager stateManager = new OrganizationStateManager(GetMockHttpContext().Object);
@@ -49,7 +54,11 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new string[] { "Critter1", "Critter2" }
+                SupportedCritters = new Species[] 
+                { 
+                    new Species("1","singular-1","plural-2", null, null),
+                    new Species("2","singular-2","plural-2", null, null) 
+                }
             };
 
             OrganizationContext context = OrganizationContext.FromOrganization(organization);

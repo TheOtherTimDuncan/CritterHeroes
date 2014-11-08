@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Models;
+using CH.Domain.Models.Data;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using TOTD.Utility.Misc;
 
 namespace CH.Azure.Storage
@@ -26,7 +28,7 @@ namespace CH.Azure.Storage
             tableEntity["ShortName"] = new EntityProperty(entity.ShortName);
             tableEntity["AzureName"] = new EntityProperty(entity.AzureName);
             tableEntity["LogoFilename"] = new EntityProperty(entity.LogoFilename);
-            tableEntity["SupportedCritters"] = new EntityProperty(string.Join("|", entity.SupportedCritters));
+            tableEntity["SupportedCritters"] = new EntityProperty(JsonConvert.SerializeObject(entity.SupportedCritters));
         }
 
         protected override Organization CreateEntityFromStorage(DynamicTableEntity tableEntity)
@@ -43,7 +45,7 @@ namespace CH.Azure.Storage
                 ShortName = tableEntity["ShortName"].StringValue,
                 AzureName = tableEntity["AzureName"].StringValue,
                 LogoFilename = tableEntity["LogoFilename"].StringValue,
-                SupportedCritters = tableEntity["SupportedCritters"].StringValue.IfNotNull(x => x.Split('|'))
+                SupportedCritters = JsonConvert.DeserializeObject<IEnumerable<Species>>( tableEntity["SupportedCritters"].StringValue)
             };
         }
     }

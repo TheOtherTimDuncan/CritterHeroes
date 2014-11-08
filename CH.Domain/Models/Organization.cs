@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CH.Domain.Models.Data;
 
 namespace CH.Domain.Models
 {
@@ -46,7 +47,7 @@ namespace CH.Domain.Models
             set;
         }
 
-        public IEnumerable<string> SupportedCritters
+        public IEnumerable<Species> SupportedCritters
         {
             get;
             set;

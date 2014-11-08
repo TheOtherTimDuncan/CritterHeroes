@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CH.Azure;
 using CH.Azure.Storage;
 using CH.Domain.Models;
+using CH.Domain.Models.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,7 +24,11 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new string[] { "Critter1", "Critter2" }
+                SupportedCritters = new Species[] 
+                { 
+                    new Species("1","singular-1","plural-2", null, null),
+                    new Species("2","singular-2","plural-2", null, null) 
+                }
             };
 
             StorageEntity<Organization> storageEntity = StorageEntityFactory.GetStorageEntity<Organization>();
@@ -36,7 +41,26 @@ namespace CH.Test.Azure.StorageEntityTests
             storageEntity.TableEntity["ShortName"].StringValue.Should().Be(organization.ShortName);
             storageEntity.TableEntity["AzureName"].StringValue.Should().Be(organization.AzureName);
             storageEntity.TableEntity["LogoFilename"].StringValue.Should().Be(organization.LogoFilename);
-            storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("Critter1|Critter2");
+            storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("[{\"Name\":\"1\",\"Singular\":\"singular-1\",\"Plural\":\"plural-2\",\"YoungSingular\":null,\"YoungPlural\":null},{\"Name\":\"2\",\"Singular\":\"singular-2\",\"Plural\":\"plural-2\",\"YoungSingular\":null,\"YoungPlural\":null}]");
+        }
+
+        [TestMethod]
+        public void SuccessfullyMapsEntityToStorageWithNullSupportedCritters()
+        {
+            Organization organization = new Organization()
+            {
+                FullName = "FullName",
+                ShortName = "ShortName",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
+                SupportedCritters = null
+            };
+
+            StorageEntity<Organization> storageEntity = StorageEntityFactory.GetStorageEntity<Organization>();
+            storageEntity.Should().NotBeNull();
+
+            storageEntity.Entity = organization;
+            storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("null");
         }
 
         [TestMethod]
@@ -48,7 +72,11 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new string[] { "Critter1", "Critter2" }
+                SupportedCritters = new Species[] 
+                { 
+                    new Species("1","singular-1","plural-2", null, null),
+                    new Species("2","singular-2","plural-2", null, null) 
+                }
             };
 
             StorageEntity<Organization> storageEntity1 = StorageEntityFactory.GetStorageEntity<Organization>();
@@ -68,6 +96,29 @@ namespace CH.Test.Azure.StorageEntityTests
         }
 
         [TestMethod]
+        public void SuccessfullyMapsStorageWithNullSupportedCrittersToEntity()
+        {
+            Organization organization = new Organization()
+            {
+                FullName = "FullName",
+                ShortName = "ShortName",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
+                SupportedCritters = null
+            };
+
+            StorageEntity<Organization> storageEntity1 = StorageEntityFactory.GetStorageEntity<Organization>();
+            storageEntity1.Should().NotBeNull();
+            storageEntity1.Entity = organization;
+
+            StorageEntity<Organization> storageEntity2 = StorageEntityFactory.GetStorageEntity<Organization>();
+            storageEntity2.Should().NotBeNull();
+            storageEntity2.TableEntity = storageEntity1.TableEntity;
+
+            storageEntity2.Entity.SupportedCritters.Should().BeNull();
+        }
+
+        [TestMethod]
         public async Task TestCRUDSingle()
         {
             Organization organization = new Organization()
@@ -76,7 +127,11 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new string[] { "Critter1", "Critter2" }
+                SupportedCritters = new Species[] 
+                { 
+                    new Species("1","singular-1","plural-2", null, null),
+                    new Species("2","singular-2","plural-2", null, null) 
+                }
             };
 
             AzureStorage storage = new AzureStorage("organization");
@@ -93,6 +148,26 @@ namespace CH.Test.Azure.StorageEntityTests
             await storage.DeleteAsync<Organization>(organization);
             Organization deleted = await storage.GetAsync<Organization>(organization.ID.ToString());
             deleted.Should().BeNull();
+        }
+
+        //[TestMethod]
+        public async Task Seed()
+        {
+            Organization organization = new Organization(Guid.Parse("71a22c0b-23fb-4fc0-96a8-792474c80953"))
+            {
+                FullName = "Friends For Life Animal Haven",
+                ShortName = "FFLAH",
+                AzureName = "fflah",
+                LogoFilename = "logo.svg",
+                SupportedCritters = new Species[] 
+                { 
+                    new Species("Cat","Cat","Cats", "Kitten", "Kittens"),
+                    new Species("Dog","Dog","Dogs", "Puppy", "Puppies") 
+                }
+            };
+
+            AzureStorage storage = new AzureStorage("organization");
+            await storage.SaveAsync<Organization>(organization);
         }
     }
 }

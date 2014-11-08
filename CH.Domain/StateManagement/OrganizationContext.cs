@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CH.Domain.Models;
+using CH.Domain.Models.Data;
 
 namespace CH.Domain.StateManagement
 {
@@ -49,7 +50,7 @@ namespace CH.Domain.StateManagement
             set;
         }
 
-        public IEnumerable<string> SupportedCritters
+        public IEnumerable<Species> SupportedCritters
         {
             get;
             set;
