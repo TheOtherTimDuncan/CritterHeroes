@@ -8,9 +8,9 @@ using CH.Domain.Models.Status;
 
 namespace CH.Domain.Handlers.DataStatus
 {
-    public class AnimalBreedStatusHandler : BaseModelStatusHandler<AnimalBreed>
+    public class AnimalBreedStatusHandler : BaseModelStatusHandler<Breed>
     {
-        protected override void FillDataItem(DataItem dataItem, AnimalBreed source)
+        protected override void FillDataItem(DataItem dataItem, Breed source)
         {
             dataItem.Value = source.Species;
             if (source.BreedName != null)
@@ -19,7 +19,7 @@ namespace CH.Domain.Handlers.DataStatus
             }
         }
 
-        protected override IEnumerable<AnimalBreed> Sort(IEnumerable<AnimalBreed> source)
+        protected override IEnumerable<Breed> Sort(IEnumerable<Breed> source)
         {
             return source.OrderBy(x => x.Species).ThenBy(x => x.BreedName);
         }

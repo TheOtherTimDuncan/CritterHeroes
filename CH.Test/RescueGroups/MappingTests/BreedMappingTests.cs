@@ -13,13 +13,13 @@ using Newtonsoft.Json.Linq;
 namespace CH.Test.RescueGroups.MappingTests
 {
     [TestClass]
-    public class AnimalBreedMappingTests
+    public class BreedMappingTests
     {
-        public IRescueGroupsMapping<AnimalBreed> Mapping
+        public IRescueGroupsMapping<Breed> Mapping
         {
             get
             {
-                return RescueGroupsMappingFactory.GetMapping<AnimalBreed>();
+                return RescueGroupsMappingFactory.GetMapping<Breed>();
             }
         }
 
@@ -32,8 +32,8 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public void ConvertsJsonResultToModel()
         {
-            AnimalBreed animalStatus1 = new AnimalBreed("1", "Species 1", "Breed 1");
-            AnimalBreed animalStatus2 = new AnimalBreed("2", "Species 2", "Breed 2");
+            Breed animalStatus1 = new Breed("1", "Species 1", "Breed 1");
+            Breed animalStatus2 = new Breed("2", "Species 2", "Breed 2");
 
             JProperty element1 = new JProperty("1", new JObject(new JProperty("species", animalStatus1.Species), new JProperty("name", animalStatus1.BreedName)));
             JProperty element2 = new JProperty("2", new JObject(new JProperty("species", animalStatus2.Species), new JProperty("name", animalStatus2.BreedName)));
@@ -42,15 +42,15 @@ namespace CH.Test.RescueGroups.MappingTests
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<AnimalBreed> animalBreeds = Mapping.ToModel(data.Properties());
+            IEnumerable<Breed> animalBreeds = Mapping.ToModel(data.Properties());
             animalBreeds.Should().HaveCount(2);
 
-            AnimalBreed result1 = animalBreeds.FirstOrDefault(x => x.ID == animalStatus1.ID);
+            Breed result1 = animalBreeds.FirstOrDefault(x => x.ID == animalStatus1.ID);
             result1.Should().NotBeNull();
             result1.Species.Should().Be(animalStatus1.Species);
             result1.BreedName.Should().Be(animalStatus1.BreedName);
 
-            AnimalBreed result2 = animalBreeds.FirstOrDefault(x => x.ID == animalStatus2.ID);
+            Breed result2 = animalBreeds.FirstOrDefault(x => x.ID == animalStatus2.ID);
             result2.Should().NotBeNull();
             result2.Species.Should().Be(animalStatus2.Species);
             result2.BreedName.Should().Be(animalStatus2.BreedName);
@@ -60,7 +60,7 @@ namespace CH.Test.RescueGroups.MappingTests
         public async Task TestGetAnimalBreed()
         {
             RescueGroupsStorage storage = new RescueGroupsStorage();
-            (await storage.GetAllAsync<AnimalBreed>()).ToList().Should().NotBeEmpty();
+            (await storage.GetAllAsync<Breed>()).ToList().Should().NotBeEmpty();
         }
     }
 }

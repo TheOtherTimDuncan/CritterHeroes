@@ -132,7 +132,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Azure\StorageEntityTests\AnimalBreedStorageEntityTests.cs" />
+    <Compile Include="Azure\StorageEntityTests\BreedStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\AnimalStatusStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\OrganizationStorageEntityTests.cs" />
     <Compile Include="Azure\StorageTests.cs" />
@@ -156,11 +156,11 @@
     <Compile Include="FluentHtml\UrlContextTests.cs" />
     <Compile Include="FluentHtml\UnorderedListTests.cs" />
     <Compile Include="FluentHtml\OrderedListTests.cs" />
-    <Compile Include="Models\AnimalBreedTests.cs" />
+    <Compile Include="Models\BreedTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
     <Compile Include="Models\DataStatusTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RescueGroups\MappingTests\AnimalBreedMappingTests.cs" />
+    <Compile Include="RescueGroups\MappingTests\BreedMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\StorageTests.cs" />
     <Compile Include="ActionHelperTests.cs" />

@@ -58,14 +58,14 @@ namespace CH.Test.Models
         [TestMethod]
         public async Task TestAnimalBreedBehavior()
         {
-            AnimalBreed[] entities1 = new AnimalBreed[] { new AnimalBreed("1", "Species1", "Breed1"), new AnimalBreed("2", "Species2", "Breed2") };
-            IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalBreed>() == Task.FromResult<IEnumerable<AnimalBreed>>(entities1));
+            Breed[] entities1 = new Breed[] { new Breed("1", "Species1", "Breed1"), new Breed("2", "Species2", "Breed2") };
+            IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<Breed>() == Task.FromResult<IEnumerable<Breed>>(entities1));
             Mock<IStorageSource> mockSource1 = new Mock<IStorageSource>();
             mockSource1.Setup(x => x.ID).Returns(1);
             mockSource1.Setup(x => x.StorageContext).Returns(context1);
 
-            AnimalBreed[] entities2 = new AnimalBreed[] { new AnimalBreed("2", "Species2", "Breed2"), new AnimalBreed("3", "Species3", "Breed3") };
-            IStorageContext context2 = Mock.Of<IStorageContext>(x => x.GetAllAsync<AnimalBreed>() == Task.FromResult<IEnumerable<AnimalBreed>>(entities2));
+            Breed[] entities2 = new Breed[] { new Breed("2", "Species2", "Breed2"), new Breed("3", "Species3", "Breed3") };
+            IStorageContext context2 = Mock.Of<IStorageContext>(x => x.GetAllAsync<Breed>() == Task.FromResult<IEnumerable<Breed>>(entities2));
             Mock<IStorageSource> mockSource2 = new Mock<IStorageSource>();
             mockSource2.Setup(x => x.ID).Returns(2);
             mockSource2.Setup(x => x.StorageContext).Returns(context2);

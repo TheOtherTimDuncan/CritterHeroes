@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace CH.Azure.Storage.Data
 {
-    public class AnimalBreedStorageEntity : StorageEntity<AnimalBreed>
+    public class BreedStorageEntity : StorageEntity<Breed>
     {
         public override string RowKey
         {
@@ -18,16 +18,16 @@ namespace CH.Azure.Storage.Data
             }
         }
 
-        protected override void CopyEntityToStorage(DynamicTableEntity tableEntity, AnimalBreed entity)
+        protected override void CopyEntityToStorage(DynamicTableEntity tableEntity, Breed entity)
         {
             tableEntity["ID"] = new EntityProperty(entity.ID);
             tableEntity["Species"] = new EntityProperty(entity.Species);
             tableEntity["BreedName"] = new EntityProperty(entity.BreedName);
         }
 
-        protected override AnimalBreed CreateEntityFromStorage(DynamicTableEntity tableEntity)
+        protected override Breed CreateEntityFromStorage(DynamicTableEntity tableEntity)
         {
-            return new AnimalBreed(tableEntity["ID"].StringValue, tableEntity["Species"].StringValue, tableEntity["BreedName"].StringValue);
+            return new Breed(tableEntity["ID"].StringValue, tableEntity["Species"].StringValue, tableEntity["BreedName"].StringValue);
         }
     }
 }

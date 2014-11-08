@@ -4,9 +4,9 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Domain.Models.Data
 {
-    public class AnimalBreed
+    public class Breed
     {
-        public AnimalBreed(string id, string species, string breedName)
+        public Breed(string id, string species, string breedName)
         {
             ThrowIf.Argument.IsNullOrEmpty(id, "id");
             ThrowIf.Argument.IsNullOrEmpty(species, "species");
@@ -39,7 +39,7 @@ namespace CH.Domain.Models.Data
             return this.ID.GetHashCode();
         }
 
-        public bool Equals(AnimalBreed other)
+        public bool Equals(Breed other)
         {
             if (other == null)
             {
@@ -51,15 +51,15 @@ namespace CH.Domain.Models.Data
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as AnimalBreed);
+            return Equals(obj as Breed);
         }
 
-        public static bool operator ==(AnimalBreed animalBreed1, AnimalBreed animalBreed2)
+        public static bool operator ==(Breed animalBreed1, Breed animalBreed2)
         {
             return Object.Equals(animalBreed1, animalBreed2);
         }
 
-        public static bool operator !=(AnimalBreed animalBreed1, AnimalBreed animalBreed2)
+        public static bool operator !=(Breed animalBreed1, Breed animalBreed2)
         {
             return !(animalBreed1 == animalBreed2);
         }

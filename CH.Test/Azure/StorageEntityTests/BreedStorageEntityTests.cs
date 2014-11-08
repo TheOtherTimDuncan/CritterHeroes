@@ -12,14 +12,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CH.Test.Azure.StorageEntityTests
 {
     [TestClass]
-    public class AnimalBreedStorageEntityTests
+    public class BreedStorageEntityTests
     {
         [TestMethod]
         public void SuccessfullyMapsEntityToStorage()
         {
-            AnimalBreed animalBreed = new AnimalBreed("0", "species", "breed");
+            Breed animalBreed = new Breed("0", "species", "breed");
 
-            StorageEntity<AnimalBreed> storageEntity = StorageEntityFactory.GetStorageEntity<AnimalBreed>();
+            StorageEntity<Breed> storageEntity = StorageEntityFactory.GetStorageEntity<Breed>();
             storageEntity.Should().NotBeNull();
 
             storageEntity.Entity = animalBreed;
@@ -32,13 +32,13 @@ namespace CH.Test.Azure.StorageEntityTests
         [TestMethod]
         public void SuccessfullyMapsStorageToEntity()
         {
-            AnimalBreed animalBreed = new AnimalBreed("0", "species", "breed");
+            Breed animalBreed = new Breed("0", "species", "breed");
 
-            StorageEntity<AnimalBreed> storageEntity1 = StorageEntityFactory.GetStorageEntity<AnimalBreed>();
+            StorageEntity<Breed> storageEntity1 = StorageEntityFactory.GetStorageEntity<Breed>();
             storageEntity1.Should().NotBeNull();
             storageEntity1.Entity = animalBreed;
 
-            StorageEntity<AnimalBreed> storageEntity2 = StorageEntityFactory.GetStorageEntity<AnimalBreed>();
+            StorageEntity<Breed> storageEntity2 = StorageEntityFactory.GetStorageEntity<Breed>();
             storageEntity2.Should().NotBeNull();
             storageEntity2.TableEntity = storageEntity1.TableEntity;
 
@@ -50,16 +50,16 @@ namespace CH.Test.Azure.StorageEntityTests
         [TestMethod]
         public async Task TestCRUDSingle()
         {
-            AnimalBreed animalStatus = new AnimalBreed("0", "Species", "Breed");
+            Breed animalStatus = new Breed("0", "Species", "Breed");
             AzureStorage storage = new AzureStorage("fflah");
-            await storage.SaveAsync<AnimalBreed>(animalStatus);
+            await storage.SaveAsync<Breed>(animalStatus);
 
-            AnimalBreed result = await storage.GetAsync<AnimalBreed>(animalStatus.ID);
+            Breed result = await storage.GetAsync<Breed>(animalStatus.ID);
             result.Should().NotBeNull();
             result.Species.Should().Be(animalStatus.Species);
             result.BreedName.Should().Be(animalStatus.BreedName);
 
-            await storage.DeleteAsync<AnimalBreed>(animalStatus);
+            await storage.DeleteAsync<Breed>(animalStatus);
             AnimalStatus deleted = await storage.GetAsync<AnimalStatus>(animalStatus.ID);
             deleted.Should().BeNull();
         }
@@ -69,27 +69,27 @@ namespace CH.Test.Azure.StorageEntityTests
         {
             AzureStorage storage = new AzureStorage("fflah");
 
-            AnimalBreed animalBreed1 = new AnimalBreed("1", "Species1", "Breed1");
-            AnimalBreed animalBreed2 = new AnimalBreed("2", "Species2", "Breed2");
+            Breed animalBreed1 = new Breed("1", "Species1", "Breed1");
+            Breed animalBreed2 = new Breed("2", "Species2", "Breed2");
 
-            await storage.SaveAsync<AnimalBreed>(new AnimalBreed[] { animalBreed1, animalBreed2 });
+            await storage.SaveAsync<Breed>(new Breed[] { animalBreed1, animalBreed2 });
 
-            IEnumerable<AnimalBreed> results = await storage.GetAllAsync<AnimalBreed>();
+            IEnumerable<Breed> results = await storage.GetAllAsync<Breed>();
             results.Count().Should().BeGreaterOrEqualTo(2);
 
-            AnimalBreed result1 = results.FirstOrDefault(x => x.ID == animalBreed1.ID);
+            Breed result1 = results.FirstOrDefault(x => x.ID == animalBreed1.ID);
             result1.Should().NotBeNull();
             result1.Species.Should().Be(animalBreed1.Species);
             result1.BreedName.Should().Be(animalBreed1.BreedName);
 
-            AnimalBreed result2 = results.FirstOrDefault(x => x.ID == animalBreed2.ID);
+            Breed result2 = results.FirstOrDefault(x => x.ID == animalBreed2.ID);
             result2.Should().NotBeNull();
             result2.Species.Should().Be(animalBreed2.Species);
             result2.BreedName.Should().Be(animalBreed2.BreedName);
 
-            await storage.DeleteAllAsync<AnimalBreed>();
+            await storage.DeleteAllAsync<Breed>();
 
-            IEnumerable<AnimalBreed> deleted = await storage.GetAllAsync<AnimalBreed>();
+            IEnumerable<Breed> deleted = await storage.GetAllAsync<Breed>();
             deleted.Should().BeNullOrEmpty();
         }
     }

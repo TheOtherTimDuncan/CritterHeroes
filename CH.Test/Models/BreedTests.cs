@@ -4,27 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Models.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CH.Test.Models
 {
     [TestClass]
-    public class AnimalBreedTests
+    public class BreedTests
     {
         [TestMethod]
         public void InstancesWithSameIDAreEqual()
         {
-            AnimalBreed animalStatus1 = new AnimalBreed("1", "species", "breed 1");
-            AnimalBreed animalStatus2 = new AnimalBreed("1", "species", "breed 2");
+            Breed animalStatus1 = new Breed("1", "species", "breed 1");
+            Breed animalStatus2 = new Breed("1", "species", "breed 2");
             animalStatus1.Should().Be(animalStatus2);
         }
 
         [TestMethod]
         public void InstancesWithDifferentIDAreNotEqual()
         {
-            AnimalBreed animalStatus1 = new AnimalBreed("1", "species", "breed 1");
-            AnimalBreed animalStatus2 = new AnimalBreed("2", "species", "breed 2");
+            Breed animalStatus1 = new Breed("1", "species", "breed 1");
+            Breed animalStatus2 = new Breed("2", "species", "breed 2");
             animalStatus1.Should().NotBe(animalStatus2);
         }
 
@@ -32,7 +32,7 @@ namespace CH.Test.Models
         [ExpectedException(typeof(ArgumentNullException))]
         public void ThrowsExceptionIfCreatedWithInvalidName()
         {
-            AnimalBreed test = new AnimalBreed(null, null, null);
+            Breed test = new Breed(null, null, null);
         }
     }
 }
