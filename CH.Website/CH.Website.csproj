@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CBEBF271-EA44-467F-A1BE-0F44C7C6BDB9}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CH.Website</RootNamespace>
+    <AssemblyName>CH.Website</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>true</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="TOTD.Utility, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TOTD.Utility.1.0.3.0\lib\net451\TOTD.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DefaultHtmlConventions.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Identity\ApplicationUserManager.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorLogController.cs" />
+    <Compile Include="Areas\Admin\Json\DashboardItemStatus.cs" />
+    <Compile Include="Areas\Admin\Json\DashboardStorageItemStatus.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardModel.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardStorageItem.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\LogoModel.cs" />
+    <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="Sources\Storage\AzureStorageSource.cs" />
+    <Compile Include="Sources\Storage\RescueGroupsStorageSource.cs" />
+    <Compile Include="Utility\ActionHelper.cs" />
+    <Compile Include="Utility\AreaName.cs" />
+    <Compile Include="Utility\DataModelSource.cs" />
+    <Compile Include="Utility\ElementExtensions.cs" />
+    <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
+    <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNav.cs" />
+    <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNavItem.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IContainerElement.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IElement.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IHtmlConvention.cs" />
+    <Compile Include="Utility\FluentHtml\Contracts\IUrlContext.cs" />
+    <Compile Include="Utility\FluentHtml\Conventions\HtmlConvention.cs" />
+    <Compile Include="Utility\FluentHtml\Conventions\HtmlConventionBuilder.cs" />
+    <Compile Include="Utility\FluentHtml\ElementFactory.cs" />
+    <Compile Include="Utility\FluentHtml\ElementFactoryExtensions.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseFormElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseInputElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\FormElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputButtonElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputCheckboxElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputHiddenElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputPasswordElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputRadioElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputSubmitElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\InputTextElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\LabelElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\Element.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\LinkElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\BaseListElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\OrderedListElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\SpanElement.cs" />
+    <Compile Include="Utility\FluentHtml\Elements\UnorderedListElement.cs" />
+    <Compile Include="Utility\FluentHtml\ExternalUrlContext.cs" />
+    <Compile Include="Utility\FluentHtml\Html\HtmlAttribute.cs" />
+    <Compile Include="Utility\FluentHtml\Html\HtmlInputType.cs" />
+    <Compile Include="Utility\FluentHtml\InternalUrlContext.cs" />
+    <Compile Include="Utility\FluentHtml\Html\HtmlTag.cs" />
+    <Compile Include="Utility\FluentHtml\RouteDataKeys.cs" />
+    <Compile Include="Utility\HtmlHelperExtensions.cs" />
+    <Compile Include="Utility\ActionExtensions.cs" />
+    <Compile Include="Utility\UrlHelperExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="apple-touch-icon-114x114.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-120x120.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-144x144.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-152x152.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-180x180.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-57x57.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-60x60.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-72x72.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-76x76.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon-precomposed.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="apple-touch-icon.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="browserconfig.xml">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="Content\Images\spinner.gif" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.css.map">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-theme.min.css">
+      <DependentUpon>bootstrap-theme.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="favicon-160x160.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-16x16.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-192x192.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-32x32.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon-96x96.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css.map">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.yeti.css">
+      <DependentUpon>bootstrap.yeti.less</DependentUpon>
+    </Content>
+    <Content Include="Content\variables.less">
+      <DependentUpon>bootstrap.yeti.less</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Views\ErrorLog\Index.cshtml" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Content Include="Areas\Admin\Views\DataMaintenance\Dashboard.cshtml" />
+    <None Include="Content\bootstrap.yeti.less" />
+    <Content Include="Content\bootstrap.yeti.min.css">
+      <DependentUpon>bootstrap.yeti.css</DependentUpon>
+    </Content>
+    <None Include="Content\Site.less" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="..\CH.Azure\Azure.config">
+      <Link>Azure.config</Link>
+    </Content>
+    <Content Include="..\CH.RescueGroups\RescueGroups.config">
+      <Link>RescueGroups.config</Link>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="mstile-144x144.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-150x150.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-310x150.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-310x310.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="mstile-70x70.png">
+      <DependentUpon>favicon.ico</DependentUpon>
+    </Content>
+    <Content Include="Scripts\ch.cdnFallback.js" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\ch.data-dashboard.js" />
+    <Content Include="Scripts\ch.data.js" />
+    <Content Include="Scripts\bootstrap-3.2.0.js" />
+    <Content Include="Scripts\bootstrap-3.2.0.min.js">
+      <DependentUpon>bootstrap-3.2.0.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-2.1.1.min.map">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery.validate-vsdoc.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\modernizr-2.7.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Home\_Menu.cshtml" />
+    <Content Include="Views\Home\Logo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CH.Azure\CH.Azure.csproj">
+      <Project>{a2a9c940-8aab-4b6a-a80f-6e60afa8e5fc}</Project>
+      <Name>CH.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CH.Dependency\CH.Dependency.csproj">
+      <Project>{43126ea6-b797-4f4a-a920-4b7019de7d2f}</Project>
+      <Name>CH.Dependency</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CH.Domain\CH.Domain.csproj">
+      <Project>{ecfeb381-b713-4e8b-a591-660e70cd33ac}</Project>
+      <Name>CH.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CH.RescueGroups\CH.RescueGroups.csproj">
+      <Project>{4ef58bb8-b2ff-49b3-bd1f-ef59f58dc1b5}</Project>
+      <Name>CH.RescueGroups</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63102</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44300/totd</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
