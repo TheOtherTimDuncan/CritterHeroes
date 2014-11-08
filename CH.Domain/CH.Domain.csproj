@@ -72,6 +72,7 @@
     <Compile Include="Identity\IdentityRole.cs" />
     <Compile Include="Identity\IdentityUser.cs" />
     <Compile Include="Models\Data\Breed.cs" />
+    <Compile Include="Models\Data\Species.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Status\DataItem.cs" />
     <Compile Include="Models\Status\DataStatusModel.cs" />

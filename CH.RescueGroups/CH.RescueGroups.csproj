@@ -58,6 +58,7 @@
     <Compile Include="Mappings\BaseRescueGroupsMapping.cs" />
     <Compile Include="Mappings\IRescueGroupsMapping.cs" />
     <Compile Include="Mappings\RescueGroupsMappingFactory.cs" />
+    <Compile Include="Mappings\SpeciesMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RescueGroupsException.cs" />
     <Compile Include="RescueGroupsStorage.cs" />
