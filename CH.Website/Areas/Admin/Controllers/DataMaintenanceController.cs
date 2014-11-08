@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts;
+using CH.Domain.Handlers.DataStatus;
 using CH.Domain.Identity;
 using CH.Domain.Models.Status;
 using CH.Website.Areas.Admin.Json;
@@ -45,9 +46,10 @@ namespace CH.Website.Areas.Admin.Controllers
 
             IStorageSource target = GetTarget();
             IStorageSource source = GetSource();
+            StatusContext statusContext = GetStatusContext();
 
             IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(target, source);
+            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(statusContext, source, target);
 
             DashboardItemStatus model = new DashboardItemStatus();
             model.TargetItem = dataStatus.Items.First(x => x.StorageID == target.ID);
@@ -68,9 +70,10 @@ namespace CH.Website.Areas.Admin.Controllers
 
             IStorageSource target = GetTarget();
             IStorageSource source = GetSource();
+            StatusContext statusContext = GetStatusContext();
 
             IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.SyncModelAsync(source, target);
+            DataStatusModel dataStatus = await statusHandler.SyncModelAsync(statusContext, source, target);
 
             DashboardItemStatus model = new DashboardItemStatus();
             model.TargetItem = dataStatus.Items.First(x => x.StorageID == target.ID);
@@ -88,6 +91,14 @@ namespace CH.Website.Areas.Admin.Controllers
         private IStorageSource GetSource()
         {
             return new RescueGroupsStorageSource();
+        }
+
+        private StatusContext GetStatusContext()
+        {
+            return new StatusContext()
+            {
+                SupportedCritters = OrganizationContext.SupportedCritters
+            };
         }
     }
 }

@@ -31,7 +31,7 @@ namespace CH.Test.Models
             mockSource2.Setup(x => x.StorageContext).Returns(context2);
 
             IDataStatusHandler handler = new AnimalStatusStatusHandler();
-            DataStatusModel model = await handler.GetModelStatusAsync(mockSource1.Object, mockSource2.Object);
+            DataStatusModel model = await handler.GetModelStatusAsync(null, mockSource1.Object, mockSource2.Object);
 
             model.Items.Count().Should().Be(2);
             model.DataItemCount.Should().Be(3);
@@ -56,7 +56,7 @@ namespace CH.Test.Models
         }
 
         [TestMethod]
-        public async Task TestAnimalBreedBehavior()
+        public async Task TestBreedBehavior()
         {
             Breed[] entities1 = new Breed[] { new Breed("1", "Species1", "Breed1"), new Breed("2", "Species2", "Breed2") };
             IStorageContext context1 = Mock.Of<IStorageContext>(x => x.GetAllAsync<Breed>() == Task.FromResult<IEnumerable<Breed>>(entities1));
@@ -70,8 +70,8 @@ namespace CH.Test.Models
             mockSource2.Setup(x => x.ID).Returns(2);
             mockSource2.Setup(x => x.StorageContext).Returns(context2);
 
-            IDataStatusHandler handler = new AnimalBreedStatusHandler();
-            DataStatusModel model = await handler.GetModelStatusAsync(mockSource1.Object, mockSource2.Object);
+            IDataStatusHandler handler = new BreedStatusHandler();
+            DataStatusModel model = await handler.GetModelStatusAsync(null, mockSource1.Object, mockSource2.Object);
 
             model.Items.Count().Should().Be(2);
             model.DataItemCount.Should().Be(3);

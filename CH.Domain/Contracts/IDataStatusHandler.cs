@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using CH.Domain.Handlers.DataStatus;
 using CH.Domain.Models.Status;
 
 namespace CH.Domain.Contracts
 {
     public interface IDataStatusHandler
     {
-        Task<DataStatusModel> GetModelStatusAsync(params IStorageSource[] storageSources);
-        Task<DataStatusModel> SyncModelAsync(IStorageSource source, IStorageSource target);
+        Task<DataStatusModel> GetModelStatusAsync(StatusContext statusContext, IStorageSource source, IStorageSource target);
+        Task<DataStatusModel> SyncModelAsync(StatusContext statusContext, IStorageSource source, IStorageSource target);
     }
 }

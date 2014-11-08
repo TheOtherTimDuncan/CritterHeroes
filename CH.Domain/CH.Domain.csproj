@@ -66,9 +66,10 @@
     <Compile Include="Contracts\IStorageContext.cs" />
     <Compile Include="Contracts\IStorageContextForModel.cs" />
     <Compile Include="Contracts\IStorageSource.cs" />
-    <Compile Include="Handlers\DataStatus\AnimalBreedStatusHandler.cs" />
+    <Compile Include="Handlers\DataStatus\BreedStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\AnimalStatusStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\BaseModelStatusHandler.cs" />
+    <Compile Include="Handlers\DataStatus\StatusContext.cs" />
     <Compile Include="Identity\IdentityRole.cs" />
     <Compile Include="Identity\IdentityUser.cs" />
     <Compile Include="Models\Data\Breed.cs" />

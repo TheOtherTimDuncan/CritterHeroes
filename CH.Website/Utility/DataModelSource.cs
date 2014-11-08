@@ -22,7 +22,7 @@ namespace CH.Website.Utility
 
             public static IDataStatusHandler AnimalBreed()
             {
-                return new AnimalBreedStatusHandler();
+                return new BreedStatusHandler();
             }
         }
 
