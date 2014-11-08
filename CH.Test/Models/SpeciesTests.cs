@@ -69,12 +69,5 @@ namespace CH.Test.Models
             Action action = () => new Species("name", "singular", "", "youngSingular", "youngPlural");
             action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("plural");
         }
-
-        [TestMethod]
-        public void ThrowsExceptionIfCreatedWithNullYoungSingular()
-        {
-            Action action = () => new Species("name", "singular", "plural", null, "youngPlural");
-            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("youngSingular");
-        }
     }
 }
