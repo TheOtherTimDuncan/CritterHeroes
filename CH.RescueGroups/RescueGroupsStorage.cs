@@ -175,7 +175,7 @@ namespace CH.RescueGroups
         {
             using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await client.PostAsync(Url, new StringContent(request.ToString()));
+                HttpResponseMessage response = await client.PostAsync(Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
 
                 if (!response.IsSuccessStatusCode)
                 {
