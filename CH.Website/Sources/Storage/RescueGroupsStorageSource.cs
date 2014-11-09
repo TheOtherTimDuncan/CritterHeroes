@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CH.Dependency;
 using CH.Domain.Contracts;
 using CH.RescueGroups;
 
@@ -12,7 +13,7 @@ namespace CH.Website.Sources.Storage
 
         public RescueGroupsStorageSource()
         {
-            this._storageContext = new RescueGroupsStorage();
+            this._storageContext = DependencyContainer.Using<RescueGroupsStorage>();
         }
 
         public int ID

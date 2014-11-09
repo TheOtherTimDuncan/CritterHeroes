@@ -9,10 +9,10 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace CH.Test.Azure
+namespace CH.Test.Azure.StorageEntityTests
 {
     [TestClass]
-    public class AnimalStatusStorageEntityTests
+    public class AnimalStatusStorageEntityTests : BaseStorageEntityTest
     {
         [TestMethod]
         public void SuccessfullyMapsEntityToStorage()
@@ -51,7 +51,7 @@ namespace CH.Test.Azure
         public async Task TestCRUDSingle()
         {
             AnimalStatus animalStatus = new AnimalStatus("0", "Name", "Description");
-            AzureStorage storage = new AzureStorage("fflah");
+            AzureStorage storage = GetEntityAzureStorage();
             await storage.SaveAsync<AnimalStatus>(animalStatus);
 
             AnimalStatus result = await storage.GetAsync<AnimalStatus>(animalStatus.ID);
@@ -67,7 +67,7 @@ namespace CH.Test.Azure
         [TestMethod]
         public async Task TestCRUDMultiple()
         {
-            AzureStorage storage = new AzureStorage("fflah");
+            AzureStorage storage = GetEntityAzureStorage();
 
             AnimalStatus animalStatus1 = new AnimalStatus("1", "Name1", "Description1");
             AnimalStatus animalStatus2 = new AnimalStatus("2", "Name2", "Description2");

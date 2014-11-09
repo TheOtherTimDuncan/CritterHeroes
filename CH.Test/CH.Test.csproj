@@ -132,12 +132,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Azure\StorageEntityTests\BaseStorageEntityTest.cs" />
     <Compile Include="Azure\StorageEntityTests\BreedStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\AnimalStatusStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\OrganizationStorageEntityTests.cs" />
-    <Compile Include="Azure\StorageTests.cs" />
+    <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
     <Compile Include="Azure\IdentityTests.cs" />
+    <Compile Include="BaseTest.cs" />
     <Compile Include="FluentHtml\BaseElementTests.cs" />
     <Compile Include="FluentHtml\BaseFormElementTests.cs" />
     <Compile Include="FluentHtml\BaseHtmlTest.cs" />
@@ -164,7 +166,7 @@
     <Compile Include="RescueGroups\MappingTests\BreedMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\SpeciesMappingTests.cs" />
-    <Compile Include="RescueGroups\StorageTests.cs" />
+    <Compile Include="RescueGroups\ConfigurationTests.cs" />
     <Compile Include="ActionHelperTests.cs" />
     <Compile Include="StateManagementTests\BaseContextTest.cs" />
     <Compile Include="StateManagementTests\OrganizationContextTests.cs" />
@@ -174,6 +176,10 @@
     <ProjectReference Include="..\CH.Azure\CH.Azure.csproj">
       <Project>{a2a9c940-8aab-4b6a-a80f-6e60afa8e5fc}</Project>
       <Name>CH.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CH.Dependency\CH.Dependency.csproj">
+      <Project>{43126ea6-b797-4f4a-a920-4b7019de7d2f}</Project>
+      <Name>CH.Dependency</Name>
     </ProjectReference>
     <ProjectReference Include="..\CH.Domain\CH.Domain.csproj">
       <Project>{ecfeb381-b713-4e8b-a591-660e70cd33ac}</Project>

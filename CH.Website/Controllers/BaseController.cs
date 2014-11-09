@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using CH.Dependency;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Configuration;
 using CH.Domain.Handlers;
 using CH.Domain.Models;
 using CH.Domain.StateManagement;

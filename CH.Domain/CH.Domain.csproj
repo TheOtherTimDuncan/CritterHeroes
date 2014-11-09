@@ -59,7 +59,9 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseException.cs" />
-    <Compile Include="Contracts\IAppConfiguration.cs" />
+    <Compile Include="Contracts\Configuration\IRescueGroupsConfiguration.cs" />
+    <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
+    <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\IDataStatusHandler.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
     <Compile Include="Contracts\IStateManager.cs" />
@@ -80,7 +82,8 @@
     <Compile Include="Models\Data\AnimalStatus.cs" />
     <Compile Include="Models\Status\StorageItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxies\AppConfiguration.cs" />
+    <Compile Include="Proxies\Configuration\AppConfiguration.cs" />
+    <Compile Include="Proxies\Configuration\AzureConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />

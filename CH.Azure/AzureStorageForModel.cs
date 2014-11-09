@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Configuration;
 
 namespace CH.Azure
 {
     public class AzureStorage<T> : AzureStorage, IStorageContext<T> where T : class
     {
-        public AzureStorage(string tableName)
-            : base(tableName)
+        public AzureStorage(string tableName, IAzureConfiguration azureConfiguration)
+            : base(tableName, azureConfiguration)
         {
         }
 

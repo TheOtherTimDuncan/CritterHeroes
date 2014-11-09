@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CH.Test.Azure.StorageEntityTests
 {
     [TestClass]
-    public class BreedStorageEntityTests
+    public class BreedStorageEntityTests : BaseStorageEntityTest
     {
         [TestMethod]
         public void SuccessfullyMapsEntityToStorage()
@@ -51,7 +51,7 @@ namespace CH.Test.Azure.StorageEntityTests
         public async Task TestCRUDSingle()
         {
             Breed animalStatus = new Breed("0", "Species", "Breed");
-            AzureStorage storage = new AzureStorage("fflah");
+            AzureStorage storage = GetEntityAzureStorage();
             await storage.SaveAsync<Breed>(animalStatus);
 
             Breed result = await storage.GetAsync<Breed>(animalStatus.ID);
@@ -67,7 +67,7 @@ namespace CH.Test.Azure.StorageEntityTests
         [TestMethod]
         public async Task TestCRUDMultiple()
         {
-            AzureStorage storage = new AzureStorage("fflah");
+            AzureStorage storage = GetEntityAzureStorage();
 
             Breed animalBreed1 = new Breed("1", "Species1", "Breed1");
             Breed animalBreed2 = new Breed("2", "Species2", "Breed2");

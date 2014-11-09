@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CH.Azure;
+using CH.Dependency;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Configuration;
 
 namespace CH.Website.Sources.Storage
 {
@@ -12,7 +14,7 @@ namespace CH.Website.Sources.Storage
 
         public AzureStorageSource(string tableName)
         {
-            _storageContext = new AzureStorage(tableName);
+            _storageContext = new AzureStorage(tableName, DependencyContainer.Using<IAzureConfiguration>());
         }
 
         public int ID

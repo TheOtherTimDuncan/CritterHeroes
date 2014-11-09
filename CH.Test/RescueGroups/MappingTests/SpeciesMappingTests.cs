@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace CH.Test.RescueGroups.MappingTests
 {
     [TestClass]
-    public class SpeciesMappingTests
+    public class SpeciesMappingTests : BaseTest
     {
         public IRescueGroupsMapping<Species> Mapping
         {
@@ -75,7 +75,7 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public async Task TestGetSpecies()
         {
-            RescueGroupsStorage storage = new RescueGroupsStorage();
+            RescueGroupsStorage storage = Using<RescueGroupsStorage>();
             (await storage.GetAllAsync<Species>()).ToList().Should().NotBeEmpty();
         }
 

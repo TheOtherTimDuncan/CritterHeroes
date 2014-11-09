@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CH.Test.Azure.StorageEntityTests
 {
     [TestClass]
-    public class OrganizationStorageEntityTests
+    public class OrganizationStorageEntityTests : BaseStorageEntityTest
     {
         [TestMethod]
         public void SuccessfullyMapsEntityToStorage()
@@ -134,7 +134,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 }
             };
 
-            AzureStorage storage = new AzureStorage("organization");
+            AzureStorage storage = GetAzureStorage("organization");
             await storage.SaveAsync<Organization>(organization);
 
             Organization result = await storage.GetAsync<Organization>(organization.ID.ToString());
@@ -166,7 +166,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 }
             };
 
-            AzureStorage storage = new AzureStorage("organization");
+            AzureStorage storage = GetAzureStorage("organization");
             await storage.SaveAsync<Organization>(organization);
         }
     }

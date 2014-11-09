@@ -70,8 +70,18 @@ namespace CH.Test.Models
             mockSource2.Setup(x => x.ID).Returns(2);
             mockSource2.Setup(x => x.StorageContext).Returns(context2);
 
+            StatusContext statusContext = new StatusContext()
+            {
+                SupportedCritters = new Species[]
+                {
+                        new Species("Species1","1","2",null,null),
+                        new Species("Species2","1","2",null,null),
+                        new Species("Species3","1","2",null,null)
+                }
+            };
+
             IDataStatusHandler handler = new BreedStatusHandler();
-            DataStatusModel model = await handler.GetModelStatusAsync(null, mockSource1.Object, mockSource2.Object);
+            DataStatusModel model = await handler.GetModelStatusAsync(statusContext, mockSource1.Object, mockSource2.Object);
 
             model.Items.Count().Should().Be(2);
             model.DataItemCount.Should().Be(3);

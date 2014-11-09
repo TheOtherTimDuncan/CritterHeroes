@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CH.Azure.Storage;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Azure
 {
@@ -15,28 +17,16 @@ namespace CH.Azure
     {
         private const int batchSize = 100;
         private CloudTable _cloudTable = null;
+        private IAzureConfiguration _configuration;
+        private string _tableName;
 
-        public AzureStorage(string tableName)
-            : this(tableName, ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString)
+        public AzureStorage(string tableName,  IAzureConfiguration azureConfiguration)
         {
-        }
+            ThrowIf.Argument.IsNullOrEmpty(tableName, "tableName");
+            ThrowIf.Argument.IsNull(azureConfiguration, "azureConfiguration");
 
-        public AzureStorage(string tableName, string connectionString)
-        {
-            this.ConnectionString = connectionString;
-            this.TableName = tableName;
-        }
-
-        public string ConnectionString
-        {
-            get;
-            set;
-        }
-
-        public string TableName
-        {
-            get;
-            set;
+            this._tableName = tableName;
+            this._configuration=azureConfiguration;
         }
 
         public async Task<T> GetAsync<T>(string entityKey) where T : class
@@ -131,9 +121,9 @@ namespace CH.Azure
                 return _cloudTable;
             }
 
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConnectionString);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
             CloudTableClient client = storageAccount.CreateCloudTableClient();
-            _cloudTable = client.GetTableReference(TableName);
+            _cloudTable = client.GetTableReference(_tableName);
             await _cloudTable.CreateIfNotExistsAsync();
             return _cloudTable;
         }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using CH.Domain.Contracts;
+using CH.Domain.Contracts.Configuration;
 
-namespace CH.Domain.Proxies
+namespace CH.Domain.Proxies.Configuration
 {
     public class AppConfiguration : IAppConfiguration
     {

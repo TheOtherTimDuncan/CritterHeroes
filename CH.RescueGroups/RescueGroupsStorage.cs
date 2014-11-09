@@ -1,72 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Configuration;
 using CH.RescueGroups.Configuration;
 using CH.RescueGroups.Mappings;
 using Newtonsoft.Json.Linq;
+using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace CH.RescueGroups
 {
     public class RescueGroupsStorage : IStorageContext
     {
-        public RescueGroupsStorage()
-        {
-            RescueGroupsConfigurationSection configSection = ConfigurationManager.GetSection("rescueGroups") as RescueGroupsConfigurationSection;
-            if (configSection == null)
-            {
-                throw new RescueGroupsException("RescueGroups configuration does not exist");
-            }
+        private IRescueGroupsConfiguration _configuration;
 
-            this.Url = configSection.Url;
-            this.APIKey = configSection.APIKey;
-            this.Username = configSection.Username;
-            this.Password = configSection.Password;
-            this.AccountNumber = configSection.AccountNumber;
-        }
-
-        public RescueGroupsStorage(string serviceUrl, string apiKey, string username, string password, string accountNumber)
+        public RescueGroupsStorage(IRescueGroupsConfiguration configuration)
         {
-            this.Url = serviceUrl;
-            this.APIKey = apiKey;
-            this.Username = username;
-            this.Password = password;
-            this.AccountNumber = accountNumber;
-        }
-
-        public string Url
-        {
-            get;
-            set;
-        }
-
-        public string APIKey
-        {
-            get;
-            set;
-        }
-
-        public string Username
-        {
-            get;
-            set;
-        }
-
-        public string Password
-        {
-            get;
-            set;
-        }
-
-        public string AccountNumber
-        {
-            get;
-            set;
+            ThrowIf.Argument.IsNull(configuration, "configuration");
+            _configuration = configuration;
         }
 
         public async Task<T> GetAsync<T>(string entityID) where T : class
@@ -123,7 +78,7 @@ namespace CH.RescueGroups
         public JObject CreateRequest(params JProperty[] requestProperties)
         {
             // API key is required for all requests
-            JObject result = new JObject(new JProperty("apikey", APIKey));
+            JObject result = new JObject(new JProperty("apikey", _configuration.APIKey));
             foreach (JProperty property in requestProperties)
             {
                 result.Add(property);
@@ -135,9 +90,9 @@ namespace CH.RescueGroups
         {
             JObject request = CreateRequest
             (
-                new JProperty("username", this.Username),
-                new JProperty("password", this.Password),
-                new JProperty("accountNumber", this.AccountNumber),
+                new JProperty("username", _configuration.Username),
+                new JProperty("password", _configuration.Password),
+                new JProperty("accountNumber", _configuration.AccountNumber),
                 new JProperty("action", "login")
             );
 
@@ -175,11 +130,11 @@ namespace CH.RescueGroups
         {
             using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await client.PostAsync(Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
+                HttpResponseMessage response = await client.PostAsync(_configuration.Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new RescueGroupsException("Unsuccesful status code: {0} - {1}; URL: {2}", (int)response.StatusCode, response.StatusCode, Url);
+                    throw new RescueGroupsException("Unsuccesful status code: {0} - {1}; URL: {2}", (int)response.StatusCode, response.StatusCode, _configuration.Url);
                 }
 
                 string content = await response.Content.ReadAsStringAsync();
