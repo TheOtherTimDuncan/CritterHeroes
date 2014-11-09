@@ -27,14 +27,24 @@ namespace CH.Domain.StateManagement
             this._key = baseKey + key;
         }
 
-        public T GetContext()
+        public virtual T GetContext()
         {
             HttpCookie cookie = _httpContext.Request.Cookies[_key];
             if (cookie == null || cookie.Value.IsNullOrEmpty())
             {
                 return default(T);
             }
-            return JsonConvert.DeserializeObject<T>(cookie.Value);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(cookie.Value);
+            }
+            catch
+            {
+                // If the cookie can't be deserialized then return the default value
+                // so the cookie can be re-created
+                return default(T);
+            }
         }
 
         public void SaveContext(T Context)
