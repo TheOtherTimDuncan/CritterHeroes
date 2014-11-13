@@ -56,8 +56,6 @@ namespace CH.Test.Azure
 
             List<ErrorLogEntry> entries = new List<ErrorLogEntry>();
             int count = errorLog.GetErrors(0, 5, entries);
-            Assert.AreEqual(5, count);
-            Assert.AreEqual(5, entries.Count());
             Assert.IsTrue(entries.Any(x => x.Id == errorID));
         }
     }

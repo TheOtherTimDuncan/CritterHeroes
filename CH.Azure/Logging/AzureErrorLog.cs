@@ -67,15 +67,21 @@ namespace CH.Azure.Logging
             ThrowIf.Argument.IsLessThan(pageIndex, "pageIndex", 0);
             ThrowIf.Argument.IsLessThan(pageSize, "pageSize", 0);
 
+            // Default is to get all of today's errors
+            DateTime now = DateTime.UtcNow;
+            string start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0, DateTimeKind.Utc).Ticks.ToString("d19");
+            string end = new DateTime(now.Year, now.Month, now.Day, 23, 25, 0, DateTimeKind.Utc).Ticks.ToString("d19");
+
             //TODO: Improve this query
             CloudTable table = GetCloudTable();
             var entities =
                 (
                     from e in table.CreateQuery<DynamicTableEntity>()
+                    where e.PartitionKey.CompareTo(start) >= 0 && e.PartitionKey.CompareTo(end) <= 0
                     select e
-                )
-                .Take((pageIndex + 1) * pageSize).ToList()
-                .Skip(pageIndex * pageSize);
+                ).ToList();
+                //.Take((pageIndex + 1) * pageSize).ToList()
+                //.Skip(pageIndex * pageSize);
 
             foreach (DynamicTableEntity entity in entities)
             {
@@ -88,8 +94,10 @@ namespace CH.Azure.Logging
 
         public override string Log(Error error)
         {
-            string errorID = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("d19");
-            string partitionKey = error.Time.ToString("yyyyMMddHH");
+            DateTime now = DateTime.UtcNow;
+            //string errorID = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("d19");
+            string partitionKey = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, 0, DateTimeKind.Utc).Ticks.ToString("d19");
+            string errorID = Guid.NewGuid().ToString();
 
             DynamicTableEntity entity = new DynamicTableEntity(partitionKey, errorID);
             entity["HostName"] = new EntityProperty(error.HostName);
