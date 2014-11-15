@@ -35,7 +35,7 @@ namespace CH.Test.ControllerTests
                 LastName = "Last"
             };
 
-            Mock<IUserStore<IdentityUser>> mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
             mockUserStore.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
@@ -77,9 +77,13 @@ namespace CH.Test.ControllerTests
                 LastName = "Last"
             };
 
-            Mock<IUserStore<IdentityUser>> mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
             mockUserStore.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
             mockUserStore.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+
+            // These methods are called by the user validator to check for unique emails
+            mockUserStore.Setup(x => x.GetEmailAsync(user)).Returns(Task.FromResult(user.Email));
+            mockUserStore.Setup(x=>x.FindByEmailAsync(user.Email)).Returns(Task.FromResult<IdentityUser>(null));
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
@@ -125,7 +129,7 @@ namespace CH.Test.ControllerTests
                 LastName = "Last"
             };
 
-            Mock<IUserStore<IdentityUser>> mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
             mockUserStore.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
             // UpdateAsync can't return errors so no need to mock it
 

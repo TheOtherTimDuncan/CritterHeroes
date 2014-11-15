@@ -4,23 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts.Configuration;
+using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
-using Microsoft.AspNet.Identity;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace CH.Azure.Identity
 {
-    public class UserStore :
-        IUserStore<IdentityUser>,
-        IUserPasswordStore<IdentityUser>,
-        IUserEmailStore<IdentityUser>,
-        IUserRoleStore<IdentityUser>,
-        IUserLockoutStore<IdentityUser, string>,
-        IUserTwoFactorStore<IdentityUser, string>
+    public class UserStore : IApplicationUserStore
     {
         private IdentityUserMapping userMapping;
         private CloudStorageAccount _account;
