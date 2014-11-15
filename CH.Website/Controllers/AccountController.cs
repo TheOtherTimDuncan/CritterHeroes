@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
-using CH.Website.Identity;
 using CH.Website.Models;
 using CH.Website.Utility;
 using Microsoft.AspNet.Identity;
@@ -38,7 +37,7 @@ namespace CH.Website.Controllers
             {
                 if (_userManager == null)
                 {
-                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    _userManager = Using<IApplicationUserManager>();
                 }
                 return _userManager;
             }

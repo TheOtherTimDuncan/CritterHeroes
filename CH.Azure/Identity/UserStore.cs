@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CH.Domain.Contracts.Configuration;
 using CH.Domain.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.WindowsAzure.Storage;
@@ -23,17 +23,17 @@ namespace CH.Azure.Identity
         private IdentityUserMapping userMapping;
         private CloudStorageAccount _account;
 
-        public UserStore(string connectionString)
-            : this(connectionString, "user")
+        public UserStore(IAzureConfiguration azureConfiguration)
+            : this(azureConfiguration, "user")
         {
         }
 
-        public UserStore(string connectionString, string tableName)
+        public UserStore(IAzureConfiguration azureConfiguration, string tableName)
         {
-            ThrowIf.Argument.IsNullOrEmpty(connectionString, "connectionString");
+            ThrowIf.Argument.IsNull(azureConfiguration, "azureConfiguration");
             ThrowIf.Argument.IsNullOrEmpty(tableName, "tableName");
 
-            this._account = CloudStorageAccount.Parse(connectionString);
+            this._account = CloudStorageAccount.Parse(azureConfiguration.ConnectionString);
             this.TableName = tableName;
 
             this.userMapping = new IdentityUserMapping();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CH.Azure.Identity;
 using CH.Domain.Identity;
+using CH.Domain.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,7 +21,7 @@ namespace CH.Test.Azure
         [TestInitialize]
         public void InitializeTest()
         {
-            userStore = new UserStore(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
+            userStore = new UserStore(new AzureConfiguration());
         }
 
         [TestCleanup]
