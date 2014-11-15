@@ -94,6 +94,7 @@
     <Compile Include="Storage\OrganizationStorageEntity.cs" />
     <Compile Include="Storage\StorageEntity.cs" />
     <Compile Include="Storage\StorageEntityFactory.cs" />
+    <Compile Include="Utility\DynamicTableEntityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Azure.config" />

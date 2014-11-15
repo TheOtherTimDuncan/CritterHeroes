@@ -144,6 +144,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\StorageEntityTests\BaseStorageEntityTest.cs" />
     <Compile Include="Azure\StorageEntityTests\BreedStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\AnimalStatusStorageEntityTests.cs" />

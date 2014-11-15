@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CH.Azure.Utility;
 using CH.Domain.Identity;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -38,10 +39,10 @@ namespace CH.Azure.Identity
             user.PasswordHash = entity["PasswordHash"].StringValue;
             user.Email = entity["Email"].StringValue;
             user.IsEmailConfirmed = entity["IsEmailConfirmed"].BooleanValue ?? false;
-            user.FirstName = entity["FirstName"].StringValue;
-            user.LastName = entity["LastName"].StringValue;
+            user.FirstName = entity.SafeGetEntityPropertyStringValue("FirstName");
+            user.LastName = entity.SafeGetEntityPropertyStringValue("LastName");
 
-            string roles = entity["Roles"].StringValue;
+            string roles = entity.SafeGetEntityPropertyStringValue("Roles");
             if (roles != null)
             {
                 IEnumerable<string> roleIDs = roles.Split(',');
