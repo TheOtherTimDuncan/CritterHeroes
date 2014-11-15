@@ -309,6 +309,9 @@
     <Content Include="Areas\Admin\Views\ErrorLog\Index.cshtml" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Content Include="Areas\Admin\Views\DataMaintenance\Dashboard.cshtml" />
+    <Content Include="..\AppSettings.config">
+      <Link>AppSettings.config</Link>
+    </Content>
     <None Include="Content\bootstrap.yeti.less" />
     <Content Include="Content\bootstrap.yeti.min.css">
       <DependentUpon>bootstrap.yeti.css</DependentUpon>

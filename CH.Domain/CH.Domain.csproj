@@ -40,6 +40,12 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid.SmtpApi">
+      <HintPath>..\packages\SendGrid.SmtpApi.1.1.3\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\Sendgrid.5.0.0\lib\SendGridMail.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -62,6 +68,9 @@
     <Compile Include="Contracts\Configuration\IRescueGroupsConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
+    <Compile Include="Contracts\Email\IEmailClient.cs" />
+    <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
+    <Compile Include="Models\EmailMessage.cs" />
     <Compile Include="Contracts\IDataStatusHandler.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserManager.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
@@ -85,13 +94,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Proxies\Configuration\AzureConfiguration.cs" />
+    <Compile Include="Proxies\Email\EmailClientProxy.cs" />
+    <Compile Include="Proxies\Email\EmailConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
     <Compile Include="StateManagement\StateManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

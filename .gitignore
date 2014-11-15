@@ -162,3 +162,5 @@ ConfigLinks.bat
 Devices.xlsx
 CH.Website/Azure.config
 CH.Website/RescueGroups.config
+CH.Website/AppSettings.config
+AppSettings.config

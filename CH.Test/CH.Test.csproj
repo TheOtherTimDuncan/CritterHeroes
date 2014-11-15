@@ -154,6 +154,7 @@
     <Compile Include="Azure\IdentityTests.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
+    <Compile Include="EmailTests.cs" />
     <Compile Include="FluentHtml\BaseElementTests.cs" />
     <Compile Include="FluentHtml\BaseFormElementTests.cs" />
     <Compile Include="FluentHtml\BaseHtmlTest.cs" />
@@ -209,6 +210,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\AppSettings.config">
+      <Link>AppSettings.config</Link>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\CH.RescueGroups\RescueGroups.config">
       <Link>RescueGroups.config</Link>
     </None>
