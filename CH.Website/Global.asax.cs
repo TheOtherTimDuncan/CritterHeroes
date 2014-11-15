@@ -18,6 +18,9 @@ namespace CH.Website
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DefaultHtmlConventions.AddHtmlConventions();
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new RazorViewEngine());
         }
     }
 }
