@@ -10,6 +10,7 @@ using CH.Domain.Contracts.Configuration;
 using CH.Domain.Handlers;
 using CH.Domain.Models;
 using CH.Domain.StateManagement;
+using Microsoft.AspNet.Identity;
 
 namespace CH.Website.Controllers
 {
@@ -57,6 +58,14 @@ namespace CH.Website.Controllers
         {
             // Blob urls are case sensitive and convention is they should always be lowercase
             return string.Format("{0}/{1}/{2}", AppConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
+        }
+
+        protected void AddIdentityErrorsToModelState(ModelStateDictionary  modelState, IdentityResult identityResult)
+        {
+            foreach (string error in identityResult.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
 using CH.Website.Identity;
 using CH.Website.Models;
@@ -18,20 +19,20 @@ namespace CH.Website.Controllers
 {
     public class AccountController : BaseController
     {
-        private ApplicationUserManager _userManager;
+        private IApplicationUserManager _userManager;
         private IAuthenticationManager _authenticationManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public AccountController(IApplicationUserManager userManager, IAuthenticationManager authenticationManager)
         {
             _userManager = userManager;
             _authenticationManager = authenticationManager;
         }
 
-        public ApplicationUserManager UserManager
+        public IApplicationUserManager UserManager
         {
             get
             {
@@ -103,6 +104,42 @@ namespace CH.Website.Controllers
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditProfile()
+        {
+            EditProfileModel model = new EditProfileModel();
+            model.ReturnUrl = Request.UrlReferrer.AbsoluteUri;
+
+            IdentityUser user = await UserManager.FindByNameAsync(User.Identity.Name);
+            model.OriginalUsername = User.Identity.Name;
+            model.Username = User.Identity.Name;
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Email = user.Email;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfile(EditProfileModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityUser user = await UserManager.FindByNameAsync(User.Identity.Name);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                IdentityResult identityResult = await UserManager.UpdateAsync(user);
+                if (identityResult.Succeeded)
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+                AddIdentityErrorsToModelState(ModelState, identityResult);
+            }
+
+            return View(model);
         }
     }
 }

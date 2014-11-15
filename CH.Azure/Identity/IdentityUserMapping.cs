@@ -17,6 +17,8 @@ namespace CH.Azure.Identity
             entity["PasswordHash"] = new EntityProperty(user.PasswordHash);
             entity["Email"] = new EntityProperty(user.Email);
             entity["IsEmailConfirmed"] = new EntityProperty(user.IsEmailConfirmed);
+            entity["FirstName"] = new EntityProperty(user.FirstName);
+            entity["LastName"] = new EntityProperty(user.LastName);
 
             string roles = user.Roles.Any() ? string.Join(",", user.Roles.Select(x => x.ID)) : null;
             entity["Roles"] = new EntityProperty(roles);
@@ -34,14 +36,10 @@ namespace CH.Azure.Identity
             IdentityUser user = new IdentityUser(entity.PartitionKey, entity["UserName"].StringValue);
 
             user.PasswordHash = entity["PasswordHash"].StringValue;
-            //user.Email = entity["Email"].StringValue;
+            user.Email = entity["Email"].StringValue;
             user.IsEmailConfirmed = entity["IsEmailConfirmed"].BooleanValue ?? false;
-
-            EntityProperty property;
-            if (entity.Properties.TryGetValue("Email", out property))
-            {
-                user.Email = property.StringValue;
-            }
+            user.FirstName = entity["FirstName"].StringValue;
+            user.LastName = entity["LastName"].StringValue;
 
             string roles = entity["Roles"].StringValue;
             if (roles != null)

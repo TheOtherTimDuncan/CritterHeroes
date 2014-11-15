@@ -60,6 +60,18 @@ namespace CH.Domain.Identity
             set;
         }
 
+        public string FirstName
+        {
+            get;
+            set;
+        }
+
+        public string LastName
+        {
+            get;
+            set;
+        }
+
         public IEnumerable<IdentityRole> Roles
         {
             get

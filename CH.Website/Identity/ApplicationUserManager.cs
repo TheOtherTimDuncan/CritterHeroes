@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using CH.Azure.Identity;
+using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -11,7 +12,7 @@ using Microsoft.Owin;
 
 namespace CH.Website.Identity
 {
-    public class ApplicationUserManager : UserManager<IdentityUser>
+    public class ApplicationUserManager : UserManager<IdentityUser>, IApplicationUserManager
     {
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {

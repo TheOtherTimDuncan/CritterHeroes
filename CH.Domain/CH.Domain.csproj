@@ -63,6 +63,7 @@
     <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\IDataStatusHandler.cs" />
+    <Compile Include="Contracts\Identity\IApplicationUserManager.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
     <Compile Include="Contracts\IStateManager.cs" />
     <Compile Include="Contracts\IStorageContext.cs" />
