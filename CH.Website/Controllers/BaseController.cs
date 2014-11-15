@@ -19,7 +19,7 @@ namespace CH.Website.Controllers
         private OrganizationContext _organizationContext;
         private IAppConfiguration _appConfiguration;
 
-        public OrganizationContext OrganizationContext
+        protected OrganizationContext OrganizationContext
         {
             get
             {
@@ -37,7 +37,7 @@ namespace CH.Website.Controllers
             }
         }
 
-        public IAppConfiguration AppConfiguration
+        protected IAppConfiguration AppConfiguration
         {
             get
             {
@@ -49,12 +49,12 @@ namespace CH.Website.Controllers
             }
         }
 
-        public T Using<T>()
+        protected T Using<T>()
         {
             return DependencyContainer.Using<T>();
         }
 
-        public string GetBlobUrl(string filename)
+        protected string GetBlobUrl(string filename)
         {
             // Blob urls are case sensitive and convention is they should always be lowercase
             return string.Format("{0}/{1}/{2}", AppConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
