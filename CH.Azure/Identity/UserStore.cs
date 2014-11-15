@@ -18,7 +18,9 @@ namespace CH.Azure.Identity
         IUserStore<IdentityUser>,
         IUserPasswordStore<IdentityUser>,
         IUserEmailStore<IdentityUser>,
-        IUserRoleStore<IdentityUser>
+        IUserRoleStore<IdentityUser>,
+        IUserLockoutStore<IdentityUser, string>,
+        IUserTwoFactorStore<IdentityUser, string>
     {
         private IdentityUserMapping userMapping;
         private CloudStorageAccount _account;
@@ -218,6 +220,51 @@ namespace CH.Azure.Identity
         {
             CloudTable table = await GetCloudTableAsync();
             await table.ExecuteAsync(tableOperation);
+        }
+
+        public Task<int> GetAccessFailedCountAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(IdentityUser user)
+        {
+            return Task.FromResult(false);
+        }
+
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> IncrementAccessFailedCountAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetAccessFailedCountAsync(IdentityUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEnabledAsync(IdentityUser user, bool enabled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEndDateAsync(IdentityUser user, DateTimeOffset lockoutEnd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetTwoFactorEnabledAsync(IdentityUser user)
+        {
+            return Task.FromResult(false);
+        }
+
+        public Task SetTwoFactorEnabledAsync(IdentityUser user, bool enabled)
+        {
+            throw new NotImplementedException();
         }
     }
 }

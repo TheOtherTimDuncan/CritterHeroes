@@ -35,8 +35,8 @@ namespace CH.Test.ControllerTests
                 LastName = "Last"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
+            Mock<IUserStore<IdentityUser>> mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            mockUserStore.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
@@ -46,7 +46,8 @@ namespace CH.Test.ControllerTests
             mockHttpContext.Setup(x => x.Request.UrlReferrer).Returns(returnUri);
             mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
 
-            AccountController controller = new AccountController(mockUserManager.Object, mockAuthenticationManager.Object);
+            ApplicationUserManager userManager = new ApplicationUserManager(mockUserStore.Object);
+            AccountController controller = new AccountController(userManager, mockAuthenticationManager.Object);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
 
             ViewResult viewResult = (ViewResult)await controller.EditProfile();
@@ -60,7 +61,7 @@ namespace CH.Test.ControllerTests
             model.LastName.Should().Be(user.LastName);
             model.ReturnUrl.Should().Be(returnUri.AbsoluteUri);
 
-            mockUserManager.Verify(x => x.FindByNameAsync(userName), Times.Once);
+            mockUserStore.Verify(x => x.FindByNameAsync(userName), Times.Once);
         }
 
         [TestMethod]
@@ -76,16 +77,17 @@ namespace CH.Test.ControllerTests
                 LastName = "Last"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+            Mock<IUserStore<IdentityUser>> mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            mockUserStore.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
+            mockUserStore.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
 
-            AccountController controller = new AccountController(mockUserManager.Object, mockAuthenticationManager.Object);
+            ApplicationUserManager userManager = new ApplicationUserManager(mockUserStore.Object);
+            AccountController controller = new AccountController(userManager, mockAuthenticationManager.Object);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
 
             Uri returnUri = new Uri("http://google.com");
@@ -106,8 +108,8 @@ namespace CH.Test.ControllerTests
             redirectResult.Should().NotBeNull();
             redirectResult.Url.Should().Be(returnUri.AbsoluteUri, "successful update should redirect to url in model");
 
-            mockUserManager.Verify(x => x.FindByNameAsync(userName), Times.Once);
-            mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
+            mockUserStore.Verify(x => x.FindByNameAsync(userName), Times.Exactly(2));
+            mockUserStore.Verify(x => x.UpdateAsync(user), Times.Once);
         }
 
         [TestMethod]
@@ -123,18 +125,23 @@ namespace CH.Test.ControllerTests
                 LastName = "Last"
             };
 
-            IdentityResult errorResult = new IdentityResult("error");
-
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(errorResult));
+            Mock<IUserStore<IdentityUser>> mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            mockUserStore.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
+            // UpdateAsync can't return errors so no need to mock it
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
 
-            AccountController controller = new AccountController(mockUserManager.Object, mockAuthenticationManager.Object);
+            IdentityResult errorResult = new IdentityResult("error");
+            Mock<IIdentityValidator<IdentityUser>> fakeValidator = new Mock<IIdentityValidator<IdentityUser>>();
+            fakeValidator.Setup(x => x.ValidateAsync(user)).Returns(Task.FromResult(errorResult));
+
+            ApplicationUserManager userManager = new ApplicationUserManager(mockUserStore.Object);
+            userManager.UserValidator = fakeValidator.Object;
+
+            AccountController controller = new AccountController(userManager, mockAuthenticationManager.Object);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
 
             EditProfileModel model = new EditProfileModel()
@@ -147,8 +154,8 @@ namespace CH.Test.ControllerTests
             actionResult.Should().BeOfType<ViewResult>();
             controller.ModelState[""].Errors[0].ErrorMessage.Should().Be(errorResult.Errors.First());
 
-            mockUserManager.Verify(x => x.FindByNameAsync(userName), Times.Once);
-            mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
+            mockUserStore.Verify(x => x.FindByNameAsync(userName), Times.Once);
+            fakeValidator.Verify(x => x.ValidateAsync(user), Times.Once);
         }
     }
 }

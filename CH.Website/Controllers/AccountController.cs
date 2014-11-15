@@ -18,26 +18,26 @@ namespace CH.Website.Controllers
 {
     public class AccountController : BaseController
     {
-        private IApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager;
         private IAuthenticationManager _authenticationManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(IApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public AccountController(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
         {
             _userManager = userManager;
             _authenticationManager = authenticationManager;
         }
 
-        public IApplicationUserManager UserManager
+        public ApplicationUserManager UserManager
         {
             get
             {
                 if (_userManager == null)
                 {
-                    _userManager = Using<IApplicationUserManager>();
+                    _userManager = Using<ApplicationUserManager>();
                 }
                 return _userManager;
             }
@@ -73,23 +73,18 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user = await UserManager.FindAsync(model.Username, model.Password);
-                if (user != null)
+                AppSignInManager signinManager = new AppSignInManager(UserManager, AuthenticationManager);
+                SignInStatus result = await signinManager.PasswordSignInAsync(model.Username, model.Password, isPersistent: false, shouldLockout: false);
+
+                if (result == SignInStatus.Success)
                 {
-                    ClaimsIdentity userIdentity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-
-                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthenticationManager.SignIn(new AuthenticationProperties()
-                    {
-                        IsPersistent = false
-                    }, userIdentity);
-
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
                     return RedirectToAction("Index", "Home");
                 }
+
                 else
                 {
                     ModelState.AddModelError("", "The username or password that you entered was incorrect. Please try again.");
