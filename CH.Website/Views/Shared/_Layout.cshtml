@@ -74,6 +74,11 @@
         cdnFallback.jqueryValidationFallback('jqueryvalidation');
     </script>
 
+    @Scripts.Render("~/bundles/jqueryui")
+    <script type="text/javascript">
+        cdnFallback.jqueryUIFallback('jqueryui');
+    </script>
+
     @Scripts.Render("~/bundles/jqueryunobtrusive")
     <script type="text/javascript">
         cdnFallback.unobtrusiveFallback('jqueryunobtrusive');

@@ -114,6 +114,9 @@ ul {
 .sync-container {
   list-style: none;
 }
+.input-inline-container input {
+  display: inline-block;
+}
 /* Badges */
 .badge-invalid {
   color: #ffffff;

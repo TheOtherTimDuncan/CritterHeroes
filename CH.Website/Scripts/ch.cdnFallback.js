@@ -20,6 +20,10 @@
             window.jQuery.validator || writeScriptBundleUrl(bundleName);
         },
 
+        jqueryUIFallback: function (bundleName) {
+            window.jQuery.ui || writeScriptBundleUrl(bundleName);
+        },
+
         unobtrusiveFallback: function (bundleName) {
             window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
         },

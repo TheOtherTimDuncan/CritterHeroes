@@ -135,5 +135,15 @@ namespace CH.Website.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<ActionResult> IsDuplicateUsername(string userName)
+        {
+            IdentityUser user = await UserManager.FindByNameAsync(userName);
+            bool result = (user != null);
+            return Json(result);
+        }
     }
 }

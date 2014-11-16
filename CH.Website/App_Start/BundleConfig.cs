@@ -8,7 +8,7 @@ namespace CH.Website
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            //BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = true;
 
             bundles.IgnoreList.Ignore("*.less");
 
@@ -19,9 +19,24 @@ namespace CH.Website
             bundles.Add(new ScriptBundle("~/bundles/cheroes")
                 .Include("~/Scripts/ch.data.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/chusername")
+                .Include("~/Scripts/ch.username.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/datadashboard")
                 .Include("~/Scripts/ch.data-dashboard.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/cheditprofile")
+                .Include("~/Scripts/ch.edit-profile.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+
+            RegisterjQuery(bundles);
+            RegisterBootstrap(bundles);
+            RegisterModernizr(bundles);
+        }
+
+        public static void RegisterjQuery(BundleCollection bundles)
+        {
             // jQuery
             Bundle jqueryBundle = new ScriptBundle("~/bundles/jquery", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js")
                 .Include("~/Scripts/jquery-2.1.1.*");
@@ -32,11 +47,19 @@ namespace CH.Website
                 .Include("~/Scripts/jquery.validate.js");
             bundles.Add(validateBundle);
 
+            // jQuery UI
+            Bundle uiBundle = new ScriptBundle("~/bundles/jqueryui", "//ajax.aspnetcdn.com/ajax/jquery.ui/1.11.2/jquery-ui.min.js")
+                .Include("~/Scripts/jquery-ui-1.11.2.*");
+            bundles.Add(uiBundle);
+
             // Unobtrusive validation
             Bundle unobtrusiveBundle = new ScriptBundle("~/bundles/jqueryunobtrusive", "//ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js")
                 .Include("~/Scripts/jquery.validate.unobtrusive.js");
             bundles.Add(unobtrusiveBundle);
+        }
 
+        public static void RegisterBootstrap(BundleCollection bundles)
+        {
             // Bootstrap
             Bundle boostrapScript = new ScriptBundle("~/bundles/bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
                 .Include("~/Scripts/bootstrap-3.2.0.*");
@@ -49,14 +72,15 @@ namespace CH.Website
             Bundle respondBundle = new ScriptBundle("~/bundles/respond", "//ajax.aspnetcdn.com/ajax/respond/1.2.0/respond.js")
                 .Include("~/Scripts/respond.js");
             bundles.Add(respondBundle);
+        }
 
+        public static void RegisterModernizr(BundleCollection bundles)
+        {
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             Bundle modernizerBundle = new ScriptBundle("~/bundles/modernizr", "//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.7.2.js")
                 .Include("~/Scripts/modernizr-2.7.2.*");
             bundles.Add(modernizerBundle);
-
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
         }
     }
 }
