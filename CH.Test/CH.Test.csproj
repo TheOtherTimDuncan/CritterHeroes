@@ -126,9 +126,9 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TOTD.Utility, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Utility, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.1.0.3.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Utility.1.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -173,6 +173,7 @@
     <Compile Include="FluentHtml\UrlContextTests.cs" />
     <Compile Include="FluentHtml\UnorderedListTests.cs" />
     <Compile Include="FluentHtml\OrderedListTests.cs" />
+    <Compile Include="MiscTests.cs" />
     <Compile Include="Models\BreedTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
     <Compile Include="Models\DataStatusTests.cs" />
