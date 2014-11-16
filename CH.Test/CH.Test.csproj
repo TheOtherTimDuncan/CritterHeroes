@@ -126,6 +126,9 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TOTD.Mvc">
+      <HintPath>..\packages\TOTD.Mvc.1.1.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="TOTD.Utility, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\TOTD.Utility.1.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
@@ -154,6 +157,7 @@
     <Compile Include="Azure\IdentityTests.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
+    <Compile Include="ControllerTests\MiscTests.cs" />
     <Compile Include="EmailTests.cs" />
     <Compile Include="FluentHtml\BaseElementTests.cs" />
     <Compile Include="FluentHtml\BaseFormElementTests.cs" />
