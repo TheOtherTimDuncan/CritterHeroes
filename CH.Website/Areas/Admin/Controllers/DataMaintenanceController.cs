@@ -36,6 +36,7 @@ namespace CH.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> Refresh(int modelID)
         {
             DataModelSource modelSource = DataModelSource.FromValue(modelID);
@@ -60,6 +61,7 @@ namespace CH.Website.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> Sync(int modelID)
         {
             DataModelSource modelSource = DataModelSource.FromValue(modelID);

@@ -10,6 +10,8 @@
 
 <h2>Data Maintenance Dashboard</h2>
 
+@Html.AntiForgeryToken()
+
 <div class="container-fluid">
 
     @foreach (DashboardItemModel item in Model.Items)

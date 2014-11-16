@@ -124,8 +124,9 @@
 
         var options = {
             data: {
-                modelID: parentRow.data('id')
-            },
+                modelID: parentRow.data('id'),
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+        },
             success: success,
             url: cheroes.rootUrl + 'admin/datamaintenance/' + action
         };
