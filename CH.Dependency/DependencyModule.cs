@@ -36,7 +36,7 @@ namespace CH.Dependency
             Bind<IEmailConfiguration>().To<EmailConfiguration>();
             Bind<IEmailClient>().To<EmailClientProxy>();
 
-            Bind<IUserStore<IdentityUser>>().To<UserStore>();
+            Bind<IApplicationUserStore>().To<UserStore>();
             Bind<IApplicationUserManager>().To<ApplicationUserManager>();
         }
     }
