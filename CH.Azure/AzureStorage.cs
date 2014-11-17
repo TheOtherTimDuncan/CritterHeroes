@@ -114,7 +114,7 @@ namespace CH.Azure
             });
         }
 
-        private async Task<CloudTable> GetCloudTable()
+        protected async Task<CloudTable> GetCloudTable()
         {
             if (_cloudTable != null)
             {

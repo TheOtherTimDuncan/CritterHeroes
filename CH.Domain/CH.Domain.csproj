@@ -89,9 +89,11 @@
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
+    <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Identity\MachineKeyProtectionProvider.cs" />
+    <Compile Include="Models\Logging\UserActions.cs" />
     <Compile Include="Models\EmailMessage.cs" />
     <Compile Include="Contracts\IDataStatusHandler.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserManager.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Identity\IdentityUser.cs" />
     <Compile Include="Models\Data\Breed.cs" />
     <Compile Include="Models\Data\Species.cs" />
+    <Compile Include="Models\Logging\UserLog.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Status\DataItem.cs" />
     <Compile Include="Models\Status\DataStatusModel.cs" />

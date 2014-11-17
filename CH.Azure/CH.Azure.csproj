@@ -87,14 +87,17 @@
     <Compile Include="Identity\IdentityUserMapping.cs" />
     <Compile Include="Identity\UserStore.cs" />
     <Compile Include="Logging\AzureErrorLog.cs" />
+    <Compile Include="Logging\AzureUserLogger.cs" />
     <Compile Include="OrganizationAzureStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Data\BreedStorageEntity.cs" />
     <Compile Include="Storage\Data\AnimalStatusStorageEntity.cs" />
+    <Compile Include="Storage\Logging\UserLogStorageEntity.cs" />
     <Compile Include="Storage\OrganizationStorageEntity.cs" />
     <Compile Include="Storage\StorageEntity.cs" />
     <Compile Include="Storage\StorageEntityFactory.cs" />
     <Compile Include="Utility\DynamicTableEntityExtensions.cs" />
+    <Compile Include="Utility\PartitionKeyHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Azure.config" />

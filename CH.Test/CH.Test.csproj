@@ -155,6 +155,8 @@
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
     <Compile Include="Azure\IdentityTests.cs" />
+    <Compile Include="Azure\StorageEntityTests\UserLogStorageEntityTests.cs" />
+    <Compile Include="Azure\UserLogTests.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\MiscTests.cs" />

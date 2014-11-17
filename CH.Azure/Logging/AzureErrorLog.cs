@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CH.Azure.Utility;
 using Elmah;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -69,8 +70,8 @@ namespace CH.Azure.Logging
 
             // Default is to get all of today's errors
             DateTime now = DateTime.UtcNow;
-            string start = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0, DateTimeKind.Utc).Ticks.ToString("d19");
-            string end = new DateTime(now.Year, now.Month, now.Day, 23, 25, 0, DateTimeKind.Utc).Ticks.ToString("d19");
+            string start = PartitionKeyHelper.GetLoggingKeyForDate(new DateTime(now.Year, now.Month, now.Day, 0, 0, 0, DateTimeKind.Utc));
+            string end = PartitionKeyHelper.GetLoggingKeyForDate(new DateTime(now.Year, now.Month, now.Day, 23, 59, 0, DateTimeKind.Utc));
 
             //TODO: Improve this query
             CloudTable table = GetCloudTable();
@@ -80,8 +81,8 @@ namespace CH.Azure.Logging
                     where e.PartitionKey.CompareTo(start) >= 0 && e.PartitionKey.CompareTo(end) <= 0
                     select e
                 ).ToList();
-                //.Take((pageIndex + 1) * pageSize).ToList()
-                //.Skip(pageIndex * pageSize);
+            //.Take((pageIndex + 1) * pageSize).ToList()
+            //.Skip(pageIndex * pageSize);
 
             foreach (DynamicTableEntity entity in entities)
             {
@@ -94,9 +95,7 @@ namespace CH.Azure.Logging
 
         public override string Log(Error error)
         {
-            DateTime now = DateTime.UtcNow;
-            //string errorID = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("d19");
-            string partitionKey = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, 0, DateTimeKind.Utc).Ticks.ToString("d19");
+            string partitionKey = PartitionKeyHelper.GetLoggingKey();
             string errorID = Guid.NewGuid().ToString();
 
             DynamicTableEntity entity = new DynamicTableEntity(partitionKey, errorID);
