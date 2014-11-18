@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Identity;
+using CH.Domain.Contracts.Logging;
 using CH.Domain.Identity;
+using CH.Domain.Models.Logging;
 using CH.Website.Models;
 using CH.Website.Utility;
 using Microsoft.AspNet.Identity;
@@ -71,6 +73,8 @@ namespace CH.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
+            IUserLogger userLogger = Using<IUserLogger>();
+
             if (ModelState.IsValid)
             {
                 AppSignInManager signinManager = new AppSignInManager(UserManager, AuthenticationManager);
@@ -78,6 +82,8 @@ namespace CH.Website.Controllers
 
                 if (result == SignInStatus.Success)
                 {
+                    await userLogger.LogAction(UserActions.PasswordLoginSuccess, model.Username);
+
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -90,6 +96,8 @@ namespace CH.Website.Controllers
                     ModelState.AddModelError("", "The username or password that you entered was incorrect. Please try again.");
                 }
             }
+
+            await userLogger.LogAction(UserActions.PasswordLoginFailure, model.Username);
 
             return View(model);
         }
@@ -141,6 +149,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
+            await Using<IUserLogger>().LogAction(UserActions.DuplicateUsernameCheck, User.Identity.Name, Request.UrlReferrer.AbsoluteUri);
             IdentityUser user = await UserManager.FindByNameAsync(userName);
             bool result = (user != null);
             return Json(result);

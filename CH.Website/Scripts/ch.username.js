@@ -11,12 +11,12 @@
             minCharacters: 4,
 
             available: {
-                message: 'Username available',
+                message: 'Username is available',
                 cssClass: 'text-success',
             },
 
             taken: {
-                message: 'Username has been taken',
+                message: 'Username is not available',
                 cssClass: 'text-danger',
             },
 

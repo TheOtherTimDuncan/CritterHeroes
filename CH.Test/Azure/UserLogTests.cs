@@ -48,7 +48,7 @@ namespace CH.Test.Azure
             string additionalData = JsonConvert.SerializeObject(message);
 
             IUserLogger userLogger = Using<IUserLogger>();
-            await userLogger.LogAction<EmailMessage>(userAction, testUsername, message);
+            await userLogger.LogAction(userAction, testUsername, message);
 
             IEnumerable<UserLog> userLogs = await userLogger.GetUserLog(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
             UserLog log = userLogs.FirstOrDefault(x => x.Username == testUsername && x.AdditionalData != null);
