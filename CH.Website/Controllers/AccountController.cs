@@ -22,15 +22,18 @@ namespace CH.Website.Controllers
     {
         private ApplicationUserManager _userManager;
         private IAuthenticationManager _authenticationManager;
+        private IUserLogger _userLogger;
 
         public AccountController()
         {
+            _userLogger = Using<IUserLogger>();
         }
 
-        public AccountController(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public AccountController(ApplicationUserManager userManager, IAuthenticationManager authenticationManager, IUserLogger userLogger)
         {
             _userManager = userManager;
             _authenticationManager = authenticationManager;
+            _userLogger = userLogger;
         }
 
         public ApplicationUserManager UserManager
@@ -73,8 +76,6 @@ namespace CH.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            IUserLogger userLogger = Using<IUserLogger>();
-
             if (ModelState.IsValid)
             {
                 AppSignInManager signinManager = new AppSignInManager(UserManager, AuthenticationManager);
@@ -82,7 +83,7 @@ namespace CH.Website.Controllers
 
                 if (result == SignInStatus.Success)
                 {
-                    await userLogger.LogAction(UserActions.PasswordLoginSuccess, model.Username);
+                    await _userLogger.LogAction(UserActions.PasswordLoginSuccess, model.Username);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -97,7 +98,7 @@ namespace CH.Website.Controllers
                 }
             }
 
-            await userLogger.LogAction(UserActions.PasswordLoginFailure, model.Username);
+            await _userLogger.LogAction(UserActions.PasswordLoginFailure, model.Username);
 
             return View(model);
         }
@@ -115,7 +116,6 @@ namespace CH.Website.Controllers
             model.ReturnUrl = Request.UrlReferrer.AbsoluteUri;
 
             IdentityUser user = await UserManager.FindByNameAsync(User.Identity.Name);
-            model.OriginalUsername = User.Identity.Name;
             model.Username = User.Identity.Name;
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
@@ -128,14 +128,40 @@ namespace CH.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditProfile(EditProfileModel model)
         {
+            bool isUserNameChanged = false;
+            if (!User.Identity.Name.Equals(model.Username, StringComparison.InvariantCultureIgnoreCase))
+            {
+                IdentityUser dupeUser = await UserManager.FindByNameAsync(model.Username);
+                if (dupeUser != null)
+                {
+                    ModelState.AddModelError("", "The username you entered is not available. Please enter a different username.");
+                }
+                else
+                {
+                    isUserNameChanged = true;
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 IdentityUser user = await UserManager.FindByNameAsync(User.Identity.Name);
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+
+                if (isUserNameChanged)
+                {
+                    user.UserName = model.Username;
+                }
+
                 IdentityResult identityResult = await UserManager.UpdateAsync(user);
                 if (identityResult.Succeeded)
                 {
+                    if (isUserNameChanged)
+                    {
+                        await _userLogger.LogAction(UserActions.UsernameChanged, user.UserName, "Original username: " + User.Identity.Name);
+                        AuthenticationManager.SignOut();
+                        AuthenticationManager.SignIn(await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie));
+                    }
                     return Redirect(model.ReturnUrl);
                 }
                 AddIdentityErrorsToModelState(ModelState, identityResult);
@@ -149,7 +175,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            await Using<IUserLogger>().LogAction(UserActions.DuplicateUsernameCheck, User.Identity.Name, Request.UrlReferrer.AbsoluteUri);
+            await _userLogger.LogAction(UserActions.DuplicateUsernameCheck, User.Identity.Name, Request.UrlReferrer.AbsoluteUri);
             IdentityUser user = await UserManager.FindByNameAsync(userName);
             bool result = (user != null);
             return Json(result);

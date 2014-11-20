@@ -8,7 +8,7 @@
     $.widget('ch.username', {
 
         options: {
-            minCharacters: 4,
+            minCharacters: 3,
 
             available: {
                 message: 'Username is available',

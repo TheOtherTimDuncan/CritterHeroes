@@ -12,28 +12,23 @@ namespace CH.Website.Models
             set;
         }
 
-        public string OriginalUsername
-        {
-            get;
-            set;
-        }
-
-        [Required(ErrorMessage="Please enter a username")]
+        [Required(ErrorMessage = "Please enter a username.")]
+        [StringLength(255, MinimumLength = 4, ErrorMessage = "Please enter a username of at least 4 characters.")]
         public string Username
         {
             get;
             set;
         }
 
-        [Required(ErrorMessage = "Please enter your first name")]
-        [Display(Name="First Name")]
+        [Required(ErrorMessage = "Please enter your first name.")]
+        [Display(Name = "First Name")]
         public string FirstName
         {
             get;
             set;
         }
 
-        [Required(ErrorMessage = "Please enter your last name")]
+        [Required(ErrorMessage = "Please enter your last name.")]
         [Display(Name = "Last Name")]
         public string LastName
         {
@@ -41,8 +36,8 @@ namespace CH.Website.Models
             set;
         }
 
-        [Required(ErrorMessage = "Please enter your email address")]
-        [EmailAddress(ErrorMessage="Please enter a valid email address")]
+        [Required(ErrorMessage = "Please enter your email address.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email
         {
             get;

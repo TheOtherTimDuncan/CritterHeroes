@@ -7,5 +7,6 @@ namespace CH.Domain.Models.Logging
         PasswordLoginSuccess,
         PasswordLoginFailure,
         DuplicateUsernameCheck,
+        UsernameChanged
     }
 }
