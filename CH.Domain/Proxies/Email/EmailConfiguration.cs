@@ -12,7 +12,7 @@ namespace CH.Domain.Proxies.Email
         {
             get
             {
-                return null;
+                return ConfigurationManager.AppSettings["DefaultEmailFrom"]; ;
             }
         }
 

@@ -160,7 +160,9 @@
     <Compile Include="BaseTest.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\MiscTests.cs" />
-    <Compile Include="EmailTests.cs" />
+    <Compile Include="EmailTests\EmailClientTests.cs" />
+    <Compile Include="EmailTests\EmailBuilderTests.cs" />
+    <Compile Include="EmailTests\SendUsernameChangedEmailTests.cs" />
     <Compile Include="FluentHtml\BaseElementTests.cs" />
     <Compile Include="FluentHtml\BaseFormElementTests.cs" />
     <Compile Include="FluentHtml\BaseHtmlTest.cs" />

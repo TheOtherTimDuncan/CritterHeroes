@@ -90,6 +90,8 @@
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
+    <Compile Include="Handlers\Emails\EmailBuilder.cs" />
+    <Compile Include="Handlers\Emails\SendUsernameChangedEmail.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Identity\MachineKeyProtectionProvider.cs" />

@@ -8,10 +8,10 @@ using CH.Domain.Proxies.Email;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test
+namespace CH.Test.EmailTests
 {
     [TestClass]
-    public class EmailTests
+    public class EmailClientTests
     {
         //[TestMethod]
         public async Task CanSendEmailWithSendGrid()
