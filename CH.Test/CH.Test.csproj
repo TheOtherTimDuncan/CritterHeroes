@@ -126,12 +126,13 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TOTD.Mvc">
-      <HintPath>..\packages\TOTD.Mvc.1.1.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="TOTD.Utility, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Mvc, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.1.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Mvc.1.2.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="TOTD.Utility, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\TOTD.Utility.1.2.0.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -163,24 +164,6 @@
     <Compile Include="EmailTests\EmailClientTests.cs" />
     <Compile Include="EmailTests\EmailBuilderTests.cs" />
     <Compile Include="EmailTests\SendUsernameChangedEmailTests.cs" />
-    <Compile Include="FluentHtml\BaseElementTests.cs" />
-    <Compile Include="FluentHtml\BaseFormElementTests.cs" />
-    <Compile Include="FluentHtml\BaseHtmlTest.cs" />
-    <Compile Include="FluentHtml\SpanElementTests.cs" />
-    <Compile Include="FluentHtml\LinkElementTests.cs" />
-    <Compile Include="FluentHtml\ListItemTests.cs" />
-    <Compile Include="FluentHtml\InputTextElementTests.cs" />
-    <Compile Include="FluentHtml\InputButtonElementTests.cs" />
-    <Compile Include="FluentHtml\InputCheckboxElementTests.cs" />
-    <Compile Include="FluentHtml\InputHiddenElementTests.cs" />
-    <Compile Include="FluentHtml\InputPasswordElementTests.cs" />
-    <Compile Include="FluentHtml\InputRadioElementTests.cs" />
-    <Compile Include="FluentHtml\InputSubmitElementTests.cs" />
-    <Compile Include="FluentHtml\FormElementTests.cs" />
-    <Compile Include="FluentHtml\LabelElementTests.cs" />
-    <Compile Include="FluentHtml\UrlContextTests.cs" />
-    <Compile Include="FluentHtml\UnorderedListTests.cs" />
-    <Compile Include="FluentHtml\OrderedListTests.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Models\BreedTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
@@ -191,7 +174,6 @@
     <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\SpeciesMappingTests.cs" />
     <Compile Include="RescueGroups\ConfigurationTests.cs" />
-    <Compile Include="ActionHelperTests.cs" />
     <Compile Include="StateManagementTests\BaseContextTest.cs" />
     <Compile Include="StateManagementTests\OrganizationContextTests.cs" />
     <Compile Include="StateManagementTests\StateManagerTests.cs" />

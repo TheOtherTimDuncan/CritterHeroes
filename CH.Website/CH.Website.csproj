@@ -136,9 +136,12 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Mvc">
+      <HintPath>..\packages\TOTD.Mvc.1.2.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="TOTD.Utility, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.1.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Utility.1.2.0.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -175,49 +178,10 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Sources\Storage\AzureStorageSource.cs" />
     <Compile Include="Sources\Storage\RescueGroupsStorageSource.cs" />
-    <Compile Include="Utility\ActionHelper.cs" />
     <Compile Include="Utility\AreaName.cs" />
     <Compile Include="Utility\DataModelSource.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
-    <Compile Include="Utility\FluentHtml\BootstrapExtensions.cs" />
-    <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNav.cs" />
-    <Compile Include="Utility\FluentHtml\Bootstrap\BootstrapNavItem.cs" />
-    <Compile Include="Utility\FluentHtml\Contracts\IContainerElement.cs" />
-    <Compile Include="Utility\FluentHtml\Contracts\IElement.cs" />
-    <Compile Include="Utility\FluentHtml\Contracts\IHtmlConvention.cs" />
-    <Compile Include="Utility\FluentHtml\Contracts\IUrlContext.cs" />
-    <Compile Include="Utility\FluentHtml\Conventions\HtmlConvention.cs" />
-    <Compile Include="Utility\FluentHtml\Conventions\HtmlConventionBuilder.cs" />
-    <Compile Include="Utility\FluentHtml\ElementFactory.cs" />
-    <Compile Include="Utility\FluentHtml\ElementFactoryExtensions.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\BaseContainerElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\BaseFormElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\BaseInputElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\BaseListItemElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\FormElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputButtonElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputCheckboxElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputHiddenElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputPasswordElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputRadioElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputSubmitElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\InputTextElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\LabelElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\ListItemElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\Element.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\LinkElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\BaseListElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\OrderedListElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\SpanElement.cs" />
-    <Compile Include="Utility\FluentHtml\Elements\UnorderedListElement.cs" />
-    <Compile Include="Utility\FluentHtml\ExternalUrlContext.cs" />
-    <Compile Include="Utility\FluentHtml\Html\HtmlAttribute.cs" />
-    <Compile Include="Utility\FluentHtml\Html\HtmlInputType.cs" />
-    <Compile Include="Utility\FluentHtml\InternalUrlContext.cs" />
-    <Compile Include="Utility\FluentHtml\Html\HtmlTag.cs" />
-    <Compile Include="Utility\FluentHtml\RouteDataKeys.cs" />
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
-    <Compile Include="Utility\ActionExtensions.cs" />
     <Compile Include="Utility\UrlHelperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

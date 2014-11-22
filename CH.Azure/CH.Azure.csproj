@@ -72,9 +72,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TOTD.Utility, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Utility, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.1.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Utility.1.2.0.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
