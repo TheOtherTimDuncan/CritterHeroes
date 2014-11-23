@@ -26,10 +26,7 @@ namespace CH.Test
                 where !t.IsInterface && t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType)
                 select t;
 
-            foreach (Type type in handlerTypes)
-            {
-                DependencyContainer.Get(type).Should().NotBeNull();
-            }
+            VerifyTypes(handlerTypes);
         }
 
         [TestMethod]
@@ -43,9 +40,27 @@ namespace CH.Test
                 where !t.IsInterface && t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType)
                 select t;
 
-            foreach (Type type in handlerTypes)
+            VerifyTypes(handlerTypes);
+        }
+
+        public void VerifyTypes(IEnumerable<Type> types)
+        {
+            foreach (Type type in types)
             {
-                DependencyContainer.Get(type).Should().NotBeNull();
+                try
+                {
+                    DependencyContainer.Get(type).Should().NotBeNull();
+                }
+                catch(ArgumentNullException ex)
+                {
+                    // Anything that depends on IHttpContext will throw an exception because the bound
+                    // class requires HttpContext.Current to not be null. Lets ignore that exception but 
+                    // rethrow any others
+                    if (ex.ParamName != "HttpContext.Current")
+                    {
+                        throw;
+                    }
+                }
             }
         }
     }

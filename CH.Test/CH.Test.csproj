@@ -182,6 +182,9 @@
     <Compile Include="Models\DataStatusTests.cs" />
     <Compile Include="Models\SpeciesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServicesTests\CommandHandlerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServicesTests\CommandResultTests.cs" />
     <Compile Include="ServicesTests\QueryHandlerTests.cs" />
     <Compile Include="RescueGroups\MappingTests\BreedMappingTests.cs" />

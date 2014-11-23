@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
+using Microsoft.Owin;
 
 namespace CH.Domain.Contracts
 {
@@ -23,6 +24,11 @@ namespace CH.Domain.Contracts
         }
 
         HttpServerUtilityBase Server
+        {
+            get;
+        }
+
+        IOwinContext OwinContext
         {
             get;
         }

@@ -78,7 +78,7 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppSignInManager signinManager = new AppSignInManager(UserManager, AuthenticationManager);
+                ApplicationSignInManager signinManager = new ApplicationSignInManager(UserManager, AuthenticationManager);
                 SignInStatus result = await signinManager.PasswordSignInAsync(model.Username, model.Password, isPersistent: false, shouldLockout: false);
 
                 if (result == SignInStatus.Success)

@@ -51,5 +51,14 @@ namespace CH.Domain.Proxies
                 return _httpContext.Server;
             }
         }
+
+
+        public Microsoft.Owin.IOwinContext OwinContext
+        {
+            get
+            {
+                return _httpContext.GetOwinContext();
+            }
+        }
     }
 }

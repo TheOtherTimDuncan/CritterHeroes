@@ -95,6 +95,7 @@
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
+    <Compile Include="Contracts\Identity\IApplicationSignInManager.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Contracts\Queries\IQuery.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Contracts\Queries\IQueryResult.cs" />
     <Compile Include="Handlers\Emails\EmailBuilder.cs" />
     <Compile Include="Handlers\Emails\SendUsernameChangedEmail.cs" />
+    <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Identity\MachineKeyProtectionProvider.cs" />

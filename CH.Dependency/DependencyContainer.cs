@@ -37,6 +37,7 @@ namespace CH.Dependency
             return new StandardKernel
             (
                 new DependencyModule(),
+                new IdentityModule(),
                 new QueryCommandModule()
             );
         }
