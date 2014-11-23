@@ -20,7 +20,7 @@ using Microsoft.AspNet.Identity;
 using Ninject;
 using Ninject.Modules;
 
-namespace CH.Dependency
+namespace CH.Dependency.Modules
 {
     public class DependencyModule : NinjectModule
     {

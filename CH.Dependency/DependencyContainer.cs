@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using CH.Dependency.Modules;
 using Ninject;
 
 namespace CH.Dependency
@@ -13,6 +13,11 @@ namespace CH.Dependency
         public static T Using<T>()
         {
             return Kernel.Get<T>();
+        }
+
+        public static object Get(Type type)
+        {
+            return Kernel.Get(type);
         }
 
         public static IKernel Kernel
@@ -31,7 +36,8 @@ namespace CH.Dependency
         {
             return new StandardKernel
             (
-                new DependencyModule()
+                new DependencyModule(),
+                new QueryCommandModule()
             );
         }
     }
