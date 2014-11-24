@@ -6,8 +6,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
 using CH.Website.Models;
@@ -24,8 +26,14 @@ namespace CH.Website.Controllers
         private IAuthenticationManager _authenticationManager;
         private IUserLogger _userLogger;
 
-        public AccountController()
+        private IQueryDispatcher _queryDispatcher;
+        private ICommandDispatcher _commandDispatcher;
+
+        public AccountController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
         {
+            this._queryDispatcher = queryDispatcher;
+            this._commandDispatcher = commandDispatcher;
+
             _userLogger = Using<IUserLogger>();
         }
 

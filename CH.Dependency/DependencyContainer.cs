@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using CH.Dependency.Modules;
+using CH.Dependency.Web;
 using Ninject;
 
 namespace CH.Dependency
@@ -30,6 +32,11 @@ namespace CH.Dependency
                 }
                 return _kernel;
             }
+        }
+
+        public static IDependencyResolver GetResolver()
+        {
+            return new WebDependencyResolver(Kernel);
         }
 
         private static IKernel GetStandardKernel()
