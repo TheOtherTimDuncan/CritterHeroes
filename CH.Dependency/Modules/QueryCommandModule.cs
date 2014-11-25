@@ -26,7 +26,7 @@ namespace CH.Dependency.Modules
             );
 
             Kernel.Bind(x => x
-                .FromAssembliesMatching("CH.Website")
+                .FromAssembliesMatching("CH.Website.dll")
                 .SelectAllClasses()
                 .InheritedFrom(typeof(IQueryHandler<,>))
                 .BindAllInterfaces()
@@ -40,7 +40,7 @@ namespace CH.Dependency.Modules
             );
 
             Kernel.Bind(x => x
-                .FromAssembliesMatching("CH.Website")
+                .FromAssembliesMatching("CH.Website.dll")
                 .SelectAllClasses()
                 .InheritedFrom(typeof(ICommandHandler<>))
                 .BindAllInterfaces()
