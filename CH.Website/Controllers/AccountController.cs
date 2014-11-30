@@ -17,13 +17,9 @@ namespace CH.Website.Controllers
     {
         private IAuthenticationManager _authenticationManager;
 
-        private IQueryDispatcher _queryDispatcher;
-        private ICommandDispatcher _commandDispatcher;
-
         public AccountController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+            :base(queryDispatcher,commandDispatcher)
         {
-            this._queryDispatcher = queryDispatcher;
-            this._commandDispatcher = commandDispatcher;
         }
 
         public IAuthenticationManager AuthenticationManager
@@ -41,7 +37,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginQuery query)
         {
-            LoginModel model = await _queryDispatcher.Dispatch<LoginQuery, LoginModel>(query);
+            LoginModel model = await QueryDispatcher.Dispatch<LoginQuery, LoginModel>(query);
             return View(model);
         }
 
@@ -52,7 +48,7 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await _commandDispatcher.Dispatch<LoginModel>(model);
+                CommandResult commandResult = await CommandDispatcher.Dispatch<LoginModel>(model);
                 if (commandResult.Succeeded)
                 {
                     if (Url.IsLocalUrl(returnUrl))
@@ -83,7 +79,7 @@ namespace CH.Website.Controllers
             {
                 Username = User.Identity.Name
             };
-            EditProfileModel model = await _queryDispatcher.Dispatch<EditProfileQuery, EditProfileModel>(query);
+            EditProfileModel model = await QueryDispatcher.Dispatch<EditProfileQuery, EditProfileModel>(query);
             return View(model);
         }
 
@@ -94,7 +90,7 @@ namespace CH.Website.Controllers
             if (ModelState.IsValid)
             {
                 model.OriginalUsername = User.Identity.Name;
-                CommandResult commandResult = await _commandDispatcher.Dispatch<EditProfileModel>(model);
+                CommandResult commandResult = await CommandDispatcher.Dispatch<EditProfileModel>(model);
                 if (commandResult.Succeeded)
                 {
                     return Redirect(model.ReturnUrl);
@@ -113,7 +109,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            CheckUsernameResult queryResult = await _queryDispatcher.Dispatch<CheckUsernameQuery, CheckUsernameResult>(new CheckUsernameQuery()
+            CheckUsernameResult queryResult = await QueryDispatcher.Dispatch<CheckUsernameQuery, CheckUsernameResult>(new CheckUsernameQuery()
             {
                 Username = userName
             });

@@ -7,7 +7,9 @@ using System.Web.Mvc;
 using CH.Dependency;
 using CH.Domain.Commands;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Handlers;
 using CH.Domain.Models;
 using CH.Domain.StateManagement;
@@ -19,6 +21,31 @@ namespace CH.Website.Controllers
     {
         private OrganizationContext _organizationContext;
         private IAppConfiguration _appConfiguration;
+
+        private IQueryDispatcher _queryDispatcher;
+        private ICommandDispatcher _commandDispatcher;
+
+        public BaseController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+        {
+            this._queryDispatcher = queryDispatcher;
+            this._commandDispatcher = commandDispatcher;
+        }
+
+        protected IQueryDispatcher QueryDispatcher
+        {
+            get
+            {
+                return _queryDispatcher;
+            }
+        }
+
+        protected ICommandDispatcher CommandDispatcher
+        {
+            get
+            {
+                return _commandDispatcher;
+            }
+        }
 
         protected OrganizationContext OrganizationContext
         {

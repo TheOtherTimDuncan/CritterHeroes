@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Website.Models;
 using CH.Website.Utility;
@@ -13,6 +15,11 @@ namespace CH.Website.Controllers
 {
     public class HomeController : BaseController
     {
+        public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+            : base(queryDispatcher, commandDispatcher)
+        {
+        }
+
         public ActionResult Index()
         {
             return View();

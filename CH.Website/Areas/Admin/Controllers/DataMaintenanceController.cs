@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Handlers.DataStatus;
 using CH.Domain.Identity;
 using CH.Domain.Models.Status;
@@ -20,6 +22,11 @@ namespace CH.Website.Areas.Admin.Controllers
     [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
     public class DataMaintenanceController : BaseController
     {
+        public DataMaintenanceController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+            : base(queryDispatcher, commandDispatcher)
+        {
+        }
+
         [HttpGet]
         public ViewResult Dashboard()
         {
