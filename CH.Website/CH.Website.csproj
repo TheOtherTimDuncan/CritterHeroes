@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckUsernameResult.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogoModel.cs" />
@@ -182,6 +183,8 @@
     </Compile>
     <Compile Include="Services\Queries\EditProfileQuery.cs" />
     <Compile Include="Services\Queries\LoginQuery.cs" />
+    <Compile Include="Services\Queries\CheckUsernameQuery.cs" />
+    <Compile Include="Services\QueryHandlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Services\QueryHandlers\EditProfileViewModelQueryHandler.cs" />
     <Compile Include="Services\QueryHandlers\LoginViewModelQueryHandler.cs" />
     <Compile Include="Startup.cs" />

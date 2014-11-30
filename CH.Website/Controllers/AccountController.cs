@@ -145,10 +145,11 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            await _userLogger.LogAction(UserActions.DuplicateUsernameCheck, User.Identity.Name, Request.UrlReferrer.AbsoluteUri);
-            IdentityUser user = await UserManager.FindByNameAsync(userName);
-            bool result = (user != null);
-            return Json(result);
+            CheckUsernameResult queryResult = await _queryDispatcher.Dispatch<CheckUsernameQuery, CheckUsernameResult>(new CheckUsernameQuery()
+            {
+                Username = userName
+            });
+            return Json(queryResult.UserExists);
         }
     }
 }
