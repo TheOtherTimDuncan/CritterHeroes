@@ -71,9 +71,12 @@ namespace CH.Website.Controllers
 
         protected void AddCommandResultErrorsToModelState(ModelStateDictionary modelState, CommandResult commandResult)
         {
-            foreach (KeyValuePair<string, string> error in commandResult.Errors)
+            foreach (KeyValuePair<string, List<string>> error in commandResult.Errors)
             {
-                modelState.AddModelError(error.Key, error.Value);
+                foreach (string errorMessage in error.Value)
+                {
+                    modelState.AddModelError(error.Key, errorMessage);
+                }
             }
         }
     }

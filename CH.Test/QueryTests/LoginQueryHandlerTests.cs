@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Contracts.Queries;
 using CH.Website.Models;
 using CH.Website.Services.Queries;
 using CH.Website.Services.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test.ServicesTests
+namespace CH.Test.QueryHandlerTests
 {
     [TestClass]
-    public class QueryHandlerTests : BaseTest
+    public class LoginQueryHandlerTests : BaseTest
     {
         [TestMethod]
-        public async Task CreatesViewModelFromQueryParameter()
+        public async Task LoginQueryHandlerReturnsViewModel()
         {
             LoginQuery query = new LoginQuery()
             {
-                ReturnUrl="url"
+                ReturnUrl = "url"
             };
             LoginViewModelQueryHandler handler = new LoginViewModelQueryHandler();
-            LoginModel model =await  handler.Retrieve(query);
+            LoginModel model = await handler.Retrieve(query);
             model.Should().NotBeNull();
             model.ReturnUrl.Should().Be(query.ReturnUrl);
         }

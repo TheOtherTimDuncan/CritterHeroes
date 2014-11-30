@@ -111,15 +111,11 @@ namespace CH.Website.Controllers
         [HttpGet]
         public async Task<ActionResult> EditProfile()
         {
-            EditProfileModel model = new EditProfileModel();
-            model.ReturnUrl = Request.UrlReferrer.AbsoluteUri;
-
-            IdentityUser user = await UserManager.FindByNameAsync(User.Identity.Name);
-            model.Username = User.Identity.Name;
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.Email = user.Email;
-
+            EditProfileQuery query = new EditProfileQuery()
+            {
+                Username = User.Identity.Name
+            };
+            EditProfileModel model = await _queryDispatcher.Dispatch<EditProfileQuery, EditProfileModel>(query);
             return View(model);
         }
 
@@ -127,43 +123,18 @@ namespace CH.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditProfile(EditProfileModel model)
         {
-            bool isUserNameChanged = false;
-            if (!User.Identity.Name.Equals(model.Username, StringComparison.InvariantCultureIgnoreCase))
+            if (ModelState.IsValid)
             {
-                IdentityUser dupeUser = await UserManager.FindByNameAsync(model.Username);
-                if (dupeUser != null)
+                model.OriginalUsername = User.Identity.Name;
+                CommandResult commandResult = await _commandDispatcher.Dispatch<EditProfileModel>(model);
+                if (commandResult.Succeeded)
                 {
-                    ModelState.AddModelError("", "The username you entered is not available. Please enter a different username.");
+                    return Redirect(model.ReturnUrl);
                 }
                 else
                 {
-                    isUserNameChanged = true;
+                    AddCommandResultErrorsToModelState(ModelState, commandResult);
                 }
-            }
-
-            if (ModelState.IsValid)
-            {
-                IdentityUser user = await UserManager.FindByNameAsync(User.Identity.Name);
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-
-                if (isUserNameChanged)
-                {
-                    user.UserName = model.Username;
-                }
-
-                IdentityResult identityResult = await UserManager.UpdateAsync(user);
-                if (identityResult.Succeeded)
-                {
-                    if (isUserNameChanged)
-                    {
-                        await _userLogger.LogAction(UserActions.UsernameChanged, user.UserName, "Original username: " + User.Identity.Name);
-                        AuthenticationManager.SignOut();
-                        AuthenticationManager.SignIn(await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie));
-                    }
-                    return Redirect(model.ReturnUrl);
-                }
-                AddIdentityErrorsToModelState(ModelState, identityResult);
             }
 
             return View(model);

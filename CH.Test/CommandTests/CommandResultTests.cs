@@ -27,7 +27,17 @@ namespace CH.Test.ServicesTests
             CommandResult result = CommandResult.Failed("key", "message");
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            result.Errors["key"].Should().Be("message");
+            result.Errors["key"][0].Should().Be("message");
+        }
+
+        [TestMethod]
+        public void FailedResultHasMultipleErrors()
+        {
+            string[] errors = new string[] { "Error1", "Error2" };
+            CommandResult result = CommandResult.Failed("key", errors);
+            result.Succeeded.Should().BeFalse();
+            result.Errors.Should().HaveCount(1);
+            result.Errors["key"].ToArray().Should().Equal(errors);
         }
 
         [TestMethod]
@@ -44,7 +54,7 @@ namespace CH.Test.ServicesTests
             CommandResult result = CommandResult.FromIdentityResult(new IdentityResult("error"), "key");
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            result.Errors["key"].Should().Be("error");
+            result.Errors["key"][0].Should().Be("error");
         }
     }
 }

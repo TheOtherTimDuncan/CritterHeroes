@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Models.Logging;
-using CH.Website;
 using CH.Website.Models;
 using CH.Website.Services.Commands;
 using FluentAssertions;
@@ -15,10 +13,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace CH.Test.ServicesTests
+namespace CH.Test.CommandTests
 {
     [TestClass]
-    public class CommandHandlerTests
+    public class LoginCommandHandlerTests
     {
         [TestMethod]
         public async Task LoginCommandReturnsSuccessForSuccessfulLogin()
@@ -63,7 +61,7 @@ namespace CH.Test.ServicesTests
             CommandResult result = await command.Execute(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            result.Errors[""].Should().Be("The username or password that you entered was incorrect. Please try again.");
+            result.Errors[""][0].Should().Be("The username or password that you entered was incorrect. Please try again.");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
             mockUserLogger.Verify(x => x.LogAction(UserActions.PasswordLoginFailure, model.Username), Times.Once);

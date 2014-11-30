@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Queries;
 
 namespace CH.Website.Models
 {
-    public class EditProfileModel
+    public class EditProfileModel : ICommand, IQueryResult
     {
         public string ReturnUrl
+        {
+            get;
+            set;
+        }
+
+        public string OriginalUsername
         {
             get;
             set;

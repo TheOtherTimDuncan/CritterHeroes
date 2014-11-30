@@ -12,7 +12,7 @@ namespace CH.Domain.Commands
     {
         private CommandResult(bool succeeded)
         {
-            this.Errors = new Dictionary<string, string>();
+            this.Errors = new Dictionary<string, List<string>>();
             this.Succeeded = succeeded;
         }
 
@@ -24,6 +24,11 @@ namespace CH.Domain.Commands
         public static CommandResult Failed(string errorKey, string errorMessage)
         {
             return new CommandResult(false).AddError(errorKey, errorMessage);
+        }
+
+        public static CommandResult Failed(string errorKey, IEnumerable<string> errorMessages)
+        {
+            return new CommandResult(false).AddErrors(errorKey, errorMessages);
         }
 
         public static CommandResult FromIdentityResult(IdentityResult identityResult, string errorKey)
@@ -44,7 +49,7 @@ namespace CH.Domain.Commands
             private set;
         }
 
-        public IDictionary<string, string> Errors
+        public IDictionary<string, List<string>> Errors
         {
             get;
             private set;
@@ -54,16 +59,31 @@ namespace CH.Domain.Commands
         {
             ThrowIf.Argument.IsNull(key, "key");
             ThrowIf.Argument.IsNullOrEmpty(error, "error");
-            Errors[key] = error;
+
+            List<string> errors;
+            if (!Errors.TryGetValue(key, out errors))
+            {
+                errors = new List<string>();
+                Errors[key] = errors;
+            }
+
+            errors.Add(error);
+
             return this;
         }
 
         public CommandResult AddIdentityResultErrors(string key, IdentityResult identityResult)
         {
-            ThrowIf.Argument.IsNull(key, "key");
             ThrowIf.Argument.IsNull(identityResult, "identityResult");
+            return AddErrors(key, identityResult.Errors);
+        }
 
-            foreach (string error in identityResult.Errors)
+        public CommandResult AddErrors(string key, IEnumerable<string> errors)
+        {
+            ThrowIf.Argument.IsNull(key, "key");
+            ThrowIf.Argument.IsNull(errors, "errors");
+
+            foreach (string error in errors)
             {
                 AddError(key, error);
             }
