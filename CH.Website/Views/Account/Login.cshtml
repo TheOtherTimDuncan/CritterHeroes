@@ -4,7 +4,7 @@
     ViewBag.Title = "Login";
 }
 
-@using (Html.FluentHtml().Form().Action<AccountController>(x => x.Login(Model.ReturnUrl)).Class("form-horizontal").AutoCompleteOff().Begin())
+@using (Html.FluentHtml().Form().LoginAction(Model.ReturnUrl).Class("form-horizontal").AutoCompleteOff().Begin())
 {
     @Html.AntiForgeryToken()
 

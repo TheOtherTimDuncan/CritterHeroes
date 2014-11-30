@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CH.Dependency;
+using CH.Domain.Commands;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Handlers;
@@ -60,11 +61,19 @@ namespace CH.Website.Controllers
             return string.Format("{0}/{1}/{2}", AppConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
         }
 
-        protected void AddIdentityErrorsToModelState(ModelStateDictionary  modelState, IdentityResult identityResult)
+        protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)
         {
             foreach (string error in identityResult.Errors)
             {
                 ModelState.AddModelError("", error);
+            }
+        }
+
+        protected void AddCommandResultErrorsToModelState(ModelStateDictionary modelState, CommandResult commandResult)
+        {
+            foreach (KeyValuePair<string, string> error in commandResult.Errors)
+            {
+                modelState.AddModelError(error.Key, error.Value);
             }
         }
     }

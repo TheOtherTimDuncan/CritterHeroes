@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CH.Domain.Commands;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
@@ -13,6 +14,7 @@ using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
 using CH.Website.Models;
+using CH.Website.Services.Queries;
 using CH.Website.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -69,13 +71,9 @@ namespace CH.Website.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public async Task<ActionResult> Login(LoginQuery query)
         {
-            LoginModel model = new LoginModel()
-            {
-                ReturnUrl = returnUrl
-            };
-
+            LoginModel model = await _queryDispatcher.Dispatch<LoginQuery, LoginModel>(query);
             return View(model);
         }
 
@@ -86,27 +84,20 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationSignInManager signinManager = new ApplicationSignInManager(UserManager, AuthenticationManager);
-                SignInStatus result = await signinManager.PasswordSignInAsync(model.Username, model.Password, isPersistent: false, shouldLockout: false);
-
-                if (result == SignInStatus.Success)
+                CommandResult commandResult = await _commandDispatcher.Dispatch<LoginModel>(model);
+                if (commandResult.Succeeded)
                 {
-                    await _userLogger.LogAction(UserActions.PasswordLoginSuccess, model.Username);
-
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
                     return RedirectToAction("Index", "Home");
                 }
-
                 else
                 {
-                    ModelState.AddModelError("", "The username or password that you entered was incorrect. Please try again.");
+                    AddCommandResultErrorsToModelState(ModelState, commandResult);
                 }
             }
-
-            await _userLogger.LogAction(UserActions.PasswordLoginFailure, model.Username);
 
             return View(model);
         }

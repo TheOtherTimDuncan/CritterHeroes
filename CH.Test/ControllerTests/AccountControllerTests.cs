@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using CH.Domain.Commands;
+using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
 using CH.Website.Controllers;
 using CH.Website.Models;
+using CH.Website.Services.Queries;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -23,8 +27,86 @@ using Moq;
 namespace CH.Test.ControllerTests
 {
     [TestClass]
-    public class AccountControllerTests : BaseTest
+    public class AccountControllerTests : BaseControllerTest
     {
+        [TestMethod]
+        public async Task GetLoginReturnsViewWithModel()
+        {
+            LoginQuery loginQuery = new LoginQuery()
+            {
+            };
+
+            Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
+            mockDispatcher.Setup(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery)).Returns(Task.FromResult(new LoginModel()));
+
+            AccountController controller = new AccountController(mockDispatcher.Object, null);
+
+            ViewResult viewResult = (await controller.Login(loginQuery)) as ViewResult;
+            viewResult.Should().NotBeNull();
+            viewResult.Model.Should().NotBeNull();
+            viewResult.Model.Should().BeOfType<LoginModel>();
+
+            mockDispatcher.Verify(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task PostLoginReturnsViewWithModelErrorsIfLoginFails()
+        {
+            LoginModel model = new LoginModel();
+
+            Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
+            mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
+
+            AccountController controller = new AccountController(null, mockDispatcher.Object);
+
+            ViewResult viewResult = (await controller.Login(model, null)) as ViewResult;
+            viewResult.Should().NotBeNull();
+
+            controller.ModelState.IsValid.Should().BeFalse();
+            controller.ModelState[""].Errors[0].ErrorMessage.Should().Be("Error");
+
+            mockDispatcher.Verify(x => x.Dispatch<LoginModel>(model), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task PostLoginRedirectsToHomeIfLoginSuccessfulAndNoReturnUrl()
+        {
+            LoginModel model = new LoginModel();
+
+            Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
+            mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
+
+            Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
+
+            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            controller.Url = new UrlHelper(new RequestContext(mockHttpContext.Object, new RouteData()), GetRouteCollection());
+
+            RedirectToRouteResult redirectResult = (await controller.Login(model, null)) as RedirectToRouteResult;
+            VerifyRedirectToRouteResult(redirectResult, "Index", "Home");
+
+            mockDispatcher.Verify(x => x.Dispatch<LoginModel>(model), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task PostLoginRedirectsToReturnUrlIfLoginSuccessfulAndHasReturnUrl()
+        {
+            LoginModel model = new LoginModel();
+
+            Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
+            mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
+
+            Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
+
+            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            controller.Url = new UrlHelper(new RequestContext(mockHttpContext.Object, new RouteData()), GetRouteCollection());
+
+            RedirectResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectResult;
+            redirectResult.Should().NotBeNull();
+            redirectResult.Url.Should().Be("/Account/EditProfile");
+
+            mockDispatcher.Verify(x => x.Dispatch<LoginModel>(model), Times.Once);
+        }
+
         [TestMethod]
         public async Task GetEditProfileReturnsViewWithModel()
         {
