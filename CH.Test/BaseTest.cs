@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Dependency;
+using CH.Domain.Models.Data;
 using FluentAssertions;
 using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.Misc;
@@ -16,6 +17,15 @@ namespace CH.Test
         public T Using<T>()
         {
             return DependencyContainer.Using<T>();
+        }
+
+        public IEnumerable<Species> GetTestSupportedSpecies()
+        {
+            return new Species[] 
+            { 
+                new Species("1","singular-1","plural-2", null, null),
+                new Species("2","singular-2","plural-2", null, null) 
+            };
         }
 
         public void AssertMethodsListIsNullOrEmpty(IEnumerable<MethodInfo> methods, string assertMessage)

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Models;
 using CH.Domain.Models.Data;
 
 namespace CH.Domain.StateManagement
 {
-    public class OrganizationContext
+    public class OrganizationContext : IQueryResult
     {
         public static OrganizationContext FromOrganization(Organization organization)
         {

@@ -27,11 +27,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new Species[] 
-                { 
-                    new Species("1","singular-1","plural-2", null, null),
-                    new Species("2","singular-2","plural-2", null, null) 
-                }
+                SupportedCritters = GetTestSupportedSpecies()
             };
 
             OrganizationStateManager stateManager = new OrganizationStateManager(GetMockHttpContext().Object);
@@ -54,11 +50,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                SupportedCritters = new Species[] 
-                { 
-                    new Species("1","singular-1","plural-2", null, null),
-                    new Species("2","singular-2","plural-2", null, null) 
-                }
+                SupportedCritters = GetTestSupportedSpecies()
             };
 
             OrganizationContext context = OrganizationContext.FromOrganization(organization);

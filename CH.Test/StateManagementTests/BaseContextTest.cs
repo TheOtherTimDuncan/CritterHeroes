@@ -9,7 +9,7 @@ using Moq;
 
 namespace CH.Test.StateManagementTests
 {
-    public class BaseContextTest
+    public class BaseContextTest : BaseTest
     {
         public Mock<IHttpContext> GetMockHttpContext()
         {
