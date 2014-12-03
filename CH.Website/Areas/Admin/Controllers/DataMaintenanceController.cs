@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Handlers.DataStatus;
 using CH.Domain.Identity;
@@ -22,8 +21,8 @@ namespace CH.Website.Areas.Admin.Controllers
     [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
     public class DataMaintenanceController : BaseController
     {
-        public DataMaintenanceController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
-            : base(queryDispatcher, commandDispatcher)
+        public DataMaintenanceController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
+            : base(queryDispatcher, commandDispatcher, appConfiguration)
         {
         }
 
@@ -94,7 +93,7 @@ namespace CH.Website.Areas.Admin.Controllers
 
         private IStorageSource GetTarget()
         {
-            return new AzureStorageSource(OrganizationContext.AzureName);
+            return new AzureStorageSource(GetOrganizationContext().AzureName);
         }
 
         private IStorageSource GetSource()
@@ -106,7 +105,7 @@ namespace CH.Website.Areas.Admin.Controllers
         {
             return new StatusContext()
             {
-                SupportedCritters = OrganizationContext.SupportedCritters
+                SupportedCritters = GetOrganizationContext().SupportedCritters
             };
         }
     }

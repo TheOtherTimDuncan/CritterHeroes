@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +13,7 @@ using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Handlers;
 using CH.Domain.Models;
+using CH.Domain.Queries;
 using CH.Domain.StateManagement;
 using Microsoft.AspNet.Identity;
 
@@ -25,10 +27,11 @@ namespace CH.Website.Controllers
         private IQueryDispatcher _queryDispatcher;
         private ICommandDispatcher _commandDispatcher;
 
-        public BaseController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+        public BaseController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
         {
             this._queryDispatcher = queryDispatcher;
             this._commandDispatcher = commandDispatcher;
+            this._appConfiguration = appConfiguration;
         }
 
         protected IQueryDispatcher QueryDispatcher
@@ -47,34 +50,31 @@ namespace CH.Website.Controllers
             }
         }
 
-        protected OrganizationContext OrganizationContext
+        protected OrganizationContext GetOrganizationContext()
         {
-            get
+            if (_organizationContext == null)
             {
+                // First try to get the context from the state manager
+                IStateManager<OrganizationContext> stateManager = Using<IStateManager<OrganizationContext>>();
+                _organizationContext = stateManager.GetContext();
+
                 if (_organizationContext == null)
                 {
-                    _organizationContext = Using<IStateManager<OrganizationContext>>().GetContext();
-                    if (_organizationContext == null)
-                    {
-                        Organization organization = Task.Factory.StartNew(() => Using<IStorageContext<Organization>>().GetAsync(AppConfiguration.OrganizationID.ToString()).Result, TaskCreationOptions.LongRunning).Result;
-                        _organizationContext = OrganizationContext.FromOrganization(organization);
-                        Using<IStateManager<OrganizationContext>>().SaveContext(_organizationContext);
-                    }
-                }
-                return _organizationContext;
-            }
-        }
+                    // State manager must not have it yet or it's been lost so let's create from scratch
 
-        protected IAppConfiguration AppConfiguration
-        {
-            get
-            {
-                if (_appConfiguration == null)
-                {
-                    _appConfiguration = DependencyContainer.Using<IAppConfiguration>();
+                    Organization organization = Task.Run(() =>
+                    {
+                        return QueryDispatcher.Dispatch<OrganizationQuery, Organization>(new OrganizationQuery()
+                        {
+                            OrganizationID = _appConfiguration.OrganizationID
+                        });
+                    }).Result;
+
+                    _organizationContext = OrganizationContext.FromOrganization(organization);
+                    stateManager.SaveContext(_organizationContext);
                 }
-                return _appConfiguration;
             }
+            return _organizationContext;
         }
 
         protected T Using<T>()
@@ -85,7 +85,7 @@ namespace CH.Website.Controllers
         protected string GetBlobUrl(string filename)
         {
             // Blob urls are case sensitive and convention is they should always be lowercase
-            return string.Format("{0}/{1}/{2}", AppConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
+            return string.Format("{0}/{1}/{2}", _appConfiguration.BlobBaseUrl, GetOrganizationContext().AzureName.ToLower(), filename.ToLower());
         }
 
         protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)

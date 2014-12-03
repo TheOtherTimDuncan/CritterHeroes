@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
-using CH.Domain.Identity;
+using CH.Domain.StateManagement;
 using CH.Website.Models;
-using CH.Website.Utility;
 using TOTD.Utility.Misc;
 
 namespace CH.Website.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
-            : base(queryDispatcher, commandDispatcher)
+        public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
+            : base(queryDispatcher, commandDispatcher, appConfiguration)
         {
         }
 
@@ -29,10 +27,12 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
+            OrganizationContext organizationContext = GetOrganizationContext();
+
             MenuModel model = new MenuModel();
             model.CurrentUser = User;
-            model.OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName);
-            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
+            model.OrganizationShortName = organizationContext.IfNotNull(x => x.ShortName);
+            model.LogoUrl = GetBlobUrl(organizationContext.LogoFilename);
             return PartialView("_Menu", model);
         }
 
@@ -40,8 +40,10 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Logo()
         {
+            OrganizationContext organizationContext = GetOrganizationContext();
+
             LogoModel model = new LogoModel();
-            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
+            model.LogoUrl = GetBlobUrl(organizationContext.LogoFilename);
             return PartialView(model);
         }
     }

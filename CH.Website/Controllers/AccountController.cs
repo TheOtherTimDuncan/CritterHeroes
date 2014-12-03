@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Commands;
 using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Website.Models;
 using CH.Website.Services.Queries;
@@ -17,8 +18,8 @@ namespace CH.Website.Controllers
     {
         private IAuthenticationManager _authenticationManager;
 
-        public AccountController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
-            :base(queryDispatcher,commandDispatcher)
+        public AccountController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
+            : base(queryDispatcher, commandDispatcher, appConfiguration)
         {
         }
 

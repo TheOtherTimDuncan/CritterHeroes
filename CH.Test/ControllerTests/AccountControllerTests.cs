@@ -39,7 +39,7 @@ namespace CH.Test.ControllerTests
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
             mockDispatcher.Setup(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery)).Returns(Task.FromResult(new LoginModel()));
 
-            AccountController controller = new AccountController(mockDispatcher.Object, null);
+            AccountController controller = new AccountController(mockDispatcher.Object, null, null);
 
             ViewResult viewResult = (await controller.Login(loginQuery)) as ViewResult;
             viewResult.Should().NotBeNull();
@@ -57,7 +57,7 @@ namespace CH.Test.ControllerTests
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
             mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
 
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            AccountController controller = new AccountController(null, mockDispatcher.Object, null);
 
             ViewResult viewResult = (await controller.Login(model, null)) as ViewResult;
             viewResult.Should().NotBeNull();
@@ -78,7 +78,7 @@ namespace CH.Test.ControllerTests
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
 
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            AccountController controller = new AccountController(null, mockDispatcher.Object, null);
             controller.Url = new UrlHelper(new RequestContext(mockHttpContext.Object, new RouteData()), GetRouteCollection());
 
             RedirectToRouteResult redirectResult = (await controller.Login(model, null)) as RedirectToRouteResult;
@@ -97,7 +97,7 @@ namespace CH.Test.ControllerTests
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
 
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            AccountController controller = new AccountController(null, mockDispatcher.Object, null);
             controller.Url = new UrlHelper(new RequestContext(mockHttpContext.Object, new RouteData()), GetRouteCollection());
 
             RedirectResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectResult;
@@ -122,7 +122,7 @@ namespace CH.Test.ControllerTests
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
 
-            AccountController controller = new AccountController(mockDispatcher.Object, null);
+            AccountController controller = new AccountController(mockDispatcher.Object, null, null);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
 
             ViewResult viewResult = (ViewResult)await controller.EditProfile();
@@ -153,7 +153,7 @@ namespace CH.Test.ControllerTests
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
 
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            AccountController controller = new AccountController(null, mockDispatcher.Object, null);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
 
             RedirectResult redirectResult = await controller.EditProfile(model) as RedirectResult;
@@ -175,7 +175,7 @@ namespace CH.Test.ControllerTests
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
 
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            AccountController controller = new AccountController(null, mockDispatcher.Object, null);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
 
             ActionResult actionResult = await controller.EditProfile(model);

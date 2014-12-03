@@ -137,7 +137,7 @@
     <Compile Include="Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Proxies\Email\EmailConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
-    <Compile Include="Queries\OrganizationContextQueryHandler.cs" />
+    <Compile Include="Queries\OrganizationQueryHandler.cs" />
     <Compile Include="Queries\OrganizationQuery.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
