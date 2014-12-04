@@ -15,6 +15,7 @@ using CH.Domain.Contracts.Logging;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
+using CH.Domain.Queries;
 using CH.Website.Controllers;
 using CH.Website.Models;
 using CH.Website.Services.Queries;
@@ -113,7 +114,7 @@ namespace CH.Test.ControllerTests
             string userName = "test.user";
 
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<EditProfileQuery, EditProfileModel>(It.IsAny<EditProfileQuery>())).Returns<EditProfileQuery>((query) =>
+            mockDispatcher.Setup(x => x.Dispatch<UserQuery, EditProfileModel>(It.IsAny<UserQuery>())).Returns<UserQuery>((query) =>
             {
                 query.Username.Should().Be(userName);
                 return Task.FromResult(new EditProfileModel());
@@ -129,7 +130,7 @@ namespace CH.Test.ControllerTests
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
-            mockDispatcher.Verify(x => x.Dispatch<EditProfileQuery, EditProfileModel>(It.IsAny<EditProfileQuery>()), Times.Once);
+            mockDispatcher.Verify(x => x.Dispatch<UserQuery, EditProfileModel>(It.IsAny<UserQuery>()), Times.Once);
         }
 
         [TestMethod]

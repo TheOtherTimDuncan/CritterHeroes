@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using CH.Domain.Contracts.Queries;
 
-namespace CH.Website.Services.Queries
+namespace CH.Domain.Queries
 {
-    public class CheckUsernameQuery : IQuery
+    public class UserQuery : IQuery
     {
         public string Username
         {

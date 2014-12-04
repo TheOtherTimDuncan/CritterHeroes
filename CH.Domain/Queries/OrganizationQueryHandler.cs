@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Models;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Domain.Queries
 {
@@ -19,6 +20,7 @@ namespace CH.Domain.Queries
 
         public async Task<Organization> Retrieve(OrganizationQuery query)
         {
+            ThrowIf.Argument.IsNull(query, "query");
             return await _storageContext.GetAsync(query.OrganizationID.ToString());
         }
     }

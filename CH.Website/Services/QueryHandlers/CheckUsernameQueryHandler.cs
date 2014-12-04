@@ -8,26 +8,29 @@ using CH.Domain.Contracts.Logging;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
+using CH.Domain.Queries;
 using CH.Website.Models;
-using CH.Website.Services.Queries;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Website.Services.QueryHandlers
 {
-    public class CheckUsernameQueryHandler : IQueryHandler<CheckUsernameQuery, CheckUsernameResult>
+    public class CheckUsernameQueryHandler : IQueryHandler<UserQuery, CheckUsernameResult>
     {
         public IUserLogger _userLogger;
-        public IApplicationUserManager _userManager;
+        public IApplicationUserStore _userStore;
         public IHttpContext _httpContext;
 
-        public CheckUsernameQueryHandler(IUserLogger userLogger, IApplicationUserManager userManager, IHttpContext httpContext)
+        public CheckUsernameQueryHandler(IUserLogger userLogger, IApplicationUserStore userStore, IHttpContext httpContext)
         {
             this._userLogger = userLogger;
-            this._userManager = userManager;
+            this._userStore = userStore;
             this._httpContext = httpContext;
         }
 
-        public async Task<CheckUsernameResult> Retrieve(CheckUsernameQuery query)
+        public async Task<CheckUsernameResult> Retrieve(UserQuery query)
         {
+            ThrowIf.Argument.IsNull(query, "query");
+
             var logData = new
             {
                 Request = query.Username,
@@ -35,7 +38,7 @@ namespace CH.Website.Services.QueryHandlers
             };
 
             await _userLogger.LogAction(UserActions.DuplicateUsernameCheck, _httpContext.User.Identity.Name, logData);
-            IdentityUser user = await _userManager.FindByNameAsync(query.Username);
+            IdentityUser user = await _userStore.FindByNameAsync(query.Username);
             return new CheckUsernameResult()
             {
                 UserExists = (user != null)

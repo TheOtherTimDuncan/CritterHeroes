@@ -8,6 +8,7 @@ using CH.Domain.Commands;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Queries;
 using CH.Website.Models;
 using CH.Website.Services.Queries;
 using Microsoft.Owin.Security;
@@ -76,11 +77,11 @@ namespace CH.Website.Controllers
         [HttpGet]
         public async Task<ActionResult> EditProfile()
         {
-            EditProfileQuery query = new EditProfileQuery()
+            UserQuery query = new UserQuery()
             {
                 Username = User.Identity.Name
             };
-            EditProfileModel model = await QueryDispatcher.Dispatch<EditProfileQuery, EditProfileModel>(query);
+            EditProfileModel model = await QueryDispatcher.Dispatch<UserQuery, EditProfileModel>(query);
             return View(model);
         }
 
@@ -110,7 +111,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            CheckUsernameResult queryResult = await QueryDispatcher.Dispatch<CheckUsernameQuery, CheckUsernameResult>(new CheckUsernameQuery()
+            CheckUsernameResult queryResult = await QueryDispatcher.Dispatch<UserQuery, CheckUsernameResult>(new UserQuery()
             {
                 Username = userName
             });

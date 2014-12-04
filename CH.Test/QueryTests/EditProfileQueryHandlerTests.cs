@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
+using CH.Domain.Queries;
 using CH.Website.Models;
-using CH.Website.Services.Queries;
 using CH.Website.Services.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,7 +20,7 @@ namespace CH.Test.QueryTests
         [TestMethod]
         public async Task EditProfileQueryHandlerReturnsViewModel()
         {
-            EditProfileQuery query = new EditProfileQuery()
+            UserQuery query = new UserQuery()
             {
                 Username = "test.user"
             };
@@ -37,10 +37,10 @@ namespace CH.Test.QueryTests
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
             mockHttpContext.Setup(x => x.Request.UrlReferrer).Returns(uriReferrer);
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(query.Username)).Returns(Task.FromResult(user));
+            Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
+            mockUserStore.Setup(x => x.FindByNameAsync(query.Username)).Returns(Task.FromResult(user));
 
-            EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpContext.Object, mockUserManager.Object);
+            EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpContext.Object, mockUserStore.Object);
             EditProfileModel model = await handler.Retrieve(query);
 
             model.Should().NotBeNull();
@@ -51,7 +51,7 @@ namespace CH.Test.QueryTests
             model.ReturnUrl.Should().Be(uriReferrer.AbsoluteUri);
 
             mockHttpContext.Verify(x => x.Request.UrlReferrer, Times.Once);
-            mockUserManager.Verify(x => x.FindByNameAsync(query.Username), Times.Once);
+            mockUserStore.Verify(x => x.FindByNameAsync(query.Username), Times.Once);
         }
     }
 }
