@@ -14,42 +14,34 @@ namespace CH.Domain.StateManagement
         {
         }
 
-        public override OrganizationContext GetContext()
+        protected override bool IsValid(OrganizationContext context)
         {
-            OrganizationContext result = base.GetContext();
-
-            if (result != null)
+            if (context.AzureName.IsNullOrEmpty())
             {
-                // If any values are missing because of problems deserializing the cookie
-                // return null so the cookie will be re-created
-
-                if (result.AzureName.IsNullOrEmpty())
-                {
-                    return null;
-                }
-
-                if (result.FullName.IsNullOrEmpty())
-                {
-                    return null;
-                }
-
-                if (result.OrganizationID == null)
-                {
-                    return null;
-                }
-
-                if (result.ShortName == null)
-                {
-                    return null;
-                }
-
-                if (result.SupportedCritters.IsNullOrEmpty())
-                {
-                    return null;
-                }
+                return false;
             }
 
-            return result;
+            if (context.FullName.IsNullOrEmpty())
+            {
+                return false;
+            }
+
+            if (context.OrganizationID == null)
+            {
+                return false;
+            }
+
+            if (context.ShortName == null)
+            {
+                return false;
+            }
+
+            if (context.SupportedCritters.IsNullOrEmpty())
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

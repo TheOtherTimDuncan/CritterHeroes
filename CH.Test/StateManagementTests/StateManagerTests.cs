@@ -9,6 +9,7 @@ using CH.Domain.StateManagement;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TOTD.Utility.StringHelpers;
 
 namespace CH.Test.StateManagementTests
 {
@@ -69,6 +70,18 @@ namespace CH.Test.StateManagementTests
             cookie.HttpOnly.Should().Be(true);
             cookie.Secure.Should().Be(true);
         }
+
+        [TestMethod]
+        public void ReturnsDefaultValueWhenCookieIsInvalid()
+        {
+            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
+
+            HttpCookie cookie = new HttpCookie("CritterHeroes.key", "");
+            mockHttpContext.Object.Request.Cookies.Set(cookie);
+
+            FakeStateManager stateManager = new FakeStateManager(mockHttpContext.Object, "key");
+            stateManager.GetContext().Should().BeNull();
+        }
     }
 
     public class FakeStateManager : StateManager<string>
@@ -76,6 +89,16 @@ namespace CH.Test.StateManagementTests
         public FakeStateManager(IHttpContext httpContext, string key)
             : base(httpContext, key)
         {
+        }
+
+        protected override bool IsValid(string context)
+        {
+            if (context.IsNullOrEmpty())
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -11,7 +11,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CH.Domain.StateManagement
 {
-    public class StateManager<T> : IStateManager<T>
+    public abstract class StateManager<T> : IStateManager<T>
     {
         private IHttpContext _httpContext;
         private string _key;
@@ -37,7 +37,15 @@ namespace CH.Domain.StateManagement
 
             try
             {
-                return JsonConvert.DeserializeObject<T>(cookie.Value);
+                T context = JsonConvert.DeserializeObject<T>(cookie.Value);
+                if (IsValid(context))
+                {
+                    return context;
+                }
+                else
+                {
+                    return default(T);
+                }
             }
             catch
             {
@@ -47,9 +55,9 @@ namespace CH.Domain.StateManagement
             }
         }
 
-        public void SaveContext(T Context)
+        public void SaveContext(T context)
         {
-            string data = JsonConvert.SerializeObject(Context);
+            string data = JsonConvert.SerializeObject(context);
             HttpCookie cookie = new HttpCookie(_key, data)
             {
                 HttpOnly = true,
@@ -68,5 +76,7 @@ namespace CH.Domain.StateManagement
             };
             _httpContext.Response.Cookies.Set(cookie);
         }
+
+        protected abstract bool IsValid(T context);
     }
 }

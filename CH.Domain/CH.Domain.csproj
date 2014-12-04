@@ -142,6 +142,8 @@
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
     <Compile Include="StateManagement\StateManager.cs" />
+    <Compile Include="StateManagement\UserContext.cs" />
+    <Compile Include="StateManagement\UserStateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

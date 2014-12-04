@@ -198,6 +198,7 @@
     <Compile Include="StateManagementTests\BaseContextTest.cs" />
     <Compile Include="StateManagementTests\OrganizationContextTests.cs" />
     <Compile Include="StateManagementTests\StateManagerTests.cs" />
+    <Compile Include="StateManagementTests\UserContextTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CH.Azure\CH.Azure.csproj">

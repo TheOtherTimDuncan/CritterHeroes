@@ -62,5 +62,73 @@ namespace CH.Test.StateManagementTests
             context.LogoFilename.Should().Be(organization.LogoFilename);
             context.SupportedCritters.Should().Equal(organization.SupportedCritters);
         }
+
+        [TestMethod]
+        public void StateManagerReturnsNullIfFullNameIsMissing()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                FullName = null
+            };
+
+            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
+            stateManager.SaveContext(context);
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            stateManager.GetContext().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void StateManagerReturnsNullIfShortNameIsMissing()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                ShortName = null
+            };
+
+            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
+            stateManager.SaveContext(context);
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            stateManager.GetContext().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void StateManagerReturnsNullIfAzureNameIsMissing()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                AzureName = null
+            };
+
+            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
+            stateManager.SaveContext(context);
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            stateManager.GetContext().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void StateManagerReturnsNullIfSupportedCrittersNameIsMissing()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                SupportedCritters = new Species[] { }
+            };
+
+            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
+            stateManager.SaveContext(context);
+            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            stateManager.GetContext().Should().BeNull();
+        }
     }
 }
