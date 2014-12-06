@@ -7,7 +7,6 @@ using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json;
 
 namespace CH.Test.StateManagementTests
 {
@@ -22,13 +21,15 @@ namespace CH.Test.StateManagementTests
                 DisplayName = "display name"
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.User"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.User"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object);
+            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object, serializer);
             UserContext result = stateManager.GetContext();
             result.DisplayName.Should().Be(context.DisplayName);
 
@@ -48,7 +49,7 @@ namespace CH.Test.StateManagementTests
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Response.Cookies).Returns(new ResponseCookieCollection(new HeaderDictionary(cookies)));
 
-            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object);
+            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object, new StateSerializer());
             stateManager.SaveContext(context);
 
             cookies.Should().HaveCount(1);
@@ -78,13 +79,15 @@ namespace CH.Test.StateManagementTests
                 DisplayName = null
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.User"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.User"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object);
+            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object, serializer);
             stateManager.GetContext().Should().BeNull();
 
             mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);

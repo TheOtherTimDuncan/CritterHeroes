@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CH.Domain.Contracts;
 using Microsoft.Owin;
-using Newtonsoft.Json;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
@@ -12,16 +11,21 @@ namespace CH.Domain.StateManagement
     public abstract class StateManager<T> : IStateManager<T>
     {
         private IOwinContext _owinContext;
+        private IStateSerializer _serializer;
+
         private string _key;
 
         private const string baseKey = "CritterHeroes.";
 
-        protected StateManager(IOwinContext owinContext, string key)
+        protected StateManager(IOwinContext owinContext, IStateSerializer serializer, string key)
         {
             ThrowIf.Argument.IsNull(owinContext, "owinContext");
+            ThrowIf.Argument.IsNull(serializer, "serializer");
             ThrowIf.Argument.IsNullOrEmpty(key, "key");
-
+            
             this._owinContext = owinContext;
+            this._serializer = serializer;
+
             this._key = baseKey + key;
         }
 
@@ -35,7 +39,7 @@ namespace CH.Domain.StateManagement
 
             try
             {
-                T context = JsonConvert.DeserializeObject<T>(cookie);
+                T context = _serializer.Deserialize<T>(cookie);
                 if (IsValid(context))
                 {
                     return context;
@@ -55,7 +59,7 @@ namespace CH.Domain.StateManagement
 
         public void SaveContext(T context)
         {
-            string cookie = JsonConvert.SerializeObject(context);
+            string cookie = _serializer.Serialize(context);
             _owinContext.Response.Cookies.Append(_key, cookie, new CookieOptions()
             {
                 HttpOnly = true,

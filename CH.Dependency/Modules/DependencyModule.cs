@@ -24,6 +24,7 @@ namespace CH.Dependency.Modules
 
             Bind<IStorageContext<Organization>>().To<OrganizationAzureStorage>();
             Bind<IStateManager<OrganizationContext>>().To<OrganizationStateManager>();
+            Bind<IStateSerializer>().To<StateSerializer>();
 
             Bind<IEmailConfiguration>().To<EmailConfiguration>();
             Bind<IEmailClient>().To<EmailClientProxy>();

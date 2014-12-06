@@ -49,7 +49,6 @@ namespace CH.Website.Middleware
             OrganizationContextQueryHandler queryHandler = _dependencyResolver.Resolve<OrganizationContextQueryHandler>();
             IAppConfiguration appConfiguration = _dependencyResolver.Resolve<IAppConfiguration>();
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(context);
             OrganizationContext organizationContext = await queryHandler.Retrieve(new OrganizationQuery()
             {
                 OrganizationID = appConfiguration.OrganizationID

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CH.Domain.Contracts;
 using CH.Domain.StateManagement;
 using FluentAssertions;
 using Microsoft.Owin;
@@ -16,7 +17,7 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void ThrowsExceptionForNullOwinContext()
         {
-            Action action = () => new FakeStateManager(null, "test");
+            Action action = () => new FakeStateManager(null, new StateSerializer(), "test");
             action
                 .ShouldThrow<ArgumentException>()
                 .And
@@ -27,7 +28,7 @@ namespace CH.Test.StateManagementTests
         public void ThrowsExceptionForNullKey()
         {
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            Action action = () => new FakeStateManager(mockOwinContext.Object, null);
+            Action action = () => new FakeStateManager(mockOwinContext.Object, new StateSerializer(), null);
             action
                 .ShouldThrow<ArgumentException>()
                 .And
@@ -38,7 +39,7 @@ namespace CH.Test.StateManagementTests
         public void ThrowsExceptionForEmptyKey()
         {
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            Action action = () => new FakeStateManager(mockOwinContext.Object, string.Empty);
+            Action action = () => new FakeStateManager(mockOwinContext.Object, new StateSerializer(), string.Empty);
             action
                 .ShouldThrow<ArgumentException>()
                 .And
@@ -53,7 +54,7 @@ namespace CH.Test.StateManagementTests
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Response.Cookies).Returns(new ResponseCookieCollection(new HeaderDictionary(cookies)));
 
-            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, "key");
+            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, new StateSerializer(), "key");
             stateManager.SaveContext("test");
 
             cookies.Should().HaveCount(1);
@@ -69,15 +70,15 @@ namespace CH.Test.StateManagementTests
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, "key");
+            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, new StateSerializer(), "key");
             stateManager.GetContext().Should().BeNull();
         }
     }
 
     public class FakeStateManager : StateManager<string>
     {
-        public FakeStateManager(IOwinContext httpContext, string key)
-            : base(httpContext, key)
+        public FakeStateManager(IOwinContext httpContext, IStateSerializer serializer, string key)
+            : base(httpContext, serializer, key)
         {
         }
 

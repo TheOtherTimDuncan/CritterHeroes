@@ -10,7 +10,6 @@ using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json;
 
 namespace CH.Test.StateManagementTests
 {
@@ -30,13 +29,15 @@ namespace CH.Test.StateManagementTests
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, serializer);
             OrganizationContext result = stateManager.GetContext();
             result.OrganizationID.Should().Be(context.OrganizationID);
             result.FullName.Should().Be(context.FullName);
@@ -66,7 +67,7 @@ namespace CH.Test.StateManagementTests
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Response.Cookies).Returns(new ResponseCookieCollection(new HeaderDictionary(cookies)));
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, new StateSerializer());
             stateManager.SaveContext(context);
 
             cookies.Should().HaveCount(1);
@@ -105,13 +106,15 @@ namespace CH.Test.StateManagementTests
                 FullName = null
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, serializer);
             stateManager.GetContext().Should().BeNull();
         }
 
@@ -123,13 +126,15 @@ namespace CH.Test.StateManagementTests
                 ShortName = null
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, serializer);
             stateManager.GetContext().Should().BeNull();
         }
 
@@ -141,13 +146,15 @@ namespace CH.Test.StateManagementTests
                 AzureName = null
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, serializer);
             stateManager.GetContext().Should().BeNull();
         }
 
@@ -159,13 +166,15 @@ namespace CH.Test.StateManagementTests
                 SupportedCritters = new Species[] { }
             };
 
+            StateSerializer serializer = new StateSerializer();
+
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
+            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, serializer);
             stateManager.GetContext().Should().BeNull();
         }
     }

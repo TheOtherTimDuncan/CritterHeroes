@@ -98,6 +98,7 @@
     <Compile Include="Contracts\IAppDependencyResolver.cs" />
     <Compile Include="Contracts\Identity\IApplicationSignInManager.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
+    <Compile Include="Contracts\IStateSerializer.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Contracts\Queries\IQuery.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
     <Compile Include="StateManagement\StateManager.cs" />
+    <Compile Include="StateManagement\StateSerializer.cs" />
     <Compile Include="StateManagement\UserContext.cs" />
     <Compile Include="StateManagement\UserStateManager.cs" />
   </ItemGroup>
