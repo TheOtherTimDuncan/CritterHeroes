@@ -42,6 +42,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
@@ -72,6 +76,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -115,6 +120,7 @@
     <Compile Include="Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Dispatchers\QueryDispatcher.cs" />
     <Compile Include="Modules\IdentityModule.cs" />
+    <Compile Include="Modules\WebModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\QueryCommandModule.cs" />
     <Compile Include="Web\WebDependencyResolver.cs" />

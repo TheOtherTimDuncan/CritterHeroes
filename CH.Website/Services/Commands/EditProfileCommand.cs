@@ -15,15 +15,15 @@ using Microsoft.Owin.Security;
 
 namespace CH.Website.Services.Commands
 {
-    public class EditProfileCommand:ICommandHandler<EditProfileModel>
+    public class EditProfileCommand : ICommandHandler<EditProfileModel>
     {
-        private IHttpContext _httpContext;
+        private IAuthenticationManager _authenticationManager;
         private IApplicationUserManager _userManager;
         private IUserLogger _userLogger;
 
-        public EditProfileCommand(IHttpContext httpContext, IApplicationUserManager userManager, IUserLogger userLogger)
+        public EditProfileCommand(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger)
         {
-            this._httpContext = httpContext;
+            this._authenticationManager = httpContext;
             this._userManager = userManager;
             this._userLogger = userLogger;
         }
@@ -63,9 +63,8 @@ namespace CH.Website.Services.Commands
             if (isUsernameChanged)
             {
                 await _userLogger.LogAction(UserActions.UsernameChanged, user.UserName, "Original username: " + command.OriginalUsername);
-                IAuthenticationManager authenticationManager = _httpContext.OwinContext.Authentication;
-                authenticationManager.SignOut();
-                authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie));
+                _authenticationManager.SignOut();
+                _authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie));
             }
 
             return CommandResult.Success();

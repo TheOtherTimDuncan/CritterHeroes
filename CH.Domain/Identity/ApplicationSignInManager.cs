@@ -12,11 +12,6 @@ namespace CH.Domain.Identity
 {
     public class ApplicationSignInManager : SignInManager<IdentityUser, string>, IApplicationSignInManager
     {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IHttpContext httpContext)
-            : base(userManager, httpContext.OwinContext.Authentication)
-        {
-        }
-
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager) :
             base(userManager, authenticationManager)
         {

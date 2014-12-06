@@ -27,10 +27,5 @@ namespace CH.Domain.Contracts
         {
             get;
         }
-
-        IOwinContext OwinContext
-        {
-            get;
-        }
     }
 }

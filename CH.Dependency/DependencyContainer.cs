@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using CH.Dependency.Modules;
 using CH.Dependency.Web;
@@ -45,7 +44,8 @@ namespace CH.Dependency
             (
                 new DependencyModule(),
                 new IdentityModule(),
-                new QueryCommandModule()
+                new QueryCommandModule(),
+                new WebModule()
             );
         }
     }

@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using CH.Domain.Commands;
-using CH.Domain.Contracts;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Identity;
@@ -40,7 +39,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
-            Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
+            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             EditProfileModel model = new EditProfileModel()
@@ -51,7 +50,7 @@ namespace CH.Test.CommandTests
                 LastName = "New Last"
             };
 
-            EditProfileCommand command = new EditProfileCommand(mockHttpContext.Object, mockUserManager.Object, mockUserLogger.Object);
+            EditProfileCommand command = new EditProfileCommand(mockAuthenticationManager.Object, mockUserManager.Object, mockUserLogger.Object);
             CommandResult commandResult = await command.Execute(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -90,14 +89,10 @@ namespace CH.Test.CommandTests
             mockAuthenticationManager.Setup(x => x.SignOut());
             mockAuthenticationManager.Setup(x => x.SignIn(It.IsAny<ClaimsIdentity>()));
 
-            Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
-            mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
-            mockHttpContext.Setup(x => x.OwinContext.Authentication).Returns(mockAuthenticationManager.Object);
-
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
             mockLogger.Setup(x => x.LogAction(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
 
-            EditProfileCommand command = new EditProfileCommand(mockHttpContext.Object, mockUserManager.Object, mockLogger.Object);
+            EditProfileCommand command = new EditProfileCommand(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
             CommandResult commandResult = await command.Execute(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -132,7 +127,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
+            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
             EditProfileModel model = new EditProfileModel()
             {
@@ -143,7 +138,7 @@ namespace CH.Test.CommandTests
                 LastName = "Last"
             };
 
-            EditProfileCommand command = new EditProfileCommand(mockHttpContext.Object, mockUserManager.Object, mockLogger.Object);
+            EditProfileCommand command = new EditProfileCommand(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
             CommandResult commandResult = await command.Execute(model);
             commandResult.Succeeded.Should().BeFalse();
 
