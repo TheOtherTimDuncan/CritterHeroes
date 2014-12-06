@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Domain.Contracts;
 using CH.Domain.Identity;
 using CH.Domain.StateManagement;
 using FluentAssertions;
+using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 
 namespace CH.Test.StateManagementTests
 {
@@ -14,17 +15,46 @@ namespace CH.Test.StateManagementTests
     public class UserContextTests : BaseContextTest
     {
         [TestMethod]
-        public void CanGetAndSaveUserContext()
+        public void CanGetUserContext()
         {
             UserContext context = new UserContext()
             {
                 DisplayName = "display name"
             };
 
-            UserStateManager stateManager = new UserStateManager(GetMockHttpContext().Object);
-            stateManager.SaveContext(context);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.User"] = JsonConvert.SerializeObject(context);
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object);
             UserContext result = stateManager.GetContext();
             result.DisplayName.Should().Be(context.DisplayName);
+
+            mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
+        }
+
+        [TestMethod]
+        public void CanSaveUserContext()
+        {
+            UserContext context = new UserContext()
+            {
+                DisplayName = "display name"
+            };
+
+            Dictionary<string, string[]> cookies = new Dictionary<string, string[]>();
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Response.Cookies).Returns(new ResponseCookieCollection(new HeaderDictionary(cookies)));
+
+            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object);
+            stateManager.SaveContext(context);
+
+            cookies.Should().HaveCount(1);
+            cookies.First().Value[0].Should().Contain("CritterHeroes.User");
+
+            mockOwinContext.Verify(x => x.Response.Cookies, Times.Once);
         }
 
         [TestMethod]
@@ -48,13 +78,16 @@ namespace CH.Test.StateManagementTests
                 DisplayName = null
             };
 
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.User"] = JsonConvert.SerializeObject(context);
 
-            UserStateManager stateManager = new UserStateManager(mockHttpContext.Object);
-            stateManager.SaveContext(context);
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            UserStateManager stateManager = new UserStateManager(mockOwinContext.Object);
             stateManager.GetContext().Should().BeNull();
+
+            mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
         }
     }
 }

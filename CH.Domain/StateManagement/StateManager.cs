@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using CH.Domain.Contracts;
+using Microsoft.Owin;
 using Newtonsoft.Json;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
@@ -13,31 +11,31 @@ namespace CH.Domain.StateManagement
 {
     public abstract class StateManager<T> : IStateManager<T>
     {
-        private IHttpContext _httpContext;
+        private IOwinContext _owinContext;
         private string _key;
 
         private const string baseKey = "CritterHeroes.";
 
-        protected StateManager(IHttpContext httpContext, string key)
+        protected StateManager(IOwinContext owinContext, string key)
         {
-            ThrowIf.Argument.IsNull(httpContext, "httpContext");
+            ThrowIf.Argument.IsNull(owinContext, "owinContext");
             ThrowIf.Argument.IsNullOrEmpty(key, "key");
 
-            this._httpContext = httpContext;
+            this._owinContext = owinContext;
             this._key = baseKey + key;
         }
 
         public virtual T GetContext()
         {
-            HttpCookie cookie = _httpContext.Request.Cookies[_key];
-            if (cookie == null || cookie.Value.IsNullOrEmpty())
+            string cookie = _owinContext.Request.Cookies[_key];
+            if (cookie.IsNullOrEmpty())
             {
                 return default(T);
             }
 
             try
             {
-                T context = JsonConvert.DeserializeObject<T>(cookie.Value);
+                T context = JsonConvert.DeserializeObject<T>(cookie);
                 if (IsValid(context))
                 {
                     return context;
@@ -57,24 +55,17 @@ namespace CH.Domain.StateManagement
 
         public void SaveContext(T context)
         {
-            string data = JsonConvert.SerializeObject(context);
-            HttpCookie cookie = new HttpCookie(_key, data)
+            string cookie = JsonConvert.SerializeObject(context);
+            _owinContext.Response.Cookies.Append(_key, cookie, new CookieOptions()
             {
                 HttpOnly = true,
                 Secure = true
-            };
-            _httpContext.Response.Cookies.Set(cookie);
+            });
         }
 
         public void ClearContext()
         {
-            HttpCookie cookie = new HttpCookie(_key, string.Empty)
-            {
-                HttpOnly = true,
-                Secure = true,
-                Expires = DateTime.Now.AddYears(-1)
-            };
-            _httpContext.Response.Cookies.Set(cookie);
+            _owinContext.Response.Cookies.Delete(_key);
         }
 
         protected abstract bool IsValid(T context);

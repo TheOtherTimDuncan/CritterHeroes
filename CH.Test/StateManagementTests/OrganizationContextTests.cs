@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Contracts;
 using CH.Domain.Handlers;
 using CH.Domain.Models;
 using CH.Domain.Models.Data;
 using CH.Domain.StateManagement;
 using FluentAssertions;
+using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 
 namespace CH.Test.StateManagementTests
 {
@@ -18,7 +18,7 @@ namespace CH.Test.StateManagementTests
     public class OrganizationContextTests : BaseContextTest
     {
         [TestMethod]
-        public void CanGetAndSaveOrganizationContext()
+        public void CanGetOrganizationContext()
         {
             OrganizationContext context = new OrganizationContext()
             {
@@ -30,8 +30,13 @@ namespace CH.Test.StateManagementTests
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(GetMockHttpContext().Object);
-            stateManager.SaveContext(context);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
             OrganizationContext result = stateManager.GetContext();
             result.OrganizationID.Should().Be(context.OrganizationID);
             result.FullName.Should().Be(context.FullName);
@@ -39,6 +44,35 @@ namespace CH.Test.StateManagementTests
             result.AzureName.Should().Be(context.AzureName);
             result.LogoFilename.Should().Be(context.LogoFilename);
             result.SupportedCritters.Should().Equal(context.SupportedCritters);
+
+            mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
+        }
+
+        [TestMethod]
+        public void CanSaveOrganizationContext()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                OrganizationID = Guid.NewGuid(),
+                FullName = "Full",
+                ShortName = "Short",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
+                SupportedCritters = GetTestSupportedSpecies()
+            };
+
+            Dictionary<string, string[]> cookies = new Dictionary<string, string[]>();
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Response.Cookies).Returns(new ResponseCookieCollection(new HeaderDictionary(cookies)));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
+            stateManager.SaveContext(context);
+
+            cookies.Should().HaveCount(1);
+            cookies.First().Value[0].Should().Contain("CritterHeroes.Organization");
+
+            mockOwinContext.Verify(x => x.Response.Cookies, Times.Once);
         }
 
         [TestMethod]
@@ -71,12 +105,13 @@ namespace CH.Test.StateManagementTests
                 FullName = null
             };
 
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
-            stateManager.SaveContext(context);
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
             stateManager.GetContext().Should().BeNull();
         }
 
@@ -88,12 +123,13 @@ namespace CH.Test.StateManagementTests
                 ShortName = null
             };
 
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
-            stateManager.SaveContext(context);
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
             stateManager.GetContext().Should().BeNull();
         }
 
@@ -105,12 +141,13 @@ namespace CH.Test.StateManagementTests
                 AzureName = null
             };
 
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
-            stateManager.SaveContext(context);
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
             stateManager.GetContext().Should().BeNull();
         }
 
@@ -122,12 +159,13 @@ namespace CH.Test.StateManagementTests
                 SupportedCritters = new Species[] { }
             };
 
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(0);
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.Organization"] = JsonConvert.SerializeObject(context);
 
-            OrganizationStateManager stateManager = new OrganizationStateManager(mockHttpContext.Object);
-            stateManager.SaveContext(context);
-            mockHttpContext.Object.Request.Cookies.Should().HaveCount(1);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object);
             stateManager.GetContext().Should().BeNull();
         }
     }

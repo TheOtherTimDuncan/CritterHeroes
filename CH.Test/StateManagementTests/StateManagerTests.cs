@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using CH.Domain.Contracts;
 using CH.Domain.StateManagement;
 using FluentAssertions;
+using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TOTD.Utility.StringHelpers;
@@ -17,20 +14,20 @@ namespace CH.Test.StateManagementTests
     public class StateManagerTests : BaseContextTest
     {
         [TestMethod]
-        public void ThrowsExceptionForNullHttpContext()
+        public void ThrowsExceptionForNullOwinContext()
         {
             Action action = () => new FakeStateManager(null, "test");
             action
                 .ShouldThrow<ArgumentException>()
                 .And
-                .ParamName.Should().Be("httpContext");
+                .ParamName.Should().Be("owinContext");
         }
 
         [TestMethod]
         public void ThrowsExceptionForNullKey()
         {
-            Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
-            Action action = () => new FakeStateManager(mockHttpContext.Object, null);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            Action action = () => new FakeStateManager(mockOwinContext.Object, null);
             action
                 .ShouldThrow<ArgumentException>()
                 .And
@@ -40,8 +37,8 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void ThrowsExceptionForEmptyKey()
         {
-            Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
-            Action action = () => new FakeStateManager(mockHttpContext.Object, string.Empty);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            Action action = () => new FakeStateManager(mockOwinContext.Object, string.Empty);
             action
                 .ShouldThrow<ArgumentException>()
                 .And
@@ -51,42 +48,35 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void CombinesGivenKeyWithBaseKey()
         {
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            FakeStateManager stateManager = new FakeStateManager(mockHttpContext.Object, "key");
+            Dictionary<string, string[]> cookies = new Dictionary<string, string[]>();
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Response.Cookies).Returns(new ResponseCookieCollection(new HeaderDictionary(cookies)));
+
+            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, "key");
             stateManager.SaveContext("test");
 
-            mockHttpContext.Object.Response.Cookies["CritterHeroes.key"].Should().NotBeNull();
-        }
-
-        [TestMethod]
-        public void CreatesSecureCookie()
-        {
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
-            FakeStateManager stateManager = new FakeStateManager(mockHttpContext.Object, "key");
-            stateManager.SaveContext("test");
-
-            HttpCookie cookie = mockHttpContext.Object.Response.Cookies["CritterHeroes.key"];
-            cookie.Should().NotBeNull();
-            cookie.HttpOnly.Should().Be(true);
-            cookie.Secure.Should().Be(true);
+            cookies.Should().HaveCount(1);
+            cookies.First().Value[0].Should().Contain("CritterHeroes.key");
         }
 
         [TestMethod]
         public void ReturnsDefaultValueWhenCookieIsInvalid()
         {
-            Mock<IHttpContext> mockHttpContext = GetMockHttpContext();
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.key"] = "";
 
-            HttpCookie cookie = new HttpCookie("CritterHeroes.key", "");
-            mockHttpContext.Object.Request.Cookies.Set(cookie);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
-            FakeStateManager stateManager = new FakeStateManager(mockHttpContext.Object, "key");
+            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, "key");
             stateManager.GetContext().Should().BeNull();
         }
     }
 
     public class FakeStateManager : StateManager<string>
     {
-        public FakeStateManager(IHttpContext httpContext, string key)
+        public FakeStateManager(IOwinContext httpContext, string key)
             : base(httpContext, key)
         {
         }
