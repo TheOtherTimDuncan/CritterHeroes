@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
-using CH.Domain.StateManagement;
 using CH.Website.Models;
 using TOTD.Utility.Misc;
 
@@ -27,12 +26,10 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
-            OrganizationContext organizationContext = GetOrganizationContext();
-
             MenuModel model = new MenuModel();
             model.CurrentUser = User;
-            model.OrganizationShortName = organizationContext.IfNotNull(x => x.ShortName);
-            model.LogoUrl = GetBlobUrl(organizationContext.LogoFilename);
+            model.OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName);
+            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
             return PartialView("_Menu", model);
         }
 
@@ -40,10 +37,8 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Logo()
         {
-            OrganizationContext organizationContext = GetOrganizationContext();
-
             LogoModel model = new LogoModel();
-            model.LogoUrl = GetBlobUrl(organizationContext.LogoFilename);
+            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
             return PartialView(model);
         }
     }

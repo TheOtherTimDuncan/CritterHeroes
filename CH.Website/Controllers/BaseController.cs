@@ -45,13 +45,16 @@ namespace CH.Website.Controllers
             }
         }
 
-        protected OrganizationContext GetOrganizationContext()
+        protected OrganizationContext OrganizationContext
         {
-            if (_organizationContext == null)
+            get
             {
-                _organizationContext = Request.GetOwinContext().GetOrganizationContext();
+                if (_organizationContext == null)
+                {
+                    _organizationContext = Request.GetOwinContext().GetOrganizationContext();
+                }
+                return _organizationContext;
             }
-            return _organizationContext;
         }
 
         protected T Using<T>()
@@ -62,7 +65,7 @@ namespace CH.Website.Controllers
         protected string GetBlobUrl(string filename)
         {
             // Blob urls are case sensitive and convention is they should always be lowercase
-            return string.Format("{0}/{1}/{2}", _appConfiguration.BlobBaseUrl, GetOrganizationContext().AzureName.ToLower(), filename.ToLower());
+            return string.Format("{0}/{1}/{2}", _appConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
         }
 
         protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)

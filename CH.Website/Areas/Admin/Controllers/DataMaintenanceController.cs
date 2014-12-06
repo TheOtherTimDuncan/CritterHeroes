@@ -93,7 +93,7 @@ namespace CH.Website.Areas.Admin.Controllers
 
         private IStorageSource GetTarget()
         {
-            return new AzureStorageSource(GetOrganizationContext().AzureName);
+            return new AzureStorageSource(OrganizationContext.AzureName);
         }
 
         private IStorageSource GetSource()
@@ -105,7 +105,7 @@ namespace CH.Website.Areas.Admin.Controllers
         {
             return new StatusContext()
             {
-                SupportedCritters = GetOrganizationContext().SupportedCritters
+                SupportedCritters = OrganizationContext.SupportedCritters
             };
         }
     }
