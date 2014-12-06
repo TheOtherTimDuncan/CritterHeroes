@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CH.Dependency;
 using CH.Domain.Commands;
-using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
-using CH.Domain.Handlers;
-using CH.Domain.Models;
-using CH.Domain.Queries;
 using CH.Domain.StateManagement;
+using CH.Website.Middleware;
 using Microsoft.AspNet.Identity;
 
 namespace CH.Website.Controllers
@@ -54,25 +49,7 @@ namespace CH.Website.Controllers
         {
             if (_organizationContext == null)
             {
-                // First try to get the context from the state manager
-                IStateManager<OrganizationContext> stateManager = Using<IStateManager<OrganizationContext>>();
-                _organizationContext = stateManager.GetContext();
-
-                if (_organizationContext == null)
-                {
-                    // State manager must not have it yet or it's been lost so let's create from scratch
-
-                    Organization organization = Task.Run(() =>
-                    {
-                        return QueryDispatcher.Dispatch<OrganizationQuery, Organization>(new OrganizationQuery()
-                        {
-                            OrganizationID = _appConfiguration.OrganizationID
-                        });
-                    }).Result;
-
-                    _organizationContext = OrganizationContext.FromOrganization(organization);
-                    stateManager.SaveContext(_organizationContext);
-                }
+                _organizationContext = Request.GetOwinContext().GetOrganizationContext();
             }
             return _organizationContext;
         }

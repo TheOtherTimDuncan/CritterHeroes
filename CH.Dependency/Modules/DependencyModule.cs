@@ -29,6 +29,8 @@ namespace CH.Dependency.Modules
             Bind<IEmailClient>().To<EmailClientProxy>();
 
             Bind<IUserLogger>().To<AzureUserLogger>();
+
+            Bind<IAppDependencyResolver>().To<AppDependencyResolver>();
         }
     }
 }

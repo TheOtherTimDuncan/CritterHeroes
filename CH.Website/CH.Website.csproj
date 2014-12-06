@@ -156,6 +156,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DefaultHtmlConventions.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\Startup.Middleware.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
@@ -170,6 +173,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Middleware\OrganizationContextMiddleware.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\CheckUsernameResult.cs" />
     <Compile Include="Models\EditProfileModel.cs" />

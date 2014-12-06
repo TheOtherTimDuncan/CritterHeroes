@@ -115,6 +115,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AppDependencyResolver.cs" />
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="Modules\DependencyModule.cs" />
     <Compile Include="Dispatchers\CommandDispatcher.cs" />

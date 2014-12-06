@@ -95,6 +95,7 @@
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
+    <Compile Include="Contracts\IAppDependencyResolver.cs" />
     <Compile Include="Contracts\Identity\IApplicationSignInManager.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Proxies\Email\EmailConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
-    <Compile Include="Queries\OrganizationQueryHandler.cs" />
+    <Compile Include="Queries\OrganizationContextQueryHandler.cs" />
     <Compile Include="Queries\OrganizationQuery.cs" />
     <Compile Include="Queries\UserQuery.cs" />
     <Compile Include="Queries\UserQueryHandler.cs" />
