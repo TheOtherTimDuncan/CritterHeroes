@@ -21,6 +21,7 @@ namespace CH.Test.QueryTests
         {
             UserContext context = new UserContext()
             {
+                UserID = "ID",
                 DisplayName = "First Last"
             };
 
@@ -36,6 +37,7 @@ namespace CH.Test.QueryTests
             });
 
             resultContext.Should().Equals(context);
+            resultContext.UserID.Should().Be(context.UserID);
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
         }
@@ -63,6 +65,7 @@ namespace CH.Test.QueryTests
             });
 
             resultContext.DisplayName.Should().Be("First Last");
+            resultContext.UserID.Should().Be(user.Id.ToString());
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);

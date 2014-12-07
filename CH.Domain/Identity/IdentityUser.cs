@@ -54,6 +54,12 @@ namespace CH.Domain.Identity
             set;
         }
 
+        public string PreviousEmail
+        {
+            get;
+            set;
+        }
+
         public bool IsEmailConfirmed
         {
             get;

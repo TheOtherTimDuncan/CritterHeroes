@@ -43,6 +43,7 @@ namespace CH.Test.Azure
             {
                 PasswordHash = "passwordhash",
                 Email = "email",
+                PreviousEmail = "previous",
                 FirstName = "first",
                 LastName = "last"
             };
@@ -54,6 +55,7 @@ namespace CH.Test.Azure
             result.UserName.Should().Be(user.UserName);
             result.PasswordHash.Should().Be(user.PasswordHash);
             result.Email.Should().Be(user.Email);
+            result.PreviousEmail.Should().Be(user.PreviousEmail);
             result.FirstName.Should().Be(user.FirstName);
             result.LastName.Should().Be(user.LastName);
             result.IsEmailConfirmed.Should().Be(user.IsEmailConfirmed);

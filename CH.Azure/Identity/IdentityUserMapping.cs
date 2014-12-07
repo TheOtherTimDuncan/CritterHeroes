@@ -17,6 +17,7 @@ namespace CH.Azure.Identity
             entity["UserName"] = new EntityProperty(user.UserName);
             entity["PasswordHash"] = new EntityProperty(user.PasswordHash);
             entity["Email"] = new EntityProperty(user.Email);
+            entity["PreviousEmail"] = new EntityProperty(user.PreviousEmail);
             entity["IsEmailConfirmed"] = new EntityProperty(user.IsEmailConfirmed);
             entity["FirstName"] = new EntityProperty(user.FirstName);
             entity["LastName"] = new EntityProperty(user.LastName);
@@ -38,6 +39,7 @@ namespace CH.Azure.Identity
 
             user.PasswordHash = entity["PasswordHash"].StringValue;
             user.Email = entity["Email"].StringValue;
+            user.PreviousEmail = entity.SafeGetEntityPropertyStringValue("PreviousEmail");
             user.IsEmailConfirmed = entity["IsEmailConfirmed"].BooleanValue ?? false;
             user.FirstName = entity.SafeGetEntityPropertyStringValue("FirstName");
             user.LastName = entity.SafeGetEntityPropertyStringValue("LastName");

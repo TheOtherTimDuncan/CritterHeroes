@@ -18,6 +18,7 @@ namespace CH.Test.StateManagementTests
         {
             UserContext context = new UserContext()
             {
+                UserID = "id",
                 DisplayName = "display name"
             };
 
@@ -32,6 +33,7 @@ namespace CH.Test.StateManagementTests
             UserStateManager stateManager = new UserStateManager(mockOwinContext.Object, serializer);
             UserContext result = stateManager.GetContext();
             result.DisplayName.Should().Be(context.DisplayName);
+            result.UserID.Should().Be(context.UserID);
 
             mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
         }
@@ -41,6 +43,7 @@ namespace CH.Test.StateManagementTests
         {
             UserContext context = new UserContext()
             {
+                UserID = "id",
                 DisplayName = "display name"
             };
 
@@ -69,6 +72,7 @@ namespace CH.Test.StateManagementTests
 
             UserContext userContext = UserContext.FromUser(user);
             userContext.DisplayName.Should().Be("first last");
+            userContext.UserID.Should().Be(user.Id.ToString());
         }
 
         [TestMethod]
@@ -76,6 +80,7 @@ namespace CH.Test.StateManagementTests
         {
             UserContext context = new UserContext()
             {
+                UserID = "id",
                 DisplayName = null
             };
 

@@ -9,8 +9,15 @@ namespace CH.Domain.StateManagement
         {
             return new UserContext()
             {
+                UserID = user.Id,
                 DisplayName = user.FirstName + " " + user.LastName
             };
+        }
+
+        public string UserID
+        {
+            get;
+            set;
         }
 
         public string DisplayName
