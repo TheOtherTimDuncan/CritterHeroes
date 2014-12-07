@@ -15,7 +15,7 @@ using Moq;
 namespace CH.Test.QueryTests
 {
     [TestClass]
-    public class EditProfileQueryHandlerTests
+    public class EditProfileViewModelQueryHandlerTests
     {
         [TestMethod]
         public async Task EditProfileQueryHandlerReturnsViewModel()

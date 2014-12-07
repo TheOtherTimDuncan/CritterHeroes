@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CH.Test.QueryHandlerTests
 {
     [TestClass]
-    public class LoginQueryHandlerTests : BaseTest
+    public class LoginViewModelQueryHandlerTests : BaseTest
     {
         [TestMethod]
         public async Task LoginQueryHandlerReturnsViewModel()

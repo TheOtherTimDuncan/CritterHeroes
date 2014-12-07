@@ -189,10 +189,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandTests\CommandResultTests.cs" />
-    <Compile Include="QueryTests\EditProfileQueryHandlerTests.cs" />
-    <Compile Include="QueryTests\LoginQueryHandlerTests.cs" />
-    <Compile Include="QueryTests\OrganizationContextQueryTests.cs" />
-    <Compile Include="QueryTests\UserQueryHandlerTests.cs" />
+    <Compile Include="QueryTests\EditProfileViewModelQueryHandlerTests.cs" />
+    <Compile Include="QueryTests\LoginViewModelQueryHandlerTests.cs" />
+    <Compile Include="QueryTests\OrganizationContextQueryHandlerTests.cs" />
+    <Compile Include="QueryTests\UserContextQueryHandlerTests.cs" />
     <Compile Include="RescueGroups\MappingTests\BreedMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\SpeciesMappingTests.cs" />

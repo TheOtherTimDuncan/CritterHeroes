@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace CH.Test.QueryTests
 {
     [TestClass]
-    public class OrganizationContextQueryTests : BaseTest
+    public class OrganizationContextQueryHandlerTests : BaseTest
     {
         [TestMethod]
         public async Task ReturnsOrganizationContextFromCookieIfCookieExists()

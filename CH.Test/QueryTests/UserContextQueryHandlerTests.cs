@@ -14,7 +14,7 @@ using Moq;
 namespace CH.Test.QueryTests
 {
     [TestClass]
-    public class UserQueryHandlerTests : BaseTest
+    public class UserContextQueryHandlerTests : BaseTest
     {
         [TestMethod]
         public async Task ReturnsUserContextFromCookieIfItExists()
