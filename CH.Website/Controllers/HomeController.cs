@@ -26,10 +26,13 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
-            MenuModel model = new MenuModel();
-            model.CurrentUser = User;
-            model.OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName);
-            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
+            MenuModel model = new MenuModel()
+            {
+                CurrentUser = User,
+                OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName),
+                UserDisplayName = UserContext.IfNotNull(x => x.DisplayName),
+                LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename)
+            };
             return PartialView("_Menu", model);
         }
 

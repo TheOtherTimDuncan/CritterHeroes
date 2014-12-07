@@ -57,7 +57,7 @@
                 {
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<AccountController>(x => x.EditProfile()).Class("hidden-xs").Text("Welcome")
+                            Html.FluentHtml().Link().ActionLink<AccountController>(x => x.EditProfile()).Class("hidden-xs").Text("Welcome, " + Model.UserDisplayName)
                         )
                     );
 

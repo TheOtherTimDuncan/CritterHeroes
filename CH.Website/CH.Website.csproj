@@ -177,6 +177,7 @@
     <Compile Include="Middleware\OrganizationContextMiddleware.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Middleware\UserContextMiddleware.cs" />
     <Compile Include="Models\CheckUsernameResult.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\LoginModel.cs" />

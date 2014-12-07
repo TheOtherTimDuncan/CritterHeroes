@@ -17,6 +17,7 @@ namespace CH.Website.Controllers
     public class BaseController : Controller
     {
         private OrganizationContext _organizationContext;
+        private UserContext _userContext;
         private IAppConfiguration _appConfiguration;
 
         private IQueryDispatcher _queryDispatcher;
@@ -54,6 +55,18 @@ namespace CH.Website.Controllers
                     _organizationContext = Request.GetOwinContext().GetOrganizationContext();
                 }
                 return _organizationContext;
+            }
+        }
+
+        protected UserContext UserContext
+        {
+            get
+            {
+                if (_userContext == null)
+                {
+                    _userContext = Request.GetOwinContext().GetUserContext();
+                }
+                return _userContext;
             }
         }
 

@@ -19,6 +19,12 @@ namespace CH.Website.Models
             set;
         }
 
+        public string UserDisplayName
+        {
+            get;
+            set;
+        }
+
         public string LogoUrl
         {
             get;

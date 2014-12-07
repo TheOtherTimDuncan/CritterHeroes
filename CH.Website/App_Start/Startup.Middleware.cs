@@ -10,7 +10,10 @@ namespace CH.Website
     {
         public void ConfigureMiddleware(IAppBuilder app)
         {
-            app.UseOrganizationContext(DependencyContainer.Using<IAppDependencyResolver>());
+            IAppDependencyResolver dependencyResolver = DependencyContainer.Using<IAppDependencyResolver>();
+
+            app.UseOrganizationContext(dependencyResolver);
+            app.UseUserContext(dependencyResolver);
         }
     }
 }
