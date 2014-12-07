@@ -59,6 +59,34 @@ namespace CH.Website.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        public  ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public  ActionResult ForgotUsername()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ResendConfirmationCode()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ConfirmEmail()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<ActionResult> EditProfile()
         {
             UserIDQuery query = new UserIDQuery()

@@ -21,5 +21,10 @@ namespace CH.Website.Utility
         {
             return urlHelper.Action<AccountController>(actionSelector);
         }
+
+        public static string AccountAction(this UrlHelper urlHelper, Expression<Func<AccountController, ActionResult>> actionSelector)
+        {
+            return urlHelper.Action<AccountController>(actionSelector);
+        }
     }
 }

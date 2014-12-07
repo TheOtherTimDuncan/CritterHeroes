@@ -35,4 +35,13 @@
             <input type="submit" value="Login" class="btn btn-primary btn-sm" />
         </div>
     </div>
+    
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <a href="@Url.AccountAction(x => x.ConfirmEmail())">Have confirmation code?</a><br />
+            <a href="@Url.AccountAction(x => x.ForgotPassword())">Forgot password?</a><br />
+            <a href="@Url.AccountAction(x => x.ForgotUsername())">Forgot username?</a><br />
+            <a href="@Url.AccountAction(x => x.ResendConfirmationCode())">Resend confirmation code?</a>
+        </div>
+    </div>
 }

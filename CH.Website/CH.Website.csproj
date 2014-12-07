@@ -426,6 +426,10 @@
     <Content Include="Views\Home\_Menu.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
     <Content Include="Views\Home\_Header.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotUsername.cshtml" />
+    <Content Include="Views\Account\ResendConfirmationCode.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
