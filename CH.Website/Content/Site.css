@@ -2,10 +2,15 @@
   padding-top: 45px;
   padding-bottom: 20px;
 }
+footer {
+  font-size: 12px;
+  border-top: solid thin #dddddd;
+  padding-top: 6px;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 /* Set width on the form input elements since they're 100% wide by default */
 input,
@@ -18,8 +23,8 @@ ul {
 }
 .page-banner {
   background-color: #b8edff;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: none;
   margin-bottom: 20px;
 }
@@ -60,11 +65,11 @@ ul {
 }
 .logo-medium {
   width: 140px;
-  height: 136px;
+  height: 140px;
 }
 .logo-small {
   width: 36px;
-  height: 35px;
+  height: 36px;
   margin-top: 5px;
   margin-left: 5px;
   display: none;

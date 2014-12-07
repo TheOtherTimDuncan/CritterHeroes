@@ -43,11 +43,13 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Critter Heroes</p>
-        </footer>
     </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Critter Heroes</p>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     <script type="text/javascript">

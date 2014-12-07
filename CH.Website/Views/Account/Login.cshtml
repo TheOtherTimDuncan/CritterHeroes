@@ -11,7 +11,7 @@
     <div class="form-group">
         @Html.FluentHtml().Label().For(m => m.Username).Class("col-sm-2 control-label")
         <div class="col-sm-10">
-            @Html.FluentHtml().InputText().For(m => m.Username).Class("form-control").Placeholder("Username").AutoFocus()
+            @Html.FluentHtml().InputText().For(m => m.Username).Class("form-control input-sm").Placeholder("Username").AutoFocus()
             @Html.ValidationMessageFor(m => m.Username)
         </div>
     </div>
@@ -19,7 +19,7 @@
     <div class="form-group">
         @Html.FluentHtml().Label().For(m => m.Password).Class("col-sm-2 control-label")
         <div class="col-sm-10">
-            @Html.FluentHtml().InputPassword().For(m => m.Password).Class("form-control").Placeholder("Password")
+            @Html.FluentHtml().InputPassword().For(m => m.Password).Class("form-control input-sm").Placeholder("Password")
             @Html.ValidationMessageFor(m => m.Password)
         </div>
     </div>

@@ -5,10 +5,16 @@ body {
     padding-bottom: 20px;
 }
 
+footer{
+    font-size: @font-size-small;
+    border-top: solid thin @hr-border;
+    padding-top: @padding-base-vertical;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: @padding-large-horizontal;
+    padding-right: @padding-large-horizontal;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -24,8 +30,8 @@ ul {
 
 .page-banner {
     background-color: #b8edff;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: @padding-large-vertical;
+    padding-bottom: @padding-large-vertical;
     display: none;
     margin-bottom: 20px;
 
@@ -72,12 +78,12 @@ ul {
 
 .logo-medium {
     width: 140px;
-    height: 136px;
+    height: 140px;
 }
 
 .logo-small {
     width: 36px;
-    height: 35px;
+    height: 36px;
     margin-top: 5px;
     margin-left: 5px;
     display: none;
@@ -88,11 +94,11 @@ ul {
 }
 
 .border-right {
-    border-right: 1px solid #dddddd;
+    border-right: 1px solid @table-border-color;
 }
 
 .border-left {
-    border-left: 1px solid #dddddd;
+    border-left: 1px solid @table-border-color;
 }
 
   .border-left.border-left-xs{
@@ -102,11 +108,11 @@ ul {
     }
 
 .border-bottom {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid @table-border-color;
 }
 
 .border-top {
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid @table-border-color;
 }
 
     .border-top.border-top-md{
@@ -120,7 +126,7 @@ ul {
     }
 
 .border-box{
-    border: 1px solid #dddddd;
+    border: 1px solid @table-border-color;
 }
 
 .text-with-button {
