@@ -142,7 +142,7 @@
     <Compile Include="Queries\OrganizationContextQueryHandler.cs" />
     <Compile Include="Queries\OrganizationQuery.cs" />
     <Compile Include="Queries\UserQuery.cs" />
-    <Compile Include="Queries\UserQueryHandler.cs" />
+    <Compile Include="Queries\UserContextQueryHandler.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
     <Compile Include="StateManagement\StateManager.cs" />
