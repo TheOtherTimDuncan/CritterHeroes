@@ -20,14 +20,14 @@ namespace CH.Test.QueryTests
         [TestMethod]
         public async Task EditProfileQueryHandlerReturnsViewModel()
         {
-            UserQuery query = new UserQuery()
+            UserIDQuery query = new UserIDQuery()
             {
-                Username = "test.user"
+                UserID = Guid.NewGuid().ToString()
             };
 
             Uri uriReferrer = new Uri("http://google.com");
 
-            IdentityUser user = new IdentityUser(query.Username)
+            IdentityUser user = new IdentityUser(query.UserID, "unit.test")
             {
                 FirstName = "First",
                 LastName = "Last",
@@ -38,7 +38,7 @@ namespace CH.Test.QueryTests
             mockHttpContext.Setup(x => x.Request.UrlReferrer).Returns(uriReferrer);
 
             Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
-            mockUserStore.Setup(x => x.FindByNameAsync(query.Username)).Returns(Task.FromResult(user));
+            mockUserStore.Setup(x => x.FindByIdAsync(query.UserID)).Returns(Task.FromResult(user));
 
             EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpContext.Object, mockUserStore.Object);
             EditProfileModel model = await handler.Retrieve(query);
@@ -51,7 +51,7 @@ namespace CH.Test.QueryTests
             model.ReturnUrl.Should().Be(uriReferrer.AbsoluteUri);
 
             mockHttpContext.Verify(x => x.Request.UrlReferrer, Times.Once);
-            mockUserStore.Verify(x => x.FindByNameAsync(query.Username), Times.Once);
+            mockUserStore.Verify(x => x.FindByIdAsync(query.UserID), Times.Once);
         }
     }
 }

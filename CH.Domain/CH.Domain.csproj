@@ -86,6 +86,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseException.cs" />
+    <Compile Include="Identity\ClaimExtensions.cs" />
     <Compile Include="Services\Commands\CommandResult.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
     <Compile Include="Contracts\Commands\ICommandHandler.cs" />
@@ -136,9 +137,10 @@
     <Compile Include="Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Proxies\Email\EmailConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
+    <Compile Include="Services\Queries\UsernameQuery.cs" />
     <Compile Include="Services\QueryHandlers\OrganizationContextQueryHandler.cs" />
     <Compile Include="Services\Queries\OrganizationQuery.cs" />
-    <Compile Include="Services\Queries\UserQuery.cs" />
+    <Compile Include="Services\Queries\UserIDQuery.cs" />
     <Compile Include="Services\QueryHandlers\UserContextQueryHandler.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />

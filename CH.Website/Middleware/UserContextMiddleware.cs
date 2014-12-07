@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Configuration;
+using CH.Domain.Identity;
 using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
 using Microsoft.Owin;
@@ -54,9 +55,9 @@ namespace CH.Website.Middleware
             {
                 UserContextQueryHandler queryHandler = _dependencyResolver.Resolve<UserContextQueryHandler>();
 
-                UserContext userContext = await queryHandler.Retrieve(new UserQuery()
+                UserContext userContext = await queryHandler.Retrieve(new UserIDQuery()
                 {
-                    Username = context.Request.User.Identity.Name
+                    UserID = context.Request.User.GetUserID()
                 });
 
                 context.SetUserContext(userContext);

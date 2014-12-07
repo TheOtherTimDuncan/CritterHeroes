@@ -2,9 +2,9 @@
 
 namespace CH.Domain.Services.Queries
 {
-    public class UserQuery
+    public class UserIDQuery
     {
-        public string Username
+        public string UserID
         {
             get;
             set;

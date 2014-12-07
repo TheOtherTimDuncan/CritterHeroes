@@ -31,9 +31,9 @@ namespace CH.Test.QueryTests
             Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
 
             UserContextQueryHandler handler = new UserContextQueryHandler(mockUserStore.Object, mockStateManager.Object);
-            UserContext resultContext = await handler.Retrieve(new UserQuery()
+            UserContext resultContext = await handler.Retrieve(new UserIDQuery()
             {
-                Username = "unit.test"
+                UserID = context.UserID
             });
 
             resultContext.Should().Equals(context);
@@ -56,12 +56,12 @@ namespace CH.Test.QueryTests
             mockStateManager.Setup(x => x.SaveContext(It.IsAny<UserContext>()));
 
             Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
-            mockUserStore.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
+            mockUserStore.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
 
             UserContextQueryHandler queryHandler = new UserContextQueryHandler(mockUserStore.Object, mockStateManager.Object);
-            UserContext resultContext = await queryHandler.Retrieve(new UserQuery()
+            UserContext resultContext = await queryHandler.Retrieve(new UserIDQuery()
             {
-                Username = user.UserName
+                UserID = user.Id
             });
 
             resultContext.DisplayName.Should().Be("First Last");
@@ -69,7 +69,7 @@ namespace CH.Test.QueryTests
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
-            mockUserStore.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
+            mockUserStore.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
         }
     }
 }

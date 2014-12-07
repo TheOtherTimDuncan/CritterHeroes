@@ -12,6 +12,12 @@ namespace CH.Website.Models
             set;
         }
 
+        public string UserID
+        {
+            get;
+            set;
+        }
+
         public string OriginalUsername
         {
             get;

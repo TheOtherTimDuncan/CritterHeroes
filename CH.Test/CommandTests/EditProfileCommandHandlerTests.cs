@@ -25,18 +25,18 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task EditProfileCommandUpdatesUser()
         {
-            string userName = "test.user";
+            string userID = Guid.NewGuid().ToString();
 
             IdentityUser user = new IdentityUser()
             {
-                UserName = userName,
+                UserName = userID,
                 Email = "email@email.com",
                 FirstName = null,
                 LastName = null
             };
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByIdAsync(userID)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
@@ -44,8 +44,8 @@ namespace CH.Test.CommandTests
 
             EditProfileModel model = new EditProfileModel()
             {
-                OriginalUsername = userName,
-                Username = userName,
+                OriginalUsername = userID,
+                Username = userID,
                 FirstName = "New First",
                 LastName = "New Last"
             };
@@ -57,18 +57,18 @@ namespace CH.Test.CommandTests
             user.FirstName.Should().Be(model.FirstName);
             user.LastName.Should().Be(model.LastName);
 
-            mockUserManager.Verify(x => x.FindByNameAsync(userName), Times.Once);
+            mockUserManager.Verify(x => x.FindByIdAsync(userID), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
         }
 
         [TestMethod]
         public async Task EditProfileCommandUpdatesUserAndUpdatesUsernameWhenChanged()
         {
-            string userName = "test.user";
+            string userID = Guid.NewGuid().ToString();
 
             IdentityUser user = new IdentityUser()
             {
-                UserName = userName,
+                UserName = userID,
                 Email = "email@email.com"
             };
 
@@ -81,7 +81,7 @@ namespace CH.Test.CommandTests
             };
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByIdAsync(userID)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie)).Returns(Task.FromResult(new ClaimsIdentity()));
 
@@ -100,7 +100,7 @@ namespace CH.Test.CommandTests
             user.FirstName.Should().Be(model.FirstName);
             user.LastName.Should().Be(model.LastName);
 
-            mockUserManager.Verify(x => x.FindByNameAsync(userName), Times.Once);
+            mockUserManager.Verify(x => x.FindByIdAsync(userID), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
             mockUserManager.Verify(x => x.CreateIdentityAsync(user, It.IsAny<string>()), Times.Once);
 

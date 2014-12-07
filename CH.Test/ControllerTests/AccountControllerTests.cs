@@ -3,25 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Commands;
-using CH.Domain.Contracts.Identity;
-using CH.Domain.Contracts.Logging;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
-using CH.Domain.Models.Logging;
+using CH.Domain.Services.Commands;
 using CH.Domain.Services.Queries;
 using CH.Website.Controllers;
 using CH.Website.Models;
 using CH.Website.Services.Queries;
 using FluentAssertions;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -111,17 +105,20 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task GetEditProfileReturnsViewWithModel()
         {
-            string userName = "test.user";
+            string userID = Guid.NewGuid().ToString();
 
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<UserQuery, EditProfileModel>(It.IsAny<UserQuery>())).Returns<UserQuery>((query) =>
+            mockDispatcher.Setup(x => x.Dispatch<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>())).Returns<UserIDQuery>((query) =>
             {
-                query.Username.Should().Be(userName);
+                query.UserID.Should().Be(userID);
                 return Task.FromResult(new EditProfileModel());
             });
 
+            ClaimsIdentity identity = new ClaimsIdentity();
+            identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
+
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
-            mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
+            mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
 
             AccountController controller = new AccountController(mockDispatcher.Object, null);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
@@ -130,13 +127,13 @@ namespace CH.Test.ControllerTests
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
-            mockDispatcher.Verify(x => x.Dispatch<UserQuery, EditProfileModel>(It.IsAny<UserQuery>()), Times.Once);
+            mockDispatcher.Verify(x => x.Dispatch<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
         }
 
         [TestMethod]
         public async Task PostEditProfileRedirectsToReturnUrlOnSuccess()
         {
-            string userName = "test.user";
+            string userID = Guid.NewGuid().ToString();
 
             Uri returnUri = new Uri("http://google.com");
 
@@ -148,11 +145,14 @@ namespace CH.Test.ControllerTests
                 LastName = "New Last"
             };
 
+            ClaimsIdentity identity = new ClaimsIdentity();
+            identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
+
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
             mockDispatcher.Setup(x => x.Dispatch<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
-            mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
+            mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
 
             AccountController controller = new AccountController(null, mockDispatcher.Object);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);
@@ -166,15 +166,18 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task PostEditProfileReturnsModelErrorIfCommandFails()
         {
-            string userName = "test.user";
+            string userID = Guid.NewGuid().ToString();
 
             EditProfileModel model = new EditProfileModel();
+
+            ClaimsIdentity identity = new ClaimsIdentity();
+            identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
             mockDispatcher.Setup(x => x.Dispatch<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
-            mockHttpContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(userName), null));
+            mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
 
             AccountController controller = new AccountController(null, mockDispatcher.Object);
             controller.ControllerContext = new ControllerContext(mockHttpContext.Object, new RouteData(), controller);

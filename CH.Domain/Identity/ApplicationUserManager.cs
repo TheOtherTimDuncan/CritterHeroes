@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
 using Microsoft.AspNet.Identity;
@@ -41,6 +43,16 @@ namespace CH.Domain.Identity
         {
             get;
             private set;
+        }
+
+        public override async Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType)
+        {
+            ClaimsIdentity identity = await base.CreateIdentityAsync(user, authenticationType);
+
+            Claim claimUserID = new Claim(AppClaimTypes.UserID, user.Id);
+            identity.AddClaim(claimUserID);
+
+            return identity;
         }
     }
 }

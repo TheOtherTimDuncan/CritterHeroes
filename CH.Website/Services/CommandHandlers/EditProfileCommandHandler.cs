@@ -45,7 +45,7 @@ namespace CH.Website.Services.CommandHandlers
                 }
             }
 
-            IdentityUser user = await _userManager.FindByNameAsync(command.OriginalUsername);
+            IdentityUser user = await _userManager.FindByIdAsync(command.OriginalUsername);
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 

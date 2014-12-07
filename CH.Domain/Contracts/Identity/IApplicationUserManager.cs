@@ -9,7 +9,7 @@ namespace CH.Domain.Contracts.Identity
 {
     public interface IApplicationUserManager
     {
-        Task<IdentityUser> FindAsync(string userName, string password); 
+        Task<IdentityUser> FindByIdAsync(string userID); 
         Task<IdentityUser> FindByNameAsync(string userName);
 
         Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType);

@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Services.Commands;
 using CH.Domain.Services.Queries;
 using CH.Website.Models;
 using CH.Website.Services.Queries;
-using Microsoft.Owin.Security;
+using CH.Domain.Identity;
 
 namespace CH.Website.Controllers
 {
     public class AccountController : BaseController
     {
-        private IAuthenticationManager _authenticationManager;
-
         public AccountController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {
@@ -64,11 +61,11 @@ namespace CH.Website.Controllers
         [HttpGet]
         public async Task<ActionResult> EditProfile()
         {
-            UserQuery query = new UserQuery()
+            UserIDQuery query = new UserIDQuery()
             {
-                Username = User.Identity.Name
+                UserID = User.GetUserID()
             };
-            EditProfileModel model = await QueryDispatcher.Dispatch<UserQuery, EditProfileModel>(query);
+            EditProfileModel model = await QueryDispatcher.Dispatch<UserIDQuery, EditProfileModel>(query);
             return View(model);
         }
 
@@ -79,6 +76,8 @@ namespace CH.Website.Controllers
             if (ModelState.IsValid)
             {
                 model.OriginalUsername = User.Identity.Name;
+                model.UserID = User.GetUserID();
+
                 CommandResult commandResult = await CommandDispatcher.Dispatch<EditProfileModel>(model);
                 if (commandResult.Succeeded)
                 {
@@ -98,7 +97,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            CheckUsernameResult queryResult = await QueryDispatcher.Dispatch<UserQuery, CheckUsernameResult>(new UserQuery()
+            CheckUsernameResult queryResult = await QueryDispatcher.Dispatch<UsernameQuery, CheckUsernameResult>(new UsernameQuery()
             {
                 Username = userName
             });
