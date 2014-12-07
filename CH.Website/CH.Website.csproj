@@ -180,8 +180,8 @@
     <Compile Include="Middleware\UserContextMiddleware.cs" />
     <Compile Include="Models\CheckUsernameResult.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
+    <Compile Include="Models\HeaderModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\LogoModel.cs" />
     <Compile Include="Models\LogoutModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -420,8 +420,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\_Menu.cshtml" />
-    <Content Include="Views\Home\Logo.cshtml" />
     <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Home\_Header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -38,11 +38,11 @@ namespace CH.Website.Controllers
 
         [ChildActionOnly]
         [AllowAnonymous]
-        public PartialViewResult Logo()
+        public PartialViewResult Header()
         {
-            LogoModel model = new LogoModel();
+            HeaderModel model = new HeaderModel();
             model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
-            return PartialView(model);
+            return PartialView("_Header", model);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CH.Website.Models
 {
-    public class LogoModel
+    public class HeaderModel
     {
         public string LogoUrl
         {
