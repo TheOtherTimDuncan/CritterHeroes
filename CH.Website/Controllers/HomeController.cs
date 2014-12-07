@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
-using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.StateManagement;
 using CH.Website.Models;
@@ -13,8 +12,8 @@ namespace CH.Website.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
-            : base(queryDispatcher, commandDispatcher, appConfiguration)
+        public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+            : base(queryDispatcher, commandDispatcher)
         {
         }
 

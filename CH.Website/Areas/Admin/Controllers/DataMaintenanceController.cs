@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
-using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Handlers.DataStatus;
 using CH.Domain.Identity;
@@ -21,8 +20,8 @@ namespace CH.Website.Areas.Admin.Controllers
     [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
     public class DataMaintenanceController : BaseController
     {
-        public DataMaintenanceController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
-            : base(queryDispatcher, commandDispatcher, appConfiguration)
+        public DataMaintenanceController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+            : base(queryDispatcher, commandDispatcher)
         {
         }
 

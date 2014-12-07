@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
-using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Services.Commands;
 using CH.Domain.StateManagement;
@@ -17,16 +16,14 @@ namespace CH.Website.Controllers
     {
         private OrganizationContext _organizationContext;
         private UserContext _userContext;
-        private IAppConfiguration _appConfiguration;
 
         private IQueryDispatcher _queryDispatcher;
         private ICommandDispatcher _commandDispatcher;
 
-        public BaseController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IAppConfiguration appConfiguration)
+        public BaseController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
         {
             this._queryDispatcher = queryDispatcher;
             this._commandDispatcher = commandDispatcher;
-            this._appConfiguration = appConfiguration;
         }
 
         protected IQueryDispatcher QueryDispatcher
@@ -67,12 +64,6 @@ namespace CH.Website.Controllers
                 }
                 return _userContext;
             }
-        }
-
-        protected string GetBlobUrl(string filename)
-        {
-            // Blob urls are case sensitive and convention is they should always be lowercase
-            return string.Format("{0}/{1}/{2}", _appConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
         }
 
         protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)
