@@ -190,6 +190,7 @@
     </Compile>
     <Compile Include="CommandTests\CommandResultTests.cs" />
     <Compile Include="QueryTests\EditProfileViewModelQueryHandlerTests.cs" />
+    <Compile Include="QueryTests\HeaderViewModelQueryHandlerTests.cs" />
     <Compile Include="QueryTests\LoginViewModelQueryHandlerTests.cs" />
     <Compile Include="QueryTests\OrganizationContextQueryHandlerTests.cs" />
     <Compile Include="QueryTests\UserContextQueryHandlerTests.cs" />

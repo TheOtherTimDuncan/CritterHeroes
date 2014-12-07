@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CH.Dependency;
-using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Services.Commands;
 using CH.Domain.StateManagement;
 using CH.Website.Middleware;
 using Microsoft.AspNet.Identity;
@@ -68,11 +67,6 @@ namespace CH.Website.Controllers
                 }
                 return _userContext;
             }
-        }
-
-        protected T Using<T>()
-        {
-            return DependencyContainer.Using<T>();
         }
 
         protected string GetBlobUrl(string filename)

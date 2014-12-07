@@ -185,6 +185,7 @@
     <Compile Include="Models\LogoutModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\QueryHandlers\BaseViewModelQueryHandler.cs" />
     <Compile Include="Services\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Services\CommandHandlers\LoginCommandHandler.cs">
       <SubType>Code</SubType>
@@ -193,6 +194,7 @@
     <Compile Include="Services\Queries\LoginQuery.cs" />
     <Compile Include="Services\QueryHandlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Services\QueryHandlers\EditProfileViewModelQueryHandler.cs" />
+    <Compile Include="Services\QueryHandlers\HeaderViewModelQueryHandler.cs" />
     <Compile Include="Services\QueryHandlers\LoginViewModelQueryHandler.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Sources\Storage\AzureStorageSource.cs" />

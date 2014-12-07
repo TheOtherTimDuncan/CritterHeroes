@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.StateManagement;
 using CH.Website.Models;
 using TOTD.Utility.Misc;
 
@@ -40,8 +41,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Header()
         {
-            HeaderModel model = new HeaderModel();
-            model.LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename);
+            HeaderModel model = QueryDispatcher.Dispatch<OrganizationContext, HeaderModel>(OrganizationContext).Result;
             return PartialView("_Header", model);
         }
     }
