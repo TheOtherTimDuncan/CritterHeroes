@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Models;
-using CH.Domain.Queries;
+using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
 using FluentAssertions;
 using Microsoft.Owin;

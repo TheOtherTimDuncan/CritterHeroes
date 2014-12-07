@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CH.Dependency;
-using CH.Domain.Commands;
+using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;

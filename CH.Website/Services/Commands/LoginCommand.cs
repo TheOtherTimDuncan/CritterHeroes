@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using CH.Domain.Commands;
+using CH.Domain.Services.Commands;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Identity;

@@ -6,7 +6,7 @@ using CH.Domain.Contracts;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
-using CH.Domain.Queries;
+using CH.Domain.Services.Queries;
 using CH.Website.Models;
 
 namespace CH.Website.Services.QueryHandlers

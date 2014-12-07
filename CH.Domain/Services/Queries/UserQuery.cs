@@ -1,9 +1,8 @@
 ﻿using System;
-using CH.Domain.Contracts.Queries;
 
-namespace CH.Domain.Queries
+namespace CH.Domain.Services.Queries
 {
-    public class UserQuery : IQuery
+    public class UserQuery
     {
         public string Username
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using CH.Domain.Commands;
+using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Identity;

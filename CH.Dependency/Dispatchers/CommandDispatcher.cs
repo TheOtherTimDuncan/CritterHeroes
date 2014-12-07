@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Commands;
+using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Commands;
 using Ninject;
 using TOTD.Utility.ExceptionHelpers;
@@ -19,7 +19,7 @@ namespace CH.Dependency.Dispatchers
             this._kernel = kernel;
         }
 
-        public async Task<CommandResult> Dispatch<TParameter>(TParameter command) where TParameter : ICommand
+        public async Task<CommandResult> Dispatch<TParameter>(TParameter command) where TParameter : class
         {
             return await _kernel.Get<ICommandHandler<TParameter>>().Execute(command);
         }

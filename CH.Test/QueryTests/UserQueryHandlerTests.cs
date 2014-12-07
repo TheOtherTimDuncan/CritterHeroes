@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
-using CH.Domain.Queries;
+using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

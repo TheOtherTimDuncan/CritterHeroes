@@ -9,7 +9,7 @@ using CH.Domain.Identity;
 using CH.Domain.StateManagement;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Domain.Queries
+namespace CH.Domain.Services.Queries
 {
     public class UserContextQueryHandler : IQueryHandler<UserQuery, UserContext>
     {

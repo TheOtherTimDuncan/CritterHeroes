@@ -7,7 +7,7 @@ namespace CH.Domain.Contracts.Queries
     public interface IQueryDispatcher
     {
         Task<TResult> Dispatch<TParameter, TResult>(TParameter query)
-            where TParameter : IQuery
-            where TResult : IQueryResult;
+            where TParameter : class
+            where TResult : class;
     }
 }

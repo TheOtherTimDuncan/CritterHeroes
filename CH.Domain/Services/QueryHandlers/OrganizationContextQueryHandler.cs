@@ -8,7 +8,7 @@ using CH.Domain.Models;
 using CH.Domain.StateManagement;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Domain.Queries
+namespace CH.Domain.Services.Queries
 {
     public class OrganizationContextQueryHandler : IQueryHandler<OrganizationQuery, OrganizationContext>
     {

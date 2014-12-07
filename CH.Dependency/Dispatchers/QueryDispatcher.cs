@@ -20,8 +20,8 @@ namespace CH.Dependency.Dispatchers
         }
 
         public async Task<TResult> Dispatch<TParameter, TResult>(TParameter query)
-            where TParameter : IQuery
-            where TResult : IQueryResult
+            where TParameter : class
+            where TResult : class
         {
             return await _kernel.Get<IQueryHandler<TParameter, TResult>>().Retrieve(query);
         }

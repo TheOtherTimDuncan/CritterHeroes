@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Configuration;
 using CH.Domain.Models;
-using CH.Domain.Queries;
+using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
 using Microsoft.Owin;
 using Owin;

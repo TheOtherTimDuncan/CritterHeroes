@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Contracts.Queries;
 using Microsoft.AspNet.Identity;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Domain.Identity
 {
-    public class IdentityUser : IUser, IQueryResult
+    public class IdentityUser : IUser
     {
         private List<IdentityRole> _roles = new List<IdentityRole>();
 

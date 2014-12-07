@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Commands;
+using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Models.Logging;

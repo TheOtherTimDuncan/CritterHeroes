@@ -86,8 +86,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseException.cs" />
-    <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Contracts\Commands\ICommand.cs" />
+    <Compile Include="Services\Commands\CommandResult.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
     <Compile Include="Contracts\Commands\ICommandHandler.cs" />
     <Compile Include="Contracts\Configuration\IRescueGroupsConfiguration.cs" />
@@ -100,10 +99,8 @@
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
     <Compile Include="Contracts\IStateSerializer.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
-    <Compile Include="Contracts\Queries\IQuery.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
-    <Compile Include="Contracts\Queries\IQueryResult.cs" />
     <Compile Include="Handlers\Emails\EmailBuilder.cs" />
     <Compile Include="Handlers\Emails\SendUsernameChangedEmail.cs" />
     <Compile Include="Identity\ApplicationSignInManager.cs" />
@@ -139,10 +136,10 @@
     <Compile Include="Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Proxies\Email\EmailConfiguration.cs" />
     <Compile Include="Proxies\HttpContextProxy.cs" />
-    <Compile Include="Queries\OrganizationContextQueryHandler.cs" />
-    <Compile Include="Queries\OrganizationQuery.cs" />
-    <Compile Include="Queries\UserQuery.cs" />
-    <Compile Include="Queries\UserContextQueryHandler.cs" />
+    <Compile Include="Services\QueryHandlers\OrganizationContextQueryHandler.cs" />
+    <Compile Include="Services\Queries\OrganizationQuery.cs" />
+    <Compile Include="Services\Queries\UserQuery.cs" />
+    <Compile Include="Services\QueryHandlers\UserContextQueryHandler.cs" />
     <Compile Include="StateManagement\OrganizationContext.cs" />
     <Compile Include="StateManagement\OrganizationStateManager.cs" />
     <Compile Include="StateManagement\StateManager.cs" />

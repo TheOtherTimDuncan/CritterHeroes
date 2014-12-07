@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Domain.Commands
+namespace CH.Domain.Services.Commands
 {
     public class CommandResult
     {

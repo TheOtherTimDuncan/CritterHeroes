@@ -1,10 +1,9 @@
 ﻿using System;
-using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 
 namespace CH.Domain.StateManagement
 {
-    public class UserContext : IQueryResult
+    public class UserContext
     {
         public static UserContext FromUser(IdentityUser user)
         {

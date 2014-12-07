@@ -8,7 +8,7 @@ using CH.Domain.Contracts.Logging;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
-using CH.Domain.Queries;
+using CH.Domain.Services.Queries;
 using CH.Website.Models;
 using TOTD.Utility.ExceptionHelpers;
 

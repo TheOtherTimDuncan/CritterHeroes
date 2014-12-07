@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using CH.Domain.Contracts.Queries;
 
-namespace CH.Domain.Queries
+namespace CH.Domain.Services.Queries
 {
-    public class OrganizationQuery : IQuery
+    public class OrganizationQuery
     {
         public Guid OrganizationID
         {
