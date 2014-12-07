@@ -7,7 +7,7 @@ using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Models.Logging;
 using CH.Website.Models;
-using CH.Website.Services.Commands;
+using CH.Website.Services.CommandHandlers;
 using FluentAssertions;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -33,7 +33,7 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
             mockUserLogger.Setup(x => x.LogAction(UserActions.PasswordLoginSuccess, model.Username)).Returns(Task.FromResult(0));
 
-            LoginCommand command = new LoginCommand(mockSignInManager.Object, mockUserLogger.Object);
+            LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object, mockUserLogger.Object);
             CommandResult result = await command.Execute(model);
             result.Succeeded.Should().BeTrue();
             result.Errors.Should().BeEmpty();
@@ -57,7 +57,7 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
             mockUserLogger.Setup(x => x.LogAction(UserActions.PasswordLoginFailure, model.Username)).Returns(Task.FromResult(0));
 
-            LoginCommand command = new LoginCommand(mockSignInManager.Object, mockUserLogger.Object);
+            LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object, mockUserLogger.Object);
             CommandResult result = await command.Execute(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);

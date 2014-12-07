@@ -13,14 +13,14 @@ using CH.Website.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
-namespace CH.Website.Services.Commands
+namespace CH.Website.Services.CommandHandlers
 {
-    public class LoginCommand : ICommandHandler<LoginModel>
+    public class LoginCommandHandler : ICommandHandler<LoginModel>
     {
         private IApplicationSignInManager _signinManager;
         private IUserLogger _userLogger;
 
-        public LoginCommand(IApplicationSignInManager signinManager, IUserLogger userLogger)
+        public LoginCommandHandler(IApplicationSignInManager signinManager, IUserLogger userLogger)
         {
             this._signinManager = signinManager;
             this._userLogger = userLogger;

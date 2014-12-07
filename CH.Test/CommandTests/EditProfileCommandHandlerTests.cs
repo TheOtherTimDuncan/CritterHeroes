@@ -10,7 +10,7 @@ using CH.Domain.Contracts.Logging;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
 using CH.Website.Models;
-using CH.Website.Services.Commands;
+using CH.Website.Services.CommandHandlers;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -50,7 +50,7 @@ namespace CH.Test.CommandTests
                 LastName = "New Last"
             };
 
-            EditProfileCommand command = new EditProfileCommand(mockAuthenticationManager.Object, mockUserManager.Object, mockUserLogger.Object);
+            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockUserLogger.Object);
             CommandResult commandResult = await command.Execute(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -92,7 +92,7 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
             mockLogger.Setup(x => x.LogAction(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
 
-            EditProfileCommand command = new EditProfileCommand(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
+            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
             CommandResult commandResult = await command.Execute(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -138,7 +138,7 @@ namespace CH.Test.CommandTests
                 LastName = "Last"
             };
 
-            EditProfileCommand command = new EditProfileCommand(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
+            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
             CommandResult commandResult = await command.Execute(model);
             commandResult.Succeeded.Should().BeFalse();
 

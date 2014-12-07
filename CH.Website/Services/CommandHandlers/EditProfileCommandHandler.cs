@@ -13,15 +13,15 @@ using CH.Website.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace CH.Website.Services.Commands
+namespace CH.Website.Services.CommandHandlers
 {
-    public class EditProfileCommand : ICommandHandler<EditProfileModel>
+    public class EditProfileCommandHandler : ICommandHandler<EditProfileModel>
     {
         private IAuthenticationManager _authenticationManager;
         private IApplicationUserManager _userManager;
         private IUserLogger _userLogger;
 
-        public EditProfileCommand(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger)
+        public EditProfileCommandHandler(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger)
         {
             this._authenticationManager = httpContext;
             this._userManager = userManager;
