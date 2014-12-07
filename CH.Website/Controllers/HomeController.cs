@@ -7,7 +7,7 @@ using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.StateManagement;
 using CH.Website.Models;
-using TOTD.Utility.Misc;
+using CH.Website.Services.Queries;
 
 namespace CH.Website.Controllers
 {
@@ -27,13 +27,12 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
-            MenuModel model = new MenuModel()
+            MenuModel model = QueryDispatcher.Dispatch<MenuQuery, MenuModel>(new MenuQuery()
             {
+                OrganizationContext = this.OrganizationContext,
                 CurrentUser = User,
-                OrganizationShortName = OrganizationContext.IfNotNull(x => x.ShortName),
-                UserDisplayName = UserContext.IfNotNull(x => x.DisplayName),
-                LogoUrl = GetBlobUrl(OrganizationContext.LogoFilename)
-            };
+                UserContext = this.UserContext
+            }).Result;
             return PartialView("_Menu", model);
         }
 
