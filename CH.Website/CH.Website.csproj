@@ -182,12 +182,14 @@
     <Compile Include="Models\EditProfileModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogoModel.cs" />
+    <Compile Include="Models\LogoutModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Services\CommandHandlers\LoginCommandHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\CommandHandlers\LogoutCommandHandler.cs" />
     <Compile Include="Services\Queries\LoginQuery.cs" />
     <Compile Include="Services\QueryHandlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Services\QueryHandlers\EditProfileViewModelQueryHandler.cs" />

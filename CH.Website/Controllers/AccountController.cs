@@ -24,18 +24,6 @@ namespace CH.Website.Controllers
         {
         }
 
-        public IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                if (_authenticationManager == null)
-                {
-                    _authenticationManager = HttpContext.GetOwinContext().Authentication;
-                }
-                return _authenticationManager;
-            }
-        }
-
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginQuery query)
         {
@@ -70,7 +58,7 @@ namespace CH.Website.Controllers
 
         public ActionResult LogOut()
         {
-            AuthenticationManager.SignOut();
+            CommandDispatcher.Dispatch<LogoutModel>(new LogoutModel());
             return RedirectToAction("Index", "Home");
         }
 
