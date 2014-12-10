@@ -180,11 +180,15 @@
     <Compile Include="Middleware\UserContextMiddleware.cs" />
     <Compile Include="Models\CheckUsernameResult.cs" />
     <Compile Include="Models\EditProfileModel.cs" />
+    <Compile Include="Models\ForgotPasswordModel.cs" />
     <Compile Include="Models\HeaderModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LogoutModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommandHandlers\ForgotPasswordCommandHandler.cs" />
+    <Compile Include="Services\Commands\ForgotPasswordCommand.cs" />
     <Compile Include="Services\Queries\MenuQuery.cs" />
     <Compile Include="Services\QueryHandlers\BaseViewModelQueryHandler.cs" />
     <Compile Include="Services\CommandHandlers\EditProfileCommandHandler.cs" />
@@ -205,6 +209,7 @@
     <Compile Include="Utility\DataModelSource.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
+    <Compile Include="Utility\UrlGenerator.cs" />
     <Compile Include="Utility\UrlHelperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +435,7 @@
     <Content Include="Views\Account\ForgotUsername.cshtml" />
     <Content Include="Views\Account\ResendConfirmationCode.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

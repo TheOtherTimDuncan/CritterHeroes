@@ -9,10 +9,18 @@ namespace CH.Domain.Contracts.Identity
 {
     public interface IApplicationUserManager
     {
+        TimeSpan TokenLifespan
+        {
+            get;
+        }
+
+        Task<IdentityUser> FindByEmailAsync(string email);
         Task<IdentityUser> FindByIdAsync(string userID); 
         Task<IdentityUser> FindByNameAsync(string userName);
 
         Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType);
+
+        Task<string> GeneratePasswordResetTokenAsync(string userId);
 
         Task<IdentityResult> UpdateAsync(IdentityUser user);
     }

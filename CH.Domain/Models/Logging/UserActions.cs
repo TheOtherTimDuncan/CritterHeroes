@@ -7,6 +7,8 @@ namespace CH.Domain.Models.Logging
         PasswordLoginSuccess,
         PasswordLoginFailure,
         DuplicateUsernameCheck,
-        UsernameChanged
+        UsernameChanged,
+        ForgotPasswordFailure,
+        ForgotPasswordSuccess
     }
 }

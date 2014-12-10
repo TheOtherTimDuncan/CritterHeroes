@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Identity;
 using CH.Domain.Services.Commands;
 using CH.Domain.Services.Queries;
 using CH.Website.Models;
+using CH.Website.Services.Commands;
 using CH.Website.Services.Queries;
-using CH.Domain.Identity;
+using CH.Website.Utility;
 
 namespace CH.Website.Controllers
 {
@@ -60,14 +62,44 @@ namespace CH.Website.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public  ActionResult ForgotPassword()
+        public ActionResult ForgotPassword()
         {
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            ForgotPasswordCommand command = new ForgotPasswordCommand()
+            {
+                EmailAddress = model.EmailAddress,
+                Username = model.Username,
+                UrlGenerator = new UrlGenerator(Url),
+                OrganizationFullName = OrganizationContext.FullName
+            };
+
+            CommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand>(command);
+            if (commandResult.Succeeded)
+            {
+                return View("ForgotPasswordConfirmation");
+            }
+
+            AddCommandResultErrorsToModelState(ModelState, commandResult);
+            return View(model);
+        }
+
         [HttpGet]
         [AllowAnonymous]
-        public  ActionResult ForgotUsername()
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ForgotUsername()
         {
             return View();
         }
