@@ -249,21 +249,11 @@
     <Content Include="browserconfig.xml">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
-    <Content Include="Content\Images\spinner.gif" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.css.map">
-      <DependentUpon>bootstrap-theme.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap-theme.min.css">
-      <DependentUpon>bootstrap-theme.css</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.css.map">
-      <DependentUpon>bootstrap.css</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="Content\Images\spinner.gif" />
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
@@ -319,16 +309,9 @@
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css.map">
       <DependentUpon>Site.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap.yeti.css">
-      <DependentUpon>bootstrap.yeti.less</DependentUpon>
-    </Content>
-    <Content Include="Content\variables.less">
-      <DependentUpon>bootstrap.yeti.less</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\ErrorLog\Index.cshtml" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -336,10 +319,12 @@
     <Content Include="..\AppSettings.config">
       <Link>AppSettings.config</Link>
     </Content>
-    <None Include="Content\bootstrap.yeti.less" />
-    <Content Include="Content\bootstrap.yeti.min.css">
-      <DependentUpon>bootstrap.yeti.css</DependentUpon>
+    <Content Include="Content\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <None Include="Content\bootswatch.less">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </None>
     <None Include="Content\Site.less" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
@@ -349,9 +334,6 @@
     <Content Include="..\CH.RescueGroups\RescueGroups.config">
       <Link>RescueGroups.config</Link>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="mstile-144x144.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
@@ -367,16 +349,19 @@
     <Content Include="mstile-70x70.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\ch.cdnFallback.js" />
+    <None Include="Content\variables.less">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
     <Content Include="Scripts\ch.data-dashboard.js" />
     <Content Include="Scripts\ch.data.js" />
-    <Content Include="Scripts\bootstrap-3.2.0.js" />
-    <Content Include="Scripts\bootstrap-3.2.0.min.js">
-      <DependentUpon>bootstrap-3.2.0.js</DependentUpon>
-    </Content>
     <Content Include="Scripts\ch.edit-profile.js" />
     <Content Include="Scripts\ch.username.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
