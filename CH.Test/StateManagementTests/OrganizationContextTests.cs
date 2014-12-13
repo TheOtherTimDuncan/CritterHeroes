@@ -26,6 +26,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
@@ -44,6 +45,7 @@ namespace CH.Test.StateManagementTests
             result.ShortName.Should().Be(context.ShortName);
             result.AzureName.Should().Be(context.AzureName);
             result.LogoFilename.Should().Be(context.LogoFilename);
+            result.EmailAddress.Should().Be(context.EmailAddress);
             result.SupportedCritters.Should().Equal(context.SupportedCritters);
 
             mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
@@ -59,6 +61,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
@@ -85,6 +88,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
@@ -95,6 +99,7 @@ namespace CH.Test.StateManagementTests
             context.ShortName.Should().Be(organization.ShortName);
             context.AzureName.Should().Be(organization.AzureName);
             context.LogoFilename.Should().Be(organization.LogoFilename);
+            context.EmailAddress.Should().Be(organization.EmailAddress);
             context.SupportedCritters.Should().Equal(organization.SupportedCritters);
         }
 
@@ -103,6 +108,13 @@ namespace CH.Test.StateManagementTests
         {
             OrganizationContext context = new OrganizationContext()
             {
+                OrganizationID = Guid.NewGuid(),
+                ShortName = "Short",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
+                SupportedCritters = GetTestSupportedSpecies(),
+
                 FullName = null
             };
 
@@ -123,6 +135,13 @@ namespace CH.Test.StateManagementTests
         {
             OrganizationContext context = new OrganizationContext()
             {
+                OrganizationID = Guid.NewGuid(),
+                FullName = "Full",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
+                SupportedCritters = GetTestSupportedSpecies(),
+
                 ShortName = null
             };
 
@@ -143,6 +162,13 @@ namespace CH.Test.StateManagementTests
         {
             OrganizationContext context = new OrganizationContext()
             {
+                OrganizationID = Guid.NewGuid(),
+                FullName = "Full",
+                ShortName = "Short",
+                LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
+                SupportedCritters = GetTestSupportedSpecies(),
+
                 AzureName = null
             };
 
@@ -163,7 +189,40 @@ namespace CH.Test.StateManagementTests
         {
             OrganizationContext context = new OrganizationContext()
             {
+                OrganizationID = Guid.NewGuid(),
+                FullName = "Full",
+                ShortName = "Short",
+                AzureName = "Azure",
+                LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = new Species[] { }
+            };
+
+            StateSerializer serializer = new StateSerializer();
+
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            OrganizationStateManager stateManager = new OrganizationStateManager(mockOwinContext.Object, serializer);
+            stateManager.GetContext().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void StateManagerReturnsNullIEmailAddressIsMissing()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                OrganizationID = Guid.NewGuid(),
+                FullName = "Full",
+                ShortName = "Short",
+                LogoFilename = "Logo",
+                AzureName = "Azure",
+                SupportedCritters = GetTestSupportedSpecies(),
+
+                EmailAddress = null
             };
 
             StateSerializer serializer = new StateSerializer();

@@ -42,6 +42,11 @@ namespace CH.Domain.StateManagement
                 return false;
             }
 
+            if (context.EmailAddress.IsNullOrEmpty())
+            {
+                return false;
+            }
+
             return true;
         }
     }

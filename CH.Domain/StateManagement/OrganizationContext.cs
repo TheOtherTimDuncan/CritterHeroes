@@ -16,6 +16,7 @@ namespace CH.Domain.StateManagement
                 ShortName = organization.ShortName,
                 AzureName = organization.AzureName,
                 LogoFilename = organization.LogoFilename,
+                EmailAddress = organization.EmailAddress,
                 SupportedCritters = organization.SupportedCritters
             };
         }
@@ -45,6 +46,12 @@ namespace CH.Domain.StateManagement
         }
 
         public string LogoFilename
+        {
+            get;
+            set;
+        }
+
+        public string EmailAddress
         {
             get;
             set;

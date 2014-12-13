@@ -24,6 +24,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = new Species[] 
                 { 
                     new Species("1","singular-1","plural-2", null, null),
@@ -35,12 +36,13 @@ namespace CH.Test.Azure.StorageEntityTests
             storageEntity.Should().NotBeNull();
 
             storageEntity.Entity = organization;
-            storageEntity.TableEntity.Properties.Count.Should().Be(6);
+            storageEntity.TableEntity.Properties.Count.Should().Be(7);
             storageEntity.TableEntity["ID"].GuidValue.Should().Be(organization.ID);
             storageEntity.TableEntity["FullName"].StringValue.Should().Be(organization.FullName);
             storageEntity.TableEntity["ShortName"].StringValue.Should().Be(organization.ShortName);
             storageEntity.TableEntity["AzureName"].StringValue.Should().Be(organization.AzureName);
             storageEntity.TableEntity["LogoFilename"].StringValue.Should().Be(organization.LogoFilename);
+            storageEntity.TableEntity["EmailAddress"].StringValue.Should().Be(organization.EmailAddress);
             storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("[{\"Name\":\"1\",\"Singular\":\"singular-1\",\"Plural\":\"plural-2\",\"YoungSingular\":null,\"YoungPlural\":null},{\"Name\":\"2\",\"Singular\":\"singular-2\",\"Plural\":\"plural-2\",\"YoungSingular\":null,\"YoungPlural\":null}]");
         }
 
@@ -53,6 +55,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = null
             };
 
@@ -72,6 +75,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = new Species[] 
                 { 
                     new Species("1","singular-1","plural-2", null, null),
@@ -92,6 +96,7 @@ namespace CH.Test.Azure.StorageEntityTests
             storageEntity2.Entity.ShortName.Should().Be(organization.ShortName);
             storageEntity2.Entity.AzureName.Should().Be(organization.AzureName);
             storageEntity2.Entity.LogoFilename.Should().Be(organization.LogoFilename);
+            storageEntity2.Entity.EmailAddress.Should().Be(organization.EmailAddress);
             storageEntity2.Entity.SupportedCritters.Should().Equal(organization.SupportedCritters);
         }
 
@@ -104,6 +109,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = null
             };
 
@@ -127,6 +133,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "ShortName",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = new Species[] 
                 { 
                     new Species("1","singular-1","plural-2", null, null),
@@ -143,6 +150,7 @@ namespace CH.Test.Azure.StorageEntityTests
             result.ShortName.Should().Be(organization.ShortName);
             result.AzureName.Should().Be(organization.AzureName);
             result.LogoFilename.Should().Be(organization.LogoFilename);
+            result.EmailAddress.Should().Be(organization.EmailAddress);
             result.SupportedCritters.Should().Equal(organization.SupportedCritters);
 
             await storage.DeleteAsync<Organization>(organization);
@@ -159,6 +167,7 @@ namespace CH.Test.Azure.StorageEntityTests
                 ShortName = "FFLAH",
                 AzureName = "fflah",
                 LogoFilename = "logo.svg",
+                EmailAddress = "email@email.com",
                 SupportedCritters = new Species[] 
                 { 
                     new Species("Cat","Cat","Cats", "Kitten", "Kittens"),

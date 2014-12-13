@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CH.Azure.Utility;
 using CH.Domain.Models;
 using CH.Domain.Models.Data;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -28,6 +29,7 @@ namespace CH.Azure.Storage
             tableEntity["ShortName"] = new EntityProperty(entity.ShortName);
             tableEntity["AzureName"] = new EntityProperty(entity.AzureName);
             tableEntity["LogoFilename"] = new EntityProperty(entity.LogoFilename);
+            tableEntity["EmailAddress"] = new EntityProperty(entity.EmailAddress);
             tableEntity["SupportedCritters"] = new EntityProperty(JsonConvert.SerializeObject(entity.SupportedCritters));
         }
 
@@ -45,7 +47,8 @@ namespace CH.Azure.Storage
                 ShortName = tableEntity["ShortName"].StringValue,
                 AzureName = tableEntity["AzureName"].StringValue,
                 LogoFilename = tableEntity["LogoFilename"].StringValue,
-                SupportedCritters = JsonConvert.DeserializeObject<IEnumerable<Species>>( tableEntity["SupportedCritters"].StringValue)
+                EmailAddress = tableEntity["EmailAddress"].StringValue,
+                SupportedCritters = JsonConvert.DeserializeObject<IEnumerable<Species>>(tableEntity["SupportedCritters"].StringValue)
             };
         }
     }

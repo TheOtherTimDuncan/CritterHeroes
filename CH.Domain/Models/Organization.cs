@@ -47,6 +47,12 @@ namespace CH.Domain.Models
             set;
         }
 
+        public string EmailAddress
+        {
+            get;
+            set;
+        }
+
         public IEnumerable<Species> SupportedCritters
         {
             get;

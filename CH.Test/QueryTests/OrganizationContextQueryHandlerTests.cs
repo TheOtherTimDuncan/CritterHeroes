@@ -27,6 +27,7 @@ namespace CH.Test.QueryTests
                 FullName = "full",
                 AzureName = "azure",
                 LogoFilename = "logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
@@ -55,6 +56,7 @@ namespace CH.Test.QueryTests
                 FullName = "full",
                 AzureName = "azure",
                 LogoFilename = "logo",
+                EmailAddress = "email@email.com",
                 SupportedCritters = GetTestSupportedSpecies()
             };
 
