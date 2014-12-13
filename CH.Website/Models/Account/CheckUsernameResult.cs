@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CH.Website.Models
+namespace CH.Website.Models.Account
 {
     public class CheckUsernameResult
     {

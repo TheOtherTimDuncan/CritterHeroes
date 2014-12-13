@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CH.Website.Models
+namespace CH.Website.Models.Account
 {
     public class EditProfileModel
     {

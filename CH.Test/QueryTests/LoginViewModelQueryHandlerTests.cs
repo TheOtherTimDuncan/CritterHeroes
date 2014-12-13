@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Website.Models;
+using CH.Website.Models.Account;
 using CH.Website.Services.Queries;
 using CH.Website.Services.QueryHandlers;
 using FluentAssertions;

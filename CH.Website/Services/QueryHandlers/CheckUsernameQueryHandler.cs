@@ -9,7 +9,7 @@ using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Models.Logging;
 using CH.Domain.Services.Queries;
-using CH.Website.Models;
+using CH.Website.Models.Account;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Website.Services.QueryHandlers

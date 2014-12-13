@@ -12,7 +12,7 @@ using CH.Domain.Models;
 using CH.Domain.Models.Logging;
 using CH.Domain.Services.Commands;
 using CH.Website.Controllers;
-using CH.Website.Models;
+using CH.Website.Models.Account;
 using CH.Website.Services.Commands;
 using CH.Website.Utility;
 using TOTD.Utility.ExceptionHelpers;

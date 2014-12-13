@@ -6,7 +6,7 @@ using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Services.Commands;
 using CH.Domain.StateManagement;
-using CH.Website.Models;
+using CH.Website.Models.Account;
 using Microsoft.Owin.Security;
 
 namespace CH.Website.Services.CommandHandlers

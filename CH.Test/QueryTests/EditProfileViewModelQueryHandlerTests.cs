@@ -6,7 +6,7 @@ using CH.Domain.Contracts;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
 using CH.Domain.Services.Queries;
-using CH.Website.Models;
+using CH.Website.Models.Account;
 using CH.Website.Services.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

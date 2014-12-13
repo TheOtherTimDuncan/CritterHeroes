@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Domain.Contracts.Queries;
-using CH.Website.Models;
+using CH.Website.Models.Account;
 using CH.Website.Services.Queries;
 
 namespace CH.Website.Services.QueryHandlers

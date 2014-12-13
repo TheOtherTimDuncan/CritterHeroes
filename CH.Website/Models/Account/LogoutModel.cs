@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CH.Website.Models
+namespace CH.Website.Models.Account
 {
     public class LogoutModel
     {

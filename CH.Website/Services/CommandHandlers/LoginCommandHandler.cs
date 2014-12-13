@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using CH.Domain.Services.Commands;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Models.Logging;
-using CH.Website.Models;
+using CH.Domain.Services.Commands;
+using CH.Website.Models.Account;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
