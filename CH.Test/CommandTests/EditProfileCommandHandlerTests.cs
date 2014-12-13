@@ -90,7 +90,7 @@ namespace CH.Test.CommandTests
             mockAuthenticationManager.Setup(x => x.SignIn(It.IsAny<ClaimsIdentity>()));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            mockLogger.Setup(x => x.LogAction(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
+            mockLogger.Setup(x => x.LogActionAsync(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
 
             EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
             CommandResult commandResult = await command.Execute(model);
@@ -107,7 +107,7 @@ namespace CH.Test.CommandTests
             mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
             mockAuthenticationManager.Verify(x => x.SignIn(It.IsAny<ClaimsIdentity>()), Times.Once);
 
-            mockLogger.Verify(x => x.LogAction<string>(UserActions.UsernameChanged, model.Username, It.IsAny<string>()), Times.Once);
+            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.UsernameChanged, model.Username, It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]

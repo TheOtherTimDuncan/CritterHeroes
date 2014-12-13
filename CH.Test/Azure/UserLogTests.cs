@@ -22,9 +22,9 @@ namespace CH.Test.Azure
             UserActions userAction = UserActions.PasswordLoginSuccess;
 
             IUserLogger userLogger = Using<IUserLogger>();
-            await userLogger.LogAction(userAction, testUsername);
+            await userLogger.LogActionAsync(userAction, testUsername);
 
-            IEnumerable<UserLog> userLogs = await userLogger.GetUserLog(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
+            IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
             UserLog log = userLogs.FirstOrDefault(x => x.Username == testUsername);
             log.Should().NotBeNull();
             log.Action.Should().Be(userAction);
@@ -48,9 +48,9 @@ namespace CH.Test.Azure
             string additionalData = JsonConvert.SerializeObject(message);
 
             IUserLogger userLogger = Using<IUserLogger>();
-            await userLogger.LogAction(userAction, testUsername, message);
+            await userLogger.LogActionAsync(userAction, testUsername, message);
 
-            IEnumerable<UserLog> userLogs = await userLogger.GetUserLog(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
+            IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
             UserLog log = userLogs.FirstOrDefault(x => x.Username == testUsername && x.AdditionalData != null);
             log.Should().NotBeNull();
             log.Action.Should().Be(userAction);

@@ -62,7 +62,7 @@ namespace CH.Website.Services.CommandHandlers
 
             if (isUsernameChanged)
             {
-                await _userLogger.LogAction(UserActions.UsernameChanged, user.UserName, "Original username: " + command.OriginalUsername);
+                await _userLogger.LogActionAsync(UserActions.UsernameChanged, user.UserName, "Original username: " + command.OriginalUsername);
                 _authenticationManager.SignOut();
                 _authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie));
             }

@@ -22,7 +22,7 @@ namespace CH.Azure.Logging
         {
         }
 
-        public async Task<IEnumerable<UserLog>> GetUserLog(DateTime dateFrom, DateTime dateTo)
+        public async Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo)
         {
             string start = PartitionKeyHelper.GetLoggingKeyForDate(dateFrom);
             string end = PartitionKeyHelper.GetLoggingKeyForDate(dateTo);
@@ -46,13 +46,13 @@ namespace CH.Azure.Logging
             return result;
         }
 
-        public async Task LogAction(UserActions userAction, string userName)
+        public async Task LogActionAsync(UserActions userAction, string userName)
         {
             UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow);
             await SaveAsync(userLog);
         }
 
-        public async Task LogAction<T>(UserActions userAction, string userName, T additionalData)
+        public async Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData)
         {
             UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow);
             userLog.AdditionalData = JsonConvert.SerializeObject(additionalData);

@@ -7,8 +7,8 @@ namespace CH.Domain.Contracts.Logging
 {
     public interface IUserLogger
     {
-        Task<IEnumerable<UserLog>> GetUserLog(DateTime dateFrom, DateTime dateTo);
-        Task LogAction(UserActions userAction, string userName);
-        Task LogAction<T>(UserActions userAction, string userName, T additionalData);
+        Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo);
+        Task LogActionAsync(UserActions userAction, string userName);
+        Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData);
     }
 }

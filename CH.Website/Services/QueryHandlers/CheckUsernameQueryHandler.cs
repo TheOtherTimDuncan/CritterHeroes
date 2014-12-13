@@ -37,7 +37,7 @@ namespace CH.Website.Services.QueryHandlers
                 RequestFrom = _httpContext.Request.UrlReferrer.AbsoluteUri,
             };
 
-            await _userLogger.LogAction(UserActions.DuplicateUsernameCheck, _httpContext.User.Identity.Name, logData);
+            await _userLogger.LogActionAsync(UserActions.DuplicateUsernameCheck, _httpContext.User.Identity.Name, logData);
             IdentityUser user = await _userStore.FindByNameAsync(query.Username);
             return new CheckUsernameResult()
             {

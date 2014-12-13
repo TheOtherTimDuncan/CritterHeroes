@@ -60,7 +60,7 @@ namespace CH.Test.CommandTests
             mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>()));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            mockLogger.Setup(x => x.LogAction(UserActions.ForgotPasswordFailure, null, model)).Returns(Task.FromResult(0));
+            mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, model)).Returns(Task.FromResult(0));
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockLogger.Object);
 
@@ -74,7 +74,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(username), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
-            mockLogger.Verify(x => x.LogAction(UserActions.ForgotPasswordFailure, null, model), Times.Exactly(2));
+            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, model), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            mockLogger.Setup(x => x.LogAction(UserActions.ForgotPasswordSuccess, user.UserName, model)).Returns(Task.FromResult(0));
+            mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, model)).Returns(Task.FromResult(0));
 
             Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
             mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>())).Returns<EmailMessage>((message) =>
@@ -124,7 +124,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Verify(x => x.FindByEmailAsync(model.EmailAddress), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Once);
-            mockLogger.Verify(x => x.LogAction(UserActions.ForgotPasswordSuccess, user.UserName, model), Times.Once);
+            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, model), Times.Once);
             mockUrlGenerator.Verify(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
     }

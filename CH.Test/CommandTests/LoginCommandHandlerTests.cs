@@ -31,7 +31,7 @@ namespace CH.Test.CommandTests
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Success));
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
-            mockUserLogger.Setup(x => x.LogAction(UserActions.PasswordLoginSuccess, model.Username)).Returns(Task.FromResult(0));
+            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username)).Returns(Task.FromResult(0));
 
             LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object, mockUserLogger.Object);
             CommandResult result = await command.Execute(model);
@@ -39,7 +39,7 @@ namespace CH.Test.CommandTests
             result.Errors.Should().BeEmpty();
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
-            mockUserLogger.Verify(x => x.LogAction(UserActions.PasswordLoginSuccess, model.Username), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username), Times.Once);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace CH.Test.CommandTests
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
-            mockUserLogger.Setup(x => x.LogAction(UserActions.PasswordLoginFailure, model.Username)).Returns(Task.FromResult(0));
+            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Username)).Returns(Task.FromResult(0));
 
             LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object, mockUserLogger.Object);
             CommandResult result = await command.Execute(model);
@@ -64,7 +64,7 @@ namespace CH.Test.CommandTests
             result.Errors[""][0].Should().Be("The username or password that you entered was incorrect. Please try again.");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
-            mockUserLogger.Verify(x => x.LogAction(UserActions.PasswordLoginFailure, model.Username), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Username), Times.Once);
         }
     }
 }

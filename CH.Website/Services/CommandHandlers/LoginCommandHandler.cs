@@ -32,12 +32,12 @@ namespace CH.Website.Services.CommandHandlers
 
             if (result == SignInStatus.Success)
             {
-                await _userLogger.LogAction(UserActions.PasswordLoginSuccess, command.Username);
+                await _userLogger.LogActionAsync(UserActions.PasswordLoginSuccess, command.Username);
                 return CommandResult.Success();
             }
             else
             {
-                await _userLogger.LogAction(UserActions.PasswordLoginFailure, command.Username);
+                await _userLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Username);
                 return CommandResult.Failed("", "The username or password that you entered was incorrect. Please try again.");
             }
         }

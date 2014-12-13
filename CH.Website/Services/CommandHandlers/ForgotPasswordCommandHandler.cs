@@ -56,7 +56,7 @@ namespace CH.Website.Services.CommandHandlers
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found just return success
-                await _userLogger.LogAction(UserActions.ForgotPasswordFailure, null, command);
+                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command);
                 return CommandResult.Success();
             }
 
@@ -80,7 +80,7 @@ namespace CH.Website.Services.CommandHandlers
                 .End();
 
             await _emailClient.SendAsync(emailMessage);
-            await _userLogger.LogAction(UserActions.ForgotPasswordSuccess, user.UserName, command);
+            await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command);
 
             return CommandResult.Success();
         }
