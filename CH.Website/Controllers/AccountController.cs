@@ -64,7 +64,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            return View(new ForgotPasswordModel());
         }
 
         [HttpPost]
@@ -81,11 +81,14 @@ namespace CH.Website.Controllers
             };
 
             CommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand>(command);
+            ModelState.Remove("ShowMessage");
             if (commandResult.Succeeded)
             {
-                return View("ForgotPasswordConfirmation");
+                model.ShowMessage = true;
+                return View(model);
             }
 
+            model.ShowMessage = false;
             AddCommandResultErrorsToModelState(ModelState, commandResult);
             return View(model);
         }

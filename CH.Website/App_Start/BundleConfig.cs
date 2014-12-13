@@ -8,7 +8,7 @@ namespace CH.Website
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            BundleTable.EnableOptimizations = true;
+            //BundleTable.EnableOptimizations = true;
 
             bundles.IgnoreList.Ignore("*.less");
 
@@ -27,6 +27,9 @@ namespace CH.Website
 
             bundles.Add(new ScriptBundle("~/bundles/cheditprofile")
                 .Include("~/Scripts/ch.edit-profile.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/chbusyindicator")
+                .Include("~/Scripts/ch.busy-indicator.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
