@@ -163,6 +163,7 @@
     <Compile Include="Azure\StorageEntityTests\BaseStorageEntityTest.cs" />
     <Compile Include="Azure\StorageEntityTests\BreedStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\AnimalStatusStorageEntityTests.cs" />
+    <Compile Include="Azure\StorageEntityTests\EmailLogStorageEntityTests.cs" />
     <Compile Include="Azure\StorageEntityTests\OrganizationStorageEntityTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />

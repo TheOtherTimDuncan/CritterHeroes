@@ -6,6 +6,7 @@ using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Email;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Models;
+using CH.Domain.Models.Logging;
 using CH.Domain.Proxies.Configuration;
 using CH.Domain.Proxies.Email;
 using CH.Domain.StateManagement;
@@ -29,6 +30,7 @@ namespace CH.Dependency.Modules
 
             Bind<IEmailConfiguration>().To<EmailConfiguration>();
             Bind<IEmailClient>().To<EmailClientProxy>();
+            Bind<IStorageContext<EmailLog>>().To<EmailLogAzureStorage>();
 
             Bind<IUserLogger>().To<AzureUserLogger>();
 

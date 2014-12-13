@@ -116,6 +116,7 @@
     <Compile Include="BaseException.cs" />
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Identity\ClaimExtensions.cs" />
+    <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Services\Commands\CommandResult.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
     <Compile Include="Contracts\Commands\ICommandHandler.cs" />

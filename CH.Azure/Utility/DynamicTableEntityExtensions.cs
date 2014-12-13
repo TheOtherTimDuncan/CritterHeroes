@@ -40,5 +40,21 @@ namespace CH.Azure.Utility
             }
             return null;
         }
+
+        /// <summary>
+        /// Returns the Guid value of the specified entity property or null if the property doesn't exist
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static Guid? SafeGetEntityPropertyGuidValue(this DynamicTableEntity entity, string key)
+        {
+            EntityProperty entityProperty;
+            if (entity.Properties.TryGetValue(key, out entityProperty))
+            {
+                return entityProperty.GuidValue;
+            }
+            return null;
+        }
     }
 }
