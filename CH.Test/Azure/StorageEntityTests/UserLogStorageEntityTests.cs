@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Azure.Storage;
+using CH.Azure.Storage.Logging;
 using CH.Domain.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,7 +18,7 @@ namespace CH.Test.Azure.StorageEntityTests
             UserLog userLog = new UserLog(UserActions.PasswordLoginSuccess, "username", DateTime.UtcNow);
             userLog.AdditionalData = "data";
 
-            StorageEntity<UserLog> storageEntity = StorageEntityFactory.GetStorageEntity<UserLog>();
+            UserLogStorageEntity storageEntity = new UserLogStorageEntity();
             storageEntity.Should().NotBeNull();
 
             storageEntity.Entity = userLog;
@@ -37,11 +36,11 @@ namespace CH.Test.Azure.StorageEntityTests
             UserLog userLog = new UserLog(UserActions.PasswordLoginSuccess, "username", DateTime.UtcNow);
             userLog.AdditionalData = "data";
 
-            StorageEntity<UserLog> storageEntity1 = StorageEntityFactory.GetStorageEntity<UserLog>();
+            UserLogStorageEntity storageEntity1 = new UserLogStorageEntity();
             storageEntity1.Should().NotBeNull();
             storageEntity1.Entity = userLog;
 
-            StorageEntity<UserLog> storageEntity2 = StorageEntityFactory.GetStorageEntity<UserLog>();
+            UserLogStorageEntity storageEntity2 = new UserLogStorageEntity();
             storageEntity2.Should().NotBeNull();
             storageEntity2.TableEntity = storageEntity1.TableEntity;
 

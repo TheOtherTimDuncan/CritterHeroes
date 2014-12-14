@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CH.Azure;
-using CH.Domain.Contracts.Configuration;
+using CH.Domain.Proxies.Configuration;
 
 namespace CH.Test.Azure.StorageEntityTests
 {
@@ -17,7 +16,7 @@ namespace CH.Test.Azure.StorageEntityTests
 
         public AzureStorage GetAzureStorage(string tableName)
         {
-            return new AzureStorage(tableName, Using<IAzureConfiguration>());
+            return new AzureStorage(tableName, new AzureConfiguration());
         }
     }
 }

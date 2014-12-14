@@ -7,6 +7,7 @@ using CH.Azure;
 using CH.Azure.Storage;
 using CH.Domain.Models;
 using CH.Domain.Models.Data;
+using CH.Domain.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,58 +17,7 @@ namespace CH.Test.Azure.StorageEntityTests
     public class OrganizationStorageEntityTests : BaseStorageEntityTest
     {
         [TestMethod]
-        public void SuccessfullyMapsEntityToStorage()
-        {
-            Organization organization = new Organization()
-            {
-                FullName = "FullName",
-                ShortName = "ShortName",
-                AzureName = "Azure",
-                LogoFilename = "Logo",
-                EmailAddress = "email@email.com",
-                SupportedCritters = new Species[] 
-                { 
-                    new Species("1","singular-1","plural-2", null, null),
-                    new Species("2","singular-2","plural-2", null, null) 
-                }
-            };
-
-            StorageEntity<Organization> storageEntity = StorageEntityFactory.GetStorageEntity<Organization>();
-            storageEntity.Should().NotBeNull();
-
-            storageEntity.Entity = organization;
-            storageEntity.TableEntity.Properties.Count.Should().Be(7);
-            storageEntity.TableEntity["ID"].GuidValue.Should().Be(organization.ID);
-            storageEntity.TableEntity["FullName"].StringValue.Should().Be(organization.FullName);
-            storageEntity.TableEntity["ShortName"].StringValue.Should().Be(organization.ShortName);
-            storageEntity.TableEntity["AzureName"].StringValue.Should().Be(organization.AzureName);
-            storageEntity.TableEntity["LogoFilename"].StringValue.Should().Be(organization.LogoFilename);
-            storageEntity.TableEntity["EmailAddress"].StringValue.Should().Be(organization.EmailAddress);
-            storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("[{\"Name\":\"1\",\"Singular\":\"singular-1\",\"Plural\":\"plural-2\",\"YoungSingular\":null,\"YoungPlural\":null},{\"Name\":\"2\",\"Singular\":\"singular-2\",\"Plural\":\"plural-2\",\"YoungSingular\":null,\"YoungPlural\":null}]");
-        }
-
-        [TestMethod]
-        public void SuccessfullyMapsEntityToStorageWithNullSupportedCritters()
-        {
-            Organization organization = new Organization()
-            {
-                FullName = "FullName",
-                ShortName = "ShortName",
-                AzureName = "Azure",
-                LogoFilename = "Logo",
-                EmailAddress = "email@email.com",
-                SupportedCritters = null
-            };
-
-            StorageEntity<Organization> storageEntity = StorageEntityFactory.GetStorageEntity<Organization>();
-            storageEntity.Should().NotBeNull();
-
-            storageEntity.Entity = organization;
-            storageEntity.TableEntity["SupportedCritters"].StringValue.Should().Be("null");
-        }
-
-        [TestMethod]
-        public void SuccessfullyMapsStorageToEntity()
+        public void SuccessfullyMapsEntityToAndFromStorage()
         {
             Organization organization = new Organization()
             {
@@ -141,10 +91,10 @@ namespace CH.Test.Azure.StorageEntityTests
                 }
             };
 
-            AzureStorage storage = GetAzureStorage("organization");
-            await storage.SaveAsync<Organization>(organization);
+            OrganizationAzureStorage storage = new OrganizationAzureStorage(new AzureConfiguration());
+            await storage.SaveAsync(organization);
 
-            Organization result = await storage.GetAsync<Organization>(organization.ID.ToString());
+            Organization result = await storage.GetAsync(organization.ID.ToString());
             result.Should().NotBeNull();
             result.FullName.Should().Be(organization.FullName);
             result.ShortName.Should().Be(organization.ShortName);
@@ -153,8 +103,8 @@ namespace CH.Test.Azure.StorageEntityTests
             result.EmailAddress.Should().Be(organization.EmailAddress);
             result.SupportedCritters.Should().Equal(organization.SupportedCritters);
 
-            await storage.DeleteAsync<Organization>(organization);
-            Organization deleted = await storage.GetAsync<Organization>(organization.ID.ToString());
+            await storage.DeleteAsync(organization);
+            Organization deleted = await storage.GetAsync(organization.ID.ToString());
             deleted.Should().BeNull();
         }
 
@@ -175,8 +125,8 @@ namespace CH.Test.Azure.StorageEntityTests
                 }
             };
 
-            AzureStorage storage = GetAzureStorage("organization");
-            await storage.SaveAsync<Organization>(organization);
+            OrganizationAzureStorage storage = new OrganizationAzureStorage(new AzureConfiguration());
+            await storage.SaveAsync(organization);
         }
     }
 }

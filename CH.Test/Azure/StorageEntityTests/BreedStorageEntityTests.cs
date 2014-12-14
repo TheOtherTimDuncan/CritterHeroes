@@ -15,22 +15,7 @@ namespace CH.Test.Azure.StorageEntityTests
     public class BreedStorageEntityTests : BaseStorageEntityTest
     {
         [TestMethod]
-        public void SuccessfullyMapsEntityToStorage()
-        {
-            Breed animalBreed = new Breed("0", "species", "breed");
-
-            StorageEntity<Breed> storageEntity = StorageEntityFactory.GetStorageEntity<Breed>();
-            storageEntity.Should().NotBeNull();
-
-            storageEntity.Entity = animalBreed;
-            storageEntity.TableEntity.Properties.Count.Should().Be(3);
-            storageEntity.TableEntity["ID"].StringValue.Should().Be(animalBreed.ID);
-            storageEntity.TableEntity["Species"].StringValue.Should().Be(animalBreed.Species);
-            storageEntity.TableEntity["BreedName"].StringValue.Should().Be(animalBreed.BreedName);
-        }
-
-        [TestMethod]
-        public void SuccessfullyMapsStorageToEntity()
+        public void SuccessfullyMapsEntityToAndFromStorage()
         {
             Breed animalBreed = new Breed("0", "species", "breed");
 
