@@ -47,7 +47,7 @@ namespace CH.Azure.Storage.Logging
 
             EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTime.Value, message)
             {
-                ForUserID = tableEntity.SafeGetEntityPropertyGuidValue("ForUserID")
+                ForUserID = tableEntity.SafeGetEntityPropertyStringValue("ForUserID")
             };
 
             return result;

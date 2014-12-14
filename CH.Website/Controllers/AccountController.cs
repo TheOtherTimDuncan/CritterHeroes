@@ -77,7 +77,8 @@ namespace CH.Website.Controllers
                 EmailAddress = model.EmailAddress,
                 Username = model.Username,
                 UrlGenerator = new UrlGenerator(Url),
-                OrganizationFullName = OrganizationContext.FullName
+                OrganizationFullName = OrganizationContext.FullName,
+                OrganizationEmailAddress = OrganizationContext.EmailAddress
             };
 
             CommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand>(command);

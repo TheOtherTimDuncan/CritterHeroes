@@ -35,7 +35,7 @@ namespace CH.Domain.Models.Logging
             private set;
         }
 
-        public Guid? ForUserID
+        public string ForUserID
         {
             get;
             set;

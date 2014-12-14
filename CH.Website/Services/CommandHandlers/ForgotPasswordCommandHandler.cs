@@ -68,7 +68,8 @@ namespace CH.Website.Services.CommandHandlers
 
             EmailMessage emailMessage = new EmailMessage()
             {
-                Subject = "Password Reset - " + command.OrganizationFullName
+                Subject = "Password Reset - " + command.OrganizationFullName,
+                From = command.OrganizationEmailAddress
             };
             emailMessage.To.Add(user.Email);
 
@@ -79,7 +80,7 @@ namespace CH.Website.Services.CommandHandlers
                 .AddParagraph("<a href=\"" + url + "\">Reset Password</a>")
                 .End();
 
-            await _emailClient.SendAsync(emailMessage);
+            await _emailClient.SendAsync(emailMessage, user.Id);
             await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command);
 
             return CommandResult.Success();

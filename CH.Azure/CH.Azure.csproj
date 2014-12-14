@@ -84,9 +84,9 @@
     <Compile Include="AzureException.cs" />
     <Compile Include="AzureStorage.cs" />
     <Compile Include="AzureStorageForModel.cs" />
-    <Compile Include="EmailLogAzureStorage.cs" />
     <Compile Include="Identity\IdentityUserMapping.cs" />
     <Compile Include="Identity\UserStore.cs" />
+    <Compile Include="Logging\AzureEmailLogger.cs" />
     <Compile Include="Logging\AzureErrorLog.cs" />
     <Compile Include="Logging\AzureUserLogger.cs" />
     <Compile Include="OrganizationAzureStorage.cs" />

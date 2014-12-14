@@ -14,19 +14,19 @@ namespace CH.Test.EmailTests
     public class EmailClientTests
     {
         //[TestMethod]
-        public async Task CanSendEmailWithSendGrid()
-        {
-            EmailConfiguration configuration = new EmailConfiguration();
-            EmailClientProxy client = new EmailClientProxy(configuration);
-            EmailMessage message = new EmailMessage()
-            {
-                From = "tduncan72@gmail.com",
-                Subject = "Test",
-                HtmlBody = "<p>Test</p>",
-                TextBody = "Test"
-            };
-            message.To.Add("tduncan72@gmail.com");
-            await client.SendAsync(message);
-        }
+        //public async Task CanSendEmailWithSendGrid()
+        //{
+        //    EmailConfiguration configuration = new EmailConfiguration();
+        //    EmailClientProxy client = new EmailClientProxy(configuration);
+        //    EmailMessage message = new EmailMessage()
+        //    {
+        //        From = "tduncan72@gmail.com",
+        //        Subject = "Test",
+        //        HtmlBody = "<p>Test</p>",
+        //        TextBody = "Test"
+        //    };
+        //    message.To.Add("tduncan72@gmail.com");
+        //    await client.SendAsync(message);
+        //}
     }
 }

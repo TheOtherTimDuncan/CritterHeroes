@@ -25,6 +25,12 @@ namespace CH.Website.Services.Commands
             set;
         }
 
+        public string OrganizationEmailAddress
+        {
+            get;
+            set;
+        }
+
         public IUrlGenerator UrlGenerator
         {
             get;

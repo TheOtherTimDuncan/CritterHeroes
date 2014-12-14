@@ -15,12 +15,12 @@ namespace CH.Test.EmailTests
     public class SendUsernameChangedEmailTests
     {
         //[TestMethod]
-        public async Task CanSendEmailWithSendGrid()
-        {
-            EmailConfiguration configuration = new EmailConfiguration();
-            EmailClientProxy client = new EmailClientProxy(configuration);
-            SendUsernameChangedEmail handler = new SendUsernameChangedEmail(client);
-            await handler.Execute("tduncan72@gmail.com", "old", "new", "FFLAH");
-        }
+        //public async Task CanSendEmailWithSendGrid()
+        //{
+        //    EmailConfiguration configuration = new EmailConfiguration();
+        //    EmailClientProxy client = new EmailClientProxy(configuration);
+        //    SendUsernameChangedEmail handler = new SendUsernameChangedEmail(client);
+        //    await handler.Execute("tduncan72@gmail.com", "old", "new", "FFLAH");
+        //}
     }
 }

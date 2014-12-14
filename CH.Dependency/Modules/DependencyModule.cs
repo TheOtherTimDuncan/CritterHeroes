@@ -30,7 +30,7 @@ namespace CH.Dependency.Modules
 
             Bind<IEmailConfiguration>().To<EmailConfiguration>();
             Bind<IEmailClient>().To<EmailClientProxy>();
-            Bind<IStorageContext<EmailLog>>().To<EmailLogAzureStorage>();
+            Bind<IEmailLogger>().To<AzureEmailLogger>();
 
             Bind<IUserLogger>().To<AzureUserLogger>();
 

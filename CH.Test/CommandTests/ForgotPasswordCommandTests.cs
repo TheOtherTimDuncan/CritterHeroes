@@ -80,34 +80,38 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task ResetsPasswordForValidUser()
         {
-            ForgotPasswordCommand model = new ForgotPasswordCommand()
+            ForgotPasswordCommand command = new ForgotPasswordCommand()
             {
                 EmailAddress = "email@email.com",
-                OrganizationFullName = "Full Name"
+                OrganizationFullName = "Full Name",
+                OrganizationEmailAddress = "org@org.com"
             };
 
             IdentityUser user = new IdentityUser("unit.test")
             {
-                Email = model.EmailAddress
+                Email = command.EmailAddress
             };
 
             string code = "code";
             string url = "http://www.password.reset.com/code";
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.EmailAddress)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(command.EmailAddress)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, model)).Returns(Task.FromResult(0));
+            mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command)).Returns(Task.FromResult(0));
 
             Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
-            mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>())).Returns<EmailMessage>((message) =>
+            mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id)).Returns<EmailMessage, string>((message, forUserID) =>
             {
+                forUserID.Should().Be(user.Id);
+
                 message.To.Should().HaveCount(1);
                 message.To.First().Should().Be(user.Email);
 
-                message.Subject.Should().Be("Password Reset - " + model.OrganizationFullName);
+                message.From.Should().Be(command.OrganizationEmailAddress);
+                message.Subject.Should().Be("Password Reset - " + command.OrganizationFullName);
                 message.HtmlBody.Should().Contain(url);
                 message.TextBody.Should().Contain(url);
 
@@ -115,16 +119,16 @@ namespace CH.Test.CommandTests
             });
 
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
-            model.UrlGenerator = mockUrlGenerator.Object;
+            command.UrlGenerator = mockUrlGenerator.Object;
             mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(code);
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockLogger.Object);
-            (await handler.Execute(model)).Succeeded.Should().BeTrue();
+            (await handler.Execute(command)).Succeeded.Should().BeTrue();
 
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.EmailAddress), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(command.EmailAddress), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
-            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Once);
-            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, model), Times.Once);
+            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
+            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command), Times.Once);
             mockUrlGenerator.Verify(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
     }

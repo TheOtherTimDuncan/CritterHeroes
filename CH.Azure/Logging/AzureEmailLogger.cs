@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CH.Azure.Storage;
 using CH.Azure.Utility;
@@ -9,18 +8,17 @@ using CH.Domain.Contracts.Configuration;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Models.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json;
 
 namespace CH.Azure.Logging
 {
-    public class AzureUserLogger : AzureStorage<UserLog>, IUserLogger
+    public class AzureEmailLogger : AzureStorage<EmailLog>, IEmailLogger
     {
-        public AzureUserLogger(IAzureConfiguration azureConfiguration)
-            : base("userlog", azureConfiguration)
+        public AzureEmailLogger(IAzureConfiguration azureConfiguration)
+            : base("emaillog", azureConfiguration)
         {
         }
 
-        public async Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo)
+        public async Task<IEnumerable<EmailLog>> GetEmailLogAsync(DateTime dateFrom, DateTime dateTo)
         {
             string start = PartitionKeyHelper.GetLoggingKeyForDate(dateFrom);
             string end = PartitionKeyHelper.GetLoggingKeyForDate(dateTo);
@@ -33,9 +31,9 @@ namespace CH.Azure.Logging
                     select e
                 ).ToList();
 
-            StorageEntity<UserLog> storageEntity = StorageEntityFactory.GetStorageEntity<UserLog>();
+            StorageEntity<EmailLog> storageEntity = StorageEntityFactory.GetStorageEntity<EmailLog>();
 
-            List<UserLog> result = new List<UserLog>();
+            List<EmailLog> result = new List<EmailLog>();
             foreach (DynamicTableEntity tableEntity in entities)
             {
                 storageEntity.TableEntity = tableEntity;
@@ -44,17 +42,9 @@ namespace CH.Azure.Logging
             return result;
         }
 
-        public async Task LogActionAsync(UserActions userAction, string userName)
+        public async Task LogEmailAsync(EmailLog emailLog)
         {
-            UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow);
-            await SaveAsync(userLog);
-        }
-
-        public async Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData)
-        {
-            UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow);
-            userLog.AdditionalData = JsonConvert.SerializeObject(additionalData);
-            await SaveAsync(userLog);
+            await SaveAsync(emailLog);
         }
     }
 }
