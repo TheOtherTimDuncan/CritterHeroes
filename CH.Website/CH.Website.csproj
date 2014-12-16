@@ -187,7 +187,9 @@
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommandHandlers\BaseLoginCommandHandler.cs" />
     <Compile Include="Services\CommandHandlers\ForgotPasswordCommandHandler.cs" />
+    <Compile Include="Services\CommandHandlers\ResetPasswordCommandHandler.cs" />
     <Compile Include="Services\Commands\ForgotPasswordCommand.cs" />
     <Compile Include="Services\Queries\MenuQuery.cs" />
     <Compile Include="Services\QueryHandlers\BaseViewModelQueryHandler.cs" />
@@ -421,6 +423,7 @@
     <Content Include="Views\Account\ForgotUsername.cshtml" />
     <Content Include="Views\Account\ResendConfirmationCode.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,7 +36,7 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await CommandDispatcher.Dispatch<LoginModel>(model);
+                CommandResult commandResult = await CommandDispatcher.Dispatch(model);
                 if (commandResult.Succeeded)
                 {
                     if (Url.IsLocalUrl(returnUrl))
@@ -56,7 +56,7 @@ namespace CH.Website.Controllers
 
         public ActionResult LogOut()
         {
-            CommandDispatcher.Dispatch<LogoutModel>(new LogoutModel());
+            CommandDispatcher.Dispatch(new LogoutModel());
             return RedirectToAction("Index", "Home");
         }
 
@@ -81,7 +81,7 @@ namespace CH.Website.Controllers
                 OrganizationEmailAddress = OrganizationContext.EmailAddress
             };
 
-            CommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand>(command);
+            CommandResult commandResult = await CommandDispatcher.Dispatch(command);
             ModelState.Remove("ShowMessage");
             if (commandResult.Succeeded)
             {
@@ -96,8 +96,33 @@ namespace CH.Website.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ResetPassword(ResetPasswordModel model)
+        public ActionResult ResetPassword(string code)
         {
+            ResetPasswordModel model = new ResetPasswordModel()
+            {
+                Code = code
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await CommandDispatcher.Dispatch(model);
+                if (commandResult.Succeeded)
+                {
+                    model.ShowMessage = true;
+                }
+                else
+                {
+                    AddCommandResultErrorsToModelState(ModelState, commandResult);
+                }
+            }
+
             return View(model);
         }
 

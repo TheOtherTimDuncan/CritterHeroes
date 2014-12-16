@@ -60,11 +60,8 @@ namespace CH.Website.Services.CommandHandlers
                 return CommandResult.Success();
             }
 
-            ResetPasswordModel resetModel = new ResetPasswordModel()
-            {
-                Code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id)
-            };
-            string url = command.UrlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(resetModel));
+            string code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
+            string url = command.UrlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(code));
 
             EmailMessage emailMessage = new EmailMessage()
             {
@@ -76,7 +73,7 @@ namespace CH.Website.Services.CommandHandlers
             EmailBuilder
                 .Begin(emailMessage)
                 .AddParagraph("Your password for your account at " + command.OrganizationFullName + " has been reset. To complete resetting your password, click the link below or visit " + command.OrganizationFullName + " and copy the code into the provided form. This code will be valid for " + _appUserManager.TokenLifespan.TotalHours.ToString() + " hours.")
-                .AddParagraph("Confirmation Code: " + resetModel.Code)
+                .AddParagraph("Confirmation Code: " + code)
                 .AddParagraph("<a href=\"" + url + "\">Reset Password</a>")
                 .End();
 

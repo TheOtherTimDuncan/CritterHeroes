@@ -13,14 +13,15 @@ namespace CH.Website.Models.Account
             set;
         }
 
-        [Required]
+        [Display(Name = "Username")]
+        [Required(ErrorMessage = "Please enter a username.")]
         public string Username
         {
             get;
             set;
         }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter a password.")]
         [DataType(DataType.Password)]
         public string Password
         {

@@ -20,7 +20,8 @@ namespace CH.Domain.Contracts.Identity
 
         Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType);
 
-        Task<string> GeneratePasswordResetTokenAsync(string userId);
+        Task<string> GeneratePasswordResetTokenAsync(string userID);
+        Task<IdentityResult> ResetPasswordAsync(string userID, string token, string newPassword);
 
         Task<IdentityResult> UpdateAsync(IdentityUser user);
     }

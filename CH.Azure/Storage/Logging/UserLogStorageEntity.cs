@@ -55,7 +55,7 @@ namespace CH.Azure.Storage.Logging
                 throw new AzureException("Invalid WhenOccurredUtc for UserLog ID " + tableEntity.RowKey);
             }
 
-            UserLog result = new UserLog(logID, userAction, tableEntity["Username"].StringValue, whenOccurred.Value);
+            UserLog result = new UserLog(logID, userAction, tableEntity.SafeGetEntityPropertyStringValue("Username"), whenOccurred.Value);
             result.AdditionalData = tableEntity.SafeGetEntityPropertyStringValue("AdditionalData");
             return result;
         }

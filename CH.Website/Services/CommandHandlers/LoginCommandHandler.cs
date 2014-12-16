@@ -2,44 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using CH.Domain.Contracts;
-using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
-using CH.Domain.Models.Logging;
 using CH.Domain.Services.Commands;
 using CH.Website.Models.Account;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public class LoginCommandHandler : ICommandHandler<LoginModel>
+    public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel>
     {
-        private IApplicationSignInManager _signinManager;
-        private IUserLogger _userLogger;
-
         public LoginCommandHandler(IApplicationSignInManager signinManager, IUserLogger userLogger)
+            : base(signinManager, userLogger)
         {
-            this._signinManager = signinManager;
-            this._userLogger = userLogger;
         }
 
-        public async Task<CommandResult> Execute(LoginModel command)
+        public override async Task<CommandResult> Execute(LoginModel command)
         {
-            SignInStatus result = await _signinManager.PasswordSignInAsync(command.Username, command.Password, isPersistent: false, shouldLockout: false);
-
-            if (result == SignInStatus.Success)
-            {
-                await _userLogger.LogActionAsync(UserActions.PasswordLoginSuccess, command.Username);
-                return CommandResult.Success();
-            }
-            else
-            {
-                await _userLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Username);
-                return CommandResult.Failed("", "The username or password that you entered was incorrect. Please try again.");
-            }
+            return await base.Execute(command);
         }
     }
 }

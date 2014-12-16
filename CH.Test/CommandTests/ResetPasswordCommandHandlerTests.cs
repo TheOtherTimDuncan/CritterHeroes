@@ -1,0 +1,157 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CH.Domain.Contracts.Identity;
+using CH.Domain.Contracts.Logging;
+using CH.Domain.Identity;
+using CH.Domain.Models.Logging;
+using CH.Domain.Services.Commands;
+using CH.Website.Models.Account;
+using CH.Website.Services.CommandHandlers;
+using FluentAssertions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+
+namespace CH.Test.CommandTests
+{
+    [TestClass]
+    public class ResetPasswordCommandHandlerTests
+    {
+        [TestMethod]
+        public async Task ReturnsFailedIfUsernameIsInvalid()
+        {
+            ResetPasswordModel model = new ResetPasswordModel()
+            {
+                Username = "unit.test",
+                Code = "code"
+            };
+
+            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>())).Returns<UserActions, string, string>((userAction, username, additionalData) =>
+            {
+                additionalData.Should().Contain(model.Code);
+                return Task.FromResult(0);
+            });
+
+            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult((IdentityUser)null));
+
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(null, mockUserLogger.Object, mockUserManager.Object);
+            CommandResult result = await handler.Execute(model);
+            result.Succeeded.Should().BeFalse();
+            result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
+
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
+            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task ReturnsFailedIfResetPasswordFails()
+        {
+            ResetPasswordModel model = new ResetPasswordModel()
+            {
+                Username = "unit.test",
+                Code = "code",
+                Password = "password"
+            };
+
+            IdentityUser user = new IdentityUser(model.Username);
+
+            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>())).Returns<UserActions, string, string>((userAction, username, additionalData) =>
+            {
+                additionalData.Should().Contain(model.Code);
+                return Task.FromResult(0);
+            });
+
+            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
+
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(null, mockUserLogger.Object, mockUserManager.Object);
+            CommandResult result = await handler.Execute(model);
+            result.Succeeded.Should().BeFalse();
+            result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
+
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
+            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task ReturnsFailedIfLoginFails()
+        {
+            ResetPasswordModel model = new ResetPasswordModel()
+            {
+                Username = "unit.test",
+                Code = "code",
+                Password = "password"
+            };
+
+            IdentityUser user = new IdentityUser(model.Username);
+
+            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>())).Returns<UserActions, string, string>((userAction, username, additionalData) =>
+            {
+                additionalData.Should().Contain(model.Code);
+                return Task.FromResult(0);
+            });
+
+            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
+
+            Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
+            mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
+
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockSigninManager.Object, mockUserLogger.Object, mockUserManager.Object);
+            CommandResult result = await handler.Execute(model);
+            result.Succeeded.Should().BeFalse();
+            result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
+
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
+            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+            mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task ReturnsSuccessIfPasswordSuccessfullyResetAndLoginSucceeds()
+        {
+            ResetPasswordModel model = new ResetPasswordModel()
+            {
+                Username = "unit.test",
+                Code = "code",
+                Password = "password"
+            };
+
+            IdentityUser user = new IdentityUser(model.Username);
+
+            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>())).Returns<UserActions, string, string>((userAction, username, additionalData) =>
+            {
+                additionalData.Should().Contain(model.Code);
+                return Task.FromResult(0);
+            });
+
+            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
+
+            Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
+            mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Success));
+
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockSigninManager.Object, mockUserLogger.Object, mockUserManager.Object);
+            CommandResult result = await handler.Execute(model);
+            result.Succeeded.Should().BeTrue();
+
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Username), Times.Once);
+            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+            mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
+        }
+    }
+}
