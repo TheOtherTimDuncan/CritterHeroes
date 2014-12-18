@@ -83,15 +83,13 @@ namespace CH.Website.Controllers
             };
 
             ModalDialogCommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand, ModalDialogCommandResult>(command);
-            model.ModalDialog = commandResult.ModalDialog;
-            ModelState.Remove("ShowMessage");
+
             if (commandResult.Succeeded)
             {
-                model.ShowMessage = true;
+                model.ModalDialog = commandResult.ModalDialog;
                 return View(model);
             }
 
-            model.ShowMessage = false;
             AddCommandResultErrorsToModelState(ModelState, commandResult);
             return View(model);
         }

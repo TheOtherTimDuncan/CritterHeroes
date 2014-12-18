@@ -5,12 +5,6 @@ namespace CH.Website.Models.Account
 {
     public class ForgotPasswordModel
     {
-        public bool ShowMessage
-        {
-            get;
-            set;
-        }
-
         public ModalDialogModel ModalDialog
         {
             get;
