@@ -9,6 +9,7 @@ using CH.Domain.Identity;
 using CH.Domain.Services.Commands;
 using CH.Domain.Services.Queries;
 using CH.Website.Models.Account;
+using CH.Website.Services.CommandHandlers;
 using CH.Website.Services.Commands;
 using CH.Website.Services.Queries;
 using CH.Website.Utility;
@@ -81,7 +82,8 @@ namespace CH.Website.Controllers
                 OrganizationEmailAddress = OrganizationContext.EmailAddress
             };
 
-            CommandResult commandResult = await CommandDispatcher.Dispatch(command);
+            ModalDialogCommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand, ModalDialogCommandResult>(command);
+            model.ModalDialog = commandResult.ModalDialog;
             ModelState.Remove("ShowMessage");
             if (commandResult.Succeeded)
             {

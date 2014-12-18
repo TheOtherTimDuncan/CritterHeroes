@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CH.Website.Models.Modal;
 
 namespace CH.Website.Models.Account
 {
@@ -16,6 +17,12 @@ namespace CH.Website.Models.Account
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword
+        {
+            get;
+            set;
+        }
+
+        public ModalDialogModel ModalDialog
         {
             get;
             set;

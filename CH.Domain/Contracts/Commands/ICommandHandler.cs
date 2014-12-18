@@ -5,8 +5,15 @@ using CH.Domain.Services.Commands;
 
 namespace CH.Domain.Contracts.Commands
 {
-    public interface ICommandHandler<in TParameter> where TParameter : class
+    public interface ICommandHandler<in TParameter, TResult>
+        where TParameter : class
+        where TResult : ICommandResult
     {
-        Task<CommandResult> Execute(TParameter command);
+        Task<TResult> Execute(TParameter command);
+    }
+
+    public interface ICommandHandler<in TParameter> : ICommandHandler<TParameter, CommandResult>
+        where TParameter : class
+    {
     }
 }

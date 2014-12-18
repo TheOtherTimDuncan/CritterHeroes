@@ -21,7 +21,14 @@ namespace CH.Dependency.Dispatchers
 
         public async Task<CommandResult> Dispatch<TParameter>(TParameter command) where TParameter : class
         {
-            return await _kernel.Get<ICommandHandler<TParameter>>().Execute(command);
+            return await _kernel.Get<ICommandHandler<TParameter, CommandResult>>().Execute(command);
+        }
+
+        public async Task<TResult> Dispatch<TParameter, TResult>(TParameter command)
+            where TParameter : class
+            where TResult : ICommandResult
+        {
+            return await _kernel.Get<ICommandHandler<TParameter, TResult>>().Execute(command);
         }
     }
 }

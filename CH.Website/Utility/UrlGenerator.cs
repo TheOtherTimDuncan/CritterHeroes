@@ -31,5 +31,15 @@ namespace CH.Website.Utility
         {
             return _urlHelper.Action(actionHelperResult.ActionName, actionHelperResult.ControllerName, actionHelperResult.RouteValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
         }
+
+        public string GenerateSiteUrl<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController
+        {
+            return _urlHelper.Action<T>(actionSelector);
+        }
+
+        public string GenerateSiteUrl<T>(Expression<Func<T, Task<ActionResult>>> actionSelector) where T : IController
+        {
+            return _urlHelper.Action<T>(actionSelector);
+        }
     }
 }

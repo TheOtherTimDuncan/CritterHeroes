@@ -10,5 +10,8 @@ namespace CH.Domain.Contracts
     {
         string GenerateAbsoluteUrl<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController;
         string GenerateAbsoluteUrl<T>(Expression<Func<T, Task<ActionResult>>> actionSelector) where T : IController;
+
+        string GenerateSiteUrl<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController;
+        string GenerateSiteUrl<T>(Expression<Func<T, Task<ActionResult>>> actionSelector) where T : IController;
     }
 }

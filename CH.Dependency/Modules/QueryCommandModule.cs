@@ -4,8 +4,8 @@ using System.Linq;
 using CH.Dependency.Dispatchers;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
-using Ninject.Modules;
 using Ninject.Extensions.Conventions;
+using Ninject.Modules;
 
 namespace CH.Dependency.Modules
 {
@@ -29,6 +29,20 @@ namespace CH.Dependency.Modules
                 .FromAssembliesMatching("CH.Website.dll")
                 .SelectAllClasses()
                 .InheritedFrom(typeof(IQueryHandler<,>))
+                .BindAllInterfaces()
+            );
+
+            Kernel.Bind(x => x
+                .FromAssemblyContaining(typeof(IQueryHandler<,>))
+                .SelectAllClasses()
+                .InheritedFrom(typeof(ICommandHandler<,>))
+                .BindAllInterfaces()
+            );
+
+            Kernel.Bind(x => x
+                .FromAssembliesMatching("CH.Website.dll")
+                .SelectAllClasses()
+                .InheritedFrom(typeof(ICommandHandler<,>))
                 .BindAllInterfaces()
             );
 

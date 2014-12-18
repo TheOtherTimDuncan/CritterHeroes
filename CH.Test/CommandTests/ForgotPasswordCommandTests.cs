@@ -45,12 +45,14 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task ReturnsSuccessButDoesntSendEmailIfUserNotFound()
         {
-            ForgotPasswordCommand model = new ForgotPasswordCommand()
-            {
-            };
-
             string email = "email@email.com";
             string username = "unit.test";
+
+            ForgotPasswordCommand command = new ForgotPasswordCommand()
+            {
+                EmailAddress = email
+            };
+
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult((IdentityUser)null));
@@ -60,21 +62,28 @@ namespace CH.Test.CommandTests
             mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>()));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, model)).Returns(Task.FromResult(0));
+            mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, command)).Returns(Task.FromResult(0));
+
+            Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
+            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, Task<ActionResult>>>>())).Returns("account-url");
+            command.UrlGenerator = mockUrlGenerator.Object;
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockLogger.Object);
+            ModalDialogCommandResult result = await handler.Execute(command);
+            result.Succeeded.Should().BeTrue();
+            result.ModalDialog.Should().NotBeNull();
+            result.ModalDialog.Text.Should().NotBeNullOrEmpty();
+            result.ModalDialog.Buttons.Should().NotBeEmpty();
+            result.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
-            model.EmailAddress = email;
-            (await handler.Execute(model)).Succeeded.Should().BeTrue();
-
-            model.EmailAddress = null;
-            model.Username = username;
-            (await handler.Execute(model)).Succeeded.Should().BeTrue();
+            command.EmailAddress = null;
+            command.Username = username;
+            (await handler.Execute(command)).Succeeded.Should().BeTrue();
 
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(username), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
-            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, model), Times.Exactly(2));
+            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, command), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -121,9 +130,15 @@ namespace CH.Test.CommandTests
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
             command.UrlGenerator = mockUrlGenerator.Object;
             mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(code);
+            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, Task<ActionResult>>>>())).Returns("account-url");
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockLogger.Object);
-            (await handler.Execute(command)).Succeeded.Should().BeTrue();
+            ModalDialogCommandResult result = await handler.Execute(command);
+            result.Succeeded.Should().BeTrue();
+            result.ModalDialog.Should().NotBeNull();
+            result.ModalDialog.Text.Should().NotBeNullOrEmpty();
+            result.ModalDialog.Buttons.Should().NotBeEmpty();
+            result.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
             mockUserManager.Verify(x => x.FindByEmailAsync(command.EmailAddress), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);

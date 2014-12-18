@@ -186,9 +186,13 @@
     <Compile Include="Models\Account\LogoutModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
+    <Compile Include="Models\Modal\ModalDialogButtonType.cs" />
+    <Compile Include="Models\Modal\ModalDialogModel.cs" />
+    <Compile Include="Models\Modal\ModalDialogButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommandHandlers\BaseLoginCommandHandler.cs" />
     <Compile Include="Services\CommandHandlers\ForgotPasswordCommandHandler.cs" />
+    <Compile Include="Services\CommandHandlers\ModalDialogCommandResult.cs" />
     <Compile Include="Services\CommandHandlers\ResetPasswordCommandHandler.cs" />
     <Compile Include="Services\Commands\ForgotPasswordCommand.cs" />
     <Compile Include="Services\Queries\MenuQuery.cs" />
@@ -208,6 +212,7 @@
     <Compile Include="Sources\Storage\AzureStorageSource.cs" />
     <Compile Include="Sources\Storage\RescueGroupsStorageSource.cs" />
     <Compile Include="Utility\AreaName.cs" />
+    <Compile Include="Utility\ButtonCss.cs" />
     <Compile Include="Utility\DataModelSource.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
@@ -424,6 +429,7 @@
     <Content Include="Views\Account\ResendConfirmationCode.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Shared\_ModalDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

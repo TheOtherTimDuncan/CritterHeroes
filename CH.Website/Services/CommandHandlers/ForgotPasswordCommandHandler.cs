@@ -13,6 +13,7 @@ using CH.Domain.Models.Logging;
 using CH.Domain.Services.Commands;
 using CH.Website.Controllers;
 using CH.Website.Models.Account;
+using CH.Website.Models.Modal;
 using CH.Website.Services.Commands;
 using CH.Website.Utility;
 using TOTD.Utility.ExceptionHelpers;
@@ -20,7 +21,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public class ForgotPasswordCommandHandler : ICommandHandler<ForgotPasswordCommand>
+    public class ForgotPasswordCommandHandler : ICommandHandler<ForgotPasswordCommand, ModalDialogCommandResult>
     {
         private IApplicationUserManager _appUserManager;
         private IEmailClient _emailClient;
@@ -33,13 +34,13 @@ namespace CH.Website.Services.CommandHandlers
             this._userLogger = userLogger;
         }
 
-        public async Task<CommandResult> Execute(ForgotPasswordCommand command)
+        public async Task<ModalDialogCommandResult> Execute(ForgotPasswordCommand command)
         {
             ThrowIf.Argument.IsNull(command, "command");
 
             if (command.EmailAddress.IsNullOrWhiteSpace() && command.Username.IsNullOrWhiteSpace())
             {
-                return CommandResult.Failed("", "Please enter your email address or your username.");
+                return ModalDialogCommandResult.Failed("", "Please enter your email address or your username.");
             }
 
             IdentityUser user;
@@ -52,12 +53,20 @@ namespace CH.Website.Services.CommandHandlers
                 user = await _appUserManager.FindByNameAsync(command.Username);
             }
 
+            ModalDialogButton button1 = ModalDialogButton.Button(text: "Try Again", cssClass: ButtonCss.Info, isDismissable: true);
+            ModalDialogButton button2 = ModalDialogButton.Link(text: "Continue", cssClass: ButtonCss.Primary, url: command.UrlGenerator.GenerateSiteUrl<AccountController>(x => x.Login(null)));
+            ModalDialogModel dialog = new ModalDialogModel()
+            {
+                Text = "Instructions for resetting your password have been emailed to you. Please check your email and follow the provided instructions to complete resetting your password. If you can't find the email, please check your spam folder.",
+                Buttons = new ModalDialogButton[] { button1, button2 }
+            };
+
             if (user == null)
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found just return success
                 await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command);
-                return CommandResult.Success();
+                return ModalDialogCommandResult.Success(dialog);
             }
 
             string code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -80,7 +89,7 @@ namespace CH.Website.Services.CommandHandlers
             await _emailClient.SendAsync(emailMessage, user.Id);
             await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command);
 
-            return CommandResult.Success();
+            return ModalDialogCommandResult.Success(dialog);
         }
     }
 }
