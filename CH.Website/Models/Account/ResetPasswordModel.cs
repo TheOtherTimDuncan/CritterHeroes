@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CH.Domain.Contracts;
 using CH.Website.Models.Modal;
 
 namespace CH.Website.Models.Account
@@ -28,7 +29,7 @@ namespace CH.Website.Models.Account
             set;
         }
 
-        public bool ShowMessage
+        public IUrlGenerator UrlGenerator
         {
             get;
             set;

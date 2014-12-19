@@ -9,7 +9,7 @@ using CH.Website.Models.Account;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel>
+    public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel, CommandResult>
     {
         public LoginCommandHandler(IApplicationSignInManager signinManager, IUserLogger userLogger)
             : base(signinManager, userLogger)
@@ -18,7 +18,7 @@ namespace CH.Website.Services.CommandHandlers
 
         public override async Task<CommandResult> Execute(LoginModel command)
         {
-            return await base.Execute(command);
+            return await Login(command);
         }
     }
 }
