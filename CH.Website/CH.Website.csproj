@@ -79,6 +79,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -171,6 +179,15 @@
     <Compile Include="Areas\Admin\Models\DashboardStorageItem.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Dependency\AppDependencyResolver.cs" />
+    <Compile Include="Dependency\DependencyContainer.cs" />
+    <Compile Include="Dependency\WebDependencyResolver.cs" />
+    <Compile Include="Services\Dispatchers\CommandDispatcher.cs" />
+    <Compile Include="Services\Dispatchers\QueryDispatcher.cs" />
+    <Compile Include="Dependency\Modules\DependencyModule.cs" />
+    <Compile Include="Dependency\Modules\IdentityModule.cs" />
+    <Compile Include="Dependency\Modules\QueryCommandModule.cs" />
+    <Compile Include="Dependency\Modules\WebModule.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -444,10 +461,6 @@
     <ProjectReference Include="..\CH.Azure\CH.Azure.csproj">
       <Project>{a2a9c940-8aab-4b6a-a80f-6e60afa8e5fc}</Project>
       <Name>CH.Azure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CH.Dependency\CH.Dependency.csproj">
-      <Project>{43126ea6-b797-4f4a-a920-4b7019de7d2f}</Project>
-      <Name>CH.Dependency</Name>
     </ProjectReference>
     <ProjectReference Include="..\CH.Domain\CH.Domain.csproj">
       <Project>{ecfeb381-b713-4e8b-a591-660e70cd33ac}</Project>

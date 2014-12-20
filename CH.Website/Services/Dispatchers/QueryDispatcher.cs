@@ -7,7 +7,7 @@ using CH.Domain.Contracts.Queries;
 using Ninject;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Dependency.Dispatchers
+namespace CH.Website.Services.Dispatchers
 {
     public class QueryDispatcher : IQueryDispatcher
     {

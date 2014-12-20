@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CH.Dependency;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
 using CH.Website;
+using CH.Website.Dependency;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,12 +32,22 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerIsBoundToAllCommandHandlers()
         {
-            Type baseType = typeof(ICommandHandler<>).GetGenericTypeDefinition();
-
             IEnumerable<Type> handlerTypes =
                 from a in AppDomain.CurrentDomain.GetAssemblies()
                 from t in a.GetTypes()
-                where !t.IsInterface && !t.IsAbstract && t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType)
+                where 
+                    !t.IsInterface 
+                    && !t.IsAbstract
+                    && t.GetInterfaces().Any
+                    (
+                        x => 
+                            x.IsGenericType
+                            && 
+                            (
+                                x.GetGenericTypeDefinition() == typeof(ICommandHandler<>).GetGenericTypeDefinition() 
+                                || x.GetGenericTypeDefinition() == typeof(ICommandHandler<,>).GetGenericTypeDefinition()
+                            )
+                    )
                 select t;
 
             VerifyTypes(handlerTypes);

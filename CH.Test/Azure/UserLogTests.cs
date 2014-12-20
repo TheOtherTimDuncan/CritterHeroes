@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Contracts.Logging;
+using CH.Azure.Logging;
 using CH.Domain.Models;
 using CH.Domain.Models.Logging;
+using CH.Domain.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -21,7 +21,7 @@ namespace CH.Test.Azure
             string testUsername = "test.user";
             UserActions userAction = UserActions.PasswordLoginSuccess;
 
-            IUserLogger userLogger = Using<IUserLogger>();
+            AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration());
             await userLogger.LogActionAsync(userAction, testUsername);
 
             IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
@@ -47,7 +47,7 @@ namespace CH.Test.Azure
 
             string additionalData = JsonConvert.SerializeObject(message);
 
-            IUserLogger userLogger = Using<IUserLogger>();
+            AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration());
             await userLogger.LogActionAsync(userAction, testUsername, message);
 
             IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));

@@ -1,7 +1,7 @@
 ﻿using System;
 using CH.Domain.Contracts;
 
-namespace CH.Dependency
+namespace CH.Website.Dependency
 {
     public class AppDependencyResolver : IAppDependencyResolver
     {

@@ -7,7 +7,7 @@ using Microsoft.Owin.Security;
 using Ninject.Modules;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Dependency.Modules
+namespace CH.Website.Dependency.Modules
 {
     public class WebModule : NinjectModule
     {

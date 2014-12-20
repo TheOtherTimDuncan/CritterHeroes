@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Dependency.Dispatchers;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
+using CH.Website.Services.Dispatchers;
 using Ninject.Extensions.Conventions;
 using Ninject.Modules;
 
-namespace CH.Dependency.Modules
+namespace CH.Website.Dependency.Modules
 {
     public class QueryCommandModule : NinjectModule
     {
@@ -26,7 +26,7 @@ namespace CH.Dependency.Modules
             );
 
             Kernel.Bind(x => x
-                .FromAssembliesMatching("CH.Website.dll")
+                .FromAssemblyContaining<MvcApplication>()
                 .SelectAllClasses()
                 .InheritedFrom(typeof(IQueryHandler<,>))
                 .BindAllInterfaces()
@@ -40,7 +40,7 @@ namespace CH.Dependency.Modules
             );
 
             Kernel.Bind(x => x
-                .FromAssembliesMatching("CH.Website.dll")
+                .FromAssemblyContaining<MvcApplication>()
                 .SelectAllClasses()
                 .InheritedFrom(typeof(ICommandHandler<,>))
                 .BindAllInterfaces()
@@ -54,7 +54,7 @@ namespace CH.Dependency.Modules
             );
 
             Kernel.Bind(x => x
-                .FromAssembliesMatching("CH.Website.dll")
+                .FromAssemblyContaining<MvcApplication>()
                 .SelectAllClasses()
                 .InheritedFrom(typeof(ICommandHandler<>))
                 .BindAllInterfaces()

@@ -1,6 +1,6 @@
 ﻿using System;
-using CH.Dependency;
 using CH.Domain.Contracts;
+using CH.Website.Dependency;
 using CH.Website.Middleware;
 using Owin;
 

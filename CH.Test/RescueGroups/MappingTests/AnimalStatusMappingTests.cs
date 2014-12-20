@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CH.Domain.Models.Data;
 using CH.RescueGroups;
+using CH.RescueGroups.Configuration;
 using CH.RescueGroups.Mappings;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -58,7 +59,7 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public async Task TestGetAnimalStatus()
         {
-            RescueGroupsStorage storage = Using<RescueGroupsStorage>();
+            RescueGroupsStorage storage = new RescueGroupsStorage(new RescueGroupsConfiguration());
             (await storage.GetAllAsync<AnimalStatus>()).ToList().Should().NotBeEmpty();
         }
     }

@@ -13,7 +13,7 @@ using CH.Domain.StateManagement;
 using CH.RescueGroups.Configuration;
 using Ninject.Modules;
 
-namespace CH.Dependency.Modules
+namespace CH.Website.Dependency.Modules
 {
     public class DependencyModule : NinjectModule
     {

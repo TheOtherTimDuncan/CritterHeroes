@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using CH.Dependency.Modules;
-using CH.Dependency.Web;
+using CH.Website.Dependency.Modules;
 using Ninject;
 
-namespace CH.Dependency
+namespace CH.Website.Dependency
 {
     public class DependencyContainer
     {

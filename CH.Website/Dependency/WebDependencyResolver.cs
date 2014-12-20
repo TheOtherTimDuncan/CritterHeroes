@@ -6,7 +6,7 @@ using Ninject;
 using Ninject.Activation;
 using Ninject.Parameters;
 
-namespace CH.Dependency.Web
+namespace CH.Website.Dependency
 {
     public class WebDependencyResolver : IDependencyResolver
     {

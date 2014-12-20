@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Dependency;
 using CH.Domain.Contracts;
 using CH.RescueGroups;
+using CH.Website.Dependency;
 
 namespace CH.Website.Sources.Storage
 {

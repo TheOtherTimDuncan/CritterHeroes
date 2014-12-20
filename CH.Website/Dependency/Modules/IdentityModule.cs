@@ -5,7 +5,7 @@ using CH.Domain.Contracts.Identity;
 using CH.Domain.Identity;
 using Ninject.Modules;
 
-namespace CH.Dependency.Modules
+namespace CH.Website.Dependency.Modules
 {
     public class IdentityModule : NinjectModule
     {

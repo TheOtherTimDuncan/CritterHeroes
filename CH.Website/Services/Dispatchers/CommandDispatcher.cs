@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Services.Commands;
 using CH.Domain.Contracts.Commands;
+using CH.Domain.Services.Commands;
 using Ninject;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Dependency.Dispatchers
+namespace CH.Website.Services.Dispatchers
 {
     public class CommandDispatcher : ICommandDispatcher
     {

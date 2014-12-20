@@ -212,10 +212,6 @@
       <Project>{a2a9c940-8aab-4b6a-a80f-6e60afa8e5fc}</Project>
       <Name>CH.Azure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CH.Dependency\CH.Dependency.csproj">
-      <Project>{43126ea6-b797-4f4a-a920-4b7019de7d2f}</Project>
-      <Name>CH.Dependency</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CH.Domain\CH.Domain.csproj">
       <Project>{ecfeb381-b713-4e8b-a591-660e70cd33ac}</Project>
       <Name>CH.Domain</Name>

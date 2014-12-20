@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CH.Azure;
-using CH.Dependency;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Configuration;
+using CH.Website.Dependency;
 
 namespace CH.Website.Sources.Storage
 {

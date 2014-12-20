@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Dependency;
 using CH.Domain.Models.Data;
 using FluentAssertions;
 using TOTD.Utility.EnumerableHelpers;
@@ -14,11 +12,6 @@ namespace CH.Test
 {
     public class BaseTest
     {
-        public T Using<T>()
-        {
-            return DependencyContainer.Using<T>();
-        }
-
         public IEnumerable<Species> GetTestSupportedSpecies()
         {
             return new Species[] 

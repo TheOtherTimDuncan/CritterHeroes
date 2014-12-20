@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CH.Dependency;
 using CH.RescueGroups;
 using CH.RescueGroups.Configuration;
 using Newtonsoft.Json.Linq;
@@ -26,7 +25,7 @@ namespace CH.RescueGroupsExplorer
             JObject response = null;
             try
             {
-                RescueGroupsStorage storage = DependencyContainer.Using<RescueGroupsStorage>();
+                RescueGroupsStorage storage = new RescueGroupsStorage(new RescueGroupsConfiguration());
 
                 JObject request = storage.CreateRequest(
                   new JProperty("objectType", cmbType.Text),
