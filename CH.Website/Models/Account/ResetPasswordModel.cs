@@ -28,11 +28,5 @@ namespace CH.Website.Models.Account
             get;
             set;
         }
-
-        public IUrlGenerator UrlGenerator
-        {
-            get;
-            set;
-        }
     }
 }

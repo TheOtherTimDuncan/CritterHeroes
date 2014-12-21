@@ -17,11 +17,6 @@ namespace CH.Website.Utility
             this._urlHelper = new UrlHelper(httpContext.Request.RequestContext);
         }
 
-        public UrlGenerator(UrlHelper urlHelper)
-        {
-            this._urlHelper = urlHelper;
-        }
-
         public string GenerateAbsoluteUrl<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController
         {
             return GenerateAbsoluteUrl(ActionHelper.GetRouteValues<T>(actionSelector));
