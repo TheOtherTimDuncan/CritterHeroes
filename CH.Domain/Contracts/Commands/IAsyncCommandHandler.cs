@@ -5,15 +5,9 @@ using CH.Domain.Services.Commands;
 
 namespace CH.Domain.Contracts.Commands
 {
-    public interface IAsyncCommandHandler<in TParameter, TResult>
-        where TParameter : class
-        where TResult : ICommandResult
-    {
-        Task<TResult> ExecuteAsync(TParameter command);
-    }
-
-    public interface IAsyncCommandHandler<in TParameter> : IAsyncCommandHandler<TParameter, CommandResult>
+    public interface IAsyncCommandHandler<in TParameter>
         where TParameter : class
     {
+        Task<CommandResult> ExecuteAsync(TParameter command);
     }
 }

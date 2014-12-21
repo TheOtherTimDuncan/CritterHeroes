@@ -115,13 +115,11 @@
     </Compile>
     <Compile Include="BaseException.cs" />
     <Compile Include="Contracts\Commands\ICommandHandler.cs" />
-    <Compile Include="Contracts\Commands\ICommandResult.cs" />
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Contracts\Logging\IEmailLogger.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
     <Compile Include="Identity\ClaimExtensions.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
-    <Compile Include="Services\Commands\BaseCommandResult.cs" />
     <Compile Include="Services\Commands\CommandResult.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
     <Compile Include="Contracts\Commands\IAsyncCommandHandler.cs" />

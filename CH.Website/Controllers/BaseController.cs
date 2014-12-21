@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Services.Commands;
 using CH.Domain.StateManagement;
 using CH.Website.Middleware;
 using Microsoft.AspNet.Identity;
@@ -73,7 +74,7 @@ namespace CH.Website.Controllers
             }
         }
 
-        protected void AddCommandResultErrorsToModelState(ModelStateDictionary modelState, ICommandResult commandResult)
+        protected void AddCommandResultErrorsToModelState(ModelStateDictionary modelState, CommandResult commandResult)
         {
             foreach (KeyValuePair<string, List<string>> error in commandResult.Errors)
             {

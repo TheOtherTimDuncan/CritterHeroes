@@ -28,7 +28,7 @@ namespace CH.Website.Dependency.Modules
             Kernel.Bind(x => x
                 .FromAssemblyContaining(typeof(IQueryHandler<,>), typeof(MvcApplication))
                 .SelectAllClasses()
-                .InheritedFromAny(typeof(IAsyncCommandHandler<,>), typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>), typeof(ICommandHandler<,>))
+                .InheritedFromAny(typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>))
                 .BindAllInterfaces()
             );
         }

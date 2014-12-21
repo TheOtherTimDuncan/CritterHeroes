@@ -35,7 +35,7 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerIsBoundToAllCommandHandlers()
         {
-            Type[] commandHandlerTypes = new Type[] { typeof(IAsyncCommandHandler<,>), typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>), typeof(ICommandHandler<,>) };
+            Type[] commandHandlerTypes = new Type[] { typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>) };
 
             IEnumerable<Type> handlerTypes =
                 from a in AppDomain.CurrentDomain.GetAssemblies()

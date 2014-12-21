@@ -10,15 +10,7 @@ namespace CH.Domain.Contracts.Commands
         Task<CommandResult> DispatchAsync<TParameter>(TParameter command)
             where TParameter : class;
 
-        Task<TResult> DispatchAsync<TParameter, TResult>(TParameter command)
-            where TParameter : class
-            where TResult : ICommandResult;
-
         CommandResult Dispatch<TParameter>(TParameter command)
         where TParameter : class;
-
-        TResult Dispatch<TParameter, TResult>(TParameter command)
-            where TParameter : class
-            where TResult : ICommandResult;
     }
 }
