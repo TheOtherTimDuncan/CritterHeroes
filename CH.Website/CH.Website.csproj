@@ -211,7 +211,6 @@
     <Compile Include="Services\CommandHandlers\ForgotPasswordCommandHandler.cs" />
     <Compile Include="Services\CommandHandlers\ModalDialogCommandResult.cs" />
     <Compile Include="Services\CommandHandlers\ResetPasswordCommandHandler.cs" />
-    <Compile Include="Services\Commands\ForgotPasswordCommand.cs" />
     <Compile Include="Services\Queries\MenuQuery.cs" />
     <Compile Include="Services\QueryHandlers\BaseViewModelQueryHandler.cs" />
     <Compile Include="Services\CommandHandlers\EditProfileCommandHandler.cs" />

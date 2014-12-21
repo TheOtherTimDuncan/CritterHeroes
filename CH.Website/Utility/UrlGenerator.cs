@@ -12,6 +12,11 @@ namespace CH.Website.Utility
     {
         private UrlHelper _urlHelper;
 
+        public UrlGenerator(IHttpContext httpContext)
+        {
+            this._urlHelper = new UrlHelper(httpContext.Request.RequestContext);
+        }
+
         public UrlGenerator(UrlHelper urlHelper)
         {
             this._urlHelper = urlHelper;

@@ -18,6 +18,40 @@ namespace CH.Test.QueryTests
     public class OrganizationContextQueryHandlerTests : BaseTest
     {
         [TestMethod]
+        public async Task ReturnsOrganizationContextFromOwinContextIfInOwinContext()
+        {
+            OrganizationContext context = new OrganizationContext()
+            {
+                OrganizationID = Guid.NewGuid(),
+                ShortName = "short",
+                FullName = "full",
+                AzureName = "azure",
+                LogoFilename = "logo",
+                EmailAddress = "email@email.com",
+                SupportedCritters = GetTestSupportedSpecies()
+            };
+
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+
+            Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Get<OrganizationContext>(It.IsAny<string>())).Returns(context);
+
+            OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object, mockOwinContext.Object);
+            OrganizationContext resultContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
+            {
+                OrganizationID = context.OrganizationID
+            });
+
+            resultContext.Should().Equals(context);
+
+            mockStorageContext.Verify(x => x.GetAsync(It.IsAny<string>()), Times.Never);
+            mockStateManager.Verify(x => x.GetContext(), Times.Never);
+            mockOwinContext.Verify(x => x.Get<OrganizationContext>(It.IsAny<string>()), Times.Once);
+        }
+
+        [TestMethod]
         public async Task ReturnsOrganizationContextFromCookieIfCookieExists()
         {
             OrganizationContext context = new OrganizationContext()
@@ -36,7 +70,9 @@ namespace CH.Test.QueryTests
 
             Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
 
-            OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+
+            OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object, mockOwinContext.Object);
             OrganizationContext resultContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
             {
                 OrganizationID = context.OrganizationID
@@ -45,6 +81,8 @@ namespace CH.Test.QueryTests
             resultContext.Should().Equals(context);
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
+            mockOwinContext.Verify(x => x.Get<OrganizationContext>(It.IsAny<string>()), Times.Once);
+            mockStorageContext.Verify(x => x.GetAsync(It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -67,7 +105,9 @@ namespace CH.Test.QueryTests
             Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
             mockStorageContext.Setup(x => x.GetAsync(organization.ID.ToString())).Returns(Task.FromResult(organization));
 
-            OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+
+            OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object, mockOwinContext.Object);
             OrganizationContext resultContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
             {
                 OrganizationID = organization.ID
@@ -78,6 +118,7 @@ namespace CH.Test.QueryTests
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<OrganizationContext>()), Times.Once);
             mockStorageContext.Verify(x => x.GetAsync(organization.ID.ToString()), Times.Once);
+            mockOwinContext.Verify(x => x.Get<OrganizationContext>(It.IsAny<string>()), Times.Once);
         }
     }
 }

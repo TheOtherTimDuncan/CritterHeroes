@@ -14,7 +14,6 @@ using CH.Domain.Services.Commands;
 using CH.Domain.Services.Queries;
 using CH.Website.Controllers;
 using CH.Website.Models.Account;
-using CH.Website.Services.Commands;
 using CH.Website.Services.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

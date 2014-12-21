@@ -7,7 +7,7 @@ using Microsoft.Owin.Security;
 using Ninject.Modules;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Website.Dependency.Modules
+using CH.Website.Utility;namespace CH.Website.Dependency.Modules
 {
     public class WebModule : NinjectModule
     {
@@ -26,6 +26,8 @@ namespace CH.Website.Dependency.Modules
                 ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
                 return HttpContext.Current.GetOwinContext().Authentication;
             });
+
+            Bind<IUrlGenerator>().To<UrlGenerator>();
         }
     }
 }

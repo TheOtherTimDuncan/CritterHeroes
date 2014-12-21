@@ -10,7 +10,6 @@ using CH.Domain.Services.Commands;
 using CH.Domain.Services.Queries;
 using CH.Website.Models.Account;
 using CH.Website.Services.CommandHandlers;
-using CH.Website.Services.Commands;
 using CH.Website.Services.Queries;
 using CH.Website.Utility;
 
@@ -73,20 +72,9 @@ namespace CH.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
         {
-            ForgotPasswordCommand command = new ForgotPasswordCommand()
-            {
-                EmailAddress = model.EmailAddress,
-                Username = model.Username,
-                UrlGenerator = new UrlGenerator(Url),
-                OrganizationFullName = OrganizationContext.FullName,
-                OrganizationEmailAddress = OrganizationContext.EmailAddress
-            };
-
-            ModalDialogCommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand, ModalDialogCommandResult>(command);
-
+            CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordModel>(model);
             if (commandResult.Succeeded)
             {
-                model.ModalDialog = commandResult.ModalDialog;
                 return View(model);
             }
 
