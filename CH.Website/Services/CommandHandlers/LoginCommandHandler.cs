@@ -9,7 +9,7 @@ using CH.Website.Models.Account;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel, CommandResult>
+    public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel>
     {
         public LoginCommandHandler(IApplicationSignInManager signinManager, IUserLogger userLogger)
             : base(signinManager, userLogger)

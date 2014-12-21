@@ -100,13 +100,8 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.UrlGenerator = new UrlGenerator(Url);
-                ModalDialogCommandResult commandResult = await CommandDispatcher.DispatchAsync<ResetPasswordModel, ModalDialogCommandResult>(model);
-                if (commandResult.Succeeded)
-                {
-                    model.ModalDialog = commandResult.ModalDialog;
-                }
-                else
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync<ResetPasswordModel>(model);
+                if (!commandResult.Succeeded)
                 {
                     AddCommandResultErrorsToModelState(ModelState, commandResult);
                 }

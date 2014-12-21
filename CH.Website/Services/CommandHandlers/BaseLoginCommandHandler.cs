@@ -12,9 +12,8 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public abstract class BaseLoginCommandHandler<TParameter, TResult> : IAsyncCommandHandler<TParameter, TResult>
+    public abstract class BaseLoginCommandHandler<TParameter> : IAsyncCommandHandler<TParameter>
         where TParameter : LoginModel
-        where TResult : ICommandResult
     {
         private IApplicationSignInManager _signinManager;
 
@@ -30,7 +29,7 @@ namespace CH.Website.Services.CommandHandlers
             private set;
         }
 
-        public abstract Task<TResult> ExecuteAsync(TParameter command);
+        public abstract Task<CommandResult> ExecuteAsync(TParameter command);
 
         public virtual async Task<CommandResult> Login(TParameter command)
         {
