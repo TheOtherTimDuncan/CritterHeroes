@@ -51,7 +51,7 @@ namespace CH.Test.CommandTests
             };
 
             EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockUserLogger.Object);
-            CommandResult commandResult = await command.Execute(model);
+            CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
             user.FirstName.Should().Be(model.FirstName);
@@ -93,7 +93,7 @@ namespace CH.Test.CommandTests
             mockLogger.Setup(x => x.LogActionAsync(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
 
             EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
-            CommandResult commandResult = await command.Execute(model);
+            CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
             user.UserName.Should().Be(model.Username);
@@ -139,7 +139,7 @@ namespace CH.Test.CommandTests
             };
 
             EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
-            CommandResult commandResult = await command.Execute(model);
+            CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeFalse();
 
             commandResult.Errors[""][0].Should().Be("The username you entered is not available. Please enter a different username.");

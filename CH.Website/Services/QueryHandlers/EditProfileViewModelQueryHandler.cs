@@ -11,7 +11,7 @@ using CH.Website.Models.Account;
 
 namespace CH.Website.Services.QueryHandlers
 {
-    public class EditProfileViewModelQueryHandler : IQueryHandler<UserIDQuery, EditProfileModel>
+    public class EditProfileViewModelQueryHandler : IAsyncQueryHandler<UserIDQuery, EditProfileModel>
     {
         private IHttpContext _httpContext;
         private IApplicationUserStore _userStore;
@@ -22,7 +22,7 @@ namespace CH.Website.Services.QueryHandlers
             this._userStore = userStore;
         }
 
-        public async Task<EditProfileModel> Retrieve(UserIDQuery query)
+        public async Task<EditProfileModel> RetrieveAsync(UserIDQuery query)
         {
             EditProfileModel model = new EditProfileModel();
             model.ReturnUrl = _httpContext.Request.UrlReferrer.AbsoluteUri;

@@ -26,7 +26,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
-            MenuModel model = QueryDispatcher.Dispatch<MenuQuery, MenuModel>(new MenuQuery()
+            MenuModel model = QueryDispatcher.DispatchAsync<MenuQuery, MenuModel>(new MenuQuery()
             {
                 OrganizationContext = this.OrganizationContext,
                 CurrentUser = User,
@@ -39,7 +39,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public PartialViewResult Header()
         {
-            HeaderModel model = QueryDispatcher.Dispatch<OrganizationContext, HeaderModel>(OrganizationContext).Result;
+            HeaderModel model = QueryDispatcher.DispatchAsync<OrganizationContext, HeaderModel>(OrganizationContext).Result;
             return PartialView("_Header", model);
         }
     }

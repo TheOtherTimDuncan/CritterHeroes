@@ -17,7 +17,7 @@ namespace CH.Website.Services.QueryHandlers
             this._appConfiguration = appConfiguration;
         }
 
-        public override Task<HeaderModel> Retrieve(OrganizationContext query)
+        public override Task<HeaderModel> RetrieveAsync(OrganizationContext query)
         {
             HeaderModel model = new HeaderModel();
             model.LogoUrl = GetBlobUrl(_appConfiguration.BlobBaseUrl, query.AzureName, query.LogoFilename);

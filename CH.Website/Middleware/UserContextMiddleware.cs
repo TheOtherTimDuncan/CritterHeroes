@@ -55,7 +55,7 @@ namespace CH.Website.Middleware
             {
                 UserContextQueryHandler queryHandler = _dependencyResolver.Resolve<UserContextQueryHandler>();
 
-                UserContext userContext = await queryHandler.Retrieve(new UserIDQuery()
+                UserContext userContext = await queryHandler.RetrieveAsync(new UserIDQuery()
                 {
                     UserID = context.Request.User.GetUserID()
                 });

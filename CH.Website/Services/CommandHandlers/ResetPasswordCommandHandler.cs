@@ -26,7 +26,7 @@ namespace CH.Website.Services.CommandHandlers
             this._userManager = userManager;
         }
 
-        public override async Task<ModalDialogCommandResult> Execute(ResetPasswordModel command)
+        public override async Task<ModalDialogCommandResult> ExecuteAsync(ResetPasswordModel command)
         {
             IdentityUser identityUser = await _userManager.FindByNameAsync(command.Username);
             if (identityUser != null)

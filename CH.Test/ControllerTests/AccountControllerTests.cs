@@ -26,18 +26,18 @@ namespace CH.Test.ControllerTests
     public class AccountControllerTests : BaseControllerTest
     {
         [TestMethod]
-        public async Task GetLoginReturnsViewWithModel()
+        public void GetLoginReturnsViewWithModel()
         {
             LoginQuery loginQuery = new LoginQuery()
             {
             };
 
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery)).Returns(Task.FromResult(new LoginModel()));
+            mockDispatcher.Setup(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery)).Returns(new LoginModel());
 
             AccountController controller = new AccountController(mockDispatcher.Object, null);
 
-            ViewResult viewResult = (await controller.Login(loginQuery)) as ViewResult;
+            ViewResult viewResult = controller.Login(loginQuery) as ViewResult;
             viewResult.Should().NotBeNull();
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<LoginModel>();
@@ -51,7 +51,7 @@ namespace CH.Test.ControllerTests
             LoginModel model = new LoginModel();
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
+            mockDispatcher.Setup(x => x.DispatchAsync<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
 
             AccountController controller = new AccountController(null, mockDispatcher.Object);
 
@@ -61,7 +61,7 @@ namespace CH.Test.ControllerTests
             controller.ModelState.IsValid.Should().BeFalse();
             controller.ModelState[""].Errors[0].ErrorMessage.Should().Be("Error");
 
-            mockDispatcher.Verify(x => x.Dispatch<LoginModel>(model), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<LoginModel>(model), Times.Once);
         }
 
         [TestMethod]
@@ -70,7 +70,7 @@ namespace CH.Test.ControllerTests
             LoginModel model = new LoginModel();
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
+            mockDispatcher.Setup(x => x.DispatchAsync<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
 
@@ -80,7 +80,7 @@ namespace CH.Test.ControllerTests
             RedirectToRouteResult redirectResult = (await controller.Login(model, null)) as RedirectToRouteResult;
             VerifyRedirectToRouteResult(redirectResult, "Index", "Home");
 
-            mockDispatcher.Verify(x => x.Dispatch<LoginModel>(model), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<LoginModel>(model), Times.Once);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace CH.Test.ControllerTests
             LoginModel model = new LoginModel();
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
+            mockDispatcher.Setup(x => x.DispatchAsync<LoginModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
 
@@ -100,7 +100,7 @@ namespace CH.Test.ControllerTests
             redirectResult.Should().NotBeNull();
             redirectResult.Url.Should().Be("/Account/EditProfile");
 
-            mockDispatcher.Verify(x => x.Dispatch<LoginModel>(model), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<LoginModel>(model), Times.Once);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace CH.Test.ControllerTests
             string userID = Guid.NewGuid().ToString();
 
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>())).Returns<UserIDQuery>((query) =>
+            mockDispatcher.Setup(x => x.DispatchAsync<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>())).Returns<UserIDQuery>((query) =>
             {
                 query.UserID.Should().Be(userID);
                 return Task.FromResult(new EditProfileModel());
@@ -128,7 +128,7 @@ namespace CH.Test.ControllerTests
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
-            mockDispatcher.Verify(x => x.Dispatch<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
         }
 
         [TestMethod]
@@ -150,7 +150,7 @@ namespace CH.Test.ControllerTests
             identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
+            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
@@ -161,7 +161,7 @@ namespace CH.Test.ControllerTests
             RedirectResult redirectResult = await controller.EditProfile(model) as RedirectResult;
             redirectResult.Url.Should().Be(returnUri.AbsoluteUri);
 
-            mockDispatcher.Verify(x => x.Dispatch<EditProfileModel>(model), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(model), Times.Once);
         }
 
         [TestMethod]
@@ -175,7 +175,7 @@ namespace CH.Test.ControllerTests
             identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
+            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
@@ -189,7 +189,7 @@ namespace CH.Test.ControllerTests
             controller.ModelState.IsValid.Should().BeFalse();
             controller.ModelState[""].Errors[0].ErrorMessage.Should().Be("Error");
 
-            mockDispatcher.Verify(x => x.Dispatch<EditProfileModel>(model), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(model), Times.Once);
         }
     }
 }

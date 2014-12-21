@@ -28,7 +28,7 @@ namespace CH.Test.QueryTests
             };
 
             HeaderViewModelQueryHandler handler = new HeaderViewModelQueryHandler(mockAppConfiguration.Object);
-            HeaderModel model = handler.Retrieve(orgContext).Result;  // Should be synchronous
+            HeaderModel model = handler.RetrieveAsync(orgContext).Result;  // Should be synchronous
 
             model.Should().NotBeNull();
             model.LogoUrl.Should().Be("http://root/azure/logo.svg");

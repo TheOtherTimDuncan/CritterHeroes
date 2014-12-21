@@ -37,7 +37,7 @@ namespace CH.Test.QueryTests
             Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
 
             OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object);
-            OrganizationContext resultContext = await queryHandler.Retrieve(new OrganizationQuery()
+            OrganizationContext resultContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
             {
                 OrganizationID = context.OrganizationID
             });
@@ -68,7 +68,7 @@ namespace CH.Test.QueryTests
             mockStorageContext.Setup(x => x.GetAsync(organization.ID.ToString())).Returns(Task.FromResult(organization));
 
             OrganizationContextQueryHandler queryHandler = new OrganizationContextQueryHandler(mockStateManager.Object, mockStorageContext.Object);
-            OrganizationContext resultContext = await queryHandler.Retrieve(new OrganizationQuery()
+            OrganizationContext resultContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
             {
                 OrganizationID = organization.ID
             });

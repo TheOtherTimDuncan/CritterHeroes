@@ -14,7 +14,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Website.Services.QueryHandlers
 {
-    public class CheckUsernameQueryHandler : IQueryHandler<UsernameQuery, CheckUsernameResult>
+    public class CheckUsernameQueryHandler : IAsyncQueryHandler<UsernameQuery, CheckUsernameResult>
     {
         public IUserLogger _userLogger;
         public IApplicationUserStore _userStore;
@@ -27,7 +27,7 @@ namespace CH.Website.Services.QueryHandlers
             this._httpContext = httpContext;
         }
 
-        public async Task<CheckUsernameResult> Retrieve(UsernameQuery query)
+        public async Task<CheckUsernameResult> RetrieveAsync(UsernameQuery query)
         {
             ThrowIf.Argument.IsNull(query, "query");
 

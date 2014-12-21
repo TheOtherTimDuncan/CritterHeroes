@@ -11,7 +11,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Domain.Services.Queries
 {
-    public class UserContextQueryHandler : IQueryHandler<UserIDQuery, UserContext>
+    public class UserContextQueryHandler : IAsyncQueryHandler<UserIDQuery, UserContext>
     {
         private IApplicationUserStore _userStore;
         private IStateManager<UserContext> _stateManager;
@@ -22,7 +22,7 @@ namespace CH.Domain.Services.Queries
             this._stateManager = stateManager;
         }
 
-        public async Task<UserContext> Retrieve(UserIDQuery query)
+        public async Task<UserContext> RetrieveAsync(UserIDQuery query)
         {
             ThrowIf.Argument.IsNull(query, "query");
 

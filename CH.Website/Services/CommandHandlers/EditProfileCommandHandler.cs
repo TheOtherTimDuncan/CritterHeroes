@@ -15,7 +15,7 @@ using Microsoft.Owin.Security;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public class EditProfileCommandHandler : ICommandHandler<EditProfileModel>
+    public class EditProfileCommandHandler : IAsyncCommandHandler<EditProfileModel>
     {
         private IAuthenticationManager _authenticationManager;
         private IApplicationUserManager _userManager;
@@ -28,7 +28,7 @@ namespace CH.Website.Services.CommandHandlers
             this._userLogger = userLogger;
         }
 
-        public async Task<CommandResult> Execute(EditProfileModel command)
+        public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
             bool isUsernameChanged = false;
 

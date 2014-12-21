@@ -31,15 +31,15 @@ namespace CH.Test.CommandTests
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(null, null, null);
             ForgotPasswordCommand model = new ForgotPasswordCommand();
 
-            (await handler.Execute(model)).Succeeded.Should().BeFalse("both email address and username are null");
+            (await handler.ExecuteAsync(model)).Succeeded.Should().BeFalse("both email address and username are null");
 
             model.EmailAddress = "";
             model.Username = "";
-            (await handler.Execute(model)).Succeeded.Should().BeFalse("both email address and username are empty");
+            (await handler.ExecuteAsync(model)).Succeeded.Should().BeFalse("both email address and username are empty");
 
             model.EmailAddress = "  ";
             model.Username = "  ";
-            (await handler.Execute(model)).Succeeded.Should().BeFalse("both email address and username are only whitespace");
+            (await handler.ExecuteAsync(model)).Succeeded.Should().BeFalse("both email address and username are only whitespace");
         }
 
         [TestMethod]
@@ -55,7 +55,6 @@ namespace CH.Test.CommandTests
 
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult((IdentityUser)null));
             mockUserManager.Setup(x => x.FindByNameAsync(username)).Returns(Task.FromResult((IdentityUser)null));
 
             Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
@@ -65,25 +64,21 @@ namespace CH.Test.CommandTests
             mockLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, command)).Returns(Task.FromResult(0));
 
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
-            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, Task<ActionResult>>>>())).Returns("account-url");
+            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns("account-url");
             command.UrlGenerator = mockUrlGenerator.Object;
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockLogger.Object);
-            ModalDialogCommandResult result = await handler.Execute(command);
+            ModalDialogCommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
             result.ModalDialog.Should().NotBeNull();
             result.ModalDialog.Text.Should().NotBeNullOrEmpty();
             result.ModalDialog.Buttons.Should().NotBeEmpty();
             result.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
-            command.EmailAddress = null;
-            command.Username = username;
-            (await handler.Execute(command)).Succeeded.Should().BeTrue();
-
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
-            mockUserManager.Verify(x => x.FindByNameAsync(username), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
-            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, command), Times.Exactly(2));
+            mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, null, command), Times.Once);
+            mockUrlGenerator.Verify(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
 
         [TestMethod]
@@ -130,10 +125,10 @@ namespace CH.Test.CommandTests
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
             command.UrlGenerator = mockUrlGenerator.Object;
             mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(code);
-            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, Task<ActionResult>>>>())).Returns("account-url");
+            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns("account-url");
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockLogger.Object);
-            ModalDialogCommandResult result = await handler.Execute(command);
+            ModalDialogCommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
             result.ModalDialog.Should().NotBeNull();
             result.ModalDialog.Text.Should().NotBeNullOrEmpty();
@@ -145,6 +140,7 @@ namespace CH.Test.CommandTests
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
             mockLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command), Times.Once);
             mockUrlGenerator.Verify(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
+            mockUrlGenerator.Verify(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
     }
 }

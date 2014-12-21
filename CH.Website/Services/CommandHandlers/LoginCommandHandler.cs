@@ -16,7 +16,7 @@ namespace CH.Website.Services.CommandHandlers
         {
         }
 
-        public override async Task<CommandResult> Execute(LoginModel command)
+        public override async Task<CommandResult> ExecuteAsync(LoginModel command)
         {
             return await Login(command);
         }

@@ -34,7 +34,7 @@ namespace CH.Test.CommandTests
             mockUserLogger.Setup(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username)).Returns(Task.FromResult(0));
 
             LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object, mockUserLogger.Object);
-            CommandResult result = await command.Execute(model);
+            CommandResult result = await command.ExecuteAsync(model);
             result.Succeeded.Should().BeTrue();
             result.Errors.Should().BeEmpty();
 
@@ -58,7 +58,7 @@ namespace CH.Test.CommandTests
             mockUserLogger.Setup(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Username)).Returns(Task.FromResult(0));
 
             LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object, mockUserLogger.Object);
-            CommandResult result = await command.Execute(model);
+            CommandResult result = await command.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
             result.Errors[""][0].Should().Be("The username or password that you entered was incorrect. Please try again.");

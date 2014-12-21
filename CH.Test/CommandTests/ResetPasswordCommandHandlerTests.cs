@@ -44,7 +44,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult((IdentityUser)null));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(null, mockUserLogger.Object, mockUserManager.Object);
-            ModalDialogCommandResult result = await handler.Execute(model);
+            ModalDialogCommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
 
@@ -76,7 +76,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(null, mockUserLogger.Object, mockUserManager.Object);
-            ModalDialogCommandResult result = await handler.Execute(model);
+            ModalDialogCommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
 
@@ -112,7 +112,7 @@ namespace CH.Test.CommandTests
             mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockSigninManager.Object, mockUserLogger.Object, mockUserManager.Object);
-            ModalDialogCommandResult result = await handler.Execute(model);
+            ModalDialogCommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
 
@@ -153,7 +153,7 @@ namespace CH.Test.CommandTests
             mockUrlGenerator.Setup(x => x.GenerateSiteUrl<HomeController>(It.IsAny<Expression<Func<HomeController, ActionResult>>>())).Returns("account-url");
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockSigninManager.Object, mockUserLogger.Object, mockUserManager.Object);
-            ModalDialogCommandResult result = await handler.Execute(model);
+            ModalDialogCommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeTrue();
             result.ModalDialog.Should().NotBeNull();
             result.ModalDialog.Text.Should().NotBeNullOrEmpty();

@@ -24,9 +24,9 @@ namespace CH.Website.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginQuery query)
+        public ActionResult Login(LoginQuery query)
         {
-            LoginModel model = await QueryDispatcher.Dispatch<LoginQuery, LoginModel>(query);
+            LoginModel model =  QueryDispatcher.Dispatch<LoginQuery, LoginModel>(query);
             return View(model);
         }
 
@@ -37,7 +37,7 @@ namespace CH.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await CommandDispatcher.Dispatch(model);
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
                     if (Url.IsLocalUrl(returnUrl))
@@ -82,7 +82,7 @@ namespace CH.Website.Controllers
                 OrganizationEmailAddress = OrganizationContext.EmailAddress
             };
 
-            ModalDialogCommandResult commandResult = await CommandDispatcher.Dispatch<ForgotPasswordCommand, ModalDialogCommandResult>(command);
+            ModalDialogCommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand, ModalDialogCommandResult>(command);
 
             if (commandResult.Succeeded)
             {
@@ -113,7 +113,7 @@ namespace CH.Website.Controllers
             if (ModelState.IsValid)
             {
                 model.UrlGenerator = new UrlGenerator(Url);
-                ModalDialogCommandResult commandResult = await CommandDispatcher.Dispatch<ResetPasswordModel, ModalDialogCommandResult>(model);
+                ModalDialogCommandResult commandResult = await CommandDispatcher.DispatchAsync<ResetPasswordModel, ModalDialogCommandResult>(model);
                 if (commandResult.Succeeded)
                 {
                     model.ModalDialog = commandResult.ModalDialog;
@@ -155,7 +155,7 @@ namespace CH.Website.Controllers
             {
                 UserID = User.GetUserID()
             };
-            EditProfileModel model = await QueryDispatcher.Dispatch<UserIDQuery, EditProfileModel>(query);
+            EditProfileModel model = await QueryDispatcher.DispatchAsync<UserIDQuery, EditProfileModel>(query);
             return View(model);
         }
 
@@ -168,7 +168,7 @@ namespace CH.Website.Controllers
                 model.OriginalUsername = User.Identity.Name;
                 model.UserID = User.GetUserID();
 
-                CommandResult commandResult = await CommandDispatcher.Dispatch<EditProfileModel>(model);
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync<EditProfileModel>(model);
                 if (commandResult.Succeeded)
                 {
                     return Redirect(model.ReturnUrl);
@@ -187,7 +187,7 @@ namespace CH.Website.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            CheckUsernameResult queryResult = await QueryDispatcher.Dispatch<UsernameQuery, CheckUsernameResult>(new UsernameQuery()
+            CheckUsernameResult queryResult = await QueryDispatcher.DispatchAsync<UsernameQuery, CheckUsernameResult>(new UsernameQuery()
             {
                 Username = userName
             });

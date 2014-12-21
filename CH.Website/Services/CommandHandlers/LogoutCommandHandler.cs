@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Services.Commands;
@@ -22,12 +21,12 @@ namespace CH.Website.Services.CommandHandlers
             this._stateManager = stateManager;
         }
 
-        public Task<CommandResult> Execute(LogoutModel command)
+        public CommandResult Execute(LogoutModel command)
         {
             _authenticationManager.SignOut();
             _stateManager.ClearContext();
 
-            return Task.FromResult(CommandResult.Success());
+            return CommandResult.Success();
         }
     }
 }

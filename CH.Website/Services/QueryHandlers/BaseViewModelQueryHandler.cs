@@ -6,11 +6,11 @@ using CH.Domain.Contracts.Queries;
 
 namespace CH.Website.Services.QueryHandlers
 {
-    public abstract class BaseViewModelQueryHandler<TParameter, TResult> : IQueryHandler<TParameter, TResult>
+    public abstract class BaseViewModelQueryHandler<TParameter, TResult> : IAsyncQueryHandler<TParameter, TResult>
         where TResult : class
         where TParameter : class
     {
-        public abstract Task<TResult> Retrieve(TParameter query);
+        public abstract Task<TResult> RetrieveAsync(TParameter query);
 
         protected string GetBlobUrl(string baseBlobUrl, string azurename, string filename)
         {

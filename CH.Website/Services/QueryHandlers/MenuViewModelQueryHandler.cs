@@ -19,7 +19,7 @@ namespace CH.Website.Services.QueryHandlers
             this._appConfiguration = appConfiguration;
         }
 
-        public override Task<MenuModel> Retrieve(MenuQuery query)
+        public override Task<MenuModel> RetrieveAsync(MenuQuery query)
         {
             ThrowIf.Argument.IsNull(query, "query");
 

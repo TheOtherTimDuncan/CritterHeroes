@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public abstract class BaseLoginCommandHandler<TParameter, TResult> : ICommandHandler<TParameter, TResult>
+    public abstract class BaseLoginCommandHandler<TParameter, TResult> : IAsyncCommandHandler<TParameter, TResult>
         where TParameter : LoginModel
         where TResult : ICommandResult
     {
@@ -30,7 +30,7 @@ namespace CH.Website.Services.CommandHandlers
             private set;
         }
 
-        public abstract Task<TResult> Execute(TParameter command);
+        public abstract Task<TResult> ExecuteAsync(TParameter command);
 
         public virtual async Task<CommandResult> Login(TParameter command)
         {

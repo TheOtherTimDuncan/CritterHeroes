@@ -19,44 +19,16 @@ namespace CH.Website.Dependency.Modules
             // Binding with AppDomain.CurrentDomain fails at runtime so it can't be used
 
             Kernel.Bind(x => x
-                .FromAssemblyContaining(typeof(IQueryHandler<,>))
+                .FromAssemblyContaining(typeof(IQueryHandler<,>), typeof(MvcApplication))
                 .SelectAllClasses()
-                .InheritedFrom(typeof(IQueryHandler<,>))
+                .InheritedFromAny(typeof(IQueryHandler<,>), typeof(IAsyncQueryHandler<,>))
                 .BindAllInterfaces()
             );
 
             Kernel.Bind(x => x
-                .FromAssemblyContaining<MvcApplication>()
+                .FromAssemblyContaining(typeof(IQueryHandler<,>), typeof(MvcApplication))
                 .SelectAllClasses()
-                .InheritedFrom(typeof(IQueryHandler<,>))
-                .BindAllInterfaces()
-            );
-
-            Kernel.Bind(x => x
-                .FromAssemblyContaining(typeof(IQueryHandler<,>))
-                .SelectAllClasses()
-                .InheritedFrom(typeof(ICommandHandler<,>))
-                .BindAllInterfaces()
-            );
-
-            Kernel.Bind(x => x
-                .FromAssemblyContaining<MvcApplication>()
-                .SelectAllClasses()
-                .InheritedFrom(typeof(ICommandHandler<,>))
-                .BindAllInterfaces()
-            );
-
-            Kernel.Bind(x => x
-                .FromAssemblyContaining(typeof(IQueryHandler<,>))
-                .SelectAllClasses()
-                .InheritedFrom(typeof(ICommandHandler<>))
-                .BindAllInterfaces()
-            );
-
-            Kernel.Bind(x => x
-                .FromAssemblyContaining<MvcApplication>()
-                .SelectAllClasses()
-                .InheritedFrom(typeof(ICommandHandler<>))
+                .InheritedFromAny(typeof(IAsyncCommandHandler<,>), typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>), typeof(ICommandHandler<,>))
                 .BindAllInterfaces()
             );
         }

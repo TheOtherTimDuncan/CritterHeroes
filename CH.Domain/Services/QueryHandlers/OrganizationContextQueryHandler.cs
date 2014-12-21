@@ -10,7 +10,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Domain.Services.Queries
 {
-    public class OrganizationContextQueryHandler : IQueryHandler<OrganizationQuery, OrganizationContext>
+    public class OrganizationContextQueryHandler : IAsyncQueryHandler<OrganizationQuery, OrganizationContext>
     {
         private IStorageContext<Organization> _storageContext;
         private IStateManager<OrganizationContext> _stateManager;
@@ -21,7 +21,7 @@ namespace CH.Domain.Services.Queries
             this._storageContext = storageContext;
         }
 
-        public async Task<OrganizationContext> Retrieve(OrganizationQuery query)
+        public async Task<OrganizationContext> RetrieveAsync(OrganizationQuery query)
         {
             ThrowIf.Argument.IsNull(query, "query");
 

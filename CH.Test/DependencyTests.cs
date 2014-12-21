@@ -18,12 +18,15 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerIsBoundToAllQueryHandlers()
         {
-            Type baseType = typeof(IQueryHandler<,>).GetGenericTypeDefinition();
+            Type[] queryHandlerTypes = new Type[] { typeof(IQueryHandler<,>), typeof(IAsyncQueryHandler<,>) };
 
             IEnumerable<Type> handlerTypes =
                 from a in AppDomain.CurrentDomain.GetAssemblies()
                 from t in a.GetTypes()
-                where !t.IsInterface && !t.IsAbstract && t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType)
+                where
+                    !t.IsInterface
+                    && !t.IsAbstract
+                    && t.GetInterfaces().Any(x => x.IsGenericType && (queryHandlerTypes.Any(h => h == x.GetGenericTypeDefinition())))
                 select t;
 
             VerifyTypes(handlerTypes);
@@ -32,22 +35,15 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerIsBoundToAllCommandHandlers()
         {
+            Type[] commandHandlerTypes = new Type[] { typeof(IAsyncCommandHandler<,>), typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>), typeof(ICommandHandler<,>) };
+
             IEnumerable<Type> handlerTypes =
                 from a in AppDomain.CurrentDomain.GetAssemblies()
                 from t in a.GetTypes()
-                where 
-                    !t.IsInterface 
+                where
+                    !t.IsInterface
                     && !t.IsAbstract
-                    && t.GetInterfaces().Any
-                    (
-                        x => 
-                            x.IsGenericType
-                            && 
-                            (
-                                x.GetGenericTypeDefinition() == typeof(ICommandHandler<>).GetGenericTypeDefinition() 
-                                || x.GetGenericTypeDefinition() == typeof(ICommandHandler<,>).GetGenericTypeDefinition()
-                            )
-                    )
+                    && t.GetInterfaces().Any(x => x.IsGenericType && (commandHandlerTypes.Any(h => h == x.GetGenericTypeDefinition())))
                 select t;
 
             VerifyTypes(handlerTypes);

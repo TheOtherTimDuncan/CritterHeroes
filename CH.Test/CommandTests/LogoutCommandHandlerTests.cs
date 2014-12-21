@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CH.Domain.Contracts;
 using CH.Domain.StateManagement;
 using CH.Website.Models.Account;

@@ -21,7 +21,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CH.Website.Services.CommandHandlers
 {
-    public class ForgotPasswordCommandHandler : ICommandHandler<ForgotPasswordCommand, ModalDialogCommandResult>
+    public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordCommand, ModalDialogCommandResult>
     {
         private IApplicationUserManager _appUserManager;
         private IEmailClient _emailClient;
@@ -34,7 +34,7 @@ namespace CH.Website.Services.CommandHandlers
             this._userLogger = userLogger;
         }
 
-        public async Task<ModalDialogCommandResult> Execute(ForgotPasswordCommand command)
+        public async Task<ModalDialogCommandResult> ExecuteAsync(ForgotPasswordCommand command)
         {
             ThrowIf.Argument.IsNull(command, "command");
 

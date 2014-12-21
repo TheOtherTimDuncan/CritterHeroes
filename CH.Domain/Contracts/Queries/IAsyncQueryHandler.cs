@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CH.Domain.Contracts.Queries
 {
-    public interface IQueryHandler<TParameter, TResult>
+    public interface IAsyncQueryHandler<TParameter, TResult>
         where TResult : class
         where TParameter : class
     {
-        TResult Retrieve(TParameter query);
+        Task<TResult> RetrieveAsync(TParameter query);
     }
 }

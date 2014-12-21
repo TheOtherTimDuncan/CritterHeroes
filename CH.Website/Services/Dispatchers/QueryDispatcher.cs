@@ -19,11 +19,18 @@ namespace CH.Website.Services.Dispatchers
             this._kernel = kernel;
         }
 
-        public async Task<TResult> Dispatch<TParameter, TResult>(TParameter query)
+        public async Task<TResult> DispatchAsync<TParameter, TResult>(TParameter query)
             where TParameter : class
             where TResult : class
         {
-            return await _kernel.Get<IQueryHandler<TParameter, TResult>>().Retrieve(query);
+            return await _kernel.Get<IAsyncQueryHandler<TParameter, TResult>>().RetrieveAsync(query);
+        }
+
+        public TResult Dispatch<TParameter, TResult>(TParameter query)
+            where TParameter : class
+            where TResult : class
+        {
+            return _kernel.Get<IQueryHandler<TParameter, TResult>>().Retrieve(query);
         }
     }
 }

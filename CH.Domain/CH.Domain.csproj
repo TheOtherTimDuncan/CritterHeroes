@@ -114,15 +114,17 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseException.cs" />
+    <Compile Include="Contracts\Commands\ICommandHandler.cs" />
     <Compile Include="Contracts\Commands\ICommandResult.cs" />
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Contracts\Logging\IEmailLogger.cs" />
+    <Compile Include="Contracts\Queries\IQueryHandler.cs" />
     <Compile Include="Identity\ClaimExtensions.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Services\Commands\BaseCommandResult.cs" />
     <Compile Include="Services\Commands\CommandResult.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
-    <Compile Include="Contracts\Commands\ICommandHandler.cs" />
+    <Compile Include="Contracts\Commands\IAsyncCommandHandler.cs" />
     <Compile Include="Contracts\Configuration\IRescueGroupsConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
@@ -134,7 +136,7 @@
     <Compile Include="Contracts\IStateSerializer.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
-    <Compile Include="Contracts\Queries\IQueryHandler.cs" />
+    <Compile Include="Contracts\Queries\IAsyncQueryHandler.cs" />
     <Compile Include="Handlers\Emails\EmailBuilder.cs" />
     <Compile Include="Handlers\Emails\SendUsernameChangedEmail.cs" />
     <Compile Include="Identity\ApplicationSignInManager.cs" />

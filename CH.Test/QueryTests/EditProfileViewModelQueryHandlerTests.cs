@@ -41,7 +41,7 @@ namespace CH.Test.QueryTests
             mockUserStore.Setup(x => x.FindByIdAsync(query.UserID)).Returns(Task.FromResult(user));
 
             EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpContext.Object, mockUserStore.Object);
-            EditProfileModel model = await handler.Retrieve(query);
+            EditProfileModel model = await handler.RetrieveAsync(query);
 
             model.Should().NotBeNull();
             model.Username.Should().Be(user.UserName);

@@ -31,7 +31,7 @@ namespace CH.Test.QueryTests
             Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
 
             UserContextQueryHandler handler = new UserContextQueryHandler(mockUserStore.Object, mockStateManager.Object);
-            UserContext resultContext = await handler.Retrieve(new UserIDQuery()
+            UserContext resultContext = await handler.RetrieveAsync(new UserIDQuery()
             {
                 UserID = context.UserID
             });
@@ -59,7 +59,7 @@ namespace CH.Test.QueryTests
             mockUserStore.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
 
             UserContextQueryHandler queryHandler = new UserContextQueryHandler(mockUserStore.Object, mockStateManager.Object);
-            UserContext resultContext = await queryHandler.Retrieve(new UserIDQuery()
+            UserContext resultContext = await queryHandler.RetrieveAsync(new UserIDQuery()
             {
                 UserID = user.Id
             });
