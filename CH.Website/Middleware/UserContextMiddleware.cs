@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Contracts;
-using CH.Domain.Contracts.Configuration;
+using System.Web.Mvc;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Identity;
 using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
@@ -18,7 +18,7 @@ namespace CH.Website.Middleware
     {
         private const string _key = "CritterHeroes.User";
 
-        public static void UseUserContext(this IAppBuilder builder, IAppDependencyResolver dependencyResolver)
+        public static void UseUserContext(this IAppBuilder builder, IDependencyResolver dependencyResolver)
         {
             builder.Use<UserContextMiddleware>(dependencyResolver);
         }
@@ -36,9 +36,9 @@ namespace CH.Website.Middleware
 
     public class UserContextMiddleware : OwinMiddleware
     {
-        private IAppDependencyResolver _dependencyResolver;
+        private IDependencyResolver _dependencyResolver;
 
-        public UserContextMiddleware(OwinMiddleware next, IAppDependencyResolver dependencyResolver)
+        public UserContextMiddleware(OwinMiddleware next, IDependencyResolver dependencyResolver)
             : base(next)
         {
             ThrowIf.Argument.IsNull(dependencyResolver, "dependencyResolver");
@@ -53,7 +53,7 @@ namespace CH.Website.Middleware
 
             if (context.Request.User.Identity.IsAuthenticated && !context.Request.Path.ToString().SafeEquals("/Account/Logout"))
             {
-                UserContextQueryHandler queryHandler = _dependencyResolver.Resolve<UserContextQueryHandler>();
+                IAsyncQueryHandler<UserIDQuery, UserContext> queryHandler = _dependencyResolver.GetService<IAsyncQueryHandler<UserIDQuery, UserContext>>();
 
                 UserContext userContext = await queryHandler.RetrieveAsync(new UserIDQuery()
                 {

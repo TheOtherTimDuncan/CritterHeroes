@@ -10,18 +10,26 @@ namespace CH.Domain.Proxies
     public class HttpContextProxy : IHttpContext
     {
         private HttpContextBase _httpContext;
-
-        public HttpContextProxy()
+        
+        // We need to late-bind to HttpContext rather than do it in the
+        private HttpContextBase Context
         {
-            ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
-            _httpContext = new HttpContextWrapper(HttpContext.Current);
+            get
+            {
+                if (_httpContext == null)
+                {
+                    ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
+                    _httpContext = new HttpContextWrapper(HttpContext.Current);
+                }
+                return _httpContext;
+            }
         }
 
         public HttpRequestBase Request
         {
             get
             {
-                return _httpContext.Request;
+                return Context.Request;
             }
         }
 
@@ -29,7 +37,7 @@ namespace CH.Domain.Proxies
         {
             get
             {
-                return _httpContext.Response;
+                return Context.Response;
             }
         }
 
@@ -37,7 +45,7 @@ namespace CH.Domain.Proxies
         {
             get
             {
-                return _httpContext.User;
+                return Context.User;
             }
         }
 
@@ -45,7 +53,7 @@ namespace CH.Domain.Proxies
         {
             get
             {
-                return _httpContext.Server;
+                return Context.Server;
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using CH.Domain.Contracts;
+using System.Web.Mvc;
 using CH.Website.Dependency;
 using CH.Website.Middleware;
 using Owin;
@@ -10,10 +10,8 @@ namespace CH.Website
     {
         public void ConfigureMiddleware(IAppBuilder app)
         {
-            IAppDependencyResolver dependencyResolver = DependencyContainer.Using<IAppDependencyResolver>();
-
-            app.UseOrganizationContext(dependencyResolver);
-            app.UseUserContext(dependencyResolver);
+            app.UseOrganizationContext(DependencyResolver.Current);
+            app.UseUserContext(DependencyResolver.Current);
         }
     }
 }

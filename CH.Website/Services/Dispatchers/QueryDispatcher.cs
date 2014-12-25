@@ -4,33 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts.Queries;
-using Ninject;
+using SimpleInjector;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Website.Services.Dispatchers
 {
     public class QueryDispatcher : IQueryDispatcher
     {
-        private IKernel _kernel;
+        private Container _container;
 
-        public QueryDispatcher(IKernel kernel)
+        public QueryDispatcher(Container container)
         {
-            ThrowIf.Argument.IsNull(kernel, "kernel");
-            this._kernel = kernel;
+            ThrowIf.Argument.IsNull(container, "kernel");
+            this._container = container;
         }
 
         public async Task<TResult> DispatchAsync<TParameter, TResult>(TParameter query)
             where TParameter : class
             where TResult : class
         {
-            return await _kernel.Get<IAsyncQueryHandler<TParameter, TResult>>().RetrieveAsync(query);
+            return await _container.GetInstance<IAsyncQueryHandler<TParameter, TResult>>().RetrieveAsync(query);
         }
 
         public TResult Dispatch<TParameter, TResult>(TParameter query)
             where TParameter : class
             where TResult : class
         {
-            return _kernel.Get<IQueryHandler<TParameter, TResult>>().Retrieve(query);
+            return _container.GetInstance<IQueryHandler<TParameter, TResult>>().Retrieve(query);
         }
     }
 }

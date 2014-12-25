@@ -45,6 +45,14 @@ namespace CH.Domain.Identity
             private set;
         }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return this;
+            }
+        }
+
         public override async Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType)
         {
             ClaimsIdentity identity = await base.CreateIdentityAsync(user, authenticationType);

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Contracts;
+using System.Web.Mvc;
 using CH.Domain.Contracts.Configuration;
-using CH.Domain.Models;
+using CH.Domain.Contracts.Queries;
 using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
 using Microsoft.Owin;
@@ -17,7 +17,7 @@ namespace CH.Website.Middleware
     {
         private const string _key = "CritterHeroes.Organization";
 
-        public static void UseOrganizationContext(this IAppBuilder builder, IAppDependencyResolver dependencyResolver)
+        public static void UseOrganizationContext(this IAppBuilder builder, IDependencyResolver dependencyResolver)
         {
             builder.Use<OrganizationContextMiddleware>(dependencyResolver);
         }
@@ -35,9 +35,9 @@ namespace CH.Website.Middleware
 
     public class OrganizationContextMiddleware : OwinMiddleware
     {
-        private IAppDependencyResolver _dependencyResolver;
+        private IDependencyResolver _dependencyResolver;
 
-        public OrganizationContextMiddleware(OwinMiddleware next, IAppDependencyResolver dependencyResolver)
+        public OrganizationContextMiddleware(OwinMiddleware next, IDependencyResolver dependencyResolver)
             : base(next)
         {
             ThrowIf.Argument.IsNull(dependencyResolver, "dependencyResolver");
@@ -46,8 +46,8 @@ namespace CH.Website.Middleware
 
         public override async Task Invoke(IOwinContext context)
         {
-            OrganizationContextQueryHandler queryHandler = _dependencyResolver.Resolve<OrganizationContextQueryHandler>();
-            IAppConfiguration appConfiguration = _dependencyResolver.Resolve<IAppConfiguration>();
+            IAsyncQueryHandler<OrganizationQuery, OrganizationContext> queryHandler = _dependencyResolver.GetService<IAsyncQueryHandler<OrganizationQuery, OrganizationContext>>();
+            IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
 
             OrganizationContext organizationContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
             {

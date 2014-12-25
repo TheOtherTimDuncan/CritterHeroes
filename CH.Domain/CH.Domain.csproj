@@ -120,6 +120,8 @@
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
     <Compile Include="Identity\ClaimExtensions.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
+    <Compile Include="Proxies\FakeAuthenticationManager.cs" />
+    <Compile Include="Proxies\FakeOwinContext.cs" />
     <Compile Include="Services\Commands\CommandResult.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
     <Compile Include="Contracts\Commands\IAsyncCommandHandler.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
-    <Compile Include="Contracts\IAppDependencyResolver.cs" />
     <Compile Include="Contracts\Identity\IApplicationSignInManager.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
     <Compile Include="Contracts\IStateSerializer.cs" />

@@ -5,10 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Services.Queries;
+using CH.Domain.StateManagement;
 using CH.Website;
 using CH.Website.Dependency;
+using CH.Website.Models.Account;
+using CH.Website.Services.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimpleInjector;
+using SimpleInjector.Diagnostics;
 
 namespace CH.Test
 {
@@ -16,58 +22,29 @@ namespace CH.Test
     public class DependencyTests
     {
         [TestMethod]
-        public void DependencyContainerIsBoundToAllQueryHandlers()
+        public void DependencyContainerIsValid()
         {
-            Type[] queryHandlerTypes = new Type[] { typeof(IQueryHandler<,>), typeof(IAsyncQueryHandler<,>) };
+            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            container.Verify();
 
-            IEnumerable<Type> handlerTypes =
-                from a in AppDomain.CurrentDomain.GetAssemblies()
-                from t in a.GetTypes()
-                where
-                    !t.IsInterface
-                    && !t.IsAbstract
-                    && t.GetInterfaces().Any(x => x.IsGenericType && (queryHandlerTypes.Any(h => h == x.GetGenericTypeDefinition())))
-                select t;
-
-            VerifyTypes(handlerTypes);
+            IEnumerable<DiagnosticResult> results = Analyzer.Analyze(container);
+            results.Any().Should().BeFalse(string.Join(Environment.NewLine, results.Select(x => x.Description)));
         }
 
         [TestMethod]
-        public void DependencyContainerIsBoundToAllCommandHandlers()
+        public void DependencyContainerCanResolveQueryHandlers()
         {
-            Type[] commandHandlerTypes = new Type[] { typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>) };
-
-            IEnumerable<Type> handlerTypes =
-                from a in AppDomain.CurrentDomain.GetAssemblies()
-                from t in a.GetTypes()
-                where
-                    !t.IsInterface
-                    && !t.IsAbstract
-                    && t.GetInterfaces().Any(x => x.IsGenericType && (commandHandlerTypes.Any(h => h == x.GetGenericTypeDefinition())))
-                select t;
-
-            VerifyTypes(handlerTypes);
+            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            container.GetRegistration(typeof(IQueryHandler<LoginQuery, LoginModel>)).Should().NotBeNull();
+            container.GetRegistration(typeof(IAsyncQueryHandler<UsernameQuery, CheckUsernameResult>)).Should().NotBeNull();
         }
 
-        public void VerifyTypes(IEnumerable<Type> types)
+        [TestMethod]
+        public void DependencyContainerCanResolveCommandHandlers()
         {
-            foreach (Type type in types)
-            {
-                try
-                {
-                    DependencyContainer.Get(type).Should().NotBeNull();
-                }
-                catch (ArgumentNullException ex)
-                {
-                    // Anything that depends on IHttpContext will throw an exception because the bound
-                    // class requires HttpContext.Current to not be null. Lets ignore that exception but 
-                    // rethrow any others
-                    if (ex.ParamName != "HttpContext.Current")
-                    {
-                        throw;
-                    }
-                }
-            }
+            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            container.GetRegistration(typeof(IAsyncCommandHandler<LoginModel>)).Should().NotBeNull();
+            container.GetRegistration(typeof(ICommandHandler<LogoutModel>)).Should().NotBeNull();
         }
     }
 }

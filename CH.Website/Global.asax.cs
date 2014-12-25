@@ -11,7 +11,7 @@ namespace CH.Website
     {
         protected void Application_Start()
         {
-            DependencyResolver.SetResolver(DependencyContainer.GetResolver());
+            DIConfig.ConfigureDependencyContainer();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

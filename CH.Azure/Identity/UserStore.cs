@@ -19,17 +19,11 @@ namespace CH.Azure.Identity
         private CloudStorageAccount _account;
 
         public UserStore(IAzureConfiguration azureConfiguration)
-            : this(azureConfiguration, "user")
-        {
-        }
-
-        public UserStore(IAzureConfiguration azureConfiguration, string tableName)
         {
             ThrowIf.Argument.IsNull(azureConfiguration, "azureConfiguration");
-            ThrowIf.Argument.IsNullOrEmpty(tableName, "tableName");
 
             this._account = CloudStorageAccount.Parse(azureConfiguration.ConnectionString);
-            this.TableName = tableName;
+            this.TableName = "user";
 
             this.userMapping = new IdentityUserMapping();
         }

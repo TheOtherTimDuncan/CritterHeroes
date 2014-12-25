@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using CH.Domain.Contracts;
 using TOTD.Mvc.Actions;
+using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Website.Utility
 {
@@ -12,9 +14,17 @@ namespace CH.Website.Utility
     {
         private UrlHelper _urlHelper;
 
-        public UrlGenerator(IHttpContext httpContext)
+        private UrlHelper Url
         {
-            this._urlHelper = new UrlHelper(httpContext.Request.RequestContext);
+            get
+            {
+                if (_urlHelper == null)
+                {
+                    ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
+                    _urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                }
+                return _urlHelper;
+            }
         }
 
         public string GenerateAbsoluteUrl<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController
@@ -29,17 +39,17 @@ namespace CH.Website.Utility
 
         private string GenerateAbsoluteUrl(ActionHelperResult actionHelperResult)
         {
-            return _urlHelper.Action(actionHelperResult.ActionName, actionHelperResult.ControllerName, actionHelperResult.RouteValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
+            return Url.Action(actionHelperResult.ActionName, actionHelperResult.ControllerName, actionHelperResult.RouteValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
         }
 
         public string GenerateSiteUrl<T>(Expression<Func<T, ActionResult>> actionSelector) where T : IController
         {
-            return _urlHelper.Action<T>(actionSelector);
+            return Url.Action<T>(actionSelector);
         }
 
         public string GenerateSiteUrl<T>(Expression<Func<T, Task<ActionResult>>> actionSelector) where T : IController
         {
-            return _urlHelper.Action<T>(actionSelector);
+            return Url.Action<T>(actionSelector);
         }
     }
 }

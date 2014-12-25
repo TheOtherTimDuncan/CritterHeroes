@@ -33,8 +33,6 @@ namespace CH.Website.Dependency.Modules
             Bind<IEmailLogger>().To<AzureEmailLogger>();
 
             Bind<IUserLogger>().To<AzureUserLogger>();
-
-            Bind<IAppDependencyResolver>().To<AppDependencyResolver>();
         }
     }
 }

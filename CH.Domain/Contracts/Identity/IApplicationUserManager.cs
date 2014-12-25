@@ -14,6 +14,11 @@ namespace CH.Domain.Contracts.Identity
             get;
         }
 
+        ApplicationUserManager UserManager
+        {
+            get;
+        }
+
         Task<IdentityUser> FindByEmailAsync(string email);
         Task<IdentityUser> FindByIdAsync(string userID); 
         Task<IdentityUser> FindByNameAsync(string userName);
