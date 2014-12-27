@@ -118,6 +118,8 @@
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Contracts\Logging\IEmailLogger.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
+    <Compile Include="Contracts\Storage\IMasterStorageContext.cs" />
+    <Compile Include="Contracts\Storage\ISecondaryStorageContext.cs" />
     <Compile Include="Identity\ClaimExtensions.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Proxies\FakeAuthenticationManager.cs" />
@@ -148,8 +150,8 @@
     <Compile Include="Contracts\Identity\IApplicationUserManager.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
     <Compile Include="Contracts\IStateManager.cs" />
-    <Compile Include="Contracts\IStorageContext.cs" />
-    <Compile Include="Contracts\IStorageContextForModel.cs" />
+    <Compile Include="Contracts\Storage\IStorageContext.cs" />
+    <Compile Include="Contracts\Storage\IStorageContextForModel.cs" />
     <Compile Include="Contracts\IStorageSource.cs" />
     <Compile Include="Handlers\DataStatus\BreedStatusHandler.cs" />
     <Compile Include="Handlers\DataStatus\AnimalStatusStatusHandler.cs" />

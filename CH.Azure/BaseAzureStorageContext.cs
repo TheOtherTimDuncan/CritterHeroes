@@ -5,76 +5,83 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Azure.Storage;
-using CH.Domain.Contracts;
 using CH.Domain.Contracts.Configuration;
+using CH.Domain.Contracts.Storage;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Azure
 {
-    public class AzureStorage : IStorageContext
+    public abstract class BaseAzureStorageContext<T> : IMasterStorageContext<T> where T : class
     {
         private const int batchSize = 100;
         private CloudTable _cloudTable = null;
         private IAzureConfiguration _configuration;
         private string _tableName;
 
-        public AzureStorage(string tableName,  IAzureConfiguration azureConfiguration)
+        public BaseAzureStorageContext(string tableName, IAzureConfiguration azureConfiguration)
         {
             ThrowIf.Argument.IsNullOrEmpty(tableName, "tableName");
             ThrowIf.Argument.IsNull(azureConfiguration, "azureConfiguration");
 
             this._tableName = tableName;
-            this._configuration=azureConfiguration;
+            this._configuration = azureConfiguration;
         }
 
-        public async Task<T> GetAsync<T>(string entityKey) where T : class
+        public abstract T FromStorage(DynamicTableEntity tableEntity);
+
+        public virtual DynamicTableEntity ToStorage(T entity)
         {
-            StorageEntity<T> storageEntity = StorageEntityFactory.GetStorageEntity<T>();
-            storageEntity.TableEntity = await GetAsync(storageEntity.PartitionKey, entityKey);
-            return storageEntity.Entity;
+            DynamicTableEntity tableEntity = new DynamicTableEntity(GetPartitionKey(), GetRowKey(entity));
+            return tableEntity;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
+        public async Task<T> GetAsync(string entityKey)
         {
-            StorageEntity<T> storageEntity = StorageEntityFactory.GetStorageEntity<T>();
+            DynamicTableEntity tableEntity = await GetAsync(GetPartitionKey(), entityKey);
+            if (tableEntity == null)
+            {
+                return null;
+            }
+
+            return FromStorage(tableEntity);
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
             CloudTable cloudTable = await GetCloudTable();
 
             var query =
                 from entity in cloudTable.CreateQuery<DynamicTableEntity>()
-                where entity.PartitionKey == storageEntity.PartitionKey
+                where entity.PartitionKey == GetPartitionKey()
                 select entity;
 
             List<T> result = new List<T>();
             foreach (DynamicTableEntity tableEntity in query)
             {
-                storageEntity.TableEntity = tableEntity;
-                result.Add(storageEntity.Entity);
+                result.Add(FromStorage(tableEntity));
             }
             return result;
         }
 
-        public async Task SaveAsync<T>(T entity) where T : class
+        public async Task SaveAsync(T entity)
         {
-            StorageEntity<T> storageEntity = StorageEntityFactory.GetStorageEntity<T>();
-            storageEntity.Entity = entity;
+            DynamicTableEntity tableEntity = ToStorage(entity);
 
             CloudTable cloudTable = await GetCloudTable();
 
-            TableOperation operation = TableOperation.InsertOrReplace(storageEntity.TableEntity);
+            TableOperation operation = TableOperation.InsertOrReplace(tableEntity);
             await cloudTable.ExecuteAsync(operation);
         }
 
-        public async Task SaveAsync<T>(IEnumerable<T> entities) where T : class
+        public async Task SaveAsync(IEnumerable<T> entities)
         {
-            StorageEntity<T> storageEntity = StorageEntityFactory.GetStorageEntity<T>();
-
             List<DynamicTableEntity> tableEntities = new List<DynamicTableEntity>();
             foreach (T entity in entities)
             {
-                storageEntity.Entity = entity;
-                tableEntities.Add(storageEntity.TableEntity);
+                DynamicTableEntity tableEntity = ToStorage(entity);
+                tableEntities.Add(tableEntity);
             }
 
             await ExecuteBatchAsync(tableEntities, (entity) =>
@@ -83,12 +90,9 @@ namespace CH.Azure
             });
         }
 
-        public async Task DeleteAsync<T>(T entity) where T : class
+        public async Task DeleteAsync(T entity)
         {
-            StorageEntity<T> storageEntity = StorageEntityFactory.GetStorageEntity<T>();
-            storageEntity.Entity = entity;
-
-            DynamicTableEntity tableEntity = await GetAsync(storageEntity.PartitionKey, storageEntity.RowKey);
+            DynamicTableEntity tableEntity = await GetAsync(GetPartitionKey(), GetRowKey(entity));
 
             if (tableEntity != null)
             {
@@ -98,14 +102,12 @@ namespace CH.Azure
             }
         }
 
-        public async Task DeleteAllAsync<T>() where T : class
+        public async Task DeleteAllAsync()
         {
-            StorageEntity<T> storageEntity = StorageEntityFactory.GetStorageEntity<T>();
-
             CloudTable cloudTable = await GetCloudTable();
             var entities =
                 from entity in cloudTable.CreateQuery<DynamicTableEntity>()
-                where entity.PartitionKey == storageEntity.PartitionKey
+                where entity.PartitionKey == GetPartitionKey()
                 select entity;
 
             await ExecuteBatchAsync(entities, (entity) =>
@@ -126,6 +128,13 @@ namespace CH.Azure
             _cloudTable = client.GetTableReference(_tableName);
             await _cloudTable.CreateIfNotExistsAsync();
             return _cloudTable;
+        }
+
+        protected abstract string GetRowKey(T entity);
+
+        protected virtual string GetPartitionKey()
+        {
+            return typeof(T).Name;
         }
 
         private async Task<DynamicTableEntity> GetAsync(string partitionKey, string rowKey)

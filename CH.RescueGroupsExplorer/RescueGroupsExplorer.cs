@@ -22,27 +22,11 @@ namespace CH.RescueGroupsExplorer
 
         private async void btnExecute_Click(object sender, EventArgs e)
         {
-            JObject response = null;
+            IEnumerable<JProperty> result = null;
             try
             {
-                RescueGroupsStorage storage = new RescueGroupsStorage(new RescueGroupsConfiguration());
-
-                JObject request = storage.CreateRequest(
-                  new JProperty("objectType", cmbType.Text),
-                new JProperty("objectAction", cmbAction.Text)
-                );
-
-                if (cbPrivate.Checked)
-                {
-                    IEnumerable<JProperty> loginResult = await storage.LoginAsync();
-                    foreach (JProperty property in loginResult)
-                    {
-                        request.Add(property);
-                    }
-                }
-
-                response = await storage.GetDataAsync(request);
-                storage.ValidateResponse(response);
+                RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage();
+                result = await storage.GetAllAsync(cmbType.Text, cmbAction.Text, cbPrivate.Checked);
             }
             catch (Exception ex)
             {
@@ -50,22 +34,22 @@ namespace CH.RescueGroupsExplorer
                 txtLog.AppendText(ex.ToString());
             }
 
-            if (response != null)
+            if (result != null)
             {
                 txtLog.AppendText(Environment.NewLine);
-                txtLog.AppendText(response.ToString());
+                txtLog.AppendText(result.ToString());
 
                 tree.Nodes.Clear();
-                AddObjectNodes(response, "JSON", tree.Nodes);
+                AddObjectNodes(result, "JSON", tree.Nodes);
             }
         }
 
-        public void AddObjectNodes(JObject root, string name, TreeNodeCollection parent)
+        public void AddObjectNodes(IEnumerable<JProperty> properties, string name, TreeNodeCollection parent)
         {
             TreeNode node = new TreeNode(name);
             parent.Add(node);
 
-            foreach (JProperty property in root.Properties())
+            foreach (JProperty property in properties)
             {
                 AddTokenNodes(property.Value, property.Name, node.Nodes);
             }
@@ -83,7 +67,7 @@ namespace CH.RescueGroupsExplorer
             }
             else if (token is JObject)
             {
-                AddObjectNodes((JObject)token, name, parent);
+                AddObjectNodes(((JObject)token).Properties(), name, parent);
             }
         }
 

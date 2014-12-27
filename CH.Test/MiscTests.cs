@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CH.Azure;
 using CH.Domain.Proxies;
 using CH.RescueGroups;
@@ -20,7 +18,7 @@ namespace CH.Test
         public void NoAsyncMethodsShouldReturnVoid()
         {
             AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(GetType().Assembly), "no async methods should be returning null");
-            AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(typeof(AzureStorage).Assembly), "no async methods should be returning null");
+            AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(typeof(BaseAzureStorageContext<>).Assembly), "no async methods should be returning null");
             AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(typeof(MvcApplication).Assembly), "no async methods should be returning null");
         }
     }

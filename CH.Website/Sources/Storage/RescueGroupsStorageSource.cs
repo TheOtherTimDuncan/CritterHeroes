@@ -13,7 +13,7 @@ namespace CH.Website.Sources.Storage
 
         public RescueGroupsStorageSource()
         {
-            this._storageContext = DependencyContainer.Using<RescueGroupsStorage>();
+            //this._storageContext = DependencyContainer.Using<RescueGroupsStorage>();
         }
 
         public int ID

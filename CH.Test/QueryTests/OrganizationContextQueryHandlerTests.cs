@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Domain.Contracts;
+using CH.Domain.Contracts.Storage;
 using CH.Domain.Models;
 using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;

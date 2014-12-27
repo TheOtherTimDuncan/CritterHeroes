@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CH.Azure;
 using CH.Azure.Storage;
@@ -11,10 +10,10 @@ using CH.Domain.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test.Azure.StorageEntityTests
+namespace CH.Test.Azure.StorageTests
 {
     [TestClass]
-    public class OrganizationStorageEntityTests : BaseStorageEntityTest
+    public class OrganizationStorageEntityTests : BaseAzureTest
     {
         [TestMethod]
         public void SuccessfullyMapsEntityToAndFromStorage()
@@ -33,21 +32,17 @@ namespace CH.Test.Azure.StorageEntityTests
                 }
             };
 
-            StorageEntity<Organization> storageEntity1 = StorageEntityFactory.GetStorageEntity<Organization>();
-            storageEntity1.Should().NotBeNull();
-            storageEntity1.Entity = organization;
+            OrganizationAzureStorage source =new  OrganizationAzureStorage( new AzureConfiguration());
+            OrganizationAzureStorage target = new OrganizationAzureStorage(new AzureConfiguration());
+            Organization result = target.FromStorage(source.ToStorage(organization));
 
-            StorageEntity<Organization> storageEntity2 = StorageEntityFactory.GetStorageEntity<Organization>();
-            storageEntity2.Should().NotBeNull();
-            storageEntity2.TableEntity = storageEntity1.TableEntity;
-
-            storageEntity2.Entity.ID.Should().Be(organization.ID);
-            storageEntity2.Entity.FullName.Should().Be(organization.FullName);
-            storageEntity2.Entity.ShortName.Should().Be(organization.ShortName);
-            storageEntity2.Entity.AzureName.Should().Be(organization.AzureName);
-            storageEntity2.Entity.LogoFilename.Should().Be(organization.LogoFilename);
-            storageEntity2.Entity.EmailAddress.Should().Be(organization.EmailAddress);
-            storageEntity2.Entity.SupportedCritters.Should().Equal(organization.SupportedCritters);
+            result.ID.Should().Be(organization.ID);
+            result.FullName.Should().Be(organization.FullName);
+            result.ShortName.Should().Be(organization.ShortName);
+            result.AzureName.Should().Be(organization.AzureName);
+            result.LogoFilename.Should().Be(organization.LogoFilename);
+            result.EmailAddress.Should().Be(organization.EmailAddress);
+            result.SupportedCritters.Should().Equal(organization.SupportedCritters);
         }
 
         [TestMethod]
@@ -63,15 +58,11 @@ namespace CH.Test.Azure.StorageEntityTests
                 SupportedCritters = null
             };
 
-            StorageEntity<Organization> storageEntity1 = StorageEntityFactory.GetStorageEntity<Organization>();
-            storageEntity1.Should().NotBeNull();
-            storageEntity1.Entity = organization;
+            OrganizationAzureStorage source = new OrganizationAzureStorage(new AzureConfiguration());
+            OrganizationAzureStorage target = new OrganizationAzureStorage(new AzureConfiguration());
+            Organization result = target.FromStorage(source.ToStorage(organization));
 
-            StorageEntity<Organization> storageEntity2 = StorageEntityFactory.GetStorageEntity<Organization>();
-            storageEntity2.Should().NotBeNull();
-            storageEntity2.TableEntity = storageEntity1.TableEntity;
-
-            storageEntity2.Entity.SupportedCritters.Should().BeNull();
+            result.SupportedCritters.Should().BeNull();
         }
 
         [TestMethod]

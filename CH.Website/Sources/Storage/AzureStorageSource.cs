@@ -14,7 +14,7 @@ namespace CH.Website.Sources.Storage
 
         public AzureStorageSource(string tableName)
         {
-            _storageContext = new AzureStorage(tableName, DependencyContainer.Using<IAzureConfiguration>());
+            //_storageContext = new AzureStorage(tableName, DependencyContainer.Using<IAzureConfiguration>());
         }
 
         public int ID

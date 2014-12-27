@@ -4,17 +4,16 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Contracts;
 using CH.Domain.Contracts.Configuration;
+using CH.Domain.Contracts.Storage;
 using CH.RescueGroups.Configuration;
-using CH.RescueGroups.Mappings;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace CH.RescueGroups
 {
-    public class RescueGroupsStorage : IStorageContext
+    public abstract class RescueGroupsStorage<T> : ISecondaryStorageContext<T> where T : class
     {
         private IRescueGroupsConfiguration _configuration;
 
@@ -24,22 +23,38 @@ namespace CH.RescueGroups
             _configuration = configuration;
         }
 
-        public async Task<T> GetAsync<T>(string entityID) where T : class
+        public abstract string ObjectType
+        {
+            get;
+        }
+
+        public virtual string ObjectAction
+        {
+            get
+            {
+                return "list";
+            }
+        }
+
+        public abstract bool IsPrivate
+        {
+            get;
+        }
+
+        public virtual async Task<T> GetAsync(string entityID)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            IRescueGroupsMapping<T> mapping = RescueGroupsMappingFactory.GetMapping<T>();
-
             JObject request = CreateRequest
             (
-                new JProperty("objectType", mapping.ObjectType),
-                new JProperty("objectAction", "list")
+                new JProperty("objectType", ObjectType),
+                new JProperty("objectAction", ObjectAction)
             );
 
-            if (mapping.IsPrivate)
+            if (IsPrivate)
             {
                 IEnumerable<JProperty> loginResult = await LoginAsync();
                 foreach (JProperty property in loginResult)
@@ -52,28 +67,30 @@ namespace CH.RescueGroups
             ValidateResponse(response);
 
             JObject data = response.Value<JObject>("data");
-            return mapping.ToModel(data.Properties());
+            return FromStorage(data.Properties());
         }
 
-        public async Task SaveAsync<T>(T entity) where T : class
+        public virtual async Task SaveAsync(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task SaveAsync<T>(IEnumerable<T> entities) where T : class
+        public virtual async Task SaveAsync(IEnumerable<T> entities)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync<T>(T entity) where T : class
+        public virtual async Task DeleteAsync(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAllAsync<T>() where T : class
+        public virtual async Task DeleteAllAsync()
         {
             throw new NotImplementedException();
         }
+
+        public abstract IEnumerable<T> FromStorage(IEnumerable<JProperty> tokens);
 
         public JObject CreateRequest(params JProperty[] requestProperties)
         {

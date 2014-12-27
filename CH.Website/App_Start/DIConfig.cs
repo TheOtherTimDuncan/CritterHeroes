@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using CH.Azure;
 using CH.Azure.Identity;
-using CH.Azure.Logging;
+using CH.Azure.Storage;
+using CH.Azure.Storage.Logging;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
@@ -14,18 +13,16 @@ using CH.Domain.Contracts.Email;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Contracts.Storage;
 using CH.Domain.Identity;
 using CH.Domain.Models;
 using CH.Domain.Proxies;
 using CH.Domain.Proxies.Configuration;
 using CH.Domain.Proxies.Email;
 using CH.Domain.StateManagement;
-using CH.RescueGroups;
 using CH.RescueGroups.Configuration;
 using CH.Website.Services.Dispatchers;
 using CH.Website.Utility;
-using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SimpleInjector.Extensions;
@@ -56,9 +53,12 @@ namespace CH.Website
         public static void RegisterAzureInterfaces(Container container)
         {
             container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
+
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();
             container.Register<IStorageContext<Organization>, OrganizationAzureStorage>();
+
+            container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), typeof(CH.Azure.Storage.OrganizationAzureStorage).Assembly);
         }
 
         public static void RegisterIdentityInterfaces(Container container)
@@ -95,7 +95,8 @@ namespace CH.Website
         public static void RegisterRescueGroupsInterfaces(Container container)
         {
             container.RegisterPerWebRequest<IRescueGroupsConfiguration, RescueGroupsConfiguration>();
-            container.Register<IStorageContext, RescueGroupsStorage>();
+
+            container.RegisterManyForOpenGeneric(typeof(ISecondaryStorageContext<>), typeof(CH.RescueGroups.Storage.AnimalStatusRescueGroupsStorage).Assembly);
         }
 
         public static void RegisterWebInterfaces(Container container)

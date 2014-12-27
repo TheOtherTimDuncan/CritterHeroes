@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CH.Domain.Models.Data;
 using CH.RescueGroups;
 using CH.RescueGroups.Configuration;
-using CH.RescueGroups.Mappings;
+using CH.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -16,18 +16,10 @@ namespace CH.Test.RescueGroups.MappingTests
     [TestClass]
     public class BreedMappingTests : BaseTest
     {
-        public IRescueGroupsMapping<Breed> Mapping
-        {
-            get
-            {
-                return RescueGroupsMappingFactory.GetMapping<Breed>();
-            }
-        }
-
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            Mapping.ObjectType.Should().Be("animalBreeds");
+            new BreedRescueGroupsStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalBreeds");
         }
 
         [TestMethod]
@@ -43,7 +35,7 @@ namespace CH.Test.RescueGroups.MappingTests
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<Breed> animalBreeds = Mapping.ToModel(data.Properties());
+            IEnumerable<Breed> animalBreeds = new BreedRescueGroupsStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
             animalBreeds.Should().HaveCount(2);
 
             Breed result1 = animalBreeds.FirstOrDefault(x => x.ID == animalStatus1.ID);
@@ -60,8 +52,8 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public async Task TestGetAnimalBreed()
         {
-            RescueGroupsStorage storage = new RescueGroupsStorage(new RescueGroupsConfiguration());
-            (await storage.GetAllAsync<Breed>()).ToList().Should().NotBeEmpty();
+            BreedRescueGroupsStorage storage = new BreedRescueGroupsStorage(new RescueGroupsConfiguration());
+            (await storage.GetAllAsync()).ToList().Should().NotBeEmpty();
         }
     }
 }

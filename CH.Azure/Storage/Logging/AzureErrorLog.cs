@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CH.Azure.Utility;
 using Elmah;
@@ -12,7 +11,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CH.Azure.Logging
+namespace CH.Azure.Storage.Logging
 {
     public class AzureErrorLog : ErrorLog
     {

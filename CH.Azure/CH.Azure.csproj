@@ -82,22 +82,18 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AzureException.cs" />
-    <Compile Include="AzureStorage.cs" />
-    <Compile Include="AzureStorageForModel.cs" />
+    <Compile Include="BaseAzureStorageContext.cs" />
     <Compile Include="Identity\IdentityUserMapping.cs" />
     <Compile Include="Identity\UserStore.cs" />
-    <Compile Include="Logging\AzureEmailLogger.cs" />
-    <Compile Include="Logging\AzureErrorLog.cs" />
-    <Compile Include="Logging\AzureUserLogger.cs" />
-    <Compile Include="OrganizationAzureStorage.cs" />
+    <Compile Include="Storage\Data\BaseDataAzureStorageContext.cs" />
+    <Compile Include="Storage\Logging\AzureEmailLogger.cs" />
+    <Compile Include="Storage\Logging\AzureErrorLog.cs" />
+    <Compile Include="Storage\Logging\AzureUserLogger.cs" />
+    <Compile Include="Storage\OrganizationAzureStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\Data\BreedStorageEntity.cs" />
-    <Compile Include="Storage\Data\AnimalStatusStorageEntity.cs" />
-    <Compile Include="Storage\Logging\EmailLogStorageEntity.cs" />
-    <Compile Include="Storage\Logging\UserLogStorageEntity.cs" />
-    <Compile Include="Storage\OrganizationStorageEntity.cs" />
-    <Compile Include="Storage\StorageEntity.cs" />
-    <Compile Include="Storage\StorageEntityFactory.cs" />
+    <Compile Include="Storage\Data\BreedAzureStorageContext.cs" />
+    <Compile Include="Storage\Data\AnimalStatusAzureStorageContext.cs" />
+    <Compile Include="Storage\Logging\BaseAzureLoggerStorageContext.cs" />
     <Compile Include="Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="Utility\PartitionKeyHelper.cs" />
   </ItemGroup>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Azure.Logging;
+using CH.Azure.Storage.Logging;
 using CH.Domain.Models;
 using CH.Domain.Models.Logging;
 using CH.Domain.Proxies.Configuration;

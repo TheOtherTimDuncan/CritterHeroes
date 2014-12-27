@@ -9,13 +9,13 @@ using CH.Domain.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test.Azure
+namespace CH.Test.Azure.StorageTests
 {
     [TestClass]
-    public class EmailLogTests : BaseTest
+    public class EmailLogStorageTests : BaseAzureTest
     {
         [TestMethod]
-        public async Task CanSaveAndRetrieveEmailLog()
+        public void SuccessfullyMapsEntityToAndFromStorage()
         {
             EmailLog emailLog = new EmailLog(DateTime.UtcNow, new EmailMessage()
             {
@@ -29,13 +29,11 @@ namespace CH.Test.Azure
             };
             emailLog.Message.To.Add("to@to.com");
 
-            AzureEmailLogger logger = new AzureEmailLogger(new AzureConfiguration());
-            await logger.LogEmailAsync(emailLog);
+            AzureEmailLogger source = new AzureEmailLogger(new AzureConfiguration());
+            AzureEmailLogger target = new AzureEmailLogger(new AzureConfiguration());
+            EmailLog result = target.FromStorage(source.ToStorage(emailLog));
 
-            IEnumerable<EmailLog> results = await logger.GetEmailLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
-
-            EmailLog result = results.FirstOrDefault(x => x.ID == emailLog.ID);
-            result.Should().NotBeNull();
+            result.ID.Should().Be(emailLog.ID);
             result.ForUserID.Should().Be(emailLog.ForUserID);
             result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
             result.WhenSentUtc.Kind.Should().Be(DateTimeKind.Utc);

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CH.Domain.Models.Data;
 using CH.RescueGroups;
 using CH.RescueGroups.Configuration;
-using CH.RescueGroups.Mappings;
+using CH.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -15,18 +15,10 @@ namespace CH.Test.RescueGroups.MappingTests
     [TestClass]
     public class AnimalStatusMappingTests : BaseTest
     {
-        public IRescueGroupsMapping<AnimalStatus> Mapping
-        {
-            get
-            {
-                return RescueGroupsMappingFactory.GetMapping<AnimalStatus>();
-            }
-        }
-
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            Mapping.ObjectType.Should().Be("animalStatuses");
+            new AnimalStatusRescueGroupsStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalStatuses");
         }
 
         [TestMethod]
@@ -42,7 +34,7 @@ namespace CH.Test.RescueGroups.MappingTests
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<AnimalStatus> animalStatuses = Mapping.ToModel(data.Properties());
+            IEnumerable<AnimalStatus> animalStatuses = new AnimalStatusRescueGroupsStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
             animalStatuses.Should().HaveCount(2);
 
             AnimalStatus result1 = animalStatuses.FirstOrDefault(x => x.ID == animalStatus1.ID);
@@ -59,8 +51,8 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public async Task TestGetAnimalStatus()
         {
-            RescueGroupsStorage storage = new RescueGroupsStorage(new RescueGroupsConfiguration());
-            (await storage.GetAllAsync<AnimalStatus>()).ToList().Should().NotBeEmpty();
+            AnimalStatusRescueGroupsStorage storage = new AnimalStatusRescueGroupsStorage(new RescueGroupsConfiguration());
+            (await storage.GetAllAsync()).ToList().Should().NotBeEmpty();
         }
     }
 }

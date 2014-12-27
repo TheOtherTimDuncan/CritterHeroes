@@ -3,63 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CH.Azure;
-using CH.Azure.Storage;
+using CH.Azure.Storage.Data;
 using CH.Domain.Models.Data;
+using CH.Domain.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test.Azure.StorageEntityTests
+namespace CH.Test.Azure.StorageTests
 {
     [TestClass]
-    public class BreedStorageEntityTests : BaseStorageEntityTest
+    public class BreedStorageTests : BaseAzureTest
     {
         [TestMethod]
         public void SuccessfullyMapsEntityToAndFromStorage()
         {
             Breed animalBreed = new Breed("0", "species", "breed");
 
-            StorageEntity<Breed> storageEntity1 = StorageEntityFactory.GetStorageEntity<Breed>();
-            storageEntity1.Should().NotBeNull();
-            storageEntity1.Entity = animalBreed;
+            BreedAzureStorageContext source = new BreedAzureStorageContext(new AzureConfiguration());
+            BreedAzureStorageContext target = new BreedAzureStorageContext(new AzureConfiguration());
+            Breed result = target.FromStorage(source.ToStorage(animalBreed));
 
-            StorageEntity<Breed> storageEntity2 = StorageEntityFactory.GetStorageEntity<Breed>();
-            storageEntity2.Should().NotBeNull();
-            storageEntity2.TableEntity = storageEntity1.TableEntity;
-
-            storageEntity2.Entity.ID.Should().Be(animalBreed.ID);
-            storageEntity2.Entity.Species.Should().Be(animalBreed.Species);
-            storageEntity2.Entity.BreedName.Should().Be(animalBreed.BreedName);
+            result.ID.Should().Be(animalBreed.ID);
+            result.Species.Should().Be(animalBreed.Species);
+            result.BreedName.Should().Be(animalBreed.BreedName);
         }
 
         [TestMethod]
         public async Task TestCRUDSingle()
         {
             Breed animalStatus = new Breed("0", "Species", "Breed");
-            AzureStorage storage = GetEntityAzureStorage();
-            await storage.SaveAsync<Breed>(animalStatus);
 
-            Breed result = await storage.GetAsync<Breed>(animalStatus.ID);
+            BreedAzureStorageContext storage = new BreedAzureStorageContext(new AzureConfiguration());
+            await storage.SaveAsync(animalStatus);
+
+            Breed result = await storage.GetAsync(animalStatus.ID);
             result.Should().NotBeNull();
             result.Species.Should().Be(animalStatus.Species);
             result.BreedName.Should().Be(animalStatus.BreedName);
 
-            await storage.DeleteAsync<Breed>(animalStatus);
-            AnimalStatus deleted = await storage.GetAsync<AnimalStatus>(animalStatus.ID);
+            await storage.DeleteAsync(animalStatus);
+            Breed deleted = await storage.GetAsync(animalStatus.ID);
             deleted.Should().BeNull();
         }
 
         [TestMethod]
         public async Task TestCRUDMultiple()
         {
-            AzureStorage storage = GetEntityAzureStorage();
+            BreedAzureStorageContext storage = new BreedAzureStorageContext(new AzureConfiguration());
 
             Breed animalBreed1 = new Breed("1", "Species1", "Breed1");
             Breed animalBreed2 = new Breed("2", "Species2", "Breed2");
 
-            await storage.SaveAsync<Breed>(new Breed[] { animalBreed1, animalBreed2 });
+            await storage.SaveAsync(new Breed[] { animalBreed1, animalBreed2 });
 
-            IEnumerable<Breed> results = await storage.GetAllAsync<Breed>();
+            IEnumerable<Breed> results = await storage.GetAllAsync();
             results.Count().Should().BeGreaterOrEqualTo(2);
 
             Breed result1 = results.FirstOrDefault(x => x.ID == animalBreed1.ID);
@@ -72,9 +69,9 @@ namespace CH.Test.Azure.StorageEntityTests
             result2.Species.Should().Be(animalBreed2.Species);
             result2.BreedName.Should().Be(animalBreed2.BreedName);
 
-            await storage.DeleteAllAsync<Breed>();
+            await storage.DeleteAllAsync();
 
-            IEnumerable<Breed> deleted = await storage.GetAllAsync<Breed>();
+            IEnumerable<Breed> deleted = await storage.GetAllAsync();
             deleted.Should().BeNullOrEmpty();
         }
     }

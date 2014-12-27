@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CH.Domain.Models.Data;
 using CH.RescueGroups;
 using CH.RescueGroups.Configuration;
-using CH.RescueGroups.Mappings;
+using CH.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -16,18 +16,10 @@ namespace CH.Test.RescueGroups.MappingTests
     [TestClass]
     public class SpeciesMappingTests : BaseTest
     {
-        public IRescueGroupsMapping<Species> Mapping
-        {
-            get
-            {
-                return RescueGroupsMappingFactory.GetMapping<Species>();
-            }
-        }
-
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            Mapping.ObjectType.Should().Be("animalSpecies");
+            new SpeciesRescueGroupsStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalSpecies");
         }
 
         [TestMethod]
@@ -55,7 +47,7 @@ namespace CH.Test.RescueGroups.MappingTests
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<Species> species = Mapping.ToModel(data.Properties());
+            IEnumerable<Species> species = new SpeciesRescueGroupsStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
             species.Should().HaveCount(2);
 
             Species result1 = species.FirstOrDefault(x => x.Name == species1.Name);
@@ -76,8 +68,8 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public async Task TestGetSpecies()
         {
-            RescueGroupsStorage storage = new RescueGroupsStorage(new RescueGroupsConfiguration());
-            (await storage.GetAllAsync<Species>()).ToList().Should().NotBeEmpty();
+            SpeciesRescueGroupsStorage storage = new SpeciesRescueGroupsStorage(new RescueGroupsConfiguration());
+            (await storage.GetAllAsync()).ToList().Should().NotBeEmpty();
         }
 
     }

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Queries;
+using CH.Domain.Contracts.Storage;
+using CH.Domain.Models.Data;
 using CH.Domain.Services.Queries;
 using CH.Domain.StateManagement;
 using CH.Website;
@@ -45,6 +47,13 @@ namespace CH.Test
             Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
             container.GetRegistration(typeof(IAsyncCommandHandler<LoginModel>)).Should().NotBeNull();
             container.GetRegistration(typeof(ICommandHandler<LogoutModel>)).Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void DependencyContainerCanResolveMasterListDataContexts()
+        {
+            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            container.GetRegistration(typeof(IMasterStorageContext<Breed>)).Should().NotBeNull();
         }
     }
 }

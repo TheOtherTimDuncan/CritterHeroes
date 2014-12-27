@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using CH.Azure.Logging;
+using System.Linq;
+using CH.Azure.Storage.Logging;
 using Elmah;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace CH.Test.Azure
 {

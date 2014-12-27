@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using CH.Domain.Contracts.Configuration;
 using CH.Domain.Models.Data;
 using Newtonsoft.Json.Linq;
 
-namespace CH.RescueGroups.Mappings
+namespace CH.RescueGroups.Storage
 {
-    public class SpeciesMapping : BaseRescueGroupsMapping<Species>
+    public class SpeciesRescueGroupsStorage : RescueGroupsStorage<Species>
     {
+        public SpeciesRescueGroupsStorage(IRescueGroupsConfiguration configuration)
+            : base(configuration)
+        {
+        }
+
         public override string ObjectType
         {
             get
@@ -25,7 +30,7 @@ namespace CH.RescueGroups.Mappings
             }
         }
 
-        public override IEnumerable<Species> ToModel(IEnumerable<JProperty> tokens)
+        public override IEnumerable<Species> FromStorage(IEnumerable<JProperty> tokens)
         {
             return
                 from t in tokens
