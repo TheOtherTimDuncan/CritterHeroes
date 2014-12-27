@@ -11,7 +11,7 @@ namespace CH.Domain.Proxies
     {
         private HttpContextBase _httpContext;
         
-        // We need to late-bind to HttpContext rather than do it in the
+        // We need to late-bind to HttpContext rather than do it in the constructor to assist with validating the dependency container
         private HttpContextBase Context
         {
             get
