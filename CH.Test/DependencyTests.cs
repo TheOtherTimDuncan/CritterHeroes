@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Dashboard;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Contracts.Storage;
 using CH.Domain.Models.Data;
 using CH.Domain.Services.Queries;
-using CH.Domain.StateManagement;
-using CH.Website;
-using CH.Website.Dependency;
 using CH.Website.Models.Account;
 using CH.Website.Services.Queries;
 using FluentAssertions;

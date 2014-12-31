@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using CH.Website.Dependency;
 using CH.Website.Middleware;
 using Owin;
 
