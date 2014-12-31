@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using CH.Domain.Models.Status;
 
-namespace CH.Website.Areas.Admin.Json
+namespace CH.Domain.Models.Json
 {
-    public class DashboardStorageItemStatus
+    public class DashboardItemStatus
     {
-        public int StorageID
+        public StorageItem TargetItem
         {
             get;
             set;
         }
 
-        public int ValidCount
+        public StorageItem SourceItem
         {
             get;
             set;
         }
 
-        public int InvalidCount
+        public int DataItemCount
         {
             get;
             set;

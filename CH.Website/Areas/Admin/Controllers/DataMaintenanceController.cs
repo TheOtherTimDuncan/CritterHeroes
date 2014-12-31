@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Dashboard;
 using CH.Domain.Contracts.Queries;
-using CH.Domain.Handlers.DataStatus;
 using CH.Domain.Identity;
-using CH.Domain.Models.Status;
-using CH.Website.Areas.Admin.Json;
+using CH.Domain.Models.Json;
+using CH.Domain.Services.Commands;
 using CH.Website.Areas.Admin.Models;
+using CH.Website.Areas.Admin.Sources;
 using CH.Website.Controllers;
 using CH.Website.Sources.Storage;
 using CH.Website.Utility;
@@ -35,7 +36,7 @@ namespace CH.Website.Areas.Admin.Controllers
 
             model.Items =
                 from m in DataModelSource.GetAll()
-                select new DashboardItemModel(m.Value, m.Title);
+                select new DashboardItemModel(m.ID, m.Title);
 
             return View(model);
         }
@@ -44,24 +45,13 @@ namespace CH.Website.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> Refresh(int modelID)
         {
-            DataModelSource modelSource = DataModelSource.FromValue(modelID);
+            DataModelSource modelSource = DataModelSource.FromID(modelID);
             if (modelSource == null)
             {
                 return Json(null);
             }
 
-            IStorageSource target = GetTarget();
-            IStorageSource source = GetSource();
-            StatusContext statusContext = GetStatusContext();
-
-            IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.GetModelStatusAsync(statusContext, source, target);
-
-            DashboardItemStatus model = new DashboardItemStatus();
-            model.TargetItem = dataStatus.Items.First(x => x.StorageID == target.ID);
-            model.SourceItem = dataStatus.Items.First(x => x.StorageID == source.ID);
-            model.DataItemCount = dataStatus.DataItemCount;
-
+            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), OrganizationContext);
             return Json(model);
         }
 
@@ -69,43 +59,26 @@ namespace CH.Website.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> Sync(int modelID)
         {
-            DataModelSource modelSource = DataModelSource.FromValue(modelID);
+            DataModelSource modelSource = DataModelSource.FromID(modelID);
             if (modelSource == null)
             {
                 return Json(null);
             }
 
-            IStorageSource target = GetTarget();
-            IStorageSource source = GetSource();
-            StatusContext statusContext = GetStatusContext();
+            CommandResult commandResult = await modelSource.ExecuteSyncAsync(DependencyResolver.Current, OrganizationContext);
 
-            IDataStatusHandler statusHandler = modelSource.StatusHandler;
-            DataStatusModel dataStatus = await statusHandler.SyncModelAsync(statusContext, source, target);
-
-            DashboardItemStatus model = new DashboardItemStatus();
-            model.TargetItem = dataStatus.Items.First(x => x.StorageID == target.ID);
-            model.SourceItem = dataStatus.Items.First(x => x.StorageID == source.ID);
-            model.DataItemCount = dataStatus.DataItemCount;
-
+            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), OrganizationContext);
             return Json(model);
         }
 
         private IStorageSource GetTarget()
         {
-            return new AzureStorageSource(OrganizationContext.AzureName);
+            return new AzureStorageSource();
         }
 
         private IStorageSource GetSource()
         {
             return new RescueGroupsStorageSource();
-        }
-
-        private StatusContext GetStatusContext()
-        {
-            return new StatusContext()
-            {
-                SupportedCritters = OrganizationContext.SupportedCritters
-            };
         }
     }
 }

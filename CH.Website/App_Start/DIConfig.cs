@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ using CH.Azure.Storage.Logging;
 using CH.Domain.Contracts;
 using CH.Domain.Contracts.Commands;
 using CH.Domain.Contracts.Configuration;
+using CH.Domain.Contracts.Dashboard;
 using CH.Domain.Contracts.Email;
 using CH.Domain.Contracts.Identity;
 using CH.Domain.Contracts.Logging;
@@ -19,6 +21,7 @@ using CH.Domain.Models;
 using CH.Domain.Proxies;
 using CH.Domain.Proxies.Configuration;
 using CH.Domain.Proxies.Email;
+using CH.Domain.Services.CommandHandlers.Dashboard;
 using CH.Domain.StateManagement;
 using CH.RescueGroups.Configuration;
 using CH.Website.Services.Dispatchers;
@@ -75,9 +78,21 @@ namespace CH.Website
 
             container.RegisterManyForOpenGeneric(typeof(IQueryHandler<,>), typeof(IQueryHandler<,>).Assembly, Assembly.GetExecutingAssembly());
             container.RegisterManyForOpenGeneric(typeof(IAsyncQueryHandler<,>), typeof(IQueryHandler<,>).Assembly, Assembly.GetExecutingAssembly());
+            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusQueryHandler<>), typeof(IDashboardStatusQueryHandler<>).Assembly, Assembly.GetExecutingAssembly());
 
             container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), typeof(ICommandHandler<>).Assembly, Assembly.GetExecutingAssembly());
             container.RegisterManyForOpenGeneric(typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>).Assembly, Assembly.GetExecutingAssembly());
+
+            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusCommandHandler<>), typeof(IDashboardStatusCommandHandler<>).Assembly, Assembly.GetExecutingAssembly());
+            container.ResolveUnregisteredType += (s, e) =>
+            {
+                if (e.UnregisteredServiceType.IsGenericType && (e.UnregisteredServiceType.GetGenericTypeDefinition() == typeof(IDashboardStatusCommandHandler<>)))
+                {
+                    Type genericType = typeof(DashboardStatusCommandHandler<>).MakeGenericType(e.UnregisteredServiceType.GetGenericArguments()[0]);
+                    InstanceProducer producer = container.GetRegistration(genericType, true);
+                    e.Register(producer.Registration);
+                }
+            };
         }
 
         public static void RegisterMiscInterfaces(Container container)

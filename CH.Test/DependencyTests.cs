@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CH.Domain.Contracts.Commands;
+using CH.Domain.Contracts.Dashboard;
 using CH.Domain.Contracts.Queries;
 using CH.Domain.Contracts.Storage;
 using CH.Domain.Models.Data;
@@ -54,6 +55,18 @@ namespace CH.Test
         {
             Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
             container.GetRegistration(typeof(IMasterStorageContext<Breed>)).Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void DependencyContainerCanResolveDashboardHandlers()
+        {
+            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            container.GetRegistration(typeof(IDashboardStatusQueryHandler<Breed>)).Should().NotBeNull();
+            container.GetRegistration(typeof(IDashboardStatusCommandHandler<AnimalStatus>)).Should().NotBeNull();
+
+            InstanceProducer producer = container.GetRegistration(typeof(IDashboardStatusCommandHandler<Breed>));
+            producer.Should().NotBeNull();
+            producer.Registration.ImplementationType.Should().Be(typeof(CH.Domain.Services.CommandHandlers.Dashboard.BreedDashboardStatusCommandHandler));
         }
     }
 }

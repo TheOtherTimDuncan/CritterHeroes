@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Models.Status;
+using CH.Domain.Contracts.Storage;
 using CH.Domain.Models.Data;
+using CH.Domain.Models.Status;
 
-namespace CH.Domain.Handlers.DataStatus
+namespace CH.Domain.Services.QueryHandlers.Dashboard
 {
-    public class AnimalStatusStatusHandler : BaseModelStatusHandler<AnimalStatus>
+    public class AnimalStatusDashboardItemStatusQueryHandler : BaseDashboardItemStatusQueryHandler<AnimalStatus>
     {
+        public AnimalStatusDashboardItemStatusQueryHandler(IMasterStorageContext<AnimalStatus> source, ISecondaryStorageContext<AnimalStatus> target)
+            : base(source, target)
+        {
+        }
+
         protected override void FillDataItem(DataItem dataItem, AnimalStatus source)
         {
             dataItem.Value = source.Name;

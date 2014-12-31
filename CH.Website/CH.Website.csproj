@@ -180,13 +180,13 @@
     <Compile Include="App_Start\Startup.Middleware.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\Admin\Sources\AnimalStatusDataModelSource.cs" />
+    <Compile Include="Areas\Admin\Sources\BreedDataModelSource.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DataMaintenanceController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorLogController.cs" />
-    <Compile Include="Areas\Admin\Json\DashboardItemStatus.cs" />
-    <Compile Include="Areas\Admin\Json\DashboardStorageItemStatus.cs" />
     <Compile Include="Areas\Admin\Models\DashboardItemModel.cs" />
     <Compile Include="Areas\Admin\Models\DashboardModel.cs" />
     <Compile Include="Areas\Admin\Models\DashboardStorageItem.cs" />
@@ -240,7 +240,7 @@
     <Compile Include="Sources\Storage\RescueGroupsStorageSource.cs" />
     <Compile Include="Utility\AreaName.cs" />
     <Compile Include="Utility\ButtonCss.cs" />
-    <Compile Include="Utility\DataModelSource.cs" />
+    <Compile Include="Areas\Admin\Sources\DataModelSource.cs" />
     <Compile Include="Utility\ElementExtensions.cs" />
     <Compile Include="Utility\HtmlHelperExtensions.cs" />
     <Compile Include="Utility\UrlGenerator.cs" />

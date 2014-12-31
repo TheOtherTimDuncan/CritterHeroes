@@ -4,7 +4,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CH.Domain.Models.Data
 {
-    public class Breed
+    public class Breed : BaseDataItem<Breed>
     {
         public Breed(string id, string species, string breedName)
         {
@@ -39,7 +39,7 @@ namespace CH.Domain.Models.Data
             return this.ID.GetHashCode();
         }
 
-        public bool Equals(Breed other)
+        public override bool Equals(Breed other)
         {
             if (other == null)
             {

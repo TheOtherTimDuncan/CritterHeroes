@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using CH.Azure;
-using CH.Domain.Contracts;
-using CH.Domain.Contracts.Configuration;
-using CH.Website.Dependency;
+using CH.Domain.Contracts.Dashboard;
 
 namespace CH.Website.Sources.Storage
 {
     public class AzureStorageSource : IStorageSource
     {
-        public IStorageContext _storageContext;
-
-        public AzureStorageSource(string tableName)
+        public AzureStorageSource()
         {
-            //_storageContext = new AzureStorage(tableName, DependencyContainer.Using<IAzureConfiguration>());
         }
 
         public int ID
@@ -22,14 +15,6 @@ namespace CH.Website.Sources.Storage
             get
             {
                 return 0;
-            }
-        }
-
-        public IStorageContext StorageContext
-        {
-            get
-            {
-                return _storageContext;
             }
         }
 

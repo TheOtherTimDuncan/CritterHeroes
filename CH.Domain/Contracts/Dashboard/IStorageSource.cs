@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CH.Domain.Contracts
+namespace CH.Domain.Contracts.Dashboard
 {
     public interface IStorageSource
     {
@@ -11,11 +11,6 @@ namespace CH.Domain.Contracts
         }
 
         string Title
-        {
-            get;
-        }
-
-        IStorageContext StorageContext
         {
             get;
         }

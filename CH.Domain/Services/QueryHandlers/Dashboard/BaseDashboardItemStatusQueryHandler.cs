@@ -1,18 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Contracts;
+using CH.Domain.Contracts.Dashboard;
+using CH.Domain.Contracts.Storage;
+using CH.Domain.Models.Json;
 using CH.Domain.Models.Status;
+using CH.Domain.Services.Queries;
 
-namespace CH.Domain.Handlers.DataStatus
+namespace CH.Domain.Services.QueryHandlers.Dashboard
 {
-    public abstract class BaseModelStatusHandler<T> : IDataStatusHandler where T : class
+    public abstract class BaseDashboardItemStatusQueryHandler<T> : IDashboardStatusQueryHandler<T> where T : class, IDataItem<T>
     {
-        public async Task<DataStatusModel> GetModelStatusAsync(StatusContext statusContext, IStorageSource source, IStorageSource target)
+        private IMasterStorageContext<T> _target;
+        private ISecondaryStorageContext<T> _source;
+
+        public BaseDashboardItemStatusQueryHandler(IMasterStorageContext<T> target, ISecondaryStorageContext<T> source)
         {
-            IEnumerable<DataResult> dataResults = await Task.WhenAll(GetSourceItems(statusContext, source), GetTargetItems(statusContext, target));
+            this._source = source;
+            this._target = target;
+        }
+
+        public async Task<DashboardItemStatus> RetrieveAsync(DashboardStatusQuery<T> query)
+        {
+            IEnumerable<DataResult> dataResults = await Task.WhenAll(GetSourceItems(query, _source), GetTargetItems(query, _target));
 
             // Merge data items into single list with no duplicates
             IEnumerable<T> master = Enumerable.Empty<T>();
@@ -22,8 +33,8 @@ namespace CH.Domain.Handlers.DataStatus
             }
             master = Sort(master);
 
-            DataStatusModel model = new DataStatusModel();
-            model.Items =
+            IEnumerable<StorageItem> storageItems =
+            (
                 from r in dataResults
                 select new StorageItem()
                 {
@@ -31,38 +42,35 @@ namespace CH.Domain.Handlers.DataStatus
                     Items =
                         from m in master
                         select CreateDataItem(r.Items, m)
-                };
+                }
+            ).ToList();
+
+            DashboardItemStatus model = new DashboardItemStatus();
+            model.TargetItem = storageItems.First(x => x.StorageID == query.Target.ID);
+            model.SourceItem = storageItems.First(x => x.StorageID == query.Source.ID);
             model.DataItemCount = master.Count();
 
             return model;
         }
 
-        public virtual async Task<DataStatusModel> SyncModelAsync(StatusContext statusContext, IStorageSource source, IStorageSource target)
-        {
-            await target.StorageContext.DeleteAllAsync<T>();
-            IEnumerable<T> data = await source.StorageContext.GetAllAsync<T>();
-            await target.StorageContext.SaveAsync<T>(data);
-            return await GetModelStatusAsync(statusContext, source, target);
-        }
-
         protected abstract void FillDataItem(DataItem dataItem, T source);
         protected abstract IEnumerable<T> Sort(IEnumerable<T> source);
 
-        protected virtual async Task<DataResult> GetSourceItems(StatusContext statusContext, IStorageSource storageSource)
+        protected virtual async Task<DataResult> GetSourceItems(DashboardStatusQuery<T> query, IStorageContext<T> storageContext)
         {
             return new DataResult()
             {
-                StorageID = storageSource.ID,
-                Items = await storageSource.StorageContext.GetAllAsync<T>()
+                StorageID = query.Source.ID,
+                Items = await storageContext.GetAllAsync()
             };
         }
 
-        protected virtual async Task<DataResult> GetTargetItems(StatusContext statusContext, IStorageSource storageSource)
+        protected virtual async Task<DataResult> GetTargetItems(DashboardStatusQuery<T> query, IStorageContext<T> storageContext)
         {
             return new DataResult()
             {
-                StorageID = storageSource.ID,
-                Items = await storageSource.StorageContext.GetAllAsync<T>()
+                StorageID = query.Target.ID,
+                Items = await storageContext.GetAllAsync()
             };
         }
 

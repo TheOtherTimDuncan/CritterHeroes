@@ -191,9 +191,9 @@
     <Compile Include="EmailTests\EmailBuilderTests.cs" />
     <Compile Include="EmailTests\SendUsernameChangedEmailTests.cs" />
     <Compile Include="MiscTests.cs" />
-    <Compile Include="Models\BreedTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
-    <Compile Include="Models\DataStatusTests.cs" />
+    <Compile Include="Models\BreedTests.cs" />
+    <Compile Include="QueryTests\DataStatusQueryHandlerTests.cs" />
     <Compile Include="Models\SpeciesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandTests\LoginCommandHandlerTests.cs">
@@ -248,9 +248,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandHandlerTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

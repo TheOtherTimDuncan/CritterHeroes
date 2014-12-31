@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CH.Domain.Contracts;
+using CH.Domain.Contracts.Dashboard;
 
 namespace CH.Website.Areas.Admin.Models
 {
