@@ -66,10 +66,7 @@ namespace CH.Website
             // Bootstrap
             Bundle boostrapScript = new ScriptBundle("~/bundles/bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
                 .Include("~/Scripts/bootstrap.*");
-            Bundle bootstrapCss = new StyleBundle("~/Content/bootstrap", "//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/yeti/bootstrap.min.css")
-                .Include("~/Content/bootstrap.*");
             bundles.Add(boostrapScript);
-            bundles.Add(bootstrapCss);
 
             // Respond javascript
             Bundle respondBundle = new ScriptBundle("~/bundles/respond", "//ajax.aspnetcdn.com/ajax/respond/1.2.0/respond.js")
