@@ -12,19 +12,66 @@ footer{
     font-size: @font-size-small;
     border-top: solid thin @hr-border;
     padding-top: @padding-base-vertical;
+
+    div{
+        .container;
+    }
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: @padding-large-horizontal;
     padding-right: @padding-large-horizontal;
+    .container
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+nav{
+    .navbar;
+    .navbar-inverse;
+    .navbar-fixed-top;
+
+    >div{
+        .container;
+    }
+
+    header{
+        .navbar-header;
+
+        .logo-small{
+            .pull-left;
+        }
+    }
+}
+
+.form-horizontal{
+
+    .control-label{
+        .make-sm-column(2);
+    }
+
+    .input-container{
+        .make-md-column(10);
+    }
+
+    .input-container.offset{
+        .make-sm-column-offset(2);
+    }
+
+    input, select, textarea{
+        max-width: 280px;
+    }
+
+    input[type="submit"]{
+        .btn;
+        .btn-primary;
+        .btn-sm;
+    }
+
+    a.primary{
+        .btn;
+        .btn-primary;
+        .btn-sm;
+    }
 }
 
 ul {
@@ -35,11 +82,32 @@ ul {
     background-color: #b8edff;
     padding-top: @padding-large-vertical;
     padding-bottom: @padding-large-vertical;
-    display: none;
     margin-bottom: 20px;
 
-    @media (min-width: @screen-sm-min) {
-        display: block;
+    .hidden-sm;
+    .hidden-xs;
+
+    .banner-container{
+        .container;
+
+        .banner-row{
+            .row;
+
+            .logo-col{
+                .make-sm-column(4);
+                .make-md-column(2);
+            }
+
+            .quote-col{
+                .make-sm-column(4);
+                .make-md-column(4);
+            }
+        }
+    }
+
+    blockquote{
+        border-style: none;
+        margin-bottom: 0;
     }
 }
 
@@ -53,11 +121,6 @@ ul {
 
 .text-transparent{
     color: @body-bg;
-}
-
-.page-banner blockquote {
-    border-style: none;
-    margin-bottom: 0;
 }
 
 /* Misc */
@@ -96,11 +159,10 @@ ul {
     height: 36px;
     margin-top: 5px;
     margin-left: 5px;
-    display: none;
+    margin-right: 5px;
 
-    @media (max-width: @screen-sm-min) {
-        display: block;
-    }
+    .visible-xs;
+    .visible-sm;
 }
 
 .border-right {

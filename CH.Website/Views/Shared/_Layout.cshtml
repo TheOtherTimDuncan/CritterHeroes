@@ -40,12 +40,12 @@
     @{Html.RenderHomeAction(x => x.Menu());}
     @{Html.RenderHomeAction(x => x.Header());}
 
-    <div class="container body-content">
+    <div class="body-content">
         @RenderBody()
     </div>
 
     <footer>
-        <div class="container">
+        <div>
             <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Critter Heroes</p>
         </div>
     </footer>

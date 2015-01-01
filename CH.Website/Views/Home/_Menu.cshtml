@@ -1,17 +1,17 @@
 ﻿@model CH.Website.Models.MenuModel
 @using CH.Domain.Identity
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
+<nav>
+    <div>
+        <header>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img src="@Model.LogoUrl" class="logo-small pull-left" />
+            <img src="@Model.LogoUrl" class="logo-small" />
             @Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text(Model.OrganizationShortName).Class("navbar-brand")
-        </div>
+        </header>
         <div class="navbar-collapse collapse">
             @{
                 var menuNav = Html.FluentHtml().BootstrapNav()
@@ -85,4 +85,4 @@
             @loginNav
         </div>
     </div>
-</div>
+</nav>
