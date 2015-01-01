@@ -40,28 +40,42 @@ namespace CH.Website
         {
             Container container = new Container();
 
-            RegisterAzureInterfaces(container);
-            RegisterIdentityInterfaces(container);
-            RegisterQueryAndCommandHandlers(container);
-            RegisterMiscInterfaces(container);
-            RegisterRescueGroupsInterfaces(container);
-            RegisterWebInterfaces(container);
+            List<Assembly> defaultAssemblies = new List<Assembly>();
+            defaultAssemblies.Add(typeof(RescueGroupsConfiguration).Assembly);
+            defaultAssemblies.Add(typeof(AzureUserLogger).Assembly);
+            defaultAssemblies.Add(typeof(IHttpContext).Assembly);
+            defaultAssemblies.Add(Assembly.GetExecutingAssembly());
 
-            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
-            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+            container.RegisterManyForOpenGeneric(typeof(IStateManager<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(ISecondaryStorageContext<>), defaultAssemblies);
 
-            return container;
-        }
-
-        public static void RegisterAzureInterfaces(Container container)
-        {
+            container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();
             container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
+            container.RegisterPerWebRequest<IEmailConfiguration, EmailConfiguration>();
+            container.RegisterPerWebRequest<IRescueGroupsConfiguration, RescueGroupsConfiguration>();
+
+            container.Register<IStateSerializer, StateSerializer>();
+            container.Register<IEmailClient, EmailClientProxy>();
+
+            container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
+            container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
+
+            container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
+            container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
 
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();
             container.Register<IStorageContext<Organization>, OrganizationAzureStorage>();
 
-            container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), typeof(CH.Azure.Storage.OrganizationAzureStorage).Assembly);
+            RegisterIdentityInterfaces(container);
+            RegisterQueryAndCommandHandlers(container, defaultAssemblies);
+            RegisterContextSensitiveInterfaces(container);
+
+            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+
+            return container;
         }
 
         public static void RegisterIdentityInterfaces(Container container)
@@ -71,19 +85,16 @@ namespace CH.Website
             container.Register<IApplicationSignInManager, ApplicationSignInManager>();
         }
 
-        public static void RegisterQueryAndCommandHandlers(Container container)
+        public static void RegisterQueryAndCommandHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)
         {
-            container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
-            container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
+            container.RegisterManyForOpenGeneric(typeof(IQueryHandler<,>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IAsyncQueryHandler<,>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusQueryHandler<>), defaultAssemblies);
 
-            container.RegisterManyForOpenGeneric(typeof(IQueryHandler<,>), typeof(IQueryHandler<,>).Assembly, Assembly.GetExecutingAssembly());
-            container.RegisterManyForOpenGeneric(typeof(IAsyncQueryHandler<,>), typeof(IQueryHandler<,>).Assembly, Assembly.GetExecutingAssembly());
-            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusQueryHandler<>), typeof(IDashboardStatusQueryHandler<>).Assembly, Assembly.GetExecutingAssembly());
+            container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IAsyncCommandHandler<>), defaultAssemblies);
 
-            container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), typeof(ICommandHandler<>).Assembly, Assembly.GetExecutingAssembly());
-            container.RegisterManyForOpenGeneric(typeof(IAsyncCommandHandler<>), typeof(ICommandHandler<>).Assembly, Assembly.GetExecutingAssembly());
-
-            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusCommandHandler<>), typeof(IDashboardStatusCommandHandler<>).Assembly, Assembly.GetExecutingAssembly());
+            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusCommandHandler<>), defaultAssemblies);
             container.ResolveUnregisteredType += (s, e) =>
             {
                 if (e.UnregisteredServiceType.IsGenericType && (e.UnregisteredServiceType.GetGenericTypeDefinition() == typeof(IDashboardStatusCommandHandler<>)))
@@ -95,30 +106,8 @@ namespace CH.Website
             };
         }
 
-        public static void RegisterMiscInterfaces(Container container)
+        public static void RegisterContextSensitiveInterfaces(Container container)
         {
-            container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();
-
-            container.Register<IStateManager<OrganizationContext>, OrganizationStateManager>();
-            container.Register<IStateManager<UserContext>, UserStateManager>();
-            container.Register<IStateSerializer, StateSerializer>();
-
-            container.RegisterPerWebRequest<IEmailConfiguration, EmailConfiguration>();
-            container.Register<IEmailClient, EmailClientProxy>();
-        }
-
-        public static void RegisterRescueGroupsInterfaces(Container container)
-        {
-            container.RegisterPerWebRequest<IRescueGroupsConfiguration, RescueGroupsConfiguration>();
-
-            container.RegisterManyForOpenGeneric(typeof(ISecondaryStorageContext<>), typeof(CH.RescueGroups.Storage.AnimalStatusRescueGroupsStorage).Assembly);
-        }
-
-        public static void RegisterWebInterfaces(Container container)
-        {
-            container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
-            container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
-
             container.RegisterPerWebRequest(() =>
             {
                 if (container.IsVerifying())
