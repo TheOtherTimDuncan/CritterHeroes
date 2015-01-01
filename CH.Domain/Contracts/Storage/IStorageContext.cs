@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CH.Domain.Contracts
+namespace CH.Domain.Contracts.Storage
 {
-    public interface IStorageContext
+    public interface IStorageContext<T> where T : class
     {
-        Task<T> GetAsync<T>(string entityID) where T : class;
-        Task<IEnumerable<T>> GetAllAsync<T>() where T : class;
+        Task<T> GetAsync(string entityID);
+        Task<IEnumerable<T>> GetAllAsync();
 
-        Task SaveAsync<T>(T entity) where T : class;
-        Task SaveAsync<T>(IEnumerable<T> entities) where T : class;
+        Task SaveAsync(T entity);
+        Task SaveAsync(IEnumerable<T> entities);
 
-        Task DeleteAsync<T>(T entity) where T : class;
-        Task DeleteAllAsync<T>() where T : class;
+        Task DeleteAsync(T entity);
+        Task DeleteAllAsync();
     }
 }

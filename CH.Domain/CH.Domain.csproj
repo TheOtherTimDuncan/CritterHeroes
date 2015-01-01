@@ -158,7 +158,6 @@
     <Compile Include="Contracts\IHttpContext.cs" />
     <Compile Include="Contracts\IStateManager.cs" />
     <Compile Include="Contracts\Storage\IStorageContext.cs" />
-    <Compile Include="Contracts\Storage\IStorageContextForModel.cs" />
     <Compile Include="Contracts\Dashboard\IStorageSource.cs" />
     <Compile Include="Identity\IdentityRole.cs" />
     <Compile Include="Identity\IdentityUser.cs" />
