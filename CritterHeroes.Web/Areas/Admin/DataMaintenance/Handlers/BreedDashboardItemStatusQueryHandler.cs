@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Data;
 using CritterHeroes.Web.Models.Status;
-using CritterHeroes.Web.Common.Services.Queries;
 
-namespace CritterHeroes.Web.Common.Services.QueryHandlers.Dashboard
+namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers
 {
     public class BreedDashboardItemStatusQueryHandler : BaseDashboardItemStatusQueryHandler<Breed>
     {

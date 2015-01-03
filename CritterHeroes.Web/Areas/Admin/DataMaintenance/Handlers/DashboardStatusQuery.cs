@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
 
-namespace CritterHeroes.Web.Common.Services.Queries
+namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers
 {
     public class DashboardStatusQuery<T> where T : class, IDataItem<T>
     {

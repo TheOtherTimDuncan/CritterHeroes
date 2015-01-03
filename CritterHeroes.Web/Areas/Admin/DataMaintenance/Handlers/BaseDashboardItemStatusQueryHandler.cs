@@ -6,9 +6,8 @@ using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Json;
 using CritterHeroes.Web.Models.Status;
-using CritterHeroes.Web.Common.Services.Queries;
 
-namespace CritterHeroes.Web.Common.Services.QueryHandlers.Dashboard
+namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers
 {
     public abstract class BaseDashboardItemStatusQueryHandler<T> : IDashboardStatusQueryHandler<T> where T : class, IDataItem<T>
     {

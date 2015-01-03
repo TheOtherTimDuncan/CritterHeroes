@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models;
-using CritterHeroes.Web.Common.StateManagement;
 using Microsoft.Owin;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CritterHeroes.Web.Common.Services.Queries
+namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers
 {
     public class OrganizationContextQueryHandler : IAsyncQueryHandler<OrganizationQuery, OrganizationContext>
     {

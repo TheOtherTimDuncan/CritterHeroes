@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts.Dashboard;
 
 namespace CritterHeroes.Web.Common.Services.Commands
 {

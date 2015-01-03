@@ -7,7 +7,7 @@ using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Models.Data;
 using CritterHeroes.Web.Models.Json;
 using CritterHeroes.Web.Common.Services.Commands;
-using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers;
 using CritterHeroes.Web.Common.StateManagement;
 
 namespace CritterHeroes.Web.Areas.Admin.Sources

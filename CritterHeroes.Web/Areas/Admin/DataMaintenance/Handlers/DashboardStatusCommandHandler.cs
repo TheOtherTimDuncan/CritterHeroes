@@ -6,7 +6,7 @@ using CritterHeroes.Web.Common.Services.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Storage;
 
-namespace CritterHeroes.Web.Common.Services.CommandHandlers.Dashboard
+namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers
 {
     public class DashboardStatusCommandHandler<T> : IDashboardStatusCommandHandler<T> where T : class, IDataItem<T>
     {

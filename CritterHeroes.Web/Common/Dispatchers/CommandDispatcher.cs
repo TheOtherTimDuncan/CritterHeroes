@@ -7,7 +7,7 @@ using CritterHeroes.Web.Contracts.Commands;
 using SimpleInjector;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CritterHeroes.Web.Common.Services.Dispatchers
+namespace CritterHeroes.Web.Common.Dispatchers
 {
     public class CommandDispatcher : ICommandDispatcher
     {

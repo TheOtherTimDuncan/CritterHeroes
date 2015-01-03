@@ -62,7 +62,7 @@ namespace CH.Test
 
             InstanceProducer producer = container.GetRegistration(typeof(IDashboardStatusCommandHandler<Breed>));
             producer.Should().NotBeNull();
-            producer.Registration.ImplementationType.Should().Be(typeof(CritterHeroes.Web.Common.Services.CommandHandlers.Dashboard.BreedDashboardStatusCommandHandler));
+            producer.Registration.ImplementationType.Should().Be(typeof(CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers.BreedDashboardStatusCommandHandler));
         }
     }
 }

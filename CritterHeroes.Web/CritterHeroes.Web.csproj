@@ -496,8 +496,8 @@
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
     <Compile Include="Common\BaseException.cs" />
-    <Compile Include="Common\Services\Dispatchers\CommandDispatcher.cs" />
-    <Compile Include="Common\Services\Dispatchers\QueryDispatcher.cs" />
+    <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
+    <Compile Include="Common\Dispatchers\QueryDispatcher.cs" />
     <Compile Include="Common\Handlers\Emails\EmailBuilder.cs" />
     <Compile Include="Common\Handlers\Emails\SendUsernameChangedEmail.cs" />
     <Compile Include="Common\Identity\ApplicationSignInManager.cs" />
@@ -514,17 +514,17 @@
     <Compile Include="Common\Proxies\FakeAuthenticationManager.cs" />
     <Compile Include="Common\Proxies\FakeOwinContext.cs" />
     <Compile Include="Common\Proxies\HttpContextProxy.cs" />
-    <Compile Include="Common\Services\CommandHandlers\Dashboard\BreedDashboardStatusCommandHandler.cs" />
-    <Compile Include="Common\Services\CommandHandlers\Dashboard\DashboardStatusCommandHandler.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\BreedDashboardStatusCommandHandler.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\DashboardStatusCommandHandler.cs" />
     <Compile Include="Common\Services\Commands\CommandResult.cs" />
-    <Compile Include="Common\Services\Commands\DashboardStatusCommand.cs" />
-    <Compile Include="Common\Services\Queries\DashboardStatusQuery.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\DashboardStatusCommand.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\DashboardStatusQuery.cs" />
     <Compile Include="Common\Services\Queries\OrganizationQuery.cs" />
     <Compile Include="Common\Services\Queries\UserIDQuery.cs" />
     <Compile Include="Common\Services\Queries\UsernameQuery.cs" />
-    <Compile Include="Common\Services\QueryHandlers\Dashboard\AnimalStatusDashboardItemStatusQueryHandler.cs" />
-    <Compile Include="Common\Services\QueryHandlers\Dashboard\BaseDashboardItemStatusQueryHandler.cs" />
-    <Compile Include="Common\Services\QueryHandlers\Dashboard\BreedDashboardItemStatusQueryHandler.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\AnimalStatusDashboardItemStatusQueryHandler.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\BaseDashboardItemStatusQueryHandler.cs" />
+    <Compile Include="Areas\Admin\DataMaintenance\Handlers\BreedDashboardItemStatusQueryHandler.cs" />
     <Compile Include="Common\Services\QueryHandlers\OrganizationContextQueryHandler.cs" />
     <Compile Include="Common\Services\QueryHandlers\UserContextQueryHandler.cs" />
     <Compile Include="Common\StateManagement\OrganizationContext.cs" />
@@ -613,9 +613,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Admin\DataMaintenance\Handlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
