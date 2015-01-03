@@ -7,8 +7,7 @@ using CritterHeroes.Web.Contracts.Queries;
 namespace CritterHeroes.Web.Areas.Common.Handlers
 {
     public abstract class BaseViewModelQueryHandler<TParameter, TResult> : IAsyncQueryHandler<TParameter, TResult>
-        where TResult : class
-        where TParameter : class
+        where TParameter : IAsyncQuery<TResult>
     {
         public abstract Task<TResult> RetrieveAsync(TParameter query);
 

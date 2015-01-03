@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using CritterHeroes.Web;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Account.Queries;
-using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
@@ -31,11 +32,26 @@ namespace CH.Test
         }
 
         [TestMethod]
-        public void DependencyContainerCanResolveQueryHandlers()
+        public async Task DependencyContainerCanResolveQueryHandlers()
         {
-            Container container = DIConfig.ConfigureDependencyContainer();
-            container.GetRegistration(typeof(IQueryHandler<LoginQuery, LoginModel>)).Should().NotBeNull();
-            container.GetRegistration(typeof(IAsyncQueryHandler<UsernameQuery, CheckUsernameResult>)).Should().NotBeNull();
+            Container container = DIConfig.ConfigureDependencyContainer(Assembly.GetExecutingAssembly());
+            QueryDispatcher dispatcher = new QueryDispatcher(container);
+
+            TestQuery testQuery = new TestQuery()
+            {
+                TestValue = "testvalue"
+            };
+            TestResult testResult = dispatcher.Dispatch(testQuery);
+            testResult.Should().NotBeNull();
+            testResult.Result.Should().Be(testQuery.TestValue);
+
+            TestAsyncQuery testAsyncQuery = new TestAsyncQuery()
+            {
+                TestValue = "testasyncvalue"
+            };
+            TestResult testAsyncResult = await dispatcher.DispatchAsync(testAsyncQuery);
+            testAsyncResult.Should().NotBeNull();
+            testAsyncResult.Result.Should().Be(testAsyncQuery.TestValue);
         }
 
         [TestMethod]
@@ -63,6 +79,55 @@ namespace CH.Test
             InstanceProducer producer = container.GetRegistration(typeof(IDashboardStatusCommandHandler<Breed>));
             producer.Should().NotBeNull();
             producer.Registration.ImplementationType.Should().Be(typeof(CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers.BreedDashboardStatusCommandHandler));
+        }
+    }
+
+    public class TestResult
+    {
+        public string Result
+        {
+            get;
+            set;
+        }
+    }
+
+    public class TestQuery : IQuery<TestResult>
+    {
+        public string TestValue
+        {
+            get;
+            set;
+        }
+    }
+
+    public class TestAsyncQuery : IAsyncQuery<TestResult>
+    {
+        public string TestValue
+        {
+            get;
+            set;
+        }
+    }
+
+    public class TestQueryHandler : IQueryHandler<TestQuery, TestResult>
+    {
+        public TestResult Retrieve(TestQuery query)
+        {
+            return new TestResult()
+            {
+                Result = query.TestValue
+            };
+        }
+    }
+
+    public class TestAsyncQueryHandler : IAsyncQueryHandler<TestAsyncQuery, TestResult>
+    {
+        public Task<TestResult> RetrieveAsync(TestAsyncQuery query)
+        {
+            return Task.FromResult(new TestResult()
+            {
+                Result = query.TestValue
+            });
         }
     }
 }

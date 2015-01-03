@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace CritterHeroes.Web.Contracts.Queries
 {
-    public interface IQueryHandler<TParameter, TResult>
-        where TResult : class
-        where TParameter : class
+    public interface IQueryHandler<in TParameter, out TResult>
+        where TParameter : IQuery<TResult>
     {
         TResult Retrieve(TParameter query);
     }

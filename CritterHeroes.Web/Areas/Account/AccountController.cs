@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Services.Commands;
@@ -25,7 +24,7 @@ namespace CritterHeroes.Web.Areas.Account
         [AllowAnonymous]
         public ActionResult Login(LoginQuery query)
         {
-            LoginModel model =  QueryDispatcher.Dispatch<LoginQuery, LoginModel>(query);
+            LoginModel model =  QueryDispatcher.Dispatch(query);
             return View(model);
         }
 
@@ -138,7 +137,7 @@ namespace CritterHeroes.Web.Areas.Account
             {
                 UserID = User.GetUserID()
             };
-            EditProfileModel model = await QueryDispatcher.DispatchAsync<UserIDQuery, EditProfileModel>(query);
+            EditProfileModel model = await QueryDispatcher.DispatchAsync<EditProfileModel>(query);
             return View(model);
         }
 
@@ -151,7 +150,7 @@ namespace CritterHeroes.Web.Areas.Account
                 model.OriginalUsername = User.Identity.Name;
                 model.UserID = User.GetUserID();
 
-                CommandResult commandResult = await CommandDispatcher.DispatchAsync<EditProfileModel>(model);
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
                     return Redirect(model.ReturnUrl);
@@ -170,7 +169,7 @@ namespace CritterHeroes.Web.Areas.Account
         [AllowAnonymous]
         public async Task<ActionResult> IsDuplicateUsername(string userName)
         {
-            CheckUsernameResult queryResult = await QueryDispatcher.DispatchAsync<UsernameQuery, CheckUsernameResult>(new UsernameQuery()
+            CheckUsernameResult queryResult = await QueryDispatcher.DispatchAsync(new UsernameQuery()
             {
                 Username = userName
             });

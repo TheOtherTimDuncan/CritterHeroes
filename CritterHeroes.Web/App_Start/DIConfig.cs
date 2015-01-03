@@ -37,12 +37,16 @@ namespace CritterHeroes.Web
 {
     public class DIConfig
     {
-        public static Container ConfigureDependencyContainer()
+        public static Container ConfigureDependencyContainer(Assembly additionalAssembly = null)
         {
             Container container = new Container();
 
             List<Assembly> defaultAssemblies = new List<Assembly>();
             defaultAssemblies.Add(Assembly.GetExecutingAssembly());
+            if (additionalAssembly != null)
+            {
+                defaultAssemblies.Add(additionalAssembly);
+            }
 
             container.RegisterManyForOpenGeneric(typeof(IStateManager<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), defaultAssemblies);

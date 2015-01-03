@@ -19,18 +19,18 @@ namespace CritterHeroes.Web.Common.Dispatchers
             this._container = container;
         }
 
-        public async Task<TResult> DispatchAsync<TParameter, TResult>(TParameter query)
-            where TParameter : class
-            where TResult : class
+        public async Task<TResult> DispatchAsync<TResult>(IAsyncQuery<TResult> query)
         {
-            return await _container.GetInstance<IAsyncQueryHandler<TParameter, TResult>>().RetrieveAsync(query);
+            Type handlerType = typeof(IAsyncQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+            dynamic handler = _container.GetInstance(handlerType);
+            return await handler.RetrieveAsync((dynamic)query);
         }
 
-        public TResult Dispatch<TParameter, TResult>(TParameter query)
-            where TParameter : class
-            where TResult : class
+        public TResult Dispatch<TResult>(IQuery<TResult> query)
         {
-            return _container.GetInstance<IQueryHandler<TParameter, TResult>>().Retrieve(query);
+            Type handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+            dynamic handler = _container.GetInstance(handlerType);
+            return handler.Retrieve((dynamic)query);
         }
     }
 }

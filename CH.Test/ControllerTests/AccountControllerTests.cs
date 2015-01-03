@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,8 +9,6 @@ using System.Web.Routing;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers;
-using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Services.Commands;
 using CritterHeroes.Web.Common.Services.Queries;
@@ -34,7 +31,7 @@ namespace CH.Test.ControllerTests
             };
 
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery)).Returns(new LoginModel());
+            mockDispatcher.Setup(x => x.Dispatch(loginQuery)).Returns(new LoginModel());
 
             AccountController controller = new AccountController(mockDispatcher.Object, null);
 
@@ -43,7 +40,7 @@ namespace CH.Test.ControllerTests
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<LoginModel>();
 
-            mockDispatcher.Verify(x => x.Dispatch<LoginQuery, LoginModel>(loginQuery), Times.Once);
+            mockDispatcher.Verify(x => x.Dispatch(loginQuery), Times.Once);
         }
 
         [TestMethod]
@@ -110,7 +107,7 @@ namespace CH.Test.ControllerTests
             string userID = Guid.NewGuid().ToString();
 
             Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.DispatchAsync<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>())).Returns<UserIDQuery>((query) =>
+            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(It.IsAny<UserIDQuery>())).Returns<UserIDQuery>((query) =>
             {
                 query.UserID.Should().Be(userID);
                 return Task.FromResult(new EditProfileModel());
@@ -129,7 +126,7 @@ namespace CH.Test.ControllerTests
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
-            mockDispatcher.Verify(x => x.DispatchAsync<UserIDQuery, EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
+            mockDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
         }
 
         [TestMethod]

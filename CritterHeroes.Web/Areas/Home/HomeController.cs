@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 
@@ -27,7 +26,7 @@ namespace CritterHeroes.Web.Areas.Home
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
-            MenuModel model = QueryDispatcher.DispatchAsync<MenuQuery, MenuModel>(new MenuQuery()
+            MenuModel model = QueryDispatcher.DispatchAsync(new MenuQuery()
             {
                 OrganizationContext = this.OrganizationContext,
                 CurrentUser = User,
@@ -40,7 +39,7 @@ namespace CritterHeroes.Web.Areas.Home
         [AllowAnonymous]
         public PartialViewResult Header()
         {
-            HeaderModel model = QueryDispatcher.DispatchAsync<OrganizationContext, HeaderModel>(OrganizationContext).Result;
+            HeaderModel model = QueryDispatcher.DispatchAsync(new HeaderQuery(OrganizationContext)).Result;
             return PartialView("_Header", model);
         }
     }

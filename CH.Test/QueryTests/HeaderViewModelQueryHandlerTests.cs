@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Home.Handlers;
 using CritterHeroes.Web.Areas.Home.Models;
+using CritterHeroes.Web.Areas.Home.Queries;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using FluentAssertions;
@@ -23,12 +23,12 @@ namespace CH.Test.QueryTests
 
             OrganizationContext orgContext = new OrganizationContext()
             {
-                AzureName="azure",
-                LogoFilename="logo.svg"
+                AzureName = "azure",
+                LogoFilename = "logo.svg"
             };
 
             HeaderViewModelQueryHandler handler = new HeaderViewModelQueryHandler(mockAppConfiguration.Object);
-            HeaderModel model = handler.RetrieveAsync(orgContext).Result;  // Should be synchronous
+            HeaderModel model = handler.RetrieveAsync(new HeaderQuery(orgContext)).Result;  // Should be synchronous
 
             model.Should().NotBeNull();
             model.LogoUrl.Should().Be("http://root/azure/logo.svg");

@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace CritterHeroes.Web.Contracts.Queries
 {
-    public interface IAsyncQueryHandler<TParameter, TResult>
-        where TResult : class
-        where TParameter : class
+    public interface IAsyncQueryHandler<in TParameter, TResult>
+        where TParameter : IAsyncQuery<TResult>
     {
         Task<TResult> RetrieveAsync(TParameter query);
     }

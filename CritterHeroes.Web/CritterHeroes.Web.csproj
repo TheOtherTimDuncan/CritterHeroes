@@ -491,6 +491,7 @@
     <Compile Include="Areas\Home\HomeController.cs" />
     <Compile Include="Areas\Home\Models\HeaderModel.cs" />
     <Compile Include="Areas\Home\Models\MenuModel.cs" />
+    <Compile Include="Areas\Home\Queries\HeaderQuery.cs" />
     <Compile Include="Areas\Home\Queries\MenuQuery.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogButton.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
@@ -508,6 +509,10 @@
     <Compile Include="Common\Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
+    <Compile Include="Contracts\Queries\IAsyncQuery.cs" />
+    <Compile Include="Contracts\Queries\IQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
     <Compile Include="Common\Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Common\Proxies\Email\EmailConfiguration.cs" />

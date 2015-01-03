@@ -6,12 +6,7 @@ namespace CritterHeroes.Web.Contracts.Queries
 {
     public interface IQueryDispatcher
     {
-        Task<TResult> DispatchAsync<TParameter, TResult>(TParameter query)
-            where TParameter : class
-            where TResult : class;
-
-        TResult Dispatch<TParameter, TResult>(TParameter query)
-            where TParameter : class
-            where TResult : class;
+        Task<TResult> DispatchAsync<TResult>(IAsyncQuery<TResult> query);
+        TResult Dispatch<TResult>(IQuery<TResult> query);
     }
 }
