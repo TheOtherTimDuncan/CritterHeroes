@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Contracts;
-using CH.Domain.Contracts.Identity;
-using CH.Domain.Identity;
-using CH.Domain.Services.Queries;
-using CH.Domain.StateManagement;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Common.StateManagement;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

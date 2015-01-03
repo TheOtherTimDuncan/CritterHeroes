@@ -1,0 +1,60 @@
+﻿@model CritterHeroes.Web.Areas.Admin.DataMaintenance.Models.DashboardModel
+
+@{
+    ViewBag.Title = "Data Maintenance - Dashboard";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datadashboard")
+}
+
+<h2>Data Maintenance Dashboard</h2>
+
+@Html.AntiForgeryToken()
+
+<div class="container-fluid">
+
+    @foreach (var item in Model.Items)
+    {
+        <div data-id="@item.ID" class="row border-box">
+
+            <div class="col-md-4">
+                <div class="row padding-vertical-small">
+                    <div class="col-md-4 col-xs-6"><strong>@item.Title</strong></div>
+                    <div class="col-md-8 col-xs-6">
+                        <button type="button" data-toggle-values="" class="btn btn-primary btn-xs pull-right">
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp;
+                        </button>
+                        <a href="#" title="Sync" class="sync btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-resize-horizontal"></span><span class="optional-text">&nbsp;Sync</span></a>
+                        <a href="#" title="Refresh" class="refresh btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-refresh"></span><span class="optional-text">&nbsp;Refresh</span></a>
+                        <button type="button" class="btn btn-xs pull-right busy indicator">&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div data-target="@Model.TargetStorageItem.StorageSourceID" class="col-md-4 border-left border-left-xs">
+                <div class="row border-top border-top-md border-top-thick padding-vertical-small">
+                    <div data-status="valid" class="col-xs-2">
+                        <div class="badge badge-valid"></div>
+                    </div>
+                    <div class="col-xs-8 text-center">@Model.TargetStorageItem.Title</div>
+                    <div data-status="invalid" class="col-xs-2">
+                        <div class="badge badge-invalid"></div>
+                    </div>
+                </div>
+            </div>
+            <div data-source="@Model.SourceStorageItem.StorageSourceID" class="col-md-4 border-left border-left-xs">
+                <div class="row border-top border-top-md border-top-thick padding-vertical-small">
+                    <div data-status="valid" class="col-xs-2">
+                        <div class="badge badge-valid"></div>
+                    </div>
+                    <div class="col-xs-8 text-center">@Model.SourceStorageItem.Title</div>
+                    <div data-status="invalid" class="col-xs-2">
+                        <div class="badge badge-invalid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

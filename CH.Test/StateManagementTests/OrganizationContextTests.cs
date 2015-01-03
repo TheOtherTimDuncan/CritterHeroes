@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Handlers;
-using CH.Domain.Models;
-using CH.Domain.Models.Data;
-using CH.Domain.StateManagement;
+using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Models.Data;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

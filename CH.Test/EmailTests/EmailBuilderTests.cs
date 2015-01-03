@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CH.Domain.Handlers.Emails;
-using CH.Domain.Models;
+using CritterHeroes.Web.Common.Handlers.Email;
+using CritterHeroes.Web.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

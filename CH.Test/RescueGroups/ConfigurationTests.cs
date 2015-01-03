@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

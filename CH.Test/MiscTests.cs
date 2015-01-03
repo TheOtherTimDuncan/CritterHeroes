@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Azure;
-using CH.Domain.Proxies;
-using CH.RescueGroups;
-using CH.Website;
+using CritterHeroes.Web;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TOTD.Utility.Misc;
@@ -18,7 +15,6 @@ namespace CH.Test
         public void NoAsyncMethodsShouldReturnVoid()
         {
             AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(GetType().Assembly), "no async methods should be returning null");
-            AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(typeof(BaseAzureStorageContext<>).Assembly), "no async methods should be returning null");
             AssertMethodsListIsNullOrEmpty(UnitTestHelper.GetAsyncVoidMethods(typeof(MvcApplication).Assembly), "no async methods should be returning null");
         }
     }

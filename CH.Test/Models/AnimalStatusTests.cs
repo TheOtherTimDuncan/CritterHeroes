@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Domain.Models.Data;
+using CritterHeroes.Web.Models.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Domain.Identity;
-using CH.Domain.StateManagement;
+using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.StateManagement;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

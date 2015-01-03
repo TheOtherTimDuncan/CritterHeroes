@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Contracts.Configuration;
-using CH.Domain.StateManagement;
-using CH.Website.Models;
-using CH.Website.Services.QueryHandlers;
+using CritterHeroes.Web.Areas.Home.Handlers;
+using CritterHeroes.Web.Areas.Home.Models;
+using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

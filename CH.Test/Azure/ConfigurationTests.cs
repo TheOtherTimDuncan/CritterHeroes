@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Azure;
-using CH.Domain.Proxies.Configuration;
+using CritterHeroes.Web.DataProviders.Azure;
+using CritterHeroes.Web.Common.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

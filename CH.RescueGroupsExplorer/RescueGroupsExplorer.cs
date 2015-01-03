@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CH.RescueGroups;
-using CH.RescueGroups.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace CH.RescueGroupsExplorer

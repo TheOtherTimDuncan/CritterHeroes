@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Domain.Models.Data;
-using CH.RescueGroups;
-using CH.RescueGroups.Configuration;
-using CH.RescueGroups.Storage;
+using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
+using CritterHeroes.Web.Models.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;

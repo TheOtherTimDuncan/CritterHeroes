@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.RescueGroups;
-using CH.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json.Linq;
 
 namespace CH.RescueGroupsExplorer

@@ -2,9 +2,10 @@
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Azure.Identity;
-using CH.Domain.Identity;
-using CH.Domain.Proxies.Configuration;
+using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.Proxies.Configuration;
+using CritterHeroes.Web.DataProviders.Azure;
+using CritterHeroes.Web.DataProviders.Azure.Identity;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

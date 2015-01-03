@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Azure.Storage.Logging;
-using CH.Domain.Models.Logging;
-using CH.Domain.Proxies.Configuration;
+using CritterHeroes.Web.Common.Proxies.Configuration;
+using CritterHeroes.Web.DataProviders.Azure;
+using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
+using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

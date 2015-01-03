@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CH.Domain.Contracts.Commands;
-using CH.Domain.Contracts.Dashboard;
-using CH.Domain.Contracts.Queries;
-using CH.Domain.Contracts.Storage;
-using CH.Domain.Models.Data;
-using CH.Domain.Services.Queries;
-using CH.Website.Models.Account;
-using CH.Website.Services.Queries;
+using CritterHeroes.Web;
+using CritterHeroes.Web.Areas.Account.Models;
+using CritterHeroes.Web.Areas.Account.Queries;
+using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Contracts.Commands;
+using CritterHeroes.Web.Contracts.Dashboard;
+using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Models.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleInjector;
@@ -22,7 +23,7 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerIsValid()
         {
-            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            Container container = DIConfig.ConfigureDependencyContainer();
             container.Verify();
 
             IEnumerable<DiagnosticResult> results = Analyzer.Analyze(container);
@@ -32,7 +33,7 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerCanResolveQueryHandlers()
         {
-            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            Container container = DIConfig.ConfigureDependencyContainer();
             container.GetRegistration(typeof(IQueryHandler<LoginQuery, LoginModel>)).Should().NotBeNull();
             container.GetRegistration(typeof(IAsyncQueryHandler<UsernameQuery, CheckUsernameResult>)).Should().NotBeNull();
         }
@@ -40,7 +41,7 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerCanResolveCommandHandlers()
         {
-            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            Container container = DIConfig.ConfigureDependencyContainer();
             container.GetRegistration(typeof(IAsyncCommandHandler<LoginModel>)).Should().NotBeNull();
             container.GetRegistration(typeof(ICommandHandler<LogoutModel>)).Should().NotBeNull();
         }
@@ -48,20 +49,20 @@ namespace CH.Test
         [TestMethod]
         public void DependencyContainerCanResolveMasterListDataContexts()
         {
-            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            Container container = DIConfig.ConfigureDependencyContainer();
             container.GetRegistration(typeof(IMasterStorageContext<Breed>)).Should().NotBeNull();
         }
 
         [TestMethod]
         public void DependencyContainerCanResolveDashboardHandlers()
         {
-            Container container = CH.Website.DIConfig.ConfigureDependencyContainer();
+            Container container = DIConfig.ConfigureDependencyContainer();
             container.GetRegistration(typeof(IDashboardStatusQueryHandler<Breed>)).Should().NotBeNull();
             container.GetRegistration(typeof(IDashboardStatusCommandHandler<AnimalStatus>)).Should().NotBeNull();
 
             InstanceProducer producer = container.GetRegistration(typeof(IDashboardStatusCommandHandler<Breed>));
             producer.Should().NotBeNull();
-            producer.Registration.ImplementationType.Should().Be(typeof(CH.Domain.Services.CommandHandlers.Dashboard.BreedDashboardStatusCommandHandler));
+            producer.Registration.ImplementationType.Should().Be(typeof(CritterHeroes.Web.Common.Services.CommandHandlers.Dashboard.BreedDashboardStatusCommandHandler));
         }
     }
 }

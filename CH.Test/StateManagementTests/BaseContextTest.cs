@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using CH.Domain.Contracts;
+using CritterHeroes.Web.Contracts;
 using Moq;
 
 namespace CH.Test.StateManagementTests
