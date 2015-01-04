@@ -451,6 +451,7 @@
     <Compile Include="App_Start\Startup.Middleware.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
+    <Compile Include="Areas\Account\Commands\ForgotPasswordCommand.cs" />
     <Compile Include="Areas\Account\Handlers\BaseLoginCommandHandler.cs" />
     <Compile Include="Areas\Account\Handlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Areas\Account\Handlers\EditProfileCommandHandler.cs" />
@@ -530,7 +531,6 @@
     <Compile Include="Areas\Admin\DataMaintenance\Handlers\AnimalStatusDashboardItemStatusQueryHandler.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\Handlers\BaseDashboardItemStatusQueryHandler.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\Handlers\BreedDashboardItemStatusQueryHandler.cs" />
-    <Compile Include="Common\Services\QueryHandlers\OrganizationContextQueryHandler.cs" />
     <Compile Include="Common\Services\QueryHandlers\UserContextQueryHandler.cs" />
     <Compile Include="Common\StateManagement\OrganizationContext.cs" />
     <Compile Include="Common\StateManagement\OrganizationStateManager.cs" />

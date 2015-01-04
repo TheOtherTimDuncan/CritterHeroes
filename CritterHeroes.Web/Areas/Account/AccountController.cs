@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Account.Commands;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Common;
@@ -24,7 +25,7 @@ namespace CritterHeroes.Web.Areas.Account
         [AllowAnonymous]
         public ActionResult Login(LoginQuery query)
         {
-            LoginModel model =  QueryDispatcher.Dispatch(query);
+            LoginModel model = QueryDispatcher.Dispatch(query);
             return View(model);
         }
 
@@ -71,9 +72,11 @@ namespace CritterHeroes.Web.Areas.Account
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
         {
-            CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordModel>(model);
+            ForgotPasswordCommand command = new ForgotPasswordCommand(model, OrganizationContext);
+            CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand>(command);
             if (commandResult.Succeeded)
             {
+                model.ModalDialog = command.ModalDialog;
                 return View(model);
             }
 
