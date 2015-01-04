@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Services.Queries;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Identity;
 using Microsoft.Owin;
 using Owin;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
-namespace CritterHeroes.Web
+namespace CritterHeroes.Web.Middleware
 {
     public static class UserContextMiddlewareExtensions
     {
@@ -53,14 +53,27 @@ namespace CritterHeroes.Web
 
             if (context.Request.User.Identity.IsAuthenticated && !context.Request.Path.ToString().SafeEquals("/Account/Logout"))
             {
-                IAsyncQueryHandler<UserIDQuery, UserContext> queryHandler = _dependencyResolver.GetService<IAsyncQueryHandler<UserIDQuery, UserContext>>();
-
-                UserContext userContext = await queryHandler.RetrieveAsync(new UserIDQuery()
+                // First check to see if it is already cached in the OwinContext
+                UserContext userContext = context.GetUserContext();
+                if (userContext == null)
                 {
-                    UserID = context.Request.User.GetUserID()
-                });
+                    // Next check the request
+                    IStateManager<UserContext> stateManager = _dependencyResolver.GetService<IStateManager<UserContext>>();
+                    userContext = stateManager.GetContext();
+                    if (userContext == null)
+                    {
+                        // It must not exist at all so let's create it
+                        IApplicationUserStore userStore = _dependencyResolver.GetService<IApplicationUserStore>();
+                        IdentityUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
+                        userContext = UserContext.FromUser(user);
 
-                context.SetUserContext(userContext);
+                        // Cache the result in the response for the next request
+                        stateManager.SaveContext(userContext);
+                    }
+
+                    // Cache it in the OwinContext for this request
+                    context.SetUserContext(userContext);
+                }
             }
 
             await Next.Invoke(context);

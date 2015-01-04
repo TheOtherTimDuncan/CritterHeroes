@@ -218,7 +218,7 @@
     <Compile Include="QueryTests\HeaderViewModelQueryHandlerTests.cs" />
     <Compile Include="QueryTests\LoginViewModelQueryHandlerTests.cs" />
     <Compile Include="MiddlewareTests\OrganizationContextMiddlewareTests.cs" />
-    <Compile Include="QueryTests\UserContextQueryHandlerTests.cs" />
+    <Compile Include="MiddlewareTests\UserContextMiddlewareTests.cs" />
     <Compile Include="RescueGroups\MappingTests\BreedMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\SpeciesMappingTests.cs" />
