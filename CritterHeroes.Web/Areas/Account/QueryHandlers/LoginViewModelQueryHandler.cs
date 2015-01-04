@@ -5,7 +5,7 @@ using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Contracts.Queries;
 
-namespace CritterHeroes.Web.Areas.Account.Handlers
+namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 {
     public class LoginViewModelQueryHandler : IQueryHandler<LoginQuery, LoginModel>
     {

@@ -8,7 +8,7 @@ using CritterHeroes.Web.Areas.Admin.DataMaintenance.Sources;
 using CritterHeroes.Web.Areas.Admin.Sources;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Services.Commands;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;

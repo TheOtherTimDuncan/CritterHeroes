@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Models.Json;
-using CritterHeroes.Web.Common.Services.Commands;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 
 namespace CritterHeroes.Web.Areas.Admin.Sources

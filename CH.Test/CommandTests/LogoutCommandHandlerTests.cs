@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Areas.Account.Handlers;
+using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;

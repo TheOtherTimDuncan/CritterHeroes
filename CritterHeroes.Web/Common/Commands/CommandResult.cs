@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CritterHeroes.Web.Common.Services.Commands
+namespace CritterHeroes.Web.Common.Commands
 {
     public class CommandResult
     {

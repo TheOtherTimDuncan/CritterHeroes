@@ -6,7 +6,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Data;
 using CritterHeroes.Web.Models.Status;
 
-namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers
+namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.QueryHandlers
 {
     public class AnimalStatusDashboardItemStatusQueryHandler : BaseDashboardItemStatusQueryHandler<AnimalStatus>
     {

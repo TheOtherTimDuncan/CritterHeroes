@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Services.Commands;
+using CritterHeroes.Web.Common.Commands;
 
 namespace CritterHeroes.Web.Contracts.Commands
 {

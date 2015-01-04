@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Commands;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Models.Modal;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Handlers.Email;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Services.Commands;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
@@ -18,7 +18,7 @@ using CritterHeroes.Web.Models.Logging;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
-namespace CritterHeroes.Web.Areas.Account.Handlers
+namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordCommand>
     {

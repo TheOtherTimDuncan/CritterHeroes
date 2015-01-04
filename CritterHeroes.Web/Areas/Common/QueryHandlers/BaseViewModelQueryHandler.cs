@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Queries;
 
-namespace CritterHeroes.Web.Areas.Common.Handlers
+namespace CritterHeroes.Web.Areas.Common.QueryHandlers
 {
     public abstract class BaseViewModelQueryHandler<TParameter, TResult> : IAsyncQueryHandler<TParameter, TResult>
         where TParameter : IAsyncQuery<TResult>

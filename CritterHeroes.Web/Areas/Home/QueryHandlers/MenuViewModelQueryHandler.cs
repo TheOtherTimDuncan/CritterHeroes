@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Common.Handlers;
+using CritterHeroes.Web.Areas.Common.QueryHandlers;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
 using CritterHeroes.Web.Contracts.Configuration;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.Misc;
 
-namespace CritterHeroes.Web.Areas.Home.Handlers
+namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 {
     public class MenuViewModelQueryHandler : BaseViewModelQueryHandler<MenuQuery, MenuModel>
     {

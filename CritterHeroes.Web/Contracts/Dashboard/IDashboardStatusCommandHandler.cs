@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.Common.CommandHandlers;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Common.Services.Commands;
 
 namespace CritterHeroes.Web.Contracts.Dashboard
 {

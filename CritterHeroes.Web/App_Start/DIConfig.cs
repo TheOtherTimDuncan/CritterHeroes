@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers;
+using CritterHeroes.Web.Areas.Admin.DataMaintenance.CommandHandlers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;

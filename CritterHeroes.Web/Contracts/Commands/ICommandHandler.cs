@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Common.Services.Commands;
+using CritterHeroes.Web.Common.Commands;
 
 namespace CritterHeroes.Web.Contracts.Commands
 {

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Common.Services.Commands;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace CritterHeroes.Web.Areas.Account.Handlers
+namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public abstract class BaseLoginCommandHandler<TParameter> : IAsyncCommandHandler<TParameter>
         where TParameter : LoginModel

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.Areas.Admin.DataMaintenance.QueryHandlers;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Models.Json;
-using CritterHeroes.Web.Models.Status;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers;
 
 namespace CritterHeroes.Web.Contracts.Dashboard
 {

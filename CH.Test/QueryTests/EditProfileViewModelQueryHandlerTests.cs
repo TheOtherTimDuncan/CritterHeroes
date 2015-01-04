@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Account.Handlers;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Handlers;
+using CritterHeroes.Web.Areas.Account.QueryHandlers;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using FluentAssertions;

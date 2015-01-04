@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Areas.Home.Handlers;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
+using CritterHeroes.Web.Areas.Home.QueryHandlers;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using FluentAssertions;

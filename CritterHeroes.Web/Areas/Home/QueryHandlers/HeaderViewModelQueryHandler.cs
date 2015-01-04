@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Common.Handlers;
+using CritterHeroes.Web.Areas.Common.QueryHandlers;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
 using CritterHeroes.Web.Contracts.Configuration;
 
-namespace CritterHeroes.Web.Areas.Home.Handlers
+namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 {
     public class HeaderViewModelQueryHandler : BaseViewModelQueryHandler<HeaderQuery, HeaderModel>
     {

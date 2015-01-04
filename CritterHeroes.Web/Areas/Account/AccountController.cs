@@ -8,8 +8,8 @@ using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Services.Commands;
-using CritterHeroes.Web.Common.Services.Queries;
+using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 
