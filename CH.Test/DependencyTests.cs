@@ -58,7 +58,12 @@ namespace CH.Test
         public void DependencyContainerCanResolveCommandHandlers()
         {
             Container container = DIConfig.ConfigureDependencyContainer();
-            container.GetRegistration(typeof(IAsyncCommandHandler<LoginModel>)).Should().NotBeNull();
+            container.Verify();
+
+            InstanceProducer producer = container.GetRegistration(typeof(IAsyncCommandHandler<LoginModel>));
+            producer.Should().NotBeNull();
+            producer.Registration.GetRelationships().Should().NotBeNullOrEmpty();
+
             container.GetRegistration(typeof(ICommandHandler<LogoutModel>)).Should().NotBeNull();
         }
 

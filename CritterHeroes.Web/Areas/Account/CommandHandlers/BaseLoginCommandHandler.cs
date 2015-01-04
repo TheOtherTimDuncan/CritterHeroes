@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
-    public abstract class BaseLoginCommandHandler<TParameter> : IAsyncCommandHandler<TParameter>
+    public abstract class BaseLoginCommandHandler<TParameter> : IAsyncUserCommandHandler<TParameter>
         where TParameter : LoginModel
     {
         private IApplicationSignInManager _signinManager;
@@ -21,6 +21,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         {
             this._signinManager = signinManager;
             this.UserLogger = userLogger;
+        }
+
+        public abstract UserActions SuccessUserAction
+        {
+            get;
+        }
+
+        public abstract UserActions FailedUserAction
+        {
+            get;
         }
 
         protected IUserLogger UserLogger

@@ -29,6 +29,22 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             this._urlGenerator = urlGenerator;
         }
 
+        public override UserActions SuccessUserAction
+        {
+            get
+            {
+                return UserActions.ResetPasswordSuccess;
+            }
+        }
+
+        public override UserActions FailedUserAction
+        {
+            get
+            {
+                return UserActions.ResetPasswordFailure;
+            }
+        }
+
         public override async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
         {
             IdentityUser identityUser = await _userManager.FindByNameAsync(command.Username);

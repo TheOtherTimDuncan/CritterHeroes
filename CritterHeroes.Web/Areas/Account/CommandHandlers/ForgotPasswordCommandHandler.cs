@@ -20,7 +20,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
-    public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordCommand>
+    public class ForgotPasswordCommandHandler : IAsyncUserCommandHandler<ForgotPasswordCommand>
     {
         private IApplicationUserManager _appUserManager;
         private IEmailClient _emailClient;
@@ -33,6 +33,22 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             this._emailClient = emailClient;
             this._userLogger = userLogger;
             this._urlGenerator = urlGenerator;
+        }
+
+        public  UserActions SuccessUserAction
+        {
+            get
+            {
+                return UserActions.ForgotPasswordSuccess;
+            }
+        }
+
+        public  UserActions FailedUserAction
+        {
+            get
+            {
+                return UserActions.ForgotPasswordFailure;
+            }
         }
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordCommand command)

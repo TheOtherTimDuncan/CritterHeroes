@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts.Commands;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Areas.Account.Commands
 {
-    public class ForgotPasswordCommand
+    public class ForgotPasswordCommand : IUserCommand
     {
         public ForgotPasswordCommand(ForgotPasswordModel model, OrganizationContext organizationContext)
         {
@@ -34,6 +35,14 @@ namespace CritterHeroes.Web.Areas.Account.Commands
         {
             get;
             set;
+        }
+
+        public string Username
+        {
+            get
+            {
+                return Model.Username;
+            }
         }
     }
 }

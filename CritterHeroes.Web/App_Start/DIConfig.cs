@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.DataMaintenance.CommandHandlers;
 using CritterHeroes.Web.Areas.Common;
+using CritterHeroes.Web.Common.CommandHandlers;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Proxies;
@@ -106,6 +107,13 @@ namespace CritterHeroes.Web
                     e.Register(producer.Registration);
                 }
             };
+
+            Type userCommandType = typeof(IAsyncUserCommandHandler<>);
+            container.RegisterDecorator(typeof(IAsyncCommandHandler<>), typeof(UserActionCommandHandler<>), (context) =>
+            {
+                bool result = context.ImplementationType.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == userCommandType);
+                return result;
+            });
         }
 
         public static void RegisterContextSensitiveInterfaces(Container container)
