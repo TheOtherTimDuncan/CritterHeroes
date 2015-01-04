@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Common.Services.Queries;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Models;
 using Microsoft.Owin;
 using Owin;
 using TOTD.Utility.ExceptionHelpers;
@@ -46,15 +47,28 @@ namespace CritterHeroes.Web.Middleware
 
         public override async Task Invoke(IOwinContext context)
         {
-            IAsyncQueryHandler<OrganizationQuery, OrganizationContext> queryHandler = _dependencyResolver.GetService<IAsyncQueryHandler<OrganizationQuery, OrganizationContext>>();
-            IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
-
-            OrganizationContext organizationContext = await queryHandler.RetrieveAsync(new OrganizationQuery()
+            // First check to see if it's already been cached in the OwinContext
+            OrganizationContext organizationContext = context.GetOrganizationContext();
+            if (organizationContext == null)
             {
-                OrganizationID = appConfiguration.OrganizationID
-            });
+                // Next check the request
+                IStateManager<OrganizationContext> stateManager = _dependencyResolver.GetService<IStateManager<OrganizationContext>>();
+                organizationContext = stateManager.GetContext();
+                if (organizationContext == null)
+                {
+                    // It must not exist at all yet so let's create it
+                    IStorageContext<Organization> storageContext = _dependencyResolver.GetService<IStorageContext<Organization>>();
+                    IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
+                    Organization organization = await storageContext.GetAsync(appConfiguration.OrganizationID.ToString());
+                    organizationContext = OrganizationContext.FromOrganization(organization);
 
-            context.SetOrganizationContext(organizationContext);
+                    // Cache the result in the response for the next request
+                    stateManager.SaveContext(organizationContext);
+                }
+
+                // Cache it in the OwinContext for this request
+                context.SetOrganizationContext(organizationContext);
+            }
 
             await Next.Invoke(context);
         }
