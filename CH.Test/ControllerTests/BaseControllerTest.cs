@@ -1,17 +1,55 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using CritterHeroes.Web;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Contracts.Logging;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SimpleInjector;
 using TOTD.Mvc.FluentHtml;
 
 namespace CH.Test.ControllerTests
 {
     public class BaseControllerTest : BaseTest
     {
+        public Container container;
+
+        public Mock<IUserLogger> mockUserLogger;
+        public Mock<IApplicationSignInManager> mockSignInManager;
+        public Mock<IApplicationUserManager> mockUserManager;
+        public Mock<IUrlGenerator> mockUrlGenerator;
+        public Mock<IEmailClient> mockEmailClient;
+
+        [TestInitialize]
+        public void InitializeTest()
+        {
+            container = new Container();
+            DIConfig.RegisterQueryAndCommandHandlers(container, new Assembly[] { typeof(MvcApplication).Assembly });
+
+            mockUserLogger = new Mock<IUserLogger>();
+            container.Register<IUserLogger>(() => mockUserLogger.Object);
+
+            mockSignInManager = new Mock<IApplicationSignInManager>();
+            container.Register<IApplicationSignInManager>(() => mockSignInManager.Object);
+
+            mockUserManager = new Mock<IApplicationUserManager>();
+            container.Register<IApplicationUserManager>(() => mockUserManager.Object);
+
+            mockUrlGenerator = new Mock<IUrlGenerator>();
+            container.Register<IUrlGenerator>(() => mockUrlGenerator.Object);
+
+            mockEmailClient = new Mock<IEmailClient>();
+            container.Register<IEmailClient>(() => mockEmailClient.Object);
+        }
+
         public RouteCollection GetRouteCollection()
         {
             RouteCollection result = new RouteCollection();

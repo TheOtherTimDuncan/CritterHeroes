@@ -4,9 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CritterHeroes.Web;
-using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Dispatchers;
-using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
@@ -52,19 +50,6 @@ namespace CH.Test
             TestResult testAsyncResult = await dispatcher.DispatchAsync(testAsyncQuery);
             testAsyncResult.Should().NotBeNull();
             testAsyncResult.Result.Should().Be(testAsyncQuery.TestValue);
-        }
-
-        [TestMethod]
-        public void DependencyContainerCanResolveCommandHandlers()
-        {
-            Container container = DIConfig.ConfigureDependencyContainer();
-            container.Verify();
-
-            InstanceProducer producer = container.GetRegistration(typeof(IAsyncCommandHandler<LoginModel>));
-            producer.Should().NotBeNull();
-            producer.Registration.GetRelationships().Should().NotBeNullOrEmpty();
-
-            container.GetRegistration(typeof(ICommandHandler<LogoutModel>)).Should().NotBeNull();
         }
 
         [TestMethod]

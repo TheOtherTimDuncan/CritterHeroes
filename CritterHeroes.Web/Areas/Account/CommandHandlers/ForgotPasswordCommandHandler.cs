@@ -24,18 +24,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IApplicationUserManager _appUserManager;
         private IEmailClient _emailClient;
-        private IUserLogger _userLogger;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(IApplicationUserManager userManager, IEmailClient emailClient, IUserLogger userLogger, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IApplicationUserManager userManager, IEmailClient emailClient,  IUrlGenerator urlGenerator)
         {
             this._appUserManager = userManager;
             this._emailClient = emailClient;
-            this._userLogger = userLogger;
             this._urlGenerator = urlGenerator;
         }
 
-        public  UserActions SuccessUserAction
+        public UserActions SuccessUserAction
         {
             get
             {
@@ -81,10 +79,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             if (user == null)
             {
                 // We don't want to reveal whether or not the username or email address are valid
-                // so if the user isn't found just return success
-                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command);
-                return CommandResult.Success();
+                // so if the user isn't found just return failed with no errors
+                return CommandResult.Failed();
             }
+
+            command.Model.Username = user.UserName;
 
             string code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
             string url = _urlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(code));
@@ -104,7 +103,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 .End();
 
             await _emailClient.SendAsync(emailMessage, user.Id);
-            await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName, command);
 
             return CommandResult.Success();
         }

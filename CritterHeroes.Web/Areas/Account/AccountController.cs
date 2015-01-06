@@ -74,12 +74,7 @@ namespace CritterHeroes.Web.Areas.Account
         {
             ForgotPasswordCommand command = new ForgotPasswordCommand(model, OrganizationContext);
             CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand>(command);
-            if (commandResult.Succeeded)
-            {
-                model.ModalDialog = command.ModalDialog;
-                return View(model);
-            }
-
+            model.ModalDialog = command.ModalDialog;
             AddCommandResultErrorsToModelState(ModelState, commandResult);
             return View(model);
         }

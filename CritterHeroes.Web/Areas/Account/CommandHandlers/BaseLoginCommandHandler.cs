@@ -6,7 +6,6 @@ using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -17,10 +16,9 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IApplicationSignInManager _signinManager;
 
-        public BaseLoginCommandHandler(IApplicationSignInManager signinManager, IUserLogger userLogger)
+        public BaseLoginCommandHandler(IApplicationSignInManager signinManager)
         {
             this._signinManager = signinManager;
-            this.UserLogger = userLogger;
         }
 
         public abstract UserActions SuccessUserAction
@@ -33,12 +31,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             get;
         }
 
-        protected IUserLogger UserLogger
-        {
-            get;
-            private set;
-        }
-
         public abstract Task<CommandResult> ExecuteAsync(TParameter command);
 
         public virtual async Task<CommandResult> Login(TParameter command)
@@ -47,12 +39,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             if (result == SignInStatus.Success)
             {
-                await UserLogger.LogActionAsync(UserActions.PasswordLoginSuccess, command.Username);
                 return CommandResult.Success();
             }
             else
             {
-                await UserLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Username);
                 return CommandResult.Failed("", "The username or password that you entered was incorrect. Please try again.");
             }
 

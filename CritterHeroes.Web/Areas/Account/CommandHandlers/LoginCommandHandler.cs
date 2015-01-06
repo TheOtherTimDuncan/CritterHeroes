@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel>
     {
-        public LoginCommandHandler(IApplicationSignInManager signinManager, IUserLogger userLogger)
-            : base(signinManager, userLogger)
+        public LoginCommandHandler(IApplicationSignInManager signinManager)
+            : base(signinManager)
         {
         }
 

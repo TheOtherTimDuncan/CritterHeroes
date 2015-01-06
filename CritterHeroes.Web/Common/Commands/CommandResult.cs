@@ -13,17 +13,17 @@ namespace CritterHeroes.Web.Common.Commands
             this.Errors = new Dictionary<string, List<string>>();
         }
 
-        private static CommandResult Failed()
-        {
-            CommandResult result = new CommandResult();
-            result.Succeeded = false;
-            return result;
-        }
-
         public static CommandResult Success()
         {
             CommandResult result = new CommandResult();
             result.Succeeded = true;
+            return result;
+        }
+
+        public static CommandResult Failed()
+        {
+            CommandResult result = new CommandResult();
+            result.Succeeded = false;
             return result;
         }
 
