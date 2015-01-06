@@ -6,11 +6,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using CritterHeroes.Web;
+using CritterHeroes.Web.Areas.Common;
+using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Queries;
 using FluentAssertions;
+using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SimpleInjector;
@@ -27,12 +32,17 @@ namespace CH.Test.ControllerTests
         public Mock<IApplicationUserManager> mockUserManager;
         public Mock<IUrlGenerator> mockUrlGenerator;
         public Mock<IEmailClient> mockEmailClient;
+        public Mock<IApplicationUserStore> mockUserStore;
+        public Mock<IAuthenticationManager> mockAuthenticationManager;
 
         [TestInitialize]
         public void InitializeTest()
         {
             container = new Container();
             DIConfig.RegisterQueryAndCommandHandlers(container, new Assembly[] { typeof(MvcApplication).Assembly });
+
+            container.Register<ICommandDispatcher, CommandDispatcher>();
+            container.Register<IQueryDispatcher, QueryDispatcher>();
 
             mockUserLogger = new Mock<IUserLogger>();
             container.Register<IUserLogger>(() => mockUserLogger.Object);
@@ -48,6 +58,12 @@ namespace CH.Test.ControllerTests
 
             mockEmailClient = new Mock<IEmailClient>();
             container.Register<IEmailClient>(() => mockEmailClient.Object);
+
+            mockUserStore = new Mock<IApplicationUserStore>();
+            container.Register<IApplicationUserStore>(() => mockUserStore.Object);
+
+            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
+            container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);
         }
 
         public RouteCollection GetRouteCollection()
@@ -83,6 +99,11 @@ namespace CH.Test.ControllerTests
         public RouteData GetRequestRouteData(HttpContextBase httpContext)
         {
             return httpContext.Request.RequestContext.RouteData;
+        }
+
+        public T CreateController<T>() where T : BaseController
+        {
+            return container.GetInstance<T>();
         }
 
         public ControllerContext CreateControllerContext(Mock<HttpContextBase> mockHttpContext, ControllerBase controller)

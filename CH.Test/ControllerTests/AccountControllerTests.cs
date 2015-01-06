@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +13,7 @@ using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Middleware;
@@ -35,17 +37,12 @@ namespace CH.Test.ControllerTests
             {
             };
 
-            Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.Dispatch(loginQuery)).Returns(new LoginModel());
-
-            AccountController controller = new AccountController(mockDispatcher.Object, null);
+            AccountController controller = CreateController<AccountController>();
 
             ViewResult viewResult = controller.Login(loginQuery) as ViewResult;
             viewResult.Should().NotBeNull();
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<LoginModel>();
-
-            mockDispatcher.Verify(x => x.Dispatch(loginQuery), Times.Once);
         }
 
         [TestMethod]
@@ -56,7 +53,7 @@ namespace CH.Test.ControllerTests
             mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username)).Returns(Task.FromResult(0));
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
+            AccountController controller = CreateController<AccountController>();
 
             ViewResult viewResult = (await controller.Login(model, null)) as ViewResult;
             viewResult.Should().NotBeNull();
@@ -82,7 +79,7 @@ namespace CH.Test.ControllerTests
 
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
+            AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
 
             RedirectToRouteResult redirectResult = (await controller.Login(model, null)) as RedirectToRouteResult;
@@ -106,7 +103,7 @@ namespace CH.Test.ControllerTests
 
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
+            AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
 
             RedirectResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectResult;
@@ -122,12 +119,16 @@ namespace CH.Test.ControllerTests
         {
             string userID = Guid.NewGuid().ToString();
 
-            Mock<IQueryDispatcher> mockDispatcher = new Mock<IQueryDispatcher>();
-            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(It.IsAny<UserIDQuery>())).Returns<UserIDQuery>((query) =>
+            Uri uriReferrer = new Uri("http://google.com");
+
+            IdentityUser user = new IdentityUser(userID, "unit.test")
             {
-                query.UserID.Should().Be(userID);
-                return Task.FromResult(new EditProfileModel());
-            });
+                FirstName = "First",
+                LastName = "Last",
+                Email = "email@email.com"
+            };
+
+            mockUserStore.Setup(x => x.FindByIdAsync(userID)).Returns(Task.FromResult(user));
 
             ClaimsIdentity identity = new ClaimsIdentity();
             identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
@@ -135,47 +136,57 @@ namespace CH.Test.ControllerTests
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
             mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
 
-            AccountController controller = new AccountController(mockDispatcher.Object, null);
+            Mock<IHttpContext> mockHttpContextProxy = new Mock<IHttpContext>();
+            mockHttpContextProxy.Setup(x => x.Request.UrlReferrer).Returns(uriReferrer);
+            container.Register<IHttpContext>(() => mockHttpContextProxy.Object);
+
+            AccountController controller = CreateController<AccountController>();
             controller.ControllerContext = CreateControllerContext(mockHttpContext, controller);
 
             ViewResult viewResult = (ViewResult)await controller.EditProfile();
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
-            mockDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
+            mockHttpContextProxy.Verify(x => x.Request.UrlReferrer, Times.Once);
+            mockUserStore.Verify(x => x.FindByIdAsync(userID), Times.Once);
         }
 
         [TestMethod]
         public async Task PostEditProfileRedirectsToReturnUrlOnSuccess()
         {
-            string userID = Guid.NewGuid().ToString();
+            IdentityUser user = new IdentityUser()
+            {
+                UserName = "test.user",
+                Email = "email@email.com",
+            };
 
             Uri returnUri = new Uri("http://google.com");
 
             EditProfileModel model = new EditProfileModel()
             {
                 ReturnUrl = returnUri.AbsoluteUri,
-                Username = "new.user",
-                FirstName = "New First",
-                LastName = "New Last"
+                Username = user.UserName,
             };
 
-            ClaimsIdentity identity = new ClaimsIdentity();
-            identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
-
-            Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Success()));
+            GenericIdentity genericIdentity = new GenericIdentity(user.UserName);
+            ClaimsIdentity identity = new ClaimsIdentity(genericIdentity);
+            identity.AddClaim(new Claim(AppClaimTypes.UserID, user.Id));
 
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
             mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
 
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
+            mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+
+            AccountController controller = CreateController<AccountController>();
             controller.ControllerContext = CreateControllerContext(mockHttpContext, controller);
 
             RedirectResult redirectResult = await controller.EditProfile(model) as RedirectResult;
             redirectResult.Url.Should().Be(returnUri.AbsoluteUri);
 
-            mockDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(model), Times.Once);
+            mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
+            mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
         }
 
         [TestMethod]
@@ -237,7 +248,7 @@ namespace CH.Test.ControllerTests
 
             mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id)).Returns(Task.FromResult(0));
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
+            AccountController controller = CreateController<AccountController>();
             controller.ControllerContext = CreateControllerContext(GetMockHttpContext(), controller);
             controller.Request.GetOwinContext().SetOrganizationContext(organizationContext);
 
@@ -292,7 +303,7 @@ namespace CH.Test.ControllerTests
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
+            AccountController controller = CreateController<AccountController>();
             ActionResult actionResult = await controller.ResetPassword(model);
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, model), Times.Once);
@@ -346,7 +357,7 @@ namespace CH.Test.ControllerTests
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Success));
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
+            AccountController controller = CreateController<AccountController>();
             ActionResult actionResult = await controller.ResetPassword(model);
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Username), Times.Once);

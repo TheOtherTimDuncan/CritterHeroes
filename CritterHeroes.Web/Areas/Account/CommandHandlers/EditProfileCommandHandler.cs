@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 }
             }
 
-            IdentityUser user = await _userManager.FindByIdAsync(command.OriginalUsername);
+            IdentityUser user = await _userManager.FindByIdAsync(command.UserID);
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 
