@@ -39,7 +39,7 @@ namespace CH.Test.ControllerTests
         public void InitializeTest()
         {
             container = new Container();
-            DIConfig.RegisterQueryAndCommandHandlers(container, new Assembly[] { typeof(MvcApplication).Assembly });
+            DIConfig.RegisterHandlers(container, new Assembly[] { typeof(MvcApplication).Assembly });
 
             container.Register<ICommandDispatcher, CommandDispatcher>();
             container.Register<IQueryDispatcher, QueryDispatcher>();

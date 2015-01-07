@@ -15,7 +15,7 @@ namespace CritterHeroes.Web.Common.Dispatchers
 
         public CommandDispatcher(Container container)
         {
-            ThrowIf.Argument.IsNull(container, "kernel");
+            ThrowIf.Argument.IsNull(container, "container");
             this._container = container;
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CritterHeroes.Web;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Contracts.Dashboard;
+using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Data;
@@ -50,6 +51,20 @@ namespace CH.Test
             TestResult testAsyncResult = await dispatcher.DispatchAsync(testAsyncQuery);
             testAsyncResult.Should().NotBeNull();
             testAsyncResult.Result.Should().Be(testAsyncQuery.TestValue);
+        }
+
+        [TestMethod]
+        public async Task DependencyContainerCanResolveNotificationHandlers()
+        {
+            Container container = DIConfig.ConfigureDependencyContainer(Assembly.GetExecutingAssembly());
+            NotificationPublisher publisher = new NotificationPublisher(container);
+
+            TestNotification notification = new TestNotification();
+
+            publisher.Publish(notification);
+            await publisher.PublishAsync(notification);
+
+            notification.Value.Should().Be(4, "there are 2 synchronous and 2 asynchronous handlers registered for this notification");
         }
 
         [TestMethod]
@@ -118,6 +133,47 @@ namespace CH.Test
             {
                 Result = query.TestValue
             });
+        }
+    }
+
+    public class TestNotification : INotification, IAsyncNotification
+    {
+        public int Value
+        {
+            get;
+            set;
+        }
+    }
+
+    public class TestNotificationHandler1 : INotificationHandler<TestNotification>
+    {
+        void INotificationHandler<TestNotification>.Execute(TestNotification notification)
+        {
+            notification.Value++;
+        }
+    }
+
+    public class TestNotificationHandler2 : INotificationHandler<TestNotification>
+    {
+        void INotificationHandler<TestNotification>.Execute(TestNotification notification)
+        {
+            notification.Value++;
+        }
+    }
+
+    public class TestAsyncNotificationHandler1 : IAsyncNotificationHandler<TestNotification>
+    {
+        public async Task ExecuteAsync(TestNotification notification)
+        {
+            notification.Value++;
+        }
+    }
+
+    public class TestAsyncNotificationHandler2 : IAsyncNotificationHandler<TestNotification>
+    {
+        public async Task ExecuteAsync(TestNotification notification)
+        {
+            notification.Value++;
         }
     }
 }

@@ -20,6 +20,7 @@ using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
@@ -63,6 +64,7 @@ namespace CritterHeroes.Web
 
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
+            container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();
 
             container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
             container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
@@ -72,7 +74,7 @@ namespace CritterHeroes.Web
             container.Register<IStorageContext<Organization>, OrganizationAzureStorage>();
 
             RegisterIdentityInterfaces(container);
-            RegisterQueryAndCommandHandlers(container, defaultAssemblies);
+            RegisterHandlers(container, defaultAssemblies);
             RegisterContextSensitiveInterfaces(container);
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
@@ -88,7 +90,7 @@ namespace CritterHeroes.Web
             container.Register<IApplicationSignInManager, ApplicationSignInManager>();
         }
 
-        public static void RegisterQueryAndCommandHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)
+        public static void RegisterHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)
         {
             container.RegisterManyForOpenGeneric(typeof(IQueryHandler<,>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IAsyncQueryHandler<,>), defaultAssemblies);
@@ -96,6 +98,20 @@ namespace CritterHeroes.Web
 
             container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IAsyncCommandHandler<>), defaultAssemblies);
+
+            IEnumerable<Type> notificationHandlers =
+                from a in defaultAssemblies
+                from t in a.GetTypes()
+                where t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(INotificationHandler<>))
+                select t;
+            container.RegisterAll(typeof(INotificationHandler<>), notificationHandlers);
+
+            IEnumerable<Type> asyncNotificationHandlers =
+                from a in defaultAssemblies
+                from t in a.GetTypes()
+                where t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IAsyncNotificationHandler<>))
+                select t;
+            container.RegisterAll(typeof(IAsyncNotificationHandler<>), asyncNotificationHandlers);
 
             container.RegisterManyForOpenGeneric(typeof(IDashboardStatusCommandHandler<>), defaultAssemblies);
             container.ResolveUnregisteredType += (s, e) =>

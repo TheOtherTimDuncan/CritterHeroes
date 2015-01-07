@@ -501,6 +501,7 @@
     <Compile Include="Common\CommandHandlers\UserActionCommandHandler.cs" />
     <Compile Include="Common\Commands\BaseUserCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
+    <Compile Include="Common\Dispatchers\NotificationPublisher.cs" />
     <Compile Include="Common\Dispatchers\QueryDispatcher.cs" />
     <Compile Include="Common\Handlers\Emails\EmailBuilder.cs" />
     <Compile Include="Common\Handlers\Emails\SendUsernameChangedEmail.cs" />
@@ -514,7 +515,9 @@
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Contracts\Commands\IAsyncUserCommandHandler.cs" />
     <Compile Include="Contracts\Commands\IUserCommand.cs" />
-    <Compile Include="Contracts\Queries\IAsyncQuery.cs" />
+    <Compile Include="Contracts\Notifications\INotification.cs" />
+    <Compile Include="Contracts\Notifications\INotificationPublisher.cs" />
+    <Compile Include="Contracts\Notifications\INotificationHandler.cs" />
     <Compile Include="Contracts\Queries\IQuery.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -541,7 +544,6 @@
     <Compile Include="Common\StateManagement\StateSerializer.cs" />
     <Compile Include="Common\StateManagement\UserContext.cs" />
     <Compile Include="Common\StateManagement\UserStateManager.cs" />
-    <Compile Include="Contracts\Commands\IAsyncCommandHandler.cs" />
     <Compile Include="Contracts\Commands\ICommandDispatcher.cs" />
     <Compile Include="Contracts\Commands\ICommandHandler.cs" />
     <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
@@ -562,7 +564,6 @@
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Contracts\Logging\IEmailLogger.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
-    <Compile Include="Contracts\Queries\IAsyncQueryHandler.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
     <Compile Include="Contracts\Storage\IMasterStorageContext.cs" />
