@@ -74,8 +74,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 return CommandResult.Failed();
             }
 
-            command.Model.Username = user.UserName;
-
             string code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
             string url = _urlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(code));
 
