@@ -195,7 +195,7 @@
     <Compile Include="CommandTests\ForgotPasswordCommandTests.cs" />
     <Compile Include="CommandTests\LogoutCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ResetPasswordCommandHandlerTests.cs" />
-    <Compile Include="CommandTests\UserActionCommandHandlerTests.cs" />
+    <Compile Include="NotificationTests\UserActionNotificationHandlerTests.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\BaseControllerTest.cs" />
     <Compile Include="ControllerTests\DataMaintenanceControllerTests.cs" />

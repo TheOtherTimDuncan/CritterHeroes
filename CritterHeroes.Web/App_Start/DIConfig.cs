@@ -123,13 +123,6 @@ namespace CritterHeroes.Web
                     e.Register(producer.Registration);
                 }
             };
-
-            Type userCommandType = typeof(IAsyncUserCommandHandler<>);
-            container.RegisterDecorator(typeof(IAsyncCommandHandler<>), typeof(UserActionCommandHandler<>), (context) =>
-            {
-                bool result = context.ImplementationType.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == userCommandType);
-                return result;
-            });
         }
 
         public static void RegisterContextSensitiveInterfaces(Container container)

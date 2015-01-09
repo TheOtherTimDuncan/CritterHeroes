@@ -8,8 +8,10 @@ using CritterHeroes.Web.Areas.Home;
 using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.Notifications;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
 
@@ -19,28 +21,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IApplicationUserManager _userManager;
         private IUrlGenerator _urlGenerator;
+        private INotificationPublisher _notificationPublisher;
 
-        public ResetPasswordCommandHandler(IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator)
-            : base(signinManager)
+        public ResetPasswordCommandHandler(INotificationPublisher notificationPublisher, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator)
+            : base(notificationPublisher, signinManager)
         {
             this._userManager = userManager;
             this._urlGenerator = urlGenerator;
-        }
-
-        public override UserActions SuccessUserAction
-        {
-            get
-            {
-                return UserActions.ResetPasswordSuccess;
-            }
-        }
-
-        public override UserActions FailedUserAction
-        {
-            get
-            {
-                return UserActions.ResetPasswordFailure;
-            }
+            this._notificationPublisher = notificationPublisher;
         }
 
         public override async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
@@ -54,6 +42,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     CommandResult commandResult = await Login(command);
                     if (commandResult.Succeeded)
                     {
+                        await _notificationPublisher.PublishAsync(new UserActionNotification(UserActions.ResetPasswordSuccess, command.Username));
+
                         CommandResult result = CommandResult.Success();
                         command.ModalDialog = new ModalDialogModel()
                         {
@@ -64,6 +54,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     }
                 }
             }
+
+            await _notificationPublisher.PublishAsync(new UserActionNotification(UserActions.ResetPasswordFailure, command.Username, "Code: " + command.Code));
 
             return CommandResult.Failed("", "There was an error resetting your password. Please try again.");
         }

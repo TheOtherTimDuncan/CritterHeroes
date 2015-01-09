@@ -5,36 +5,20 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Models.Logging;
+using CritterHeroes.Web.Contracts.Notifications;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class LoginCommandHandler : BaseLoginCommandHandler<LoginModel>
     {
-        public LoginCommandHandler(IApplicationSignInManager signinManager)
-            : base(signinManager)
+        public LoginCommandHandler(INotificationPublisher notificationPublisher, IApplicationSignInManager signinManager)
+            : base(notificationPublisher, signinManager)
         {
         }
 
         public override async Task<CommandResult> ExecuteAsync(LoginModel command)
         {
             return await Login(command);
-        }
-
-        public override UserActions SuccessUserAction
-        {
-            get
-            {
-                return UserActions.PasswordLoginSuccess;
-            }
-        }
-
-        public override UserActions FailedUserAction
-        {
-            get
-            {
-                return UserActions.PasswordLoginFailure;
-            }
         }
     }
 }

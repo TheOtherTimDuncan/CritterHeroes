@@ -10,11 +10,12 @@ using CritterHeroes.Web.Areas.Account.Commands;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.Notifications;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
@@ -29,7 +30,7 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task ReturnsFailedIfBothEmailAddressAndUsernameAreMissing()
         {
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(null, null, null);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(null, null, null, null);
             ForgotPasswordCommand command = new ForgotPasswordCommand(new ForgotPasswordModel(), new OrganizationContext());
 
             (await handler.ExecuteAsync(command)).Succeeded.Should().BeFalse("both email address and username are null");
@@ -63,6 +64,15 @@ namespace CH.Test.CommandTests
 
             ForgotPasswordCommand command = new ForgotPasswordCommand(model, organizationContext);
 
+            Mock<INotificationPublisher> mockNotificationPublisher = new Mock<INotificationPublisher>();
+            mockNotificationPublisher.Setup(x => x.PublishAsync(It.IsAny<UserActionNotification>())).Returns<UserActionNotification>((notification) =>
+            {
+                notification.Action.Should().Be(UserActions.ForgotPasswordFailure);
+                notification.Username.Should().BeNull();
+                notification.AdditionalData.Should().Be(model);
+                return Task.FromResult(0);
+            });
+
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
             mockUserManager.Setup(x => x.FindByNameAsync(username)).Returns(Task.FromResult((IdentityUser)null));
 
@@ -71,7 +81,7 @@ namespace CH.Test.CommandTests
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
             mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns("account-url");
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockNotificationPublisher.Object, mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().BeEmpty();
@@ -81,6 +91,7 @@ namespace CH.Test.CommandTests
             command.ModalDialog.Buttons.Should().NotBeEmpty();
             command.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
+            mockNotificationPublisher.Verify(x => x.PublishAsync(It.IsAny<UserActionNotification>()), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
             mockUrlGenerator.Verify(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
@@ -111,6 +122,15 @@ namespace CH.Test.CommandTests
             string code = "code";
             string url = "http://www.password.reset.com/code";
 
+            Mock<INotificationPublisher> mockNotificationPublisher = new Mock<INotificationPublisher>();
+            mockNotificationPublisher.Setup(x => x.PublishAsync(It.IsAny<UserActionNotification>())).Returns<UserActionNotification>((notification) =>
+            {
+                notification.Action.Should().Be(UserActions.ForgotPasswordSuccess);
+                notification.Username.Should().Be(model.EmailAddress);
+                notification.AdditionalData.Should().BeNull();
+                return Task.FromResult(0);
+            });
+
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.EmailAddress)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
@@ -135,7 +155,7 @@ namespace CH.Test.CommandTests
             mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(code);
             mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns("account-url");
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockNotificationPublisher.Object, mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
@@ -144,6 +164,7 @@ namespace CH.Test.CommandTests
             command.ModalDialog.Buttons.Should().NotBeEmpty();
             command.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
+            mockNotificationPublisher.Verify(x => x.PublishAsync(It.IsAny<UserActionNotification>()), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(model.EmailAddress), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);

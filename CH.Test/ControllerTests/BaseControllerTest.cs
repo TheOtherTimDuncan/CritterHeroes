@@ -13,6 +13,7 @@ using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using FluentAssertions;
 using Microsoft.Owin.Security;
@@ -62,8 +63,10 @@ namespace CH.Test.ControllerTests
             mockUserStore = new Mock<IApplicationUserStore>();
             container.Register<IApplicationUserStore>(() => mockUserStore.Object);
 
-            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
+            mockAuthenticationManager = new Mock<IAuthenticationManager>();
             container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);
+
+            container.Register<INotificationPublisher, NotificationPublisher>();
         }
 
         public RouteCollection GetRouteCollection()

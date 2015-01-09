@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.Notifications;
 using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Contracts.Notifications;
+using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,15 +28,24 @@ namespace CH.Test.CommandTests
                 Password = "password"
             };
 
+            Mock<INotificationPublisher> mockNotificationPublisher = new Mock<INotificationPublisher>();
+            mockNotificationPublisher.Setup(x => x.PublishAsync(It.IsAny<UserActionNotification>())).Returns<UserActionNotification>((notification) =>
+            {
+                notification.Action.Should().Be(UserActions.PasswordLoginSuccess);
+                notification.Username.Should().Be(model.Username);
+                return Task.FromResult(0);
+            });
+
             Mock<IApplicationSignInManager> mockSignInManager = new Mock<IApplicationSignInManager>();
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Success));
 
-            LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object);
+            LoginCommandHandler command = new LoginCommandHandler(mockNotificationPublisher.Object, mockSignInManager.Object);
             CommandResult result = await command.ExecuteAsync(model);
             result.Succeeded.Should().BeTrue();
             result.Errors.Should().BeEmpty();
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
+            mockNotificationPublisher.Verify(x => x.PublishAsync(It.IsAny<UserActionNotification>()), Times.Once);
         }
 
         [TestMethod]
@@ -45,16 +57,25 @@ namespace CH.Test.CommandTests
                 Password = "password"
             };
 
+            Mock<INotificationPublisher> mockNotificationPublisher = new Mock<INotificationPublisher>();
+            mockNotificationPublisher.Setup(x => x.PublishAsync(It.IsAny<UserActionNotification>())).Returns<UserActionNotification>((notification) =>
+            {
+                notification.Action.Should().Be(UserActions.PasswordLoginFailure);
+                notification.Username.Should().Be(model.Username);
+                return Task.FromResult(0);
+            });
+
             Mock<IApplicationSignInManager> mockSignInManager = new Mock<IApplicationSignInManager>();
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
 
-            LoginCommandHandler command = new LoginCommandHandler(mockSignInManager.Object);
+            LoginCommandHandler command = new LoginCommandHandler(mockNotificationPublisher.Object, mockSignInManager.Object);
             CommandResult result = await command.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
             result.Errors[""][0].Should().Be("The username or password that you entered was incorrect. Please try again.");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
+            mockNotificationPublisher.Verify(x => x.PublishAsync(It.IsAny<UserActionNotification>()), Times.Once);
         }
     }
 }

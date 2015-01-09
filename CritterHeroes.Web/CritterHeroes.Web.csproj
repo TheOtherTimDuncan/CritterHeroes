@@ -498,7 +498,7 @@
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
     <Compile Include="Common\BaseException.cs" />
-    <Compile Include="Common\CommandHandlers\UserActionCommandHandler.cs" />
+    <Compile Include="Common\NotificationHandlers\UserActionNotificationHandler.cs" />
     <Compile Include="Common\Commands\BaseUserCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Common\Dispatchers\NotificationPublisher.cs" />
@@ -512,8 +512,8 @@
     <Compile Include="Common\Identity\IdentityUser.cs" />
     <Compile Include="Common\Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
+    <Compile Include="Common\Notifications\UserActionNotification.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
-    <Compile Include="Contracts\Commands\IAsyncUserCommandHandler.cs" />
     <Compile Include="Contracts\Commands\IUserCommand.cs" />
     <Compile Include="Contracts\Notifications\INotification.cs" />
     <Compile Include="Contracts\Notifications\INotificationPublisher.cs" />
