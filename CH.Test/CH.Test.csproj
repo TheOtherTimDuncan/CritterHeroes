@@ -208,6 +208,7 @@
     <Compile Include="MiscTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
     <Compile Include="Models\BreedTests.cs" />
+    <Compile Include="ProxyTests.cs" />
     <Compile Include="QueryTests\DataStatusQueryHandlerTests.cs" />
     <Compile Include="Models\SpeciesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

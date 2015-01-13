@@ -514,7 +514,9 @@
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
     <Compile Include="Common\Notifications\UserActionNotification.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
+    <Compile Include="Common\Proxies\HttpUserProxy.cs" />
     <Compile Include="Contracts\Commands\IUserCommand.cs" />
+    <Compile Include="Contracts\IHttpUser.cs" />
     <Compile Include="Contracts\Notifications\INotification.cs" />
     <Compile Include="Contracts\Notifications\INotificationPublisher.cs" />
     <Compile Include="Contracts\Notifications\INotificationHandler.cs" />
