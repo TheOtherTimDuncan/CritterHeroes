@@ -58,6 +58,7 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
             container.RegisterPerWebRequest<IEmailConfiguration, EmailConfiguration>();
             container.RegisterPerWebRequest<IRescueGroupsConfiguration, RescueGroupsConfiguration>();
+            container.RegisterPerWebRequest<IHttpUser, HttpUserProxy>();
 
             container.Register<IStateSerializer, StateSerializer>();
             container.Register<IEmailClient, EmailClientProxy>();
