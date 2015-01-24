@@ -10,9 +10,12 @@ using CritterHeroes.Web.Areas.Home;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Notifications;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Notifications;
+using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
@@ -45,7 +48,7 @@ namespace CH.Test.CommandTests
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult((IdentityUser)null));
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, null, mockUserManager.Object, null);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, null, mockUserManager.Object, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
@@ -78,7 +81,7 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, null, mockUserManager.Object, null);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, null, mockUserManager.Object, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
@@ -117,7 +120,7 @@ namespace CH.Test.CommandTests
             Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
             mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, mockSigninManager.Object, mockUserManager.Object, null);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, mockSigninManager.Object, mockUserManager.Object, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
@@ -135,12 +138,23 @@ namespace CH.Test.CommandTests
             {
                 Username = "unit.test",
                 Code = "code",
-                Password = "password"
+                Password = "password",
+
+                OrganizationContext = new OrganizationContext()
+                {
+                    FullName = "FullName",
+                    EmailAddress = "org@org.com"
+                }
             };
 
-            IdentityUser user = new IdentityUser(model.Username);
+            IdentityUser user = new IdentityUser(model.Username)
+            {
+                Email = "email@email.com"
+            };
 
             UserActions[] notificationActions = new UserActions[] { UserActions.PasswordLoginSuccess, UserActions.ResetPasswordSuccess };
+
+            EmailMessage emailMessage = null;
 
             Mock<INotificationPublisher> mockNotificationPublisher = new Mock<INotificationPublisher>();
             mockNotificationPublisher.Setup(x => x.PublishAsync(It.IsAny<UserActionNotification>())).Returns<UserActionNotification>((notification) =>
@@ -160,7 +174,14 @@ namespace CH.Test.CommandTests
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
             mockUrlGenerator.Setup(x => x.GenerateSiteUrl<HomeController>(It.IsAny<Expression<Func<HomeController, ActionResult>>>())).Returns("account-url");
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, mockSigninManager.Object, mockUserManager.Object, mockUrlGenerator.Object);
+            Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
+            mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>())).Returns((EmailMessage msg) =>
+            {
+                emailMessage = msg;
+                return Task.FromResult(0);
+            });
+
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockNotificationPublisher.Object, mockSigninManager.Object, mockUserManager.Object, mockUrlGenerator.Object, mockEmailClient.Object);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeTrue();
 
@@ -169,10 +190,15 @@ namespace CH.Test.CommandTests
             model.ModalDialog.Buttons.Should().NotBeEmpty();
             model.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
+            emailMessage.From.Should().Be(model.OrganizationContext.EmailAddress);
+            emailMessage.To.Should().Contain(user.Email);
+            emailMessage.Subject.Should().Contain(model.OrganizationContext.FullName);
+
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
             mockNotificationPublisher.Verify(x => x.PublishAsync(It.IsAny<UserActionNotification>()), Times.Exactly(2));
+            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Once);
         }
     }
 }

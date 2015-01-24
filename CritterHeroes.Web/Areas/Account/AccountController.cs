@@ -97,6 +97,7 @@ namespace CritterHeroes.Web.Areas.Account
         {
             if (ModelState.IsValid)
             {
+                model.OrganizationContext = OrganizationContext;
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync<ResetPasswordModel>(model);
                 if (!commandResult.Succeeded)
                 {
