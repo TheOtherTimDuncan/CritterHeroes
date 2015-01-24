@@ -8,12 +8,11 @@ using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Handlers.Email;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Notifications;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Notifications;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using TOTD.Utility.ExceptionHelpers;
@@ -23,14 +22,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordCommand>
     {
-        private INotificationPublisher _publisher;
+        private IUserLogger _userLogger;
         private IApplicationUserManager _appUserManager;
         private IEmailClient _emailClient;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(INotificationPublisher publisher, IApplicationUserManager userManager, IEmailClient emailClient, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IEmailClient emailClient, IUrlGenerator urlGenerator)
         {
-            this._publisher = publisher;
+            this._userLogger = userLogger;
             this._appUserManager = userManager;
             this._emailClient = emailClient;
             this._urlGenerator = urlGenerator;
@@ -46,15 +45,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             }
 
             IdentityUser user;
-            string notificationUsername;
             if (!command.Model.EmailAddress.IsNullOrWhiteSpace())
             {
-                notificationUsername = command.Model.EmailAddress;
                 user = await _appUserManager.FindByEmailAsync(command.Model.EmailAddress);
             }
             else
             {
-                notificationUsername = command.Model.Username;
                 user = await _appUserManager.FindByNameAsync(command.Model.Username);
             }
 
@@ -70,7 +66,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found just return failed with no errors
-                await _publisher.PublishAsync(new UserActionNotification(UserActions.ForgotPasswordFailure, null, command.Model));
+                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command.Model);
                 return CommandResult.Failed();
             }
 
@@ -92,7 +88,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 .End();
 
             await _emailClient.SendAsync(emailMessage, user.Id);
-            await _publisher.PublishAsync(new UserActionNotification(UserActions.ForgotPasswordSuccess, notificationUsername));
+            await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName);
             return CommandResult.Success();
         }
     }

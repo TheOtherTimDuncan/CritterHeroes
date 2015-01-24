@@ -195,7 +195,6 @@
     <Compile Include="CommandTests\ForgotPasswordCommandTests.cs" />
     <Compile Include="CommandTests\LogoutCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ResetPasswordCommandHandlerTests.cs" />
-    <Compile Include="NotificationTests\UserActionNotificationHandlerTests.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\BaseControllerTest.cs" />
     <Compile Include="ControllerTests\DataMaintenanceControllerTests.cs" />
@@ -251,7 +250,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NotificationTests\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

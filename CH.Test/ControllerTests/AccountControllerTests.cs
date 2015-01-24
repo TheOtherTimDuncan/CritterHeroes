@@ -48,7 +48,6 @@ namespace CH.Test.ControllerTests
         {
             LoginModel model = new LoginModel();
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, (object)null)).Returns(Task.FromResult(0));
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Failure));
 
             AccountController controller = CreateController<AccountController>();
@@ -60,7 +59,7 @@ namespace CH.Test.ControllerTests
             controller.ModelState[""].Errors[0].ErrorMessage.Should().Be("The username or password that you entered was incorrect. Please try again.");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Username, (object)null), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Username), Times.Once);
         }
 
         [TestMethod]
@@ -72,7 +71,6 @@ namespace CH.Test.ControllerTests
                 Password = "password"
             };
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username)).Returns(Task.FromResult(0));
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Success));
 
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
@@ -84,7 +82,7 @@ namespace CH.Test.ControllerTests
             VerifyRedirectToRouteResult(redirectResult, "Index", "Home");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username, (object)null), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username), Times.Once);
         }
 
         [TestMethod]
@@ -96,7 +94,6 @@ namespace CH.Test.ControllerTests
                 Password = "password"
             };
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username)).Returns(Task.FromResult(0));
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password, false, false)).Returns(Task.FromResult(SignInStatus.Success));
 
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
@@ -109,7 +106,7 @@ namespace CH.Test.ControllerTests
             redirectResult.Url.Should().Be("/Account/EditProfile");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username, (object)null), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username), Times.Once);
         }
 
         [TestMethod]
@@ -242,8 +239,6 @@ namespace CH.Test.ControllerTests
             mockUserManager.Setup(x => x.FindByEmailAsync(model.EmailAddress)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, model.EmailAddress, (object)null)).Returns(Task.FromResult(0));
-
             mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id)).Returns(Task.FromResult(0));
 
             AccountController controller = CreateController<AccountController>();
@@ -263,7 +258,7 @@ namespace CH.Test.ControllerTests
             mockUserManager.Verify(x => x.FindByEmailAsync(model.EmailAddress), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, model.EmailAddress, (object)null), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName), Times.Once);
         }
 
         [TestMethod]
@@ -275,13 +270,12 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<object>())).Returns(Task.FromResult(0));
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult((IdentityUser)null));
 
             AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<object>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, null, model), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
         }
 
@@ -296,15 +290,13 @@ namespace CH.Test.ControllerTests
 
             IdentityUser user = new IdentityUser(model.Username);
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<object>())).Returns(Task.FromResult(0));
-
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
             AccountController controller = CreateController<AccountController>();
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<object>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
         }
@@ -320,8 +312,6 @@ namespace CH.Test.ControllerTests
 
             IdentityUser user = new IdentityUser(model.Username);
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<object>())).Returns(Task.FromResult(0));
-
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
@@ -330,7 +320,7 @@ namespace CH.Test.ControllerTests
             AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<object>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);

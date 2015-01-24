@@ -498,7 +498,6 @@
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
     <Compile Include="Common\BaseException.cs" />
-    <Compile Include="Common\NotificationHandlers\UserActionNotificationHandler.cs" />
     <Compile Include="Common\Commands\BaseUserCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Common\Dispatchers\NotificationPublisher.cs" />
@@ -512,7 +511,6 @@
     <Compile Include="Common\Identity\IdentityUser.cs" />
     <Compile Include="Common\Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
-    <Compile Include="Common\Notifications\UserActionNotification.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Common\Proxies\HttpUserProxy.cs" />
     <Compile Include="Contracts\Commands\IUserCommand.cs" />
@@ -624,7 +622,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Common\NotificationHandlers\" />
+    <Folder Include="Common\Notifications\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
