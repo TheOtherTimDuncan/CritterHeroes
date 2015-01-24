@@ -8,6 +8,7 @@ using System.Web.Routing;
 using CritterHeroes.Web;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
@@ -35,6 +36,9 @@ namespace CH.Test.ControllerTests
         public Mock<IEmailClient> mockEmailClient;
         public Mock<IApplicationUserStore> mockUserStore;
         public Mock<IAuthenticationManager> mockAuthenticationManager;
+
+        public OrganizationContext organizationContext;
+        public UserContext userContext;
 
         [TestInitialize]
         public void InitializeTest()
@@ -65,6 +69,12 @@ namespace CH.Test.ControllerTests
 
             mockAuthenticationManager = new Mock<IAuthenticationManager>();
             container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);
+
+            organizationContext = new OrganizationContext();
+            container.Register(() => organizationContext);
+
+            userContext = new UserContext();
+            container.Register(() => userContext);
 
             container.Register<INotificationPublisher, NotificationPublisher>();
         }

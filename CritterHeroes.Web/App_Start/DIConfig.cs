@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.DataMaintenance.CommandHandlers;
 using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Common.CommandHandlers;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Proxies;
@@ -28,7 +27,9 @@ using CritterHeroes.Web.DataProviders.Azure.Identity;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.Middleware;
 using CritterHeroes.Web.Models;
+using Microsoft.Owin;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SimpleInjector.Extensions;
@@ -62,7 +63,7 @@ namespace CritterHeroes.Web
 
             container.Register<IStateSerializer, StateSerializer>();
             container.Register<IEmailClient, EmailClientProxy>();
-
+            
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
             container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();
@@ -136,7 +137,7 @@ namespace CritterHeroes.Web
                 }
 
                 ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
-                return HttpContext.Current.GetOwinContext().Authentication;
+                return container.GetInstance<IOwinContext>().Authentication;
             });
 
             container.RegisterPerWebRequest(() =>
@@ -148,6 +149,26 @@ namespace CritterHeroes.Web
 
                 ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
                 return HttpContext.Current.GetOwinContext();
+            });
+
+            container.RegisterPerWebRequest(() =>
+            {
+                if (container.IsVerifying())
+                {
+                    return new OrganizationContext();
+                }
+
+                return container.GetInstance<IOwinContext>().GetOrganizationContext();
+            });
+
+            container.RegisterPerWebRequest(() =>
+            {
+                if (container.IsVerifying())
+                {
+                    return new UserContext();
+                }
+
+                return container.GetInstance<IOwinContext>().GetUserContext();
             });
         }
     }

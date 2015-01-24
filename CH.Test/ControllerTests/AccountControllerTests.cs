@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -275,7 +276,7 @@ namespace CH.Test.ControllerTests
             AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, null, model), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
         }
 
@@ -296,7 +297,7 @@ namespace CH.Test.ControllerTests
             AccountController controller = CreateController<AccountController>();
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
         }
@@ -320,7 +321,7 @@ namespace CH.Test.ControllerTests
             AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password, false, false), Times.Once);
@@ -338,8 +339,6 @@ namespace CH.Test.ControllerTests
 
             IdentityUser user = new IdentityUser(model.Username);
 
-            mockUserLogger.Setup(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Username, (object)null)).Returns(Task.FromResult(0));
-
             mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
@@ -348,7 +347,8 @@ namespace CH.Test.ControllerTests
             AccountController controller = CreateController<AccountController>();
             ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Username, (object)null), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Username), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Username), Times.Once);
             mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
         }

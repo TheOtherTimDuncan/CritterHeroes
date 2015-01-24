@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Areas.Models.Modal;
-using CritterHeroes.Web.Common.StateManagement;
 
 namespace CritterHeroes.Web.Areas.Account.Models
 {
@@ -25,12 +24,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
         }
 
         public ModalDialogModel ModalDialog
-        {
-            get;
-            set;
-        }
-
-        public OrganizationContext OrganizationContext
         {
             get;
             set;

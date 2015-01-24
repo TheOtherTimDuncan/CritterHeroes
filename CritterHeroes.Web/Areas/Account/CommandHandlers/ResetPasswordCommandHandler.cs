@@ -9,6 +9,7 @@ using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Handlers.Email;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
@@ -25,14 +26,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IUrlGenerator _urlGenerator;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
+        private OrganizationContext _organizationContext;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IEmailClient emailClient)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IEmailClient emailClient, OrganizationContext organizationContext)
             : base(userLogger, signinManager)
         {
             this._userManager = userManager;
             this._urlGenerator = urlGenerator;
             this._userLogger = userLogger;
             this._emailClient = emailClient;
+            this._organizationContext = organizationContext;
         }
 
         public override async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
@@ -48,8 +51,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     {
                         EmailMessage emailMessage = new EmailMessage()
                         {
-                            Subject = "Admin Notification - " + command.OrganizationContext.FullName,
-                            From = command.OrganizationContext.EmailAddress
+                            Subject = "Admin Notification - " + _organizationContext.FullName,
+                            From = _organizationContext.EmailAddress
                         };
                         emailMessage.To.Add(identityUser.Email);
 
