@@ -164,25 +164,21 @@ namespace CH.Test.ControllerTests
                 Username = user.UserName,
             };
 
-            GenericIdentity genericIdentity = new GenericIdentity(user.UserName);
-            ClaimsIdentity identity = new ClaimsIdentity(genericIdentity);
-            identity.AddClaim(new Claim(AppClaimTypes.UserID, user.Id));
-
-            Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
+            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
             AccountController controller = CreateController<AccountController>();
-            controller.ControllerContext = CreateControllerContext(mockHttpContext, controller);
 
             RedirectResult redirectResult = await controller.EditProfile(model) as RedirectResult;
             redirectResult.Url.Should().Be(returnUri.AbsoluteUri);
 
             mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
+            mockUserContextManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
         }
 
         [TestMethod]

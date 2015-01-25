@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
@@ -21,13 +22,15 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IApplicationUserManager _userManager;
         private IUserLogger _userLogger;
         private IHttpUser _httpUser;
+        private IStateManager<UserContext> _userContextManager;
 
-        public EditProfileCommandHandler(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger, IHttpUser httpUser)
+        public EditProfileCommandHandler(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
         {
             this._authenticationManager = httpContext;
             this._userManager = userManager;
             this._userLogger = userLogger;
             this._httpUser = httpUser;
+            this._userContextManager = userContextManager;
         }
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
@@ -61,6 +64,9 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 return CommandResult.Failed("", identityResult.Errors);
             }
+
+            UserContext userContext = UserContext.FromUser(user);
+            _userContextManager.SaveContext(userContext);
 
             if (isUsernameChanged)
             {

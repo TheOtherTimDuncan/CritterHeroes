@@ -36,6 +36,9 @@ namespace CH.Test.ControllerTests
         public Mock<IEmailClient> mockEmailClient;
         public Mock<IApplicationUserStore> mockUserStore;
         public Mock<IAuthenticationManager> mockAuthenticationManager;
+        public Mock<IHttpUser> mockHttpUser;
+
+        public Mock<IStateManager<UserContext>> mockUserContextManager;
 
         public OrganizationContext organizationContext;
         public UserContext userContext;
@@ -69,6 +72,12 @@ namespace CH.Test.ControllerTests
 
             mockAuthenticationManager = new Mock<IAuthenticationManager>();
             container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);
+
+            mockHttpUser = new Mock<IHttpUser>();
+            container.Register(() => mockHttpUser.Object, Lifestyle.Singleton);
+
+            mockUserContextManager = new Mock<IStateManager<UserContext>>();
+            container.Register(() => mockUserContextManager.Object);
 
             organizationContext = new OrganizationContext();
             container.Register(() => organizationContext);
