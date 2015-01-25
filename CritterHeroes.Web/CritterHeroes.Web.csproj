@@ -45,6 +45,12 @@
     <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.5.5.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>..\packages\FluentValidation.MVC5.5.5.0.0\lib\Net45\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -455,6 +461,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.Middleware.cs" />
+    <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
     <Compile Include="Areas\Account\Commands\ForgotPasswordCommand.cs" />
@@ -519,6 +526,7 @@
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Common\Proxies\HttpUserProxy.cs" />
+    <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Contracts\Commands\IUserCommand.cs" />
     <Compile Include="Contracts\IHttpUser.cs" />
     <Compile Include="Contracts\Notifications\INotification.cs" />

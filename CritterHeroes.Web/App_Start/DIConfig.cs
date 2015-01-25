@@ -29,6 +29,7 @@ using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.Middleware;
 using CritterHeroes.Web.Models;
+using FluentValidation;
 using Microsoft.Owin;
 using SimpleInjector;
 using SimpleInjector.Advanced;
@@ -63,7 +64,7 @@ namespace CritterHeroes.Web
 
             container.Register<IStateSerializer, StateSerializer>();
             container.Register<IEmailClient, EmailClientProxy>();
-            
+
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
             container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();
@@ -74,6 +75,8 @@ namespace CritterHeroes.Web
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();
             container.Register<IStorageContext<Organization>, OrganizationAzureStorage>();
+
+            container.RegisterManyForOpenGeneric(typeof(IValidator<>), defaultAssemblies);
 
             RegisterIdentityInterfaces(container);
             RegisterHandlers(container, defaultAssemblies);

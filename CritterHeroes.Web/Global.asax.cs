@@ -9,7 +9,8 @@ namespace CritterHeroes.Web
     {
         protected void Application_Start()
         {
-            DIConfig.ConfigureDependencyContainer();
+            var container = DIConfig.ConfigureDependencyContainer();
+            ValidationConfig.ConfigureValidation(container);
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
