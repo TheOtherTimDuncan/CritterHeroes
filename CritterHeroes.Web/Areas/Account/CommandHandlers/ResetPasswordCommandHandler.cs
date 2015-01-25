@@ -11,34 +11,37 @@ using CritterHeroes.Web.Common.Handlers.Email;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
-    public class ResetPasswordCommandHandler : BaseLoginCommandHandler<ResetPasswordModel>
+    public class ResetPasswordCommandHandler : IAsyncCommandHandler<ResetPasswordModel>
     {
         private IApplicationUserManager _userManager;
+        private IApplicationSignInManager _signinManager;
         private IUrlGenerator _urlGenerator;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
         private OrganizationContext _organizationContext;
 
         public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IEmailClient emailClient, OrganizationContext organizationContext)
-            : base(userLogger, signinManager)
         {
             this._userManager = userManager;
+            this._signinManager = signinManager;
             this._urlGenerator = urlGenerator;
             this._userLogger = userLogger;
             this._emailClient = emailClient;
             this._organizationContext = organizationContext;
         }
 
-        public override async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
+        public async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
         {
             IdentityUser identityUser = await _userManager.FindByNameAsync(command.Username);
             if (identityUser != null)
@@ -46,8 +49,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 IdentityResult identityResult = await _userManager.ResetPasswordAsync(identityUser.Id, command.Code, command.Password);
                 if (identityResult.Succeeded)
                 {
-                    CommandResult commandResult = await Login(command);
-                    if (commandResult.Succeeded)
+                    SignInStatus loginResult = await _signinManager.PasswordSignInAsync(command.Username, command.Password);
+                    if (loginResult == SignInStatus.Success)
                     {
                         EmailMessage emailMessage = new EmailMessage()
                         {

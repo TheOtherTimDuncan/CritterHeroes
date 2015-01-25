@@ -7,6 +7,6 @@ namespace CritterHeroes.Web.Contracts.Identity
 {
     public interface IApplicationSignInManager
     {
-        Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout);
+        Task<SignInStatus> PasswordSignInAsync(string userName, string password);
     }
 }
