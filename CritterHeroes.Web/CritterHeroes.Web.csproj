@@ -510,7 +510,6 @@
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
     <Compile Include="Common\BaseException.cs" />
-    <Compile Include="Common\Commands\BaseUserCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Common\Dispatchers\NotificationPublisher.cs" />
     <Compile Include="Common\Dispatchers\QueryDispatcher.cs" />
@@ -527,7 +526,6 @@
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Common\Proxies\HttpUserProxy.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
-    <Compile Include="Contracts\Commands\IUserCommand.cs" />
     <Compile Include="Contracts\IHttpUser.cs" />
     <Compile Include="Contracts\Notifications\INotification.cs" />
     <Compile Include="Contracts\Notifications\INotificationPublisher.cs" />

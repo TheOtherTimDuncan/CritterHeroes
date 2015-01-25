@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using CritterHeroes.Web.Areas.Models.Modal;
-using CritterHeroes.Web.Contracts.Commands;
 
 namespace CritterHeroes.Web.Areas.Account.Models
 {
-    public class ForgotPasswordModel : IUserCommand
+    public class ForgotPasswordModel
     {
         public ModalDialogModel ModalDialog
         {

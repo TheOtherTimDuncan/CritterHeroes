@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using CritterHeroes.Web.Contracts.Commands;
 
 namespace CritterHeroes.Web.Areas.Account.Models
 {
-    public class LoginModel : IUserCommand
+    public class LoginModel
     {
         public string ReturnUrl
         {
