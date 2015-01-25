@@ -21,6 +21,7 @@ using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -113,38 +114,30 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task GetEditProfileReturnsViewWithModel()
         {
-            string userID = Guid.NewGuid().ToString();
-
-            Uri uriReferrer = new Uri("http://google.com");
-
-            IdentityUser user = new IdentityUser(userID, "unit.test")
+            IdentityUser user = new IdentityUser("unit.test")
             {
                 FirstName = "First",
                 LastName = "Last",
                 Email = "email@email.com"
             };
 
-            mockUserStore.Setup(x => x.FindByIdAsync(userID)).Returns(Task.FromResult(user));
+            mockUserStore.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
 
-            ClaimsIdentity identity = new ClaimsIdentity();
-            identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
+            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
-            Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
-            mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
+            Mock<IHeaderDictionary> mockHeaderDictionary = new Mock<IHeaderDictionary>();
+            string[] headerValue = new string[] { "http://google.com" };
+            mockHeaderDictionary.Setup(x => x.TryGetValue(It.IsAny<string>(), out headerValue)).Returns(true);
 
-            Mock<IHttpContext> mockHttpContextProxy = new Mock<IHttpContext>();
-            mockHttpContextProxy.Setup(x => x.Request.UrlReferrer).Returns(uriReferrer);
-            container.Register<IHttpContext>(() => mockHttpContextProxy.Object);
+            mockOwinContext.Setup(x => x.Request.Headers).Returns(mockHeaderDictionary.Object);
 
             AccountController controller = CreateController<AccountController>();
-            controller.ControllerContext = CreateControllerContext(mockHttpContext, controller);
 
             ViewResult viewResult = (ViewResult)await controller.EditProfile();
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
-            mockHttpContextProxy.Verify(x => x.Request.UrlReferrer, Times.Once);
-            mockUserStore.Verify(x => x.FindByIdAsync(userID), Times.Once);
+            mockUserStore.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
         }
 
         [TestMethod]

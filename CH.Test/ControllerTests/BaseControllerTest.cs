@@ -17,6 +17,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using FluentAssertions;
+using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -37,6 +38,7 @@ namespace CH.Test.ControllerTests
         public Mock<IApplicationUserStore> mockUserStore;
         public Mock<IAuthenticationManager> mockAuthenticationManager;
         public Mock<IHttpUser> mockHttpUser;
+        public Mock<IOwinContext> mockOwinContext;
 
         public Mock<IStateManager<UserContext>> mockUserContextManager;
 
@@ -78,6 +80,9 @@ namespace CH.Test.ControllerTests
 
             mockUserContextManager = new Mock<IStateManager<UserContext>>();
             container.Register(() => mockUserContextManager.Object);
+
+            mockOwinContext = new Mock<IOwinContext>();
+            container.Register(() => mockOwinContext.Object);
 
             organizationContext = new OrganizationContext();
             container.Register(() => organizationContext);
