@@ -480,7 +480,7 @@
     <Compile Include="Areas\Account\Models\LogoutModel.cs" />
     <Compile Include="Areas\Account\Models\ResetPasswordModel.cs" />
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
-    <Compile Include="Areas\Account\Validators\LoginModelValidator.cs" />
+    <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\DataMaintenanceController.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\Models\DashboardItemModel.cs" />

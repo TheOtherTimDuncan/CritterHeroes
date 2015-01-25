@@ -12,15 +12,12 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        [Required(ErrorMessage = "Please enter a username.")]
-        [StringLength(255, MinimumLength = 4, ErrorMessage = "Please enter a username of at least 4 characters.")]
         public string Username
         {
             get;
             set;
         }
 
-        [Required(ErrorMessage = "Please enter your first name.")]
         [Display(Name = "First Name")]
         public string FirstName
         {
@@ -28,7 +25,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        [Required(ErrorMessage = "Please enter your last name.")]
         [Display(Name = "Last Name")]
         public string LastName
         {
@@ -36,8 +32,7 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        [Required(ErrorMessage = "Please enter your email address.")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [DataType(DataType.EmailAddress)]
         public string Email
         {
             get;
