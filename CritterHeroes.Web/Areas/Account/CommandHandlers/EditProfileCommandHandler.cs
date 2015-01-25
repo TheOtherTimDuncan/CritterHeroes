@@ -20,19 +20,21 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IAuthenticationManager _authenticationManager;
         private IApplicationUserManager _userManager;
         private IUserLogger _userLogger;
+        private IHttpUser _httpUser;
 
-        public EditProfileCommandHandler(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger)
+        public EditProfileCommandHandler(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger, IHttpUser httpUser)
         {
             this._authenticationManager = httpContext;
             this._userManager = userManager;
             this._userLogger = userLogger;
+            this._httpUser = httpUser;
         }
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
             bool isUsernameChanged = false;
 
-            if (!command.OriginalUsername.Equals(command.Username, StringComparison.InvariantCultureIgnoreCase))
+            if (!_httpUser.Username.Equals(command.Username, StringComparison.InvariantCultureIgnoreCase))
             {
                 IdentityUser dupeUser = await _userManager.FindByNameAsync(command.Username);
                 if (dupeUser != null)
@@ -45,7 +47,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 }
             }
 
-            IdentityUser user = await _userManager.FindByIdAsync(command.UserID);
+            IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 
@@ -62,9 +64,9 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             if (isUsernameChanged)
             {
-                await _userLogger.LogActionAsync(UserActions.UsernameChanged, user.UserName, "Original username: " + command.OriginalUsername);
+                await _userLogger.LogActionAsync(UserActions.UsernameChanged, user.UserName, "Original username: " + _httpUser.Username);
                 _authenticationManager.SignOut();
-                _authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie));
+                _authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user));
             }
 
             return CommandResult.Success();

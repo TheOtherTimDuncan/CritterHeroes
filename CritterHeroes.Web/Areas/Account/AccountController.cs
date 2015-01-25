@@ -145,9 +145,6 @@ namespace CritterHeroes.Web.Areas.Account
         {
             if (ModelState.IsValid)
             {
-                model.OriginalUsername = User.Identity.Name;
-                model.UserID = User.GetUserID();
-
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {

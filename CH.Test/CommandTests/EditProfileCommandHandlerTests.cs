@@ -7,6 +7,7 @@ using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
@@ -39,16 +40,18 @@ namespace CH.Test.CommandTests
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
+            Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
+            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
+
             EditProfileModel model = new EditProfileModel()
             {
-                OriginalUsername = user.UserName,
                 Username = user.UserName,
-                UserID = user.Id,
                 FirstName = "New First",
                 LastName = "New Last"
             };
 
-            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockUserLogger.Object);
+            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockUserLogger.Object, mockHttpUser.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -70,9 +73,7 @@ namespace CH.Test.CommandTests
 
             EditProfileModel model = new EditProfileModel()
             {
-                OriginalUsername = user.UserName,
                 Username = "new.user",
-                UserID = user.Id,
                 FirstName = "New First",
                 LastName = "New Last"
             };
@@ -80,7 +81,7 @@ namespace CH.Test.CommandTests
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
-            mockUserManager.Setup(x => x.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie)).Returns(Task.FromResult(new ClaimsIdentity()));
+            mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(x => x.SignOut());
@@ -89,7 +90,11 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
             mockLogger.Setup(x => x.LogActionAsync(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
 
-            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
+            Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
+            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
+
+            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object, mockHttpUser.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -99,7 +104,7 @@ namespace CH.Test.CommandTests
 
             mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
-            mockUserManager.Verify(x => x.CreateIdentityAsync(user, It.IsAny<string>()), Times.Once);
+            mockUserManager.Verify(x => x.CreateIdentityAsync(user), Times.Once);
 
             mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
             mockAuthenticationManager.Verify(x => x.SignIn(It.IsAny<ClaimsIdentity>()), Times.Once);
@@ -126,16 +131,18 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
+            Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
+            mockHttpUser.Setup(x => x.Username).Returns(userName);
+
             EditProfileModel model = new EditProfileModel()
             {
-                OriginalUsername = userName,
                 Username = user.UserName,
                 Email = "email@email.com",
                 FirstName = "First",
                 LastName = "Last"
             };
 
-            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object);
+            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object, mockHttpUser.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeFalse();
 

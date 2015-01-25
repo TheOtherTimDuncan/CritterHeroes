@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Contracts.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.DataProtection;
@@ -51,6 +51,11 @@ namespace CritterHeroes.Web.Common.Identity
             {
                 return this;
             }
+        }
+
+        public async Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user)
+        {
+            return await CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
         public override async Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType)

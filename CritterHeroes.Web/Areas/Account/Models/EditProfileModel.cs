@@ -12,18 +12,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        public string UserID
-        {
-            get;
-            set;
-        }
-
-        public string OriginalUsername
-        {
-            get;
-            set;
-        }
-
         [Required(ErrorMessage = "Please enter a username.")]
         [StringLength(255, MinimumLength = 4, ErrorMessage = "Please enter a username of at least 4 characters.")]
         public string Username

@@ -23,6 +23,7 @@ namespace CritterHeroes.Web.Contracts.Identity
         Task<IdentityUser> FindByIdAsync(string userID); 
         Task<IdentityUser> FindByNameAsync(string userName);
 
+        Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user);
         Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType);
 
         Task<string> GeneratePasswordResetTokenAsync(string userID);
