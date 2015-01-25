@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Areas.Account.Models;
 using FluentValidation;
+using FluentValidation.Results;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account
 {
@@ -29,6 +31,22 @@ namespace CritterHeroes.Web.Areas.Account
 
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Please enter your first name.");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Please enter your last name.");
+        }
+    }
+
+    public class ForgotPasswordModelValidator : AbstractValidator<ForgotPasswordModel>
+    {
+        public ForgotPasswordModelValidator()
+        {
+            Custom(x =>
+            {
+                if (x.EmailAddress.IsNullOrWhiteSpace() && x.Username.IsNullOrWhiteSpace())
+                {
+                    return new ValidationFailure("", "Please enter your email address or your username.");
+                }
+                
+                return null;
+            });
         }
     }
 }

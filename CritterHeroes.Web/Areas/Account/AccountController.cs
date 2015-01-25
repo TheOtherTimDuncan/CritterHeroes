@@ -72,10 +72,14 @@ namespace CritterHeroes.Web.Areas.Account
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
         {
-            ForgotPasswordCommand command = new ForgotPasswordCommand(model, OrganizationContext);
-            CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand>(command);
-            model.ModalDialog = command.ModalDialog;
-            AddCommandResultErrorsToModelState(ModelState, commandResult);
+            if (ModelState.IsValid)
+            {
+                ForgotPasswordCommand command = new ForgotPasswordCommand(model, OrganizationContext);
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand>(command);
+                model.ModalDialog = command.ModalDialog;
+                AddCommandResultErrorsToModelState(ModelState, commandResult);
+            }
+
             return View(model);
         }
 

@@ -6,6 +6,7 @@ using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using FluentAssertions;
 using FluentValidation;
+using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -202,6 +203,64 @@ namespace CH.Test.ValidationTests
             {
                 new EditProfileModelValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "email@email.com");
             }
+        }
+    }
+
+    [TestClass]
+    public class ForgotPasswordModelValidatorTests
+    {
+        [TestMethod]
+        public void ShouldHaveErrorIfBothEmailAndUsernameAreNull()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
+            ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
+            validationResult.IsValid.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void ShouldHaveErrorIfBothEmailAndUsernameAreEmpty()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel()
+            {
+                EmailAddress="",
+                Username=""
+            };
+            ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
+            validationResult.IsValid.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void ShouldHaveErrorIfBothEmailAndUsernameAreWhitespace()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel()
+            {
+                EmailAddress = "  ",
+                Username = "  "
+            };
+            ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
+            validationResult.IsValid.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void ShouldNotHaveErrorIfEmailAddressHasValue()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel()
+            {
+                EmailAddress = "email@emailc.om",
+            };
+            ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
+            validationResult.IsValid.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void ShouldNotHaveErrorIfUsernameHasValue()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel()
+            {
+                Username = "username",
+            };
+            ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
+            validationResult.IsValid.Should().BeTrue();
         }
     }
 }

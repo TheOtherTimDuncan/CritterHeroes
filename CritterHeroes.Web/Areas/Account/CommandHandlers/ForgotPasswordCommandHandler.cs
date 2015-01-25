@@ -39,11 +39,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         {
             ThrowIf.Argument.IsNull(command, "command");
 
-            if (command.Model.EmailAddress.IsNullOrWhiteSpace() && command.Model.Username.IsNullOrWhiteSpace())
-            {
-                return CommandResult.Failed("", "Please enter your email address or your username.");
-            }
-
             IdentityUser user;
             if (!command.Model.EmailAddress.IsNullOrWhiteSpace())
             {
