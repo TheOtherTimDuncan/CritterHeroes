@@ -46,7 +46,7 @@ namespace CritterHeroes.Web
             bundles.Add(jqueryBundle);
 
             // jQuery validation
-            Bundle validateBundle = new ScriptBundle("~/bundles/jqueryvalidation", "//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js")
+            Bundle validateBundle = new ScriptBundle("~/bundles/jqueryvalidation", "//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js")
                 .Include("~/Scripts/jquery.validate.js");
             bundles.Add(validateBundle);
 
