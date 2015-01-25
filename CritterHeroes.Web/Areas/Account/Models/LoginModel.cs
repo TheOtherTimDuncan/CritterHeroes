@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using CritterHeroes.Web.Contracts.Commands;
 
 namespace CritterHeroes.Web.Areas.Account.Models
@@ -15,14 +14,12 @@ namespace CritterHeroes.Web.Areas.Account.Models
         }
 
         [Display(Name = "Username")]
-        [Required(ErrorMessage = "Please enter a username.")]
         public string Username
         {
             get;
             set;
         }
 
-        [Required(ErrorMessage = "Please enter a password.")]
         [DataType(DataType.Password)]
         public string Password
         {
