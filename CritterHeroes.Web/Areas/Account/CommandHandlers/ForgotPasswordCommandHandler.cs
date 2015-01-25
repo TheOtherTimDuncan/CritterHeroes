@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Account.Commands;
+using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Handlers.Email;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
@@ -20,33 +21,35 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
-    public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordCommand>
+    public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordModel>
     {
         private IUserLogger _userLogger;
         private IApplicationUserManager _appUserManager;
         private IEmailClient _emailClient;
         private IUrlGenerator _urlGenerator;
+        private OrganizationContext _organizationContext;
 
-        public ForgotPasswordCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IEmailClient emailClient, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IEmailClient emailClient, IUrlGenerator urlGenerator, OrganizationContext organizationContext)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
             this._emailClient = emailClient;
             this._urlGenerator = urlGenerator;
+            this._organizationContext = organizationContext;
         }
 
-        public async Task<CommandResult> ExecuteAsync(ForgotPasswordCommand command)
+        public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
             ThrowIf.Argument.IsNull(command, "command");
 
             IdentityUser user;
-            if (!command.Model.EmailAddress.IsNullOrWhiteSpace())
+            if (!command.EmailAddress.IsNullOrWhiteSpace())
             {
-                user = await _appUserManager.FindByEmailAsync(command.Model.EmailAddress);
+                user = await _appUserManager.FindByEmailAsync(command.EmailAddress);
             }
             else
             {
-                user = await _appUserManager.FindByNameAsync(command.Model.Username);
+                user = await _appUserManager.FindByNameAsync(command.Username);
             }
 
             ModalDialogButton button1 = ModalDialogButton.Button(text: "Try Again", cssClass: ButtonCss.Info, isDismissable: true);
@@ -61,7 +64,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found just return failed with no errors
-                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command.Model);
+                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command);
                 return CommandResult.Failed();
             }
 
@@ -70,14 +73,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             EmailMessage emailMessage = new EmailMessage()
             {
-                Subject = "Password Reset - " + command.OrganizationContext.FullName,
-                From = command.OrganizationContext.EmailAddress
+                Subject = "Password Reset - " + _organizationContext.FullName,
+                From = _organizationContext.EmailAddress
             };
             emailMessage.To.Add(user.Email);
 
             EmailBuilder
                 .Begin(emailMessage)
-                .AddParagraph("Your password for your account at " + command.OrganizationContext.FullName + " has been reset. To complete resetting your password, click the link below or visit " + command.OrganizationContext.FullName + " and copy the code into the provided form. This code will be valid for " + _appUserManager.TokenLifespan.TotalHours.ToString() + " hours.")
+                .AddParagraph("Your password for your account at " + _organizationContext.FullName + " has been reset. To complete resetting your password, click the link below or visit " + _organizationContext.FullName + " and copy the code into the provided form. This code will be valid for " + _appUserManager.TokenLifespan.TotalHours.ToString() + " hours.")
                 .AddParagraph("Confirmation Code: " + code)
                 .AddParagraph("<a href=\"" + url + "\">Reset Password</a>")
                 .End();

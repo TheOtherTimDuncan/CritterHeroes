@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Account.Commands;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Common;
@@ -74,9 +73,7 @@ namespace CritterHeroes.Web.Areas.Account
         {
             if (ModelState.IsValid)
             {
-                ForgotPasswordCommand command = new ForgotPasswordCommand(model, OrganizationContext);
-                CommandResult commandResult = await CommandDispatcher.DispatchAsync<ForgotPasswordCommand>(command);
-                model.ModalDialog = command.ModalDialog;
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 AddCommandResultErrorsToModelState(ModelState, commandResult);
             }
 
