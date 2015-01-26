@@ -222,8 +222,8 @@ namespace CH.Test.ValidationTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                EmailAddress="",
-                Username=""
+                EmailAddress = "",
+                Username = ""
             };
             ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
             validationResult.IsValid.Should().BeFalse();
@@ -261,6 +261,93 @@ namespace CH.Test.ValidationTests
             };
             ValidationResult validationResult = new ForgotPasswordModelValidator().Validate(model);
             validationResult.IsValid.Should().BeTrue();
+        }
+    }
+
+    [TestClass]
+    public class ResetPasswordModelValidatorTests
+    {
+        [TestClass]
+        public class ConfirmPasswordPropertyTests
+        {
+            [TestMethod]
+            public void ShouldHaveErrorIfDoesNotMatchPassword()
+            {
+                ResetPasswordModel model = new ResetPasswordModel()
+                {
+                    Password = "password",
+                    ConfirmPassword = "foobar"
+                };
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.ConfirmPassword, model);
+            }
+
+            [TestMethod]
+            public void ShouldNotHaveErrorWhenConfirmPasswordMatchesPassword()
+            {
+                ResetPasswordModel model = new ResetPasswordModel()
+                {
+                    Password = "password",
+                    ConfirmPassword = "password"
+                };
+                new ResetPasswordModelValidator().ShouldNotHaveValidationErrorFor(x => x.ConfirmPassword, model);
+            }
+
+        }
+
+        [TestClass]
+        public class UsernamePropertyTests
+        {
+            [TestMethod]
+            public void ShouldHaveErrorWhenUsernameIsNull()
+            {
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.Username, (string)null);
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenUsernameIsEmpty()
+            {
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.Username, "");
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenUsernameIsWhitespace()
+            {
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.Username, "  ");
+            }
+
+            [TestMethod]
+            public void ShouldNotHaveErrorWhenUsernameHasValue()
+            {
+                new ResetPasswordModelValidator().ShouldNotHaveValidationErrorFor(x => x.Username, "user.name");
+            }
+        }
+
+        [TestClass]
+        public class PasswordPropertyTests
+        {
+            [TestMethod]
+            public void ShouldHaveErrorWhenPasswordIsNull()
+            {
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.Password, (string)null);
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenPasswordIsEmpty()
+            {
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.Password, "");
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenPasswordIsWhitespace()
+            {
+                new ResetPasswordModelValidator().ShouldHaveValidationErrorFor(x => x.Password, "  ");
+            }
+
+            [TestMethod]
+            public void ShouldNotHaveErrorWhenPasswordHasValue()
+            {
+                new ResetPasswordModelValidator().ShouldNotHaveValidationErrorFor(x => x.Password, "password");
+            }
         }
     }
 }

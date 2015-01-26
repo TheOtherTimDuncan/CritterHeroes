@@ -44,9 +44,19 @@ namespace CritterHeroes.Web.Areas.Account
                 {
                     return new ValidationFailure("", "Please enter your email address or your username.");
                 }
-                
+
                 return null;
             });
+        }
+    }
+
+    public class ResetPasswordModelValidator : AbstractValidator<ResetPasswordModel>
+    {
+        public ResetPasswordModelValidator()
+        {
+            RuleFor(x => x.Username).NotEmpty().WithMessage("Please enter a username.");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
+            RuleFor(x => x.ConfirmPassword).Equal(x => x.Password).WithMessage("The password and confirmation password do not match.");
         }
     }
 }
