@@ -35,29 +35,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
-            bool isUsernameChanged = false;
-
-            if (!_httpUser.Username.Equals(command.Username, StringComparison.InvariantCultureIgnoreCase))
-            {
-                IdentityUser dupeUser = await _userManager.FindByNameAsync(command.Username);
-                if (dupeUser != null)
-                {
-                    return CommandResult.Failed("", "The username you entered is not available. Please enter a different username.");
-                }
-                else
-                {
-                    isUsernameChanged = true;
-                }
-            }
-
             IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            user.UserName = command.Username;
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
-
-            if (isUsernameChanged)
-            {
-                user.UserName = command.Username;
-            }
 
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
             if (!identityResult.Succeeded)
@@ -68,7 +49,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             UserContext userContext = UserContext.FromUser(user);
             _userContextManager.SaveContext(userContext);
 
-            if (isUsernameChanged)
+            if (!_httpUser.Username.Equals(command.Username, StringComparison.InvariantCultureIgnoreCase))
             {
                 await _userLogger.LogActionAsync(UserActions.UsernameChanged, user.UserName, "Original username: " + _httpUser.Username);
                 _authenticationManager.SignOut();

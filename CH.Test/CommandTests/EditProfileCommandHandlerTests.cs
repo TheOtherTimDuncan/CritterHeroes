@@ -117,46 +117,5 @@ namespace CH.Test.CommandTests
 
             mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.UsernameChanged, model.Username, It.IsAny<string>()), Times.Once);
         }
-
-        [TestMethod]
-        public async Task EditProfileCommandReturnsErrorIfUsernameChangedToDuplicate()
-        {
-            string userName = "test.user";
-
-            IdentityUser user = new IdentityUser()
-            {
-                UserName = "dupe.user",
-                Email = "email@email.com",
-                FirstName = "First",
-                LastName = "Last"
-            };
-
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
-
-            Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
-
-            Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
-            mockHttpUser.Setup(x => x.Username).Returns(userName);
-
-            Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
-
-            EditProfileModel model = new EditProfileModel()
-            {
-                Username = user.UserName,
-                Email = "email@email.com",
-                FirstName = "First",
-                LastName = "Last"
-            };
-
-            EditProfileCommandHandler command = new EditProfileCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object);
-            CommandResult commandResult = await command.ExecuteAsync(model);
-            commandResult.Succeeded.Should().BeFalse();
-
-            commandResult.Errors[""][0].Should().Be("The username you entered is not available. Please enter a different username.");
-
-            mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
-        }
     }
 }
