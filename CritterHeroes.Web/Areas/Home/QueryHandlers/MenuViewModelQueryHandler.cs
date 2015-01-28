@@ -6,7 +6,6 @@ using CritterHeroes.Web.Areas.Common.QueryHandlers;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
 using CritterHeroes.Web.Contracts.Configuration;
-using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.Misc;
 
 namespace CritterHeroes.Web.Areas.Home.QueryHandlers
@@ -22,8 +21,6 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 
         public override Task<MenuModel> RetrieveAsync(MenuQuery query)
         {
-            ThrowIf.Argument.IsNull(query, "query");
-
             MenuModel model = new MenuModel()
             {
                 CurrentUser = query.CurrentUser,

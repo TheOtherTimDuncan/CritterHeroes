@@ -11,7 +11,6 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.Owin;
-using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 {
@@ -30,8 +29,6 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 
         public async Task<CheckUsernameResult> RetrieveAsync(UsernameQuery query)
         {
-            ThrowIf.Argument.IsNull(query, "query");
-
             var logData = new
             {
                 Request = query.Username,

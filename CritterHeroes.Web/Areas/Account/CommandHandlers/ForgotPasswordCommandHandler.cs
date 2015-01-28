@@ -16,7 +16,6 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
-using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
@@ -40,8 +39,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
-            ThrowIf.Argument.IsNull(command, "command");
-
             IdentityUser user;
             if (!command.EmailAddress.IsNullOrWhiteSpace())
             {
