@@ -11,6 +11,8 @@ namespace CritterHeroes.Web.Models.Logging
         ForgotPasswordFailure,
         ForgotPasswordSuccess,
         ResetPasswordFailure,
-        ResetPasswordSuccess
+        ResetPasswordSuccess,
+        ForgotUsernameFailure,
+        ForgotUsernameSuccess
     }
 }

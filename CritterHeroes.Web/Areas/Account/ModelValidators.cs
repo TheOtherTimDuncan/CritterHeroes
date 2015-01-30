@@ -86,4 +86,12 @@ namespace CritterHeroes.Web.Areas.Account
             RuleFor(x => x.ConfirmPassword).Equal(x => x.Password).WithMessage("The password and confirmation password do not match.");
         }
     }
+
+    public class ForgotUsernameModelValidator : AbstractValidator<ForgotUsernameModel>
+    {
+        public ForgotUsernameModelValidator()
+        {
+            RuleFor(x => x.EmailAddress).NotEmpty();
+        }
+    }
 }

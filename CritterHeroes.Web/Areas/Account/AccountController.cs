@@ -112,7 +112,21 @@ namespace CritterHeroes.Web.Areas.Account
         [AllowAnonymous]
         public ActionResult ForgotUsername()
         {
-            return View();
+            return View(new ForgotUsernameModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotUsername(ForgotUsernameModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
+                AddCommandResultErrorsToModelState(ModelState, commandResult);
+            }
+
+            return View(model);
         }
 
         [HttpGet]

@@ -252,6 +252,47 @@ namespace CH.Test.ControllerTests
         }
 
         [TestMethod]
+        public async Task PostForgotUsernameReturnsViewWithModelAndModalDialogIfCommandSucceeds()
+        {
+            ForgotUsernameModel model = new ForgotUsernameModel()
+            {
+                EmailAddress = "email@email.com",
+            };
+            model.ModalDialog.Should().BeNull("this should be the default");
+
+            IdentityUser user = new IdentityUser("unit.test")
+            {
+                UserName = "unit.test",
+                Email = model.EmailAddress
+            };
+
+            OrganizationContext organizationContext = new OrganizationContext()
+            {
+                OrganizationID = Guid.NewGuid(),
+                FullName = "Full Name",
+                EmailAddress = "org@org.com"
+            };
+
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.EmailAddress)).Returns(Task.FromResult(user));
+
+            AccountController controller = CreateController<AccountController>();
+
+            ActionResult actionResult = await controller.ForgotUsername(model);
+
+            ViewResult viewResult = actionResult as ViewResult;
+            viewResult.Should().NotBeNull();
+
+            ForgotUsernameModel resultModel = viewResult.Model as ForgotUsernameModel;
+            resultModel.Should().NotBeNull();
+
+            resultModel.ModalDialog.Should().NotBeNull();
+
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.EmailAddress), Times.Once);
+            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotUsernameSuccess, user.UserName), Times.Once);
+        }
+
+        [TestMethod]
         public async Task PostResetPasswordReturnsModelErrorIfUsernameIsInvalid()
         {
             ResetPasswordModel model = new ResetPasswordModel()

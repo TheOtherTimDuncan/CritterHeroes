@@ -466,6 +466,8 @@
     <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
+    <Compile Include="Areas\Account\CommandHandlers\ForgotUsernameCommandHandler.cs" />
+    <Compile Include="Areas\Account\Models\ForgotUsernameModel.cs" />
     <Compile Include="Areas\Account\QueryHandlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Account\QueryHandlers\EditProfileViewModelQueryHandler.cs" />
