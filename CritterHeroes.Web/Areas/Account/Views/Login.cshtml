@@ -9,7 +9,6 @@
     @Html.AntiForgeryToken()
 
     <section class="form-group">
-        @Html.FluentHtml().Label().For(m => m.Username)
         <div class="input-group">
             <span class="input-group-addon" ><span class="glyphicon glyphicon-user"></span></span>
             @Html.FluentHtml().InputText().For(m => m.Username).Class("form-control").Placeholder("Username").AutoFocus()
@@ -19,7 +18,6 @@
     </section>
 
     <section class="form-group">
-        @Html.FluentHtml().Label().For(m => m.Password)
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
             @Html.FluentHtml().InputPassword().For(m => m.Password).Class("form-control").Placeholder("Password")

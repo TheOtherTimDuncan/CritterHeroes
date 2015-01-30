@@ -12,7 +12,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        [Display(Name = "Username")]
         public string Username
         {
             get;

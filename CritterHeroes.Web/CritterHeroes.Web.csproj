@@ -447,6 +447,7 @@
     <Content Include="Scripts\respond.min.js">
       <DependentUpon>respond.js</DependentUpon>
     </Content>
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
