@@ -29,7 +29,6 @@ namespace CH.Test.CommandTests
         public async Task ReturnsSuccessButDoesntSendEmailIfUserNotFound()
         {
             string email = "email@email.com";
-            string username = "unit.test";
 
             ForgotPasswordModel command = new ForgotPasswordModel()
             {

@@ -33,7 +33,7 @@
     <section class="form-group">
         <input type="submit" value="Login" />
         <span class="pull-right">
-            <a href="@Url.AccountAction(x => x.ConfirmEmail())" tabindex="-1">Have confirmation code?</a><br />
+            <a href="@Url.AccountAction(x => x.ConfirmEmail(null,null))" tabindex="-1">Have confirmation code?</a><br />
             <a href="@Url.AccountAction(x => x.ResendConfirmationCode())" tabindex="-1">Resend confirmation code?</a>
         </span>
     </section>

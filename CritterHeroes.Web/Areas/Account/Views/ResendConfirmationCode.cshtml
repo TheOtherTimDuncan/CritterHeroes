@@ -1,7 +1,48 @@
-﻿
+﻿@model CritterHeroes.Web.Areas.Account.Models.ResendConfirmationCodeModel
+
 @{
     ViewBag.Title = "Resend Confirmation Code";
 }
 
-<h2>ResendConfirmationCode</h2>
+@section scripts{
 
+    @Scripts.Render("~/bundles/chbusyindicator")
+
+    <script type="text/javascript">
+
+        (function (cheroes, $) {
+            var btn = $('#submit').busyIndicator({ message: 'Sending confirmation code...' });
+            if (btn.data('show-modal') === "") {
+                $('#success-message').modal();
+            }
+        }(this.cheroes = this.cheroes || {}, jQuery));
+
+    </script>
+}
+
+@Html.ModalDialog(Model.ModalDialog)
+
+<p>Please enter either your email address. A new confirmation code will be emailed to you.</p>
+
+@using (Html.FluentHtml().Form().Begin())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="form-group">
+        @Html.ValidationSummary(excludePropertyErrors: true)
+    </section>
+
+    <section class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            @Html.FluentHtml().InputEmail().For(m => m.EmailAddress).Class("form-control").Placeholder("Email address").AutoFocus()
+        </div>
+        @Html.ValidationMessage("email")
+    </section>
+
+    <section class="form-group">
+        @{string dataShowDialog = (Model.ModalDialog != null ? "data-show-modal" : ""); }
+        <span><input type="submit" id="submit" value="Send Confirmation Code" @dataShowDialog /></span>
+        <a href="@Url.AccountAction(x => x.Login(null))" class="primary">Cancel</a>
+    </section>
+}

@@ -91,7 +91,24 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public ForgotUsernameModelValidator()
         {
-            RuleFor(x => x.EmailAddress).NotEmpty();
+            RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Please enter your email address.");
+        }
+    }
+
+    public class ResendConfirmationCodeModelValidator : AbstractValidator<ResendConfirmationCodeModel>
+    {
+        public ResendConfirmationCodeModelValidator()
+        {
+            RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Please enter your email address.");
+        }
+    }
+
+    public class ConfirmEmailModelValidator : AbstractValidator<ConfirmEmailModel>
+    {
+        public ConfirmEmailModelValidator()
+        {
+            RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Please enter your email address.");
+            RuleFor(x => x.ConfirmationCode).NotEmpty().WithMessage("Please enter the confirmation code from your email.");
         }
     }
 }

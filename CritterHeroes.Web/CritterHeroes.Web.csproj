@@ -467,7 +467,10 @@
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ForgotUsernameCommandHandler.cs" />
+    <Compile Include="Areas\Account\CommandHandlers\ResendConfirmationCodeCommandHandler.cs" />
+    <Compile Include="Areas\Account\Models\ConfirmEmailModel.cs" />
     <Compile Include="Areas\Account\Models\ForgotUsernameModel.cs" />
+    <Compile Include="Areas\Account\Models\ResendConfirmationCodeModel.cs" />
     <Compile Include="Areas\Account\QueryHandlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Account\QueryHandlers\EditProfileViewModelQueryHandler.cs" />

@@ -20,7 +20,7 @@ namespace CritterHeroes.Web.Contracts.Identity
         }
 
         Task<IdentityUser> FindByEmailAsync(string email);
-        Task<IdentityUser> FindByIdAsync(string userID); 
+        Task<IdentityUser> FindByIdAsync(string userID);
         Task<IdentityUser> FindByNameAsync(string userName);
 
         Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user);
@@ -28,6 +28,9 @@ namespace CritterHeroes.Web.Contracts.Identity
 
         Task<string> GeneratePasswordResetTokenAsync(string userID);
         Task<IdentityResult> ResetPasswordAsync(string userID, string token, string newPassword);
+
+        Task<string> GenerateEmailConfirmationTokenAsync(string userId);
+        Task<IdentityResult> ConfirmEmailAsync(string userId, string token);
 
         Task<IdentityResult> UpdateAsync(IdentityUser user);
     }

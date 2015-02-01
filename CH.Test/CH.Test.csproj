@@ -201,6 +201,7 @@
     <Compile Include="CommandTests\ForgotPasswordCommandTests.cs" />
     <Compile Include="CommandTests\ForgotUsernameCommandTests.cs" />
     <Compile Include="CommandTests\LogoutCommandHandlerTests.cs" />
+    <Compile Include="CommandTests\ResendConfirmationCodeCommandTests.cs" />
     <Compile Include="CommandTests\ResetPasswordCommandHandlerTests.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\BaseControllerTest.cs" />
