@@ -297,7 +297,6 @@
     <Content Include="Areas\Account\Views\ConfirmEmail.cshtml" />
     <Content Include="Areas\Account\Views\EditProfile.cshtml" />
     <Content Include="Areas\Account\Views\ForgotPassword.cshtml" />
-    <Content Include="Areas\Account\Views\ForgotUsername.cshtml" />
     <Content Include="Areas\Account\Views\Login.cshtml" />
     <Content Include="Areas\Account\Views\ResendConfirmationCode.cshtml" />
     <Content Include="Areas\Account\Views\ResetPassword.cshtml" />
@@ -466,12 +465,9 @@
     <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
-    <Compile Include="Areas\Account\CommandHandlers\ForgotUsernameCommandHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ResendConfirmationCodeCommandHandler.cs" />
     <Compile Include="Areas\Account\Models\ConfirmEmailModel.cs" />
-    <Compile Include="Areas\Account\Models\ForgotUsernameModel.cs" />
     <Compile Include="Areas\Account\Models\ResendConfirmationCodeModel.cs" />
-    <Compile Include="Areas\Account\QueryHandlers\CheckUsernameQueryHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Account\QueryHandlers\EditProfileViewModelQueryHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ForgotPasswordCommandHandler.cs" />
@@ -479,7 +475,6 @@
     <Compile Include="Areas\Account\QueryHandlers\LoginViewModelQueryHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\LogoutCommandHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ResetPasswordCommandHandler.cs" />
-    <Compile Include="Areas\Account\Models\CheckUsernameResult.cs" />
     <Compile Include="Areas\Account\Models\EditProfileModel.cs" />
     <Compile Include="Areas\Account\Models\ForgotPasswordModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
@@ -553,7 +548,6 @@
     <Compile Include="Areas\Admin\DataMaintenance\QueryHandlers\DashboardStatusQuery.cs" />
     <Compile Include="Common\Queries\OrganizationQuery.cs" />
     <Compile Include="Common\Queries\UserIDQuery.cs" />
-    <Compile Include="Common\Queries\UsernameQuery.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\QueryHandlers\AnimalStatusDashboardItemStatusQueryHandler.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\QueryHandlers\BaseDashboardItemStatusQueryHandler.cs" />
     <Compile Include="Areas\Admin\DataMaintenance\QueryHandlers\BreedDashboardItemStatusQueryHandler.cs" />

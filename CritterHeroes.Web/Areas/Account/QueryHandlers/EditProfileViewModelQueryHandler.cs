@@ -32,7 +32,6 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
             model.ReturnUrl = _owinContext.Request.GetReferrer();
 
             IdentityUser user = await _userStore.FindByIdAsync(_httpUser.UserID);
-            model.Username = user.UserName;
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;

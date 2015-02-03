@@ -31,25 +31,25 @@ namespace CH.Test.ValidationTests
             [TestMethod]
             public void ShouldHaveErrorWhenUsernameIsNull()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, (string)null);
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenUsernameIsEmpty()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenUsernameIsWhitespace()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "  ");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
             }
 
             [TestMethod]
             public void ShouldNotHaveErrorWhenUsernameHasValue()
             {
-                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Username, "user.name");
+                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "user.name");
             }
         }
 
@@ -99,67 +99,6 @@ namespace CH.Test.ValidationTests
         }
 
         [TestClass]
-        public class UsernamePropertyTests : EditProfileModelValidatorTests
-        {
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameIsNull()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, (string)null);
-                mockUserManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameIsEmpty()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "");
-                mockUserManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameIsWhitespace()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "  ");
-                mockUserManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameIsLessThan4Characters()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "123");
-                mockUserManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameIsMoreThan255Characters()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, new String('x', 256));
-                mockUserManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameMatchesExistingUser()
-            {
-                EditProfileModelValidator validator = GetValidator();
-
-                string userName = "new.user";
-
-                mockUserManager.Setup(x => x.FindByNameAsync(userName)).Returns(Task.FromResult(new IdentityUser(userName)));
-
-                validator.ShouldHaveValidationErrorFor(x => x.Username, userName);
-
-                mockUserManager.Verify(x => x.FindByNameAsync(userName), Times.Once);
-                mockHttpUser.Verify(x => x.Username, Times.Once);
-            }
-
-            [TestMethod]
-            public void ShouldNotHaveErrorWhenUsernameHasValue()
-            {
-                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Username, "user.name");
-                mockUserManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            }
-        }
-
-        [TestClass]
         public class FirstNamePropertyTests : EditProfileModelValidatorTests
         {
             [TestMethod]
@@ -183,7 +122,7 @@ namespace CH.Test.ValidationTests
             [TestMethod]
             public void ShouldNotHaveErrorWhenFirstNameHasValue()
             {
-                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Username, "FirstName");
+                GetValidator().ShouldNotHaveValidationErrorFor(x => x.FirstName, "FirstName");
             }
         }
 
@@ -243,6 +182,21 @@ namespace CH.Test.ValidationTests
             }
 
             [TestMethod]
+            public void ShouldHaveErrorWhenUsernameMatchesExistingUser()
+            {
+                EditProfileModelValidator validator = GetValidator();
+
+                string email = "new@new.com";
+
+                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new IdentityUser(email)));
+
+                validator.ShouldHaveValidationErrorFor(x => x.Email, email);
+
+                mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
+                mockHttpUser.Verify(x => x.Username, Times.Once);
+            }
+
+            [TestMethod]
             public void ShouldNotHaveErrorWhenEmailHasValue()
             {
                 GetValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "email@email.com");
@@ -271,7 +225,7 @@ namespace CH.Test.ValidationTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                EmailAddress = "",
+                Email = "",
                 Username = ""
             };
             ValidationResult validationResult = GetValidator().Validate(model);
@@ -283,7 +237,7 @@ namespace CH.Test.ValidationTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                EmailAddress = "  ",
+                Email = "  ",
                 Username = "  "
             };
             ValidationResult validationResult = GetValidator().Validate(model);
@@ -295,7 +249,7 @@ namespace CH.Test.ValidationTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                EmailAddress = "email@emailc.om",
+                Email = "email@emailc.om",
             };
             ValidationResult validationResult = GetValidator().Validate(model);
             validationResult.IsValid.Should().BeTrue();
@@ -354,25 +308,25 @@ namespace CH.Test.ValidationTests
             [TestMethod]
             public void ShouldHaveErrorWhenUsernameIsNull()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, (string)null);
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenUsernameIsEmpty()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenUsernameIsWhitespace()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Username, "  ");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
             }
 
             [TestMethod]
             public void ShouldNotHaveErrorWhenUsernameHasValue()
             {
-                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Username, "user.name");
+                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "user.name");
             }
         }
 

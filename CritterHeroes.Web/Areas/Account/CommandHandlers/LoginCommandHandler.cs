@@ -25,16 +25,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(LoginModel command)
         {
-            SignInStatus result = await _signinManager.PasswordSignInAsync(command.Username, command.Password);
+            SignInStatus result = await _signinManager.PasswordSignInAsync(command.Email, command.Password);
 
             if (result == SignInStatus.Success)
             {
-                await _userLogger.LogActionAsync(UserActions.PasswordLoginSuccess, command.Username);
+                await _userLogger.LogActionAsync(UserActions.PasswordLoginSuccess, command.Email);
                 return CommandResult.Success();
             }
             else
             {
-                await _userLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Username);
+                await _userLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Email);
                 return CommandResult.Failed("", "The username or password that you entered was incorrect. Please try again.");
             }
         }

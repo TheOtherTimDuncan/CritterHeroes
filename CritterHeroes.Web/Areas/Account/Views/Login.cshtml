@@ -10,11 +10,10 @@
 
     <section class="form-group">
         <div class="input-group">
-            <span class="input-group-addon" ><span class="glyphicon glyphicon-user"></span></span>
-            @Html.FluentHtml().InputText().For(m => m.Username).Class("form-control").Placeholder("Username").AutoFocus()
-            <span class="input-group-btn"><a href="@Url.AccountAction(x => x.ForgotUsername())" class="btn btn-info" title="Forgot your username?" tabindex="-1">?</a></span>
+            <span class="input-group-addon" ><span class="glyphicon glyphicon-envelope"></span></span>
+            @Html.FluentHtml().InputText().For(m => m.Email).Class("form-control").Placeholder("Email").AutoFocus()
         </div>
-        @Html.ValidationMessageFor(m => m.Username)
+        @Html.ValidationMessageFor(m => m.Email)
     </section>
 
     <section class="form-group">

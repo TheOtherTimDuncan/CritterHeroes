@@ -25,11 +25,10 @@ namespace CH.Test.QueryTests
 
             string uriReferrer = "http://google.com";
 
-            IdentityUser user = new IdentityUser(query.UserID, "unit.test")
+            IdentityUser user = new IdentityUser(query.UserID, "email@email.com")
             {
                 FirstName = "First",
-                LastName = "Last",
-                Email = "email@email.com"
+                LastName = "Last"
             };
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
@@ -49,7 +48,6 @@ namespace CH.Test.QueryTests
             EditProfileModel model = await handler.RetrieveAsync(query);
 
             model.Should().NotBeNull();
-            model.Username.Should().Be(user.UserName);
             model.FirstName.Should().Be(user.FirstName);
             model.LastName.Should().Be(user.LastName);
             model.Email.Should().Be(user.Email);

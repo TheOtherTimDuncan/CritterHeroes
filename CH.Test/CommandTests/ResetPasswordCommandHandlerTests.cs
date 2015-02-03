@@ -33,22 +33,22 @@ namespace CH.Test.CommandTests
         {
             ResetPasswordModel model = new ResetPasswordModel()
             {
-                Username = "unit.test",
+                Email = "email@email.com",
                 Code = "code"
             };
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult((IdentityUser)null));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((IdentityUser)null));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
 
-            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Username, It.IsAny<string>()), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
@@ -56,17 +56,17 @@ namespace CH.Test.CommandTests
         {
             ResetPasswordModel model = new ResetPasswordModel()
             {
-                Username = "unit.test",
+                Email = "email@email.com",
                 Code = "code",
                 Password = "password"
             };
 
-            IdentityUser user = new IdentityUser(model.Username);
+            IdentityUser user = new IdentityUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null, null, null);
@@ -74,9 +74,9 @@ namespace CH.Test.CommandTests
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
 
-            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, user.UserName, It.IsAny<string>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, user.Email, It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
@@ -84,31 +84,31 @@ namespace CH.Test.CommandTests
         {
             ResetPasswordModel model = new ResetPasswordModel()
             {
-                Username = "unit.test",
+                Email = "email@email.com",
                 Code = "code",
                 Password = "password"
             };
 
-            IdentityUser user = new IdentityUser(model.Username);
+            IdentityUser user = new IdentityUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
             Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
-            mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
+            mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, mockSigninManager.Object, mockUserManager.Object, null, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors[""].First().Should().Be("There was an error resetting your password. Please try again.");
 
-            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-            mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, user.UserName, It.IsAny<string>()), Times.Once);
+            mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, user.Email, It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace CH.Test.CommandTests
         {
             ResetPasswordModel model = new ResetPasswordModel()
             {
-                Username = "unit.test",
+                Email = "email@email.com",
                 Code = "code",
                 Password = "password"
             };
@@ -127,21 +127,18 @@ namespace CH.Test.CommandTests
                 EmailAddress = "org@org.com"
             };
 
-            IdentityUser user = new IdentityUser(model.Username)
-            {
-                Email = "email@email.com"
-            };
+            IdentityUser user = new IdentityUser(model.Email);
 
             EmailMessage emailMessage = null;
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByNameAsync(model.Username)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
             Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
-            mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Username, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
+            mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
             mockUrlGenerator.Setup(x => x.GenerateSiteUrl<HomeController>(It.IsAny<Expression<Func<HomeController, ActionResult>>>())).Returns("account-url");
@@ -166,10 +163,10 @@ namespace CH.Test.CommandTests
             emailMessage.To.Should().Contain(user.Email);
             emailMessage.Subject.Should().Contain(organizationContext.FullName);
 
-            mockUserManager.Verify(x => x.FindByNameAsync(model.Username), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-            mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Username, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, user.UserName), Times.Once);
+            mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, user.Email), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Once);
         }
     }

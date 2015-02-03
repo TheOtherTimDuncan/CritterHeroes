@@ -110,27 +110,6 @@ namespace CritterHeroes.Web.Areas.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ForgotUsername()
-        {
-            return View(new ForgotUsernameModel());
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotUsername(ForgotUsernameModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
-                AddCommandResultErrorsToModelState(ModelState, commandResult);
-            }
-
-            return View(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
         public ActionResult ResendConfirmationCode()
         {
             return View(new ResendConfirmationCodeModel());
@@ -203,18 +182,6 @@ namespace CritterHeroes.Web.Areas.Account
             }
 
             return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public async Task<ActionResult> IsDuplicateUsername(string userName)
-        {
-            CheckUsernameResult queryResult = await QueryDispatcher.DispatchAsync(new UsernameQuery()
-            {
-                Username = userName
-            });
-            return Json(queryResult.UserExists);
         }
     }
 }

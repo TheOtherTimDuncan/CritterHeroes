@@ -58,7 +58,7 @@ namespace CH.Test.CommandTests
             command.ModalDialog.Buttons.Should().NotBeEmpty();
             command.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResendConfirmationCodeFailure, null, command.EmailAddress), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResendConfirmationCodeFailure, command.EmailAddress), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(command.EmailAddress), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
             mockUrlGenerator.Verify(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);

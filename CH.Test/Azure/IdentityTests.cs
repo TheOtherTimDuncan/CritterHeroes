@@ -16,7 +16,7 @@ namespace CH.Test.Azure
     [TestClass]
     public class IdentityTests
     {
-        private string testUsername = "xx";
+        private string testUsername = "email@email.com";
         private UserStore userStore;
 
         [TestInitialize]
@@ -40,11 +40,10 @@ namespace CH.Test.Azure
         [TestMethod]
         public async Task TestCRUD()
         {
-            IdentityUser user = new IdentityUser("test user")
+            IdentityUser user = new IdentityUser("email@email.com")
             {
                 PasswordHash = "passwordhash",
-                Email = "email",
-                PreviousEmail = "previous",
+                PreviousEmail = "previous@previous.com",
                 FirstName = "first",
                 LastName = "last"
             };
@@ -64,28 +63,38 @@ namespace CH.Test.Azure
             result.Roles.Should().HaveCount(1);
             result.Roles.First().ID.Should().Be(IdentityRole.MasterAdmin.ID);
 
-            IdentityUser second = await userStore.FindByNameAsync(user.UserName);
+            IdentityUser second = await userStore.FindByNameAsync(user.Email);
             second.Should().NotBeNull();
             second.UserName.Should().Be(user.UserName);
 
-            second.UserName = "new user";
+            second.Email = "new@new.com";
             await userStore.UpdateAsync(second);
 
-            IdentityUser updated = await userStore.FindByNameAsync(second.UserName);
+            IdentityUser updated = await userStore.FindByNameAsync(second.Email);
             updated.Should().NotBeNull();
-            updated.UserName.Should().Be(second.UserName);
+            updated.Email.Should().Be(second.Email);
 
             await userStore.DeleteAsync(updated);
             IdentityUser deleted = await userStore.FindByIdAsync(user.Id);
             deleted.Should().BeNull();
         }
 
+        [TestMethod]
+        public void UsernameAndEmailAreTheSame()
+        {
+            IdentityUser user = new IdentityUser("email@email.com");
+            user.Email.Should().Be("email@email.com");
+            user.UserName.Should().Be(user.Email);
+
+            user.UserName = "new@new.com";
+            user.Email.Should().Be(user.UserName);
+        }
+
         //[TestMethod]
         public async Task SeedUser()
         {
-            IdentityUser user = new IdentityUser("Tim.Duncan");
+            IdentityUser user = new IdentityUser("tduncan72@gmail.com");
             user.IsEmailConfirmed = true;
-            user.Email = "tduncan72@gmail.com";
             user.FirstName = "Tim";
             user.LastName = "Duncan";
             user.AddRole(IdentityRole.MasterAdmin);

@@ -43,13 +43,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
         {
-            IdentityUser identityUser = await _userManager.FindByNameAsync(command.Username);
+            IdentityUser identityUser = await _userManager.FindByEmailAsync(command.Email);
             if (identityUser != null)
             {
                 IdentityResult identityResult = await _userManager.ResetPasswordAsync(identityUser.Id, command.Code, command.Password);
                 if (identityResult.Succeeded)
                 {
-                    SignInStatus loginResult = await _signinManager.PasswordSignInAsync(command.Username, command.Password);
+                    SignInStatus loginResult = await _signinManager.PasswordSignInAsync(command.Email, command.Password);
                     if (loginResult == SignInStatus.Success)
                     {
                         EmailMessage emailMessage = new EmailMessage()
@@ -65,7 +65,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                             .End();
 
                         await _emailClient.SendAsync(emailMessage);
-                        await _userLogger.LogActionAsync(UserActions.ResetPasswordSuccess, command.Username);
+                        await _userLogger.LogActionAsync(UserActions.ResetPasswordSuccess, command.Email);
 
                         CommandResult result = CommandResult.Success();
                         command.ModalDialog = new ModalDialogModel()
@@ -78,7 +78,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 }
             }
 
-            await _userLogger.LogActionAsync(UserActions.ResetPasswordFailure, command.Username, "Code: " + command.Code);
+            await _userLogger.LogActionAsync(UserActions.ResetPasswordFailure, command.Email, "Code: " + command.Code);
 
             return CommandResult.Failed("", "There was an error resetting your password. Please try again.");
         }

@@ -50,7 +50,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             if (user == null)
             {
                 // Don't disclose if email is valid so ignore invalid emails
-                await _userLogger.LogActionAsync(UserActions.ResendConfirmationCodeFailure, null, command.EmailAddress);
+                await _userLogger.LogActionAsync(UserActions.ResendConfirmationCodeFailure, command.EmailAddress);
                 return CommandResult.Failed();
             }
 
@@ -93,7 +93,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             await _emailClient.SendAsync(emailMessage, user.Id);
 
-            await _userLogger.LogActionAsync(UserActions.ResendConfirmationCodeSuccess, user.UserName);
+            await _userLogger.LogActionAsync(UserActions.ResendConfirmationCodeSuccess, user.Email);
 
             return CommandResult.Success();
         }

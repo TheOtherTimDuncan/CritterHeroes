@@ -7,7 +7,7 @@ namespace CritterHeroes.Web.Models.Logging
         PasswordLoginSuccess,
         PasswordLoginFailure,
         DuplicateUsernameCheck,
-        UsernameChanged,
+        EmailChanged,
         ForgotPasswordFailure,
         ForgotPasswordSuccess,
         ResetPasswordFailure,

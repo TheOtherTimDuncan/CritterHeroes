@@ -12,7 +12,7 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        public string Username
+        public string Email
         {
             get;
             set;

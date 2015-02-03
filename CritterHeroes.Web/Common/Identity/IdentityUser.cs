@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using TOTD.Utility.ExceptionHelpers;
@@ -11,23 +10,24 @@ namespace CritterHeroes.Web.Common.Identity
     public class IdentityUser : IUser
     {
         private List<IdentityRole> _roles = new List<IdentityRole>();
+        private string _email;
 
         public IdentityUser()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
-        public IdentityUser(string userID, string userName)
-            : this(userName)
+        public IdentityUser(string userID, string email)
+            : this(email)
         {
             this.Id = userID;
         }
 
-        public IdentityUser(string username)
+        public IdentityUser(string email)
             : this()
         {
-            ThrowIf.Argument.IsNull(username, "username");
-            this.UserName = username;
+            ThrowIf.Argument.IsNull(email, "email");
+            this._email = email;
         }
 
         public string Id
@@ -38,8 +38,14 @@ namespace CritterHeroes.Web.Common.Identity
 
         public string UserName
         {
-            get;
-            set;
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                _email = value;
+            }
         }
 
         public string PasswordHash
@@ -50,8 +56,14 @@ namespace CritterHeroes.Web.Common.Identity
 
         public string Email
         {
-            get;
-            set;
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                _email = value;
+            }
         }
 
         public string PreviousEmail

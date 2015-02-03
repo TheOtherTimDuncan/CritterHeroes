@@ -17,7 +17,7 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public LoginModelValidator()
         {
-            RuleFor(x => x.Username).NotEmpty().WithMessage("Please enter a username.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter a username.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
         }
     }
@@ -32,25 +32,21 @@ namespace CritterHeroes.Web.Areas.Account
             this._userManager = storageContext;
             this._httpUser = httpUser;
 
-            RuleFor(x => x.Username)
-                .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty().WithMessage("Please enter a username.")
-                .Length(min: 4, max: 255).WithMessage("Please enter a username of at least 4 characters.")
-                .MustAsync(HaveUniqueUsername).WithMessage("The username you entered is not available. Please enter a different username.");
-
             RuleFor(x => x.Email)
+                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage("Please enter your email address.")
-                .EmailAddress().WithMessage("Please enter a valid email address.");
+                .EmailAddress().WithMessage("Please enter a valid email address.")
+                .MustAsync(HaveUniqueEmail).WithMessage("The username you entered is not available. Please enter a different username.");
 
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Please enter your first name.");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Please enter your last name.");
         }
 
-        public async Task<bool> HaveUniqueUsername(string userName)
+        public async Task<bool> HaveUniqueEmail(string email)
         {
-            if (!_httpUser.Username.Equals(userName, StringComparison.InvariantCultureIgnoreCase))
+            if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
             {
-                IdentityUser dupeUser = await _userManager.FindByNameAsync(userName);
+                IdentityUser dupeUser = await _userManager.FindByEmailAsync(email);
                 if (dupeUser != null)
                 {
                     return false;
@@ -67,7 +63,7 @@ namespace CritterHeroes.Web.Areas.Account
         {
             Custom(m =>
             {
-                if (m.EmailAddress.IsNullOrWhiteSpace() && m.Username.IsNullOrWhiteSpace())
+                if (m.Email.IsNullOrWhiteSpace() && m.Username.IsNullOrWhiteSpace())
                 {
                     return new ValidationFailure("", "Please enter your email address or your username.");
                 }
@@ -81,17 +77,9 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public ResetPasswordModelValidator()
         {
-            RuleFor(x => x.Username).NotEmpty().WithMessage("Please enter a username.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter a username.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
             RuleFor(x => x.ConfirmPassword).Equal(x => x.Password).WithMessage("The password and confirmation password do not match.");
-        }
-    }
-
-    public class ForgotUsernameModelValidator : AbstractValidator<ForgotUsernameModel>
-    {
-        public ForgotUsernameModelValidator()
-        {
-            RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Please enter your email address.");
         }
     }
 

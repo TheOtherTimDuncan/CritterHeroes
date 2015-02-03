@@ -26,10 +26,8 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task EditProfileCommandUpdatesUser()
         {
-            IdentityUser user = new IdentityUser()
+            IdentityUser user = new IdentityUser("email@email.com")
             {
-                UserName = "test.user",
-                Email = "email@email.com",
                 FirstName = null,
                 LastName = null
             };
@@ -42,14 +40,14 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
-            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+            mockHttpUser.Setup(x => x.Username).Returns(user.Email);
             mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
 
             EditProfileModel model = new EditProfileModel()
             {
-                Username = user.UserName,
+                Email = user.Email,
                 FirstName = "New First",
                 LastName = "New Last"
             };
@@ -67,17 +65,13 @@ namespace CH.Test.CommandTests
         }
 
         [TestMethod]
-        public async Task EditProfileCommandUpdatesUserAndUpdatesUsernameWhenChanged()
+        public async Task EditProfileCommandUpdatesUserAndUpdatesEmailWhenChanged()
         {
-            IdentityUser user = new IdentityUser()
-            {
-                UserName = "test.user",
-                Email = "email@email.com"
-            };
+            IdentityUser user = new IdentityUser("email@email.com");
 
             EditProfileModel model = new EditProfileModel()
             {
-                Username = "new.user",
+                Email = "new@new.com",
                 FirstName = "New First",
                 LastName = "New Last"
             };
@@ -92,10 +86,10 @@ namespace CH.Test.CommandTests
             mockAuthenticationManager.Setup(x => x.SignIn(It.IsAny<ClaimsIdentity>()));
 
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
-            mockLogger.Setup(x => x.LogActionAsync(UserActions.UsernameChanged, model.Username, It.IsAny<string>())).Returns(Task.FromResult(0));
+            mockLogger.Setup(x => x.LogActionAsync(UserActions.EmailChanged, model.Email, It.IsAny<string>())).Returns(Task.FromResult(0));
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
-            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+            mockHttpUser.Setup(x => x.Username).Returns(user.Email);
             mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
@@ -104,7 +98,7 @@ namespace CH.Test.CommandTests
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
-            user.UserName.Should().Be(model.Username);
+            user.Email.Should().Be(model.Email);
             user.FirstName.Should().Be(model.FirstName);
             user.LastName.Should().Be(model.LastName);
 
@@ -115,7 +109,7 @@ namespace CH.Test.CommandTests
             mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
             mockAuthenticationManager.Verify(x => x.SignIn(It.IsAny<ClaimsIdentity>()), Times.Once);
 
-            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.UsernameChanged, model.Username, It.IsAny<string>()), Times.Once);
+            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, model.Email, It.IsAny<string>()), Times.Once);
         }
     }
 }

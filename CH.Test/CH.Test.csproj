@@ -199,7 +199,6 @@
     <Compile Include="BaseTest.cs" />
     <Compile Include="CommandTests\EditProfileCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ForgotPasswordCommandTests.cs" />
-    <Compile Include="CommandTests\ForgotUsernameCommandTests.cs" />
     <Compile Include="CommandTests\LogoutCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ResendConfirmationCodeCommandTests.cs" />
     <Compile Include="CommandTests\ResetPasswordCommandHandlerTests.cs" />

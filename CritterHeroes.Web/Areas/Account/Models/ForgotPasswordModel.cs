@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.Areas.Account.Models
         }
 
         [DataType(DataType.EmailAddress)]
-        public string EmailAddress
+        public string Email
         {
             get;
             set;

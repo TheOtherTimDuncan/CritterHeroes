@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
             IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
-            user.UserName = command.Username;
+            user.Email = command.Email;
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 
@@ -49,9 +49,9 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             UserContext userContext = UserContext.FromUser(user);
             _userContextManager.SaveContext(userContext);
 
-            if (!_httpUser.Username.Equals(command.Username, StringComparison.InvariantCultureIgnoreCase))
+            if (!_httpUser.Username.Equals(command.Email, StringComparison.InvariantCultureIgnoreCase))
             {
-                await _userLogger.LogActionAsync(UserActions.UsernameChanged, user.UserName, "Original username: " + _httpUser.Username);
+                await _userLogger.LogActionAsync(UserActions.EmailChanged, user.Email, "Original email: " + _httpUser.Username);
                 _authenticationManager.SignOut();
                 _authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user));
             }

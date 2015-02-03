@@ -19,12 +19,6 @@
     </div>
 
     <div class="form-group">
-        @Html.FluentHtml().Label().For(m => m.Username)
-        @Html.FluentHtml().InputText().For(m => m.Username).Class("form-control").Placeholder("Username").AutoFocus().Data("url", Url.AccountAction(x => x.IsDuplicateUsername(null)))
-        @Html.ValidationMessageFor(m => m.Username)
-    </div>
-
-    <div class="form-group">
         @Html.FluentHtml().Label().For(m => m.Email)
         @Html.FluentHtml().InputEmail().For(m => m.Email).Class("form-control").Placeholder("Email")
         @Html.ValidationMessageFor(m => m.Email)

@@ -39,15 +39,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
-            IdentityUser user;
-            if (!command.EmailAddress.IsNullOrWhiteSpace())
-            {
-                user = await _appUserManager.FindByEmailAsync(command.EmailAddress);
-            }
-            else
-            {
-                user = await _appUserManager.FindByNameAsync(command.Username);
-            }
+            IdentityUser user = await _appUserManager.FindByEmailAsync(command.Email);
 
             ModalDialogButton button1 = ModalDialogButton.Button(text: "Try Again", cssClass: ButtonCss.Info, isDismissable: true);
             ModalDialogButton button2 = ModalDialogButton.Link(text: "Continue", cssClass: ButtonCss.Primary, url: _urlGenerator.GenerateSiteUrl<AccountController>(x => x.Login(null)));
@@ -61,7 +53,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found just return failed with no errors
-                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, null, command);
+                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, command.Email);
                 return CommandResult.Failed();
             }
 
@@ -83,7 +75,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 .End();
 
             await _emailClient.SendAsync(emailMessage, user.Id);
-            await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.UserName);
+            await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email);
             return CommandResult.Success();
         }
     }
