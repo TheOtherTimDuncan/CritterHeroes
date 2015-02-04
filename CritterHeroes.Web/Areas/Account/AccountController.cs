@@ -110,27 +110,6 @@ namespace CritterHeroes.Web.Areas.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ResendConfirmationCode()
-        {
-            return View(new ResendConfirmationCodeModel());
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendConfirmationCode(ResendConfirmationCodeModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
-                AddCommandResultErrorsToModelState(ModelState, commandResult);
-            }
-
-            return View(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
         public ActionResult ConfirmEmail(string userID, string confirmationCode)
         {
             ConfirmEmailModel model = new ConfirmEmailModel()

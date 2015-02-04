@@ -83,14 +83,6 @@ namespace CritterHeroes.Web.Areas.Account
         }
     }
 
-    public class ResendConfirmationCodeModelValidator : AbstractValidator<ResendConfirmationCodeModel>
-    {
-        public ResendConfirmationCodeModelValidator()
-        {
-            RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Please enter your email address.");
-        }
-    }
-
     public class ConfirmEmailModelValidator : AbstractValidator<ConfirmEmailModel>
     {
         public ConfirmEmailModelValidator()
