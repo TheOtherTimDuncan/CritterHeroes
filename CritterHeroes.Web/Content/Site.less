@@ -64,14 +64,19 @@ ul {
 
 .page-banner {
     background-color: #b8edff;
-    padding-top: @padding-large-vertical;
-    padding-bottom: @padding-large-vertical;
     margin-bottom: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
 
-    .hidden-sm;
-    .hidden-xs;
+    @media(min-width: @screen-sm-max){
+        padding-top: @padding-large-vertical;
+        padding-bottom: @padding-large-vertical;
+    }
 
     .banner-container{
+
+        .hidden-sm;
+        .hidden-xs;
         .container;
 
         .banner-row{
@@ -83,8 +88,8 @@ ul {
             }
 
             .quote-col{
-                .make-sm-column(4);
-                .make-md-column(4);
+                .make-sm-column(8);
+                .make-md-column(10);
             }
         }
     }
