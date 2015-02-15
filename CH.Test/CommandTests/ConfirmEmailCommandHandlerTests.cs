@@ -22,28 +22,7 @@ namespace CH.Test.CommandTests
     public class ConfirmEmailCommandHandlerTests
     {
         [TestMethod]
-        public async Task ReturnsFailedIfUserNotFoundByID()
-        {
-            ConfirmEmailModel command = new ConfirmEmailModel()
-            {
-                UserID = "1"
-            };
-
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByIdAsync(command.UserID)).Returns(Task.FromResult<IdentityUser>(null));
-
-            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
-
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
-            CommandResult commandResult = await handler.ExecuteAsync(command);
-            commandResult.Succeeded.Should().BeFalse();
-
-            mockUserManager.Verify(x => x.FindByIdAsync(command.UserID), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ConfirmEmailFailure, It.IsAny<string>()));
-        }
-
-        [TestMethod]
-        public async Task ReturnsFailedIfUserNotFoundByEmail()
+        public async Task ReturnsFailedIfUserNotFound()
         {
             ConfirmEmailModel command = new ConfirmEmailModel()
             {

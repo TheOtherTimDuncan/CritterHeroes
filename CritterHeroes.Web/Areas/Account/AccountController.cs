@@ -111,16 +111,16 @@ namespace CritterHeroes.Web.Areas.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userID, string confirmationCode)
+        public async Task<ActionResult> ConfirmEmail(string email, string confirmationCode)
         {
-            if (userID.IsNullOrWhiteSpace() || confirmationCode.IsNullOrWhiteSpace())
+            if (email.IsNullOrWhiteSpace() || confirmationCode.IsNullOrWhiteSpace())
             {
                 return View(new ConfirmEmailModel());
             }
 
             ConfirmEmailModel model = new ConfirmEmailModel()
             {
-                UserID = userID,
+                Email = email,
                 ConfirmationCode = confirmationCode
             };
             

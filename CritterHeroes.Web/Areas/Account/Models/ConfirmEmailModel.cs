@@ -7,12 +7,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
 {
     public class ConfirmEmailModel
     {
-        public string UserID
-        {
-            get;
-            set;
-        }
-
         [DataType(DataType.EmailAddress)]
         public string Email
         {

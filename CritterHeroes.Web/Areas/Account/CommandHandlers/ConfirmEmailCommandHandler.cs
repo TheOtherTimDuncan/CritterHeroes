@@ -31,15 +31,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ConfirmEmailModel command)
         {
-            IdentityUser user;
-            if (command.UserID != null)
-            {
-                user = await _appUserManager.FindByIdAsync(command.UserID);
-            }
-            else
-            {
-                user = await _appUserManager.FindByEmailAsync(command.Email);
-            }
+            IdentityUser user = await _appUserManager.FindByEmailAsync(command.Email);
 
             if (user == null)
             {
