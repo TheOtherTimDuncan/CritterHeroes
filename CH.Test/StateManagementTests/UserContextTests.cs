@@ -25,7 +25,7 @@ namespace CH.Test.StateManagementTests
             StateSerializer serializer = new StateSerializer();
 
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.User"] = serializer.Serialize(context);
+            cookies["CritterHeroes_User"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
@@ -56,7 +56,7 @@ namespace CH.Test.StateManagementTests
             stateManager.SaveContext(context);
 
             cookies.Should().HaveCount(1);
-            cookies.First().Value[0].Should().Contain("CritterHeroes.User");
+            cookies.First().Value[0].Should().Contain("CritterHeroes_User");
 
             mockOwinContext.Verify(x => x.Response.Cookies, Times.Once);
         }

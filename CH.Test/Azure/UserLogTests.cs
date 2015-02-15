@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
+using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json;
 
 namespace CH.Test.Azure
@@ -22,7 +23,10 @@ namespace CH.Test.Azure
             string testUsername = "test.user";
             UserActions userAction = UserActions.PasswordLoginSuccess;
 
-            AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration());
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns("1.1.1.1");
+
+            AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration(), mockOwinContext.Object);
             await userLogger.LogActionAsync(userAction, testUsername);
 
             IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
@@ -48,7 +52,10 @@ namespace CH.Test.Azure
 
             string additionalData = JsonConvert.SerializeObject(message);
 
-            AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration());
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns("1.1.1.1");
+
+            AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration(), mockOwinContext.Object);
             await userLogger.LogActionAsync(userAction, testUsername, message);
 
             IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));

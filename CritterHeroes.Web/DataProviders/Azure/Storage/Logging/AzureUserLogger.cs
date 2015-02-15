@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using CritterHeroes.Web.DataProviders.Azure.Storage;
-using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Models.Logging;
+using Microsoft.Owin;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 
@@ -14,9 +15,12 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 {
     public class AzureUserLogger : BaseAzureLoggerStorageContext<UserLog>, IUserLogger
     {
-        public AzureUserLogger(IAzureConfiguration azureConfiguration)
+        private IOwinContext _owinContext;
+
+        public AzureUserLogger(IAzureConfiguration azureConfiguration, IOwinContext owinContext)
             : base("userlog", azureConfiguration)
         {
+            this._owinContext = owinContext;
         }
 
         public async Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo)
@@ -42,14 +46,22 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
         public async Task LogActionAsync(UserActions userAction, string userName)
         {
-            UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow);
-            await SaveAsync(userLog);
+            await LogActionAsync(userAction, userName, (object)null);
         }
 
         public async Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData)
         {
-            UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow);
-            userLog.AdditionalData = JsonConvert.SerializeObject(additionalData);
+            UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow)
+            {
+                ThreadID = Thread.CurrentThread.ManagedThreadId,
+                IPAddress = _owinContext.Request.RemoteIpAddress
+            };
+
+            if (additionalData != null)
+            {
+                userLog.AdditionalData = JsonConvert.SerializeObject(additionalData);
+            }
+
             await SaveAsync(userLog);
         }
 
@@ -76,6 +88,9 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
             UserLog result = new UserLog(logID, userAction, tableEntity.SafeGetEntityPropertyStringValue("Username"), whenOccurred.Value);
             result.AdditionalData = tableEntity.SafeGetEntityPropertyStringValue("AdditionalData");
+            result.IPAddress = tableEntity.SafeGetEntityPropertyStringValue("IPAddress");
+            result.ThreadID = tableEntity.SafeGetEntityPropertyIntValue("ThreadID");
+
             return result;
         }
 
@@ -86,6 +101,8 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             tableEntity["Action"] = new EntityProperty(entity.Action.ToString());
             tableEntity["Username"] = new EntityProperty(entity.Username);
             tableEntity["WhenOccurredUtc"] = new EntityProperty(entity.WhenOccurredUtc);
+            tableEntity["ThreadID"] = new EntityProperty(entity.ThreadID);
+            tableEntity["IPAddress"] = new EntityProperty(entity.IPAddress);
             tableEntity["AdditionalData"] = new EntityProperty(entity.AdditionalData);
 
             return tableEntity;

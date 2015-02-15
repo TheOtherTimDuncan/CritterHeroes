@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -58,7 +58,7 @@ namespace CH.Test.StateManagementTests
             stateManager.SaveContext("test");
 
             cookies.Should().HaveCount(1);
-            cookies.First().Value[0].Should().Contain("CritterHeroes.key");
+            cookies.First().Value[0].Should().Contain("CritterHeroes_key");
         }
 
         [TestMethod]

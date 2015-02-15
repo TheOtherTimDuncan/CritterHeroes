@@ -42,6 +42,18 @@ namespace CritterHeroes.Web.Models.Logging
             private set;
         }
 
+        public int? ThreadID
+        {
+            get;
+            set;
+        }
+
+        public string IPAddress
+        {
+            get;
+            set;
+        }
+
         public string AdditionalData
         {
             get;

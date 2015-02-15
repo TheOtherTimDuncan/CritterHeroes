@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Data;
@@ -32,7 +31,7 @@ namespace CH.Test.StateManagementTests
             StateSerializer serializer = new StateSerializer();
 
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.Organization"] = serializer.Serialize(context);
+            cookies["CritterHeroes_Organization"] = serializer.Serialize(context);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
@@ -73,7 +72,7 @@ namespace CH.Test.StateManagementTests
             stateManager.SaveContext(context);
 
             cookies.Should().HaveCount(1);
-            cookies.First().Value[0].Should().Contain("CritterHeroes.Organization");
+            cookies.First().Value[0].Should().Contain("CritterHeroes_Organization");
 
             mockOwinContext.Verify(x => x.Response.Cookies, Times.Once);
         }
