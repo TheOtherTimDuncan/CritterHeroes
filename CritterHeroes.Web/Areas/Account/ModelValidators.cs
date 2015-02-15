@@ -87,7 +87,7 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public ConfirmEmailModelValidator()
         {
-            RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Please enter your email address.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter your email address.");
             RuleFor(x => x.ConfirmationCode).NotEmpty().WithMessage("Please enter the confirmation code from your email.");
         }
     }

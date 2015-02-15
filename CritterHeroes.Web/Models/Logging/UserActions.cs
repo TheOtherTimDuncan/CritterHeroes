@@ -15,6 +15,8 @@ namespace CritterHeroes.Web.Models.Logging
         ForgotUsernameFailure,
         ForgotUsernameSuccess,
         ResendConfirmationCodeFailure,
-        ResendConfirmationCodeSuccess
+        ResendConfirmationCodeSuccess,
+        ConfirmEmailSuccess,
+        ConfirmEmailFailure
     }
 }

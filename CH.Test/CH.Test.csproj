@@ -197,6 +197,7 @@
     <Compile Include="Azure\StorageTests\UserLogStorageEntityTests.cs" />
     <Compile Include="Azure\UserLogTests.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="CommandTests\ConfirmEmailCommandHandlerTests.cs" />
     <Compile Include="CommandTests\EditProfileCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ForgotPasswordCommandTests.cs" />
     <Compile Include="CommandTests\LogoutCommandHandlerTests.cs" />

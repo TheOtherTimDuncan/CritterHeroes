@@ -1,7 +1,56 @@
-﻿
+﻿@model CritterHeroes.Web.Areas.Account.Models.ConfirmEmailModel
+
 @{
     ViewBag.Title = "Confirm Email";
 }
 
-<h2>ConfirmEmail</h2>
+@section scripts{
 
+    @Scripts.Render("~/bundles/chbusyindicator")
+
+    <script type="text/javascript">
+
+        (function (cheroes, $) {
+            var btn = $('#submit').busyIndicator({ message: 'Confirming email...' });
+            if (btn.data('show-modal') === "") {
+                $('#success-message').modal();
+            }
+        }(this.cheroes = this.cheroes || {}, jQuery));
+
+    </script>
+}
+
+@Html.ModalDialog(Model.ModalDialog)
+
+<p>Please enter your email address and the confirmation code that was emailed to you.</p>
+
+@using (Html.FluentHtml().Form().Begin())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="form-group">
+        @Html.ValidationSummary(excludePropertyErrors: true)
+    </section>
+
+    <section class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            @Html.FluentHtml().InputEmail().For(m => m.Email).Class("form-control").Placeholder("Email address").AutoFocus()
+        </div>
+        @Html.ValidationMessage("email")
+    </section>
+
+    <section class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+            @Html.FluentHtml().InputText().For(m => m.ConfirmationCode).Class("form-control").Placeholder("Confirmation code")
+        </div>
+        @Html.ValidationMessage("email")
+    </section>
+    
+    <section class="form-group">
+        @{string dataShowDialog = (Model.ModalDialog != null ? "data-show-modal" : ""); }
+        <span><input type="submit" id="submit" value="Confirm Email" @dataShowDialog /></span>
+        <a href="@Url.AccountAction(x => x.Login(null))" class="primary">Cancel</a>
+    </section>
+}

@@ -6,11 +6,12 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account
 {
@@ -110,11 +111,22 @@ namespace CritterHeroes.Web.Areas.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ConfirmEmail(string userID, string confirmationCode)
+        public async Task<ActionResult> ConfirmEmail(string userID, string confirmationCode)
         {
+            if (userID.IsNullOrWhiteSpace() || confirmationCode.IsNullOrWhiteSpace())
+            {
+                return View(new ConfirmEmailModel());
+            }
+
             ConfirmEmailModel model = new ConfirmEmailModel()
             {
+                UserID = userID,
+                ConfirmationCode = confirmationCode
             };
+            
+            CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
+            AddCommandResultErrorsToModelState(ModelState, commandResult);
+
             return View(model);
         }
 

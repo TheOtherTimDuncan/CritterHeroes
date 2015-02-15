@@ -464,6 +464,7 @@
     <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
+    <Compile Include="Areas\Account\CommandHandlers\ConfirmEmailCommandHandler.cs" />
     <Compile Include="Areas\Account\Models\ConfirmEmailModel.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Account\QueryHandlers\EditProfileViewModelQueryHandler.cs" />
