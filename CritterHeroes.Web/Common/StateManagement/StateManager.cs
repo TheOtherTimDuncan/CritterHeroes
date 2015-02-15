@@ -15,14 +15,14 @@ namespace CritterHeroes.Web.Common.StateManagement
 
         private string _key;
 
-        private const string baseKey = "CritterHeroes.";
+        private const string baseKey = "CritterHeroes_";
 
         protected StateManager(IOwinContext owinContext, IStateSerializer serializer, string key)
         {
             ThrowIf.Argument.IsNull(owinContext, "owinContext");
             ThrowIf.Argument.IsNull(serializer, "serializer");
             ThrowIf.Argument.IsNullOrEmpty(key, "key");
-            
+
             this._owinContext = owinContext;
             this._serializer = serializer;
 
@@ -69,7 +69,10 @@ namespace CritterHeroes.Web.Common.StateManagement
 
         public void ClearContext()
         {
-            _owinContext.Response.Cookies.Delete(_key);
+            _owinContext.Response.Cookies.Delete(_key, new CookieOptions()
+            {
+                Expires = DateTime.Now.AddYears(-1)
+            });
         }
 
         protected abstract bool IsValid(T context);
