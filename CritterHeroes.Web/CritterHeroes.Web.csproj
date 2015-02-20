@@ -409,6 +409,8 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Areas\Account\Views\EditProfileLogin.cshtml" />
+    <Content Include="Areas\Account\Views\EditProfileSecure.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js">
       <DependentUpon>jquery-2.1.3.js</DependentUpon>
     </None>
@@ -466,8 +468,11 @@
     <Compile Include="App_Start\ViewEngineConfig.cs" />
     <Compile Include="Areas\Account\AccountController.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ConfirmEmailCommandHandler.cs" />
+    <Compile Include="Areas\Account\CommandHandlers\EditProfileLoginCommandHandler.cs" />
     <Compile Include="Areas\Account\Models\ConfirmEmailModel.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileCommandHandler.cs" />
+    <Compile Include="Areas\Account\Models\EditProfileLoginModel.cs" />
+    <Compile Include="Areas\Account\Models\EditProfileSecureModel.cs" />
     <Compile Include="Areas\Account\QueryHandlers\EditProfileViewModelQueryHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ForgotPasswordCommandHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\LoginCommandHandler.cs" />

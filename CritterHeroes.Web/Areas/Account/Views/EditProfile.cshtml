@@ -14,29 +14,38 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.ReturnUrl)
 
-    <div class="form-group">
+    <section class="form-group">
         @Html.ValidationSummary(true, null)
-    </div>
+    </section>
 
-    <div class="form-group">
+    <section class="form-group">
         @Html.FluentHtml().Label().For(m => m.Email)
-        @Html.FluentHtml().InputEmail().For(m => m.Email).Class("form-control").Placeholder("Email")
-        @Html.ValidationMessageFor(m => m.Email)
-    </div>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
+            <span class="input-group-btn"><a href="@Url.AccountAction(x=> x.EditProfileLogin())" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs">&nbsp;Change</span></a></span>
+        </div>
+    </section>
 
-    <div class="form-group">
+    <section class="form-group">
         @Html.FluentHtml().Label().For(m => m.FirstName)
-        @Html.FluentHtml().InputText().For(m => m.FirstName).Class("form-control").Placeholder("First name")
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            @Html.FluentHtml().InputText().For(m => m.FirstName).Class("form-control").Placeholder("First name")
+        </div>
         @Html.ValidationMessageFor(m => m.FirstName)
-    </div>
+    </section>
 
-    <div class="form-group">
+    <section class="form-group">
         @Html.FluentHtml().Label().For(m => m.LastName)
-        @Html.FluentHtml().InputText().For(m => m.LastName).Class("form-control").Placeholder("Last name")
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            @Html.FluentHtml().InputText().For(m => m.LastName).Class("form-control").Placeholder("Last name")
+        </div>
         @Html.ValidationMessageFor(m => m.LastName)
-    </div>
+    </section>
 
-    <div class="form-group">
+    <section class="form-group">
         <input type="submit" value="Save" />
-    </div>
+    </section>
 }

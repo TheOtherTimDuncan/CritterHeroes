@@ -174,5 +174,50 @@ namespace CritterHeroes.Web.Areas.Account
 
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult EditProfileLogin()
+        {
+            return View(new EditProfileLoginModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfileLogin(EditProfileLoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
+                if (commandResult.Succeeded)
+                {
+                    return RedirectToAction("EditProfileSecure");
+                }
+                AddCommandResultErrorsToModelState(ModelState, commandResult);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfile(EditProfileLoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
+                if (commandResult.Succeeded)
+                {
+                }
+                AddCommandResultErrorsToModelState(ModelState, commandResult);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult EditProfileSecure()
+        {
+            return View(new EditProfileSecureModel());
+        }
     }
 }

@@ -358,4 +358,40 @@ namespace CH.Test.ValidationTests
             }
         }
     }
+    [TestClass]
+    public class EditProfileLoginModelValidatorTests
+    {
+        public EditProfileLoginModelValidator GetValidator()
+        {
+            return new EditProfileLoginModelValidator();
+        }
+
+        [TestClass]
+        public class PasswordPropertyTests : EditProfileLoginModelValidatorTests
+        {
+            [TestMethod]
+            public void ShouldHaveErrorWhenPasswordIsNull()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Password, (string)null);
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenPasswordIsEmpty()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Password, "");
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenPasswordIsWhitespace()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Password, "  ");
+            }
+
+            [TestMethod]
+            public void ShouldNotHaveErrorWhenPasswordHasValue()
+            {
+                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Password, "password");
+            }
+        }
+    }
 }

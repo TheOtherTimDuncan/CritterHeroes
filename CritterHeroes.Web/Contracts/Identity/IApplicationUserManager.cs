@@ -28,6 +28,7 @@ namespace CritterHeroes.Web.Contracts.Identity
 
         Task<string> GeneratePasswordResetTokenAsync(string userID);
         Task<IdentityResult> ResetPasswordAsync(string userID, string token, string newPassword);
+        Task<bool> CheckPasswordAsync(IdentityUser user, string password);
 
         Task<string> GenerateEmailConfirmationTokenAsync(string userId);
         Task<IdentityResult> ConfirmEmailAsync(string userId, string token);

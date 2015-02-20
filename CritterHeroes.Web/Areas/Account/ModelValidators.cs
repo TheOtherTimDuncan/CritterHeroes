@@ -91,4 +91,12 @@ namespace CritterHeroes.Web.Areas.Account
             RuleFor(x => x.ConfirmationCode).NotEmpty().WithMessage("Please enter the confirmation code from your email.");
         }
     }
+
+    public class EditProfileLoginModelValidator : AbstractValidator<EditProfileLoginModel>
+    {
+        public EditProfileLoginModelValidator()
+        {
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
+        }
+    }
 }

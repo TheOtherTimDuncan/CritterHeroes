@@ -36,7 +36,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
             IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
-            user.Email = command.Email;
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 
