@@ -25,5 +25,10 @@ namespace CritterHeroes.Web.Areas.Common
                 returnUrl = returnUrl
             });
         }
+
+        public static LinkElement EditProfileLink(this LinkElement linkElement)
+        {
+            return linkElement.ActionLink<AccountController>(x => x.EditProfile((string)null));
+        }
     }
 }

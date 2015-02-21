@@ -85,17 +85,9 @@ namespace CH.Test.ValidationTests
     [TestClass]
     public class EditProfileModelValidatorTests
     {
-        public Mock<IApplicationUserManager> mockUserManager;
-        public Mock<IHttpUser> mockHttpUser;
-
         public EditProfileModelValidator GetValidator()
         {
-            mockUserManager = new Mock<IApplicationUserManager>();
-
-            mockHttpUser = new Mock<IHttpUser>();
-            mockHttpUser.Setup(x => x.Username).Returns("user.name");
-
-            return new EditProfileModelValidator(mockUserManager.Object, mockHttpUser.Object);
+            return new EditProfileModelValidator();
         }
 
         [TestClass]
@@ -151,55 +143,6 @@ namespace CH.Test.ValidationTests
             public void ShouldNotHaveErrorWhenLastNameHasValue()
             {
                 GetValidator().ShouldNotHaveValidationErrorFor(x => x.LastName, "Lastname");
-            }
-        }
-
-        [TestClass]
-        public class EmailPropertyTests : EditProfileModelValidatorTests
-        {
-            [TestMethod]
-            public void ShouldHaveErrorWhenEmailIsNull()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenEmailIsEmpty()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenEmailIsWhitespace()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenEmailIsInvalid()
-            {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "foobar");
-            }
-
-            [TestMethod]
-            public void ShouldHaveErrorWhenUsernameMatchesExistingUser()
-            {
-                EditProfileModelValidator validator = GetValidator();
-
-                string email = "new@new.com";
-
-                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new IdentityUser(email)));
-
-                validator.ShouldHaveValidationErrorFor(x => x.Email, email);
-
-                mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
-                mockHttpUser.Verify(x => x.Username, Times.Once);
-            }
-
-            [TestMethod]
-            public void ShouldNotHaveErrorWhenEmailHasValue()
-            {
-                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "email@email.com");
             }
         }
     }
@@ -391,6 +334,72 @@ namespace CH.Test.ValidationTests
             public void ShouldNotHaveErrorWhenPasswordHasValue()
             {
                 GetValidator().ShouldNotHaveValidationErrorFor(x => x.Password, "password");
+            }
+        }
+    }
+
+    [TestClass]
+    public class EditProfileSecureModelValidatorTests
+    {
+        public Mock<IApplicationUserManager> mockUserManager;
+        public Mock<IHttpUser> mockHttpUser;
+
+        public EditProfileSecureModelValidator GetValidator()
+        {
+            mockUserManager = new Mock<IApplicationUserManager>();
+
+            mockHttpUser = new Mock<IHttpUser>();
+            mockHttpUser.Setup(x => x.Username).Returns("user.name");
+
+            return new EditProfileSecureModelValidator(mockUserManager.Object, mockHttpUser.Object);
+        }
+
+        [TestClass]
+        public class EmailPropertyTests : EditProfileSecureModelValidatorTests
+        {
+            [TestMethod]
+            public void ShouldHaveErrorWhenEmailIsNull()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenEmailIsEmpty()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenEmailIsWhitespace()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenEmailIsInvalid()
+            {
+                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "foobar");
+            }
+
+            [TestMethod]
+            public void ShouldHaveErrorWhenUsernameMatchesExistingUser()
+            {
+                EditProfileSecureModelValidator validator = GetValidator();
+
+                string email = "new@new.com";
+
+                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new IdentityUser(email)));
+
+                validator.ShouldHaveValidationErrorFor(x => x.Email, email);
+
+                mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
+                mockHttpUser.Verify(x => x.Username, Times.Once);
+            }
+
+            [TestMethod]
+            public void ShouldNotHaveErrorWhenEmailHasValue()
+            {
+                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "email@email.com");
             }
         }
     }

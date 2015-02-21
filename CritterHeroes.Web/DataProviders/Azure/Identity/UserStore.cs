@@ -40,7 +40,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
 
             DynamicTableEntity entity = userMapping.ToStorage(user);
             TableOperation operation = TableOperation.Insert(entity);
-            await ExecuteTableOperation(operation);
+            await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public async Task DeleteAsync(IdentityUser user)
@@ -50,7 +50,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             DynamicTableEntity entity = userMapping.ToStorage(user);
             entity.ETag = "*";
             TableOperation operation = TableOperation.Delete(entity);
-            await ExecuteTableOperation(operation);
+            await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public async Task UpdateAsync(IdentityUser user)
@@ -60,12 +60,12 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             DynamicTableEntity entity = userMapping.ToStorage(user);
             entity.ETag = "*";
             TableOperation operation = TableOperation.Replace(entity);
-            await ExecuteTableOperation(operation);
+            await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public async Task<IdentityUser> FindByIdAsync(string userId)
         {
-            CloudTable table = await GetCloudTableAsync();
+            CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
             (
                 from x in table.CreateQuery<DynamicTableEntity>()
@@ -77,7 +77,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
 
         public async Task<IdentityUser> FindByNameAsync(string userName)
         {
-            CloudTable table = await GetCloudTableAsync();
+            CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
             (
                 from x in table.CreateQuery<DynamicTableEntity>()
@@ -116,7 +116,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
                 return null;
             }
 
-            CloudTable table = await GetCloudTableAsync();
+            CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
             (
                 from x in table.CreateQuery<DynamicTableEntity>()
@@ -199,14 +199,14 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
         {
             CloudTableClient client = _account.CreateCloudTableClient();
             CloudTable table = client.GetTableReference(TableName);
-            await table.CreateIfNotExistsAsync();
+            await table.CreateIfNotExistsAsync().ConfigureAwait(continueOnCapturedContext: false);
             return table;
         }
 
         protected virtual async Task ExecuteTableOperation(TableOperation tableOperation)
         {
-            CloudTable table = await GetCloudTableAsync();
-            await table.ExecuteAsync(tableOperation);
+            CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
+            await table.ExecuteAsync(tableOperation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
         public Task<int> GetAccessFailedCountAsync(IdentityUser user)

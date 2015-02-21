@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.Validation;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Storage;
@@ -24,36 +25,10 @@ namespace CritterHeroes.Web.Areas.Account
 
     public class EditProfileModelValidator : AbstractValidator<EditProfileModel>
     {
-        private IApplicationUserManager _userManager;
-        private IHttpUser _httpUser;
-
-        public EditProfileModelValidator(IApplicationUserManager storageContext, IHttpUser httpUser)
+        public EditProfileModelValidator()
         {
-            this._userManager = storageContext;
-            this._httpUser = httpUser;
-
-            RuleFor(x => x.Email)
-                .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty().WithMessage("Please enter your email address.")
-                .EmailAddress().WithMessage("Please enter a valid email address.")
-                .MustAsync(HaveUniqueEmail).WithMessage("The username you entered is not available. Please enter a different username.");
-
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Please enter your first name.");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Please enter your last name.");
-        }
-
-        public async Task<bool> HaveUniqueEmail(string email)
-        {
-            if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                IdentityUser dupeUser = await _userManager.FindByEmailAsync(email);
-                if (dupeUser != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 
@@ -97,6 +72,39 @@ namespace CritterHeroes.Web.Areas.Account
         public EditProfileLoginModelValidator()
         {
             RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
+        }
+    }
+
+    public class EditProfileSecureModelValidator : AbstractValidator<EditProfileSecureModel>
+    {
+        private IApplicationUserManager _userManager;
+        private IHttpUser _httpUser;
+
+        public EditProfileSecureModelValidator(IApplicationUserManager storageContext, IHttpUser httpUser)
+        {
+            this._userManager = storageContext;
+            this._httpUser = httpUser;
+
+            RuleFor(x => x.Email)
+              .Cascade(CascadeMode.StopOnFirstFailure)
+              .NotEmpty().WithMessage("Please enter your email address.")
+              .EmailAddress().WithMessage("Please enter a valid email address.")
+              .MustHaveUniqueEmail(_userManager,_httpUser).WithMessage("The email address you entered is not available. Please enter a different email address.");
+              //.MustAsync(HaveUniqueEmail).WithMessage("The email address you entered is not available. Please enter a different email address.");
+        }
+
+        public async Task<bool> HaveUniqueEmail(string email)
+        {
+            if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                IdentityUser dupeUser = await _userManager.FindByEmailAsync(email);
+                if (dupeUser != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

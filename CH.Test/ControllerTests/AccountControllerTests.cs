@@ -132,7 +132,7 @@ namespace CH.Test.ControllerTests
 
             AccountController controller = CreateController<AccountController>();
 
-            ViewResult viewResult = (ViewResult)await controller.EditProfile();
+            ViewResult viewResult = (ViewResult)await controller.EditProfile((string)null);
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 

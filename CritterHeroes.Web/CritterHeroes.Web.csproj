@@ -469,6 +469,7 @@
     <Compile Include="Areas\Account\AccountController.cs" />
     <Compile Include="Areas\Account\CommandHandlers\ConfirmEmailCommandHandler.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileLoginCommandHandler.cs" />
+    <Compile Include="Areas\Account\CommandHandlers\EditProfileSecureCommandHandler.cs" />
     <Compile Include="Areas\Account\Models\ConfirmEmailModel.cs" />
     <Compile Include="Areas\Account\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Account\Models\EditProfileLoginModel.cs" />
@@ -531,6 +532,7 @@
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Common\Proxies\HttpUserProxy.cs" />
+    <Compile Include="Common\Validation\UniqueEmailValidator.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Contracts\IHttpUser.cs" />
     <Compile Include="Contracts\Notifications\INotification.cs" />

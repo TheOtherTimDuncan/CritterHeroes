@@ -57,13 +57,13 @@
                 {
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<AccountController>(x => x.EditProfile()).Class("hidden-xs").Text("Welcome, " + Model.UserDisplayName)
+                            Html.FluentHtml().Link().EditProfileLink().Class("hidden-xs").Text("Welcome, " + Model.UserDisplayName)
                         )
                     );
 
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<AccountController>(x => x.EditProfile()).Class("visible-xs").Text("Edit Profile")
+                            Html.FluentHtml().Link().EditProfileLink().Class("visible-xs").Text("Edit Profile")
                         )
                     );
 

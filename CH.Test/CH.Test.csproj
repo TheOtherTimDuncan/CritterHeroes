@@ -200,6 +200,7 @@
     <Compile Include="CommandTests\ConfirmEmailCommandHandlerTests.cs" />
     <Compile Include="CommandTests\EditProfileCommandHandlerTests.cs" />
     <Compile Include="CommandTests\EditProfileLoginCommandHandlerTests.cs" />
+    <Compile Include="CommandTests\EditProfileSecureCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ForgotPasswordCommandTests.cs" />
     <Compile Include="CommandTests\LogoutCommandHandlerTests.cs" />
     <Compile Include="CommandTests\ResetPasswordCommandHandlerTests.cs" />

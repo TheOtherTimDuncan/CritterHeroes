@@ -3,3 +3,29 @@
 @{
     ViewBag.Title = "Edit Profile";
 }
+
+@section scripts{
+}
+
+@using (Html.FluentHtml().Form().AutoCompleteOff().Begin())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.ReturnUrl)
+
+    <section class="form-group">
+        @Html.ValidationSummary(true, null)
+    </section>
+
+    <section class="form-group">
+        @Html.FluentHtml().Label().For(m => m.Email)
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            @Html.FluentHtml().InputText().For(m => m.Email).Class("form-control").Placeholder("Email").AutoFocus()
+        </div>
+        @Html.ValidationMessageFor(m => m.Email)
+    </section>
+
+    <section class="form-group">
+        <input type="submit" value="Save" />
+    </section>
+}

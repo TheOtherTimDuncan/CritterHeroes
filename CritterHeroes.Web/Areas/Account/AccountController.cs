@@ -123,7 +123,7 @@ namespace CritterHeroes.Web.Areas.Account
                 Email = email,
                 ConfirmationCode = confirmationCode
             };
-            
+
             CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
             AddCommandResultErrorsToModelState(ModelState, commandResult);
 
@@ -145,13 +145,19 @@ namespace CritterHeroes.Web.Areas.Account
         }
 
         [HttpGet]
-        public async Task<ActionResult> EditProfile()
+        public async Task<ActionResult> EditProfile(string returnUrl)
         {
             UserIDQuery query = new UserIDQuery()
             {
                 UserID = User.GetUserID()
             };
             EditProfileModel model = await QueryDispatcher.DispatchAsync<EditProfileModel>(query);
+
+            if (!returnUrl.IsNullOrEmpty())
+            {
+                model.ReturnUrl = returnUrl;
+            }
+
             return View(model);
         }
 
@@ -176,9 +182,12 @@ namespace CritterHeroes.Web.Areas.Account
         }
 
         [HttpGet]
-        public ActionResult EditProfileLogin()
+        public ActionResult EditProfileLogin(string returnUrl)
         {
-            return View(new EditProfileLoginModel());
+            return View(new EditProfileLoginModel()
+            {
+                ReturnUrl = returnUrl
+            });
         }
 
         [HttpPost]
@@ -190,23 +199,10 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return RedirectToAction("EditProfileSecure");
-                }
-                AddCommandResultErrorsToModelState(ModelState, commandResult);
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditProfile(EditProfileLoginModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
-                if (commandResult.Succeeded)
-                {
+                    return RedirectToAction("EditProfileSecure", new
+                    {
+                        returnUrl = model.ReturnUrl
+                    });
                 }
                 AddCommandResultErrorsToModelState(ModelState, commandResult);
             }
@@ -215,9 +211,32 @@ namespace CritterHeroes.Web.Areas.Account
         }
 
         [HttpGet]
-        public ActionResult EditProfileSecure()
+        public ActionResult EditProfileSecure(string returnUrl)
         {
-            return View(new EditProfileSecureModel());
+            return View(new EditProfileSecureModel()
+            {
+                ReturnUrl = returnUrl
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfileSecure(EditProfileSecureModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
+                if (commandResult.Succeeded)
+                {
+                    return RedirectToAction("EditProfile", new
+                    {
+                        returnUrl = model.ReturnUrl
+                    });
+                }
+                AddCommandResultErrorsToModelState(ModelState, commandResult);
+            }
+
+            return View(model);
         }
     }
 }

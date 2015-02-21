@@ -23,7 +23,7 @@
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
             <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
-            <span class="input-group-btn"><a href="@Url.AccountAction(x=> x.EditProfileLogin())" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs">&nbsp;Change</span></a></span>
+            <span class="input-group-btn"><a href="@Url.AccountAction(x=> x.EditProfileLogin(Model.ReturnUrl))" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs">&nbsp;Change</span></a></span>
         </div>
     </section>
 
