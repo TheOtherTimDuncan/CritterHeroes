@@ -21,9 +21,6 @@ namespace CritterHeroes.Web
                 .Include("~/Scripts/validation.extensions.js")
             );
 
-            bundles.Add(new ScriptBundle("~/bundles/chusername")
-                .Include("~/Scripts/ch.username.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/datadashboard")
                 .Include("~/Scripts/ch.data-dashboard.js"));
 
