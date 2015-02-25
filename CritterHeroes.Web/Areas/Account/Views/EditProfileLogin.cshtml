@@ -14,7 +14,7 @@
     <section class="form-group">
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            @Html.FluentHtml().InputPassword().For(m => m.Password).Class("form-control").Placeholder("Password").AutoFocus()
+            @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap().AutoFocus()
         </div>
         @Html.ValidationMessageFor(m => m.Password)
     </section>

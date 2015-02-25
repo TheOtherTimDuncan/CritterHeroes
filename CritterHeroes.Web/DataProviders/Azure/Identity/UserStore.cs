@@ -231,7 +231,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
 
         public Task ResetAccessFailedCountAsync(IdentityUser user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(0);
         }
 
         public Task SetLockoutEnabledAsync(IdentityUser user, bool enabled)

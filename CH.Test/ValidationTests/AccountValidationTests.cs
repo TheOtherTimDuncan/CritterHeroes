@@ -156,35 +156,21 @@ namespace CH.Test.ValidationTests
         }
 
         [TestMethod]
-        public void ShouldHaveErrorIfBothEmailAndUsernameAreNull()
+        public void ShouldHaveErrorWhenEmailIsNull()
         {
-            ForgotPasswordModel model = new ForgotPasswordModel();
-            ValidationResult validationResult = GetValidator().Validate(model);
-            validationResult.IsValid.Should().BeFalse();
+            GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
         }
 
         [TestMethod]
-        public void ShouldHaveErrorIfBothEmailAndUsernameAreEmpty()
+        public void ShouldHaveErrorWhenEmailIsEmpty()
         {
-            ForgotPasswordModel model = new ForgotPasswordModel()
-            {
-                Email = "",
-                Username = ""
-            };
-            ValidationResult validationResult = GetValidator().Validate(model);
-            validationResult.IsValid.Should().BeFalse();
+            GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
         }
 
         [TestMethod]
-        public void ShouldHaveErrorIfBothEmailAndUsernameAreWhitespace()
+        public void ShouldHaveErrorWhenEmailIsWhitespace()
         {
-            ForgotPasswordModel model = new ForgotPasswordModel()
-            {
-                Email = "  ",
-                Username = "  "
-            };
-            ValidationResult validationResult = GetValidator().Validate(model);
-            validationResult.IsValid.Should().BeFalse();
+            GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
         }
 
         [TestMethod]
@@ -192,18 +178,7 @@ namespace CH.Test.ValidationTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                Email = "email@emailc.om",
-            };
-            ValidationResult validationResult = GetValidator().Validate(model);
-            validationResult.IsValid.Should().BeTrue();
-        }
-
-        [TestMethod]
-        public void ShouldNotHaveErrorIfUsernameHasValue()
-        {
-            ForgotPasswordModel model = new ForgotPasswordModel()
-            {
-                Username = "username",
+                Email = "email@email.com",
             };
             ValidationResult validationResult = GetValidator().Validate(model);
             validationResult.IsValid.Should().BeTrue();

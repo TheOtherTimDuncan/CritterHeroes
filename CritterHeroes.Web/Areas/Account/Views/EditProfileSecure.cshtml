@@ -20,7 +20,7 @@
         @Html.FluentHtml().Label().For(m => m.Email)
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-            @Html.FluentHtml().InputText().For(m => m.Email).Class("form-control").Placeholder("Email").AutoFocus()
+            @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
         </div>
         @Html.ValidationMessageFor(m => m.Email)
     </section>

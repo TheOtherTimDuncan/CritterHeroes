@@ -11,7 +11,7 @@
     <section class="form-group">
         <div class="input-group">
             <span class="input-group-addon" ><span class="glyphicon glyphicon-envelope"></span></span>
-            @Html.FluentHtml().InputEmail().For(m => m.Email).Class("form-control").Placeholder("Email").AutoFocus()
+            @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
         </div>
         @Html.ValidationMessageFor(m => m.Email)
     </section>
@@ -19,7 +19,7 @@
     <section class="form-group">
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            @Html.FluentHtml().InputPassword().For(m => m.Password).Class("form-control").Placeholder("Password")
+            @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
             <span class="input-group-btn"><a href="@Url.AccountAction(x => x.ForgotPassword())" class="btn btn-info" title="Forgot password?" tabindex="-1">?</a></span>
         </div>
         @Html.ValidationMessageFor(m => m.Password)

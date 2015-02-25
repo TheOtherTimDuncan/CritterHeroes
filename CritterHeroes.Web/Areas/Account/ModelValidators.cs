@@ -18,7 +18,7 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public LoginModelValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter a username.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter your email address.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
         }
     }
@@ -36,15 +36,7 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public ForgotPasswordModelValidator()
         {
-            Custom(m =>
-            {
-                if (m.Email.IsNullOrWhiteSpace() && m.Username.IsNullOrWhiteSpace())
-                {
-                    return new ValidationFailure("", "Please enter your email address or your username.");
-                }
-
-                return null;
-            });
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter your email address.");
         }
     }
 
@@ -52,7 +44,7 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public ResetPasswordModelValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter a username.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter your email address.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter a password.");
             RuleFor(x => x.ConfirmPassword).Equal(x => x.Password).WithMessage("The password and confirmation password do not match.");
         }
@@ -89,22 +81,7 @@ namespace CritterHeroes.Web.Areas.Account
               .Cascade(CascadeMode.StopOnFirstFailure)
               .NotEmpty().WithMessage("Please enter your email address.")
               .EmailAddress().WithMessage("Please enter a valid email address.")
-              .MustHaveUniqueEmail(_userManager,_httpUser).WithMessage("The email address you entered is not available. Please enter a different email address.");
-              //.MustAsync(HaveUniqueEmail).WithMessage("The email address you entered is not available. Please enter a different email address.");
-        }
-
-        public async Task<bool> HaveUniqueEmail(string email)
-        {
-            if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                IdentityUser dupeUser = await _userManager.FindByEmailAsync(email);
-                if (dupeUser != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+              .MustHaveUniqueEmail(_userManager, _httpUser).WithMessage("The email address you entered is not available. Please enter a different email address.");
         }
     }
 }

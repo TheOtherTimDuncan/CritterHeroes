@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TOTD.Mvc.FluentHtml.Attributes;
 
 namespace CritterHeroes.Web.Areas.Account.Models
 {
@@ -13,6 +14,7 @@ namespace CritterHeroes.Web.Areas.Account.Models
         }
 
         [DataType(DataType.EmailAddress)]
+        [Placeholder("Email")]
         public string Email
         {
             get;
