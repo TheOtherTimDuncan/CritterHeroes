@@ -58,6 +58,11 @@ namespace CritterHeroes.Web
             Bundle unobtrusiveBundle = new ScriptBundle("~/bundles/jqueryunobtrusive", "//ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js")
                 .Include("~/Scripts/jquery.validate.unobtrusive.js");
             bundles.Add(unobtrusiveBundle);
+
+            // ajax
+            Bundle ajaxBundle = new ScriptBundle("~/bundles/jqueryunobtrusiveajax", "//ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.unobtrusive-ajax.min.js")
+                .Include("~/Scripts/jquery.unobtrusive-ajax.js");
+            bundles.Add(ajaxBundle);
         }
 
         public static void RegisterBootstrap(BundleCollection bundles)

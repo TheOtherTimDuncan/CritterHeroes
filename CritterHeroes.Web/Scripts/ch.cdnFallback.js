@@ -28,6 +28,10 @@
             window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
         },
 
+        unobtrusiveajaxFallback: function (bundleName) {
+            window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
+        },
+
         bootstrapFallback: function (bundleName) {
             window.jQuery.fn.modal || writeScriptBundleUrl(bundleName);
         },

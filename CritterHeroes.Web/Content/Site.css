@@ -7166,9 +7166,6 @@ nav > div > .navbar-collapse {
 nav header .logo-small {
   float: left !important;
 }
-form {
-  max-width: 500px;
-}
 form input[type="submit"] {
   display: inline-block;
   margin-bottom: 0;
@@ -7378,6 +7375,42 @@ fieldset[disabled] form a.primary.active {
 form a.primary .badge {
   color: #008cba;
   background-color: #ffffff;
+}
+.form-col-offset {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-col-offset {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  .form-col-offset {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+.form-col {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-col {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  .form-col {
+    float: left;
+    width: 75%;
+  }
 }
 ul {
   -webkit-padding-start: 0;
