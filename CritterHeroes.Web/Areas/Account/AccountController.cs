@@ -39,16 +39,9 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToLocal(returnUrl);
                 }
-                else
-                {
-                    AddCommandResultErrorsToModelState(ModelState, commandResult);
-                }
+                AddCommandResultErrorsToModelState(ModelState, commandResult);
             }
 
             return View(model);
@@ -170,7 +163,7 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return Redirect(model.ReturnUrl);
+                    return RedirectToLocal(model.ReturnUrl);
                 }
                 else
                 {

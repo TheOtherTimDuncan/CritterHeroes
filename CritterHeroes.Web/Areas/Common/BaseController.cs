@@ -66,6 +66,11 @@ namespace CritterHeroes.Web.Areas.Common
             }
         }
 
+        protected RedirectResult RedirectToLocal(string redirectUrl)
+        {
+            return Redirect(Url.Local(redirectUrl));
+        }
+
         protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)
         {
             foreach (string error in identityResult.Errors)
