@@ -4,26 +4,34 @@
     ViewBag.Title = "Edit Profile - Login";
 }
 
-<p>As a security precaution, please enter your password.</p>
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col"><p>As a security precaution, please enter your password.</p></div>
+</div>
 
-@using (Html.FluentHtml().Form().AutoCompleteOff().Begin())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.ReturnUrl)
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col">
+        @using (Html.FluentHtml().Form().AutoCompleteOff().Begin())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.ReturnUrl)
 
-    <section class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap().AutoFocus()
-        </div>
-        @Html.ValidationMessageFor(m => m.Password)
-    </section>
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap().AutoFocus()
+                </div>
+                @Html.ValidationMessageFor(m => m.Password)
+            </section>
 
-    <section class="form-group">
-        @Html.ValidationSummary(true, null)
-    </section>
+            <section class="form-group">
+                @Html.ValidationSummary(true, null)
+            </section>
 
-    <section class="form-group">
-        <input type="submit" value="Confirm" />
-    </section>
-}
+            <section class="form-group">
+                <input type="submit" value="Confirm" />
+            </section>
+        }
+    </div>
+</div>

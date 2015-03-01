@@ -22,35 +22,43 @@
 
 @Html.ModalDialog(Model.ModalDialog)
 
-<p>Please enter your email address and the confirmation code that was emailed to you.</p>
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col">Please enter your email address and the confirmation code that was emailed to you.</div>
+</div>
 
-@using (Html.FluentHtml().Form().Begin())
-{
-    @Html.AntiForgeryToken()
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col">
+        @using (Html.FluentHtml().Form().Begin())
+        {
+            @Html.AntiForgeryToken()
 
-    <section class="form-group">
-        @Html.ValidationSummary(excludePropertyErrors: true)
-    </section>
+            <section class="form-group">
+                @Html.ValidationSummary(excludePropertyErrors: true)
+            </section>
 
-    <section class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-            @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
-        </div>
-        @Html.ValidationMessageFor(m => m.Email)
-    </section>
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
+                </div>
+                @Html.ValidationMessageFor(m => m.Email)
+            </section>
 
-    <section class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            @Html.FluentHtml().Input().For(m => m.ConfirmationCode).ForBootstrap()
-        </div>
-        @Html.ValidationMessageFor(m => m.ConfirmationCode)
-    </section>
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.ConfirmationCode).ForBootstrap()
+                </div>
+                @Html.ValidationMessageFor(m => m.ConfirmationCode)
+            </section>
     
-    <section class="form-group">
-        @{string dataShowDialog = (Model.ModalDialog != null ? "data-show-modal" : ""); }
-        <span><input type="submit" id="submit" value="Confirm Email" @dataShowDialog /></span>
-        <a href="@Url.AccountAction(x => x.Login(null))" class="primary">Cancel</a>
-    </section>
-}
+            <section class="form-group">
+                @{string dataShowDialog = (Model.ModalDialog != null ? "data-show-modal" : ""); }
+                <span><input type="submit" id="submit" value="Confirm Email" @dataShowDialog /></span>
+                <a href="@Url.AccountAction(x => x.Login(null))" class="primary">Cancel</a>
+            </section>
+        }
+    </div>
+</div>

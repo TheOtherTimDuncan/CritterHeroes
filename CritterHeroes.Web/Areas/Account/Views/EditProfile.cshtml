@@ -8,43 +8,48 @@
     @Scripts.Render("~/bundles/cheditprofile")
 }
 
-@using (Html.FluentHtml().Form().Begin())
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.ReturnUrl)
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col">
+        @using (Html.FluentHtml().Form().Begin())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.ReturnUrl)
 
-    <section class="form-group">
-        @Html.ValidationSummary(true, null)
-    </section>
+            <section class="form-group">
+                @Html.ValidationSummary(true, null)
+            </section>
 
-    <section class="form-group">
-        @Html.FluentHtml().Label().For(m => m.Email)
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-            <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
-            <span class="input-group-btn"><a href="@Url.AccountAction(x=> x.EditProfileLogin(Model.ReturnUrl))" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs">&nbsp;Change</span></a></span>
-        </div>
-    </section>
+            <section class="form-group">
+                @Html.FluentHtml().Label().For(m => m.Email)
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
+                    <span class="input-group-btn"><a href="@Url.AccountAction(x=> x.EditProfileLogin(Model.ReturnUrl))" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs">&nbsp;Change</span></a></span>
+                </div>
+            </section>
 
-    <section class="form-group">
-        @Html.FluentHtml().Label().For(m => m.FirstName)
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-            @Html.FluentHtml().Input().For(m => m.FirstName).ForBootstrap()
-        </div>
-        @Html.ValidationMessageFor(m => m.FirstName)
-    </section>
+            <section class="form-group">
+                @Html.FluentHtml().Label().For(m => m.FirstName)
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.FirstName).ForBootstrap()
+                </div>
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </section>
 
-    <section class="form-group">
-        @Html.FluentHtml().Label().For(m => m.LastName)
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-            @Html.FluentHtml().Input().For(m => m.LastName).ForBootstrap()
-        </div>
-        @Html.ValidationMessageFor(m => m.LastName)
-    </section>
+            <section class="form-group">
+                @Html.FluentHtml().Label().For(m => m.LastName)
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.LastName).ForBootstrap()
+                </div>
+                @Html.ValidationMessageFor(m => m.LastName)
+            </section>
 
-    <section class="form-group">
-        <input type="submit" value="Save" />
-    </section>
-}
+            <section class="form-group">
+                <input type="submit" value="Save" />
+            </section>
+        }
+    </div>
+</div>

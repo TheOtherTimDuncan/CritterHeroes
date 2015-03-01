@@ -4,35 +4,40 @@
     ViewBag.Title = "Login";
 }
 
-@using (Html.FluentHtml().Form().LoginAction(Model.ReturnUrl).AutoCompleteOff().Begin())
-{
-    @Html.AntiForgeryToken()
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col">
+        @using (Html.FluentHtml().Form().LoginAction(Model.ReturnUrl).AutoCompleteOff().Begin())
+        {
+            @Html.AntiForgeryToken()
 
-    <section class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon" ><span class="glyphicon glyphicon-envelope"></span></span>
-            @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
-        </div>
-        @Html.ValidationMessageFor(m => m.Email)
-    </section>
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" ><span class="glyphicon glyphicon-envelope"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
+                </div>
+                @Html.ValidationMessageFor(m => m.Email)
+            </section>
 
-    <section class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
-            <span class="input-group-btn"><a href="@Url.AccountAction(x => x.ForgotPassword())" class="btn btn-info" title="Forgot password?" tabindex="-1">?</a></span>
-        </div>
-        @Html.ValidationMessageFor(m => m.Password)
-    </section>
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
+                    <span class="input-group-btn"><a href="@Url.AccountAction(x => x.ForgotPassword())" class="btn btn-info" title="Forgot password?" tabindex="-1">?</a></span>
+                </div>
+                @Html.ValidationMessageFor(m => m.Password)
+            </section>
 
-    <section class="form-group">
-        @Html.ValidationSummary(true, null)
-    </section>
+            <section class="form-group">
+                @Html.ValidationSummary(true, null)
+            </section>
 
-    <section class="form-group">
-        <input type="submit" value="Login" />
-        <span class="pull-right">
-            <a href="@Url.AccountAction(x => x.ConfirmEmail(null,null))" tabindex="-1">Have confirmation code?</a><br />
-        </span>
-    </section>
-}
+            <section class="form-group">
+                <input type="submit" value="Login" />
+                <span class="pull-right">
+                    <a href="@Url.AccountAction(x => x.ConfirmEmail(null,null))" tabindex="-1">Have confirmation code?</a><br />
+                </span>
+            </section>
+        }
+    </div>
+</div>
