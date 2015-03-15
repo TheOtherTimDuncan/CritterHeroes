@@ -80,8 +80,8 @@ namespace CH.Test.ControllerTests
             AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
 
-            RedirectToRouteResult redirectResult = (await controller.Login(model, null)) as RedirectToRouteResult;
-            VerifyRedirectToRouteResult(redirectResult, "Index", "Home");
+            RedirectResult redirectResult = (await controller.Login(model, null)) as RedirectResult;
+            redirectResult.Url.Should().EndWith("/Home/Index");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Email), Times.Once);
@@ -159,7 +159,11 @@ namespace CH.Test.ControllerTests
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
+            Mock<UrlHelper> mockUrlHelper = new Mock<UrlHelper>();
+            mockUrlHelper.Setup(x => x.IsLocalUrl(It.IsAny<string>())).Returns(true);
+
             AccountController controller = CreateController<AccountController>();
+            controller.Url = mockUrlHelper.Object;
 
             RedirectResult redirectResult = await controller.EditProfile(model) as RedirectResult;
             redirectResult.Url.Should().Be(returnUri.AbsoluteUri);

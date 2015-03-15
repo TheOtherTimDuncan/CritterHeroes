@@ -45,6 +45,8 @@ namespace CH.Test.ControllerTests
         public OrganizationContext organizationContext;
         public UserContext userContext;
 
+        public const string webAppPath = "/debug/";
+
         [TestInitialize]
         public void InitializeTest()
         {
@@ -112,10 +114,16 @@ namespace CH.Test.ControllerTests
             mockItems.SetupGet(x => x[It.IsAny<string>()]).Returns(new Dictionary<string, object>());
 
             Mock<HttpRequestBase> mockRequest = new Mock<HttpRequestBase>();
+            mockRequest.Setup(x => x.ApplicationPath).Returns(webAppPath);
+            mockRequest.Setup(x => x.Url).Returns(new Uri("http://localhost/debug"));
+
+            Mock<HttpResponseBase> mockResponse = new Mock<HttpResponseBase>();
+            mockResponse.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns((string s) => s);
 
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.Items).Returns(mockItems.Object);
             mockHttpContext.Setup(x => x.Request).Returns(mockRequest.Object);
+            mockHttpContext.Setup(x => x.Response).Returns(mockResponse.Object);
 
             RequestContext requestContext = new RequestContext(mockHttpContext.Object, new RouteData());
             mockRequest.Setup(x => x.RequestContext).Returns(requestContext);
