@@ -82,8 +82,8 @@ namespace CritterHeroes.Web
         {
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            Bundle modernizerBundle = new ScriptBundle("~/bundles/modernizr", "//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.7.2.js")
-                .Include("~/Scripts/modernizr-2.7.2.*");
+            Bundle modernizerBundle = new ScriptBundle("~/bundles/modernizr", "//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js")
+                .Include("~/Scripts/modernizr-2.8.3.*");
             bundles.Add(modernizerBundle);
         }
     }
