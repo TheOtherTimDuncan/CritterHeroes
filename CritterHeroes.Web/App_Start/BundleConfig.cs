@@ -55,7 +55,7 @@ namespace CritterHeroes.Web
             bundles.Add(uiBundle);
 
             // Unobtrusive validation
-            Bundle unobtrusiveBundle = new ScriptBundle("~/bundles/jqueryunobtrusive", "//ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js")
+            Bundle unobtrusiveBundle = new ScriptBundle("~/bundles/jqueryunobtrusive", "//ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js")
                 .Include("~/Scripts/jquery.validate.unobtrusive.js");
             bundles.Add(unobtrusiveBundle);
 
