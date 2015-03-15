@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 return CommandResult.Success();
             };
 
-            return CommandResult.Failed("", "The password you entered was incorrect.");
+            return CommandResult.Failed("The password you entered was incorrect.");
         }
     }
 }

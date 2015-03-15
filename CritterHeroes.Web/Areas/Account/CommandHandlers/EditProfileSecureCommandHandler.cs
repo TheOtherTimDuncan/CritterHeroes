@@ -16,8 +16,8 @@ using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
-    public class EditProfileSecureCommandHandler:IAsyncCommandHandler<EditProfileSecureModel>
-    { 
+    public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
+    {
         private IAuthenticationManager _authenticationManager;
         private IApplicationUserManager _userManager;
         private IUserLogger _userLogger;
@@ -41,7 +41,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
             if (!identityResult.Succeeded)
             {
-                return CommandResult.Failed("", identityResult.Errors);
+                return CommandResult.Failed(identityResult.Errors);
             }
 
             UserContext userContext = UserContext.FromUser(user);

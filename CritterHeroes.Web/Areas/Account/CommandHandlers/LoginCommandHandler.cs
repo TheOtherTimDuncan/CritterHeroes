@@ -35,7 +35,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             else
             {
                 await _userLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Email);
-                return CommandResult.Failed("", "The username or password that you entered was incorrect. Please try again.");
+                return CommandResult.Failed("The username or password that you entered was incorrect. Please try again.");
             }
         }
     }

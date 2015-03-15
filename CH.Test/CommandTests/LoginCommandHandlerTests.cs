@@ -59,7 +59,7 @@ namespace CH.Test.CommandTests
             CommandResult result = await command.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            result.Errors[""][0].Should().Be("The username or password that you entered was incorrect. Please try again.");
+            result.Errors.Single().Should().Be("The username or password that you entered was incorrect. Please try again.");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Email), Times.Once);

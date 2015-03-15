@@ -38,7 +38,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 // We don't want to reveal whether or not the email address is valid
                 // so if the user isn't found just return failed with no errors
                 await _userLogger.LogActionAsync(UserActions.ConfirmEmailFailure, command.Email);
-                return CommandResult.Failed("", "There was an error confirming your email address. Please try again.");
+                return CommandResult.Failed("There was an error confirming your email address. Please try again.");
             }
 
             IdentityResult identityResult = await _appUserManager.ConfirmEmailAsync(user.Id, command.ConfirmationCode);
@@ -56,7 +56,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             }
 
             await _userLogger.LogActionAsync(UserActions.ConfirmEmailFailure, user.Email, identityResult.Errors);
-            return CommandResult.Failed("", "There was an error confirming your email address. Please try again.");
+            return CommandResult.Failed("There was an error confirming your email address. Please try again.");
         }
     }
 }

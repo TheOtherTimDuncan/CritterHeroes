@@ -80,7 +80,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             await _userLogger.LogActionAsync(UserActions.ResetPasswordFailure, command.Email, "Code: " + command.Code);
 
-            return CommandResult.Failed("", "There was an error resetting your password. Please try again.");
+            return CommandResult.Failed("There was an error resetting your password. Please try again.");
         }
     }
 }

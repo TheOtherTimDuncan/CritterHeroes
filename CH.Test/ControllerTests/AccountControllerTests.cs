@@ -184,7 +184,7 @@ namespace CH.Test.ControllerTests
             identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
 
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("", "Error")));
+            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("Error")));
 
             Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
             mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));

@@ -24,26 +24,26 @@ namespace CH.Test.ServicesTests
         [TestMethod]
         public void FailedResultHasErrors()
         {
-            CommandResult result = CommandResult.Failed("key", "message");
+            CommandResult result = CommandResult.Failed("message");
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            result.Errors["key"][0].Should().Be("message");
+            result.Errors.Single().Should().Be("message");
         }
 
         [TestMethod]
         public void FailedResultHasMultipleErrors()
         {
             string[] errors = new string[] { "Error1", "Error2" };
-            CommandResult result = CommandResult.Failed("key", errors);
+            CommandResult result = CommandResult.Failed(errors);
             result.Succeeded.Should().BeFalse();
-            result.Errors.Should().HaveCount(1);
-            result.Errors["key"].ToArray().Should().Equal(errors);
+            result.Errors.Should().HaveCount(2);
+            result.Errors.Should().Equal(errors);
         }
 
         [TestMethod]
         public void ReturnsSuccessForSuccessfulIdentityResult()
         {
-            CommandResult result = CommandResult.FromIdentityResult(IdentityResult.Success, "key");
+            CommandResult result = CommandResult.FromIdentityResult(IdentityResult.Success);
             result.Succeeded.Should().BeTrue();
             result.Errors.Should().BeEmpty();
         }
@@ -51,10 +51,10 @@ namespace CH.Test.ServicesTests
         [TestMethod]
         public void ReturnsFailedResultForFailedIdentityResult()
         {
-            CommandResult result = CommandResult.FromIdentityResult(new IdentityResult("error"), "key");
+            CommandResult result = CommandResult.FromIdentityResult(new IdentityResult("error"));
             result.Succeeded.Should().BeFalse();
             result.Errors.Should().HaveCount(1);
-            result.Errors["key"][0].Should().Be("error");
+            result.Errors.Single().Should().Be("error");
         }
     }
 }

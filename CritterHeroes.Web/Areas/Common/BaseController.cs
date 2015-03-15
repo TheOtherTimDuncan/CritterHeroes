@@ -81,12 +81,9 @@ namespace CritterHeroes.Web.Areas.Common
 
         protected void AddCommandResultErrorsToModelState(ModelStateDictionary modelState, CommandResult commandResult)
         {
-            foreach (KeyValuePair<string, List<string>> error in commandResult.Errors)
+            foreach (string errorMessage in commandResult.Errors)
             {
-                foreach (string errorMessage in error.Value)
-                {
-                    modelState.AddModelError(error.Key, errorMessage);
-                }
+                modelState.AddModelError("", errorMessage);
             }
         }
     }

@@ -19,7 +19,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
 
-        public EditProfileCommandHandler( IApplicationUserManager userManager,  IHttpUser httpUser, IStateManager<UserContext> userContextManager)
+        public EditProfileCommandHandler(IApplicationUserManager userManager, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
         {
             this._userManager = userManager;
             this._httpUser = httpUser;
@@ -35,7 +35,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
             if (!identityResult.Succeeded)
             {
-                return CommandResult.Failed("", identityResult.Errors);
+                return CommandResult.Failed(identityResult.Errors);
             }
 
             UserContext userContext = UserContext.FromUser(user);

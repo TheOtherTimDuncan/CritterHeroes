@@ -8,9 +8,11 @@ namespace CritterHeroes.Web.Common.Commands
 {
     public class CommandResult
     {
+        private List<string> _errors;
+
         protected CommandResult()
         {
-            this.Errors = new Dictionary<string, List<string>>();
+            this._errors = new List<string>();
         }
 
         public static CommandResult Success()
@@ -27,17 +29,17 @@ namespace CritterHeroes.Web.Common.Commands
             return result;
         }
 
-        public static CommandResult Failed(string errorKey, string errorMessage)
+        public static CommandResult Failed(string errorMessage)
         {
-            return Failed().AddError(errorKey, errorMessage);
+            return Failed().AddError(errorMessage);
         }
 
-        public static CommandResult Failed(string errorKey, IEnumerable<string> errorMessages)
+        public static CommandResult Failed(IEnumerable<string> errorMessages)
         {
-            return Failed().AddErrors(errorKey, errorMessages);
+            return Failed().AddErrors(errorMessages);
         }
 
-        public static CommandResult FromIdentityResult(IdentityResult identityResult, string errorKey)
+        public static CommandResult FromIdentityResult(IdentityResult identityResult)
         {
             if (identityResult.Succeeded)
             {
@@ -45,7 +47,7 @@ namespace CritterHeroes.Web.Common.Commands
             }
             else
             {
-                return Failed().AddIdentityResultErrors(errorKey, identityResult);
+                return Failed().AddIdentityResultErrors(identityResult);
             }
         }
 
@@ -55,45 +57,31 @@ namespace CritterHeroes.Web.Common.Commands
             private set;
         }
 
-        public IDictionary<string, List<string>> Errors
+        public IEnumerable<string> Errors
         {
-            get;
-            private set;
+            get
+            {
+                return _errors;
+            }
         }
 
-        public CommandResult AddError(string key, string error)
+        public CommandResult AddError(string error)
         {
-            ThrowIf.Argument.IsNull(key, "key");
             ThrowIf.Argument.IsNullOrEmpty(error, "error");
-
-            List<string> errors;
-            if (!Errors.TryGetValue(key, out errors))
-            {
-                errors = new List<string>();
-                Errors[key] = errors;
-            }
-
-            errors.Add(error);
-
+            _errors.Add(error);
             return this;
         }
 
-        public CommandResult AddIdentityResultErrors(string key, IdentityResult identityResult)
+        public CommandResult AddIdentityResultErrors(IdentityResult identityResult)
         {
             ThrowIf.Argument.IsNull(identityResult, "identityResult");
-            return AddErrors(key, identityResult.Errors);
+            return AddErrors(identityResult.Errors);
         }
 
-        public CommandResult AddErrors(string key, IEnumerable<string> errors)
+        public CommandResult AddErrors(IEnumerable<string> errors)
         {
-            ThrowIf.Argument.IsNull(key, "key");
             ThrowIf.Argument.IsNull(errors, "errors");
-
-            foreach (string error in errors)
-            {
-                AddError(key, error);
-            }
-
+            _errors.AddRange(errors);
             return this;
         }
     }
