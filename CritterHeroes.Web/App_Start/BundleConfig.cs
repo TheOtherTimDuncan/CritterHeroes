@@ -50,8 +50,8 @@ namespace CritterHeroes.Web
             bundles.Add(validateBundle);
 
             // jQuery UI
-            Bundle uiBundle = new ScriptBundle("~/bundles/jqueryui", "//ajax.aspnetcdn.com/ajax/jquery.ui/1.11.2/jquery-ui.min.js")
-                .Include("~/Scripts/jquery-ui-1.11.2.*");
+            Bundle uiBundle = new ScriptBundle("~/bundles/jqueryui", "//ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js")
+                .Include("~/Scripts/jquery-ui-1.11.4.*");
             bundles.Add(uiBundle);
 
             // Unobtrusive validation
