@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Models;
 
-namespace CritterHeroes.Web.Common.Handlers.Email
+namespace CritterHeroes.Web.Common.Email
 {
     public class EmailBuilder
     {
@@ -30,6 +31,12 @@ namespace CritterHeroes.Web.Common.Handlers.Email
         public static EmailBuilder Begin(EmailMessage message)
         {
             return new EmailBuilder(message);
+        }
+
+        public EmailBuilder SetNotificationSubject(OrganizationContext organizationContext)
+        {
+            _message.Subject = organizationContext.ShortName + " Admin Notification";
+            return this;
         }
 
         public EmailBuilder AddParagraph(string text)

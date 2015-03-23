@@ -7,7 +7,7 @@ using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Home;
 using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Handlers.Email;
+using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;

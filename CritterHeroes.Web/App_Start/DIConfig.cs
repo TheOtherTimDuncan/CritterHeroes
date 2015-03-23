@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.DataMaintenance.CommandHandlers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
+using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Proxies;
 using CritterHeroes.Web.Common.Proxies.Configuration;
@@ -55,6 +56,7 @@ namespace CritterHeroes.Web
             container.RegisterManyForOpenGeneric(typeof(IStateManager<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(ISecondaryStorageContext<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IEmailHandler<>), defaultAssemblies);
 
             container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();
             container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
@@ -68,6 +70,7 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
             container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();
+            container.RegisterPerWebRequest<IEmailService, EmailService>();
 
             container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
             container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
