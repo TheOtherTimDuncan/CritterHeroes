@@ -188,13 +188,13 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="TOTD.Mvc, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Mvc, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Mvc.2.0.2.0\lib\net451\TOTD.Mvc.dll</HintPath>
+      <HintPath>..\packages\TOTD.Mvc.2.1.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TOTD.Utility, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.2.0.2.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <HintPath>..\packages\TOTD.Utility.2.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
