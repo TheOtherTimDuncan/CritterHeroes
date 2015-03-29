@@ -215,6 +215,7 @@
     <Compile Include="DependencyTests.cs" />
     <Compile Include="EmailTests\EmailClientTests.cs" />
     <Compile Include="EmailTests\EmailBuilderTests.cs" />
+    <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />

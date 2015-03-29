@@ -4,15 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
@@ -21,17 +18,15 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IUserLogger _userLogger;
         private IApplicationUserManager _appUserManager;
-        private IEmailClient _emailClient;
+        private IEmailService _emailService;
         private IUrlGenerator _urlGenerator;
-        private OrganizationContext _organizationContext;
 
-        public ForgotPasswordCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IEmailClient emailClient, IUrlGenerator urlGenerator, OrganizationContext organizationContext)
+        public ForgotPasswordCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
-            this._emailClient = emailClient;
+            this._emailService = emailService;
             this._urlGenerator = urlGenerator;
-            this._organizationContext = organizationContext;
         }
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
@@ -46,25 +41,17 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 return CommandResult.Success();
             }
 
-            string code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
-            string url = _urlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(code));
-
-            EmailMessage emailMessage = new EmailMessage()
+            ResetPasswordEmailCommand emailCommand = new ResetPasswordEmailCommand(user.Email)
             {
-                Subject = "Password Reset - " + _organizationContext.FullName,
-                From = _organizationContext.EmailAddress
+                TokenLifespan = _appUserManager.TokenLifespan
             };
-            emailMessage.To.Add(user.Email);
 
-            EmailBuilder
-                .Begin(emailMessage)
-                .AddParagraph("Your password for your account at " + _organizationContext.FullName + " has been reset. To complete resetting your password, click the link below or visit " + _organizationContext.FullName + " and copy the code into the provided form. This code will be valid for " + _appUserManager.TokenLifespan.TotalHours.ToString() + " hours.")
-                .AddParagraph("Confirmation Code: " + code)
-                .AddParagraph("<a href=\"" + url + "\">Reset Password</a>")
-                .End();
+            emailCommand.Token = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
+            emailCommand.Url = _urlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(emailCommand.Token));
 
-            await _emailClient.SendAsync(emailMessage, user.Id);
+            await _emailService.SendEmailAsync(emailCommand);
             await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email);
+
             return CommandResult.Success();
         }
     }

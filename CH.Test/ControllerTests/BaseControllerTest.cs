@@ -39,6 +39,7 @@ namespace CH.Test.ControllerTests
         public Mock<IAuthenticationManager> mockAuthenticationManager;
         public Mock<IHttpUser> mockHttpUser;
         public Mock<IOwinContext> mockOwinContext;
+        public Mock<IEmailService> mockEmailService;
 
         public Mock<IStateManager<UserContext>> mockUserContextManager;
 
@@ -91,6 +92,9 @@ namespace CH.Test.ControllerTests
 
             userContext = new UserContext();
             container.Register(() => userContext);
+
+            mockEmailService = new Mock<IEmailService>();
+            container.Register(() => mockEmailService.Object);
 
             container.Register<INotificationPublisher, NotificationPublisher>();
         }

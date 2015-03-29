@@ -35,29 +35,18 @@ namespace CH.Test.CommandTests
                 ResetPasswordEmail = email
             };
 
-            OrganizationContext organizationContext = new OrganizationContext()
-            {
-                OrganizationID = Guid.NewGuid(),
-                FullName = "Full Name",
-                EmailAddress = "org@org.com"
-            };
-
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
-
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-
-            Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
-
+            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
-            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns("account-url");
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object, organizationContext);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
-            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Never);
         }
 
         [TestMethod]
@@ -73,13 +62,6 @@ namespace CH.Test.CommandTests
                 Email = command.ResetPasswordEmail
             };
 
-            OrganizationContext organizationContext = new OrganizationContext()
-            {
-                OrganizationID = Guid.NewGuid(),
-                FullName = "Full Name",
-                EmailAddress = "org@org.com"
-            };
-
             string code = "code";
             string url = "http://www.password.reset.com/code";
 
@@ -87,36 +69,28 @@ namespace CH.Test.CommandTests
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.ResetPasswordEmail)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
+            mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(code));
 
-            Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
-            mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id)).Returns((EmailMessage message, string forUserID) =>
+            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
+            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
             {
-                forUserID.Should().Be(user.Id);
+                emailCommand.Token.Should().Be(code);
+                emailCommand.Url.Should().Be(url);
 
-                message.To.Should().HaveCount(1);
-                message.To.First().Should().Be(user.Email);
-
-                message.From.Should().Be(organizationContext.EmailAddress);
-                message.Subject.Should().Be("Password Reset - " + organizationContext.FullName);
-                message.HtmlBody.Should().Contain(url);
-                message.TextBody.Should().Contain(url);
-
-                return Task.FromResult(0);
+                return Task.FromResult(CommandResult.Success());
             });
 
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
-            mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(code);
-            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns("account-url");
+            mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(url);
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object, organizationContext);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
-            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
             mockUrlGenerator.Verify(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
     }

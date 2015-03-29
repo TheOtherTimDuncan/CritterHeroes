@@ -8,11 +8,11 @@ using CritterHeroes.Web.Models;
 
 namespace CritterHeroes.Web.Common.Email
 {
-    public abstract class BaseEmailHandler<T> : IEmailHandler<T> where T: EmailCommand
+    public abstract class BaseEmailCommandHandler<T> : IEmailHandler<T> where T : EmailCommand
     {
         private IEmailClient _emailClient;
 
-        public BaseEmailHandler(IEmailClient emailClient)
+        public BaseEmailCommandHandler(IEmailClient emailClient)
         {
             this._emailClient = emailClient;
         }

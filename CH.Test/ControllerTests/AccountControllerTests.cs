@@ -203,32 +203,19 @@ namespace CH.Test.ControllerTests
         }
 
         [TestMethod]
-        public async Task PostForgotPasswordReturnsViewWithModelAndModalDialogIfCommandSucceeds()
+        public async Task PostForgotPasswordReturnsJsonCommandResultIfCommandSucceeds()
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                ResetPasswordEmail = "email@email.com",
+                ResetPasswordEmail = "email@email.com"
             };
 
             IdentityUser user = new IdentityUser(model.ResetPasswordEmail);
 
-            OrganizationContext organizationContext = new OrganizationContext()
-            {
-                OrganizationID = Guid.NewGuid(),
-                FullName = "Full Name",
-                EmailAddress = "org@org.com"
-            };
-
-            string url = "http://www.password.reset.com/code";
-
             mockUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
-
-            mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id)).Returns(Task.FromResult(0));
 
             AccountController controller = CreateController<AccountController>();
             controller.ControllerContext = CreateControllerContext(GetMockHttpContext(), controller);
-            controller.Request.GetOwinContext().SetOrganizationContext(organizationContext);
 
             ActionResult actionResult = await controller.ForgotPassword(model);
 
@@ -241,7 +228,7 @@ namespace CH.Test.ControllerTests
 
             mockUserManager.Verify(x => x.FindByEmailAsync(model.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
-            mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);
         }
 
