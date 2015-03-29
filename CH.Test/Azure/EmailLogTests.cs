@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.Models;
@@ -18,17 +17,16 @@ namespace CH.Test.Azure
         [TestMethod]
         public async Task CanSaveAndRetrieveEmailLog()
         {
-            EmailLog emailLog = new EmailLog(DateTime.UtcNow, new EmailMessage()
+            EmailMessage message = new EmailMessage()
             {
                 From = "from@from.com",
                 HtmlBody = "html",
                 TextBody = "text",
                 Subject = "subject"
-            })
-            {
-                ForUserID = "userid"
             };
-            emailLog.Message.To.Add("to@to.com");
+            message.To.Add("to@to.com");
+
+            EmailLog emailLog = new EmailLog(DateTime.UtcNow, message);
 
             AzureEmailLogger logger = new AzureEmailLogger(new AzureConfiguration());
             await logger.LogEmailAsync(emailLog);
@@ -37,7 +35,7 @@ namespace CH.Test.Azure
 
             EmailLog result = results.FirstOrDefault(x => x.ID == emailLog.ID);
             result.Should().NotBeNull();
-            result.ForUserID.Should().Be(emailLog.ForUserID);
+            result.EmailTo.Should().Be(emailLog.EmailTo);
             result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
             result.WhenSentUtc.Kind.Should().Be(DateTimeKind.Utc);
 

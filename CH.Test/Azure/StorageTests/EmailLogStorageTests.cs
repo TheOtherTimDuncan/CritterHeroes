@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.Models;
@@ -18,24 +16,24 @@ namespace CH.Test.Azure.StorageTests
         [TestMethod]
         public void SuccessfullyMapsEntityToAndFromStorage()
         {
-            EmailLog emailLog = new EmailLog(DateTime.UtcNow, new EmailMessage()
+            EmailMessage message = new EmailMessage()
             {
                 From = "from@from.com",
                 HtmlBody = "html",
                 TextBody = "text",
                 Subject = "subject"
-            })
-            {
-                ForUserID = "userid"
             };
-            emailLog.Message.To.Add("to@to.com");
+            message.To.Add("to@to.com");
+
+            EmailLog emailLog = new EmailLog(DateTime.UtcNow, message);
+            emailLog.EmailTo.Should().Be(message.To.Single());
 
             AzureEmailLogger source = new AzureEmailLogger(new AzureConfiguration());
             AzureEmailLogger target = new AzureEmailLogger(new AzureConfiguration());
             EmailLog result = target.FromStorage(source.ToStorage(emailLog));
 
             result.ID.Should().Be(emailLog.ID);
-            result.ForUserID.Should().Be(emailLog.ForUserID);
+            result.EmailTo.Should().Be(emailLog.EmailTo);
             result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
             result.WhenSentUtc.Kind.Should().Be(DateTimeKind.Utc);
 

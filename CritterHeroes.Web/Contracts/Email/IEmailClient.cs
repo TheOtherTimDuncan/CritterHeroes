@@ -8,6 +8,5 @@ namespace CritterHeroes.Web.Contracts.Email
     public interface IEmailClient
     {
         Task SendAsync(EmailMessage emailMessage);
-        Task SendAsync(EmailMessage emailMessage, string forUserID);
     }
 }

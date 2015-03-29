@@ -56,10 +56,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
             EmailMessage message = JsonConvert.DeserializeObject<EmailMessage>(tableEntity["Message"].StringValue);
 
-            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTime.Value, message)
-            {
-                ForUserID = tableEntity.SafeGetEntityPropertyStringValue("ForUserID")
-            };
+            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTime.Value, message);
 
             return result;
         }
@@ -68,7 +65,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         {
             DynamicTableEntity tableEntity = base.ToStorage(entity);
 
-            tableEntity["ForUserID"] = new EntityProperty(entity.ForUserID);
+            tableEntity["EmailTo"] = new EntityProperty(entity.EmailTo);
             tableEntity["WhenSentUtc"] = new EntityProperty(entity.WhenSentUtc);
             tableEntity["Message"] = new EntityProperty(JsonConvert.SerializeObject(entity.Message));
 
