@@ -32,7 +32,7 @@ namespace CH.Test.CommandTests
 
             ForgotPasswordModel command = new ForgotPasswordModel()
             {
-                Email = email
+                ResetPasswordEmail = email
             };
 
             OrganizationContext organizationContext = new OrganizationContext()
@@ -53,18 +53,11 @@ namespace CH.Test.CommandTests
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailClient.Object, mockUrlGenerator.Object, organizationContext);
             CommandResult result = await handler.ExecuteAsync(command);
-            result.Succeeded.Should().BeFalse();
-            result.Errors.Should().BeEmpty();
+            result.Succeeded.Should().BeTrue();
 
-            command.ModalDialog.Should().NotBeNull();
-            command.ModalDialog.Text.Should().NotBeNullOrEmpty();
-            command.ModalDialog.Buttons.Should().NotBeEmpty();
-            command.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
-
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, command.Email), Times.Once);
+            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>()), Times.Never);
-            mockUrlGenerator.Verify(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
 
         [TestMethod]
@@ -72,12 +65,12 @@ namespace CH.Test.CommandTests
         {
             ForgotPasswordModel command = new ForgotPasswordModel()
             {
-                Email = "email@email.com",
+                ResetPasswordEmail = "email@email.com",
             };
 
             IdentityUser user = new IdentityUser("unit.test")
             {
-                Email = command.Email
+                Email = command.ResetPasswordEmail
             };
 
             OrganizationContext organizationContext = new OrganizationContext()
@@ -93,7 +86,7 @@ namespace CH.Test.CommandTests
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(command.ResetPasswordEmail)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
 
             Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();
@@ -120,17 +113,11 @@ namespace CH.Test.CommandTests
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
-            command.ModalDialog.Should().NotBeNull();
-            command.ModalDialog.Text.Should().NotBeNullOrEmpty();
-            command.ModalDialog.Buttons.Should().NotBeEmpty();
-            command.ModalDialog.Buttons.Any(x => x.Url != null && x.Url.Contains("account-url")).Should().BeTrue();
-
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);
-            mockUserManager.Verify(x => x.FindByEmailAsync(command.Email), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
             mockUrlGenerator.Verify(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
-            mockUrlGenerator.Verify(x => x.GenerateSiteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
+using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;
@@ -206,11 +207,10 @@ namespace CH.Test.ControllerTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                Email = "email@email.com",
+                ResetPasswordEmail = "email@email.com",
             };
-            model.ModalDialog.Should().BeNull("this should be the default");
 
-            IdentityUser user = new IdentityUser(model.Email);
+            IdentityUser user = new IdentityUser(model.ResetPasswordEmail);
 
             OrganizationContext organizationContext = new OrganizationContext()
             {
@@ -221,7 +221,7 @@ namespace CH.Test.ControllerTests
 
             string url = "http://www.password.reset.com/code";
 
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(url));
 
             mockEmailClient.Setup(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id)).Returns(Task.FromResult(0));
@@ -232,15 +232,14 @@ namespace CH.Test.ControllerTests
 
             ActionResult actionResult = await controller.ForgotPassword(model);
 
-            ViewResult viewResult = actionResult as ViewResult;
-            viewResult.Should().NotBeNull();
+            JsonResult jsonResult = actionResult as JsonResult;
+            jsonResult.Should().NotBeNull();
 
-            ForgotPasswordModel resultModel = viewResult.Model as ForgotPasswordModel;
+            JsonCommandResult resultModel = jsonResult.Data as JsonCommandResult;
             resultModel.Should().NotBeNull();
+            resultModel.Succeeded.Should().BeTrue();
 
-            resultModel.ModalDialog.Should().NotBeNull();
-
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailClient.Verify(x => x.SendAsync(It.IsAny<EmailMessage>(), user.Id), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);

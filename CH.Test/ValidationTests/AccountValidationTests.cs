@@ -158,19 +158,19 @@ namespace CH.Test.ValidationTests
         [TestMethod]
         public void ShouldHaveErrorWhenEmailIsNull()
         {
-            GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
+            GetValidator().ShouldHaveValidationErrorFor(x => x.ResetPasswordEmail, (string)null);
         }
 
         [TestMethod]
         public void ShouldHaveErrorWhenEmailIsEmpty()
         {
-            GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
+            GetValidator().ShouldHaveValidationErrorFor(x => x.ResetPasswordEmail, "");
         }
 
         [TestMethod]
         public void ShouldHaveErrorWhenEmailIsWhitespace()
         {
-            GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
+            GetValidator().ShouldHaveValidationErrorFor(x => x.ResetPasswordEmail, "  ");
         }
 
         [TestMethod]
@@ -178,7 +178,7 @@ namespace CH.Test.ValidationTests
         {
             ForgotPasswordModel model = new ForgotPasswordModel()
             {
-                Email = "email@email.com",
+                ResetPasswordEmail = "email@email.com",
             };
             ValidationResult validationResult = GetValidator().Validate(model);
             validationResult.IsValid.Should().BeTrue();

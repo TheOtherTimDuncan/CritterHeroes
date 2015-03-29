@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Areas.Account
     {
         public ForgotPasswordModelValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter your email address.");
+            RuleFor(x => x.ResetPasswordEmail).NotEmpty().WithMessage("Please enter your email address.");
         }
     }
 

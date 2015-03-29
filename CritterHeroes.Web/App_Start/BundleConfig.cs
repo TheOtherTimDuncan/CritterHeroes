@@ -30,6 +30,9 @@ namespace CritterHeroes.Web
             bundles.Add(new ScriptBundle("~/bundles/chbusyindicator")
                 .Include("~/Scripts/ch.busy-indicator.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/chlogin")
+                .Include("~/Scripts/ch.login.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             RegisterjQuery(bundles);

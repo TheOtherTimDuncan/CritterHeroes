@@ -316,7 +316,6 @@
     <Content Include="Areas\Common\Views\_ModalDialog.cshtml" />
     <Content Include="Areas\Account\Views\ConfirmEmail.cshtml" />
     <Content Include="Areas\Account\Views\EditProfile.cshtml" />
-    <Content Include="Areas\Account\Views\ForgotPassword.cshtml" />
     <Content Include="Areas\Account\Views\Login.cshtml" />
     <Content Include="Areas\Account\Views\ResetPassword.cshtml" />
     <Content Include="Areas\Admin\DataMaintenance\Views\Dashboard.cshtml" />
@@ -430,9 +429,11 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Areas\Account\Views\EditProfileLogin.cshtml" />
     <Content Include="Areas\Account\Views\EditProfileSecure.cshtml" />
+    <Content Include="Areas\Account\Views\_ForgotPassword.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js">
       <DependentUpon>jquery-2.1.3.js</DependentUpon>
     </None>
+    <Content Include="Scripts\ch.login.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js">
       <DependentUpon>jquery-2.1.3.js</DependentUpon>
@@ -536,6 +537,7 @@
     <Compile Include="Areas\Home\Models\MenuModel.cs" />
     <Compile Include="Areas\Home\Queries\HeaderQuery.cs" />
     <Compile Include="Areas\Home\Queries\MenuQuery.cs" />
+    <Compile Include="Areas\Models\JsonCommandResult.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogButton.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />

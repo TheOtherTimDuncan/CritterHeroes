@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
@@ -16,7 +14,6 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
-using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
@@ -39,22 +36,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
-            IdentityUser user = await _appUserManager.FindByEmailAsync(command.Email);
-
-            ModalDialogButton button1 = ModalDialogButton.Button(text: "Try Again", cssClass: ButtonCss.Info, isDismissable: true);
-            ModalDialogButton button2 = ModalDialogButton.Link(text: "Continue", cssClass: ButtonCss.Primary, url: _urlGenerator.GenerateSiteUrl<AccountController>(x => x.Login(null)));
-            command.ModalDialog = new ModalDialogModel()
-            {
-                Text = "Instructions for resetting your password have been emailed to you. Please check your email and follow the provided instructions to complete resetting your password. If you can't find the email, please check your spam folder.",
-                Buttons = new ModalDialogButton[] { button1, button2 }
-            };
+            IdentityUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
 
             if (user == null)
             {
                 // We don't want to reveal whether or not the username or email address are valid
-                // so if the user isn't found just return failed with no errors
-                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, command.Email);
-                return CommandResult.Failed();
+                // so if the user isn't found just return success
+                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail);
+                return CommandResult.Success();
             }
 
             string code = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);

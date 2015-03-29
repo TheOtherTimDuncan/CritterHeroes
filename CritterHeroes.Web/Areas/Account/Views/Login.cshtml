@@ -4,6 +4,13 @@
     ViewBag.Title = "Login";
 }
 
+@section scripts{
+    @Scripts.Render("~/bundles/chbusyindicator")
+    @Scripts.Render("~/bundles/chlogin");
+}
+
+<div id="modal-container"></div>
+
 <div class="row">
     <div class="form-col-offset"></div>
     <div class="form-col">
@@ -13,7 +20,7 @@
 
             <section class="form-group">
                 <div class="input-group">
-                    <span class="input-group-addon" ><span class="glyphicon glyphicon-envelope"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
                     @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
                 </div>
                 @Html.ValidationMessageFor(m => m.Email)
@@ -23,7 +30,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                     @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
-                    <span class="input-group-btn"><a href="@Url.AccountAction(x => x.ForgotPassword())" class="btn btn-info" title="Forgot password?" tabindex="-1">?</a></span>
+                    <span class="input-group-btn"><button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountAction(x => x.ForgotPassword())">?</button></span>
                 </div>
                 @Html.ValidationMessageFor(m => m.Password)
             </section>

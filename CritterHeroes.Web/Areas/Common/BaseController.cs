@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
@@ -85,6 +86,20 @@ namespace CritterHeroes.Web.Areas.Common
             {
                 modelState.AddModelError("", errorMessage);
             }
+        }
+
+        protected JsonResult JsonCommandSuccess()
+        {
+            return Json(JsonCommandResult.Success());
+        }
+
+        protected JsonResult JsonCommandError(ModelStateDictionary modelState)
+        {
+            IEnumerable<string> errors =
+                from v in modelState.Values
+                from e in v.Errors
+                select e.ErrorMessage;
+            return Json(JsonCommandResult.Error(string.Join(", ", errors)));
         }
     }
 }

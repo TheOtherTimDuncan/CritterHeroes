@@ -57,7 +57,7 @@ namespace CritterHeroes.Web.Areas.Account
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View(new ForgotPasswordModel());
+            return PartialView("_ForgotPassword", new ForgotPasswordModel());
         }
 
         [HttpPost]
@@ -68,10 +68,14 @@ namespace CritterHeroes.Web.Areas.Account
             if (ModelState.IsValid)
             {
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
+                if (commandResult.Succeeded)
+                {
+                    return JsonCommandSuccess();
+                }
                 AddCommandResultErrorsToModelState(ModelState, commandResult);
             }
 
-            return View(model);
+            return JsonCommandError(ModelState);
         }
 
         [HttpGet]

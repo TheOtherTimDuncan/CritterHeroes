@@ -2,26 +2,37 @@
 
     'use strict';
 
+    function send(defaultOptions, options) {
+
+        var requestOptions = $.extend(defaultOptions, options);
+
+        requestOptions.success = function (data) {
+            options.success(data);
+        };
+
+        requestOptions.error = function (jqxhr, textStatus, errorThrown) {
+        };
+
+        $.ajax(requestOptions);
+
+    }
+
     cheroes.dataManager = {
 
-        defaultOptions: {
-            dataType: 'json',
-            type: 'POST'
+        sendRequest: function (options) {
+            var defaultOptions = {
+                dataType: 'json',
+                type: 'POST'
+            };
+            send(defaultOptions, options);
         },
 
-        sendRequest: function (options) {
-
-            var that = cheroes.dataManager;
-            var getOptions = $.extend(that.defaultOptions, options);
-
-            getOptions.success = function (data) {
-                options.success(data);
+        getHtml: function (options) {
+            var defaultOptions = {
+                dataType: 'html',
+                type: 'GET'
             };
-
-            getOptions.error = function (jqxhr, textStatus, errorThrown) {
-            };
-
-            $.ajax(getOptions);
+            send(defaultOptions, options);
         }
     };
 
