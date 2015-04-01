@@ -26,7 +26,7 @@ namespace CH.Test.CommandTests
     public class ForgotPasswordCommandTests
     {
         [TestMethod]
-        public async Task ReturnsSuccessButDoesntSendEmailIfUserNotFound()
+        public async Task ReturnsSuccessAndSendsAttemptEmailIfUserNotFound()
         {
             string email = "email@email.com";
 
@@ -47,6 +47,7 @@ namespace CH.Test.CommandTests
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Never);
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Once);
         }
 
         [TestMethod]

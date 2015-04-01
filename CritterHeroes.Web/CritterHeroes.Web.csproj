@@ -543,6 +543,7 @@
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\Commands\BaseTokenEmailCommand.cs" />
+    <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordEmailCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Common\Dispatchers\NotificationPublisher.cs" />
@@ -551,6 +552,7 @@
     <Compile Include="Common\Commands\EmailCommand.cs" />
     <Compile Include="Common\Email\EmailBuilder.cs" />
     <Compile Include="Common\Email\EmailService.cs" />
+    <Compile Include="Common\Email\ResetPasswordAttemptEmailCommandHandler.cs" />
     <Compile Include="Common\Email\ResetPasswordEmailCommandHandler.cs" />
     <Compile Include="Common\Identity\ApplicationSignInManager.cs" />
     <Compile Include="Common\Identity\ApplicationUserManager.cs" />
