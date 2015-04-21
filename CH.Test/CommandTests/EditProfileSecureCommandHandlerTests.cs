@@ -30,7 +30,7 @@ namespace CH.Test.CommandTests
 
             EditProfileSecureModel model = new EditProfileSecureModel()
             {
-                Email = "new@new.com"
+                NewEmail = "new@new.com"
             };
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
@@ -52,7 +52,7 @@ namespace CH.Test.CommandTests
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
-            user.Email.Should().Be(model.Email);
+            user.Email.Should().Be(model.NewEmail);
 
             mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
@@ -61,7 +61,7 @@ namespace CH.Test.CommandTests
             mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
             mockAuthenticationManager.Verify(x => x.SignIn(It.IsAny<ClaimsIdentity>()), Times.Once);
 
-            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, model.Email, It.IsAny<string>()), Times.Once);
+            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, model.NewEmail, It.IsAny<string>()), Times.Once);
         }
     }
 }

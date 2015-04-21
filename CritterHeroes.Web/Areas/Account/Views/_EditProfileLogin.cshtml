@@ -1,0 +1,37 @@
+﻿@model CritterHeroes.Web.Areas.Account.Models.EditProfileLoginModel
+
+@using (var container = Html.FluentHtml().BootstrapModalContainer().Begin())
+{
+    using (var dialog = container.CreateDialog().Begin())
+    {
+        using (var content = dialog.CreateModalContent().Begin())
+        {
+            using (var header = content.CreateHeader().Begin())
+            {
+                @header.CreateCloseButton();
+                @header.CreateTitle("Edit Email - Login");
+            }
+            <form id="email-login-form" action="@Url.AccountAction(x => x.EditProfileLogin())" data-next="@Url.AccountAction(x => x.EditProfileSecure())">
+                @Html.AntiForgeryToken()
+                @using (var body = content.CreateBody().Begin())
+                {
+                    <p>As a security precaution, please enter your password.</p>
+                    <section class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                            @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </section>
+                }
+                @using (var footer = content.CreateFooter().Begin())
+                {
+                    <span id="button-container">
+                        <input id="email-login" type="submit" class="btn btn-primary" value="Confirm" />
+                        <button id="close" type="button" data-dismiss="modal" class="btn btn-primary">Cancel</button>
+                    </span>
+                }
+            </form>
+        }
+    }
+}

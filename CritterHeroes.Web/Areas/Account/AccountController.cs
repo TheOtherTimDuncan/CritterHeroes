@@ -179,12 +179,9 @@ namespace CritterHeroes.Web.Areas.Account
         }
 
         [HttpGet]
-        public ActionResult EditProfileLogin(string returnUrl)
+        public ActionResult EditProfileLogin()
         {
-            return View(new EditProfileLoginModel()
-            {
-                ReturnUrl = returnUrl
-            });
+            return PartialView("_EditProfileLogin");
         }
 
         [HttpPost]
@@ -196,24 +193,18 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return RedirectToAction("EditProfileSecure", new
-                    {
-                        returnUrl = model.ReturnUrl
-                    });
+                    return JsonCommandSuccess();
                 }
                 AddCommandResultErrorsToModelState(ModelState, commandResult);
             }
 
-            return View(model);
+            return JsonCommandError(ModelState);
         }
 
         [HttpGet]
-        public ActionResult EditProfileSecure(string returnUrl)
+        public ActionResult EditProfileSecure()
         {
-            return View(new EditProfileSecureModel()
-            {
-                ReturnUrl = returnUrl
-            });
+            return PartialView("_EditProfileSecure");
         }
 
         [HttpPost]
@@ -225,15 +216,12 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return RedirectToAction("EditProfile", new
-                    {
-                        returnUrl = model.ReturnUrl
-                    });
+                    return JsonCommandSuccess();
                 }
                 AddCommandResultErrorsToModelState(ModelState, commandResult);
             }
 
-            return View(model);
+            return JsonCommandError(ModelState);
         }
     }
 }

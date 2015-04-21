@@ -335,25 +335,25 @@ namespace CH.Test.ValidationTests
             [TestMethod]
             public void ShouldHaveErrorWhenEmailIsNull()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, (string)null);
+                GetValidator().ShouldHaveValidationErrorFor(x => x.NewEmail, (string)null);
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenEmailIsEmpty()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.NewEmail, "");
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenEmailIsWhitespace()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "  ");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.NewEmail, "  ");
             }
 
             [TestMethod]
             public void ShouldHaveErrorWhenEmailIsInvalid()
             {
-                GetValidator().ShouldHaveValidationErrorFor(x => x.Email, "foobar");
+                GetValidator().ShouldHaveValidationErrorFor(x => x.NewEmail, "foobar");
             }
 
             [TestMethod]
@@ -365,7 +365,7 @@ namespace CH.Test.ValidationTests
 
                 mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new IdentityUser(email)));
 
-                validator.ShouldHaveValidationErrorFor(x => x.Email, email);
+                validator.ShouldHaveValidationErrorFor(x => x.NewEmail, email);
 
                 mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
                 mockHttpUser.Verify(x => x.Username, Times.Once);
@@ -374,7 +374,7 @@ namespace CH.Test.ValidationTests
             [TestMethod]
             public void ShouldNotHaveErrorWhenEmailHasValue()
             {
-                GetValidator().ShouldNotHaveValidationErrorFor(x => x.Email, "email@email.com");
+                GetValidator().ShouldNotHaveValidationErrorFor(x => x.NewEmail, "email@email.com");
             }
         }
     }

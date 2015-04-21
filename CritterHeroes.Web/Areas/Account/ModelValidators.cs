@@ -77,7 +77,7 @@ namespace CritterHeroes.Web.Areas.Account
             this._userManager = storageContext;
             this._httpUser = httpUser;
 
-            RuleFor(x => x.Email)
+            RuleFor(x => x.NewEmail)
               .Cascade(CascadeMode.StopOnFirstFailure)
               .NotEmpty().WithMessage("Please enter your email address.")
               .EmailAddress().WithMessage("Please enter a valid email address.")

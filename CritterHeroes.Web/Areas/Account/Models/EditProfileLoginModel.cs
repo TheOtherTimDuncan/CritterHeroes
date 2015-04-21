@@ -7,12 +7,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
 {
     public class EditProfileLoginModel
     {
-        public string ReturnUrl
-        {
-            get;
-            set;
-        }
-
         [DataType(DataType.Password)]
         [Placeholder("Password")]
         public string Password
