@@ -66,7 +66,7 @@ namespace CritterHeroes.Web.Common.Identity
             }
         }
 
-        public string PreviousEmail
+        public string NewEmail
         {
             get;
             set;

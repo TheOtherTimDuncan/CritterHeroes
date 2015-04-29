@@ -26,7 +26,9 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task EditProfileSecureCommandUpdatesUserEmailAndLogsChange()
         {
-            IdentityUser user = new IdentityUser("email@email.com");
+            string email = "email@email.com";
+
+            IdentityUser user = new IdentityUser(email);
 
             EditProfileSecureModel model = new EditProfileSecureModel()
             {
@@ -38,8 +40,6 @@ namespace CH.Test.CommandTests
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));
 
-            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
-
             Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
@@ -48,20 +48,17 @@ namespace CH.Test.CommandTests
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
 
-            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockAuthenticationManager.Object, mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object);
+            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
-            user.Email.Should().Be(model.NewEmail);
+            user.Email.Should().Be(email);
+            user.NewEmail.Should().Be(model.NewEmail);
 
             mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
-            mockUserManager.Verify(x => x.CreateIdentityAsync(user), Times.Once);
 
-            mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
-            mockAuthenticationManager.Verify(x => x.SignIn(It.IsAny<ClaimsIdentity>()), Times.Once);
-
-            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, model.NewEmail, It.IsAny<string>()), Times.Once);
+            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, email, It.IsAny<string>()), Times.Once);
         }
     }
 }

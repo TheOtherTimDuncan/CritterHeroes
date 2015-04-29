@@ -18,15 +18,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
     {
-        private IAuthenticationManager _authenticationManager;
         private IApplicationUserManager _userManager;
         private IUserLogger _userLogger;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
 
-        public EditProfileSecureCommandHandler(IAuthenticationManager httpContext, IApplicationUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
+        public EditProfileSecureCommandHandler(IApplicationUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
         {
-            this._authenticationManager = httpContext;
             this._userManager = userManager;
             this._userLogger = userLogger;
             this._httpUser = httpUser;
@@ -36,7 +34,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         public async Task<CommandResult> ExecuteAsync(EditProfileSecureModel command)
         {
             IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
-            user.Email = command.NewEmail;
+            user.NewEmail = command.NewEmail;
 
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
             if (!identityResult.Succeeded)
@@ -47,9 +45,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             UserContext userContext = UserContext.FromUser(user);
             _userContextManager.SaveContext(userContext);
 
-            await _userLogger.LogActionAsync(UserActions.EmailChanged, user.Email, "Original email: " + _httpUser.Username);
-            _authenticationManager.SignOut();
-            _authenticationManager.SignIn(await _userManager.CreateIdentityAsync(user));
+            await _userLogger.LogActionAsync(UserActions.EmailChanged, user.Email, "New email: " + command.NewEmail);
 
             return CommandResult.Success();
         }

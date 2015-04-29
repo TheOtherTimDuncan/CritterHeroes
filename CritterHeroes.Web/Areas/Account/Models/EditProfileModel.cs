@@ -35,5 +35,12 @@ namespace CritterHeroes.Web.Areas.Account.Models
             get;
             set;
         }
+
+        [Display(Name = "Unconfirmed Email")]
+        public string UnconfirmedEmail
+        {
+            get;
+            set;
+        }
     }
 }

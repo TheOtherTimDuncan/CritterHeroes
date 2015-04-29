@@ -43,7 +43,7 @@ namespace CH.Test.Azure
             IdentityUser user = new IdentityUser("email@email.com")
             {
                 PasswordHash = "passwordhash",
-                PreviousEmail = "previous@previous.com",
+                NewEmail = "new@new.com",
                 FirstName = "first",
                 LastName = "last"
             };
@@ -55,7 +55,7 @@ namespace CH.Test.Azure
             result.UserName.Should().Be(user.UserName);
             result.PasswordHash.Should().Be(user.PasswordHash);
             result.Email.Should().Be(user.Email);
-            result.PreviousEmail.Should().Be(user.PreviousEmail);
+            result.NewEmail.Should().Be(user.NewEmail);
             result.FirstName.Should().Be(user.FirstName);
             result.LastName.Should().Be(user.LastName);
             result.IsEmailConfirmed.Should().Be(user.IsEmailConfirmed);

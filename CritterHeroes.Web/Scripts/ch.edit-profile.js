@@ -71,7 +71,7 @@
                         frm.find('input[type="submit"]').hide();
                         frm.find('#close').text('Continue');
                         btn.show();
-                        $('#email').text($('#NewEmail').val());
+                        $('#unconfirmed-email').removeClass('hidden').find('#unconfirmed-email').text($('#NewEmail').val());
                     } else {
                         busy.hide();
                         btn.show();

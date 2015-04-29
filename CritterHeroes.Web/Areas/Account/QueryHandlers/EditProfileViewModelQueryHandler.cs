@@ -35,6 +35,7 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;
+            model.UnconfirmedEmail = user.NewEmail;
 
             return model;
         }
