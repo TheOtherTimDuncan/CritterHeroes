@@ -120,7 +120,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             DynamicTableEntity entity =
             (
                 from x in table.CreateQuery<DynamicTableEntity>()
-                where x.Properties["Email"].StringValue == email
+                where x.Properties["Email"].StringValue == email || x.Properties["NewEmail"].StringValue == email
                 select x
             ).FirstOrDefault();
             return userMapping.FromStorage(entity);

@@ -9,6 +9,7 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
@@ -48,17 +49,24 @@ namespace CH.Test.CommandTests
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
 
-            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object);
+            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
+
+            Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
+
+            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object, mockUrlGenerator.Object, mockEmailService.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
             user.Email.Should().Be(email);
             user.NewEmail.Should().Be(model.NewEmail);
+            user.IsEmailConfirmed.Should().BeFalse();
 
             mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
 
             mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, email, It.IsAny<string>()), Times.Once);
+
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ConfirmEmailCommand>()), Times.Once);
         }
     }
 }

@@ -166,13 +166,13 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TOTD.Mvc, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Mvc.2.1.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
+    <Reference Include="TOTD.Mvc, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mvc.2.1.1.0\lib\net451\TOTD.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TOTD.Utility.2.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+    <Reference Include="TOTD.Utility, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Utility.2.1.1.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Choose>

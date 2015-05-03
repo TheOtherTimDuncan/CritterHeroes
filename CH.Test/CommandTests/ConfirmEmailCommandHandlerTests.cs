@@ -13,6 +13,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -34,7 +35,7 @@ namespace CH.Test.CommandTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null, null);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
@@ -61,7 +62,7 @@ namespace CH.Test.CommandTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null, null);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
@@ -73,12 +74,15 @@ namespace CH.Test.CommandTests
         [TestMethod]
         public async Task ReturnsSucceededIfConfirmEmailSucceeds()
         {
-            IdentityUser user = new IdentityUser("email@email.com");
+            IdentityUser user = new IdentityUser("email@email.com")
+            {
+                NewEmail = "new@new.com"
+            };
 
             ConfirmEmailModel command = new ConfirmEmailModel()
             {
-                Email = user.Email,
-                ConfirmationCode = "invalid"
+                Email = user.NewEmail,
+                ConfirmationCode = "code"
             };
 
             Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
@@ -90,14 +94,20 @@ namespace CH.Test.CommandTests
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
             mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(c => c.Login(null))).Returns("http://localhost");
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockUrlGenerator.Object);
+            Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
+
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockUrlGenerator.Object, mockAuthenticationManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeTrue();
             command.ModalDialog.Should().NotBeNull();
 
+            user.Email.Should().Be(command.Email);
+
             mockUserManager.Verify(x => x.FindByEmailAsync(command.Email), Times.Once);
             mockUserManager.Verify(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode), Times.Once);
+            mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ConfirmEmailSuccess, command.Email));
+            mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
         }
     }
 }

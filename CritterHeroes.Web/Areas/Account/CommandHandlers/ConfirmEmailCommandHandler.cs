@@ -13,6 +13,7 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
@@ -21,12 +22,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IUserLogger _userLogger;
         private IApplicationUserManager _appUserManager;
         private IUrlGenerator _urlGenerator;
+        private IAuthenticationManager _authenticationManager;
 
-        public ConfirmEmailCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IUrlGenerator urlGenerator)
+        public ConfirmEmailCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IAuthenticationManager authenticationManager)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
             this._urlGenerator = urlGenerator;
+            this._authenticationManager = authenticationManager;
         }
 
         public async Task<CommandResult> ExecuteAsync(ConfirmEmailModel command)
@@ -44,6 +47,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             IdentityResult identityResult = await _appUserManager.ConfirmEmailAsync(user.Id, command.ConfirmationCode);
             if (identityResult.Succeeded)
             {
+                // Update the email address
+                user.Email = user.NewEmail;
+                await _appUserManager.UpdateAsync(user);
+
+                // In case the user is logged in make sure they are logged out so the new email address is used
+                _authenticationManager.SignOut();
+
                 ModalDialogButton button = ModalDialogButton.Link(text: "Login", cssClass: ButtonCss.Primary, url: _urlGenerator.GenerateSiteUrl<AccountController>(x => x.Login(null)));
                 command.ModalDialog = new ModalDialogModel()
                 {
