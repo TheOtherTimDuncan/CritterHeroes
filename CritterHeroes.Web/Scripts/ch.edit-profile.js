@@ -24,12 +24,16 @@
             var request = {
                 url: frm.prop('action'),
                 data: frm.serialize(),
-                success: function () {
-                    var getRequest = {
-                        url: frm.data('next'),
-                        success: loadEmailEdit
-                    };
-                    cheroes.dataManager.getHtml(getRequest);
+                success: function (response) {
+                    if (response.Succeeded) {
+                        var getRequest = {
+                            url: frm.data('next'),
+                            success: loadEmailEdit
+                        };
+                        cheroes.dataManager.getHtml(getRequest);
+                    } else {
+                        validator.showErrors({ "Password": response.Message });
+                    }
                 }
             };
             cheroes.dataManager.sendRequest(request);

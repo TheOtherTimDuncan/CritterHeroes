@@ -8,8 +8,8 @@
         {
             using (var header = content.CreateHeader().Begin())
             {
-                @header.CreateCloseButton();
-                @header.CreateTitle("Edit Email");
+                @header.CreateCloseButton()
+                @header.CreateTitle("Edit Email")
             }
             <form id="edit-email-form" action="@Url.AccountAction(x => x.EditProfileSecure())">
                 @Html.AntiForgeryToken()

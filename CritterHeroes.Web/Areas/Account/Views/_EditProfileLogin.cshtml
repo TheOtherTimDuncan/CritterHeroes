@@ -9,7 +9,7 @@
             using (var header = content.CreateHeader().Begin())
             {
                 @header.CreateCloseButton();
-                @header.CreateTitle("Edit Email - Login");
+                @header.CreateTitle("Edit Email - Login")
             }
             <form id="email-login-form" action="@Url.AccountAction(x => x.EditProfileLogin())" data-next="@Url.AccountAction(x => x.EditProfileSecure())">
                 @Html.AntiForgeryToken()
