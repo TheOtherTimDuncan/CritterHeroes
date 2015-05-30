@@ -5,7 +5,7 @@ using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Models.Json;
 
-namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.QueryHandlers
+namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
 {
     public class DashboardStatusQuery<T> : IAsyncQuery<DashboardItemStatus> where T : class, IDataItem<T>
     {

@@ -19,7 +19,7 @@
                     .Class("navbar-left")
                     .AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<HomeController>(x => x.Index()).Text("Home")
+                            Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text("Home")
                         )
                     );
 
@@ -27,18 +27,18 @@
                 {
                     menuNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<ErrorLogController>(x => x.Index()).Text("Error Log")
+                            Html.FluentHtml().Link().ErrorLogActionLink(x => x.Index()).Text("Error Log")
                         )
                     );
 
                     var dropdownMaintenance = Html.FluentHtml().BootstrapNavItem()
-                        .AsDropdown("Maintenance")
+                        .AsDropdown("Admin")
                         .AddElement(
                             Html.FluentHtml().BootstrapNav()
                                 .AsDropdown()
                                 .AddElement(
                                     Html.FluentHtml().BootstrapNavItem().AddElement(
-                                        Html.FluentHtml().Link().ActionLink<DataMaintenanceController>(x => x.Dashboard()).Text("Dashboard")
+                                        Html.FluentHtml().Link().ListsActionLink(x => x.Index()).Text("Lists Dashboard")
                                     )
                                 )
                             );
@@ -69,7 +69,7 @@
 
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<AccountController>(x => x.LogOut()).Text("Logout")
+                            Html.FluentHtml().Link().AccountActionLink(x => x.LogOut()).Text("Logout")
                         )
                     );
                 }
@@ -77,7 +77,7 @@
                 {
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ActionLink<AccountController>(x => x.Login(null)).Text("Login")
+                            Html.FluentHtml().Link().AccountActionLink(x => x.Login(null)).Text("Login")
                         )
                     );
                 }

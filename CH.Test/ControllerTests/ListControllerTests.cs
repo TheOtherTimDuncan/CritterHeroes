@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Models;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Sources;
+using CritterHeroes.Web.Areas.Admin.Lists;
+using CritterHeroes.Web.Areas.Admin.Lists.Models;
+using CritterHeroes.Web.Areas.Admin.Lists.Sources;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TOTD.Utility.StringHelpers;
@@ -13,14 +13,14 @@ using TOTD.Utility.StringHelpers;
 namespace CH.Test.ControllerTests
 {
     [TestClass]
-    public class DataMaintenanceControllerTests
+    public class ListControllerTests
     {
         [TestMethod]
         public void GetDashboardReturnsView()
         {
-            DataMaintenanceController controller = new DataMaintenanceController(null,null);
+            ListsController controller = new ListsController(null,null);
 
-            ViewResult viewResult = controller.Dashboard();
+            ViewResult viewResult = controller.Index();
             viewResult.Should().NotBeNull();
 
             DashboardModel model = viewResult.Model as DashboardModel;

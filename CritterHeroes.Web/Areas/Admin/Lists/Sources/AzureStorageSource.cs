@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CritterHeroes.Web.Contracts.Dashboard;
 
-namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Sources
+namespace CritterHeroes.Web.Areas.Admin.Lists.Sources
 {
     public class AzureStorageSource : IStorageSource
     {

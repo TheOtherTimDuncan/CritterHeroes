@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Common.CommandHandlers;
+using CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 

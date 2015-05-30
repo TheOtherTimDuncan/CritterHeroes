@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CritterHeroes.Web.Contracts.Dashboard;
 
-namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.Models
+namespace CritterHeroes.Web.Areas.Admin.Lists.Models
 {
     public class DashboardStorageItem
     {

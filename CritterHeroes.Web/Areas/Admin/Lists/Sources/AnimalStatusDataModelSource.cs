@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.QueryHandlers;
-using CritterHeroes.Web.Common.CommandHandlers;
+using CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers;
+using CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Models.Data;
 using CritterHeroes.Web.Models.Json;
 
-namespace CritterHeroes.Web.Areas.Admin.Sources
+namespace CritterHeroes.Web.Areas.Admin.Lists.Sources
 {
     public class AnimalStatusDataModelSource : DataModelSource
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.QueryHandlers;
+using CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Storage;

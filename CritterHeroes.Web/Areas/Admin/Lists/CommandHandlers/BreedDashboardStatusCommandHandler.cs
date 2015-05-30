@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.CommandHandlers;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Data;
 
-namespace CritterHeroes.Web.Areas.Admin.DataMaintenance.CommandHandlers
+namespace CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers
 {
     public class BreedDashboardStatusCommandHandler : DashboardStatusCommandHandler<Breed>
     {

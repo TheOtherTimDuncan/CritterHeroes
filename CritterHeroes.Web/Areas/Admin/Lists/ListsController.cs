@@ -3,30 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Models;
-using CritterHeroes.Web.Areas.Admin.DataMaintenance.Sources;
-using CritterHeroes.Web.Areas.Admin.Sources;
+using CritterHeroes.Web.Areas.Admin.Lists.Models;
+using CritterHeroes.Web.Areas.Admin.Lists.Sources;
 using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Models.Json;
 
-namespace CritterHeroes.Web.Areas.Admin.DataMaintenance
+namespace CritterHeroes.Web.Areas.Admin.Lists
 {
     [RouteArea(AreaName.Admin)]
     [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
-    public class DataMaintenanceController : BaseController
+    public class ListsController : BaseController
     {
-        public DataMaintenanceController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+        public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {
         }
 
         [HttpGet]
-        public ViewResult Dashboard()
+        public ViewResult Index()
         {
             DashboardModel model = new DashboardModel();
 

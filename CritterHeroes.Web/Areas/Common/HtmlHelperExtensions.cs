@@ -12,11 +12,6 @@ namespace CritterHeroes.Web.Areas.Common
 {
     public static class HtmlHelperExtensions
     {
-        public static void RenderHomeAction(this HtmlHelper htmlHelper, Expression<Func<HomeController, ActionResult>> actionSelector)
-        {
-            htmlHelper.RenderAction(actionSelector, null);
-        }
-
         public static MvcHtmlString ModalDialog(this HtmlHelper htmlHelper, ModalDialogModel model)
         {
             if (model == null)

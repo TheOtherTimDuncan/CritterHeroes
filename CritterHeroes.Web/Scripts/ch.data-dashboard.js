@@ -128,7 +128,7 @@
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
         },
             success: success,
-            url: cheroes.rootUrl + 'admin/datamaintenance/' + action
+            url: cheroes.rootUrl + 'admin/lists/' + action
         };
 
         cheroes.dataManager.sendRequest(options);

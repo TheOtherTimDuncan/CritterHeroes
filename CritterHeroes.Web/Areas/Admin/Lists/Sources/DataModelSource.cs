@@ -8,7 +8,7 @@ using CritterHeroes.Web.Models.Json;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 
-namespace CritterHeroes.Web.Areas.Admin.Sources
+namespace CritterHeroes.Web.Areas.Admin.Lists.Sources
 {
     public abstract class DataModelSource
     {

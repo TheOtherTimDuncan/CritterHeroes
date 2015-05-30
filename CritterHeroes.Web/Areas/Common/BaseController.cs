@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
