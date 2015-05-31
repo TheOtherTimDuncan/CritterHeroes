@@ -511,7 +511,7 @@
     <Compile Include="Areas\Account\Models\ResetPasswordModel.cs" />
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Lists\ListsController.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardItemModel.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardModel.cs" />

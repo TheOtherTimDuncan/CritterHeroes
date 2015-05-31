@@ -15,6 +15,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account
 {
+    [Route("Account/{action=index}")]
     public class AccountController : BaseController
     {
         public AccountController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)

@@ -15,9 +15,9 @@ using CritterHeroes.Web.Models.Json;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists
 {
-    [RouteArea(AreaName.Admin)]
     [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
-    public class ListsController : BaseController
+    [Route("Lists/{action=index}")]
+    public class ListsController : BaseAdminController
     {
         public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
