@@ -38,6 +38,11 @@
                                 .AsDropdown()
                                 .AddElement(
                                     Html.FluentHtml().BootstrapNavItem().AddElement(
+                                        Html.FluentHtml().Link().OrganizationActionLink(x => x.EditProfile()).Text("Organization Profile")
+                                    )
+                                )
+                                .AddElement(
+                                    Html.FluentHtml().BootstrapNavItem().AddElement(
                                         Html.FluentHtml().Link().ListsActionLink(x => x.Index()).Text("Lists Dashboard")
                                     )
                                 )

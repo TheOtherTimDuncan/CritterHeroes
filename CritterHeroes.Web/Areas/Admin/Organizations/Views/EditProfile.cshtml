@@ -1,0 +1,52 @@
+﻿@model CritterHeroes.Web.Areas.Admin.Organizations.Models.EditProfileModel
+
+@{
+    ViewBag.Title = "Edit Organization Profile";
+}
+
+@section scripts{
+    @*@Scripts.Render("~/bundles/cheditprofile")*@
+}
+
+<div class="row">
+    <div class="form-col-offset"></div>
+    <div class="form-col">
+        @using (Html.FluentHtml().Form().Begin())
+        {
+            @Html.AntiForgeryToken()
+
+            <section class="form-group">
+                @Html.ValidationSummary(excludePropertyErrors: true)
+            </section>
+
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.Name).ForBootstrap().AutoFocus()
+                </div>
+                @Html.ValidationMessageFor(m => m.Email)
+            </section>
+
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.ShortName).ForBootstrap()
+                </div>
+                @Html.ValidationMessageFor(m => m.Email)
+            </section>
+
+            <section class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap()
+                </div>
+                @Html.ValidationMessageFor(m => m.Email)
+            </section>
+
+            <section class="form-group">
+                <input type="submit" value="Save" />
+                <a href="@Url.Local(Model.ReturnUrl)" title="Cancel" class="btn btn-info">Cancel</a>
+            </section>
+        }
+    </div>
+</div>

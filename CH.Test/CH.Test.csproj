@@ -242,6 +242,7 @@
     <Compile Include="StateManagementTests\StateManagerTests.cs" />
     <Compile Include="StateManagementTests\UserContextTests.cs" />
     <Compile Include="ValidationTests\AccountValidationTests.cs" />
+    <Compile Include="ValidationTests\OrganizationValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CritterHeroes.Web\CritterHeroes.Web.csproj">
