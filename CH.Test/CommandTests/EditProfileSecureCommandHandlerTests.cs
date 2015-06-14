@@ -12,6 +12,7 @@ using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;

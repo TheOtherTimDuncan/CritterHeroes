@@ -22,6 +22,7 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Identity;
@@ -66,6 +67,7 @@ namespace CritterHeroes.Web
 
             container.Register<IStateSerializer, StateSerializer>();
             container.Register<IEmailClient, EmailClientProxy>();
+            container.Register<IPageContextService, PageContextService>();
 
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();

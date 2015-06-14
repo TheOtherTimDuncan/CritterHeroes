@@ -4,8 +4,8 @@ using System.Linq;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
+using CritterHeroes.Web.Contracts.StateManagement;
 using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers

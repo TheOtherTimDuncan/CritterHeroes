@@ -8,12 +8,6 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.Models
 {
     public class EditProfileModel
     {
-        public string ReturnUrl
-        {
-            get;
-            set;
-        }
-
         [Placeholder("Name")]
         public string Name
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.StateManagement;
 using FluentAssertions;
 using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

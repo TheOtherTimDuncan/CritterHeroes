@@ -10,12 +10,14 @@ using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Models;
+using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Middleware;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
@@ -81,8 +83,8 @@ namespace CH.Test.ControllerTests
             AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
 
-            RedirectResult redirectResult = (await controller.Login(model, null)) as RedirectResult;
-            redirectResult.Url.Should().EndWith("/Home/Index");
+            RedirectToLocalResult redirectResult = (await controller.Login(model, null)) as RedirectToLocalResult;
+            redirectResult.Should().NotBeNull();
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Email), Times.Once);
@@ -104,7 +106,7 @@ namespace CH.Test.ControllerTests
             AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
 
-            RedirectResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectResult;
+            RedirectToLocalResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectToLocalResult;
             redirectResult.Should().NotBeNull();
             redirectResult.Url.Should().Be("/Account/EditProfile");
 
@@ -133,7 +135,7 @@ namespace CH.Test.ControllerTests
 
             AccountController controller = CreateController<AccountController>();
 
-            ViewResult viewResult = (ViewResult)await controller.EditProfile((string)null);
+            ViewResult viewResult = (ViewResult)await controller.EditProfile();
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
 
@@ -145,11 +147,8 @@ namespace CH.Test.ControllerTests
         {
             IdentityUser user = new IdentityUser("email@email.com");
 
-            Uri returnUri = new Uri("http://google.com");
-
             EditProfileModel model = new EditProfileModel()
             {
-                ReturnUrl = returnUri.AbsoluteUri,
                 Email = user.Email,
             };
 
@@ -166,8 +165,8 @@ namespace CH.Test.ControllerTests
             AccountController controller = CreateController<AccountController>();
             controller.Url = mockUrlHelper.Object;
 
-            RedirectResult redirectResult = await controller.EditProfile(model) as RedirectResult;
-            redirectResult.Url.Should().Be(returnUri.AbsoluteUri);
+            RedirectToPreviousResult redirectResult = await controller.EditProfile(model) as RedirectToPreviousResult;
+            redirectResult.Should().NotBeNull();
 
             mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);

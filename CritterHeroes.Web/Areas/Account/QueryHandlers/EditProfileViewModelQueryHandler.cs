@@ -15,13 +15,11 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 {
     public class EditProfileViewModelQueryHandler : IAsyncQueryHandler<UserIDQuery, EditProfileModel>
     {
-        private IOwinContext _owinContext;
         private IApplicationUserStore _userStore;
         private IHttpUser _httpUser;
 
-        public EditProfileViewModelQueryHandler(IOwinContext owinContext, IHttpUser httpUser, IApplicationUserStore userStore)
+        public EditProfileViewModelQueryHandler(IHttpUser httpUser, IApplicationUserStore userStore)
         {
-            this._owinContext = owinContext;
             this._userStore = userStore;
             this._httpUser = httpUser;
         }
@@ -29,7 +27,6 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
         public async Task<EditProfileModel> RetrieveAsync(UserIDQuery query)
         {
             EditProfileModel model = new EditProfileModel();
-            model.ReturnUrl = _owinContext.Request.GetReferrer();
 
             IdentityUser user = await _userStore.FindByIdAsync(_httpUser.UserID);
             model.FirstName = user.FirstName;

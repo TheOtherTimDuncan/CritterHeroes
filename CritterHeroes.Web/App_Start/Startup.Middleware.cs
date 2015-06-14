@@ -11,6 +11,7 @@ namespace CritterHeroes.Web
         {
             app.UseOrganizationContext(DependencyResolver.Current);
             app.UseUserContext(DependencyResolver.Current);
+            app.UsePageContext(DependencyResolver.Current);
         }
     }
 }

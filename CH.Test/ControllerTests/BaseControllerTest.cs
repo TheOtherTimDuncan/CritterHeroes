@@ -16,6 +16,7 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts.StateManagement;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;

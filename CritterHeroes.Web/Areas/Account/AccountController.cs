@@ -143,18 +143,13 @@ namespace CritterHeroes.Web.Areas.Account
         }
 
         [HttpGet]
-        public async Task<ActionResult> EditProfile(string returnUrl)
+        public async Task<ActionResult> EditProfile()
         {
             UserIDQuery query = new UserIDQuery()
             {
                 UserID = User.GetUserID()
             };
             EditProfileModel model = await QueryDispatcher.DispatchAsync<EditProfileModel>(query);
-
-            if (!returnUrl.IsNullOrEmpty())
-            {
-                model.ReturnUrl = returnUrl;
-            }
 
             return View(model);
         }
@@ -168,7 +163,7 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return RedirectToLocal(model.ReturnUrl);
+                    return RedirectToPrevious();
                 }
                 else
                 {

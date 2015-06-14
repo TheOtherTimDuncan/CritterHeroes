@@ -7,12 +7,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
 {
     public class EditProfileModel
     {
-        public string ReturnUrl
-        {
-            get;
-            set;
-        }
-
         [Placeholder("First Name")]
         [Display(Name = "First Name")]
         public string FirstName

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Areas.Models;
+using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
@@ -68,9 +68,14 @@ namespace CritterHeroes.Web.Areas.Common
             }
         }
 
-        protected RedirectResult RedirectToLocal(string redirectUrl)
+        protected RedirectToPreviousResult RedirectToPrevious()
         {
-            return Redirect(Url.Local(redirectUrl));
+            return new RedirectToPreviousResult();
+        }
+
+        protected RedirectToLocalResult RedirectToLocal(string redirectUrl)
+        {
+            return new RedirectToLocalResult(redirectUrl);
         }
 
         protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)

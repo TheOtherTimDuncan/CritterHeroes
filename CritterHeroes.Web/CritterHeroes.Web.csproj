@@ -550,6 +550,8 @@
     <Compile Include="Areas\Models\Modal\ModalDialogButton.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
     <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
+    <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
+    <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\Commands\BaseTokenEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
@@ -575,6 +577,9 @@
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Common\Proxies\HttpUserProxy.cs" />
+    <Compile Include="Common\StateManagement\PageContext.cs" />
+    <Compile Include="Common\StateManagement\PageContextService.cs" />
+    <Compile Include="Common\StateManagement\PageStateManager.cs" />
     <Compile Include="Common\Validation\UniqueEmailValidator.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Contracts\Email\IEmailHandler.cs" />
@@ -586,6 +591,7 @@
     <Compile Include="Contracts\Queries\IQuery.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
     <Compile Include="Common\Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Common\Proxies\Email\EmailConfiguration.cs" />
@@ -623,8 +629,8 @@
     <Compile Include="Contracts\Identity\IApplicationUserManager.cs" />
     <Compile Include="Contracts\Identity\IApplicationUserStore.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
-    <Compile Include="Contracts\IStateManager.cs" />
-    <Compile Include="Contracts\IStateSerializer.cs" />
+    <Compile Include="Contracts\StateManagement\IStateManager.cs" />
+    <Compile Include="Contracts\StateManagement\IStateSerializer.cs" />
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Contracts\Logging\IEmailLogger.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
@@ -651,6 +657,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Middleware\OrganizationContextMiddleware.cs" />
+    <Compile Include="Middleware\PageContextMiddleware.cs" />
     <Compile Include="Middleware\UserContextMiddleware.cs" />
     <Compile Include="Models\Data\AnimalStatus.cs" />
     <Compile Include="Models\Data\BaseDataItem.cs" />

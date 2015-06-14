@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CritterHeroes.Web.Contracts
+namespace CritterHeroes.Web.Contracts.StateManagement
 {
     public interface IStateManager<T>
     {

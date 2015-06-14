@@ -9,6 +9,7 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Contracts.StateManagement;
 using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers

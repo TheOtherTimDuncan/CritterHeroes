@@ -41,10 +41,5 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         {
             return linkElement.ActionLink<AccountController>(actionSelector);
         }
-
-        public static LinkElement EditProfileLink(this LinkElement linkElement)
-        {
-            return linkElement.ActionLink<AccountController>(x => x.EditProfile((string)null));
-        }
     }
 }

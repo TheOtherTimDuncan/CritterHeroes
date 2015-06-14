@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.StateManagement;
 using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.Common.StateManagement
@@ -37,7 +37,7 @@ namespace CritterHeroes.Web.Common.StateManagement
             {
                 using (MemoryStream compressed = new MemoryStream(bytes))
                 {
-                    using (GZipStream gz = new GZipStream(compressed, CompressionMode.Decompress ))
+                    using (GZipStream gz = new GZipStream(compressed, CompressionMode.Decompress))
                     {
                         gz.CopyTo(decompressed);
                     }
