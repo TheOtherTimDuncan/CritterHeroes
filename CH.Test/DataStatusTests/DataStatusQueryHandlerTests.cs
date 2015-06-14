@@ -13,7 +13,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace CH.Test.Models
+namespace CH.Test.DataStatusTests
 {
     [TestClass]
     public class DataStatusQueryHandlerTests

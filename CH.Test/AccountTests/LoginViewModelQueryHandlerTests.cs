@@ -7,7 +7,7 @@ using CritterHeroes.Web.Areas.Account.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test.QueryHandlerTests
+namespace CH.Test.AccountTests
 {
     [TestClass]
     public class LoginViewModelQueryHandlerTests : BaseTest

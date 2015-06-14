@@ -8,7 +8,7 @@ using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CH.Test.ServicesTests
+namespace CH.Test
 {
     [TestClass]
     public class CommandResultTests

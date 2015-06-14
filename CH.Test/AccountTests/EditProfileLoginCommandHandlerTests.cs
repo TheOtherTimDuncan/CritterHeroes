@@ -12,7 +12,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace CH.Test.CommandTests
+namespace CH.Test.AccountTests
 {
     [TestClass]
     public class EditProfileLoginCommandHandlerTests

@@ -10,7 +10,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace CH.Test.QueryTests
+namespace CH.Test.HomeTests
 {
     [TestClass]
     public class HeaderViewModelQueryHandlerTests
