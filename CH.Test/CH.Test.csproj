@@ -190,6 +190,8 @@
   <ItemGroup>
     <Compile Include="ActionResultTests\RedirectToLocalTests.cs" />
     <Compile Include="ActionResultTests\RedirectToPreviousTests.cs" />
+    <Compile Include="AdminOrganizationTests\EditProfileCommandHandlerTests.cs" />
+    <Compile Include="AdminOrganizationTests\EditProfileQueryHandlerTests.cs" />
     <Compile Include="Azure\BaseAzureTest.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\EmailLogTests.cs" />

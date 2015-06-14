@@ -523,6 +523,7 @@
     <Compile Include="Areas\Admin\Lists\Sources\DataModelSource.cs" />
     <Compile Include="Areas\Admin\Lists\Sources\RescueGroupsStorageSource.cs" />
     <Compile Include="Areas\Admin\ErrorLog\ErrorLogController.cs" />
+    <Compile Include="Areas\Admin\Organizations\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Organizations\Models\EditProfileModel.cs" />
     <Compile Include="Areas\Admin\Organizations\ModelValidators.cs" />
     <Compile Include="Areas\Admin\Organizations\OrganizationController.cs" />
