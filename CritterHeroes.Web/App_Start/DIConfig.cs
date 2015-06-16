@@ -68,7 +68,7 @@ namespace CritterHeroes.Web
             container.Register<IStateSerializer, StateSerializer>();
             container.Register<IEmailClient, EmailClientProxy>();
             container.Register<IPageContextService, PageContextService>();
-
+            container.Register<IOrganizationLogoService, OrganizationLogoService>();
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
             container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();

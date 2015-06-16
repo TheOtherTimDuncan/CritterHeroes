@@ -592,6 +592,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
+    <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
     <Compile Include="Common\Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Common\Proxies\Email\EmailConfiguration.cs" />
@@ -651,6 +652,7 @@
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\BaseAzureLoggerStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Storage\OrganizationAzureStorage.cs" />
+    <Compile Include="DataProviders\Azure\Storage\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
     <Compile Include="Global.asax.cs">

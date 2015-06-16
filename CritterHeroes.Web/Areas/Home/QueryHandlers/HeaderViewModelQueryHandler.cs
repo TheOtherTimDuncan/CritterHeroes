@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Common.QueryHandlers;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
-using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts.Storage;
 
 namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 {
-    public class HeaderViewModelQueryHandler : BaseViewModelQueryHandler<HeaderQuery, HeaderModel>
+    public class HeaderViewModelQueryHandler : IQueryHandler<HeaderQuery, HeaderModel>
     {
-        private IAppConfiguration _appConfiguration;
+        private IOrganizationLogoService _logoService;
 
-        public HeaderViewModelQueryHandler(IAppConfiguration appConfiguration)
+        public HeaderViewModelQueryHandler(IOrganizationLogoService logoService)
         {
-            this._appConfiguration = appConfiguration;
+            this._logoService = logoService;
         }
 
-        public override Task<HeaderModel> RetrieveAsync(HeaderQuery query)
+        public HeaderModel Retrieve(HeaderQuery query)
         {
-            HeaderModel model = new HeaderModel();
-            model.LogoUrl = GetBlobUrl(_appConfiguration.BlobBaseUrl, query.OrganizationContext.AzureName, query.OrganizationContext.LogoFilename);
-            return Task.FromResult(model);
+            return new HeaderModel()
+            {
+                LogoUrl = _logoService.GetLogoUrl()
+            };
         }
     }
 }

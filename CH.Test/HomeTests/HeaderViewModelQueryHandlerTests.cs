@@ -4,8 +4,7 @@ using System.Linq;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
 using CritterHeroes.Web.Areas.Home.QueryHandlers;
-using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -18,22 +17,16 @@ namespace CH.Test.HomeTests
         [TestMethod]
         public void ReturnsViewModel()
         {
-            Mock<IAppConfiguration> mockAppConfiguration = new Mock<IAppConfiguration>();
-            mockAppConfiguration.Setup(x => x.BlobBaseUrl).Returns("http://root");
+            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+            mockLogoService.Setup(x => x.GetLogoUrl()).Returns("http://root/azure/logo.svg");
 
-            OrganizationContext orgContext = new OrganizationContext()
-            {
-                AzureName = "azure",
-                LogoFilename = "logo.svg"
-            };
-
-            HeaderViewModelQueryHandler handler = new HeaderViewModelQueryHandler(mockAppConfiguration.Object);
-            HeaderModel model = handler.RetrieveAsync(new HeaderQuery(orgContext)).Result;  // Should be synchronous
+            HeaderViewModelQueryHandler handler = new HeaderViewModelQueryHandler(mockLogoService.Object);
+            HeaderModel model = handler.Retrieve(new HeaderQuery()); 
 
             model.Should().NotBeNull();
             model.LogoUrl.Should().Be("http://root/azure/logo.svg");
 
-            mockAppConfiguration.Verify(x => x.BlobBaseUrl, Times.Once);
+            mockLogoService.Verify(x => x.GetLogoUrl(), Times.Once);
         }
     }
 }

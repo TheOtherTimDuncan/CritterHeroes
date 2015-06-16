@@ -40,7 +40,7 @@ namespace CritterHeroes.Web.Areas.Home
         [AllowAnonymous]
         public PartialViewResult Header()
         {
-            HeaderModel model = QueryDispatcher.DispatchAsync(new HeaderQuery(OrganizationContext)).Result;
+            HeaderModel model = QueryDispatcher.Dispatch(new HeaderQuery());
             return PartialView("_Header", model);
         }
     }
