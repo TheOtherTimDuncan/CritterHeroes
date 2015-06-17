@@ -17,7 +17,6 @@ namespace CritterHeroes.Web.Areas.Common
     public class BaseController : Controller
     {
         private OrganizationContext _organizationContext;
-        private UserContext _userContext;
 
         private IQueryDispatcher _queryDispatcher;
         private ICommandDispatcher _commandDispatcher;
@@ -53,18 +52,6 @@ namespace CritterHeroes.Web.Areas.Common
                     _organizationContext = Request.GetOwinContext().GetOrganizationContext();
                 }
                 return _organizationContext;
-            }
-        }
-
-        protected UserContext UserContext
-        {
-            get
-            {
-                if (_userContext == null)
-                {
-                    _userContext = Request.GetOwinContext().GetUserContext();
-                }
-                return _userContext;
             }
         }
 

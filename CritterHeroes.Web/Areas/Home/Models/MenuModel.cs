@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
+using CritterHeroes.Web.Contracts;
 
 namespace CritterHeroes.Web.Areas.Home.Models
 {
     public class MenuModel
     {
-        public IPrincipal CurrentUser
+        public IHttpUser CurrentUser
         {
             get;
             set;

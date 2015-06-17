@@ -58,7 +58,7 @@
                     .AsNavBar()
                     .Class("navbar-right");
 
-                if (Model.CurrentUser.Identity.IsAuthenticated)
+                if (Model.CurrentUser.IsAuthenticated)
                 {
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(

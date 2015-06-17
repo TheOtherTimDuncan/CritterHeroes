@@ -9,7 +9,7 @@ using Microsoft.Owin;
 
 namespace CritterHeroes.Web.Common.Proxies
 {
-    public class HttpUserProxy:IHttpUser
+    public class HttpUserProxy : IHttpUser
     {
         private IOwinContext _owinContext;
 
@@ -45,6 +45,14 @@ namespace CritterHeroes.Web.Common.Proxies
                 }
 
                 return claimsPrincipal.Claims.FirstOrDefault(x => x.Type == AppClaimTypes.UserID).Value;
+            }
+        }
+
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return User.Identity.IsAuthenticated;
             }
         }
 

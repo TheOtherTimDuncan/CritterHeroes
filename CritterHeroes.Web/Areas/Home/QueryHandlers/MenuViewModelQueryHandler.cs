@@ -1,34 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Common.QueryHandlers;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
-using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Contracts.Storage;
 using TOTD.Utility.Misc;
 
 namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 {
-    public class MenuViewModelQueryHandler : BaseViewModelQueryHandler<MenuQuery, MenuModel>
+    public class MenuViewModelQueryHandler : IQueryHandler<MenuQuery, MenuModel>
     {
-        private IAppConfiguration _appConfiguration;
+        private IOrganizationLogoService _logoService;
+        private IHttpUser _httpUser;
+        private OrganizationContext _orgContext;
+        private UserContext _userContext;
 
-        public MenuViewModelQueryHandler(IAppConfiguration appConfiguration)
+        public MenuViewModelQueryHandler(IOrganizationLogoService logoService, IHttpUser httpUser, OrganizationContext orgContext, UserContext userContext)
         {
-            this._appConfiguration = appConfiguration;
+            this._logoService = logoService;
+            this._httpUser = httpUser;
+            this._orgContext = orgContext;
+            this._userContext = userContext;
         }
 
-        public override Task<MenuModel> RetrieveAsync(MenuQuery query)
+        public MenuModel Retrieve(MenuQuery query)
         {
-            MenuModel model = new MenuModel()
+            return new MenuModel()
             {
-                CurrentUser = query.CurrentUser,
-                OrganizationShortName = query.OrganizationContext.IfNotNull(x => x.ShortName),
-                UserDisplayName = query.UserContext.IfNotNull(x => x.DisplayName),
-                LogoUrl = GetBlobUrl(_appConfiguration.BlobBaseUrl, query.OrganizationContext.AzureName, query.OrganizationContext.LogoFilename)
+                CurrentUser = _httpUser,
+                OrganizationShortName = _orgContext.IfNotNull(x => x.ShortName),
+                UserDisplayName = _userContext.IfNotNull(x => x.DisplayName),
+                LogoUrl = _logoService.GetLogoUrl()
             };
-            return Task.FromResult(model);
         }
     }
 }

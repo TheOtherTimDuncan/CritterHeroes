@@ -15,6 +15,11 @@ namespace CritterHeroes.Web.Contracts
             get;
         }
 
+        bool IsAuthenticated
+        {
+            get;
+        }
+
         bool IsInRole(string role);
     }
 }

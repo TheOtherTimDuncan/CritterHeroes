@@ -536,7 +536,6 @@
     <Compile Include="Areas\Common\AreaName.cs" />
     <Compile Include="Areas\Common\BaseController.cs" />
     <Compile Include="Areas\Common\ButtonCss.cs" />
-    <Compile Include="Areas\Common\QueryHandlers\BaseViewModelQueryHandler.cs" />
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
     <Compile Include="Areas\Home\QueryHandlers\HeaderViewModelQueryHandler.cs" />

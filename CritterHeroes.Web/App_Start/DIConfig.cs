@@ -176,7 +176,7 @@ namespace CritterHeroes.Web
                     return new UserContext();
                 }
 
-                return container.GetInstance<IOwinContext>().GetUserContext();
+                return container.GetInstance<IOwinContext>().GetUserContext() ?? new UserContext();
             });
         }
     }

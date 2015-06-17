@@ -27,12 +27,7 @@ namespace CritterHeroes.Web.Areas.Home
         [AllowAnonymous]
         public PartialViewResult Menu()
         {
-            MenuModel model = QueryDispatcher.DispatchAsync(new MenuQuery()
-            {
-                OrganizationContext = this.OrganizationContext,
-                CurrentUser = User,
-                UserContext = this.UserContext
-            }).Result;
+            MenuModel model = QueryDispatcher.Dispatch(new MenuQuery());
             return PartialView("_Menu", model);
         }
 
