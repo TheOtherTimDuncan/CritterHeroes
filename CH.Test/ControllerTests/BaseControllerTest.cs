@@ -41,7 +41,7 @@ namespace CH.Test.ControllerTests
         public Mock<IHttpUser> mockHttpUser;
         public Mock<IOwinContext> mockOwinContext;
         public Mock<IEmailService> mockEmailService;
-
+        public Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager;
         public Mock<IStateManager<UserContext>> mockUserContextManager;
 
         public OrganizationContext organizationContext;
@@ -88,11 +88,10 @@ namespace CH.Test.ControllerTests
             mockOwinContext = new Mock<IOwinContext>();
             container.Register(() => mockOwinContext.Object);
 
+            mockOrganizationStateManager = new Mock<IStateManager<OrganizationContext>>();
             organizationContext = new OrganizationContext();
-            container.Register(() => organizationContext);
-
-            userContext = new UserContext();
-            container.Register(() => userContext);
+            mockOrganizationStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
+            container.Register(() => mockOrganizationStateManager.Object);
 
             mockEmailService = new Mock<IEmailService>();
             container.Register(() => mockEmailService.Object);

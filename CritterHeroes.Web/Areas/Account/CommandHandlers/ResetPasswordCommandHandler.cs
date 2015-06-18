@@ -15,6 +15,7 @@ using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
@@ -29,16 +30,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IUrlGenerator _urlGenerator;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
-        private OrganizationContext _organizationContext;
+        private IStateManager<OrganizationContext> _organizationStateManager;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IEmailClient emailClient, OrganizationContext organizationContext)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;
             this._urlGenerator = urlGenerator;
             this._userLogger = userLogger;
             this._emailClient = emailClient;
-            this._organizationContext = organizationContext;
+            this._organizationStateManager = organizationStateManager;
         }
 
         public async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
@@ -52,10 +53,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     SignInStatus loginResult = await _signinManager.PasswordSignInAsync(command.Email, command.Password);
                     if (loginResult == SignInStatus.Success)
                     {
+                        OrganizationContext orgcontext = _organizationStateManager.GetContext();
                         EmailMessage emailMessage = new EmailMessage()
                         {
-                            Subject = "Admin Notification - " + _organizationContext.FullName,
-                            From = _organizationContext.EmailAddress
+                            Subject = "Admin Notification - " + orgcontext.FullName,
+                            From = orgcontext.EmailAddress
                         };
                         emailMessage.To.Add(identityUser.Email);
 

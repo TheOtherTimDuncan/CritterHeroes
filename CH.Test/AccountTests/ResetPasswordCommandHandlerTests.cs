@@ -15,6 +15,7 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Notifications;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
@@ -150,7 +151,10 @@ namespace CH.Test.AccountTests
                 return Task.FromResult(0);
             });
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, mockSigninManager.Object, mockUserManager.Object, mockUrlGenerator.Object, mockEmailClient.Object, organizationContext);
+            Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockOrganizationStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
+
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, mockSigninManager.Object, mockUserManager.Object, mockUrlGenerator.Object, mockEmailClient.Object, mockOrganizationStateManager.Object);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeTrue();
 
