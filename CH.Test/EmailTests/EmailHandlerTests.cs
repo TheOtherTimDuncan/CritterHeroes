@@ -6,6 +6,7 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -48,7 +49,10 @@ namespace CH.Test.EmailTests
                 return Task.FromResult(0);
             });
 
-            ResetPasswordEmailCommandHandler handler = new ResetPasswordEmailCommandHandler(mockEmailClient.Object, organizationContext);
+            Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockOrgStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
+
+            ResetPasswordEmailCommandHandler handler = new ResetPasswordEmailCommandHandler(mockEmailClient.Object, mockOrgStateManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeTrue();
 
