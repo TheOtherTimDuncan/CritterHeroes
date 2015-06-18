@@ -66,13 +66,33 @@ namespace CH.Test.StateManagementTests
         public void ReturnsDefaultValueWhenCookieIsInvalid()
         {
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            cookies["CritterHeroes.key"] = "";
+            cookies["CritterHeroes_key"] = "";
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
 
             FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, new StateSerializer(), "key");
             stateManager.GetContext().Should().BeNull();
+        }
+
+        [TestMethod]
+        public void ReturnsCachedValueWhenAskedForContextSecondTime()
+        {
+            string value = "test";
+
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            StateSerializer serializer = new StateSerializer();
+            cookies["CritterHeroes_key"] = serializer.Serialize(value);
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.Cookies).Returns(new RequestCookieCollection(cookies));
+
+            FakeStateManager stateManager = new FakeStateManager(mockOwinContext.Object, new StateSerializer(), "key");
+
+            stateManager.GetContext().Should().Be(value);
+            stateManager.GetContext().Should().Be(value);
+
+            mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
         }
     }
 

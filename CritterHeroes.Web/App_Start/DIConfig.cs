@@ -36,6 +36,7 @@ using Microsoft.Owin;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SimpleInjector.Extensions;
+using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 using TOTD.Utility.ExceptionHelpers;
 
@@ -54,7 +55,7 @@ namespace CritterHeroes.Web
                 defaultAssemblies.Add(additionalAssembly);
             }
 
-            container.RegisterManyForOpenGeneric(typeof(IStateManager<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IStateManager<>), new WebRequestLifestyle(), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(ISecondaryStorageContext<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IEmailHandler<>), defaultAssemblies);
@@ -64,18 +65,18 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<IEmailConfiguration, EmailConfiguration>();
             container.RegisterPerWebRequest<IRescueGroupsConfiguration, RescueGroupsConfiguration>();
             container.RegisterPerWebRequest<IHttpUser, HttpUserProxy>();
+            container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
+            container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
 
-            container.Register<IStateSerializer, StateSerializer>();
+            container.Register<IPageContextService, PageContextService>(new WebRequestLifestyle());
+            container.Register<IStateSerializer, StateSerializer>(new WebRequestLifestyle());
+
             container.Register<IEmailClient, EmailClientProxy>();
-            container.Register<IPageContextService, PageContextService>();
             container.Register<IOrganizationLogoService, OrganizationLogoService>();
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
             container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();
             container.RegisterPerWebRequest<IEmailService, EmailService>();
-
-            container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
-            container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
 
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();

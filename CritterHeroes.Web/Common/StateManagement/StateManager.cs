@@ -14,6 +14,7 @@ namespace CritterHeroes.Web.Common.StateManagement
         private IStateSerializer _serializer;
 
         private string _key;
+        private T _context;
 
         private const string baseKey = "CritterHeroes_";
 
@@ -31,6 +32,14 @@ namespace CritterHeroes.Web.Common.StateManagement
 
         public virtual T GetContext()
         {
+            // If we have the context already just return it
+            if (!EqualityComparer<T>.Default.Equals(_context, default(T)))
+            {
+                return _context;
+            }
+
+            // Otherwise get the context from the request cookie
+
             string cookie = _owinContext.Request.Cookies[_key];
             if (cookie.IsNullOrEmpty())
             {
@@ -39,10 +48,10 @@ namespace CritterHeroes.Web.Common.StateManagement
 
             try
             {
-                T context = _serializer.Deserialize<T>(cookie);
-                if (IsValid(context))
+                _context = _serializer.Deserialize<T>(cookie);
+                if (IsValid(_context))
                 {
-                    return context;
+                    return _context;
                 }
                 else
                 {
@@ -59,6 +68,8 @@ namespace CritterHeroes.Web.Common.StateManagement
 
         public void SaveContext(T context)
         {
+            _context = context;
+
             string cookie = _serializer.Serialize(context);
             _owinContext.Response.Cookies.Append(_key, cookie, new CookieOptions()
             {
@@ -69,6 +80,8 @@ namespace CritterHeroes.Web.Common.StateManagement
 
         public void ClearContext()
         {
+            _context = default(T);
+
             _owinContext.Response.Cookies.Delete(_key, new CookieOptions()
             {
                 Expires = DateTime.Now.AddYears(-1)
