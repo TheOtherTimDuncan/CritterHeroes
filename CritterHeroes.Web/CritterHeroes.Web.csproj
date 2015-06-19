@@ -657,6 +657,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middleware\OrganizationContextMiddleware.cs" />
     <Compile Include="Middleware\PageContextMiddleware.cs" />
     <Compile Include="Middleware\UserContextMiddleware.cs" />
     <Compile Include="Models\Data\AnimalStatus.cs" />

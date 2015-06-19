@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
 using CritterHeroes.Web.Areas.Admin.Lists.Sources;
+using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Models.Json;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists
@@ -20,12 +19,9 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
     [Route("Lists/{action=index}")]
     public class ListsController : BaseAdminController
     {
-        private IStateManager<OrganizationContext> _orgStateManager;
-
-        public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IStateManager<OrganizationContext> orgStateManager)
+        public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {
-            this._orgStateManager = orgStateManager;
         }
 
         [HttpGet]
@@ -53,8 +49,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
                 return Json(null);
             }
 
-            OrganizationContext orgContext = _orgStateManager.GetContext();
-            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), orgContext);
+            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), OrganizationContext);
             return Json(model);
         }
 
@@ -68,11 +63,9 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
                 return Json(null);
             }
 
-            OrganizationContext orgContext = _orgStateManager.GetContext();
+            CommandResult commandResult = await modelSource.ExecuteSyncAsync(DependencyResolver.Current, OrganizationContext);
 
-            CommandResult commandResult = await modelSource.ExecuteSyncAsync(DependencyResolver.Current, orgContext);
-
-            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), orgContext);
+            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), OrganizationContext);
             return Json(model);
         }
 

@@ -164,6 +164,16 @@ namespace CritterHeroes.Web
             {
                 if (container.IsVerifying())
                 {
+                    return new OrganizationContext();
+                }
+
+                return container.GetInstance<IOwinContext>().GetOrganizationContext();
+            });
+
+            container.RegisterPerWebRequest(() =>
+            {
+                if (container.IsVerifying())
+                {
                     return new UserContext();
                 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
@@ -17,7 +18,7 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public void GetDashboardReturnsView()
         {
-            ListsController controller = new ListsController(null, null, null);
+            ListsController controller = new ListsController(null,null);
 
             ViewResult viewResult = controller.Index();
             viewResult.Should().NotBeNull();

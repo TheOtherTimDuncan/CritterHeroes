@@ -9,6 +9,7 @@ namespace CritterHeroes.Web
     {
         public void ConfigureMiddleware(IAppBuilder app)
         {
+            app.UseOrganizationContext(DependencyResolver.Current);
             app.UseUserContext(DependencyResolver.Current);
             app.UsePageContext(DependencyResolver.Current);
         }
