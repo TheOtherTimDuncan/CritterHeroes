@@ -43,18 +43,6 @@ namespace CritterHeroes.Web.Areas.Common
             }
         }
 
-        protected OrganizationContext OrganizationContext
-        {
-            get
-            {
-                if (_organizationContext == null)
-                {
-                    _organizationContext = Request.GetOwinContext().GetOrganizationContext();
-                }
-                return _organizationContext;
-            }
-        }
-
         protected RedirectToPreviousResult RedirectToPrevious()
         {
             return new RedirectToPreviousResult();
