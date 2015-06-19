@@ -16,21 +16,9 @@ namespace CritterHeroes.Web.Middleware
 {
     public static class OrganizationContextMiddlewareExtensions
     {
-        private const string _key = "CritterHeroes.Organization";
-
         public static void UseOrganizationContext(this IAppBuilder builder, IDependencyResolver dependencyResolver)
         {
             builder.Use<OrganizationContextMiddleware>(dependencyResolver);
-        }
-
-        public static OrganizationContext GetOrganizationContext(this IOwinContext owinContext)
-        {
-            return owinContext.Get<OrganizationContext>(_key);
-        }
-
-        public static void SetOrganizationContext(this IOwinContext owinContext, OrganizationContext organizationContext)
-        {
-            owinContext.Set(_key, organizationContext);
         }
     }
 
@@ -47,27 +35,20 @@ namespace CritterHeroes.Web.Middleware
 
         public override async Task Invoke(IOwinContext context)
         {
-            // First check to see if it's already been cached in the OwinContext
-            OrganizationContext organizationContext = context.GetOrganizationContext();
+            // Check to see if the cookie already exists
+            IStateManager<OrganizationContext> stateManager = _dependencyResolver.GetService<IStateManager<OrganizationContext>>();
+            OrganizationContext organizationContext = stateManager.GetContext();
+
             if (organizationContext == null)
             {
-                // Next check the request
-                IStateManager<OrganizationContext> stateManager = _dependencyResolver.GetService<IStateManager<OrganizationContext>>();
-                organizationContext = stateManager.GetContext();
-                if (organizationContext == null)
-                {
-                    // It must not exist at all yet so let's create it
-                    IStorageContext<Organization> storageContext = _dependencyResolver.GetService<IStorageContext<Organization>>();
-                    IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
-                    Organization organization = await storageContext.GetAsync(appConfiguration.OrganizationID.ToString());
-                    organizationContext = OrganizationContext.FromOrganization(organization);
+                // It must not exist so let's create it
+                IStorageContext<Organization> storageContext = _dependencyResolver.GetService<IStorageContext<Organization>>();
+                IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
+                Organization organization = await storageContext.GetAsync(appConfiguration.OrganizationID.ToString());
+                organizationContext = OrganizationContext.FromOrganization(organization);
 
-                    // Cache the result in the response for the next request
-                    stateManager.SaveContext(organizationContext);
-                }
-
-                // Cache it in the OwinContext for this request
-                context.SetOrganizationContext(organizationContext);
+                // Cache the result in the response for the next request
+                stateManager.SaveContext(organizationContext);
             }
 
             await Next.Invoke(context);

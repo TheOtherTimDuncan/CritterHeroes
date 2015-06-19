@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
@@ -21,38 +20,7 @@ namespace CH.Test.MiddlewareTests
     public class OrganizationContextMiddlewareTests : BaseTest
     {
         [TestMethod]
-        public async Task DoesNothingIfOrganizationContextAlreadyExistsInOwinContext()
-        {
-            OrganizationContext context = new OrganizationContext()
-            {
-                OrganizationID = Guid.NewGuid(),
-                ShortName = "short",
-                FullName = "full",
-                AzureName = "azure",
-                LogoFilename = "logo",
-                EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies()
-            };
-
-            // No methods should be called on mockResolver
-            Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-
-            TestEndMiddleware testMiddleware = new TestEndMiddleware();
-            testMiddleware.isInvoked.Should().BeFalse();
-
-            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            mockOwinContext.Setup(x => x.Get<OrganizationContext>(It.IsAny<string>())).Returns(context);
-
-            OrganizationContextMiddleware middleware = new OrganizationContextMiddleware(testMiddleware, mockResolver.Object);
-            await middleware.Invoke(mockOwinContext.Object);
-
-            testMiddleware.isInvoked.Should().BeTrue("next middeleware should always be invoked");
-
-            mockOwinContext.Verify(x => x.Get<OrganizationContext>(It.IsAny<string>()), Times.Once);
-        }
-
-        [TestMethod]
-        public async Task GetsOrganizationContextFromRequestIfNotAlreadyCachedInOwinContextAndCachesContext()
+        public async Task DoesNothingIfOrganizationContextCookieAlreadyExists()
         {
             OrganizationContext context = new OrganizationContext()
             {
@@ -73,7 +41,6 @@ namespace CH.Test.MiddlewareTests
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<OrganizationContext>))).Returns(mockStateManager.Object);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            mockOwinContext.Setup(x => x.Get<OrganizationContext>(It.IsAny<string>())).Returns((OrganizationContext)null);
 
             TestEndMiddleware testMiddleware = new TestEndMiddleware();
             testMiddleware.isInvoked.Should().BeFalse();
@@ -84,8 +51,6 @@ namespace CH.Test.MiddlewareTests
             testMiddleware.isInvoked.Should().BeTrue("next middeleware should always be invoked");
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
-            mockOwinContext.Verify(x => x.Get<OrganizationContext>(It.IsAny<string>()), Times.Once);
-            mockOwinContext.Verify(x => x.Set<OrganizationContext>(It.IsAny<string>(), context), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<OrganizationContext>)), Times.Once);
         }
 
@@ -130,8 +95,6 @@ namespace CH.Test.MiddlewareTests
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<OrganizationContext>()), Times.Once);
-            mockOwinContext.Verify(x => x.Get<OrganizationContext>(It.IsAny<string>()), Times.Once);
-            mockOwinContext.Verify(x => x.Set<OrganizationContext>(It.IsAny<string>(), It.IsAny<OrganizationContext>()), Times.Once);
             mockStorageContext.Verify(x => x.GetAsync(organization.ID.ToString()), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<OrganizationContext>)), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStorageContext<Organization>)), Times.Once);
