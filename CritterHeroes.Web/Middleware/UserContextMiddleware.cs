@@ -16,21 +16,10 @@ namespace CritterHeroes.Web.Middleware
 {
     public static class UserContextMiddlewareExtensions
     {
-        private const string _key = "CritterHeroes.User";
 
         public static void UseUserContext(this IAppBuilder builder, IDependencyResolver dependencyResolver)
         {
             builder.Use<UserContextMiddleware>(dependencyResolver);
-        }
-
-        public static UserContext GetUserContext(this IOwinContext owinContext)
-        {
-            return owinContext.Get<UserContext>(_key);
-        }
-
-        public static void SetUserContext(this IOwinContext owinContext, UserContext userContext)
-        {
-            owinContext.Set(_key, userContext);
         }
     }
 
@@ -53,26 +42,18 @@ namespace CritterHeroes.Web.Middleware
 
             if (context.Request.User.Identity.IsAuthenticated && !context.Request.Path.ToString().SafeEquals("/Account/Logout"))
             {
-                // First check to see if it is already cached in the OwinContext
-                UserContext userContext = context.GetUserContext();
+                // Check to see if the cookie already exists
+                IStateManager<UserContext> stateManager = _dependencyResolver.GetService<IStateManager<UserContext>>();
+                UserContext userContext = stateManager.GetContext();
                 if (userContext == null)
                 {
-                    // Next check the request
-                    IStateManager<UserContext> stateManager = _dependencyResolver.GetService<IStateManager<UserContext>>();
-                    userContext = stateManager.GetContext();
-                    if (userContext == null)
-                    {
-                        // It must not exist at all so let's create it
-                        IApplicationUserStore userStore = _dependencyResolver.GetService<IApplicationUserStore>();
-                        IdentityUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
-                        userContext = UserContext.FromUser(user);
+                    // It must not exist so let's create it
+                    IApplicationUserStore userStore = _dependencyResolver.GetService<IApplicationUserStore>();
+                    IdentityUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
+                    userContext = UserContext.FromUser(user);
 
-                        // Cache the result in the response for the next request
-                        stateManager.SaveContext(userContext);
-                    }
-
-                    // Cache it in the OwinContext for this request
-                    context.SetUserContext(userContext);
+                    // Cache the result in the response for the next request
+                    stateManager.SaveContext(userContext);
                 }
             }
 

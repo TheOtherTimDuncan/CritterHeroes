@@ -50,6 +50,7 @@ namespace CH.Test.MiddlewareTests
 
             testMiddleware.isInvoked.Should().BeTrue("next middeleware should always be invoked");
 
+            mockStateManager.Verify(x => x.SaveContext(It.IsAny<OrganizationContext>()), Times.Never);
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<OrganizationContext>)), Times.Once);
         }

@@ -29,7 +29,6 @@ using CritterHeroes.Web.DataProviders.Azure.Identity;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
-using CritterHeroes.Web.Middleware;
 using CritterHeroes.Web.Models;
 using FluentValidation;
 using Microsoft.Owin;
@@ -158,16 +157,6 @@ namespace CritterHeroes.Web
 
                 ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
                 return HttpContext.Current.GetOwinContext();
-            });
-
-            container.RegisterPerWebRequest(() =>
-            {
-                if (container.IsVerifying())
-                {
-                    return new UserContext();
-                }
-
-                return container.GetInstance<IOwinContext>().GetUserContext() ?? new UserContext();
             });
         }
     }

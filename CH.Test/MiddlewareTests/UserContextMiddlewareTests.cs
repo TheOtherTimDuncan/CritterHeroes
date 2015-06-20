@@ -71,33 +71,7 @@ namespace CH.Test.MiddlewareTests
         }
 
         [TestMethod]
-        public async Task DoesNothingIfUserContextAlreadyExistsInOwinContext()
-        {
-            UserContext context = new UserContext()
-            {
-                UserID = "ID",
-                DisplayName = "First Last"
-            };
-
-            // No methods should be called on mockResolver
-            Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-
-            TestEndMiddleware testMiddleware = new TestEndMiddleware();
-            testMiddleware.isInvoked.Should().BeFalse();
-
-            Mock<IOwinContext> mockOwinContext = GetMockOwinContext();
-            mockOwinContext.Setup(x => x.Get<UserContext>(It.IsAny<string>())).Returns(context);
-
-            UserContextMiddleware middleware = new UserContextMiddleware(testMiddleware, mockResolver.Object);
-            await middleware.Invoke(mockOwinContext.Object);
-
-            testMiddleware.isInvoked.Should().BeTrue("next middeleware should always be invoked");
-
-            mockOwinContext.Verify(x => x.Get<UserContext>(It.IsAny<string>()), Times.Once);
-        }
-
-        [TestMethod]
-        public async Task GetsUserContextFromRequestIfNotAlreadyCachedInOwinContextAndCachesContext()
+        public async Task DoesNothingIfUserContextCookieAlreadyExists()
         {
             UserContext context = new UserContext()
             {
@@ -113,7 +87,6 @@ namespace CH.Test.MiddlewareTests
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<UserContext>))).Returns(mockStateManager.Object);
 
             Mock<IOwinContext> mockOwinContext = GetMockOwinContext();
-            mockOwinContext.Setup(x => x.Get<UserContext>(It.IsAny<string>())).Returns((UserContext)null);
 
             TestEndMiddleware testMiddleware = new TestEndMiddleware();
             testMiddleware.isInvoked.Should().BeFalse();
@@ -121,11 +94,10 @@ namespace CH.Test.MiddlewareTests
             UserContextMiddleware middleware = new UserContextMiddleware(testMiddleware, mockResolver.Object);
             await middleware.Invoke(mockOwinContext.Object);
 
-            testMiddleware.isInvoked.Should().BeTrue("next middeleware should always be invoked");
+            testMiddleware.isInvoked.Should().BeTrue("next middleware should always be invoked");
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
-            mockOwinContext.Verify(x => x.Get<UserContext>(It.IsAny<string>()), Times.Once);
-            mockOwinContext.Verify(x => x.Set<UserContext>(It.IsAny<string>(), context), Times.Once);
+            mockStateManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Never);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<UserContext>)), Times.Once);
         }
 
@@ -155,7 +127,6 @@ namespace CH.Test.MiddlewareTests
             mockResolver.Setup(x => x.GetService(typeof(IApplicationUserStore))).Returns(mockUserStore.Object);
 
             Mock<IOwinContext> mockOwinContext = GetMockOwinContext();
-            mockOwinContext.Setup(x => x.Get<UserContext>(It.IsAny<string>())).Returns((UserContext)null);
             mockOwinContext.Setup(x => x.Request.User).Returns(principal);
 
             TestEndMiddleware testMiddleware = new TestEndMiddleware();
