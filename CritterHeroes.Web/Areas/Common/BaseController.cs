@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Middleware;
 using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Areas.Common
 {
     public class BaseController : Controller
     {
-        private OrganizationContext _organizationContext;
-
         private IQueryDispatcher _queryDispatcher;
         private ICommandDispatcher _commandDispatcher;
 
