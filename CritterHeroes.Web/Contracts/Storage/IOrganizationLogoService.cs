@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CritterHeroes.Web.Contracts.Storage
 {
     public interface IOrganizationLogoService
     {
         string GetLogoUrl();
-        void SaveLogo(Stream source, string filename);
-
-        string GetTempLogoUrl();
-        void SaveTempLogo(Stream source, string filename);
+        Task SaveLogo(Stream source, string filename);
     }
 }

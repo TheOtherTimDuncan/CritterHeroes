@@ -196,6 +196,7 @@
     <Compile Include="Azure\StorageTests\BreedStorageTests.cs" />
     <Compile Include="Azure\StorageTests\AnimalStatusStorageTests.cs" />
     <Compile Include="Azure\StorageTests\EmailLogStorageTests.cs" />
+    <Compile Include="Azure\StorageTests\OrganizationLogoServiceTests.cs" />
     <Compile Include="Azure\StorageTests\OrganizationStorageTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />

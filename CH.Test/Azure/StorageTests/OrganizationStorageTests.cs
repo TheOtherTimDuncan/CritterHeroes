@@ -6,7 +6,6 @@ using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Data;
-using CritterHeroes.Web.Common.Proxies.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,7 +31,7 @@ namespace CH.Test.Azure.StorageTests
                 }
             };
 
-            OrganizationAzureStorage source =new  OrganizationAzureStorage( new AzureConfiguration());
+            OrganizationAzureStorage source = new OrganizationAzureStorage(new AzureConfiguration());
             OrganizationAzureStorage target = new OrganizationAzureStorage(new AzureConfiguration());
             Organization result = target.FromStorage(source.ToStorage(organization));
 

@@ -242,7 +242,6 @@
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\Images\logo.svg" />
     <Content Include="Content\Images\spinner.GIF" />
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>

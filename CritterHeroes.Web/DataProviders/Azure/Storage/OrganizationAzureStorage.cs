@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Data;
 using Microsoft.WindowsAzure.Storage.Table;
