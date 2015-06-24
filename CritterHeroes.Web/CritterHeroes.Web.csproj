@@ -433,6 +433,22 @@
       <DependentUpon>jquery-2.1.3.js</DependentUpon>
     </None>
     <Content Include="Scripts\ch.login.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css">
+      <DependentUpon>basic.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js">
+      <DependentUpon>dropzone-amd-module.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css">
+      <DependentUpon>dropzone.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dropzone\dropzone.min.js">
+      <DependentUpon>dropzone.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js">
       <DependentUpon>jquery-2.1.3.js</DependentUpon>

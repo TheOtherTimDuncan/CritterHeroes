@@ -26,6 +26,8 @@
 
     @Styles.Render("~/Content/css")
 
+    @RenderSection("css", required: false)
+
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/cdnFallback")
 
@@ -79,7 +81,6 @@
     <script type="text/javascript">
         cdnFallback.bootstrapFallback('bootstrap');
     </script>
-
 
     @Scripts.Render("~/bundles/respond")
     <script type="text/javascript">

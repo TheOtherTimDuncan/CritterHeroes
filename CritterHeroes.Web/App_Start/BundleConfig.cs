@@ -38,6 +38,7 @@ namespace CritterHeroes.Web
             RegisterjQuery(bundles);
             RegisterBootstrap(bundles);
             RegisterModernizr(bundles);
+            RegisterDropZone(bundles);
         }
 
         public static void RegisterjQuery(BundleCollection bundles)
@@ -88,6 +89,17 @@ namespace CritterHeroes.Web
             Bundle modernizerBundle = new ScriptBundle("~/bundles/modernizr", "//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js")
                 .Include("~/Scripts/modernizr-2.8.3.*");
             bundles.Add(modernizerBundle);
+        }
+
+        public static void RegisterDropZone(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
+                     "~/Scripts/dropzone/dropzone.js"));
+
+            bundles.Add(new StyleBundle("~/Content/dropzonecss").Include(
+                     "~/Scripts/dropzone/basic.css",
+                     "~/Scripts/dropzone/dropzone.css"
+                 ));
         }
     }
 }
