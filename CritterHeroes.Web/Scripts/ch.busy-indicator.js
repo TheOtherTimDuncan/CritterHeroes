@@ -2,28 +2,31 @@
 
     'use strict';
 
-    $.widget("ch.busyIndicator", {
+    $.fn.busyIndicator = function (options) {
 
-        options: {
+        var settings = $.extend({
             message: function () { alert("Message is not set"); },
             delay: 5
-        },
+        }, options);
 
-        _create: function () {
+        return this.each(function () {
 
-            var that = this;
+            var element = $(this);
 
-            this.element.closest('form').submit(function () {
+            element.closest('form').submit(function () {
                 if ($(this).valid()) {
                     // GIF won't animate in IE unless we delay showing the busy indicator
                     setTimeout(function () {
-                        $(that.element.parent())
-                            .text(that.options.message)
+                        $(element.parent())
+                            .text(settings.message)
                             .addClass('busy message');
-                    }, that.options.delay);
+                    }, settings.delay);
                 }
                 return true;
             });
-        }
-    });
+
+        });
+
+    }
+
 }(jQuery));
