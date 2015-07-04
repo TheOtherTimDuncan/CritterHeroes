@@ -30,12 +30,12 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers
             org.FullName = command.Name;
             org.ShortName = command.ShortName;
             org.EmailAddress = command.Email;
-            
+
             await _storageContext.SaveAsync(org);
 
             if (command.LogoFile != null)
             {
-                await _logoService.SaveLogo(command.LogoFile.InputStream, command.LogoFile.FileName);
+                await _logoService.SaveLogo(command.LogoFile.InputStream, command.LogoFile.FileName, command.LogoFile.ContentType);
             }
 
             return CommandResult.Success();

@@ -9,6 +9,6 @@ namespace CritterHeroes.Web.Contracts.Storage
     public interface IOrganizationLogoService
     {
         string GetLogoUrl();
-        Task SaveLogo(Stream source, string filename);
+        Task SaveLogo(Stream source, string filename, string contentType);
     }
 }

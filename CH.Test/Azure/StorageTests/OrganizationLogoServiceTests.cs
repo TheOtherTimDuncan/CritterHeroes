@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
@@ -52,7 +53,7 @@ namespace CH.Test.Azure.StorageTests
 
             using (FileStream stream = new FileStream(filepath, FileMode.Open))
             {
-                await logoService.SaveLogo(stream, "logo.svg");
+                await logoService.SaveLogo(stream, filename, "image/svg+xml");
             }
         }
     }
