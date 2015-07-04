@@ -27,19 +27,25 @@ namespace CH.Test.AdminOrganizationTests
                 EmailAddress = "email@email.com"
             };
 
+            string logoUrl = "logourl";
+
             Mock<IAppConfiguration> mockAppConfiguration = new Mock<IAppConfiguration>();
             mockAppConfiguration.SetupGet(x => x.OrganizationID).Returns(org.ID);
 
             Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
             mockStorageContext.Setup(x => x.GetAsync(org.ID.ToString())).Returns(Task.FromResult(org));
 
-            EditProfileQueryHandler handler = new EditProfileQueryHandler(mockAppConfiguration.Object, mockStorageContext.Object);
+            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(logoUrl);
+
+            EditProfileQueryHandler handler = new EditProfileQueryHandler(mockAppConfiguration.Object, mockStorageContext.Object, mockLogoService.Object);
             EditProfileModel model = await handler.RetrieveAsync(new EditProfileQuery());
             model.Should().NotBeNull();
 
             model.Name.Should().Be(org.FullName);
             model.ShortName.Should().Be(org.ShortName);
             model.Email.Should().Be(org.EmailAddress);
+            model.LogoUrl.Should().Be(logoUrl);
         }
     }
 }

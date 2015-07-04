@@ -15,11 +15,13 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
     {
         private IAppConfiguration _appConfiguration;
         private IStorageContext<Organization> _storageContext;
+        private IOrganizationLogoService _logoService;
 
-        public EditProfileQueryHandler(IAppConfiguration appConfiguration, IStorageContext<Organization> storageContext)
+        public EditProfileQueryHandler(IAppConfiguration appConfiguration, IStorageContext<Organization> storageContext, IOrganizationLogoService logoService)
         {
             this._appConfiguration = appConfiguration;
             this._storageContext = storageContext;
+            this._logoService = logoService;
         }
 
         public async Task<EditProfileModel> RetrieveAsync(EditProfileQuery query)
@@ -29,7 +31,8 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
             {
                 Name = org.FullName,
                 ShortName = org.ShortName,
-                Email = org.EmailAddress
+                Email = org.EmailAddress,
+                LogoUrl = _logoService.GetLogoUrl()
             };
         }
     }

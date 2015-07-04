@@ -35,7 +35,9 @@ namespace CH.Test.AdminOrganizationTests
             Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
             mockStorageContext.Setup(x => x.GetAsync(org.ID.ToString())).Returns(Task.FromResult(org));
 
-            EditProfileCommandHandler handler = new EditProfileCommandHandler(mockAppConfiguration.Object, mockStorageContext.Object);
+            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+
+            EditProfileCommandHandler handler = new EditProfileCommandHandler(mockAppConfiguration.Object, mockStorageContext.Object, mockLogoService.Object);
             CommandResult commandResult = await handler.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 

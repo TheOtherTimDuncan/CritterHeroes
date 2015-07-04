@@ -7631,6 +7631,10 @@ ul {
 .input-inline-container input {
   display: inline-block;
 }
+.align-top,
+btn.align-top {
+  vertical-align: top;
+}
 /* Badges */
 .badge-invalid {
   color: #ffffff;

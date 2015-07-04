@@ -433,6 +433,7 @@
       <DependentUpon>jquery-2.1.3.js</DependentUpon>
     </None>
     <Content Include="Scripts\ch.login.js" />
+    <Content Include="Scripts\ch.organization-edit-profile.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css">
       <DependentUpon>basic.css</DependentUpon>

@@ -5,7 +5,7 @@
 }
 
 @section scripts{
-   @* @Scripts.Render("~/bundles/cheditprofile")*@
+    @Scripts.Render("~/bundles/orgedit")
     @Scripts.Render("~/bundles/dropzonescripts")
 }
 
@@ -16,7 +16,10 @@
 <div class="row">
     <div class="form-col-offset"></div>
     <div class="form-col">
-        @using (Html.FluentHtml().Form().Begin())
+        @using (Html.BeginForm("", "", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data"
+        }))
         {
             @Html.AntiForgeryToken()
 
@@ -46,6 +49,12 @@
                     @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap()
                 </div>
                 @Html.ValidationMessageFor(m => m.Email)
+            </section>
+
+            <section class="form-group">
+                <img src="@Model.LogoUrl" class="logo-medium" alt="Logo" />
+                <button type="button" class="btn btn-info align-top">Upload Logo</button>
+                <input type="file" id="LogoFile" name="LogoFile" />
             </section>
 
             <section class="form-group">

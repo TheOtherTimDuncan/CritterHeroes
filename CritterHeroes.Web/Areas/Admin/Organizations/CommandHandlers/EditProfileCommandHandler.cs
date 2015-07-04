@@ -15,11 +15,13 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers
     {
         private IAppConfiguration _appConfiguration;
         private IStorageContext<Organization> _storageContext;
+        private IOrganizationLogoService _logoService;
 
-        public EditProfileCommandHandler(IAppConfiguration appConfiguration, IStorageContext<Organization> storageContext)
+        public EditProfileCommandHandler(IAppConfiguration appConfiguration, IStorageContext<Organization> storageContext, IOrganizationLogoService logoService)
         {
             this._appConfiguration = appConfiguration;
             this._storageContext = storageContext;
+            this._logoService = logoService;
         }
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
@@ -28,8 +30,13 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers
             org.FullName = command.Name;
             org.ShortName = command.ShortName;
             org.EmailAddress = command.Email;
-
+            
             await _storageContext.SaveAsync(org);
+
+            if (command.LogoFile != null)
+            {
+                await _logoService.SaveLogo(command.LogoFile.InputStream, command.LogoFile.FileName);
+            }
 
             return CommandResult.Success();
         }
