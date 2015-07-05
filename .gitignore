@@ -158,7 +158,6 @@ $RECYCLE.BIN/
 .DS_Store
 Configurations/
 ConfigLinks.bat
-Devices.xlsx
 CritterHeroes.Web/Azure.config
 CritterHeroes.Web/RescueGroups.config
 CritterHeroes.Web/AppSettings.config
