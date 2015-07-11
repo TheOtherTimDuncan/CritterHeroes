@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Organizations.Models;
@@ -35,22 +36,14 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    // If we don't have an uploaded logo this must be a normal post
-                    // so we can do a normal redirect
-                    if (model.LogoFile == null)
-                    {
-                        return RedirectToPrevious();
-                    };
-
-                    // If we do have an uploaded logo, this is an ajax post
-                    return Json(new
-                    {
-                        Succeeded = true,
-                        Url = Url.Content("~/")
-                    });
+                    return RedirectToPrevious();
                 }
                 else
                 {
+                    if (Request.IsAjaxRequest())
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, string.Join(". ", commandResult.Errors));
+                    }
                     AddCommandResultErrorsToModelState(ModelState, commandResult);
                 }
             }

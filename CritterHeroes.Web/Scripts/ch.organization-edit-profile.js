@@ -65,13 +65,17 @@
     });
 
     dz.on('error', function (file, message, xhr) {
-        logoError.text(message);
+        if (xhr) {
+            $('#error').text(xhr.statusText);
+        } else {
+            logoError.text(message);
+        }
         changeLogo.show();
         thumbMsg.hide();
     });
 
-    dz.on('success', function (file, response) {
-        window.location.href = response.Url;
+    dz.on('success', function (file, response, e) {
+        window.location.href = e.currentTarget.responseURL;
     });
 
 }(this.cheroes = this.cheroes || {}, jQuery, Dropzone));

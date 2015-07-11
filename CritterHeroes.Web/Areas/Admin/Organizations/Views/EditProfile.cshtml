@@ -54,7 +54,6 @@
         <div class="form-col-3">
 
             <section class="form-group">
-                @Html.AntiForgeryToken()
                 <img id="logo" src="@Model.LogoUrl" class="logo-medium" alt="Logo" />
             </section>
 
@@ -70,7 +69,7 @@
         <div class="form-col-offset"></div>
         <div class="form-col-2">
 
-            <section class="form-group">
+            <section id="error" class="form-group validation-summary-errors">
                 @Html.ValidationSummary(excludePropertyErrors: true)
             </section>
 
