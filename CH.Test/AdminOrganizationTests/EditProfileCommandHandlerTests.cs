@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers;
 using CritterHeroes.Web.Areas.Admin.Organizations.Models;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models;
 using FluentAssertions;
@@ -36,8 +38,9 @@ namespace CH.Test.AdminOrganizationTests
             mockStorageContext.Setup(x => x.GetAsync(org.ID.ToString())).Returns(Task.FromResult(org));
 
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
-            EditProfileCommandHandler handler = new EditProfileCommandHandler(mockAppConfiguration.Object, mockStorageContext.Object, mockLogoService.Object);
+            EditProfileCommandHandler handler = new EditProfileCommandHandler(mockAppConfiguration.Object, mockStorageContext.Object, mockLogoService.Object, mockStateManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 

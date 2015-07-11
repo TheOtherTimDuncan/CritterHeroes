@@ -5,27 +5,26 @@
 }
 
 @section scripts{
-    @Scripts.Render("~/bundles/orgedit")
     @Scripts.Render("~/bundles/dropzonescripts")
+    @Scripts.Render("~/bundles/orgedit")
 }
 
 @section css{
     @Styles.Render("~/Content/dropzonecss")
 }
 
-<div class="row">
-    <div class="form-col-offset"></div>
-    <div class="form-col">
-        @using (Html.BeginForm("", "", FormMethod.Post, new
+@using (Html.BeginForm("", "", FormMethod.Post, new
         {
-            enctype = "multipart/form-data"
+            enctype = "multipart/form-data",
+            id = "edit-profile"
         }))
-        {
-            @Html.AntiForgeryToken()
+{
 
-            <section class="form-group">
-                @Html.ValidationSummary(excludePropertyErrors: true)
-            </section>
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-col-offset"></div>
+
+        <div class="form-col-2">
 
             <section class="form-group">
                 <div class="input-group">
@@ -51,16 +50,35 @@
                 @Html.ValidationMessageFor(m => m.Email)
             </section>
 
+        </div>
+        <div class="form-col-3">
+
             <section class="form-group">
-                <img src="@Model.LogoUrl" class="logo-medium" alt="Logo" />
-                <button type="button" class="btn btn-info align-top">Upload Logo</button>
-                <input type="file" id="LogoFile" name="LogoFile" />
+                @Html.AntiForgeryToken()
+                <img id="logo" src="@Model.LogoUrl" class="logo-medium" alt="Logo" />
+            </section>
+
+            <section class="form-group">
+                <button id="change-logo" type="button" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span>&nbsp;Change Logo</button>
+                <div id="thumb-msg" class="busy message nodisplay">Getting thumbnail...</div>
+                <div id="logo-error" class="field-validation-error"></div>
+            </section>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-col-offset"></div>
+        <div class="form-col-2">
+
+            <section class="form-group">
+                @Html.ValidationSummary(excludePropertyErrors: true)
             </section>
 
             <section class="form-group">
                 <input type="submit" value="Save" />
                 @Html.CancelButton()
             </section>
-        }
+
+        </div>
     </div>
-</div>
+}

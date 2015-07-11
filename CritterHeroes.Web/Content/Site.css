@@ -7412,6 +7412,42 @@ form a.primary .badge {
     width: 75%;
   }
 }
+.form-col-2 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-col-2 {
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .form-col-2 {
+    float: left;
+    width: 58.33333333%;
+  }
+}
+.form-col-3 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .form-col-3 {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  .form-col-3 {
+    float: left;
+    width: 25%;
+  }
+}
 ul {
   -webkit-padding-start: 0;
 }
@@ -7632,8 +7668,11 @@ ul {
   display: inline-block;
 }
 .align-top,
-btn.align-top {
+.btn.align-top {
   vertical-align: top;
+}
+.nodisplay {
+  display: none;
 }
 /* Badges */
 .badge-invalid {

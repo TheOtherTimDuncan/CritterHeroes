@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Organizations.Models;
 using CritterHeroes.Web.Areas.Admin.Organizations.Queries;
+using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
@@ -34,7 +35,19 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return RedirectToPrevious();
+                    // If we don't have an uploaded logo this must be a normal post
+                    // so we can do a normal redirect
+                    if (model.LogoFile == null)
+                    {
+                        return RedirectToPrevious();
+                    };
+
+                    // If we do have an uploaded logo, this is an ajax post
+                    return Json(new
+                    {
+                        Succeeded = true,
+                        Url = Url.Content("~/")
+                    });
                 }
                 else
                 {

@@ -51,10 +51,21 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         public async Task SaveLogo(Stream source, string filename, string contentType)
         {
             Organization org = await _storageContext.GetAsync(OrganizationContext.OrganizationID.ToString());
+
+            CloudBlobContainer container = await GetContainer();
+
+            // Let's delete the original logo first
+            CloudBlockBlob oldBlob = container.GetBlockBlobReference(org.LogoFilename);
+            if (oldBlob != null)
+            {
+                await oldBlob.DeleteIfExistsAsync();
+            }
+
+            // Update the organization with the filename
             org.LogoFilename = filename;
             await _storageContext.SaveAsync(org);
 
-            CloudBlobContainer container = await GetContainer();
+            // Upload the new logo
             CloudBlockBlob blob = container.GetBlockBlobReference(filename.ToLower());
             blob.Properties.ContentType = contentType;
             await blob.UploadFromStreamAsync(source);
