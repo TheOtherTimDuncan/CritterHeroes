@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Models.Logging;
@@ -35,7 +33,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null, null);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
@@ -62,7 +60,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null, null);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
@@ -93,12 +91,9 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
-            mockUrlGenerator.Setup(x => x.GenerateSiteUrl<AccountController>(c => c.Login(null))).Returns("http://localhost");
-
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockUrlGenerator.Object, mockAuthenticationManager.Object);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockAuthenticationManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeTrue();
             command.IsSuccess.Should().BeTrue();

@@ -29,7 +29,7 @@
             using (var body = content.CreateBody().Begin())
             {
                 @:Thank you for confirming your email address. You may now login.
-                }
+            }
             using (var footer = content.CreateFooter().Begin())
             {
                 <a href="@Url.AccountAction(x=>x.Login(null))" class="btn btn-primary">Login</a>

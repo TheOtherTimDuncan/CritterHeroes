@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
@@ -19,14 +18,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IUserLogger _userLogger;
         private IApplicationUserManager _appUserManager;
-        private IUrlGenerator _urlGenerator;
         private IAuthenticationManager _authenticationManager;
 
-        public ConfirmEmailCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IAuthenticationManager authenticationManager)
+        public ConfirmEmailCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IAuthenticationManager authenticationManager)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
-            this._urlGenerator = urlGenerator;
             this._authenticationManager = authenticationManager;
         }
 
