@@ -10,6 +10,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
@@ -54,11 +55,14 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 
             CloudBlobContainer container = await GetContainer();
 
-            // Let's delete the original logo first
-            CloudBlockBlob oldBlob = container.GetBlockBlobReference(org.LogoFilename);
-            if (oldBlob != null)
+            // Let's delete the original logo first if there is one
+            if (!org.LogoFilename.IsNullOrEmpty())
             {
-                await oldBlob.DeleteIfExistsAsync();
+                CloudBlockBlob oldBlob = container.GetBlockBlobReference(org.LogoFilename);
+                if (oldBlob != null)
+                {
+                    await oldBlob.DeleteIfExistsAsync();
+                }
             }
 
             // Update the organization with the filename
