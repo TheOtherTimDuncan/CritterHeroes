@@ -7674,6 +7674,12 @@ ul {
 .nodisplay {
   display: none;
 }
+.modal-body .progress {
+  margin-bottom: 0;
+}
+.progress {
+  padding: 0;
+}
 /* Badges */
 .badge-invalid {
   color: #ffffff;

@@ -13,6 +13,30 @@
     @Styles.Render("~/Content/dropzonecss")
 }
 
+@using (var container = Html.FluentHtml().BootstrapModalContainer().ID("modal").Begin())
+{
+    using (var dialog = container.CreateDialog().Begin())
+    {
+        using (var content = dialog.CreateModalContent().Begin())
+        {
+            using (var body = content.CreateBody().Begin())
+            {
+                <p>Uploading logo...</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            }
+            using (var footer = content.CreateFooter().Begin())
+            {
+                <span id="button-container">
+                    <button id="cancel-upload" type="button" data-dismiss="modal" class="btn btn-primary">Cancel</button>
+                </span>
+            }
+        }
+    }
+}
+
+
 @using (Html.BeginForm("", "", FormMethod.Post, new
         {
             enctype = "multipart/form-data",

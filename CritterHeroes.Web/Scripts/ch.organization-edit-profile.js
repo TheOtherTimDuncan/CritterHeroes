@@ -3,7 +3,6 @@
     'use strict';
 
     var logo = $('#logo');
-    var progress = $('.progress');
     var progressBar = $('.progress-bar');
     var thumbMsg = $('#thumb-msg');
     var logoError = $('#logo-error');
@@ -22,6 +21,11 @@
         var data = frm.serializeArray();
         $.each(data, function (index, item) {
             dz.options.params[item.name] = item.value;
+        });
+
+        $('#modal').modal();
+        $('#cancel-upload').click(function () {
+            dz.cancelUpload(dz.getAcceptedFiles()[0]);
         });
 
         // Start the upload
@@ -54,7 +58,7 @@
         },
 
         uploadprogress: function (file, progress, bytesSent) {
-            progressBar.width(progress + '%');
+            progressBar.width(progress + '%').text(progress + '%');
         }
 
     });
