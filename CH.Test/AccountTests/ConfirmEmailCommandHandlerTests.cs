@@ -66,6 +66,8 @@ namespace CH.Test.AccountTests
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
+            command.IsSuccess.Should().NotHaveValue();
+
             mockUserManager.Verify(x => x.FindByEmailAsync(command.Email), Times.Once);
             mockUserManager.Verify(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ConfirmEmailFailure, command.Email, identityResult.Errors));
@@ -99,7 +101,7 @@ namespace CH.Test.AccountTests
             ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockUrlGenerator.Object, mockAuthenticationManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeTrue();
-            command.ModalDialog.Should().NotBeNull();
+            command.IsSuccess.Should().BeTrue();
 
             user.Email.Should().Be(command.Email);
 

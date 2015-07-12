@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using CritterHeroes.Web.Areas.Models.Modal;
 using TOTD.Mvc.FluentHtml.Attributes;
 
 namespace CritterHeroes.Web.Areas.Account.Models
@@ -23,7 +22,7 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        public ModalDialogModel ModalDialog
+        public bool? IsSuccess
         {
             get;
             set;

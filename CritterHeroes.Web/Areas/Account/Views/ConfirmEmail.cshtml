@@ -12,7 +12,7 @@
 
         (function (cheroes, $) {
             var btn = $('#submit').busyIndicator({ message: 'Confirming email...' });
-            if (btn.data('show-modal') === "") {
+            if (btn.data('show-modal') !== "") {
                 $('#success-message').modal();
             }
         }(this.cheroes = this.cheroes || {}, jQuery));
@@ -20,7 +20,23 @@
     </script>
 }
 
-@Html.ModalDialog(Model.ModalDialog)
+@using (var container = Html.FluentHtml().BootstrapModalContainer().ID("success-message").Begin())
+{
+    using (var dialog = container.CreateDialog().Begin())
+    {
+        using (var content = dialog.CreateModalContent().Begin())
+        {
+            using (var body = content.CreateBody().Begin())
+            {
+                @:Thank you for confirming your email address. You may now login.
+                }
+            using (var footer = content.CreateFooter().Begin())
+            {
+                <a href="@Url.AccountAction(x=>x.Login(null))" class="btn btn-primary">Login</a>
+            }
+        }
+    }
+}
 
 <div class="row">
     <div class="form-col-offset"></div>
@@ -53,10 +69,9 @@
                 </div>
                 @Html.ValidationMessageFor(m => m.ConfirmationCode)
             </section>
-    
+
             <section class="form-group">
-                @{string dataShowDialog = (Model.ModalDialog != null ? "data-show-modal" : ""); }
-                <span><input type="submit" id="submit" value="Confirm Email" @dataShowDialog /></span>
+                <span><input type="submit" id="submit" value="Confirm Email" data-show-modal="@Model.IsSuccess" /></span>
                 <a href="@Url.AccountAction(x => x.Login(null))" class="primary">Cancel</a>
             </section>
         }

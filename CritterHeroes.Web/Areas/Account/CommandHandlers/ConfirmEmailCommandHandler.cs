@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Contracts;
@@ -54,12 +52,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 // In case the user is logged in make sure they are logged out so the new email address is used
                 _authenticationManager.SignOut();
 
-                ModalDialogButton button = ModalDialogButton.Link(text: "Login", cssClass: ButtonCss.Primary, url: _urlGenerator.GenerateSiteUrl<AccountController>(x => x.Login(null)));
-                command.ModalDialog = new ModalDialogModel()
-                {
-                    Text = "Thank you for confirming your email address. You may now login.",
-                    Buttons = new ModalDialogButton[] { button }
-                };
+                // Let the view know we succeeded
+                command.IsSuccess = true;
 
                 await _userLogger.LogActionAsync(UserActions.ConfirmEmailSuccess, command.Email);
                 return CommandResult.Success();
