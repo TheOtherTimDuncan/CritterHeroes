@@ -278,7 +278,6 @@
     </Content>
     <Content Include="Areas\Common\Views\Error.cshtml" />
     <Content Include="Areas\Common\Views\_Layout.cshtml" />
-    <Content Include="Areas\Common\Views\_ModalDialog.cshtml" />
     <Content Include="Areas\Account\Views\ConfirmEmail.cshtml" />
     <Content Include="Areas\Account\Views\EditProfile.cshtml" />
     <Content Include="Areas\Account\Views\Login.cshtml" />
@@ -525,9 +524,6 @@
     <Compile Include="Areas\Home\Queries\HeaderQuery.cs" />
     <Compile Include="Areas\Home\Queries\MenuQuery.cs" />
     <Compile Include="Areas\Models\JsonCommandResult.cs" />
-    <Compile Include="Areas\Models\Modal\ModalDialogButton.cs" />
-    <Compile Include="Areas\Models\Modal\ModalDialogButtonType.cs" />
-    <Compile Include="Areas\Models\Modal\ModalDialogModel.cs" />
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
