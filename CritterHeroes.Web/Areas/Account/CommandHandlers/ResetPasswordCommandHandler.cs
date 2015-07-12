@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Areas.Home;
-using CritterHeroes.Web.Areas.Models.Modal;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
@@ -27,16 +24,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IApplicationUserManager _userManager;
         private IApplicationSignInManager _signinManager;
-        private IUrlGenerator _urlGenerator;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
         private IStateManager<OrganizationContext> _organizationStateManager;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IUrlGenerator urlGenerator, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;
-            this._urlGenerator = urlGenerator;
             this._userLogger = userLogger;
             this._emailClient = emailClient;
             this._organizationStateManager = organizationStateManager;
@@ -69,13 +64,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                         await _emailClient.SendAsync(emailMessage);
                         await _userLogger.LogActionAsync(UserActions.ResetPasswordSuccess, command.Email);
 
-                        CommandResult result = CommandResult.Success();
-                        command.ModalDialog = new ModalDialogModel()
-                        {
-                            Text = "Your password has been successfully reset.",
-                            Buttons = new ModalDialogButton[] { ModalDialogButton.Link("Continue", ButtonCss.Primary, _urlGenerator.GenerateSiteUrl<HomeController>(x => x.Index())) }
-                        };
-                        return result;
+                        // Let the view know we succeeded
+                        command.IsSuccess = true;
+
+                        return CommandResult.Success();
                     }
                 }
             }
