@@ -172,6 +172,10 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TOTD.EntityFramework, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.EntityFramework.2.2.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="TOTD.Mvc, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TOTD.Mvc.2.2.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
       <Private>True</Private>
