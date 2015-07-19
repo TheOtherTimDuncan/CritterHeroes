@@ -641,6 +641,12 @@
     <Compile Include="DataProviders\Azure\Storage\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
+    <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Contexts\BaseDbContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -684,7 +690,6 @@
   <ItemGroup>
     <Folder Include="Common\NotificationHandlers\" />
     <Folder Include="Common\Notifications\" />
-    <Folder Include="Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
