@@ -15,9 +15,9 @@ namespace CH.Test.Azure
         public void CanGetConnectionStringUsingConnectionStringName()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config["connectionStringName"] = "test";
+            config["connectionStringName"] = "CritterHeroes";
             AzureErrorLog errorLog = new AzureErrorLog(config);
-            Assert.AreEqual(ConfigurationManager.ConnectionStrings["test"].ConnectionString, errorLog.ConnectionString);
+            Assert.AreEqual(ConfigurationManager.ConnectionStrings["CritterHeroes"].ConnectionString, errorLog.ConnectionString);
         }
 
         [TestMethod]

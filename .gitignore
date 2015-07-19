@@ -161,3 +161,4 @@ ConfigLinks.bat
 CritterHeroes.Web/Azure.config
 CritterHeroes.Web/RescueGroups.config
 CritterHeroes.Web/AppSettings.config
+CritterHeroes.Web/ConnectionStrings.Local.config

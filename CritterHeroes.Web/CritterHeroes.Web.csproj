@@ -426,6 +426,10 @@
     <Content Include="Scripts\dropzone\dropzone.min.js">
       <DependentUpon>dropzone.js</DependentUpon>
     </Content>
+    <Content Include="..\Configurations\ConnectionStrings.Local.config">
+      <Link>ConnectionStrings.Local.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>
