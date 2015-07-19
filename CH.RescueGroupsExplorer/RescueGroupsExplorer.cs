@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CH.RescueGroupsExplorer
@@ -83,6 +85,24 @@ namespace CH.RescueGroupsExplorer
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtLog.Text = "";
+        }
+
+        private void btnLoadJson_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    tree.Nodes.Clear();
+
+                    IEnumerable<string> lines = File.ReadAllLines(dlg.FileName);
+                    foreach (string line in lines)
+                    {
+                        JObject json = JObject.Parse(line);
+                        AddObjectNodes(json.Properties(), Path.GetFileName(dlg.FileName), tree.Nodes);
+                    }
+                }
+            }
         }
     }
 }

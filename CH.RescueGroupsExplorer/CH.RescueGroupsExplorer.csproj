@@ -84,6 +84,7 @@
     </EmbeddedResource>
     <None Include="..\Configurations\RescueGroups.config">
       <Link>RescueGroups.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

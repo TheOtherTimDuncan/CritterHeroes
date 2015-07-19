@@ -38,6 +38,7 @@
             this.cbPrivate = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
+            this.btnLoadJson = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtLog
@@ -140,11 +141,22 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // btnLoadJson
+            // 
+            this.btnLoadJson.Location = new System.Drawing.Point(231, 15);
+            this.btnLoadJson.Name = "btnLoadJson";
+            this.btnLoadJson.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadJson.TabIndex = 10;
+            this.btnLoadJson.Text = "Load JSON";
+            this.btnLoadJson.UseVisualStyleBackColor = true;
+            this.btnLoadJson.Click += new System.EventHandler(this.btnLoadJson_Click);
+            // 
             // RescueGroupsExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(806, 423);
+            this.Controls.Add(this.btnLoadJson);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cbPrivate);
@@ -174,6 +186,7 @@
         private System.Windows.Forms.CheckBox cbPrivate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnLoadJson;
     }
 }
 
