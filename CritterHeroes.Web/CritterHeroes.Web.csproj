@@ -408,9 +408,6 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <None Include="Scripts\jquery-2.1.3.intellisense.js">
-      <DependentUpon>jquery-2.1.3.js</DependentUpon>
-    </None>
     <Content Include="Scripts\ch.login.js" />
     <Content Include="Scripts\ch.organization-edit-profile.js" />
     <Content Include="Scripts\dropzone\basic.css" />
@@ -429,12 +426,15 @@
     <Content Include="Scripts\dropzone\dropzone.min.js">
       <DependentUpon>dropzone.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.1.3.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.js">
-      <DependentUpon>jquery-2.1.3.js</DependentUpon>
+    <None Include="Scripts\jquery-2.1.4.intellisense.js">
+      <DependentUpon>jquery-2.1.4.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js">
+      <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.1.3.min.map">
-      <DependentUpon>jquery-2.1.3.js</DependentUpon>
+    <Content Include="Scripts\jquery-2.1.4.min.map">
+      <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js">
       <DependentUpon>jquery.validate.js</DependentUpon>
