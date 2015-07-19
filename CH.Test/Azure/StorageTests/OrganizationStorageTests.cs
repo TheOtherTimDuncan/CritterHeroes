@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.Models;
-using CritterHeroes.Web.Models.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

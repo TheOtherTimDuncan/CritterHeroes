@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Models;
-using CritterHeroes.Web.Models.Data;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 

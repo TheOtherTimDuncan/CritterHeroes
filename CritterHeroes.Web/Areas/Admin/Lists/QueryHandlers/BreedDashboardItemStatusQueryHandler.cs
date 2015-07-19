@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models.Data;
+using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models.Status;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers

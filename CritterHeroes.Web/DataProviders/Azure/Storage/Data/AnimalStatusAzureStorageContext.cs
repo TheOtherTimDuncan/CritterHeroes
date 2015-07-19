@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Models.Data;
+using CritterHeroes.Web.Data.Models;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage.Data

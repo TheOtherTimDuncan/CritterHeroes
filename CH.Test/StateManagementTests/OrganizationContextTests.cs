@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models;
-using CritterHeroes.Web.Models.Data;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CritterHeroes.Web.Models.Data
+namespace CritterHeroes.Web.Data.Models
 {
-    public class Breed : BaseDataItem<Breed>
+    public class AnimalStatus : BaseDataItem<AnimalStatus>
     {
-        public Breed(string id, string species, string breedName)
+        public AnimalStatus(string id, string name, string description)
         {
             ThrowIf.Argument.IsNullOrEmpty(id, "id");
-            ThrowIf.Argument.IsNullOrEmpty(species, "species");
+            ThrowIf.Argument.IsNullOrEmpty(name, "name");
 
             this.ID = id;
-            this.Species = species;
-            this.BreedName = breedName;
+            this.Name = name;
+            this.Description = description;
         }
 
         public string ID
@@ -22,13 +22,13 @@ namespace CritterHeroes.Web.Models.Data
             private set;
         }
 
-        public string Species
+        public string Name
         {
             get;
             private set;
         }
 
-        public string BreedName
+        public string Description
         {
             get;
             private set;
@@ -39,7 +39,7 @@ namespace CritterHeroes.Web.Models.Data
             return this.ID.GetHashCode();
         }
 
-        public override bool Equals(Breed other)
+        public override bool Equals(AnimalStatus other)
         {
             if (other == null)
             {
@@ -51,17 +51,17 @@ namespace CritterHeroes.Web.Models.Data
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as Breed);
+            return Equals(obj as AnimalStatus);
         }
 
-        public static bool operator ==(Breed animalBreed1, Breed animalBreed2)
+        public static bool operator ==(AnimalStatus animalStatus1, AnimalStatus animalStatus2)
         {
-            return Object.Equals(animalBreed1, animalBreed2);
+            return Object.Equals(animalStatus1, animalStatus2);
         }
 
-        public static bool operator !=(Breed animalBreed1, Breed animalBreed2)
+        public static bool operator !=(AnimalStatus animalStatus1, AnimalStatus animalStatus2)
         {
-            return !(animalBreed1 == animalBreed2);
+            return !(animalStatus1 == animalStatus2);
         }
     }
 }

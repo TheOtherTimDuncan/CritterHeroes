@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CritterHeroes.Web.Models.Data
+namespace CritterHeroes.Web.Data.Models
 {
     public class Species : BaseDataItem<Species>
     {

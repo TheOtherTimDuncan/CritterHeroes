@@ -654,10 +654,10 @@
     <Compile Include="Middleware\OrganizationContextMiddleware.cs" />
     <Compile Include="Middleware\PageContextMiddleware.cs" />
     <Compile Include="Middleware\UserContextMiddleware.cs" />
-    <Compile Include="Models\Data\AnimalStatus.cs" />
-    <Compile Include="Models\Data\BaseDataItem.cs" />
-    <Compile Include="Models\Data\Breed.cs" />
-    <Compile Include="Models\Data\Species.cs" />
+    <Compile Include="Data\Models\AnimalStatus.cs" />
+    <Compile Include="Data\Models\BaseDataItem.cs" />
+    <Compile Include="Data\Models\Breed.cs" />
+    <Compile Include="Data\Models\Species.cs" />
     <Compile Include="Models\EmailMessage.cs" />
     <Compile Include="Models\Json\DashboardItemStatus.cs" />
     <Compile Include="Models\Json\DashboardStorageItemStatus.cs" />

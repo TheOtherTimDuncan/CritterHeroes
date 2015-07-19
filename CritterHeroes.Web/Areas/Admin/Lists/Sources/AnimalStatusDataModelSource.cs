@@ -7,7 +7,7 @@ using CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
-using CritterHeroes.Web.Models.Data;
+using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models.Json;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.Sources

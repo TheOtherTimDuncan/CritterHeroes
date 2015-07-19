@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using CritterHeroes.Web;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models.Data;
+using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleInjector;

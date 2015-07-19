@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models;
-using CritterHeroes.Web.Models.Data;
 
 namespace CritterHeroes.Web.Common.StateManagement
 {

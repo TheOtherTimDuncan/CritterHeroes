@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Models.Data;
+using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.Misc;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Models.Data;
+using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Models
 {
