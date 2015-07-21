@@ -38,8 +38,8 @@ namespace CritterHeroes.Web
         public static void RegisterjQuery(BundleCollection bundles)
         {
             // jQuery
-            Bundle jqueryBundle = new ScriptBundle("~/bundles/jquery", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js")
-                .Include("~/Scripts/jquery-2.1.3.*");
+            Bundle jqueryBundle = new ScriptBundle("~/bundles/jquery", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js")
+                .Include("~/Scripts/jquery-2.1.4.*");
             bundles.Add(jqueryBundle);
 
             // jQuery validation
@@ -61,12 +61,12 @@ namespace CritterHeroes.Web
         public static void RegisterBootstrap(BundleCollection bundles)
         {
             // Bootstrap
-            Bundle boostrapScript = new ScriptBundle("~/bundles/bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
+            Bundle boostrapScript = new ScriptBundle("~/bundles/bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
                 .Include("~/Scripts/bootstrap.*");
             bundles.Add(boostrapScript);
 
             // Respond javascript
-            Bundle respondBundle = new ScriptBundle("~/bundles/respond", "//ajax.aspnetcdn.com/ajax/respond/1.2.0/respond.js")
+            Bundle respondBundle = new ScriptBundle("~/bundles/respond", "//ajax.aspnetcdn.com/ajax/respond/1.4.0/respond.js")
                 .Include("~/Scripts/respond.js");
             bundles.Add(respondBundle);
         }
