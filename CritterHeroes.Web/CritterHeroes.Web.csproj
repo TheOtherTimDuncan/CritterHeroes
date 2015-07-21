@@ -646,9 +646,11 @@
     <Compile Include="DataProviders\Azure\Storage\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
+    <Compile Include="Data\Configurations\AnimalStatusConfiguration.cs" />
     <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Contexts\AnimalStatusStorageContext.cs" />
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
