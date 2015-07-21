@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Configurations;
 using TOTD.EntityFramework;
 
@@ -14,9 +15,8 @@ namespace CritterHeroes.Web.Data.Contexts
     [DbConfigurationType(typeof(EntityFrameworkConfiguration))]
     public class BaseDbContext : DbContext
     {
-
-        public BaseDbContext(string connectionStringName)
-            : base("name=" + connectionStringName)
+        public BaseDbContext()
+            : base("name=CritterHeroes")
         {
 #if DEBUG
             if (Debugger.IsAttached)
@@ -61,6 +61,60 @@ namespace CritterHeroes.Web.Data.Contexts
             {
                 throw new DbEntityValidationDetailException(ex);
             }
+        }
+    }
+
+    public abstract class BaseDbContext<T> : BaseDbContext, IMasterStorageContext<T> where T : class
+    {
+        public virtual IDbSet<T> _Items
+        {
+            get;
+            set;
+        }
+
+        public IQueryable<T> Items
+        {
+            get
+            {
+                return _Items;
+            }
+        }
+
+        public abstract Task<T> GetAsync(string entityID);
+
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await Items.ToListAsync();
+        }
+
+        public virtual void Add(T entity)
+        {
+            _Items.Add(entity);
+        }
+
+        public virtual void Delete(T entity)
+        {
+            _Items.Remove(entity);
+        }
+
+        public Task SaveAsync(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveAsync(IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAllAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
