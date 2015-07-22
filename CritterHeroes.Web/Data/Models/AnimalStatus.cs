@@ -11,12 +11,21 @@ namespace CritterHeroes.Web.Data.Models
             ThrowIf.Argument.IsNullOrEmpty(id, "id");
             ThrowIf.Argument.IsNullOrEmpty(name, "name");
 
+            this.ID = int.Parse(id);
+            this.Name = name;
+            this.Description = description;
+        }
+
+        public AnimalStatus(int id, string name, string description)
+        {
+            ThrowIf.Argument.IsNullOrEmpty(name, "name");
+
             this.ID = id;
             this.Name = name;
             this.Description = description;
         }
 
-        public string ID
+        public int ID
         {
             get;
             private set;

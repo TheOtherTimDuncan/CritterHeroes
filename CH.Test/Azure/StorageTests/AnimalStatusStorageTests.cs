@@ -36,13 +36,13 @@ namespace CH.Test.Azure.StorageTests
             AnimalStatusAzureStorageContext storage = new AnimalStatusAzureStorageContext(new AzureConfiguration());
             await storage.SaveAsync(animalStatus);
 
-            AnimalStatus result = await storage.GetAsync(animalStatus.ID);
+            AnimalStatus result = await storage.GetAsync(animalStatus.ID.ToString());
             result.Should().NotBeNull();
             result.Name.Should().Be(animalStatus.Name);
             result.Description.Should().Be(animalStatus.Description);
 
             await storage.DeleteAsync(animalStatus);
-            AnimalStatus deleted = await storage.GetAsync(animalStatus.ID);
+            AnimalStatus deleted = await storage.GetAsync(animalStatus.ID.ToString());
             deleted.Should().BeNull();
         }
 

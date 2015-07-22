@@ -16,7 +16,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Data
 
         public override AnimalStatus FromStorage(DynamicTableEntity tableEntity)
         {
-            return new AnimalStatus(tableEntity["ID"].StringValue, tableEntity["Name"].StringValue, tableEntity["Description"].StringValue);
+            return new AnimalStatus(tableEntity["ID"].Int32Value.Value, tableEntity["Name"].StringValue, tableEntity["Description"].StringValue);
         }
 
         public override DynamicTableEntity ToStorage(AnimalStatus entity)
@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Data
 
         protected override string GetRowKey(AnimalStatus entity)
         {
-            return entity.ID;
+            return entity.ID.ToString();
         }
     }
 }
