@@ -55,8 +55,8 @@ namespace CritterHeroes.Web
             }
 
             container.RegisterManyForOpenGeneric(typeof(IStateManager<>), new WebRequestLifestyle(), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IMasterStorageContext<>), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(ISecondaryStorageContext<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IAzureStorageContext<>), defaultAssemblies);
+            container.RegisterManyForOpenGeneric(typeof(IRescureGroupsStorageContext<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IEmailHandler<>), defaultAssemblies);
 
             container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();

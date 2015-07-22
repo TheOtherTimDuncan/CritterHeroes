@@ -13,7 +13,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure
 {
-    public abstract class BaseAzureStorageContext<T> : IMasterStorageContext<T> where T : class
+    public abstract class BaseAzureStorageContext<T> : IAzureStorageContext<T> where T : class
     {
         private const int batchSize = 100;
         private CloudTable _cloudTable = null;

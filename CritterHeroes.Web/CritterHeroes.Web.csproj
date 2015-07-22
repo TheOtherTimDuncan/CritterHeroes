@@ -584,6 +584,7 @@
     </Compile>
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
     <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
+    <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
     <Compile Include="Common\Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Common\Proxies\Email\EmailConfiguration.cs" />
@@ -628,8 +629,8 @@
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
-    <Compile Include="Contracts\Storage\IMasterStorageContext.cs" />
-    <Compile Include="Contracts\Storage\ISecondaryStorageContext.cs" />
+    <Compile Include="Contracts\Storage\IAzureStorageContext.cs" />
+    <Compile Include="Contracts\Storage\IRescueGroupsStorageContext.cs" />
     <Compile Include="Contracts\Storage\IStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureException.cs" />
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />

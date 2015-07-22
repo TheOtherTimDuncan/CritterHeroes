@@ -9,7 +9,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers
 {
     public class BreedDashboardStatusCommandHandler : DashboardStatusCommandHandler<Breed>
     {
-        public BreedDashboardStatusCommandHandler(IMasterStorageContext<Breed> target, ISecondaryStorageContext<Breed> source)
+        public BreedDashboardStatusCommandHandler(IAzureStorageContext<Breed> target, IRescureGroupsStorageContext<Breed> source)
             :base(target,source)
         {
         }

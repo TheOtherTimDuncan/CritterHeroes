@@ -39,7 +39,7 @@ namespace CH.Test
         public void DependencyContainerCanResolveMasterListDataContexts()
         {
             Container container = DIConfig.ConfigureDependencyContainer();
-            container.GetRegistration(typeof(IMasterStorageContext<Breed>)).Should().NotBeNull();
+            container.GetRegistration(typeof(IAzureStorageContext<Breed>)).Should().NotBeNull();
         }
 
         [TestMethod]

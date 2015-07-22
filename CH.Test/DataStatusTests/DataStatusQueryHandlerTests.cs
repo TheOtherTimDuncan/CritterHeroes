@@ -36,10 +36,10 @@ namespace CH.Test.DataStatusTests
 
             DashboardStatusQuery<AnimalStatus> query = new DashboardStatusQuery<AnimalStatus>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
 
-            Mock<IMasterStorageContext<AnimalStatus>> mockMasterContext = new Mock<IMasterStorageContext<AnimalStatus>>();
+            Mock<IAzureStorageContext<AnimalStatus>> mockMasterContext = new Mock<IAzureStorageContext<AnimalStatus>>();
             mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable<AnimalStatus>()));
 
-            Mock<ISecondaryStorageContext<AnimalStatus>> mockSecondaryContext = new Mock<ISecondaryStorageContext<AnimalStatus>>();
+            Mock<IRescureGroupsStorageContext<AnimalStatus>> mockSecondaryContext = new Mock<IRescureGroupsStorageContext<AnimalStatus>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<AnimalStatus>()));
 
             AnimalStatusDashboardItemStatusQueryHandler handler = new AnimalStatusDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object);
@@ -95,10 +95,10 @@ namespace CH.Test.DataStatusTests
 
             DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
 
-            Mock<IMasterStorageContext<Breed>> mockMasterContext = new Mock<IMasterStorageContext<Breed>>();
+            Mock<IAzureStorageContext<Breed>> mockMasterContext = new Mock<IAzureStorageContext<Breed>>();
             mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable<Breed>()));
 
-            Mock<ISecondaryStorageContext<Breed>> mockSecondaryContext = new Mock<ISecondaryStorageContext<Breed>>();
+            Mock<IRescureGroupsStorageContext<Breed>> mockSecondaryContext = new Mock<IRescureGroupsStorageContext<Breed>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<Breed>()));
 
             BreedDashboardItemStatusQueryHandler handler = new BreedDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object);

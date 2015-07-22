@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Configurations;
@@ -66,57 +67,40 @@ namespace CritterHeroes.Web.Data.Contexts
         }
     }
 
-    public abstract class BaseDbContext<T> : BaseDbContext, IMasterStorageContext<T> where T : class
+    public abstract class BaseDbContext<T> : BaseDbContext, ISqlStorageContext<T> where T : class
     {
-        public virtual IDbSet<T> _Items
+        public virtual IDbSet<T> _Entities
         {
             get;
             set;
         }
 
-        public IQueryable<T> Items
+        public IQueryable<T> Entities
         {
             get
             {
-                return _Items;
+                return _Entities;
             }
         }
 
-        public abstract Task<T> GetAsync(string entityID);
-
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual T Get(Expression<Func<T, bool>> predicate)
         {
-            return await Items.ToListAsync();
+            return _Entities.Where(predicate).SingleOrDefault();
+        }
+
+        public virtual async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _Entities.Where(predicate).SingleOrDefaultAsync();
         }
 
         public virtual void Add(T entity)
         {
-            _Items.Add(entity);
+            _Entities.Add(entity);
         }
 
         public virtual void Delete(T entity)
         {
-            _Items.Remove(entity);
-        }
-
-        public Task SaveAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveAsync(IEnumerable<T> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAllAsync()
-        {
-            throw new NotImplementedException();
+            _Entities.Remove(entity);
         }
     }
 }

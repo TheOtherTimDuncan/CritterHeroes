@@ -12,7 +12,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public abstract class RescueGroupsStorage<T> : ISecondaryStorageContext<T> where T : class
+    public abstract class RescueGroupsStorage<T> : IRescureGroupsStorageContext<T> where T : class
     {
         private IRescueGroupsConfiguration _configuration;
 
