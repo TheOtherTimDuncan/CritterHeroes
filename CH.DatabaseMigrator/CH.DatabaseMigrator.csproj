@@ -72,6 +72,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Migrations\201507222311092_Create.cs" />
+    <Compile Include="Migrations\201507222311092_Create.Designer.cs">
+      <DependentUpon>201507222311092_Create.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MigrationsDataContext.cs" />
     <Compile Include="Program.cs" />
@@ -94,6 +98,11 @@
       <Project>{f561f387-e413-4d7c-95fa-683a27b99b98}</Project>
       <Name>CritterHeroes.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507222311092_Create.resx">
+      <DependentUpon>201507222311092_Create.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
