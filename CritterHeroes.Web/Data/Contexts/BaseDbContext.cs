@@ -93,6 +93,16 @@ namespace CritterHeroes.Web.Data.Contexts
             return await _Entities.Where(predicate).SingleOrDefaultAsync();
         }
 
+        public IEnumerable<T> GetAll()
+        {
+            return Entities.ToList();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await Entities.ToListAsync();
+        }
+
         public virtual void Add(T entity)
         {
             _Entities.Add(entity);

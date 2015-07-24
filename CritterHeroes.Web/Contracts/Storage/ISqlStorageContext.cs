@@ -15,8 +15,14 @@ namespace CritterHeroes.Web.Contracts.Storage
 
         T Get(Expression<Func<T, bool>> predicate);
         Task<T> GetAsync(Expression<Func<T, bool>> predicate);
+
+        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
+
         void Add(T entity);
+        
         void Delete(T entity);
+        
         int SaveChanges();
         Task<int> SaveChangesAsync();
     }
