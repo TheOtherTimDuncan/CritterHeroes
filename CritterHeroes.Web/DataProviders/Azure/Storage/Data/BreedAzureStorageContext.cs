@@ -17,7 +17,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Data
 
         public override Breed FromStorage(DynamicTableEntity tableEntity)
         {
-            return new Breed(tableEntity["ID"].StringValue, tableEntity["Species"].StringValue, tableEntity["BreedName"].StringValue);
+            return new Breed(tableEntity["ID"].Int32Value.Value, tableEntity["Species"].StringValue, tableEntity["BreedName"].StringValue);
         }
 
         public override DynamicTableEntity ToStorage(Breed entity)
@@ -33,7 +33,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Data
 
         protected override string GetRowKey(Breed entity)
         {
-            return entity.ID;
+            return entity.ID.ToString();
         }
     }
 }

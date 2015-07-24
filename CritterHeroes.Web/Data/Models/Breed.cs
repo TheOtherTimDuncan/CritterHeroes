@@ -6,9 +6,22 @@ namespace CritterHeroes.Web.Data.Models
 {
     public class Breed : BaseDataItem<Breed>
     {
+        protected Breed()
+        {
+        }
+
         public Breed(string id, string species, string breedName)
         {
             ThrowIf.Argument.IsNullOrEmpty(id, "id");
+            ThrowIf.Argument.IsNullOrEmpty(species, "species");
+
+            this.ID = int.Parse(id);
+            this.Species = species;
+            this.BreedName = breedName;
+        }
+
+        public Breed(int id, string species, string breedName)
+        {
             ThrowIf.Argument.IsNullOrEmpty(species, "species");
 
             this.ID = id;
@@ -16,7 +29,7 @@ namespace CritterHeroes.Web.Data.Models
             this.BreedName = breedName;
         }
 
-        public string ID
+        public int ID
         {
             get;
             private set;
