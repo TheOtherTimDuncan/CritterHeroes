@@ -36,6 +36,7 @@ namespace CritterHeroes.Web.Data.Contexts
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new AnimalStatusConfiguration());
+            modelBuilder.Configurations.Add(new BreedConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }

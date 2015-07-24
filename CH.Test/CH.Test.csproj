@@ -237,6 +237,7 @@
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="EntityTests\AnimalStatusTests.cs" />
     <Compile Include="EntityTests\BaseEntityTest.cs" />
+    <Compile Include="EntityTests\BreedTests.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />

@@ -648,6 +648,7 @@
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
     <Compile Include="Data\Configurations\AnimalStatusConfiguration.cs" />
+    <Compile Include="Data\Configurations\BreedConfiguration.cs" />
     <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -655,6 +656,7 @@
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Contexts\BreedStorageContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

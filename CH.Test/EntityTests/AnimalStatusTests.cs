@@ -42,6 +42,5 @@ namespace CH.Test.EntityTests
                 deleted.Should().BeNull();
             }
         }
-
     }
 }
