@@ -231,6 +231,8 @@
     <Compile Include="EmailTests\EmailClientTests.cs" />
     <Compile Include="EmailTests\EmailBuilderTests.cs" />
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
+    <Compile Include="EntityTests\AnimalStatusTests.cs" />
+    <Compile Include="EntityTests\BaseEntityTest.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
@@ -268,9 +270,6 @@
   <ItemGroup>
     <None Include="..\Configurations\AppSettings.config">
       <Link>AppSettings.config</Link>
-    </None>
-    <None Include="..\Configurations\ConnectionStrings.Local.config">
-      <Link>ConnectionStrings.Local.config</Link>
     </None>
     <None Include="..\Configurations\RescueGroups.config">
       <Link>RescueGroups.config</Link>

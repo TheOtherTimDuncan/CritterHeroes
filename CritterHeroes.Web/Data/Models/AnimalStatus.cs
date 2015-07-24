@@ -6,6 +6,10 @@ namespace CritterHeroes.Web.Data.Models
 {
     public class AnimalStatus : BaseDataItem<AnimalStatus>
     {
+        protected AnimalStatus()
+        {
+        }
+
         public AnimalStatus(string id, string name, string description)
         {
             ThrowIf.Argument.IsNullOrEmpty(id, "id");
