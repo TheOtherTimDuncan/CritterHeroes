@@ -44,7 +44,7 @@ namespace CH.Test.EntityTests
                 result.FirstName.Should().Be(appUser.FirstName);
                 result.LastName.Should().Be(appUser.LastName);
                 result.Email.Should().Be(appUser.Email);
-                result.PreviousEmail.Should().Be(appUser.PreviousEmail);
+                result.NewEmail.Should().Be(appUser.NewEmail);
                 result.PhoneNumber.Should().Be(appUser.PhoneNumber);
 
                 AppUserManager userManager = new AppUserManager(new AppUserStore(userContext));

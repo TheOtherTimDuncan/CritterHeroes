@@ -20,8 +20,23 @@ namespace CH.DatabaseMigrator.Migrations
 
         protected override void Seed(CH.DatabaseMigrator.Migrations.MigrationsDataContext context)
         {
-            AppUserManager userManager = new AppUserManager(new AppUserStore(context));
+            foreach (string role in UserRole.GetAll())
+            {
+                AppRole appRole = context.Roles.SingleOrDefault(x => x.Name == role);
+                if (appRole == null)
+                {
+                    appRole = new AppRole()
+                    {
+                        Name = role
+                    };
+                    context.Roles.Add(appRole);
+                    context.SaveChanges();
 
+                    Logger.Verbose("Added role " + role);
+                }
+            }
+
+            AppUserManager userManager = new AppUserManager(new AppUserStore(context));
             string seedEmail = ConfigurationManager.AppSettings["SeedEmail"];
             string seedPassword = ConfigurationManager.AppSettings["SeedPassword"];
 
@@ -41,21 +56,6 @@ namespace CH.DatabaseMigrator.Migrations
             {
                 Task.WaitAll(userManager.AddToRoleAsync(appUser.Id, UserRole.MasterAdmin));
                 Logger.Verbose("Added " + appUser.Email + " to role " + UserRole.MasterAdmin);
-            }
-
-            foreach (string role in UserRole.GetAll())
-            {
-                AppRole appRole = context.Roles.SingleOrDefault(x => x.Name == role);
-                if (appRole == null)
-                {
-                    appRole = new AppRole()
-                    {
-                        Name = role
-                    };
-                    context.Roles.Add(appRole);
-
-                    Logger.Verbose("Added role " + role);
-                }
             }
         }
     }

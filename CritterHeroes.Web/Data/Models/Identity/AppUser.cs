@@ -30,7 +30,7 @@ namespace CritterHeroes.Web.Data.Models.Identity
             set;
         }
 
-        public string PreviousEmail
+        public string NewEmail
         {
             get;
             set;

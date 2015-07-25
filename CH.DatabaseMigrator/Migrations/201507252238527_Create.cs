@@ -41,7 +41,7 @@ namespace CH.DatabaseMigrator.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FirstName = c.String(maxLength: 50),
                         LastName = c.String(maxLength: 50),
-                        PreviousEmail = c.String(maxLength: 256),
+                        NewEmail = c.String(maxLength: 256),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),

@@ -19,7 +19,7 @@ namespace CritterHeroes.Web.Data.Configurations
             EntityTypeConfiguration<AppUser> userConfiguration = modelBuilder.Entity<AppUser>();
             userConfiguration.ToTable("AppUser");
 
-            userConfiguration.Property(x => x.PreviousEmail).HasMaxLength(256);
+            userConfiguration.Property(x => x.NewEmail).HasMaxLength(256);
             userConfiguration.Property(x => x.FirstName).HasMaxLength(50);
             userConfiguration.Property(x => x.LastName).HasMaxLength(50);
         }
