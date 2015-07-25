@@ -8,6 +8,7 @@ using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -17,10 +18,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class ConfirmEmailCommandHandler : IAsyncCommandHandler<ConfirmEmailModel>
     {
         private IUserLogger _userLogger;
-        private IAzureAppUserManager _appUserManager;
+        private IAppUserManager _appUserManager;
         private IAuthenticationManager _authenticationManager;
 
-        public ConfirmEmailCommandHandler(IUserLogger userLogger, IAzureAppUserManager userManager, IAuthenticationManager authenticationManager)
+        public ConfirmEmailCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IAuthenticationManager authenticationManager)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
@@ -29,7 +30,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ConfirmEmailModel command)
         {
-            AzureAppUser user = await _appUserManager.FindByEmailAsync(command.Email);
+            AppUser user = await _appUserManager.FindByEmailAsync(command.Email);
 
             if (user == null)
             {
