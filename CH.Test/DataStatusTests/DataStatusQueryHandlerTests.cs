@@ -36,8 +36,8 @@ namespace CH.Test.DataStatusTests
 
             DashboardStatusQuery<AnimalStatus> query = new DashboardStatusQuery<AnimalStatus>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
 
-            Mock<IAzureStorageContext<AnimalStatus>> mockMasterContext = new Mock<IAzureStorageContext<AnimalStatus>>();
-            mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable<AnimalStatus>()));
+            Mock<ISqlStorageContext<AnimalStatus>> mockMasterContext = new Mock<ISqlStorageContext<AnimalStatus>>();
+            mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable()));
 
             Mock<IRescureGroupsStorageContext<AnimalStatus>> mockSecondaryContext = new Mock<IRescureGroupsStorageContext<AnimalStatus>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<AnimalStatus>()));
@@ -95,8 +95,8 @@ namespace CH.Test.DataStatusTests
 
             DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
 
-            Mock<IAzureStorageContext<Breed>> mockMasterContext = new Mock<IAzureStorageContext<Breed>>();
-            mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable<Breed>()));
+            Mock<ISqlStorageContext<Breed>> mockMasterContext = new Mock<ISqlStorageContext<Breed>>();
+            mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable()));
 
             Mock<IRescureGroupsStorageContext<Breed>> mockSecondaryContext = new Mock<IRescureGroupsStorageContext<Breed>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<Breed>()));

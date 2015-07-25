@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Storage;
+using TOTD.Utility.EnumerableHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers
 {
     public class DashboardStatusCommandHandler<T> : IDashboardStatusCommandHandler<T> where T : class, IDataItem<T>
     {
-        private IAzureStorageContext<T> _target;
+        private ISqlStorageContext<T> _target;
         private IRescureGroupsStorageContext<T> _source;
 
-        public DashboardStatusCommandHandler(IAzureStorageContext<T> target, IRescureGroupsStorageContext<T> source)
+        public DashboardStatusCommandHandler(ISqlStorageContext<T> target, IRescureGroupsStorageContext<T> source)
         {
             this._source = source;
             this._target = target;
@@ -21,9 +22,20 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(DashboardStatusCommand<T> command)
         {
-            await _target.DeleteAllAsync();
+            IEnumerable<T> entities = await _target.GetAllAsync();
+            entities.NullSafeForEach((entity) =>
+            {
+                _target.Delete(entity);
+            });
+
             IEnumerable<T> data = await GetSourceItems(command, _source);
-            await _target.SaveAsync(data);
+            data.NullSafeForEach((entity) =>
+            {
+                _target.Add(entity);
+            });
+
+            await _target.SaveChangesAsync();
+
             return CommandResult.Success();
         }
 

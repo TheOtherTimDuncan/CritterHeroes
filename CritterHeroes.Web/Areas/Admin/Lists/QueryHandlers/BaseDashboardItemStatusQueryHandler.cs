@@ -11,10 +11,10 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
 {
     public abstract class BaseDashboardItemStatusQueryHandler<T> : IDashboardStatusQueryHandler<T> where T : class, IDataItem<T>
     {
-        private IAzureStorageContext<T> _target;
+        private ISqlStorageContext<T> _target;
         private IRescureGroupsStorageContext<T> _source;
 
-        public BaseDashboardItemStatusQueryHandler(IAzureStorageContext<T> target, IRescureGroupsStorageContext<T> source)
+        public BaseDashboardItemStatusQueryHandler(ISqlStorageContext<T> target, IRescureGroupsStorageContext<T> source)
         {
             this._source = source;
             this._target = target;
@@ -64,7 +64,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
             };
         }
 
-        protected virtual async Task<DataResult> GetTargetItems(DashboardStatusQuery<T> query, IStorageContext<T> storageContext)
+        protected virtual async Task<DataResult> GetTargetItems(DashboardStatusQuery<T> query, ISqlStorageContext<T> storageContext)
         {
             return new DataResult()
             {
