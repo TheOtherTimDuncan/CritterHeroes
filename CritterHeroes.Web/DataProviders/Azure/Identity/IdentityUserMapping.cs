@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
 {
     public class IdentityUserMapping
     {
-        public DynamicTableEntity ToStorage(AppUser user)
+        public DynamicTableEntity ToStorage(AzureAppUser user)
         {
             DynamicTableEntity entity = new DynamicTableEntity(user.Id, user.Id);
             entity["UserName"] = new EntityProperty(user.UserName);
@@ -28,14 +28,14 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return entity;
         }
 
-        public AppUser FromStorage(DynamicTableEntity entity)
+        public AzureAppUser FromStorage(DynamicTableEntity entity)
         {
             if (entity == null)
             {
                 return null;
             }
 
-            AppUser user = new AppUser(entity.PartitionKey, entity["UserName"].StringValue);
+            AzureAppUser user = new AzureAppUser(entity.PartitionKey, entity["UserName"].StringValue);
 
             user.PasswordHash = entity["PasswordHash"].StringValue;
             user.Email = entity["Email"].StringValue;

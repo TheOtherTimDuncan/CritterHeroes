@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
-            AppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AzureAppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 

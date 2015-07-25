@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ConfirmEmailModel command)
         {
-            AppUser user = await _appUserManager.FindByEmailAsync(command.Email);
+            AzureAppUser user = await _appUserManager.FindByEmailAsync(command.Email);
 
             if (user == null)
             {

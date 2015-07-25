@@ -40,7 +40,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileSecureModel command)
         {
-            AppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AzureAppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
             user.NewEmail = command.NewEmail;
             user.IsEmailConfirmed = false;
 

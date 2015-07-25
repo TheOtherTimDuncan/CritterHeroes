@@ -49,7 +49,7 @@ namespace CritterHeroes.Web.Middleware
                 {
                     // It must not exist so let's create it
                     IAppUserStore userStore = _dependencyResolver.GetService<IAppUserStore>();
-                    AppUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
+                    AzureAppUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
                     userContext = UserContext.FromUser(user);
 
                     // Cache the result in the response for the next request

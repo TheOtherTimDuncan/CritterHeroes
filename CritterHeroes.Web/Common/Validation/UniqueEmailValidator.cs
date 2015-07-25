@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Common.Validation
 
             if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
             {
-                AppUser dupeUser = await _userManager.FindByEmailAsync(email).ConfigureAwait(continueOnCapturedContext: false);
+                AzureAppUser dupeUser = await _userManager.FindByEmailAsync(email).ConfigureAwait(continueOnCapturedContext: false);
                 if (dupeUser != null)
                 {
                     return false;

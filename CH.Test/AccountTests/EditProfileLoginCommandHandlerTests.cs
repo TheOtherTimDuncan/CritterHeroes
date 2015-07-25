@@ -20,7 +20,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsFailedIfPasswordIsInvalid()
         {
-            AppUser user = new AppUser("email@email.com");
+            AzureAppUser user = new AzureAppUser("email@email.com");
 
             EditProfileLoginModel command = new EditProfileLoginModel()
             {
@@ -47,7 +47,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsSuccessIfPasswordIsValid()
         {
-            AppUser user = new AppUser("email@email.com");
+            AzureAppUser user = new AzureAppUser("email@email.com");
 
             EditProfileLoginModel command = new EditProfileLoginModel()
             {

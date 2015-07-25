@@ -36,7 +36,7 @@ namespace CH.Test.AccountTests
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AzureAppUser)null));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
@@ -59,7 +59,7 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            AppUser user = new AppUser(model.Email);
+            AzureAppUser user = new AzureAppUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -89,7 +89,7 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            AppUser user = new AppUser(model.Email);
+            AzureAppUser user = new AzureAppUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -129,7 +129,7 @@ namespace CH.Test.AccountTests
                 EmailAddress = "org@org.com"
             };
 
-            AppUser user = new AppUser(model.Email);
+            AzureAppUser user = new AzureAppUser(model.Email);
 
             EmailMessage emailMessage = null;
 

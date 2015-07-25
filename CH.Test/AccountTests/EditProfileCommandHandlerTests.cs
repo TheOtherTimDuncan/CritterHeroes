@@ -23,7 +23,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task EditProfileCommandUpdatesUser()
         {
-            AppUser user = new AppUser("email@email.com")
+            AzureAppUser user = new AzureAppUser("email@email.com")
             {
                 FirstName = null,
                 LastName = null

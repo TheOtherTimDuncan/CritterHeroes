@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileLoginModel command)
         {
-            AppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AzureAppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
 
             bool confirmed = await _userManager.CheckPasswordAsync(user, command.Password);
             if (confirmed)

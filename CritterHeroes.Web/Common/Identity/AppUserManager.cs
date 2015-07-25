@@ -11,7 +11,7 @@ using Microsoft.Owin.Security.DataProtection;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class AppUserManager : UserManager<AppUser>, IAppUserManager
+    public class AppUserManager : UserManager<AzureAppUser>, IAppUserManager
     {
         public AppUserManager(IAppUserStore store)
             : base(store)
@@ -25,7 +25,7 @@ namespace CritterHeroes.Web.Common.Identity
                 RequireUppercase = false,
             };
 
-            UserValidator = new UserValidator<AppUser, string>(this)
+            UserValidator = new UserValidator<AzureAppUser, string>(this)
             {
                 RequireUniqueEmail = true,
                 AllowOnlyAlphanumericUserNames = false
@@ -33,7 +33,7 @@ namespace CritterHeroes.Web.Common.Identity
 
             TokenLifespan = TimeSpan.FromHours(24);
             IDataProtectionProvider provider = new MachineKeyProtectionProvider();
-            UserTokenProvider = new DataProtectorTokenProvider<AppUser, string>(provider.Create("Critter Heroes"))
+            UserTokenProvider = new DataProtectorTokenProvider<AzureAppUser, string>(provider.Create("Critter Heroes"))
             {
                 TokenLifespan = this.TokenLifespan
             };
@@ -53,12 +53,12 @@ namespace CritterHeroes.Web.Common.Identity
             }
         }
 
-        public async Task<ClaimsIdentity> CreateIdentityAsync(AppUser user)
+        public async Task<ClaimsIdentity> CreateIdentityAsync(AzureAppUser user)
         {
             return await CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
-        public override async Task<ClaimsIdentity> CreateIdentityAsync(AppUser user, string authenticationType)
+        public override async Task<ClaimsIdentity> CreateIdentityAsync(AzureAppUser user, string authenticationType)
         {
             ClaimsIdentity identity = await base.CreateIdentityAsync(user, authenticationType);
 

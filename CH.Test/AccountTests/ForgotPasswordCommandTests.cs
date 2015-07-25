@@ -58,7 +58,7 @@ namespace CH.Test.AccountTests
                 ResetPasswordEmail = "email@email.com",
             };
 
-            AppUser user = new AppUser("unit.test")
+            AzureAppUser user = new AzureAppUser("unit.test")
             {
                 Email = command.ResetPasswordEmail
             };

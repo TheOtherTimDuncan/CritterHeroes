@@ -40,7 +40,7 @@ namespace CH.Test.Azure
         [TestMethod]
         public async Task TestCRUD()
         {
-            AppUser user = new AppUser("email@email.com")
+            AzureAppUser user = new AzureAppUser("email@email.com")
             {
                 PasswordHash = "passwordhash",
                 NewEmail = "new@new.com",
@@ -50,7 +50,7 @@ namespace CH.Test.Azure
             user.AddRole(IdentityRole.MasterAdmin);
             await userStore.CreateAsync(user);
 
-            AppUser result = await userStore.FindByIdAsync(user.Id);
+            AzureAppUser result = await userStore.FindByIdAsync(user.Id);
             result.Should().NotBeNull();
             result.UserName.Should().Be(user.UserName);
             result.PasswordHash.Should().Be(user.PasswordHash);
@@ -63,26 +63,26 @@ namespace CH.Test.Azure
             result.Roles.Should().HaveCount(1);
             result.Roles.First().ID.Should().Be(IdentityRole.MasterAdmin.ID);
 
-            AppUser second = await userStore.FindByNameAsync(user.Email);
+            AzureAppUser second = await userStore.FindByNameAsync(user.Email);
             second.Should().NotBeNull();
             second.UserName.Should().Be(user.UserName);
 
             second.Email = "new@new.com";
             await userStore.UpdateAsync(second);
 
-            AppUser updated = await userStore.FindByNameAsync(second.Email);
+            AzureAppUser updated = await userStore.FindByNameAsync(second.Email);
             updated.Should().NotBeNull();
             updated.Email.Should().Be(second.Email);
 
             await userStore.DeleteAsync(updated);
-            AppUser deleted = await userStore.FindByIdAsync(user.Id);
+            AzureAppUser deleted = await userStore.FindByIdAsync(user.Id);
             deleted.Should().BeNull();
         }
 
         [TestMethod]
         public void UsernameAndEmailAreTheSame()
         {
-            AppUser user = new AppUser("email@email.com");
+            AzureAppUser user = new AzureAppUser("email@email.com");
             user.Email.Should().Be("email@email.com");
             user.UserName.Should().Be(user.Email);
 
@@ -93,12 +93,12 @@ namespace CH.Test.Azure
         //[TestMethod]
         public async Task SeedUser()
         {
-            AppUser user = new AppUser("tduncan72@gmail.com");
+            AzureAppUser user = new AzureAppUser("tduncan72@gmail.com");
             user.IsEmailConfirmed = true;
             user.FirstName = "Tim";
             user.LastName = "Duncan";
             user.AddRole(IdentityRole.MasterAdmin);
-            UserManager<AppUser> userManager = new UserManager<AppUser>(userStore);
+            UserManager<AzureAppUser> userManager = new UserManager<AzureAppUser>(userStore);
             IdentityResult result = await userManager.CreateAsync(user, "testing");
         }
     }

@@ -64,7 +64,7 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void CanCreateItselfFromUser()
         {
-            AppUser user = new AppUser("unit.test")
+            AzureAppUser user = new AzureAppUser("unit.test")
             {
                 FirstName = "first",
                 LastName = "last"

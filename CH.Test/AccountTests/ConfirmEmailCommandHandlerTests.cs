@@ -29,7 +29,7 @@ namespace CH.Test.AccountTests
             };
 
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult<AppUser>(null));
+            mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult<AzureAppUser>(null));
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -44,7 +44,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsFailedIfConfirmEmailFails()
         {
-            AppUser user = new AppUser("email@email.com");
+            AzureAppUser user = new AzureAppUser("email@email.com");
 
             ConfirmEmailModel command = new ConfirmEmailModel()
             {
@@ -74,7 +74,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsSucceededIfConfirmEmailSucceeds()
         {
-            AppUser user = new AppUser("email@email.com")
+            AzureAppUser user = new AzureAppUser("email@email.com")
             {
                 NewEmail = "new@new.com"
             };

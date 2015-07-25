@@ -7,12 +7,12 @@ using Microsoft.AspNet.Identity;
 namespace CritterHeroes.Web.Contracts.Identity
 {
     public interface IAppUserStore :
-        IUserStore<AppUser>,
-        IUserPasswordStore<AppUser>,
-        IUserEmailStore<AppUser>,
-        IUserRoleStore<AppUser>,
-        IUserLockoutStore<AppUser, string>,
-        IUserTwoFactorStore<AppUser, string>
+        IUserStore<AzureAppUser>,
+        IUserPasswordStore<AzureAppUser>,
+        IUserEmailStore<AzureAppUser>,
+        IUserRoleStore<AzureAppUser>,
+        IUserLockoutStore<AzureAppUser, string>,
+        IUserTwoFactorStore<AzureAppUser, string>
     {
     }
 }

@@ -19,20 +19,20 @@ namespace CritterHeroes.Web.Contracts.Identity
             get;
         }
 
-        Task<AppUser> FindByEmailAsync(string email);
-        Task<AppUser> FindByIdAsync(string userID);
-        Task<AppUser> FindByNameAsync(string userName);
+        Task<AzureAppUser> FindByEmailAsync(string email);
+        Task<AzureAppUser> FindByIdAsync(string userID);
+        Task<AzureAppUser> FindByNameAsync(string userName);
 
-        Task<ClaimsIdentity> CreateIdentityAsync(AppUser user);
-        Task<ClaimsIdentity> CreateIdentityAsync(AppUser user, string authenticationType);
+        Task<ClaimsIdentity> CreateIdentityAsync(AzureAppUser user);
+        Task<ClaimsIdentity> CreateIdentityAsync(AzureAppUser user, string authenticationType);
 
         Task<string> GeneratePasswordResetTokenAsync(string userID);
         Task<IdentityResult> ResetPasswordAsync(string userID, string token, string newPassword);
-        Task<bool> CheckPasswordAsync(AppUser user, string password);
+        Task<bool> CheckPasswordAsync(AzureAppUser user, string password);
 
         Task<string> GenerateEmailConfirmationTokenAsync(string userId);
         Task<IdentityResult> ConfirmEmailAsync(string userId, string token);
 
-        Task<IdentityResult> UpdateAsync(AppUser user);
+        Task<IdentityResult> UpdateAsync(AzureAppUser user);
     }
 }

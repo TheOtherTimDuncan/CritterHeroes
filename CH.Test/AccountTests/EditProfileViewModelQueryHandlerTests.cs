@@ -22,7 +22,7 @@ namespace CH.Test.AccountTests
         {
             UserIDQuery query = new UserIDQuery();
 
-            AppUser user = new AppUser(query.UserID, "email@email.com")
+            AzureAppUser user = new AzureAppUser(query.UserID, "email@email.com")
             {
                 FirstName = "First",
                 LastName = "Last"

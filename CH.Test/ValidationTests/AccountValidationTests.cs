@@ -363,7 +363,7 @@ namespace CH.Test.ValidationTests
 
                 string email = "new@new.com";
 
-                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new AppUser(email)));
+                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new AzureAppUser(email)));
 
                 validator.ShouldHaveValidationErrorFor(x => x.NewEmail, email);
 

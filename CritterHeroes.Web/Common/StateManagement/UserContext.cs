@@ -5,7 +5,7 @@ namespace CritterHeroes.Web.Common.StateManagement
 {
     public class UserContext
     {
-        public static UserContext FromUser(AppUser user)
+        public static UserContext FromUser(AzureAppUser user)
         {
             return new UserContext()
             {

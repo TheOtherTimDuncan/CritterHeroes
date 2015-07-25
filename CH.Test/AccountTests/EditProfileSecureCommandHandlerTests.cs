@@ -30,7 +30,7 @@ namespace CH.Test.AccountTests
         {
             string email = "email@email.com";
 
-            AppUser user = new AppUser(email);
+            AzureAppUser user = new AzureAppUser(email);
 
             EditProfileSecureModel model = new EditProfileSecureModel()
             {

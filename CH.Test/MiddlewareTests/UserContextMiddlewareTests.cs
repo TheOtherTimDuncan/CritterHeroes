@@ -104,7 +104,7 @@ namespace CH.Test.MiddlewareTests
         [TestMethod]
         public async Task GetsUserContextFromStorageIfNotAlreadyCachedInRequestAndCachesContext()
         {
-            AppUser user = new AppUser("unit.test")
+            AzureAppUser user = new AzureAppUser("unit.test")
             {
                 FirstName = "First",
                 LastName = "Last"

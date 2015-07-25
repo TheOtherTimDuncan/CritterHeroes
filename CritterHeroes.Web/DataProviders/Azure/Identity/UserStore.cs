@@ -34,7 +34,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             private set;
         }
 
-        public async Task CreateAsync(AppUser user)
+        public async Task CreateAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -43,7 +43,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task DeleteAsync(AppUser user)
+        public async Task DeleteAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -53,7 +53,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task UpdateAsync(AppUser user)
+        public async Task UpdateAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -63,7 +63,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task<AppUser> FindByIdAsync(string userId)
+        public async Task<AzureAppUser> FindByIdAsync(string userId)
         {
             CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
@@ -75,7 +75,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return userMapping.FromStorage(entity);
         }
 
-        public async Task<AppUser> FindByNameAsync(string userName)
+        public async Task<AzureAppUser> FindByNameAsync(string userName)
         {
             CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
@@ -87,21 +87,21 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return userMapping.FromStorage(entity);
         }
 
-        public Task<string> GetPasswordHashAsync(AppUser user)
+        public Task<string> GetPasswordHashAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.PasswordHash);
         }
 
-        public Task<bool> HasPasswordAsync(AppUser user)
+        public Task<bool> HasPasswordAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.PasswordHash != null);
         }
 
-        public Task SetPasswordHashAsync(AppUser user, string passwordHash)
+        public Task SetPasswordHashAsync(AzureAppUser user, string passwordHash)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -109,7 +109,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public async Task<AppUser> FindByEmailAsync(string email)
+        public async Task<AzureAppUser> FindByEmailAsync(string email)
         {
             if (email.IsNullOrWhiteSpace())
             {
@@ -126,21 +126,21 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return userMapping.FromStorage(entity);
         }
 
-        public Task<string> GetEmailAsync(AppUser user)
+        public Task<string> GetEmailAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.Email);
         }
 
-        public Task<bool> GetEmailConfirmedAsync(AppUser user)
+        public Task<bool> GetEmailConfirmedAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.IsEmailConfirmed);
         }
 
-        public Task SetEmailAsync(AppUser user, string email)
+        public Task SetEmailAsync(AzureAppUser user, string email)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -148,7 +148,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public Task SetEmailConfirmedAsync(AppUser user, bool isConfirmed)
+        public Task SetEmailConfirmedAsync(AzureAppUser user, bool isConfirmed)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -156,7 +156,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public Task AddToRoleAsync(AppUser user, string roleName)
+        public Task AddToRoleAsync(AzureAppUser user, string roleName)
         {
             IdentityRole role = IdentityRole.All.FirstOrDefault(x => x.Name == roleName);
             if (role == null)
@@ -167,7 +167,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public Task<IList<string>> GetRolesAsync(AppUser user)
+        public Task<IList<string>> GetRolesAsync(AzureAppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -175,13 +175,13 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(result);
         }
 
-        public Task<bool> IsInRoleAsync(AppUser user, string roleName)
+        public Task<bool> IsInRoleAsync(AzureAppUser user, string roleName)
         {
             bool result = user.Roles.Any(x => x.Name == roleName);
             return Task.FromResult(result);
         }
 
-        public Task RemoveFromRoleAsync(AppUser user, string roleName)
+        public Task RemoveFromRoleAsync(AzureAppUser user, string roleName)
         {
             IdentityRole role = user.Roles.FirstOrDefault(x => x.Name == roleName);
             if (role != null)
@@ -209,47 +209,47 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await table.ExecuteAsync(tableOperation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public Task<int> GetAccessFailedCountAsync(AppUser user)
+        public Task<int> GetAccessFailedCountAsync(AzureAppUser user)
         {
             return Task.FromResult(0);
         }
 
-        public Task<bool> GetLockoutEnabledAsync(AppUser user)
+        public Task<bool> GetLockoutEnabledAsync(AzureAppUser user)
         {
             return Task.FromResult(false);
         }
 
-        public Task<DateTimeOffset> GetLockoutEndDateAsync(AppUser user)
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(AzureAppUser user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> IncrementAccessFailedCountAsync(AppUser user)
+        public Task<int> IncrementAccessFailedCountAsync(AzureAppUser user)
         {
             throw new NotImplementedException();
         }
 
-        public Task ResetAccessFailedCountAsync(AppUser user)
+        public Task ResetAccessFailedCountAsync(AzureAppUser user)
         {
             return Task.FromResult(0);
         }
 
-        public Task SetLockoutEnabledAsync(AppUser user, bool enabled)
+        public Task SetLockoutEnabledAsync(AzureAppUser user, bool enabled)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetLockoutEndDateAsync(AppUser user, DateTimeOffset lockoutEnd)
+        public Task SetLockoutEndDateAsync(AzureAppUser user, DateTimeOffset lockoutEnd)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> GetTwoFactorEnabledAsync(AppUser user)
+        public Task<bool> GetTwoFactorEnabledAsync(AzureAppUser user)
         {
             return Task.FromResult(false);
         }
 
-        public Task SetTwoFactorEnabledAsync(AppUser user, bool enabled)
+        public Task SetTwoFactorEnabledAsync(AzureAppUser user, bool enabled)
         {
             throw new NotImplementedException();
         }

@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
-            AppUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
+            AzureAppUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
 
             if (user == null)
             {

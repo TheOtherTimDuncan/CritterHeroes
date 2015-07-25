@@ -566,7 +566,7 @@
     <Compile Include="Common\Identity\AppUserManager.cs" />
     <Compile Include="Common\Identity\ClaimExtensions.cs" />
     <Compile Include="Common\Identity\IdentityRole.cs" />
-    <Compile Include="Common\Identity\AppUser.cs" />
+    <Compile Include="Common\Identity\AzureAppUser.cs" />
     <Compile Include="Common\Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />

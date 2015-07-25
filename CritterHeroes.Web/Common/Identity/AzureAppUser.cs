@@ -7,23 +7,23 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class AppUser : IUser
+    public class AzureAppUser : IUser
     {
         private List<IdentityRole> _roles = new List<IdentityRole>();
         private string _email;
 
-        public AppUser()
+        public AzureAppUser()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
-        public AppUser(string userID, string email)
+        public AzureAppUser(string userID, string email)
             : this(email)
         {
             this.Id = userID;
         }
 
-        public AppUser(string email)
+        public AzureAppUser(string email)
             : this()
         {
             ThrowIf.Argument.IsNull(email, "email");
