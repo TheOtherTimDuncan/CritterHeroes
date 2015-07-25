@@ -10,7 +10,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
 {
     public class AnimalStatusDashboardItemStatusQueryHandler : BaseDashboardItemStatusQueryHandler<AnimalStatus>
     {
-        public AnimalStatusDashboardItemStatusQueryHandler(ISqlStorageContext<AnimalStatus> source, IRescureGroupsStorageContext<AnimalStatus> target)
+        public AnimalStatusDashboardItemStatusQueryHandler(ISqlStorageContext<AnimalStatus> source, IRescueGroupsStorageContext<AnimalStatus> target)
             : base(source, target)
         {
         }

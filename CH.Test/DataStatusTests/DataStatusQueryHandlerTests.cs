@@ -39,7 +39,7 @@ namespace CH.Test.DataStatusTests
             Mock<ISqlStorageContext<AnimalStatus>> mockMasterContext = new Mock<ISqlStorageContext<AnimalStatus>>();
             mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable()));
 
-            Mock<IRescureGroupsStorageContext<AnimalStatus>> mockSecondaryContext = new Mock<IRescureGroupsStorageContext<AnimalStatus>>();
+            Mock<IRescueGroupsStorageContext<AnimalStatus>> mockSecondaryContext = new Mock<IRescueGroupsStorageContext<AnimalStatus>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<AnimalStatus>()));
 
             AnimalStatusDashboardItemStatusQueryHandler handler = new AnimalStatusDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object);
@@ -98,7 +98,7 @@ namespace CH.Test.DataStatusTests
             Mock<ISqlStorageContext<Breed>> mockMasterContext = new Mock<ISqlStorageContext<Breed>>();
             mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable()));
 
-            Mock<IRescureGroupsStorageContext<Breed>> mockSecondaryContext = new Mock<IRescureGroupsStorageContext<Breed>>();
+            Mock<IRescueGroupsStorageContext<Breed>> mockSecondaryContext = new Mock<IRescueGroupsStorageContext<Breed>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<Breed>()));
 
             BreedDashboardItemStatusQueryHandler handler = new BreedDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object);

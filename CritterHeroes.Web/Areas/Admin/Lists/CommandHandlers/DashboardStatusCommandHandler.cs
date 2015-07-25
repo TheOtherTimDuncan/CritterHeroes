@@ -12,9 +12,9 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers
     public class DashboardStatusCommandHandler<T> : IDashboardStatusCommandHandler<T> where T : class, IDataItem<T>
     {
         private ISqlStorageContext<T> _target;
-        private IRescureGroupsStorageContext<T> _source;
+        private IRescueGroupsStorageContext<T> _source;
 
-        public DashboardStatusCommandHandler(ISqlStorageContext<T> target, IRescureGroupsStorageContext<T> source)
+        public DashboardStatusCommandHandler(ISqlStorageContext<T> target, IRescueGroupsStorageContext<T> source)
         {
             this._source = source;
             this._target = target;

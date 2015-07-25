@@ -12,9 +12,9 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
     public abstract class BaseDashboardItemStatusQueryHandler<T> : IDashboardStatusQueryHandler<T> where T : class, IDataItem<T>
     {
         private ISqlStorageContext<T> _target;
-        private IRescureGroupsStorageContext<T> _source;
+        private IRescueGroupsStorageContext<T> _source;
 
-        public BaseDashboardItemStatusQueryHandler(ISqlStorageContext<T> target, IRescureGroupsStorageContext<T> source)
+        public BaseDashboardItemStatusQueryHandler(ISqlStorageContext<T> target, IRescueGroupsStorageContext<T> source)
         {
             this._source = source;
             this._target = target;
