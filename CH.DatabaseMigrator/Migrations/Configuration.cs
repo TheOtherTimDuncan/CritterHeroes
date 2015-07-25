@@ -4,6 +4,7 @@ namespace CH.DatabaseMigrator.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using CritterHeroes.Web.Data.Models.Identity;
     using EntityFramework.DatabaseMigrator.Migrations;
 
     internal sealed class Configuration : BaseMigrationConfiguration<CH.DatabaseMigrator.Migrations.MigrationsDataContext>
@@ -15,18 +16,20 @@ namespace CH.DatabaseMigrator.Migrations
 
         protected override void Seed(CH.DatabaseMigrator.Migrations.MigrationsDataContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            foreach (string role in UserRole.GetAll())
+            {
+                AppRole appRole = context.Roles.SingleOrDefault(x => x.Name == role);
+                if (appRole == null)
+                {
+                    appRole = new AppRole()
+                    {
+                        Name = role
+                    };
+                    context.Roles.Add(appRole);
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+                    Logger.Verbose("Added role " + role);
+                }
+            }
         }
     }
 }
