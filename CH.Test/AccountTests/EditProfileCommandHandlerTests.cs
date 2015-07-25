@@ -23,13 +23,13 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task EditProfileCommandUpdatesUser()
         {
-            IdentityUser user = new IdentityUser("email@email.com")
+            AppUser user = new AppUser("email@email.com")
             {
                 FirstName = null,
                 LastName = null
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 

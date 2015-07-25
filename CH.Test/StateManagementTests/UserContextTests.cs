@@ -64,7 +64,7 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void CanCreateItselfFromUser()
         {
-            IdentityUser user = new IdentityUser("unit.test")
+            AppUser user = new AppUser("unit.test")
             {
                 FirstName = "first",
                 LastName = "last"

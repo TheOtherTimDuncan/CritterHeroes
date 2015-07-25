@@ -13,10 +13,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileLoginCommandHandler : IAsyncCommandHandler<EditProfileLoginModel>
     {
-        private IApplicationUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public EditProfileLoginCommandHandler(IApplicationUserManager userManager, IHttpUser httpUser)
+        public EditProfileLoginCommandHandler(IAppUserManager userManager, IHttpUser httpUser)
         {
             this._userManager = userManager;
             this._httpUser = httpUser;
@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileLoginModel command)
         {
-            IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
 
             bool confirmed = await _userManager.CheckPasswordAsync(user, command.Password);
             if (confirmed)

@@ -9,9 +9,9 @@ using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class ApplicationSignInManager : SignInManager<IdentityUser, string>, IApplicationSignInManager
+    public class AppSignInManager : SignInManager<AppUser, string>, IAppSignInManager
     {
-        public ApplicationSignInManager(IApplicationUserManager userManager, IAuthenticationManager authenticationManager) :
+        public AppSignInManager(IAppUserManager userManager, IAuthenticationManager authenticationManager) :
             base(userManager.UserManager, authenticationManager)
         {
         }

@@ -18,11 +18,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordModel>
     {
         private IUserLogger _userLogger;
-        private IApplicationUserManager _appUserManager;
+        private IAppUserManager _appUserManager;
         private IEmailService _emailService;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
-            IdentityUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
+            AppUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
 
             if (user == null)
             {

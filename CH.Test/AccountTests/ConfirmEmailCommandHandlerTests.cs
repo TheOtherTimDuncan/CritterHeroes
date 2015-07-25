@@ -28,8 +28,8 @@ namespace CH.Test.AccountTests
                 Email = "email@email.com"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult<IdentityUser>(null));
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult<AppUser>(null));
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -44,7 +44,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsFailedIfConfirmEmailFails()
         {
-            IdentityUser user = new IdentityUser("email@email.com");
+            AppUser user = new AppUser("email@email.com");
 
             ConfirmEmailModel command = new ConfirmEmailModel()
             {
@@ -54,7 +54,7 @@ namespace CH.Test.AccountTests
 
             IdentityResult identityResult = IdentityResult.Failed("failed");
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode)).Returns(Task.FromResult(identityResult));
 
@@ -74,7 +74,7 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsSucceededIfConfirmEmailSucceeds()
         {
-            IdentityUser user = new IdentityUser("email@email.com")
+            AppUser user = new AppUser("email@email.com")
             {
                 NewEmail = "new@new.com"
             };
@@ -85,7 +85,7 @@ namespace CH.Test.AccountTests
                 ConfirmationCode = "code"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode)).Returns(Task.FromResult(IdentityResult.Success));
 

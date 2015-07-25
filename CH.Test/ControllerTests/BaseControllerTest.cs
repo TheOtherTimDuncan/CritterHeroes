@@ -32,11 +32,11 @@ namespace CH.Test.ControllerTests
         public Container container;
 
         public Mock<IUserLogger> mockUserLogger;
-        public Mock<IApplicationSignInManager> mockSignInManager;
-        public Mock<IApplicationUserManager> mockUserManager;
+        public Mock<IAppSignInManager> mockSignInManager;
+        public Mock<IAppUserManager> mockUserManager;
         public Mock<IUrlGenerator> mockUrlGenerator;
         public Mock<IEmailClient> mockEmailClient;
-        public Mock<IApplicationUserStore> mockUserStore;
+        public Mock<IAppUserStore> mockUserStore;
         public Mock<IAuthenticationManager> mockAuthenticationManager;
         public Mock<IHttpUser> mockHttpUser;
         public Mock<IOwinContext> mockOwinContext;
@@ -61,11 +61,11 @@ namespace CH.Test.ControllerTests
             mockUserLogger = new Mock<IUserLogger>();
             container.Register<IUserLogger>(() => mockUserLogger.Object);
 
-            mockSignInManager = new Mock<IApplicationSignInManager>();
-            container.Register<IApplicationSignInManager>(() => mockSignInManager.Object);
+            mockSignInManager = new Mock<IAppSignInManager>();
+            container.Register<IAppSignInManager>(() => mockSignInManager.Object);
 
-            mockUserManager = new Mock<IApplicationUserManager>();
-            container.Register<IApplicationUserManager>(() => mockUserManager.Object);
+            mockUserManager = new Mock<IAppUserManager>();
+            container.Register<IAppUserManager>(() => mockUserManager.Object);
 
             mockUrlGenerator = new Mock<IUrlGenerator>();
             container.Register<IUrlGenerator>(() => mockUrlGenerator.Object);
@@ -73,8 +73,8 @@ namespace CH.Test.ControllerTests
             mockEmailClient = new Mock<IEmailClient>();
             container.Register<IEmailClient>(() => mockEmailClient.Object);
 
-            mockUserStore = new Mock<IApplicationUserStore>();
-            container.Register<IApplicationUserStore>(() => mockUserStore.Object);
+            mockUserStore = new Mock<IAppUserStore>();
+            container.Register<IAppUserStore>(() => mockUserStore.Object);
 
             mockAuthenticationManager = new Mock<IAuthenticationManager>();
             container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);

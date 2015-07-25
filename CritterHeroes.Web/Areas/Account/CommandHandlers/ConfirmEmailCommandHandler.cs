@@ -17,10 +17,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class ConfirmEmailCommandHandler : IAsyncCommandHandler<ConfirmEmailModel>
     {
         private IUserLogger _userLogger;
-        private IApplicationUserManager _appUserManager;
+        private IAppUserManager _appUserManager;
         private IAuthenticationManager _authenticationManager;
 
-        public ConfirmEmailCommandHandler(IUserLogger userLogger, IApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public ConfirmEmailCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IAuthenticationManager authenticationManager)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ConfirmEmailModel command)
         {
-            IdentityUser user = await _appUserManager.FindByEmailAsync(command.Email);
+            AppUser user = await _appUserManager.FindByEmailAsync(command.Email);
 
             if (user == null)
             {

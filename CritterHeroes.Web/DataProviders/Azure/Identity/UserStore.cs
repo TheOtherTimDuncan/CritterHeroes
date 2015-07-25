@@ -13,7 +13,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Identity
 {
-    public class UserStore : IApplicationUserStore
+    public class UserStore : IAppUserStore
     {
         private IdentityUserMapping userMapping;
         private CloudStorageAccount _account;
@@ -34,7 +34,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             private set;
         }
 
-        public async Task CreateAsync(IdentityUser user)
+        public async Task CreateAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -43,7 +43,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task DeleteAsync(IdentityUser user)
+        public async Task DeleteAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -53,7 +53,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task UpdateAsync(IdentityUser user)
+        public async Task UpdateAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -63,7 +63,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await ExecuteTableOperation(operation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public async Task<IdentityUser> FindByIdAsync(string userId)
+        public async Task<AppUser> FindByIdAsync(string userId)
         {
             CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
@@ -75,7 +75,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return userMapping.FromStorage(entity);
         }
 
-        public async Task<IdentityUser> FindByNameAsync(string userName)
+        public async Task<AppUser> FindByNameAsync(string userName)
         {
             CloudTable table = await GetCloudTableAsync().ConfigureAwait(continueOnCapturedContext: false);
             DynamicTableEntity entity =
@@ -87,21 +87,21 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return userMapping.FromStorage(entity);
         }
 
-        public Task<string> GetPasswordHashAsync(IdentityUser user)
+        public Task<string> GetPasswordHashAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.PasswordHash);
         }
 
-        public Task<bool> HasPasswordAsync(IdentityUser user)
+        public Task<bool> HasPasswordAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.PasswordHash != null);
         }
 
-        public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
+        public Task SetPasswordHashAsync(AppUser user, string passwordHash)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -109,7 +109,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public async Task<IdentityUser> FindByEmailAsync(string email)
+        public async Task<AppUser> FindByEmailAsync(string email)
         {
             if (email.IsNullOrWhiteSpace())
             {
@@ -126,21 +126,21 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return userMapping.FromStorage(entity);
         }
 
-        public Task<string> GetEmailAsync(IdentityUser user)
+        public Task<string> GetEmailAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.Email);
         }
 
-        public Task<bool> GetEmailConfirmedAsync(IdentityUser user)
+        public Task<bool> GetEmailConfirmedAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
             return Task.FromResult(user.IsEmailConfirmed);
         }
 
-        public Task SetEmailAsync(IdentityUser user, string email)
+        public Task SetEmailAsync(AppUser user, string email)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -148,7 +148,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public Task SetEmailConfirmedAsync(IdentityUser user, bool isConfirmed)
+        public Task SetEmailConfirmedAsync(AppUser user, bool isConfirmed)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -156,7 +156,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public Task AddToRoleAsync(IdentityUser user, string roleName)
+        public Task AddToRoleAsync(AppUser user, string roleName)
         {
             IdentityRole role = IdentityRole.All.FirstOrDefault(x => x.Name == roleName);
             if (role == null)
@@ -167,7 +167,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(0);
         }
 
-        public Task<IList<string>> GetRolesAsync(IdentityUser user)
+        public Task<IList<string>> GetRolesAsync(AppUser user)
         {
             ThrowIf.Argument.IsNull(user, "user");
 
@@ -175,13 +175,13 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             return Task.FromResult(result);
         }
 
-        public Task<bool> IsInRoleAsync(IdentityUser user, string roleName)
+        public Task<bool> IsInRoleAsync(AppUser user, string roleName)
         {
             bool result = user.Roles.Any(x => x.Name == roleName);
             return Task.FromResult(result);
         }
 
-        public Task RemoveFromRoleAsync(IdentityUser user, string roleName)
+        public Task RemoveFromRoleAsync(AppUser user, string roleName)
         {
             IdentityRole role = user.Roles.FirstOrDefault(x => x.Name == roleName);
             if (role != null)
@@ -209,47 +209,47 @@ namespace CritterHeroes.Web.DataProviders.Azure.Identity
             await table.ExecuteAsync(tableOperation).ConfigureAwait(continueOnCapturedContext: false);
         }
 
-        public Task<int> GetAccessFailedCountAsync(IdentityUser user)
+        public Task<int> GetAccessFailedCountAsync(AppUser user)
         {
             return Task.FromResult(0);
         }
 
-        public Task<bool> GetLockoutEnabledAsync(IdentityUser user)
+        public Task<bool> GetLockoutEnabledAsync(AppUser user)
         {
             return Task.FromResult(false);
         }
 
-        public Task<DateTimeOffset> GetLockoutEndDateAsync(IdentityUser user)
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(AppUser user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> IncrementAccessFailedCountAsync(IdentityUser user)
+        public Task<int> IncrementAccessFailedCountAsync(AppUser user)
         {
             throw new NotImplementedException();
         }
 
-        public Task ResetAccessFailedCountAsync(IdentityUser user)
+        public Task ResetAccessFailedCountAsync(AppUser user)
         {
             return Task.FromResult(0);
         }
 
-        public Task SetLockoutEnabledAsync(IdentityUser user, bool enabled)
+        public Task SetLockoutEnabledAsync(AppUser user, bool enabled)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetLockoutEndDateAsync(IdentityUser user, DateTimeOffset lockoutEnd)
+        public Task SetLockoutEndDateAsync(AppUser user, DateTimeOffset lockoutEnd)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> GetTwoFactorEnabledAsync(IdentityUser user)
+        public Task<bool> GetTwoFactorEnabledAsync(AppUser user)
         {
             return Task.FromResult(false);
         }
 
-        public Task SetTwoFactorEnabledAsync(IdentityUser user, bool enabled)
+        public Task SetTwoFactorEnabledAsync(AppUser user, bool enabled)
         {
             throw new NotImplementedException();
         }

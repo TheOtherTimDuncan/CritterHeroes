@@ -29,7 +29,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IApplicationSignInManager> mockSignInManager = new Mock<IApplicationSignInManager>();
+            Mock<IAppSignInManager> mockSignInManager = new Mock<IAppSignInManager>();
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
             LoginCommandHandler command = new LoginCommandHandler(mockUserLogger.Object, mockSignInManager.Object);
@@ -52,7 +52,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IApplicationSignInManager> mockSignInManager = new Mock<IApplicationSignInManager>();
+            Mock<IAppSignInManager> mockSignInManager = new Mock<IAppSignInManager>();
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
 
             LoginCommandHandler command = new LoginCommandHandler(mockUserLogger.Object, mockSignInManager.Object);

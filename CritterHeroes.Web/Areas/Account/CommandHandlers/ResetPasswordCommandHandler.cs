@@ -22,13 +22,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ResetPasswordCommandHandler : IAsyncCommandHandler<ResetPasswordModel>
     {
-        private IApplicationUserManager _userManager;
-        private IApplicationSignInManager _signinManager;
+        private IAppUserManager _userManager;
+        private IAppSignInManager _signinManager;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
         private IStateManager<OrganizationContext> _organizationStateManager;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager, IApplicationUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAppUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;
@@ -39,7 +39,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
         {
-            IdentityUser identityUser = await _userManager.FindByEmailAsync(command.Email);
+            AppUser identityUser = await _userManager.FindByEmailAsync(command.Email);
             if (identityUser != null)
             {
                 IdentityResult identityResult = await _userManager.ResetPasswordAsync(identityUser.Id, command.Code, command.Password);

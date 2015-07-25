@@ -117,7 +117,7 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task GetEditProfileReturnsViewWithModel()
         {
-            IdentityUser user = new IdentityUser("email@email.com")
+            AppUser user = new AppUser("email@email.com")
             {
                 FirstName = "First",
                 LastName = "Last"
@@ -145,7 +145,7 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task PostEditProfileRedirectsToReturnUrlOnSuccess()
         {
-            IdentityUser user = new IdentityUser("email@email.com");
+            AppUser user = new AppUser("email@email.com");
 
             EditProfileModel model = new EditProfileModel()
             {
@@ -209,7 +209,7 @@ namespace CH.Test.ControllerTests
                 ResetPasswordEmail = "email@email.com"
             };
 
-            IdentityUser user = new IdentityUser(model.ResetPasswordEmail);
+            AppUser user = new AppUser(model.ResetPasswordEmail);
 
             mockUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
 
@@ -240,7 +240,7 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((IdentityUser)null));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
 
             AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
             ActionResult actionResult = await controller.ResetPassword(model);
@@ -258,7 +258,7 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            IdentityUser user = new IdentityUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
@@ -280,7 +280,7 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            IdentityUser user = new IdentityUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
@@ -306,7 +306,7 @@ namespace CH.Test.ControllerTests
                 Password = "password"
             };
 
-            IdentityUser user = new IdentityUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));

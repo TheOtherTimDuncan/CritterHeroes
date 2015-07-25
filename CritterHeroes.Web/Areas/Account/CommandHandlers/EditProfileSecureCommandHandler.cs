@@ -21,14 +21,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
     {
-        private IApplicationUserManager _userManager;
+        private IAppUserManager _userManager;
         private IUserLogger _userLogger;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
         private IEmailService _emailService;
 
-        public EditProfileSecureCommandHandler(IApplicationUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
+        public EditProfileSecureCommandHandler(IAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
         {
             this._userManager = userManager;
             this._userLogger = userLogger;
@@ -40,7 +40,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileSecureModel command)
         {
-            IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
             user.NewEmail = command.NewEmail;
             user.IsEmailConfirmed = false;
 

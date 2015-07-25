@@ -12,7 +12,7 @@ namespace CritterHeroes.Web.Common.Validation
 {
     public static class UniqueEmailValidatorExtensions
     {
-        public static IRuleBuilderOptions<T, string> MustHaveUniqueEmail<T>(this IRuleBuilder<T, string> ruleBuilder, IApplicationUserManager userManager, IHttpUser httpUser)
+        public static IRuleBuilderOptions<T, string> MustHaveUniqueEmail<T>(this IRuleBuilder<T, string> ruleBuilder, IAppUserManager userManager, IHttpUser httpUser)
         {
             return ruleBuilder.SetValidator(new UniqueEmailValidator(userManager, httpUser));
         }
@@ -20,10 +20,10 @@ namespace CritterHeroes.Web.Common.Validation
 
     public class UniqueEmailValidator : AsyncValidatorBase
     {
-        private IApplicationUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public UniqueEmailValidator(IApplicationUserManager userManager, IHttpUser httpUser)
+        public UniqueEmailValidator(IAppUserManager userManager, IHttpUser httpUser)
             : base("{PropertyName} must be unique.")
         {
             this._userManager = userManager;
@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Common.Validation
 
             if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
             {
-                IdentityUser dupeUser = await _userManager.FindByEmailAsync(email).ConfigureAwait(continueOnCapturedContext: false);
+                AppUser dupeUser = await _userManager.FindByEmailAsync(email).ConfigureAwait(continueOnCapturedContext: false);
                 if (dupeUser != null)
                 {
                     return false;

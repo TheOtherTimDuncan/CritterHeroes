@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace CritterHeroes.Web.Contracts.Identity
 {
-    public interface IApplicationSignInManager
+    public interface IAppSignInManager
     {
         Task<SignInStatus> PasswordSignInAsync(string userName, string password);
     }

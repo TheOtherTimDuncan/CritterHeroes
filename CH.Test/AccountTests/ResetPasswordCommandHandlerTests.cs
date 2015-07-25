@@ -35,8 +35,8 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((IdentityUser)null));
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
@@ -59,11 +59,11 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            IdentityUser user = new IdentityUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
@@ -89,15 +89,15 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            IdentityUser user = new IdentityUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
-            Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
+            Mock<IAppSignInManager> mockSigninManager = new Mock<IAppSignInManager>();
             mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, mockSigninManager.Object, mockUserManager.Object, null, null);
@@ -129,17 +129,17 @@ namespace CH.Test.AccountTests
                 EmailAddress = "org@org.com"
             };
 
-            IdentityUser user = new IdentityUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             EmailMessage emailMessage = null;
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
-            Mock<IApplicationSignInManager> mockSigninManager = new Mock<IApplicationSignInManager>();
+            Mock<IAppSignInManager> mockSigninManager = new Mock<IAppSignInManager>();
             mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
             Mock<IEmailClient> mockEmailClient = new Mock<IEmailClient>();

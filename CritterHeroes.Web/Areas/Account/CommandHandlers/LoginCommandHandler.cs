@@ -14,10 +14,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class LoginCommandHandler : IAsyncCommandHandler<LoginModel>
     {
-        private IApplicationSignInManager _signinManager;
+        private IAppSignInManager _signinManager;
         private IUserLogger _userLogger;
 
-        public LoginCommandHandler(IUserLogger userLogger, IApplicationSignInManager signinManager)
+        public LoginCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager)
         {
             this._signinManager = signinManager;
             this._userLogger = userLogger;

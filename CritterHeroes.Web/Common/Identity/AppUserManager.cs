@@ -11,9 +11,9 @@ using Microsoft.Owin.Security.DataProtection;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class ApplicationUserManager : UserManager<IdentityUser>, IApplicationUserManager
+    public class AppUserManager : UserManager<AppUser>, IAppUserManager
     {
-        public ApplicationUserManager(IApplicationUserStore store)
+        public AppUserManager(IAppUserStore store)
             : base(store)
         {
             PasswordValidator = new PasswordValidator()
@@ -25,7 +25,7 @@ namespace CritterHeroes.Web.Common.Identity
                 RequireUppercase = false,
             };
 
-            UserValidator = new UserValidator<IdentityUser, string>(this)
+            UserValidator = new UserValidator<AppUser, string>(this)
             {
                 RequireUniqueEmail = true,
                 AllowOnlyAlphanumericUserNames = false
@@ -33,7 +33,7 @@ namespace CritterHeroes.Web.Common.Identity
 
             TokenLifespan = TimeSpan.FromHours(24);
             IDataProtectionProvider provider = new MachineKeyProtectionProvider();
-            UserTokenProvider = new DataProtectorTokenProvider<IdentityUser, string>(provider.Create("Critter Heroes"))
+            UserTokenProvider = new DataProtectorTokenProvider<AppUser, string>(provider.Create("Critter Heroes"))
             {
                 TokenLifespan = this.TokenLifespan
             };
@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Common.Identity
             private set;
         }
 
-        public ApplicationUserManager UserManager
+        public AppUserManager UserManager
         {
             get
             {
@@ -53,12 +53,12 @@ namespace CritterHeroes.Web.Common.Identity
             }
         }
 
-        public async Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user)
+        public async Task<ClaimsIdentity> CreateIdentityAsync(AppUser user)
         {
             return await CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
-        public override async Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType)
+        public override async Task<ClaimsIdentity> CreateIdentityAsync(AppUser user, string authenticationType)
         {
             ClaimsIdentity identity = await base.CreateIdentityAsync(user, authenticationType);
 

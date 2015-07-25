@@ -22,7 +22,7 @@ namespace CH.Test.AccountTests
         {
             UserIDQuery query = new UserIDQuery();
 
-            IdentityUser user = new IdentityUser(query.UserID, "email@email.com")
+            AppUser user = new AppUser(query.UserID, "email@email.com")
             {
                 FirstName = "First",
                 LastName = "Last"
@@ -31,7 +31,7 @@ namespace CH.Test.AccountTests
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
-            Mock<IApplicationUserStore> mockUserStore = new Mock<IApplicationUserStore>();
+            Mock<IAppUserStore> mockUserStore = new Mock<IAppUserStore>();
             mockUserStore.Setup(x => x.FindByIdAsync(query.UserID)).Returns(Task.FromResult(user));
 
             EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpUser.Object, mockUserStore.Object);

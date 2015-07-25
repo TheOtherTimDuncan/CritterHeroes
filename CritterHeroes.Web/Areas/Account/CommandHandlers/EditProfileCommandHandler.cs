@@ -16,11 +16,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileCommandHandler : IAsyncCommandHandler<EditProfileModel>
     {
-        private IApplicationUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
 
-        public EditProfileCommandHandler(IApplicationUserManager userManager, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
+        public EditProfileCommandHandler(IAppUserManager userManager, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
         {
             this._userManager = userManager;
             this._httpUser = httpUser;
@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
-            IdentityUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 

@@ -30,14 +30,14 @@ namespace CH.Test.AccountTests
         {
             string email = "email@email.com";
 
-            IdentityUser user = new IdentityUser(email);
+            AppUser user = new AppUser(email);
 
             EditProfileSecureModel model = new EditProfileSecureModel()
             {
                 NewEmail = "new@new.com"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));

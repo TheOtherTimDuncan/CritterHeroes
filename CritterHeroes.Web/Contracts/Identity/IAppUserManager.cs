@@ -7,32 +7,32 @@ using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Contracts.Identity
 {
-    public interface IApplicationUserManager
+    public interface IAppUserManager
     {
         TimeSpan TokenLifespan
         {
             get;
         }
 
-        ApplicationUserManager UserManager
+        AppUserManager UserManager
         {
             get;
         }
 
-        Task<IdentityUser> FindByEmailAsync(string email);
-        Task<IdentityUser> FindByIdAsync(string userID);
-        Task<IdentityUser> FindByNameAsync(string userName);
+        Task<AppUser> FindByEmailAsync(string email);
+        Task<AppUser> FindByIdAsync(string userID);
+        Task<AppUser> FindByNameAsync(string userName);
 
-        Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user);
-        Task<ClaimsIdentity> CreateIdentityAsync(IdentityUser user, string authenticationType);
+        Task<ClaimsIdentity> CreateIdentityAsync(AppUser user);
+        Task<ClaimsIdentity> CreateIdentityAsync(AppUser user, string authenticationType);
 
         Task<string> GeneratePasswordResetTokenAsync(string userID);
         Task<IdentityResult> ResetPasswordAsync(string userID, string token, string newPassword);
-        Task<bool> CheckPasswordAsync(IdentityUser user, string password);
+        Task<bool> CheckPasswordAsync(AppUser user, string password);
 
         Task<string> GenerateEmailConfirmationTokenAsync(string userId);
         Task<IdentityResult> ConfirmEmailAsync(string userId, string token);
 
-        Task<IdentityResult> UpdateAsync(IdentityUser user);
+        Task<IdentityResult> UpdateAsync(AppUser user);
     }
 }

@@ -20,14 +20,14 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsFailedIfPasswordIsInvalid()
         {
-            IdentityUser user = new IdentityUser("email@email.com");
+            AppUser user = new AppUser("email@email.com");
 
             EditProfileLoginModel command = new EditProfileLoginModel()
             {
                 Password="password"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.CheckPasswordAsync(user, command.Password)).Returns(Task.FromResult(false));
 
@@ -47,14 +47,14 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsSuccessIfPasswordIsValid()
         {
-            IdentityUser user = new IdentityUser("email@email.com");
+            AppUser user = new AppUser("email@email.com");
 
             EditProfileLoginModel command = new EditProfileLoginModel()
             {
                 Password = "password"
             };
 
-            Mock<IApplicationUserManager> mockUserManager = new Mock<IApplicationUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.CheckPasswordAsync(user, command.Password)).Returns(Task.FromResult(true));
 

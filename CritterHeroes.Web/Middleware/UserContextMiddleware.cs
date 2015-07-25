@@ -48,8 +48,8 @@ namespace CritterHeroes.Web.Middleware
                 if (userContext == null)
                 {
                     // It must not exist so let's create it
-                    IApplicationUserStore userStore = _dependencyResolver.GetService<IApplicationUserStore>();
-                    IdentityUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
+                    IAppUserStore userStore = _dependencyResolver.GetService<IAppUserStore>();
+                    AppUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
                     userContext = UserContext.FromUser(user);
 
                     // Cache the result in the response for the next request

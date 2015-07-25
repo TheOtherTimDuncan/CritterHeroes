@@ -69,10 +69,10 @@ namespace CritterHeroes.Web.Areas.Account
 
     public class EditProfileSecureModelValidator : AbstractValidator<EditProfileSecureModel>
     {
-        private IApplicationUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public EditProfileSecureModelValidator(IApplicationUserManager storageContext, IHttpUser httpUser)
+        public EditProfileSecureModelValidator(IAppUserManager storageContext, IHttpUser httpUser)
         {
             this._userManager = storageContext;
             this._httpUser = httpUser;

@@ -316,12 +316,12 @@ namespace CH.Test.ValidationTests
     [TestClass]
     public class EditProfileSecureModelValidatorTests
     {
-        public Mock<IApplicationUserManager> mockUserManager;
+        public Mock<IAppUserManager> mockUserManager;
         public Mock<IHttpUser> mockHttpUser;
 
         public EditProfileSecureModelValidator GetValidator()
         {
-            mockUserManager = new Mock<IApplicationUserManager>();
+            mockUserManager = new Mock<IAppUserManager>();
 
             mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns("user.name");
@@ -363,7 +363,7 @@ namespace CH.Test.ValidationTests
 
                 string email = "new@new.com";
 
-                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new IdentityUser(email)));
+                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new AppUser(email)));
 
                 validator.ShouldHaveValidationErrorFor(x => x.NewEmail, email);
 

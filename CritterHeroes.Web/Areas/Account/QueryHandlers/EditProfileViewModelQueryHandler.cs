@@ -15,10 +15,10 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 {
     public class EditProfileViewModelQueryHandler : IAsyncQueryHandler<UserIDQuery, EditProfileModel>
     {
-        private IApplicationUserStore _userStore;
+        private IAppUserStore _userStore;
         private IHttpUser _httpUser;
 
-        public EditProfileViewModelQueryHandler(IHttpUser httpUser, IApplicationUserStore userStore)
+        public EditProfileViewModelQueryHandler(IHttpUser httpUser, IAppUserStore userStore)
         {
             this._userStore = userStore;
             this._httpUser = httpUser;
@@ -28,7 +28,7 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
         {
             EditProfileModel model = new EditProfileModel();
 
-            IdentityUser user = await _userStore.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userStore.FindByIdAsync(_httpUser.UserID);
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;
