@@ -636,9 +636,6 @@
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Identity\IdentityUserMapping.cs" />
     <Compile Include="DataProviders\Azure\Identity\UserStore.cs" />
-    <Compile Include="DataProviders\Azure\Storage\Data\AnimalStatusAzureStorageContext.cs" />
-    <Compile Include="DataProviders\Azure\Storage\Data\BaseDataAzureStorageContext.cs" />
-    <Compile Include="DataProviders\Azure\Storage\Data\BreedAzureStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureEmailLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />

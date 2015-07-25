@@ -34,24 +34,5 @@ namespace CH.Test
             });
             results.Any().Should().BeFalse(string.Join(Environment.NewLine, results.Select(x => x.Description)));
         }
-
-        [TestMethod]
-        public void DependencyContainerCanResolveMasterListDataContexts()
-        {
-            Container container = DIConfig.ConfigureDependencyContainer();
-            container.GetRegistration(typeof(IAzureStorageContext<Breed>)).Should().NotBeNull();
-        }
-
-        [TestMethod]
-        public void DependencyContainerCanResolveDashboardHandlers()
-        {
-            Container container = DIConfig.ConfigureDependencyContainer();
-            container.GetRegistration(typeof(IDashboardStatusQueryHandler<Breed>)).Should().NotBeNull();
-            container.GetRegistration(typeof(IDashboardStatusCommandHandler<AnimalStatus>)).Should().NotBeNull();
-
-            InstanceProducer producer = container.GetRegistration(typeof(IDashboardStatusCommandHandler<Breed>));
-            producer.Should().NotBeNull();
-            producer.Registration.ImplementationType.Should().Be(typeof(CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers.BreedDashboardStatusCommandHandler));
-        }
     }
 }
