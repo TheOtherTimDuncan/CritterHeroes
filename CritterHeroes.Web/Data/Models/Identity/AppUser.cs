@@ -8,6 +8,16 @@ namespace CritterHeroes.Web.Data.Models.Identity
 {
     public class AppUser : IdentityUser<int, AppUserLogin, AppUserRole, AppUserClaim>, IUser<int>
     {
+        protected AppUser()
+        {
+        }
+
+        public AppUser(string email)
+        {
+            this.UserName = email;
+            this.Email = email;
+        }
+
         public string FirstName
         {
             get;

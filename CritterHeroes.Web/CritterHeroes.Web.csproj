@@ -653,12 +653,14 @@
     <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Configurations\IdentityConfiguration.cs" />
     <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
     <Compile Include="Data\Contexts\AnimalStatusStorageContext.cs" />
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Contexts\BreedStorageContext.cs" />
+    <Compile Include="Data\Contexts\AppUserStorageContext.cs" />
     <Compile Include="Data\Contexts\SpeciesStorageContext.cs" />
     <Compile Include="Data\Models\Identity\AppRole.cs" />
     <Compile Include="Data\Models\Identity\AppUser.cs" />

@@ -9,12 +9,14 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Configurations;
+using CritterHeroes.Web.Data.Models.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using TOTD.EntityFramework;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
     [DbConfigurationType(typeof(EntityFrameworkConfiguration))]
-    public class BaseDbContext : DbContext
+    public class BaseDbContext : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
     {
         public BaseDbContext()
             : base("name=CritterHeroes")
@@ -34,6 +36,8 @@ namespace CritterHeroes.Web.Data.Contexts
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            IdentityConfiguration.ConfigureIdentity(modelBuilder);
 
             modelBuilder.Configurations.Add(new AnimalStatusConfiguration());
             modelBuilder.Configurations.Add(new BreedConfiguration());
