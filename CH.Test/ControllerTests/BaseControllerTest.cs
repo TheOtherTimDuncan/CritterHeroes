@@ -33,7 +33,7 @@ namespace CH.Test.ControllerTests
 
         public Mock<IUserLogger> mockUserLogger;
         public Mock<IAppSignInManager> mockSignInManager;
-        public Mock<IAzureAppUserManager> mockUserManager;
+        public Mock<IAzureAppUserManager> mockAzureUserManager;
         public Mock<IUrlGenerator> mockUrlGenerator;
         public Mock<IEmailClient> mockEmailClient;
         public Mock<IAzureAppUserStore> mockUserStore;
@@ -43,7 +43,7 @@ namespace CH.Test.ControllerTests
         public Mock<IEmailService> mockEmailService;
         public Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager;
         public Mock<IStateManager<UserContext>> mockUserContextManager;
-
+        public Mock<IAppUserManager> mockUserManager;
         public OrganizationContext organizationContext;
         public UserContext userContext;
 
@@ -64,8 +64,11 @@ namespace CH.Test.ControllerTests
             mockSignInManager = new Mock<IAppSignInManager>();
             container.Register<IAppSignInManager>(() => mockSignInManager.Object);
 
-            mockUserManager = new Mock<IAzureAppUserManager>();
-            container.Register<IAzureAppUserManager>(() => mockUserManager.Object);
+            mockAzureUserManager = new Mock<IAzureAppUserManager>();
+            container.Register<IAzureAppUserManager>(() => mockAzureUserManager.Object);
+
+            mockUserManager = new Mock<IAppUserManager>();
+            container.Register(() => mockUserManager.Object);
 
             mockUrlGenerator = new Mock<IUrlGenerator>();
             container.Register<IUrlGenerator>(() => mockUrlGenerator.Object);
