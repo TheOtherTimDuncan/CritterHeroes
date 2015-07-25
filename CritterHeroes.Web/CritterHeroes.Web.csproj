@@ -668,6 +668,8 @@
     <Compile Include="Data\Models\Identity\AppUserLogin.cs" />
     <Compile Include="Data\Models\Identity\AppUserRole.cs" />
     <Compile Include="Data\Models\Identity\UserRole.cs" />
+    <Compile Include="Data\Storage\AppRoleStore.cs" />
+    <Compile Include="Data\Storage\AppUserStore.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
