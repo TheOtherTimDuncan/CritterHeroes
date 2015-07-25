@@ -6,6 +6,10 @@ namespace CritterHeroes.Web.Data.Models
 {
     public class Species : BaseDataItem<Species>
     {
+        protected Species()
+        {
+        }
+
         public Species(string name, string singular, string plural, string youngSingular, string youngPlural)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, "name");

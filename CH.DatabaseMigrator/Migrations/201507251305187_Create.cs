@@ -29,12 +29,24 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Species);
             
+            CreateTable(
+                "dbo.Species",
+                c => new
+                    {
+                        Name = c.String(nullable: false, maxLength: 50),
+                        Singular = c.String(maxLength: 50),
+                        Plural = c.String(maxLength: 50),
+                        YoungSingular = c.String(maxLength: 50),
+                        YoungPlural = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Name);
         }
         
         public override void Down()
         {
             DropIndex("dbo.Breed", new[] { "Species" });
             DropIndex("dbo.AnimalStatus", new[] { "Name" });
+            DropTable("dbo.Species");
             DropTable("dbo.Breed");
             DropTable("dbo.AnimalStatus");
         }

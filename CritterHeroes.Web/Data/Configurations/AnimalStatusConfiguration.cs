@@ -17,7 +17,7 @@ namespace CritterHeroes.Web.Data.Configurations
             Property(x => x.Name).HasMaxLength(25).HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()
             {
                 IsUnique = true
-            })); ;
+            }));
             Property(x => x.Description).HasMaxLength(100);
         }
     }

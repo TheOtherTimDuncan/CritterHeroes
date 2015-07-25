@@ -652,11 +652,13 @@
     <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
     <Compile Include="Data\Contexts\AnimalStatusStorageContext.cs" />
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Contexts\BreedStorageContext.cs" />
+    <Compile Include="Data\Contexts\SpeciesStorageContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
