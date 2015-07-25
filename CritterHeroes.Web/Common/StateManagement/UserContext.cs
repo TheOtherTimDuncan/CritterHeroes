@@ -1,5 +1,6 @@
 ﻿using System;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Common.StateManagement
 {
@@ -10,6 +11,15 @@ namespace CritterHeroes.Web.Common.StateManagement
             return new UserContext()
             {
                 UserID = user.Id,
+                DisplayName = user.FirstName + " " + user.LastName
+            };
+        }
+
+        public static UserContext FromUser(AppUser user)
+        {
+            return new UserContext()
+            {
+                UserID = user.Id.ToString(),
                 DisplayName = user.FirstName + " " + user.LastName
             };
         }

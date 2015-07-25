@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Home;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
@@ -13,22 +12,22 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
     {
-        private IAzureAppUserManager _userManager;
+        private IAppUserManager _userManager;
         private IUserLogger _userLogger;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
         private IEmailService _emailService;
 
-        public EditProfileSecureCommandHandler(IAzureAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
+        public EditProfileSecureCommandHandler(IAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
         {
             this._userManager = userManager;
             this._userLogger = userLogger;
@@ -40,9 +39,9 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileSecureModel command)
         {
-            AzureAppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userManager.FindByNameAsync(_httpUser.Username);
             user.NewEmail = command.NewEmail;
-            user.IsEmailConfirmed = false;
+            user.EmailConfirmed = false;
 
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
             if (!identityResult.Succeeded)

@@ -13,6 +13,7 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
@@ -30,15 +31,15 @@ namespace CH.Test.AccountTests
         {
             string email = "email@email.com";
 
-            AzureAppUser user = new AzureAppUser(email);
+            AppUser user = new AppUser(email);
 
             EditProfileSecureModel model = new EditProfileSecureModel()
             {
                 NewEmail = "new@new.com"
             };
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
-            mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            mockUserManager.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));
 
@@ -46,7 +47,6 @@ namespace CH.Test.AccountTests
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns(user.Email);
-            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
 
@@ -60,9 +60,9 @@ namespace CH.Test.AccountTests
 
             user.Email.Should().Be(email);
             user.NewEmail.Should().Be(model.NewEmail);
-            user.IsEmailConfirmed.Should().BeFalse();
+            user.EmailConfirmed.Should().BeFalse();
 
-            mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
+            mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
 
             mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, email, It.IsAny<string>()), Times.Once);
