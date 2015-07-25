@@ -1,10 +1,14 @@
 namespace CH.DatabaseMigrator.Migrations
 {
     using System;
+    using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Threading.Tasks;
+    using CritterHeroes.Web.Common.Identity;
     using CritterHeroes.Web.Data.Models.Identity;
+    using CritterHeroes.Web.Data.Storage;
     using EntityFramework.DatabaseMigrator.Migrations;
 
     internal sealed class Configuration : BaseMigrationConfiguration<CH.DatabaseMigrator.Migrations.MigrationsDataContext>
@@ -16,6 +20,29 @@ namespace CH.DatabaseMigrator.Migrations
 
         protected override void Seed(CH.DatabaseMigrator.Migrations.MigrationsDataContext context)
         {
+            AppUserManager userManager = new AppUserManager(new AppUserStore(context));
+
+            string seedEmail = ConfigurationManager.AppSettings["SeedEmail"];
+            string seedPassword = ConfigurationManager.AppSettings["SeedPassword"];
+
+            AppUser appUser = context.Users.SingleOrDefault(x => x.UserName == seedEmail);
+            if (appUser == null)
+            {
+                appUser = new AppUser(seedEmail)
+                {
+                    FirstName = "Tim",
+                    LastName = "Duncan"
+                };
+                Task.WaitAll(userManager.CreateAsync(appUser, seedPassword));
+                Logger.Verbose("Created user for " + appUser.Email);
+            }
+
+            if (!userManager.IsInRoleAsync(appUser.Id, UserRole.MasterAdmin).Result)
+            {
+                Task.WaitAll(userManager.AddToRoleAsync(appUser.Id, UserRole.MasterAdmin));
+                Logger.Verbose("Added " + appUser.Email + " to role " + UserRole.MasterAdmin);
+            }
+
             foreach (string role in UserRole.GetAll())
             {
                 AppRole appRole = context.Roles.SingleOrDefault(x => x.Name == role);

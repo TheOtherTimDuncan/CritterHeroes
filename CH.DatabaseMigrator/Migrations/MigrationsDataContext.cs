@@ -5,7 +5,7 @@ using CritterHeroes.Web.Data.Contexts;
 
 namespace CH.DatabaseMigrator.Migrations
 {
-    public class MigrationsDataContext : BaseDbContext
+    public class MigrationsDataContext : AppUserStorageContext
     {
     }
 }
