@@ -24,6 +24,8 @@ using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Contexts;
+using CritterHeroes.Web.Data.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Identity;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
@@ -99,6 +101,10 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<IAzureAppUserStore, UserStore>();
             container.RegisterPerWebRequest<IAzureAppUserManager, AzureAppUserManager>();
             container.RegisterPerWebRequest<IAppSignInManager, AzureAppSignInManager>();
+
+            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), new WebRequestLifestyle());
+            container.RegisterPerWebRequest<IAppUserStore, AppUserStore>();
+            container.RegisterPerWebRequest<IAppUserManager, AppUserManager>();
         }
 
         public static void RegisterHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)
