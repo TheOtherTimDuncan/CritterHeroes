@@ -7,14 +7,14 @@ using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Contracts.Identity
 {
-    public interface IAppUserManager
+    public interface IAzureAppUserManager
     {
         TimeSpan TokenLifespan
         {
             get;
         }
 
-        AppUserManager UserManager
+        AzureAppUserManager UserManager
         {
             get;
         }

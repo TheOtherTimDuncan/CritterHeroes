@@ -12,7 +12,7 @@ namespace CritterHeroes.Web.Common.Validation
 {
     public static class UniqueEmailValidatorExtensions
     {
-        public static IRuleBuilderOptions<T, string> MustHaveUniqueEmail<T>(this IRuleBuilder<T, string> ruleBuilder, IAppUserManager userManager, IHttpUser httpUser)
+        public static IRuleBuilderOptions<T, string> MustHaveUniqueEmail<T>(this IRuleBuilder<T, string> ruleBuilder, IAzureAppUserManager userManager, IHttpUser httpUser)
         {
             return ruleBuilder.SetValidator(new UniqueEmailValidator(userManager, httpUser));
         }
@@ -20,10 +20,10 @@ namespace CritterHeroes.Web.Common.Validation
 
     public class UniqueEmailValidator : AsyncValidatorBase
     {
-        private IAppUserManager _userManager;
+        private IAzureAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public UniqueEmailValidator(IAppUserManager userManager, IHttpUser httpUser)
+        public UniqueEmailValidator(IAzureAppUserManager userManager, IHttpUser httpUser)
             : base("{PropertyName} must be unique.")
         {
             this._userManager = userManager;

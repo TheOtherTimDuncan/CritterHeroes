@@ -21,14 +21,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
     {
-        private IAppUserManager _userManager;
+        private IAzureAppUserManager _userManager;
         private IUserLogger _userLogger;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
         private IEmailService _emailService;
 
-        public EditProfileSecureCommandHandler(IAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
+        public EditProfileSecureCommandHandler(IAzureAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
         {
             this._userManager = userManager;
             this._userLogger = userLogger;

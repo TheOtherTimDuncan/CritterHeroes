@@ -11,9 +11,9 @@ using Microsoft.Owin.Security.DataProtection;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class AppUserManager : UserManager<AzureAppUser>, IAppUserManager
+    public class AzureAppUserManager : UserManager<AzureAppUser>, IAzureAppUserManager
     {
-        public AppUserManager(IAppUserStore store)
+        public AzureAppUserManager(IAzureAppUserStore store)
             : base(store)
         {
             PasswordValidator = new PasswordValidator()
@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Common.Identity
             private set;
         }
 
-        public AppUserManager UserManager
+        public AzureAppUserManager UserManager
         {
             get
             {

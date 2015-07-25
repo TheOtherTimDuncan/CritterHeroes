@@ -35,7 +35,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AzureAppUser)null));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null, null);
@@ -63,7 +63,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
@@ -93,7 +93,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
@@ -135,7 +135,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 

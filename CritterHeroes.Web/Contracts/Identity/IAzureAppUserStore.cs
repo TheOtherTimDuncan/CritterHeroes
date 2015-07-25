@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Contracts.Identity
 {
-    public interface IAppUserStore :
+    public interface IAzureAppUserStore :
         IUserStore<AzureAppUser>,
         IUserPasswordStore<AzureAppUser>,
         IUserEmailStore<AzureAppUser>,

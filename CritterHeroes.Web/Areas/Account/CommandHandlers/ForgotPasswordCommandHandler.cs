@@ -18,11 +18,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordModel>
     {
         private IUserLogger _userLogger;
-        private IAppUserManager _appUserManager;
+        private IAzureAppUserManager _appUserManager;
         private IEmailService _emailService;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IUserLogger userLogger, IAzureAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;

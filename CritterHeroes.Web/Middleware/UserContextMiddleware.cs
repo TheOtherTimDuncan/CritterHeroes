@@ -48,7 +48,7 @@ namespace CritterHeroes.Web.Middleware
                 if (userContext == null)
                 {
                     // It must not exist so let's create it
-                    IAppUserStore userStore = _dependencyResolver.GetService<IAppUserStore>();
+                    IAzureAppUserStore userStore = _dependencyResolver.GetService<IAzureAppUserStore>();
                     AzureAppUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
                     userContext = UserContext.FromUser(user);
 

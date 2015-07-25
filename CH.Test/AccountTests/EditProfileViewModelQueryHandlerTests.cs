@@ -31,7 +31,7 @@ namespace CH.Test.AccountTests
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
-            Mock<IAppUserStore> mockUserStore = new Mock<IAppUserStore>();
+            Mock<IAzureAppUserStore> mockUserStore = new Mock<IAzureAppUserStore>();
             mockUserStore.Setup(x => x.FindByIdAsync(query.UserID)).Returns(Task.FromResult(user));
 
             EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpUser.Object, mockUserStore.Object);

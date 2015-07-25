@@ -37,7 +37,7 @@ namespace CH.Test.AccountTests
                 NewEmail = "new@new.com"
             };
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));

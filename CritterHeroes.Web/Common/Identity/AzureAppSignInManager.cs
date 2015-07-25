@@ -9,9 +9,9 @@ using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class AppSignInManager : SignInManager<AzureAppUser, string>, IAppSignInManager
+    public class AzureAppSignInManager : SignInManager<AzureAppUser, string>, IAppSignInManager
     {
-        public AppSignInManager(IAppUserManager userManager, IAuthenticationManager authenticationManager) :
+        public AzureAppSignInManager(IAzureAppUserManager userManager, IAuthenticationManager authenticationManager) :
             base(userManager.UserManager, authenticationManager)
         {
         }

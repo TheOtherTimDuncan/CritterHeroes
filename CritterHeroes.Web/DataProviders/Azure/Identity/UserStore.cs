@@ -13,7 +13,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Identity
 {
-    public class UserStore : IAppUserStore
+    public class UserStore : IAzureAppUserStore
     {
         private IdentityUserMapping userMapping;
         private CloudStorageAccount _account;

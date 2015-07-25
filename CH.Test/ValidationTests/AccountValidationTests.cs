@@ -316,12 +316,12 @@ namespace CH.Test.ValidationTests
     [TestClass]
     public class EditProfileSecureModelValidatorTests
     {
-        public Mock<IAppUserManager> mockUserManager;
+        public Mock<IAzureAppUserManager> mockUserManager;
         public Mock<IHttpUser> mockHttpUser;
 
         public EditProfileSecureModelValidator GetValidator()
         {
-            mockUserManager = new Mock<IAppUserManager>();
+            mockUserManager = new Mock<IAzureAppUserManager>();
 
             mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns("user.name");

@@ -28,7 +28,7 @@ namespace CH.Test.AccountTests
                 Email = "email@email.com"
             };
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult<AzureAppUser>(null));
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
@@ -54,7 +54,7 @@ namespace CH.Test.AccountTests
 
             IdentityResult identityResult = IdentityResult.Failed("failed");
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode)).Returns(Task.FromResult(identityResult));
 
@@ -85,7 +85,7 @@ namespace CH.Test.AccountTests
                 ConfirmationCode = "code"
             };
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode)).Returns(Task.FromResult(IdentityResult.Success));
 

@@ -13,10 +13,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileLoginCommandHandler : IAsyncCommandHandler<EditProfileLoginModel>
     {
-        private IAppUserManager _userManager;
+        private IAzureAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public EditProfileLoginCommandHandler(IAppUserManager userManager, IHttpUser httpUser)
+        public EditProfileLoginCommandHandler(IAzureAppUserManager userManager, IHttpUser httpUser)
         {
             this._userManager = userManager;
             this._httpUser = httpUser;

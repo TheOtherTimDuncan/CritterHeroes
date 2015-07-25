@@ -22,13 +22,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ResetPasswordCommandHandler : IAsyncCommandHandler<ResetPasswordModel>
     {
-        private IAppUserManager _userManager;
+        private IAzureAppUserManager _userManager;
         private IAppSignInManager _signinManager;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
         private IStateManager<OrganizationContext> _organizationStateManager;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAppUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAzureAppUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;

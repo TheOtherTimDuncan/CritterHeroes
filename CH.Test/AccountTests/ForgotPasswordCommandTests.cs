@@ -36,7 +36,7 @@ namespace CH.Test.AccountTests
             };
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
 
@@ -68,7 +68,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.ResetPasswordEmail)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(code));
 

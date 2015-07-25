@@ -96,9 +96,9 @@ namespace CritterHeroes.Web
 
         public static void RegisterIdentityInterfaces(Container container)
         {
-            container.RegisterPerWebRequest<IAppUserStore, UserStore>();
-            container.RegisterPerWebRequest<IAppUserManager, AppUserManager>();
-            container.RegisterPerWebRequest<IAppSignInManager, AppSignInManager>();
+            container.RegisterPerWebRequest<IAzureAppUserStore, UserStore>();
+            container.RegisterPerWebRequest<IAzureAppUserManager, AzureAppUserManager>();
+            container.RegisterPerWebRequest<IAppSignInManager, AzureAppSignInManager>();
         }
 
         public static void RegisterHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)

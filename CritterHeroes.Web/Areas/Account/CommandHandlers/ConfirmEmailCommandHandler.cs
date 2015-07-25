@@ -17,10 +17,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class ConfirmEmailCommandHandler : IAsyncCommandHandler<ConfirmEmailModel>
     {
         private IUserLogger _userLogger;
-        private IAppUserManager _appUserManager;
+        private IAzureAppUserManager _appUserManager;
         private IAuthenticationManager _authenticationManager;
 
-        public ConfirmEmailCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IAuthenticationManager authenticationManager)
+        public ConfirmEmailCommandHandler(IUserLogger userLogger, IAzureAppUserManager userManager, IAuthenticationManager authenticationManager)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;

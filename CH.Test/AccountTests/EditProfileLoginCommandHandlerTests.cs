@@ -27,7 +27,7 @@ namespace CH.Test.AccountTests
                 Password="password"
             };
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.CheckPasswordAsync(user, command.Password)).Returns(Task.FromResult(false));
 
@@ -54,7 +54,7 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
             mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.CheckPasswordAsync(user, command.Password)).Returns(Task.FromResult(true));
 

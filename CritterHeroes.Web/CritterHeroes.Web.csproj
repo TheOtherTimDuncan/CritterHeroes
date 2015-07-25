@@ -562,8 +562,8 @@
     <Compile Include="Common\Email\EmailService.cs" />
     <Compile Include="Common\Email\ResetPasswordAttemptEmailCommandHandler.cs" />
     <Compile Include="Common\Email\ResetPasswordEmailCommandHandler.cs" />
-    <Compile Include="Common\Identity\AppSignInManager.cs" />
-    <Compile Include="Common\Identity\AppUserManager.cs" />
+    <Compile Include="Common\Identity\AzureAppSignInManager.cs" />
+    <Compile Include="Common\Identity\AzureAppUserManager.cs" />
     <Compile Include="Common\Identity\ClaimExtensions.cs" />
     <Compile Include="Common\Identity\IdentityRole.cs" />
     <Compile Include="Common\Identity\AzureAppUser.cs" />
@@ -623,8 +623,8 @@
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
     <Compile Include="Contracts\Identity\IAppSignInManager.cs" />
-    <Compile Include="Contracts\Identity\IAppUserManager.cs" />
-    <Compile Include="Contracts\Identity\IAppUserStore.cs" />
+    <Compile Include="Contracts\Identity\IAzureAppUserManager.cs" />
+    <Compile Include="Contracts\Identity\IAzureAppUserStore.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
     <Compile Include="Contracts\StateManagement\IStateManager.cs" />
     <Compile Include="Contracts\StateManagement\IStateSerializer.cs" />

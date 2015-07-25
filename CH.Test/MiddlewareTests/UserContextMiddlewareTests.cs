@@ -118,13 +118,13 @@ namespace CH.Test.MiddlewareTests
             Mock<IStateManager<UserContext>> mockStateManager = new Mock<IStateManager<UserContext>>();
             mockStateManager.Setup(x => x.GetContext()).Returns((UserContext)null);
 
-            Mock<IAppUserStore> mockUserStore = new Mock<IAppUserStore>();
+            Mock<IAzureAppUserStore> mockUserStore = new Mock<IAzureAppUserStore>();
             mockUserStore.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<UserContext>))).Returns(mockStateManager.Object);
-            mockResolver.Setup(x => x.GetService(typeof(IAppUserStore))).Returns(mockUserStore.Object);
+            mockResolver.Setup(x => x.GetService(typeof(IAzureAppUserStore))).Returns(mockUserStore.Object);
 
             Mock<IOwinContext> mockOwinContext = GetMockOwinContext();
             mockOwinContext.Setup(x => x.Request.User).Returns(principal);
@@ -141,7 +141,7 @@ namespace CH.Test.MiddlewareTests
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
             mockUserStore.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<UserContext>)), Times.Once);
-            mockResolver.Verify(x => x.GetService(typeof(IAppUserStore)), Times.Once);
+            mockResolver.Verify(x => x.GetService(typeof(IAzureAppUserStore)), Times.Once);
         }
 
         private Mock<IOwinContext> GetMockOwinContext()
