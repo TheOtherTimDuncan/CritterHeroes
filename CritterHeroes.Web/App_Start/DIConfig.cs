@@ -100,7 +100,7 @@ namespace CritterHeroes.Web
         {
             container.RegisterPerWebRequest<IAzureAppUserStore, UserStore>();
             container.RegisterPerWebRequest<IAzureAppUserManager, AzureAppUserManager>();
-            container.RegisterPerWebRequest<IAppSignInManager, AzureAppSignInManager>();
+            container.RegisterPerWebRequest<IAppSignInManager, AppSignInManager>();
 
             container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), new WebRequestLifestyle());
             container.RegisterPerWebRequest<IAppUserStore, AppUserStore>();

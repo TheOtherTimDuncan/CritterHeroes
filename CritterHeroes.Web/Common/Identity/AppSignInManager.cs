@@ -4,14 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Data.Models.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
 namespace CritterHeroes.Web.Common.Identity
 {
-    public class AzureAppSignInManager : SignInManager<AzureAppUser, string>, IAppSignInManager
+    public class AppSignInManager : SignInManager<AppUser, int>, IAppSignInManager
     {
-        public AzureAppSignInManager(IAzureAppUserManager userManager, IAuthenticationManager authenticationManager) :
+        public AppSignInManager(IAppUserManager userManager, IAuthenticationManager authenticationManager) :
             base(userManager.UserManager, authenticationManager)
         {
         }
