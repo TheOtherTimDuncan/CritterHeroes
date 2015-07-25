@@ -10,6 +10,7 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,19 +24,18 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task EditProfileCommandUpdatesUser()
         {
-            AzureAppUser user = new AzureAppUser("email@email.com")
+            AppUser user = new AppUser("email@email.com")
             {
                 FirstName = null,
                 LastName = null
             };
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
-            mockUserManager.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            mockUserManager.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns(user.Email);
-            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
 
@@ -53,7 +53,7 @@ namespace CH.Test.AccountTests
             user.FirstName.Should().Be(model.FirstName);
             user.LastName.Should().Be(model.LastName);
 
-            mockUserManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
+            mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
             mockUserContextManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
         }

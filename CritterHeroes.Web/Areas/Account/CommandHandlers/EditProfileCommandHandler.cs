@@ -4,23 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class EditProfileCommandHandler : IAsyncCommandHandler<EditProfileModel>
     {
-        private IAzureAppUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
 
-        public EditProfileCommandHandler(IAzureAppUserManager userManager, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
+        public EditProfileCommandHandler(IAppUserManager userManager, IHttpUser httpUser, IStateManager<UserContext> userContextManager)
         {
             this._userManager = userManager;
             this._httpUser = httpUser;
@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
-            AzureAppUser user = await _userManager.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userManager.FindByNameAsync(_httpUser.Username);
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
 
