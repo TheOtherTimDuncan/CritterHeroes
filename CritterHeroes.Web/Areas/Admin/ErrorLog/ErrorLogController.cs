@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Commands;
+using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Areas.Admin.ErrorLog
 {
-    [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
+    [Authorize(Roles = UserRole.MasterAdmin)]
     [Route("ErrorLog/{action=index}")]
     public class ErrorLogController : BaseAdminController
     {

@@ -6,17 +6,17 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
 using CritterHeroes.Web.Areas.Admin.Lists.Sources;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Json;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists
 {
-    [Authorize(Roles = IdentityRole.RoleNames.MasterAdmin)]
+    [Authorize(Roles = UserRole.MasterAdmin)]
     [Route("Lists/{action=index}")]
     public class ListsController : BaseAdminController
     {
