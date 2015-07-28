@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
@@ -22,13 +21,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ResetPasswordCommandHandler : IAsyncCommandHandler<ResetPasswordModel>
     {
-        private IAzureAppUserManager _userManager;
+        private IAppUserManager _userManager;
         private IAppSignInManager _signinManager;
         private IUserLogger _userLogger;
         private IEmailClient _emailClient;
         private IStateManager<OrganizationContext> _organizationStateManager;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAzureAppUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAppUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;
@@ -39,7 +38,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
         {
-            AzureAppUser identityUser = await _userManager.FindByEmailAsync(command.Email);
+            AppUser identityUser = await _userManager.FindByEmailAsync(command.Email);
             if (identityUser != null)
             {
                 IdentityResult identityResult = await _userManager.ResetPasswordAsync(identityUser.Id, command.Code, command.Password);

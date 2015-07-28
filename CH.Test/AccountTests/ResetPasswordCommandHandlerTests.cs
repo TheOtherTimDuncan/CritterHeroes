@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
@@ -35,8 +35,8 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AzureAppUser)null));
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null, null);
             CommandResult result = await handler.ExecuteAsync(model);
@@ -59,11 +59,11 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            AzureAppUser user = new AzureAppUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
@@ -89,11 +89,11 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
-            AzureAppUser user = new AzureAppUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
@@ -129,13 +129,13 @@ namespace CH.Test.AccountTests
                 EmailAddress = "org@org.com"
             };
 
-            AzureAppUser user = new AzureAppUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
             EmailMessage emailMessage = null;
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
