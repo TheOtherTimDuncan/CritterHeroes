@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Data.Contexts;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,7 +30,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<AnimalStatus> storageContext = new SqlStorageContext<AnimalStatus>())
             {
-                AnimalStatus result = await storageContext.GetAsync(x => x.ID == animalStatus.ID);
+                AnimalStatus result = await storageContext.FindByIDAsync(animalStatus.ID);
                 result.Should().NotBeNull();
 
                 result.Name.Should().Be(animalStatus.Name);
@@ -38,7 +39,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                AnimalStatus deleted = await storageContext.GetAsync(x => x.ID == animalStatus.ID);
+                AnimalStatus deleted = await storageContext.FindByIDAsync(animalStatus.ID);
                 deleted.Should().BeNull();
             }
         }

@@ -663,6 +663,9 @@
     </Compile>
     <Compile Include="Data\Contexts\AppUserStorageContext.cs" />
     <Compile Include="Data\Contexts\SqlStorageContext.cs" />
+    <Compile Include="Data\Extensions\AnimalStatusExtensions.cs" />
+    <Compile Include="Data\Extensions\BreedExtensions.cs" />
+    <Compile Include="Data\Extensions\SpeciesExtensions.cs" />
     <Compile Include="Data\Models\Identity\AppRole.cs" />
     <Compile Include="Data\Models\Identity\AppUser.cs" />
     <Compile Include="Data\Models\Identity\AppUserClaim.cs" />
