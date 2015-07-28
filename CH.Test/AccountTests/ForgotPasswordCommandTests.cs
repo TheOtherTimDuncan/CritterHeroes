@@ -8,13 +8,11 @@ using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,7 +34,7 @@ namespace CH.Test.AccountTests
             };
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
 
@@ -58,7 +56,7 @@ namespace CH.Test.AccountTests
                 ResetPasswordEmail = "email@email.com",
             };
 
-            AzureAppUser user = new AzureAppUser("unit.test")
+            AppUser user = new AppUser("unit.test")
             {
                 Email = command.ResetPasswordEmail
             };
@@ -68,7 +66,7 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
-            Mock<IAzureAppUserManager> mockUserManager = new Mock<IAzureAppUserManager>();
+            Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.ResetPasswordEmail)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(code));
 

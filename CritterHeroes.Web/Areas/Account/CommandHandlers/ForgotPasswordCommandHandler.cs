@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Home;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
@@ -18,11 +18,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordModel>
     {
         private IUserLogger _userLogger;
-        private IAzureAppUserManager _appUserManager;
+        private IAppUserManager _appUserManager;
         private IEmailService _emailService;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(IUserLogger userLogger, IAzureAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
         {
             this._userLogger = userLogger;
             this._appUserManager = userManager;
@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(ForgotPasswordModel command)
         {
-            AzureAppUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
+            AppUser user = await _appUserManager.FindByEmailAsync(command.ResetPasswordEmail);
 
             if (user == null)
             {

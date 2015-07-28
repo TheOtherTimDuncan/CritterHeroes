@@ -208,9 +208,9 @@ namespace CH.Test.ControllerTests
                 ResetPasswordEmail = "email@email.com"
             };
 
-            AzureAppUser user = new AzureAppUser(model.ResetPasswordEmail);
+            AppUser user = new AppUser(model.ResetPasswordEmail);
 
-            mockAzureUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
 
             AccountController controller = CreateController<AccountController>();
             controller.ControllerContext = CreateControllerContext(GetMockHttpContext(), controller);
@@ -224,8 +224,8 @@ namespace CH.Test.ControllerTests
             resultModel.Should().NotBeNull();
             resultModel.Succeeded.Should().BeTrue();
 
-            mockAzureUserManager.Verify(x => x.FindByEmailAsync(model.ResetPasswordEmail), Times.Once);
-            mockAzureUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.ResetPasswordEmail), Times.Once);
+            mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);
         }
