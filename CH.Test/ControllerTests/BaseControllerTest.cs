@@ -33,7 +33,6 @@ namespace CH.Test.ControllerTests
 
         public Mock<IUserLogger> mockUserLogger;
         public Mock<IAppSignInManager> mockSignInManager;
-        public Mock<IAzureAppUserManager> mockAzureUserManager;
         public Mock<IUrlGenerator> mockUrlGenerator;
         public Mock<IEmailClient> mockEmailClient;
         public Mock<IAzureAppUserStore> mockUserStore;
@@ -63,9 +62,6 @@ namespace CH.Test.ControllerTests
 
             mockSignInManager = new Mock<IAppSignInManager>();
             container.Register<IAppSignInManager>(() => mockSignInManager.Object);
-
-            mockAzureUserManager = new Mock<IAzureAppUserManager>();
-            container.Register<IAzureAppUserManager>(() => mockAzureUserManager.Object);
 
             mockUserManager = new Mock<IAppUserManager>();
             container.Register(() => mockUserManager.Object);
