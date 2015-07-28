@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Validation;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Storage;
 using FluentValidation;
-using FluentValidation.Results;
-using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Account
 {
@@ -69,12 +64,12 @@ namespace CritterHeroes.Web.Areas.Account
 
     public class EditProfileSecureModelValidator : AbstractValidator<EditProfileSecureModel>
     {
-        private IAzureAppUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public EditProfileSecureModelValidator(IAzureAppUserManager storageContext, IHttpUser httpUser)
+        public EditProfileSecureModelValidator(IAppUserManager userManager, IHttpUser httpUser)
         {
-            this._userManager = storageContext;
+            this._userManager = userManager;
             this._httpUser = httpUser;
 
             RuleFor(x => x.NewEmail)

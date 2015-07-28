@@ -4,12 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
-using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -316,12 +314,12 @@ namespace CH.Test.ValidationTests
     [TestClass]
     public class EditProfileSecureModelValidatorTests
     {
-        public Mock<IAzureAppUserManager> mockUserManager;
+        public Mock<IAppUserManager> mockUserManager;
         public Mock<IHttpUser> mockHttpUser;
 
         public EditProfileSecureModelValidator GetValidator()
         {
-            mockUserManager = new Mock<IAzureAppUserManager>();
+            mockUserManager = new Mock<IAppUserManager>();
 
             mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns("user.name");
@@ -363,7 +361,7 @@ namespace CH.Test.ValidationTests
 
                 string email = "new@new.com";
 
-                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new AzureAppUser(email)));
+                mockUserManager.Setup(x => x.FindByEmailAsync(email)).Returns(Task.FromResult(new AppUser(email)));
 
                 validator.ShouldHaveValidationErrorFor(x => x.NewEmail, email);
 

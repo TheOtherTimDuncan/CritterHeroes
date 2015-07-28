@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -15,12 +14,8 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Middleware;
-using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
@@ -239,13 +234,13 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            mockAzureUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AzureAppUser)null));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
 
             AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
             ActionResult actionResult = await controller.ResetPassword(model);
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
-            mockAzureUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
         }
 
         [TestMethod]
@@ -257,17 +252,17 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            AzureAppUser user = new AzureAppUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
-            mockAzureUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockAzureUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
 
             AccountController controller = CreateController<AccountController>();
             ActionResult actionResult = await controller.ResetPassword(model);
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
-            mockAzureUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockAzureUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
         }
 
         [TestMethod]
@@ -279,10 +274,10 @@ namespace CH.Test.ControllerTests
                 Code = "code"
             };
 
-            AzureAppUser user = new AzureAppUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
-            mockAzureUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockAzureUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
 
@@ -290,8 +285,8 @@ namespace CH.Test.ControllerTests
             ActionResult actionResult = await controller.ResetPassword(model);
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
-            mockAzureUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockAzureUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
         }
 
@@ -305,10 +300,10 @@ namespace CH.Test.ControllerTests
                 Password = "password"
             };
 
-            AzureAppUser user = new AzureAppUser(model.Email);
+            AppUser user = new AppUser(model.Email);
 
-            mockAzureUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockAzureUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
+            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
@@ -316,8 +311,8 @@ namespace CH.Test.ControllerTests
             ActionResult actionResult = await controller.ResetPassword(model);
 
             mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Email), Times.Once);
-            mockAzureUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockAzureUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
         }
     }
 }

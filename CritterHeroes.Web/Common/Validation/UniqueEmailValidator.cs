@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
+using CritterHeroes.Web.Data.Models.Identity;
 using FluentValidation;
 using FluentValidation.Validators;
 
@@ -12,7 +12,7 @@ namespace CritterHeroes.Web.Common.Validation
 {
     public static class UniqueEmailValidatorExtensions
     {
-        public static IRuleBuilderOptions<T, string> MustHaveUniqueEmail<T>(this IRuleBuilder<T, string> ruleBuilder, IAzureAppUserManager userManager, IHttpUser httpUser)
+        public static IRuleBuilderOptions<T, string> MustHaveUniqueEmail<T>(this IRuleBuilder<T, string> ruleBuilder, IAppUserManager userManager, IHttpUser httpUser)
         {
             return ruleBuilder.SetValidator(new UniqueEmailValidator(userManager, httpUser));
         }
@@ -20,10 +20,10 @@ namespace CritterHeroes.Web.Common.Validation
 
     public class UniqueEmailValidator : AsyncValidatorBase
     {
-        private IAzureAppUserManager _userManager;
+        private IAppUserManager _userManager;
         private IHttpUser _httpUser;
 
-        public UniqueEmailValidator(IAzureAppUserManager userManager, IHttpUser httpUser)
+        public UniqueEmailValidator(IAppUserManager userManager, IHttpUser httpUser)
             : base("{PropertyName} must be unique.")
         {
             this._userManager = userManager;
@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Common.Validation
 
             if (!_httpUser.Username.Equals(email, StringComparison.InvariantCultureIgnoreCase))
             {
-                AzureAppUser dupeUser = await _userManager.FindByEmailAsync(email).ConfigureAwait(continueOnCapturedContext: false);
+                AppUser dupeUser = await _userManager.FindByEmailAsync(email).ConfigureAwait(continueOnCapturedContext: false);
                 if (dupeUser != null)
                 {
                     return false;
