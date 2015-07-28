@@ -20,14 +20,14 @@ namespace CH.Test.EntityTests
 
             AnimalStatus animalStatus = new AnimalStatus(1, "name", "description");
 
-            using (AnimalStatusStorageContext storageContext = new AnimalStatusStorageContext())
+            using (SqlStorageContext<AnimalStatus> storageContext = new SqlStorageContext<AnimalStatus>())
             {
                 EntityTestHelper.FillWithTestData(storageContext, animalStatus, "ID");
                 storageContext.Add(animalStatus);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (AnimalStatusStorageContext storageContext = new AnimalStatusStorageContext())
+            using (SqlStorageContext<AnimalStatus> storageContext = new SqlStorageContext<AnimalStatus>())
             {
                 AnimalStatus result = await storageContext.GetAsync(x => x.ID == animalStatus.ID);
                 result.Should().NotBeNull();

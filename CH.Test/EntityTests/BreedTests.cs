@@ -20,14 +20,14 @@ namespace CH.Test.EntityTests
 
             Breed breed = new Breed(1, "species", "breed");
 
-            using (BreedStorageContext storageContext = new BreedStorageContext())
+            using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
             {
                 EntityTestHelper.FillWithTestData(storageContext, breed, "ID");
                 storageContext.Add(breed);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (BreedStorageContext storageContext = new BreedStorageContext())
+            using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
             {
                 Breed result = await storageContext.GetAsync(x => x.ID == breed.ID);
                 result.Should().NotBeNull();

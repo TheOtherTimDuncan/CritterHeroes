@@ -20,14 +20,14 @@ namespace CH.Test.EntityTests
 
             Species species = new Species("name", "singular", "plural", "youngsingular", "youngplural");
 
-            using (SpeciesStorageContext storageContext = new SpeciesStorageContext())
+            using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
             {
                 EntityTestHelper.FillWithTestData(storageContext, species);
                 storageContext.Add(species);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SpeciesStorageContext storageContext = new SpeciesStorageContext())
+            using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
             {
                 Species result = await storageContext.GetAsync(x => x.Name == species.Name);
                 result.Should().NotBeNull();
