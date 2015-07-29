@@ -656,6 +656,7 @@
     </Compile>
     <Compile Include="Data\Configurations\IdentityConfiguration.cs" />
     <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
+    <Compile Include="Data\Extensions\AppUserExtensions.cs" />
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>
     </Compile>

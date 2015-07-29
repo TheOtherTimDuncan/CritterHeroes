@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using CH.Test.Mocks;
 using CritterHeroes.Web;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
@@ -17,6 +18,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -45,6 +47,7 @@ namespace CH.Test.ControllerTests
         public Mock<IAppUserManager> mockUserManager;
         public OrganizationContext organizationContext;
         public UserContext userContext;
+        public MockSqlStorageContext<AppUser> mockAppUserStorageContext;
 
         public const string webAppPath = "/debug/";
 
@@ -94,6 +97,9 @@ namespace CH.Test.ControllerTests
 
             mockEmailService = new Mock<IEmailService>();
             container.Register(() => mockEmailService.Object);
+
+            mockAppUserStorageContext = new MockSqlStorageContext<AppUser>();
+            container.Register(() => mockAppUserStorageContext.Object);
 
             container.Register<INotificationPublisher, NotificationPublisher>();
         }

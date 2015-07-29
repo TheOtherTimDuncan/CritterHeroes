@@ -113,15 +113,15 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task GetEditProfileReturnsViewWithModel()
         {
-            AzureAppUser user = new AzureAppUser("email@email.com")
+            AppUser user = new AppUser("email@email.com")
             {
                 FirstName = "First",
                 LastName = "Last"
             };
 
-            mockUserStore.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
+            mockAppUserStorageContext.AddEntity(user);
 
-            mockHttpUser.Setup(x => x.UserID).Returns(user.Id);
+            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
 
             Mock<IHeaderDictionary> mockHeaderDictionary = new Mock<IHeaderDictionary>();
             string[] headerValue = new string[] { "http://google.com" };
@@ -134,8 +134,6 @@ namespace CH.Test.ControllerTests
             ViewResult viewResult = (ViewResult)await controller.EditProfile();
             viewResult.Model.Should().NotBeNull();
             viewResult.Model.Should().BeOfType<EditProfileModel>();
-
-            mockUserStore.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
         }
 
         [TestMethod]

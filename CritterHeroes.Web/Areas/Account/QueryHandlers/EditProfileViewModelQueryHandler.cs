@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.OwinExtensions;
 using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Queries;
-using Microsoft.Owin;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
+using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 {
     public class EditProfileViewModelQueryHandler : IAsyncQueryHandler<UserIDQuery, EditProfileModel>
     {
-        private IAzureAppUserStore _userStore;
+        private ISqlStorageContext<AppUser> _userStorageContext;
         private IHttpUser _httpUser;
 
-        public EditProfileViewModelQueryHandler(IHttpUser httpUser, IAzureAppUserStore userStore)
+        public EditProfileViewModelQueryHandler(IHttpUser httpUser, ISqlStorageContext<AppUser> userStorageContext)
         {
-            this._userStore = userStore;
+            this._userStorageContext = userStorageContext;
             this._httpUser = httpUser;
         }
 
@@ -28,12 +27,12 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
         {
             EditProfileModel model = new EditProfileModel();
 
-            AzureAppUser user = await _userStore.FindByIdAsync(_httpUser.UserID);
+            AppUser user = await _userStorageContext.FindByUsernameAsync(_httpUser.Username);
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;
 
-            if (!user.IsEmailConfirmed)
+            if (!user.EmailConfirmed)
             {
                 model.UnconfirmedEmail = user.NewEmail;
             }
