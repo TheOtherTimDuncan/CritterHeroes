@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
@@ -36,8 +37,7 @@ namespace CH.Test.DataStatusTests
 
             DashboardStatusQuery<AnimalStatus> query = new DashboardStatusQuery<AnimalStatus>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
 
-            Mock<ISqlStorageContext<AnimalStatus>> mockMasterContext = new Mock<ISqlStorageContext<AnimalStatus>>();
-            mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable()));
+            MockSqlStorageContext<AnimalStatus> mockMasterContext = new MockSqlStorageContext<AnimalStatus>(targetEntities);
 
             Mock<IRescueGroupsStorageContext<AnimalStatus>> mockSecondaryContext = new Mock<IRescueGroupsStorageContext<AnimalStatus>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<AnimalStatus>()));
@@ -95,8 +95,7 @@ namespace CH.Test.DataStatusTests
 
             DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
 
-            Mock<ISqlStorageContext<Breed>> mockMasterContext = new Mock<ISqlStorageContext<Breed>>();
-            mockMasterContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(targetEntities.AsEnumerable()));
+            MockSqlStorageContext<Breed> mockMasterContext = new MockSqlStorageContext<Breed>(targetEntities);
 
             Mock<IRescueGroupsStorageContext<Breed>> mockSecondaryContext = new Mock<IRescueGroupsStorageContext<Breed>>();
             mockSecondaryContext.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(sourceEntities.AsEnumerable<Breed>()));
