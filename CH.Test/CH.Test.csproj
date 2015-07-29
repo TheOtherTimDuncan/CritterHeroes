@@ -244,6 +244,7 @@
     <Compile Include="EntityTests\SpeciesTests.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
+    <Compile Include="Mocks\MockRescueGroupsStorageContext.cs" />
     <Compile Include="Mocks\MockSqlStorageContext.cs" />
     <Compile Include="Models\AnimalStatusTests.cs" />
     <Compile Include="Models\BreedTests.cs" />
