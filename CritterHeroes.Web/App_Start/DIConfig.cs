@@ -25,6 +25,7 @@ using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Data.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
@@ -60,6 +61,9 @@ namespace CritterHeroes.Web
             container.RegisterManyForOpenGeneric(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IEmailHandler<>), defaultAssemblies);
             container.RegisterOpenGeneric(typeof(ISqlStorageContext<>), typeof(SqlStorageContext<>), new WebRequestLifestyle());
+
+            // Override SqlStorageContext<> for the one entity it can't handle
+            container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(new WebRequestLifestyle());
 
             container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();
             container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
