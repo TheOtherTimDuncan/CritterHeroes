@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
+using CritterHeroes.Web.Data.Models.Identity;
 using Microsoft.Owin;
 using Owin;
 using TOTD.Utility.ExceptionHelpers;
@@ -16,7 +17,6 @@ namespace CritterHeroes.Web.Middleware
 {
     public static class UserContextMiddlewareExtensions
     {
-
         public static void UseUserContext(this IAppBuilder builder, IDependencyResolver dependencyResolver)
         {
             builder.Use<UserContextMiddleware>(dependencyResolver);
@@ -48,8 +48,8 @@ namespace CritterHeroes.Web.Middleware
                 if (userContext == null)
                 {
                     // It must not exist so let's create it
-                    IAzureAppUserStore userStore = _dependencyResolver.GetService<IAzureAppUserStore>();
-                    AzureAppUser user = await userStore.FindByIdAsync(context.Request.User.GetUserID());
+                    ISqlStorageContext<AppUser> userStorageContext = _dependencyResolver.GetService<ISqlStorageContext<AppUser>>();
+                    AppUser user = await userStorageContext.FindByUsernameAsync(context.Request.User.Identity.Name);
                     userContext = UserContext.FromUser(user);
 
                     // Cache the result in the response for the next request

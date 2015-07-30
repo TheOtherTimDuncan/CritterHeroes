@@ -5,11 +5,14 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Middleware;
 using FluentAssertions;
 using Microsoft.Owin;
@@ -104,27 +107,27 @@ namespace CH.Test.MiddlewareTests
         [TestMethod]
         public async Task GetsUserContextFromStorageIfNotAlreadyCachedInRequestAndCachesContext()
         {
-            AzureAppUser user = new AzureAppUser("unit.test")
+            AppUser user = new AppUser("unit.test")
             {
                 FirstName = "First",
                 LastName = "Last"
             };
 
             ClaimsIdentity identity = new ClaimsIdentity("cookie");
-            identity.AddClaim(new Claim(AppClaimTypes.UserID, user.Id));
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
             identity.IsAuthenticated.Should().BeTrue();
+            identity.Name.Should().Be(user.UserName);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
             Mock<IStateManager<UserContext>> mockStateManager = new Mock<IStateManager<UserContext>>();
             mockStateManager.Setup(x => x.GetContext()).Returns((UserContext)null);
 
-            Mock<IAzureAppUserStore> mockUserStore = new Mock<IAzureAppUserStore>();
-            mockUserStore.Setup(x => x.FindByIdAsync(user.Id)).Returns(Task.FromResult(user));
+            MockSqlStorageContext<AppUser> mockUserStorageContext = new MockSqlStorageContext<AppUser>(user);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<UserContext>))).Returns(mockStateManager.Object);
-            mockResolver.Setup(x => x.GetService(typeof(IAzureAppUserStore))).Returns(mockUserStore.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<AppUser>))).Returns(mockUserStorageContext.Object);
 
             Mock<IOwinContext> mockOwinContext = GetMockOwinContext();
             mockOwinContext.Setup(x => x.Request.User).Returns(principal);
@@ -139,9 +142,8 @@ namespace CH.Test.MiddlewareTests
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
-            mockUserStore.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<UserContext>)), Times.Once);
-            mockResolver.Verify(x => x.GetService(typeof(IAzureAppUserStore)), Times.Once);
+            mockResolver.Verify(x => x.GetService(typeof(ISqlStorageContext<AppUser>)), Times.Once);
         }
 
         private Mock<IOwinContext> GetMockOwinContext()
