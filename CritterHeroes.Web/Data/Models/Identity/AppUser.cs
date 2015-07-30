@@ -35,5 +35,31 @@ namespace CritterHeroes.Web.Data.Models.Identity
             get;
             set;
         }
+
+        public override string UserName
+        {
+            get
+            {
+                return base.UserName;
+            }
+            set
+            {
+                base.UserName = value;
+                base.Email = value;
+            }
+        }
+
+        public override string Email
+        {
+            get
+            {
+                return base.Email;
+            }
+            set
+            {
+                base.Email = value;
+                base.UserName = value;
+            }
+        }
     }
 }

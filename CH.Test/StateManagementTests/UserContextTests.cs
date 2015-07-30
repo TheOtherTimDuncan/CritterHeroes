@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -64,7 +64,7 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void CanCreateItselfFromUser()
         {
-            AzureAppUser user = new AzureAppUser("unit.test")
+            AppUser user = new AppUser("unit.test")
             {
                 FirstName = "first",
                 LastName = "last"

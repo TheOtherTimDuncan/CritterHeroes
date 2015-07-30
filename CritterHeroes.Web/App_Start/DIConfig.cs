@@ -27,7 +27,6 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
-using CritterHeroes.Web.DataProviders.Azure.Identity;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
@@ -98,9 +97,7 @@ namespace CritterHeroes.Web
 
         public static void RegisterIdentityInterfaces(Container container)
         {
-            container.RegisterPerWebRequest<IAzureAppUserStore, UserStore>();
             container.RegisterPerWebRequest<IAppSignInManager, AppSignInManager>();
-
             container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), new WebRequestLifestyle());
             container.RegisterPerWebRequest<IAppUserStore, AppUserStore>();
             container.RegisterPerWebRequest<IAppUserManager, AppUserManager>();

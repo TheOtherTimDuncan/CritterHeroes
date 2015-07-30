@@ -26,7 +26,7 @@ namespace CH.Test.EntityTests
 
             using (AppUserStorageContext userContext = new AppUserStorageContext())
             {
-                EntityTestHelper.FillWithTestData(userContext, appUser, "Id", "PasswordHash", "Email");
+                EntityTestHelper.FillWithTestData(userContext, appUser, "Id", "PasswordHash", "Email", "UserName");
 
                 userContext.Users.Add(appUser);
                 await userContext.SaveChangesAsync();
@@ -34,6 +34,7 @@ namespace CH.Test.EntityTests
                 AppUserManager userManager = new AppUserManager(new AppUserStore(userContext));
                 string token = await userManager.GeneratePasswordResetTokenAsync(appUser.Id);
                 IdentityResult resetResult = await userManager.ResetPasswordAsync(appUser.Id, token, password);
+                resetResult.Succeeded.Should().BeTrue(string.Join(", ", resetResult.Errors));
             }
 
             using (AppUserStorageContext userContext = new AppUserStorageContext())
@@ -50,6 +51,17 @@ namespace CH.Test.EntityTests
                 AppUserManager userManager = new AppUserManager(new AppUserStore(userContext));
                 (await userManager.CheckPasswordAsync(result, password)).Should().BeTrue();
             }
+        }
+
+        [TestMethod]
+        public void UsernameAndEmailAreTheSame()
+        {
+            AppUser user = new AppUser("email@email.com");
+            user.Email.Should().Be("email@email.com");
+            user.UserName.Should().Be(user.Email);
+
+            user.UserName = "new@new.com";
+            user.Email.Should().Be(user.UserName);
         }
     }
 }

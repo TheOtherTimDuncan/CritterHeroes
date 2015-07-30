@@ -566,7 +566,6 @@
     <Compile Include="Common\Identity\AppSignInManager.cs" />
     <Compile Include="Common\Identity\ClaimExtensions.cs" />
     <Compile Include="Common\Identity\IdentityRole.cs" />
-    <Compile Include="Common\Identity\AzureAppUser.cs" />
     <Compile Include="Common\Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />
@@ -625,7 +624,6 @@
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
     <Compile Include="Contracts\Identity\IAppSignInManager.cs" />
-    <Compile Include="Contracts\Identity\IAzureAppUserStore.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />
     <Compile Include="Contracts\StateManagement\IStateManager.cs" />
     <Compile Include="Contracts\StateManagement\IStateSerializer.cs" />
@@ -639,8 +637,6 @@
     <Compile Include="Contracts\Storage\IStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureException.cs" />
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />
-    <Compile Include="DataProviders\Azure\Identity\IdentityUserMapping.cs" />
-    <Compile Include="DataProviders\Azure\Identity\UserStore.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureEmailLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />
