@@ -23,7 +23,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, species);
+                EntityTestHelper.FillWithTestData(storageContext, species, "ID");
                 storageContext.Add(species);
                 await storageContext.SaveChangesAsync();
             }

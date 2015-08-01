@@ -23,6 +23,12 @@ namespace CritterHeroes.Web.Data.Models
             this.YoungSingular = youngSingular;
         }
 
+        public int ID
+        {
+            get;
+            private set;
+        }
+
         public string Name
         {
             get;

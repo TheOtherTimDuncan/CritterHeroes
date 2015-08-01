@@ -42,6 +42,7 @@ namespace CH.DatabaseMigrator.Migrations
                         FirstName = c.String(maxLength: 50),
                         LastName = c.String(maxLength: 50),
                         NewEmail = c.String(maxLength: 256),
+                        UserName = c.String(nullable: false, maxLength: 256),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -52,7 +53,6 @@ namespace CH.DatabaseMigrator.Migrations
                         LockoutEndDateUtc = c.DateTime(),
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
-                        UserName = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
@@ -113,13 +113,16 @@ namespace CH.DatabaseMigrator.Migrations
                 "dbo.Species",
                 c => new
                     {
+                        ID = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 50),
                         Singular = c.String(maxLength: 50),
                         Plural = c.String(maxLength: 50),
                         YoungSingular = c.String(maxLength: 50),
                         YoungPlural = c.String(maxLength: 50),
                     })
-                .PrimaryKey(t => t.Name);
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.Name, unique: true);
+
         }
 
         public override void Down()
@@ -128,6 +131,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserClaim", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserRole", "RoleId", "dbo.AppRole");
+            DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.Breed", new[] { "Species" });
             DropIndex("dbo.AnimalStatus", new[] { "Name" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
