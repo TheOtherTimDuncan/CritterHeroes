@@ -685,7 +685,7 @@
     <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Models\Logging\UserActions.cs" />
     <Compile Include="Models\Logging\UserLog.cs" />
-    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Data\Models\Organization.cs" />
     <Compile Include="Models\Status\DataItem.cs" />
     <Compile Include="Models\Status\StorageItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

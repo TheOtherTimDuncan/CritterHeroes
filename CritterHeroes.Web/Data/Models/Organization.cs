@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CritterHeroes.Web.Data.Models;
 
-namespace CritterHeroes.Web.Models
+namespace CritterHeroes.Web.Data.Models
 {
     public class Organization
     {

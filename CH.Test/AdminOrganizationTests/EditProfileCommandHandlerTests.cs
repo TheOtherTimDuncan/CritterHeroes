@@ -9,7 +9,7 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

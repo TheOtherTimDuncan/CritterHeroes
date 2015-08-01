@@ -7,7 +7,7 @@ using CritterHeroes.Web.Areas.Admin.Organizations.Queries;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
 {

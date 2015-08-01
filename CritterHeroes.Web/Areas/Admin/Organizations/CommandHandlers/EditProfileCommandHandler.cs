@@ -9,7 +9,7 @@ using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers
 {

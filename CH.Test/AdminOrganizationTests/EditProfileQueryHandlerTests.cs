@@ -7,7 +7,7 @@ using CritterHeroes.Web.Areas.Admin.Organizations.Queries;
 using CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
