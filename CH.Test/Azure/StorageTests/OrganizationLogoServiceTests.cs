@@ -12,6 +12,7 @@ using CritterHeroes.Web.DataProviders.Azure.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TOTD.Utility.Misc;
 
 namespace CH.Test.Azure.StorageTests
 {
@@ -30,7 +31,7 @@ namespace CH.Test.Azure.StorageTests
             };
 
             string filename = "logo.svg";
-            string filepath = @"C:\Users\Tim\Code\Projects\CritterHeroes\CH.Test\TestFiles\" + filename;
+            string filepath = Path.Combine(UnitTestHelper.GetSolutionRoot(), "CH.Test", "TestFiles", filename);
 
             AppConfiguration appConfiguration = new AppConfiguration();
             AzureConfiguration azureConfiguration = new AzureConfiguration();
