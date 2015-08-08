@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
@@ -39,13 +40,7 @@ namespace CH.Test.Azure.StorageTests
             Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
 
-            Mock<IStorageContext<Organization>> mockOrgStorageContext = new Mock<IStorageContext<Organization>>();
-            mockOrgStorageContext.Setup(x => x.GetAsync(org.ID.ToString())).Returns(Task.FromResult(org));
-            mockOrgStorageContext.Setup(x => x.SaveAsync(org)).Returns((Organization testorg) =>
-            {
-                testorg.LogoFilename.Should().Be(filename);
-                return Task.FromResult(0);
-            });
+            MockSqlStorageContext<Organization> mockOrgStorageContext = new MockSqlStorageContext<Organization>(org);
 
             OrganizationLogoService logoService = new OrganizationLogoService(mockOrgStateManager.Object, appConfiguration, azureConfiguration, mockOrgStorageContext.Object);
 
@@ -53,6 +48,10 @@ namespace CH.Test.Azure.StorageTests
             {
                 await logoService.SaveLogo(stream, filename, "image/svg+xml");
             }
+
+            org.LogoFilename.Should().Be(filename);
+
+            mockOrgStorageContext.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
     }
 }

@@ -6,6 +6,7 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -18,12 +19,12 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         private IAppConfiguration _appConfiguration;
         private IStateManager<OrganizationContext> _orgStateManager;
         private IAzureConfiguration _configuration;
-        private IStorageContext<Organization> _storageContext;
+        private ISqlStorageContext<Organization> _storageContext;
 
         private OrganizationContext _orgContext;
         private CloudBlobContainer _container;
 
-        public OrganizationLogoService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration, IStorageContext<Organization> storageContext)
+        public OrganizationLogoService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration, ISqlStorageContext<Organization> storageContext)
         {
             this._appConfiguration = appConfiguration;
             this._orgStateManager = orgStateManager;
@@ -50,7 +51,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 
         public async Task SaveLogo(Stream source, string filename, string contentType)
         {
-            Organization org = await _storageContext.GetAsync(OrganizationContext.OrganizationID.ToString());
+            Organization org = await _storageContext.FindByIDAsync(OrganizationContext.OrganizationID);
 
             CloudBlobContainer container = await GetContainer();
 
@@ -66,7 +67,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 
             // Update the organization with the filename
             org.LogoFilename = filename;
-            await _storageContext.SaveAsync(org);
+            await _storageContext.SaveChangesAsync();
 
             // Upload the new logo
             CloudBlockBlob blob = container.GetBlockBlobReference(filename.ToLower());

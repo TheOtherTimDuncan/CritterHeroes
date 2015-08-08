@@ -215,7 +215,6 @@
     <Compile Include="Azure\EmailLogTests.cs" />
     <Compile Include="Azure\StorageTests\EmailLogStorageTests.cs" />
     <Compile Include="Azure\StorageTests\OrganizationLogoServiceTests.cs" />
-    <Compile Include="Azure\StorageTests\OrganizationStorageTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
     <Compile Include="Azure\StorageTests\UserLogStorageEntityTests.cs" />
