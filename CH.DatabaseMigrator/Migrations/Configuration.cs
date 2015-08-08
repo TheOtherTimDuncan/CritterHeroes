@@ -7,6 +7,7 @@ namespace CH.DatabaseMigrator.Migrations
     using System.Linq;
     using System.Threading.Tasks;
     using CritterHeroes.Web.Common.Identity;
+    using CritterHeroes.Web.Data.Models;
     using CritterHeroes.Web.Data.Models.Identity;
     using CritterHeroes.Web.Data.Storage;
     using EntityFramework.DatabaseMigrator.Migrations;
@@ -56,6 +57,22 @@ namespace CH.DatabaseMigrator.Migrations
             {
                 Task.WaitAll(userManager.AddToRoleAsync(appUser.Id, UserRole.MasterAdmin));
                 Logger.Verbose("Added " + appUser.Email + " to role " + UserRole.MasterAdmin);
+            }
+
+            Guid fflah = Guid.Parse(ConfigurationManager.AppSettings["fflah"]);
+            Organization fflahOrg = context.Organizations.SingleOrDefault(x => x.ID == fflah);
+            if (fflahOrg == null)
+            {
+                fflahOrg = new Organization(fflah) {
+                    FullName = "Friends For Life Animal Haven",
+                    ShortName = "FFLAH",
+                    AzureName = "fflah",
+                    LogoFilename = "logo.svg",
+                    EmailAddress = "email@email.com"
+                };
+                context.Organizations.Add(fflahOrg);
+                context.SaveChanges();
+                Logger.Verbose("Added FFLAH organization");
             }
         }
     }

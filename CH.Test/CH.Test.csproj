@@ -240,6 +240,7 @@
     <Compile Include="EntityTests\AppUserTests.cs" />
     <Compile Include="EntityTests\BaseEntityTest.cs" />
     <Compile Include="EntityTests\BreedTests.cs" />
+    <Compile Include="EntityTests\OrganizationTests.cs" />
     <Compile Include="EntityTests\SpeciesTests.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
