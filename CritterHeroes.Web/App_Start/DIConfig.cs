@@ -25,7 +25,6 @@ using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
-using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Data.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
@@ -85,7 +84,6 @@ namespace CritterHeroes.Web
 
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();
-            container.Register<IStorageContext<Organization>, OrganizationAzureStorage>();
 
             container.RegisterManyForOpenGeneric(typeof(IValidator<>), defaultAssemblies);
 
