@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Organizations.Models;
 using CritterHeroes.Web.Areas.Admin.Organizations.Queries;
 using CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers;
@@ -32,8 +33,7 @@ namespace CH.Test.AdminOrganizationTests
             Mock<IAppConfiguration> mockAppConfiguration = new Mock<IAppConfiguration>();
             mockAppConfiguration.SetupGet(x => x.OrganizationID).Returns(org.ID);
 
-            Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
-            mockStorageContext.Setup(x => x.GetAsync(org.ID.ToString())).Returns(Task.FromResult(org));
+            MockSqlStorageContext<Organization> mockStorageContext = new MockSqlStorageContext<Organization>(org);
 
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(logoUrl);

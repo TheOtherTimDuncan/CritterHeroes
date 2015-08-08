@@ -7,6 +7,7 @@ using CritterHeroes.Web.Areas.Admin.Organizations.Queries;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
@@ -14,10 +15,10 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
     public class EditProfileQueryHandler : IAsyncQueryHandler<EditProfileQuery, EditProfileModel>
     {
         private IAppConfiguration _appConfiguration;
-        private IStorageContext<Organization> _storageContext;
+        private ISqlStorageContext<Organization> _storageContext;
         private IOrganizationLogoService _logoService;
 
-        public EditProfileQueryHandler(IAppConfiguration appConfiguration, IStorageContext<Organization> storageContext, IOrganizationLogoService logoService)
+        public EditProfileQueryHandler(IAppConfiguration appConfiguration, ISqlStorageContext<Organization> storageContext, IOrganizationLogoService logoService)
         {
             this._appConfiguration = appConfiguration;
             this._storageContext = storageContext;
@@ -26,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
 
         public async Task<EditProfileModel> RetrieveAsync(EditProfileQuery query)
         {
-            Organization org = await _storageContext.GetAsync(_appConfiguration.OrganizationID.ToString());
+            Organization org = await _storageContext.FindByIDAsync(_appConfiguration.OrganizationID);
             return new EditProfileModel()
             {
                 Name = org.FullName,
