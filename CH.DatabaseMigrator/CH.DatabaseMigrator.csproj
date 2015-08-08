@@ -89,11 +89,11 @@
     <Compile Include="Migrations\MigrationsDataContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="..\Configurations\ConnectionStrings.Migrations.config">
+    <None Include="..\.vs\Configurations\ConnectionStrings.Migrations.config">
       <Link>ConnectionStrings.Migrations.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="..\Configurations\MigrationAppSettings.config">
+    <None Include="..\.vs\Configurations\MigrationAppSettings.config">
       <Link>MigrationAppSettings.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -283,10 +283,10 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="..\Configurations\AppSettings.config">
+    <Content Include="..\.vs\Configurations\AppSettings.config">
       <Link>AppSettings.config</Link>
     </Content>
-    <Content Include="..\Configurations\RescueGroups.config">
+    <Content Include="..\.vs\Configurations\RescueGroups.config">
       <Link>RescueGroups.config</Link>
     </Content>
     <Content Include="Areas\_ViewStart.cshtml" />
@@ -431,7 +431,7 @@
     <Content Include="Scripts\dropzone\dropzone.min.js">
       <DependentUpon>dropzone.js</DependentUpon>
     </Content>
-    <Content Include="..\Configurations\ConnectionStrings.Local.config">
+    <Content Include="..\.vs\Configurations\ConnectionStrings.Local.config">
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

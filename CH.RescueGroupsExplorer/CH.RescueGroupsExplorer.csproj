@@ -82,7 +82,7 @@
     <EmbeddedResource Include="RescueGroupsExplorer.resx">
       <DependentUpon>RescueGroupsExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="..\Configurations\RescueGroups.config">
+    <None Include="..\.vs\Configurations\RescueGroups.config">
       <Link>RescueGroups.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

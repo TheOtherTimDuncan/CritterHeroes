@@ -278,10 +278,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Configurations\AppSettings.config">
+    <None Include="..\.vs\Configurations\AppSettings.config">
       <Link>AppSettings.config</Link>
     </None>
-    <None Include="..\Configurations\RescueGroups.config">
+    <None Include="..\.vs\Configurations\RescueGroups.config">
       <Link>RescueGroups.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

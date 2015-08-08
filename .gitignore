@@ -157,8 +157,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
-/Configurations/
-ConfigLinks.bat
+
 CritterHeroes.Web/Azure.config
 CritterHeroes.Web/RescueGroups.config
 CritterHeroes.Web/AppSettings.config
