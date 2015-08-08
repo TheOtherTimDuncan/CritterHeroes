@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers;
 using CritterHeroes.Web.Areas.Admin.Organizations.Models;
 using CritterHeroes.Web.Common.Commands;
@@ -34,8 +35,7 @@ namespace CH.Test.AdminOrganizationTests
             Mock<IAppConfiguration> mockAppConfiguration = new Mock<IAppConfiguration>();
             mockAppConfiguration.SetupGet(x => x.OrganizationID).Returns(org.ID);
 
-            Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
-            mockStorageContext.Setup(x => x.GetAsync(org.ID.ToString())).Returns(Task.FromResult(org));
+            MockSqlStorageContext<Organization> mockStorageContext = new MockSqlStorageContext<Organization>(org);
 
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
@@ -48,7 +48,7 @@ namespace CH.Test.AdminOrganizationTests
             org.ShortName.Should().Be(model.ShortName);
             org.EmailAddress.Should().Be(model.Email);
 
-            mockStorageContext.Verify(x => x.SaveAsync(org), Times.Once);
+            mockStorageContext.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
     }
 }
