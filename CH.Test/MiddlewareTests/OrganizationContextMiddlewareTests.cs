@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
@@ -71,8 +72,7 @@ namespace CH.Test.MiddlewareTests
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockStateManager.Setup(x => x.GetContext()).Returns((OrganizationContext)null);
 
-            Mock<IStorageContext<Organization>> mockStorageContext = new Mock<IStorageContext<Organization>>();
-            mockStorageContext.Setup(x => x.GetAsync(organization.ID.ToString())).Returns(Task.FromResult(organization));
+            MockSqlStorageContext<Organization> mockStorageContext = new MockSqlStorageContext<Organization>(organization);
 
             Mock<IAppConfiguration> mockConfiguration = new Mock<IAppConfiguration>();
             mockConfiguration.Setup(x => x.OrganizationID).Returns(organization.ID);
@@ -80,7 +80,7 @@ namespace CH.Test.MiddlewareTests
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<OrganizationContext>))).Returns(mockStateManager.Object);
-            mockResolver.Setup(x => x.GetService(typeof(IStorageContext<Organization>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Organization>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(IAppConfiguration))).Returns(mockConfiguration.Object);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
@@ -96,9 +96,8 @@ namespace CH.Test.MiddlewareTests
 
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<OrganizationContext>()), Times.Once);
-            mockStorageContext.Verify(x => x.GetAsync(organization.ID.ToString()), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<OrganizationContext>)), Times.Once);
-            mockResolver.Verify(x => x.GetService(typeof(IStorageContext<Organization>)), Times.Once);
+            mockResolver.Verify(x => x.GetService(typeof(ISqlStorageContext<Organization>)), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IAppConfiguration)), Times.Once);
         }
     }

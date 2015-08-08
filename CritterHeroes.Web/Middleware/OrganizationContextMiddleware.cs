@@ -7,6 +7,7 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using Microsoft.Owin;
 using Owin;
@@ -42,9 +43,9 @@ namespace CritterHeroes.Web.Middleware
             if (organizationContext == null)
             {
                 // It must not exist so let's create it
-                IStorageContext<Organization> storageContext = _dependencyResolver.GetService<IStorageContext<Organization>>();
+                ISqlStorageContext<Organization> storageContext = _dependencyResolver.GetService<ISqlStorageContext<Organization>>();
                 IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
-                Organization organization = await storageContext.GetAsync(appConfiguration.OrganizationID.ToString());
+                Organization organization = await storageContext.FindByIDAsync(appConfiguration.OrganizationID);
                 organizationContext = OrganizationContext.FromOrganization(organization);
 
                 // Cache the result in the response for the next request
