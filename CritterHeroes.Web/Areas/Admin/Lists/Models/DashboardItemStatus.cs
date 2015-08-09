@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CritterHeroes.Web.Models.Status;
 
-namespace CritterHeroes.Web.Models.Json
+namespace CritterHeroes.Web.Areas.Admin.Lists.Models
 {
     public class DashboardItemStatus
     {

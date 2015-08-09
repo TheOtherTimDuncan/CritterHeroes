@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Contracts.Dashboard;
-using CritterHeroes.Web.Models.Json;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Areas.Admin.Lists.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.Sources
 {

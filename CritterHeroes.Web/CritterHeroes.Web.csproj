@@ -514,8 +514,10 @@
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Lists\ListsController.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardItemModel.cs" />
+    <Compile Include="Areas\Admin\Lists\Models\DashboardItemStatus.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardModel.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardStorageItem.cs" />
+    <Compile Include="Areas\Admin\Lists\Models\DashboardStorageItemStatus.cs" />
     <Compile Include="Areas\Admin\Lists\Sources\AnimalStatusDataModelSource.cs" />
     <Compile Include="Areas\Admin\Lists\Sources\AzureStorageSource.cs" />
     <Compile Include="Areas\Admin\Lists\Sources\BreedDataModelSource.cs" />
@@ -683,8 +685,6 @@
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
     <Compile Include="Models\EmailMessage.cs" />
-    <Compile Include="Models\Json\DashboardItemStatus.cs" />
-    <Compile Include="Models\Json\DashboardStorageItemStatus.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Models\Logging\UserActions.cs" />
     <Compile Include="Models\Logging\UserLog.cs" />
