@@ -20,9 +20,9 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.Sources
         {
         }
 
-        public override async Task<DashboardItemStatus> GetDashboardItemStatusAsync(IDependencyResolver dependencyResolver, IStorageSource source, IStorageSource target, OrganizationContext organizationContext)
+        public override async Task<DashboardItemStatus> GetDashboardItemStatusAsync(IDependencyResolver dependencyResolver, IStorageSource source, IStorageSource target)
         {
-            DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(target, source, organizationContext);
+            DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(target, source);
             return await dependencyResolver.GetService<IDashboardStatusQueryHandler<Breed>>().RetrieveAsync(query);
         }
 

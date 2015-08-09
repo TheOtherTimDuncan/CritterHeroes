@@ -33,7 +33,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.Sources
             private set;
         }
 
-        public abstract Task<DashboardItemStatus> GetDashboardItemStatusAsync(IDependencyResolver dependencyResolver, IStorageSource source, IStorageSource target, OrganizationContext organizationContext);
+        public abstract Task<DashboardItemStatus> GetDashboardItemStatusAsync(IDependencyResolver dependencyResolver, IStorageSource source, IStorageSource target);
         public abstract Task<CommandResult> ExecuteSyncAsync(IDependencyResolver dependencyResolver, OrganizationContext organizationContext);
 
         public static DataModelSource FromID(int sourceID)

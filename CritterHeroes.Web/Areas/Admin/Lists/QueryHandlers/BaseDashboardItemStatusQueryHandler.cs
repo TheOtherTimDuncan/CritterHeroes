@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Json;
 using CritterHeroes.Web.Models.Status;
@@ -13,15 +15,25 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
     {
         private ISqlStorageContext<T> _target;
         private IRescueGroupsStorageContext<T> _source;
+        private IStateManager<OrganizationContext> _orgStateManager;
 
-        public BaseDashboardItemStatusQueryHandler(ISqlStorageContext<T> target, IRescueGroupsStorageContext<T> source)
+        public BaseDashboardItemStatusQueryHandler(ISqlStorageContext<T> target, IRescueGroupsStorageContext<T> source, IStateManager<OrganizationContext> orgStorageContext)
         {
             this._source = source;
             this._target = target;
+            this._orgStateManager = orgStorageContext;
+        }
+
+        protected OrganizationContext OrganizationContext
+        {
+            get;
+            private set;
         }
 
         public async Task<DashboardItemStatus> RetrieveAsync(DashboardStatusQuery<T> query)
         {
+            this.OrganizationContext = _orgStateManager.GetContext();
+
             IEnumerable<DataResult> dataResults = await Task.WhenAll(GetSourceItems(query, _source), GetTargetItems(query, _target));
 
             // Merge data items into single list with no duplicates

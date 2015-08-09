@@ -54,7 +54,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
             }
 
             OrganizationContext orgContext = _orgStateManager.GetContext();
-            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), orgContext);
+            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget());
             return Json(model);
         }
 
@@ -72,7 +72,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
 
             CommandResult commandResult = await modelSource.ExecuteSyncAsync(DependencyResolver.Current, orgContext);
 
-            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget(), orgContext);
+            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget());
             return Json(model);
         }
 

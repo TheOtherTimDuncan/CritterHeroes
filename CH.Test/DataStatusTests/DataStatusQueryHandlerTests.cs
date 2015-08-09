@@ -6,6 +6,7 @@ using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models.Json;
 using CritterHeroes.Web.Models.Status;
@@ -34,13 +35,16 @@ namespace CH.Test.DataStatusTests
             Mock<IStorageSource> mockTargetSource = new Mock<IStorageSource>();
             mockTargetSource.Setup(x => x.ID).Returns(2);
 
-            DashboardStatusQuery<AnimalStatus> query = new DashboardStatusQuery<AnimalStatus>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
+            DashboardStatusQuery<AnimalStatus> query = new DashboardStatusQuery<AnimalStatus>(mockTargetSource.Object, mockSourceSource.Object);
 
             MockSqlStorageContext<AnimalStatus> mockMasterContext = new MockSqlStorageContext<AnimalStatus>(targetEntities);
 
             MockRescueGroupsStorageContext<AnimalStatus> mockSecondaryContext = new MockRescueGroupsStorageContext<AnimalStatus>(sourceEntities);
 
-            AnimalStatusDashboardItemStatusQueryHandler handler = new AnimalStatusDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object);
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockStateManager.Setup(x => x.GetContext()).Returns(orgContext);
+
+            AnimalStatusDashboardItemStatusQueryHandler handler = new AnimalStatusDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object, mockStateManager.Object);
             DashboardItemStatus model = await handler.RetrieveAsync(query);
 
             model.DataItemCount.Should().Be(3);
@@ -91,13 +95,16 @@ namespace CH.Test.DataStatusTests
             Mock<IStorageSource> mockTargetSource = new Mock<IStorageSource>();
             mockTargetSource.Setup(x => x.ID).Returns(2);
 
-            DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(mockTargetSource.Object, mockSourceSource.Object, orgContext);
+            DashboardStatusQuery<Breed> query = new DashboardStatusQuery<Breed>(mockTargetSource.Object, mockSourceSource.Object);
 
             MockSqlStorageContext<Breed> mockMasterContext = new MockSqlStorageContext<Breed>(targetEntities);
 
             MockRescueGroupsStorageContext<Breed> mockSecondaryContext = new MockRescueGroupsStorageContext<Breed>(sourceEntities);
 
-            BreedDashboardItemStatusQueryHandler handler = new BreedDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object);
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockStateManager.Setup(x => x.GetContext()).Returns(orgContext);
+
+            BreedDashboardItemStatusQueryHandler handler = new BreedDashboardItemStatusQueryHandler(mockMasterContext.Object, mockSecondaryContext.Object, mockStateManager.Object);
             DashboardItemStatus model = await handler.RetrieveAsync(query);
 
             model.DataItemCount.Should().Be(3);
