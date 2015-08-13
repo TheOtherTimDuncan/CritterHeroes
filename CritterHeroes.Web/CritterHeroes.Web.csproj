@@ -512,6 +512,8 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
+    <Compile Include="Areas\Admin\Lists\DataMappers\DataSources.cs" />
     <Compile Include="Areas\Admin\Lists\ListsController.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardItemModel.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardItemStatus.cs" />
@@ -579,6 +581,7 @@
     <Compile Include="Common\StateManagement\PageStateManager.cs" />
     <Compile Include="Common\Validation\UniqueEmailValidator.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
+    <Compile Include="Contracts\Dashboard\IDataMapper.cs" />
     <Compile Include="Contracts\Email\IEmailHandler.cs" />
     <Compile Include="Contracts\Email\IEmailService.cs" />
     <Compile Include="Contracts\Identity\IAppUserManager.cs" />
