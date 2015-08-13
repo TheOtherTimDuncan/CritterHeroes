@@ -261,7 +261,6 @@
     <Compile Include="MiddlewareTests\OrganizationContextMiddlewareTests.cs" />
     <Compile Include="MiddlewareTests\UserContextMiddlewareTests.cs" />
     <Compile Include="RescueGroups\MappingTests\BreedMappingTests.cs" />
-    <Compile Include="RescueGroups\MappingTests\AnimalStatusMappingTests.cs" />
     <Compile Include="RescueGroups\MappingTests\SpeciesMappingTests.cs" />
     <Compile Include="RescueGroups\ConfigurationTests.cs" />
     <Compile Include="StateManagementTests\BaseContextTest.cs" />
