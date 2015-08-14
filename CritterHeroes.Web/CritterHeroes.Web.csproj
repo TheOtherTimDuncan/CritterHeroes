@@ -651,7 +651,9 @@
     <Compile Include="DataProviders\Azure\Storage\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\BreedSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
+    <Compile Include="DataProviders\RescueGroups\Storage\BreedSourceRescueGroupsStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterStatusRescueGroupsStorage.cs" />
     <Compile Include="Data\Configurations\AnimalStatusConfiguration.cs" />
     <Compile Include="Data\Configurations\BreedConfiguration.cs" />

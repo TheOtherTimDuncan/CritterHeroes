@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
@@ -12,7 +11,7 @@ using Newtonsoft.Json.Linq;
 namespace CH.Test.RescueGroups
 {
     [TestClass]
-    public class CritterStatusTests : BaseTest
+    public class CritterStatusSourceTests : BaseTest
     {
         [TestMethod]
         public void ObjectTypeIsCorrect()
@@ -45,13 +44,6 @@ namespace CH.Test.RescueGroups
             result2.Should().NotBeNull();
             result2.Name.Should().Be(critterStatus2.Name);
             result2.Description.Should().Be(critterStatus2.Description);
-        }
-
-        //[TestMethod]
-        public async Task TestGetAnimalStatus()
-        {
-            AnimalStatusRescueGroupsStorage storage = new AnimalStatusRescueGroupsStorage(new RescueGroupsConfiguration());
-            (await storage.GetAllAsync()).ToList().Should().NotBeEmpty();
         }
     }
 }
