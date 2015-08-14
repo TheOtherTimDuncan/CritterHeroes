@@ -16,7 +16,7 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new CritterStatusRescueGroupsStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalStatuses");
+            new CritterStatusSourceStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalStatuses");
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace CH.Test.RescueGroups
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<CritterStatusSource> critterStatuses = new CritterStatusRescueGroupsStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
+            IEnumerable<CritterStatusSource> critterStatuses = new CritterStatusSourceStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
             critterStatuses.Should().HaveCount(2);
 
             CritterStatusSource result1 = critterStatuses.FirstOrDefault(x => x.ID == critterStatus1.ID);

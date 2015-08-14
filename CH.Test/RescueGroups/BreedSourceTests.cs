@@ -16,7 +16,7 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new BreedSourceRescueGroupsStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalBreeds");
+            new BreedSourceStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalBreeds");
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace CH.Test.RescueGroups.MappingTests
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<BreedSource> animalBreeds = new BreedSourceRescueGroupsStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
+            IEnumerable<BreedSource> animalBreeds = new BreedSourceStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
             animalBreeds.Should().HaveCount(2);
 
             BreedSource result1 = animalBreeds.FirstOrDefault(x => x.ID == breedSource1.ID);

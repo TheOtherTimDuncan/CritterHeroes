@@ -7,9 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public class CritterStatusRescueGroupsStorage : RescueGroupsStorage<CritterStatusSource>
+    public class BreedSourceStorage : RescueGroupsStorage<BreedSource>
     {
-        public CritterStatusRescueGroupsStorage(IRescueGroupsConfiguration configuration)
+        public BreedSourceStorage(IRescueGroupsConfiguration configuration)
             : base(configuration)
         {
         }
@@ -18,7 +18,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get
             {
-                return "animalStatuses";
+                return "animalBreeds";
             }
         }
 
@@ -30,9 +30,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        public override IEnumerable<CritterStatusSource> FromStorage(IEnumerable<JProperty> tokens)
+        public override IEnumerable<BreedSource> FromStorage(IEnumerable<JProperty> tokens)
         {
-            return tokens.Select(x => new CritterStatusSource(x.Name, x.Value.Value<string>("name"), x.Value.Value<string>("description")));
+            return tokens.Select(x => new BreedSource(x.Name, x.Value.Value<string>("species"), x.Value.Value<string>("name")));
         }
     }
 }
