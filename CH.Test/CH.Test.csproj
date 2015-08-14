@@ -262,7 +262,7 @@
     <Compile Include="MiddlewareTests\UserContextMiddlewareTests.cs" />
     <Compile Include="RescueGroups\BreedSourceTests.cs" />
     <Compile Include="RescueGroups\CritterStatusSourceTests.cs" />
-    <Compile Include="RescueGroups\MappingTests\SpeciesMappingTests.cs" />
+    <Compile Include="RescueGroups\SpeciesSourceTests.cs" />
     <Compile Include="RescueGroups\ConfigurationTests.cs" />
     <Compile Include="StateManagementTests\BaseContextTest.cs" />
     <Compile Include="StateManagementTests\OrganizationContextTests.cs" />

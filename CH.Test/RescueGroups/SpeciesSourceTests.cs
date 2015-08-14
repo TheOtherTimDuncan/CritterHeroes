@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
-namespace CH.Test.RescueGroups.MappingTests
+namespace CH.Test.RescueGroups
 {
     [TestClass]
     public class SpeciesMappingTests : BaseTest
@@ -18,14 +17,14 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new SpeciesRescueGroupsStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalSpecies");
+            new SpeciesSourceStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalSpecies");
         }
 
         [TestMethod]
         public void ConvertsJsonResultToModel()
         {
-            Species species1 = new Species("1", "singular-1", "plural-1", "singular-young-1", "plural-young=1");
-            Species species2 = new Species("2", "singular-2", "plural-2", "singular-young-2", "plural-young=2");
+            SpeciesSource species1 = new SpeciesSource("1", "singular-1", "plural-1", "singular-young-1", "plural-young=1");
+            SpeciesSource species2 = new SpeciesSource("2", "singular-2", "plural-2", "singular-young-2", "plural-young=2");
 
             JProperty element1 = new JProperty("1", new JObject(
                 new JProperty("speciesSingular", species1.Singular),
@@ -46,30 +45,22 @@ namespace CH.Test.RescueGroups.MappingTests
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<Species> species = new SpeciesRescueGroupsStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
+            IEnumerable<SpeciesSource> species = new SpeciesSourceStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
             species.Should().HaveCount(2);
 
-            Species result1 = species.FirstOrDefault(x => x.Name == species1.Name);
+            SpeciesSource result1 = species.FirstOrDefault(x => x.Name == species1.Name);
             result1.Should().NotBeNull();
             result1.Singular.Should().Be(species1.Singular);
             result1.Plural.Should().Be(species1.Plural);
             result1.YoungSingular.Should().Be(species1.YoungSingular);
             result1.YoungPlural.Should().Be(species1.YoungPlural);
 
-            Species result2 = species.FirstOrDefault(x => x.Name == species2.Name);
+            SpeciesSource result2 = species.FirstOrDefault(x => x.Name == species2.Name);
             result2.Should().NotBeNull();
             result2.Singular.Should().Be(species2.Singular);
             result2.Plural.Should().Be(species2.Plural);
             result2.YoungSingular.Should().Be(result2.YoungSingular);
             result2.YoungPlural.Should().Be(result2.YoungPlural);
         }
-
-        [TestMethod]
-        public async Task TestGetSpecies()
-        {
-            SpeciesRescueGroupsStorage storage = new SpeciesRescueGroupsStorage(new RescueGroupsConfiguration());
-            (await storage.GetAllAsync()).ToList().Should().NotBeEmpty();
-        }
-
     }
 }
