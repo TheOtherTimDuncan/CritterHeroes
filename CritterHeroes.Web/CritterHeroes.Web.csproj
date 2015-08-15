@@ -513,6 +513,7 @@
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
+    <Compile Include="Areas\Admin\Lists\DataMappers\CritterStatusMapper.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\DataSources.cs" />
     <Compile Include="Areas\Admin\Lists\ListsController.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DashboardItemModel.cs" />
