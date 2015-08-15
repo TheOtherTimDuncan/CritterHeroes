@@ -210,6 +210,7 @@
     <Compile Include="ActionResultTests\RedirectToPreviousTests.cs" />
     <Compile Include="AdminDataMapperTests\BaseDataMapperTest.cs" />
     <Compile Include="AdminDataMapperTests\CritterStatusTests.cs" />
+    <Compile Include="AdminDataMapperTests\SpeciesTests.cs" />
     <Compile Include="AdminOrganizationTests\EditProfileCommandHandlerTests.cs" />
     <Compile Include="AdminOrganizationTests\EditProfileQueryHandlerTests.cs" />
     <Compile Include="Azure\BaseAzureTest.cs" />

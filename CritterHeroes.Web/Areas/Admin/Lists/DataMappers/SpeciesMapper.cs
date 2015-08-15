@@ -11,20 +11,20 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
-    public class CritterStatusMapper : BaseDataMapper<CritterStatusSource, AnimalStatus>
+    public class SpeciesMapper : BaseDataMapper<SpeciesSource, Species>
     {
-        public CritterStatusMapper(ISqlStorageContext<AnimalStatus> sqlStorageContext, IStorageContext<CritterStatusSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
+        public SpeciesMapper(ISqlStorageContext<Species> sqlStorageContext, IStorageContext<SpeciesSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
         }
 
-        protected override async Task<IEnumerable<string>> GetSourceItems(IStorageContext<CritterStatusSource> storageContext)
+        protected override async Task<IEnumerable<string>> GetSourceItems(IStorageContext<SpeciesSource> storageContext)
         {
-            IEnumerable<CritterStatusSource> sources = await storageContext.GetAllAsync();
+            IEnumerable<SpeciesSource> sources = await storageContext.GetAllAsync();
             return sources.Select(x => x.Name);
         }
 
-        protected override async Task<IEnumerable<string>> GetTargetItems(ISqlStorageContext<AnimalStatus> sqlStorageContext)
+        protected override async Task<IEnumerable<string>> GetTargetItems(ISqlStorageContext<Species> sqlStorageContext)
         {
             IEnumerable<string> result = await sqlStorageContext.Entities.Select(x => x.Name).ToListAsync();
             return result;
