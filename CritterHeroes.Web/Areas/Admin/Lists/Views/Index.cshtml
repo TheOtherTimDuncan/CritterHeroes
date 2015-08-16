@@ -30,23 +30,23 @@
                 </div>
             </div>
 
-            <div data-target="@Model.TargetStorageItem.StorageSourceID" class="col-md-4 border-left border-left-xs">
+            <div data-target="@Model.Target" class="col-md-4 border-left border-left-xs">
                 <div class="row border-top border-top-md border-top-thick padding-vertical-small">
                     <div data-status="valid" class="col-xs-2">
                         <div class="badge badge-valid"></div>
                     </div>
-                    <div class="col-xs-8 text-center">@Model.TargetStorageItem.Title</div>
+                    <div class="col-xs-8 text-center">@Model.Target</div>
                     <div data-status="invalid" class="col-xs-2">
                         <div class="badge badge-invalid"></div>
                     </div>
                 </div>
             </div>
-            <div data-source="@Model.SourceStorageItem.StorageSourceID" class="col-md-4 border-left border-left-xs">
+            <div data-source="@Model.Source" class="col-md-4 border-left border-left-xs">
                 <div class="row border-top border-top-md border-top-thick padding-vertical-small">
                     <div data-status="valid" class="col-xs-2">
                         <div class="badge badge-valid"></div>
                     </div>
-                    <div class="col-xs-8 text-center">@Model.SourceStorageItem.Title</div>
+                    <div class="col-xs-8 text-center">@Model.Source</div>
                     <div data-status="invalid" class="col-xs-2">
                         <div class="badge badge-invalid"></div>
                     </div>

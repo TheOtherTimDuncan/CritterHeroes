@@ -6,16 +6,20 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.Models
 {
     public class DashboardModel
     {
-        public DashboardStorageItem TargetStorageItem
+        public string Target
         {
-            get;
-            set;
+            get
+            {
+                return "SQL Server";
+            }
         }
 
-        public DashboardStorageItem SourceStorageItem
+        public string Source
         {
-            get;
-            set;
+            get
+            {
+                return "Rescue Groups";
+            }
         }
 
         public Dictionary<DataSources, string> ListSources = new Dictionary<DataSources, string>()

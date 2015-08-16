@@ -6,11 +6,9 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists.Commands;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
 using CritterHeroes.Web.Areas.Admin.Lists.Queries;
-using CritterHeroes.Web.Areas.Admin.Lists.Sources;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
@@ -33,10 +31,6 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
         public ViewResult Index()
         {
             DashboardModel model = new DashboardModel();
-
-            model.TargetStorageItem = new DashboardStorageItem(GetTarget());
-            model.SourceStorageItem = new DashboardStorageItem(GetSource());
-
             return View(model);
         }
 
@@ -54,16 +48,6 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
         {
             CommandResult commandResult = await CommandDispatcher.DispatchAsync(command);
             return Json(command.ItemStatus);
-        }
-
-        private IStorageSource GetTarget()
-        {
-            return new AzureStorageSource();
-        }
-
-        private IStorageSource GetSource()
-        {
-            return new RescueGroupsStorageSource();
         }
     }
 }

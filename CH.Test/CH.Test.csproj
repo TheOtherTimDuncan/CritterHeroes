@@ -233,7 +233,6 @@
     <Compile Include="AccountTests\ResetPasswordCommandHandlerTests.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\BaseControllerTest.cs" />
-    <Compile Include="ControllerTests\ListControllerTests.cs" />
     <Compile Include="ControllerTests\MiscTests.cs" />
     <Compile Include="DependencyTests.cs" />
     <Compile Include="EmailTests\EmailClientTests.cs" />
