@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Models
@@ -9,6 +10,7 @@ namespace CritterHeroes.Web.Data.Models
         public Organization()
         {
             ID = Guid.NewGuid();
+            SupportedCritters = Enumerable.Empty<Species>();
         }
 
         public Organization(Guid organizationID)

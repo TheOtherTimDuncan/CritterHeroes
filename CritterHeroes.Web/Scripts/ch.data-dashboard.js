@@ -4,7 +4,7 @@
 
     $('[data-item-container]').hide();
 
-    $('[data-id]').each(function () {
+    $('[data-source]').each(function () {
 
         var dataContainer = $(this);
 
@@ -124,7 +124,7 @@
 
         var options = {
             data: {
-                modelID: parentRow.data('id'),
+                dataSource: parentRow.data('source'),
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
         },
             success: success,

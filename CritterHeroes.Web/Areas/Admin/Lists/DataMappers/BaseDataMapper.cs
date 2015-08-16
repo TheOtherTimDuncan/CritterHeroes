@@ -49,6 +49,8 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
                 Items = masterItems.Select(x => CreateDataItem(targetItems, x))
             };
 
+            result.DataItemCount = masterItems.Count();
+
             return result;
         }
 

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Admin.Lists.Commands;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
+using CritterHeroes.Web.Areas.Admin.Lists.Queries;
 using CritterHeroes.Web.Areas.Admin.Lists.Sources;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
@@ -35,44 +37,23 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
             model.TargetStorageItem = new DashboardStorageItem(GetTarget());
             model.SourceStorageItem = new DashboardStorageItem(GetSource());
 
-            model.Items =
-                from m in DataModelSource.GetAll()
-                select new DashboardItemModel(m.ID, m.Title);
-
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> Refresh(int modelID)
+        public async Task<JsonResult> Refresh(ListItemQuery query)
         {
-            DataModelSource modelSource = DataModelSource.FromID(modelID);
-            if (modelSource == null)
-            {
-                return Json(null);
-            }
-
-            OrganizationContext orgContext = _orgStateManager.GetContext();
-            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget());
+            DashboardItemStatus model = await QueryDispatcher.DispatchAsync(query);
             return Json(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> Sync(int modelID)
+        public async Task<JsonResult> Sync(SyncListItemCommand command)
         {
-            DataModelSource modelSource = DataModelSource.FromID(modelID);
-            if (modelSource == null)
-            {
-                return Json(null);
-            }
-
-            OrganizationContext orgContext = _orgStateManager.GetContext();
-
-            CommandResult commandResult = await modelSource.ExecuteSyncAsync(DependencyResolver.Current, orgContext);
-
-            DashboardItemStatus model = await modelSource.GetDashboardItemStatusAsync(DependencyResolver.Current, GetSource(), GetTarget());
-            return Json(model);
+            CommandResult commandResult = await CommandDispatcher.DispatchAsync(command);
+            return Json(command.ItemStatus);
         }
 
         private IStorageSource GetTarget()

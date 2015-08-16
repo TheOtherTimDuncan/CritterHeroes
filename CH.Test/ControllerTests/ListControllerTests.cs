@@ -30,9 +30,6 @@ namespace CH.Test.ControllerTests
 
             model.SourceStorageItem.StorageSourceID.Should().Be(new RescueGroupsStorageSource().ID);
             model.SourceStorageItem.Title.Should().NotBeNullOrEmpty();
-
-            model.Items.Should().NotBeNullOrEmpty();
-            model.Items.Any(x => x.Title.IsNullOrEmpty()).Should().BeFalse();
         }
     }
 }

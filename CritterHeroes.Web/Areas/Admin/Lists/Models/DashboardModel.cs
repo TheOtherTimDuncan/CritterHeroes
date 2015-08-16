@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.Models
 {
@@ -17,10 +18,10 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.Models
             set;
         }
 
-        public IEnumerable<DashboardItemModel> Items
+        public Dictionary<DataSources, string> ListSources = new Dictionary<DataSources, string>()
         {
-            get;
-            set;
-        }
+            { DataSources.Breed, "Breeds" },
+            { DataSources.CritterStatus, "Statuses" }
+        };
     }
 }
