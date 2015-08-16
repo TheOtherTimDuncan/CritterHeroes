@@ -9,15 +9,17 @@
         var dataContainer = $(this);
 
         dataContainer.find('.refresh').each(function () {
+            var url = $(this).data('url');
             $(this).click(function () {
-                refreshStatus($(this), dataContainer, 'refresh');
+                refreshStatus($(this), dataContainer, url);
             });
-            refreshStatus($(this), dataContainer, 'refresh');
+            refreshStatus($(this), dataContainer, url);
         });
 
         dataContainer.find('.sync').each(function () {
+            var url = $(this).data('url');
             $(this).click(function () {
-                refreshStatus($(this), dataContainer, 'sync');
+                refreshStatus($(this), dataContainer, url);
             });
         });
 
@@ -68,7 +70,7 @@
         );
     }
 
-    function refreshStatus(element, parentRow, action) {
+    function refreshStatus(element, parentRow, url) {
 
         element.hide();
         var indicator = parentRow.find('.indicator');
@@ -128,7 +130,7 @@
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
         },
             success: success,
-            url: cheroes.rootUrl + 'admin/lists/' + action
+            url: url
         };
 
         cheroes.dataManager.sendRequest(options);

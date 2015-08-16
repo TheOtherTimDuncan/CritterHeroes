@@ -42,7 +42,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> Refresh(ListItemQuery query)
+        public async Task<ActionResult> Refresh(ListItemQuery query)
         {
             DashboardItemStatus model = await QueryDispatcher.DispatchAsync(query);
             return Json(model);
@@ -50,7 +50,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> Sync(SyncListItemCommand command)
+        public async Task<ActionResult> Sync(SyncListItemCommand command)
         {
             CommandResult commandResult = await CommandDispatcher.DispatchAsync(command);
             return Json(command.ItemStatus);
