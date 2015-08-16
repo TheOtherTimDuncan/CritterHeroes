@@ -29,5 +29,10 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             IEnumerable<string> result = await sqlStorageContext.Entities.Select(x => x.Name).ToListAsync();
             return result;
         }
+
+        protected override AnimalStatus CreateTargetFromSource(CritterStatusSource source)
+        {
+            return new AnimalStatus(int.Parse(source.ID), source.Name, source.Description);
+        }
     }
 }

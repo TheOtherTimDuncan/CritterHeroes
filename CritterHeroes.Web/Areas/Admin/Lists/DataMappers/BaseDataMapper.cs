@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Status;
+using TOTD.Utility.EnumerableHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
@@ -50,6 +52,26 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             return result;
         }
 
+        public async Task<CommandResult> CopySourceToTarget()
+        {
+            IEnumerable<TargetType> targets = await _sqlStorageContext.GetAllAsync();
+            targets.NullSafeForEach(x =>
+            {
+                _sqlStorageContext.Delete(x);
+            });
+
+            IEnumerable<SourceType> sources = await _storageContext.GetAllAsync();
+            sources.NullSafeForEach(x =>
+            {
+                TargetType target = CreateTargetFromSource(x);
+                _sqlStorageContext.Add(target);
+            });
+
+            await _sqlStorageContext.SaveChangesAsync();
+
+            return CommandResult.Success();
+        }
+
         protected OrganizationContext OrganizationContext
         {
             get;
@@ -58,6 +80,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         protected abstract Task<IEnumerable<string>> GetSourceItems(IStorageContext<SourceType> storageContext);
         protected abstract Task<IEnumerable<string>> GetTargetItems(ISqlStorageContext<TargetType> sqlStorageContext);
+        protected abstract TargetType CreateTargetFromSource(SourceType source);
 
         private DataItem CreateDataItem(IEnumerable<string> sourceItems, string masterItem)
         {

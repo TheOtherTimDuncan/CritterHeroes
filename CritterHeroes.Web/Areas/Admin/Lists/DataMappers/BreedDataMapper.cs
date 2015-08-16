@@ -41,5 +41,10 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             ).ToListAsync();
             return result;
         }
+
+        protected override Breed CreateTargetFromSource(BreedSource source)
+        {
+            return new Breed(int.Parse(source.ID), source.Species, source.BreedName);
+        }
     }
 }

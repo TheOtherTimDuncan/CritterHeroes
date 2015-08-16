@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models;
@@ -51,6 +52,45 @@ namespace CH.Test.AdminDataMapperTests
             ValidateDataItem(status.SourceItem.Items.ElementAt(0), expectedValue: source1.Name, isValid: true);
             ValidateDataItem(status.SourceItem.Items.ElementAt(1), expectedValue: source2.Name, isValid: true);
             ValidateDataItem(status.SourceItem.Items.ElementAt(2), expectedValue: null, isValid: false);
+        }
+
+        [TestMethod]
+        public async Task CopiesSourceToTarget()
+        {
+            CritterStatusSource source1 = new CritterStatusSource("1", "name1", "description1");
+            CritterStatusSource source2 = new CritterStatusSource("2", "name2", "description2");
+
+            AnimalStatus master1 = new AnimalStatus(2, "name2", "description3");
+            AnimalStatus master2 = new AnimalStatus(3, "name3", "description3");
+
+            List<AnimalStatus> entities = new List<AnimalStatus>();
+
+            MockRescueGroupsStorageContext<CritterStatusSource> mockSourceStorage = new MockRescueGroupsStorageContext<CritterStatusSource>(source1, source2);
+
+            MockSqlStorageContext<AnimalStatus> mockSqlStorage = new MockSqlStorageContext<AnimalStatus>(master1, master2);
+            mockSqlStorage.Setup(x => x.Add(It.IsAny<AnimalStatus>())).Callback((AnimalStatus entity) =>
+            {
+                entities.Add(entity);
+            });
+
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+
+            CritterStatusMapper mapper = new CritterStatusMapper(mockSqlStorage.Object, mockSourceStorage.Object, mockStateManager.Object);
+            CommandResult commandResult = await mapper.CopySourceToTarget();
+
+            entities.Should().HaveCount(2);
+
+            AnimalStatus result1 = entities.First();
+            result1.ID.Should().Be(1);
+            result1.Name.Should().Be(source1.Name);
+            result1.Description.Should().Be(source1.Description);
+
+            AnimalStatus result2 = entities.Last();
+            result2.ID.Should().Be(2);
+            result2.Name.Should().Be(source2.Name);
+            result2.Description.Should().Be(source2.Description);
+
+            mockSqlStorage.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
     }
 }
