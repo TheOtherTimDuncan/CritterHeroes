@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers;
 using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
@@ -116,7 +115,6 @@ namespace CritterHeroes.Web
         {
             container.RegisterManyForOpenGeneric(typeof(IQueryHandler<,>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IAsyncQueryHandler<,>), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusQueryHandler<>), defaultAssemblies);
 
             container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), defaultAssemblies);
             container.RegisterManyForOpenGeneric(typeof(IAsyncCommandHandler<>), defaultAssemblies);
@@ -134,17 +132,6 @@ namespace CritterHeroes.Web
                 where t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IAsyncNotificationHandler<>))
                 select t;
             container.RegisterAll(typeof(IAsyncNotificationHandler<>), asyncNotificationHandlers);
-
-            container.RegisterManyForOpenGeneric(typeof(IDashboardStatusCommandHandler<>), defaultAssemblies);
-            container.ResolveUnregisteredType += (s, e) =>
-            {
-                if (e.UnregisteredServiceType.IsGenericType && (e.UnregisteredServiceType.GetGenericTypeDefinition() == typeof(IDashboardStatusCommandHandler<>)))
-                {
-                    Type genericType = typeof(DashboardStatusCommandHandler<>).MakeGenericType(e.UnregisteredServiceType.GetGenericArguments()[0]);
-                    InstanceProducer producer = container.GetRegistration(genericType, true);
-                    e.Register(producer.Registration);
-                }
-            };
         }
 
         public static void RegisterContextSensitiveInterfaces(Container container)

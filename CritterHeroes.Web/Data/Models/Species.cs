@@ -4,7 +4,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Data.Models
 {
-    public class Species : BaseDataItem<Species>
+    public class Species
     {
         protected Species()
         {
@@ -57,36 +57,6 @@ namespace CritterHeroes.Web.Data.Models
         {
             get;
             private set;
-        }
-
-        public override int GetHashCode()
-        {
-            return this.Name.GetHashCode();
-        }
-
-        public override bool Equals(Species other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return this.Name == other.Name;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Species);
-        }
-
-        public static bool operator ==(Species species1, Species species2)
-        {
-            return Object.Equals(species1, species2);
-        }
-
-        public static bool operator !=(Species species1, Species species2)
-        {
-            return !(species1 == species2);
         }
     }
 }

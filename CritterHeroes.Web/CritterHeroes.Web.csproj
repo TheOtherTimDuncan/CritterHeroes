@@ -528,10 +528,7 @@
     <Compile Include="Areas\Admin\Lists\Models\DashboardStorageItemStatus.cs" />
     <Compile Include="Areas\Admin\Lists\Queries\ListItemQuery.cs" />
     <Compile Include="Areas\Admin\Lists\QueryHandlers\ListItemQueryHandler.cs" />
-    <Compile Include="Areas\Admin\Lists\Sources\AnimalStatusDataModelSource.cs" />
     <Compile Include="Areas\Admin\Lists\Sources\AzureStorageSource.cs" />
-    <Compile Include="Areas\Admin\Lists\Sources\BreedDataModelSource.cs" />
-    <Compile Include="Areas\Admin\Lists\Sources\DataModelSource.cs" />
     <Compile Include="Areas\Admin\Lists\Sources\RescueGroupsStorageSource.cs" />
     <Compile Include="Areas\Admin\ErrorLog\ErrorLogController.cs" />
     <Compile Include="Areas\Admin\Organizations\CommandHandlers\EditProfileCommandHandler.cs" />
@@ -611,16 +608,9 @@
     <Compile Include="Common\Proxies\FakeAuthenticationManager.cs" />
     <Compile Include="Common\Proxies\FakeOwinContext.cs" />
     <Compile Include="Common\Proxies\HttpContextProxy.cs" />
-    <Compile Include="Areas\Admin\Lists\CommandHandlers\BreedDashboardStatusCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Lists\CommandHandlers\DashboardStatusCommandHandler.cs" />
     <Compile Include="Common\Commands\CommandResult.cs" />
-    <Compile Include="Areas\Admin\Lists\CommandHandlers\DashboardStatusCommand.cs" />
-    <Compile Include="Areas\Admin\Lists\QueryHandlers\DashboardStatusQuery.cs" />
     <Compile Include="Common\Queries\OrganizationQuery.cs" />
     <Compile Include="Common\Queries\UserIDQuery.cs" />
-    <Compile Include="Areas\Admin\Lists\QueryHandlers\AnimalStatusDashboardItemStatusQueryHandler.cs" />
-    <Compile Include="Areas\Admin\Lists\QueryHandlers\BaseDashboardItemStatusQueryHandler.cs" />
-    <Compile Include="Areas\Admin\Lists\QueryHandlers\BreedDashboardItemStatusQueryHandler.cs" />
     <Compile Include="Common\StateManagement\OrganizationContext.cs" />
     <Compile Include="Common\StateManagement\OrganizationStateManager.cs" />
     <Compile Include="Common\StateManagement\StateManager.cs" />
@@ -632,9 +622,6 @@
     <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IRescueGroupsConfiguration.cs" />
-    <Compile Include="Contracts\Dashboard\IDashboardStatusCommandHandler.cs" />
-    <Compile Include="Contracts\Dashboard\IDashboardStatusQueryHandler.cs" />
-    <Compile Include="Contracts\Dashboard\IDataItem.cs" />
     <Compile Include="Contracts\Dashboard\IStorageSource.cs" />
     <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
@@ -699,7 +686,6 @@
     <Compile Include="Middleware\PageContextMiddleware.cs" />
     <Compile Include="Middleware\UserContextMiddleware.cs" />
     <Compile Include="Data\Models\AnimalStatus.cs" />
-    <Compile Include="Data\Models\BaseDataItem.cs" />
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
     <Compile Include="Models\EmailMessage.cs" />
@@ -713,10 +699,7 @@
     <Compile Include="DataProviders\RescueGroups\Configuration\RescueGroupsConfiguration.cs" />
     <Compile Include="DataProviders\RescueGroups\Configuration\RescueGroupsConfigurationSection.cs" />
     <Compile Include="DataProviders\RescueGroups\RescueGroupsException.cs" />
-    <Compile Include="DataProviders\RescueGroups\Storage\AnimalStatusRescueGroupsStorage.cs" />
-    <Compile Include="DataProviders\RescueGroups\Storage\BreedRescueGroupsStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\RescueGroupsStorage.cs" />
-    <Compile Include="DataProviders\RescueGroups\Storage\SpeciesRescueGroupsStorage.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

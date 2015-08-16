@@ -43,5 +43,12 @@ namespace CH.Test.EntityTests
                 deleted.Should().BeNull();
             }
         }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithInvalidName()
+        {
+            Action action = () => new Breed(1, null, null);
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("species");
+        }
     }
 }

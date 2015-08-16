@@ -45,5 +45,47 @@ namespace CH.Test.EntityTests
                 deleted.Should().BeNull();
             }
         }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithNullName()
+        {
+            Action action = () => new Species(null, "singular", "plural", "youngSingular", "youngPlural");
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("name");
+        }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithEmptyName()
+        {
+            Action action = () => new Species("", "singular", "plural", "youngSingular", "youngPlural");
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("name");
+        }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithNullSingular()
+        {
+            Action action = () => new Species("name", null, "plural", "youngSingular", "youngPlural");
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("singular");
+        }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithEmptySingular()
+        {
+            Action action = () => new Species("name", "", "plural", "youngSingular", "youngPlural");
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("singular");
+        }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithNullPlural()
+        {
+            Action action = () => new Species("name", "singular", null, "youngSingular", "youngPlural");
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("plural");
+        }
+
+        [TestMethod]
+        public void ThrowsExceptionIfCreatedWithEmptyPlural()
+        {
+            Action action = () => new Species("name", "singular", "", "youngSingular", "youngPlural");
+            action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("plural");
+        }
     }
 }
