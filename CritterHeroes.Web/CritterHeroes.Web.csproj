@@ -515,6 +515,7 @@
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BreedDataMapper.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\CritterStatusMapper.cs" />
+    <Compile Include="Areas\Admin\Lists\DataMappers\DataMapperFactory.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\DataSources.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\SpeciesMapper.cs" />
     <Compile Include="Areas\Admin\Lists\ListsController.cs" />
@@ -585,6 +586,7 @@
     <Compile Include="Common\Validation\UniqueEmailValidator.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Contracts\Dashboard\IDataMapper.cs" />
+    <Compile Include="Contracts\Dashboard\IDataMapperFactory.cs" />
     <Compile Include="Contracts\Email\IEmailHandler.cs" />
     <Compile Include="Contracts\Email\IEmailService.cs" />
     <Compile Include="Contracts\Identity\IAppUserManager.cs" />

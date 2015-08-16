@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
     public class SpeciesMapper : BaseDataMapper<SpeciesSource, Species>
     {
-        public SpeciesMapper(ISqlStorageContext<Species> sqlStorageContext, IStorageContext<SpeciesSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
+        public SpeciesMapper(ISqlStorageContext<Species> sqlStorageContext, IRescueGroupsStorageContext<SpeciesSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
         }

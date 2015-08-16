@@ -21,7 +21,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
         private IStorageContext<SourceType> _storageContext;
         private IStateManager<OrganizationContext> _orgStateManager;
 
-        public BaseDataMapper(ISqlStorageContext<TargetType> sqlStorageContext, IStorageContext<SourceType> storageContext, IStateManager<OrganizationContext> orgStorageContext)
+        public BaseDataMapper(ISqlStorageContext<TargetType> sqlStorageContext, IRescueGroupsStorageContext<SourceType> storageContext, IStateManager<OrganizationContext> orgStorageContext)
         {
             this._sqlStorageContext = sqlStorageContext;
             this._storageContext = storageContext;

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists.CommandHandlers;
+using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Email;
@@ -49,7 +50,7 @@ namespace CritterHeroes.Web
             Container container = new Container();
 
             List<Assembly> defaultAssemblies = new List<Assembly>();
-            defaultAssemblies.Add(Assembly.GetExecutingAssembly());
+            defaultAssemblies.Add(typeof(DIConfig).Assembly);
             if (additionalAssembly != null)
             {
                 defaultAssemblies.Add(additionalAssembly);
@@ -86,6 +87,12 @@ namespace CritterHeroes.Web
             container.Register<IEmailLogger, AzureEmailLogger>();
 
             container.RegisterManyForOpenGeneric(typeof(IValidator<>), defaultAssemblies);
+
+            container.RegisterSingle<IDataMapperFactory>(new DataMapperFactory() {
+                { DataSources.Breed, () => container.GetInstance<BreedDataMapper>() },
+                { DataSources.CritterStatus, () => container.GetInstance<CritterStatusMapper>() },
+                { DataSources.Species, () => container.GetInstance<SpeciesMapper>() }
+            });
 
             RegisterIdentityInterfaces(container);
             RegisterHandlers(container, defaultAssemblies);
