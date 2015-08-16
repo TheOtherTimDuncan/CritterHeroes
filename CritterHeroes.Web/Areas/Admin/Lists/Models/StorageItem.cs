@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CritterHeroes.Web.Models.Status
+namespace CritterHeroes.Web.Areas.Admin.Lists.Models
 {
     public class StorageItem
     {

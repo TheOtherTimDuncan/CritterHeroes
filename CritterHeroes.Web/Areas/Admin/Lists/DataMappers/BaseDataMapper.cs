@@ -8,7 +8,6 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models.Status;
 using TOTD.Utility.EnumerableHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers

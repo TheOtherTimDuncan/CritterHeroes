@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CritterHeroes.Web.Models.Status
+namespace CritterHeroes.Web.Areas.Admin.Lists.Models
 {
     public class DataItem
     {
