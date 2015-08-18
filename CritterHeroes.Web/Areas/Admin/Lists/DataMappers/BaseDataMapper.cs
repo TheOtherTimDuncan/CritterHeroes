@@ -95,5 +95,15 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
             return result;
         }
+
+        protected string EmptyToNull(string value)
+        {
+            if (value == "")
+            {
+                return null;
+            }
+
+            return value;
+        }
     }
 }

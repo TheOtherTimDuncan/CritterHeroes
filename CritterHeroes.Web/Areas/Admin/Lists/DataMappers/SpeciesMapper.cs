@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         protected override Species CreateTargetFromSource(SpeciesSource source)
         {
-            return new Species(source.Name, source.Singular, source.Plural, source.YoungSingular, source.YoungPlural);
+            return new Species(source.Name, source.Singular, source.Plural, EmptyToNull(source.YoungSingular), EmptyToNull(source.YoungPlural));
         }
     }
 }

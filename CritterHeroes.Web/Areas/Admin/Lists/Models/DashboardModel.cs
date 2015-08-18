@@ -25,7 +25,8 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.Models
         public Dictionary<DataSources, string> ListSources = new Dictionary<DataSources, string>()
         {
             { DataSources.Breed, "Breeds" },
-            { DataSources.CritterStatus, "Statuses" }
+            { DataSources.CritterStatus, "Statuses" },
+            { DataSources.Species, "Species" }
         };
     }
 }
