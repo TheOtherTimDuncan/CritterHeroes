@@ -19,11 +19,13 @@ namespace CH.Test.EntityTests
         {
             // Use a separate context for saving vs retrieving to prevent any caching
 
-            Breed breed = new Breed(1, "species", "breed");
+            Species species = new Species("species", "singular", "plural", null, null);
+
+            Breed breed = new Breed(1, species, "breed");
 
             using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, breed, "ID");
+                EntityTestHelper.FillWithTestData(storageContext, breed, "ID", "SpeciesID");
                 storageContext.Add(breed);
                 await storageContext.SaveChangesAsync();
             }
@@ -33,7 +35,7 @@ namespace CH.Test.EntityTests
                 Breed result = await storageContext.FindByIDAsync(breed.ID);
                 result.Should().NotBeNull();
 
-                result.Species.Should().Be(breed.Species);
+                result.Species.ID.Should().Be(species.ID);
                 result.BreedName.Should().Be(breed.BreedName);
 
                 storageContext.Delete(result);

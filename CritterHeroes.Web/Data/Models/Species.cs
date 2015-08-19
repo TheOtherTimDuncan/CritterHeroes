@@ -12,15 +12,17 @@ namespace CritterHeroes.Web.Data.Models
 
         public Species(string name, string singular, string plural, string youngSingular, string youngPlural)
         {
-            ThrowIf.Argument.IsNullOrEmpty(name, "name");
-            ThrowIf.Argument.IsNullOrEmpty(singular, "singular");
-            ThrowIf.Argument.IsNullOrEmpty(plural, "plural");
+            ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
+            ThrowIf.Argument.IsNullOrEmpty(singular, nameof(singular));
+            ThrowIf.Argument.IsNullOrEmpty(plural, nameof(plural));
 
             this.Name = name;
             this.Singular = singular;
             this.Plural = plural;
             this.YoungPlural = youngPlural;
             this.YoungSingular = youngSingular;
+
+            this.Breeds = new List<Breed>();
         }
 
         public int ID
@@ -54,6 +56,12 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public string YoungPlural
+        {
+            get;
+            private set;
+        }
+
+        public virtual ICollection<Breed> Breeds
         {
             get;
             private set;

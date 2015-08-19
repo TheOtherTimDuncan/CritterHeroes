@@ -8,6 +8,19 @@ namespace CH.DatabaseMigrator.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Organization",
+                c => new
+                {
+                    ID = c.Guid(nullable: false),
+                    FullName = c.String(nullable: false, maxLength: 100),
+                    ShortName = c.String(maxLength: 50),
+                    AzureName = c.String(nullable: false, maxLength: 25, unicode: false),
+                    LogoFilename = c.String(maxLength: 255, unicode: false),
+                    EmailAddress = c.String(nullable: false, maxLength: 255),
+                })
+                .PrimaryKey(t => t.ID);
+
+            CreateTable(
                 "dbo.AppRole",
                 c => new
                 {
@@ -103,24 +116,12 @@ namespace CH.DatabaseMigrator.Migrations
                 c => new
                 {
                     ID = c.Int(nullable: false),
-                    Species = c.String(maxLength: 20),
+                    SpeciesID = c.Int(nullable: false),
                     BreedName = c.String(maxLength: 50),
                 })
                 .PrimaryKey(t => t.ID)
-                .Index(t => t.Species);
-
-            CreateTable(
-                "dbo.Organization",
-                c => new
-                {
-                    ID = c.Guid(nullable: false),
-                    FullName = c.String(nullable: false, maxLength: 100),
-                    ShortName = c.String(maxLength: 50),
-                    AzureName = c.String(nullable: false, maxLength: 25, unicode: false),
-                    LogoFilename = c.String(maxLength: 255, unicode: false),
-                    EmailAddress = c.String(nullable: false, maxLength: 255),
-                })
-                .PrimaryKey(t => t.ID);
+                .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
+                .Index(t => t.SpeciesID);
 
             CreateTable(
                 "dbo.Species",
@@ -135,16 +136,18 @@ namespace CH.DatabaseMigrator.Migrations
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Name, unique: true);
+
         }
 
         public override void Down()
         {
+            DropForeignKey("dbo.Breed", "SpeciesID", "dbo.Species");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserClaim", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserRole", "RoleId", "dbo.AppRole");
             DropIndex("dbo.Species", new[] { "Name" });
-            DropIndex("dbo.Breed", new[] { "Species" });
+            DropIndex("dbo.Breed", new[] { "SpeciesID" });
             DropIndex("dbo.AnimalStatus", new[] { "Name" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
@@ -153,7 +156,6 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.AppUserRole", new[] { "UserId" });
             DropIndex("dbo.AppRole", "RoleNameIndex");
             DropTable("dbo.Species");
-            DropTable("dbo.Organization");
             DropTable("dbo.Breed");
             DropTable("dbo.AnimalStatus");
             DropTable("dbo.AppUserLogin");
@@ -161,6 +163,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropTable("dbo.AppUser");
             DropTable("dbo.AppUserRole");
             DropTable("dbo.AppRole");
+            DropTable("dbo.Organization");
         }
     }
 }

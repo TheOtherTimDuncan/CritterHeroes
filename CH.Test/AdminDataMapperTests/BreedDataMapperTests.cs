@@ -25,16 +25,21 @@ namespace CH.Test.AdminDataMapperTests
             BreedSource source1 = new BreedSource("1", "species1", "breed1");
             BreedSource source2 = new BreedSource("2", "species2", "breed2");
 
-            Breed master1 = new Breed(2, "species2", "breed2");
-            Breed master2 = new Breed(3, "species3", "breed3");
+            Species species2 = new Species("species2", "singular2", "plural2", null, null);
+            Species species3 = new Species("species3", "singular3", "plural3", null, null);
+
+            Breed master1 = new Breed(2, species2, "breed2");
+            Breed master2 = new Breed(3, species3, "breed3");
 
             MockRescueGroupsStorageContext<BreedSource> mockSourceStorage = new MockRescueGroupsStorageContext<BreedSource>(source1, source2);
 
-            MockSqlStorageContext<Breed> mockSqlStorage = new MockSqlStorageContext<Breed>(master1, master2);
+            MockSqlStorageContext<Breed> mockBreedStorage = new MockSqlStorageContext<Breed>(master1, master2);
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
-            BreedDataMapper mapper = new BreedDataMapper(mockSqlStorage.Object, mockSourceStorage.Object, mockStateManager.Object);
+            MockSqlStorageContext<Species> mockSpeciesStorage = new MockSqlStorageContext<Species>();
+
+            BreedDataMapper mapper = new BreedDataMapper(mockBreedStorage.Object, mockSourceStorage.Object, mockStateManager.Object, mockSpeciesStorage.Object);
             DashboardItemStatus status = await mapper.GetDashboardItemStatusAsync();
 
             status.TargetItem.Items.Should().HaveCount(3);
@@ -42,8 +47,8 @@ namespace CH.Test.AdminDataMapperTests
             status.TargetItem.ValidCount.Should().Be(2);
 
             ValidateDataItem(status.TargetItem.Items.ElementAt(0), expectedValue: null, isValid: false);
-            ValidateDataItem(status.TargetItem.Items.ElementAt(1), expectedValue: master1.Species + " - " + master1.BreedName, isValid: true);
-            ValidateDataItem(status.TargetItem.Items.ElementAt(2), expectedValue: master2.Species + " - " + master2.BreedName, isValid: true);
+            ValidateDataItem(status.TargetItem.Items.ElementAt(1), expectedValue: master1.Species.Name + " - " + master1.BreedName, isValid: true);
+            ValidateDataItem(status.TargetItem.Items.ElementAt(2), expectedValue: master2.Species.Name + " - " + master2.BreedName, isValid: true);
 
             status.SourceItem.Items.Should().HaveCount(3);
             status.SourceItem.InvalidCount.Should().Be(1);
@@ -60,38 +65,43 @@ namespace CH.Test.AdminDataMapperTests
             BreedSource source1 = new BreedSource("1", "species1", "breed1");
             BreedSource source2 = new BreedSource("2", "species2", "breed2");
 
-            Breed master1 = new Breed(2, "species2", "breed2");
-            Breed master2 = new Breed(3, "species3", "breed3");
+            Species species1 = new Species("species1", "singular1", "plural1", null, null);
+            Species species2 = new Species("species2", "singular2", "plural2", null, null);
+            Species species3 = new Species("species3", "singular3", "plural3", null, null);
 
+            Breed master1 = new Breed(2, species2, "breed2");
+            Breed master2 = new Breed(3, species3, "breed3");
 
             List<Breed> entities = new List<Breed>();
 
             MockRescueGroupsStorageContext<BreedSource> mockSourceStorage = new MockRescueGroupsStorageContext<BreedSource>(source1, source2);
 
-            MockSqlStorageContext<Breed> mockSqlStorage = new MockSqlStorageContext<Breed>(master1, master2);
-            mockSqlStorage.Setup(x => x.Add(It.IsAny<Breed>())).Callback((Breed entity) =>
+            MockSqlStorageContext<Breed> mockBreedStorage = new MockSqlStorageContext<Breed>(master1, master2);
+            mockBreedStorage.Setup(x => x.Add(It.IsAny<Breed>())).Callback((Breed entity) =>
             {
                 entities.Add(entity);
             });
 
+            MockSqlStorageContext<Species> mockSpeciesStorage = new MockSqlStorageContext<Species>(species1, species2, species3);
+
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
-            BreedDataMapper mapper = new BreedDataMapper(mockSqlStorage.Object, mockSourceStorage.Object, mockStateManager.Object);
+            BreedDataMapper mapper = new BreedDataMapper(mockBreedStorage.Object, mockSourceStorage.Object, mockStateManager.Object, mockSpeciesStorage.Object);
             CommandResult commandResult = await mapper.CopySourceToTarget();
 
             entities.Should().HaveCount(2);
 
             Breed result1 = entities.First();
             result1.ID.Should().Be(1);
-            result1.Species.Should().Be(source1.Species);
+            result1.SpeciesID.Should().Be(species1.ID);
             result1.BreedName.Should().Be(source1.BreedName);
 
             Breed result2 = entities.Last();
             result2.ID.Should().Be(2);
-            result2.Species.Should().Be(source2.Species);
+            result2.SpeciesID.Should().Be(species2.ID);
             result2.BreedName.Should().Be(source2.BreedName);
 
-            mockSqlStorage.Verify(x => x.SaveChangesAsync(), Times.Once);
+            mockBreedStorage.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
     }
 }

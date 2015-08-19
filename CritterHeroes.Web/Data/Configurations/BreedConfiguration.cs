@@ -15,7 +15,7 @@ namespace CritterHeroes.Web.Data.Configurations
             HasKey(x => x.ID);
 
             Property(x => x.ID).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.Species).HasMaxLength(20).HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
+            Property(x => x.SpeciesID).IsRequired();
             Property(x => x.BreedName).HasMaxLength(50);
         }
     }

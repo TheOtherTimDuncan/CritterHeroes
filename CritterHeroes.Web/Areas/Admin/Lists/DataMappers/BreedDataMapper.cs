@@ -13,9 +13,14 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
     public class BreedDataMapper : BaseDataMapper<BreedSource, Breed>
     {
-        public BreedDataMapper(ISqlStorageContext<Breed> sqlStorageContext, IRescueGroupsStorageContext<BreedSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
+        private IEnumerable<Species> _species;
+        private ISqlStorageContext<Species> _speciesStorage;
+
+        public BreedDataMapper(ISqlStorageContext<Breed> sqlStorageContext, IRescueGroupsStorageContext<BreedSource> storageContext, IStateManager<OrganizationContext> orgStorageContext, ISqlStorageContext<Species> speciesStorageContext)
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
+            this._speciesStorage = speciesStorageContext;
+            this._species = null;
         }
 
         protected override async Task<IEnumerable<string>> GetSourceItems(IStorageContext<BreedSource> storageContext)
@@ -37,14 +42,21 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             IEnumerable<string> result = await
             (
                 from x in sqlStorageContext.Entities
-                select x.Species + (x.BreedName != null ? " - " + x.BreedName : "")
+                select x.Species.Name + (x.BreedName != null ? " - " + x.BreedName : "")
             ).ToListAsync();
             return result;
         }
 
         protected override Breed CreateTargetFromSource(BreedSource source)
         {
-            return new Breed(int.Parse(source.ID), source.Species, source.BreedName);
+            if (_species == null)
+            {
+                _species = _speciesStorage.GetAll();
+            }
+
+            Species species = _species.Single(x => x.Name == source.Species);
+
+            return new Breed(int.Parse(source.ID), species.ID, source.BreedName);
         }
     }
 }
