@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 
@@ -13,14 +14,12 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
     public class BreedDataMapper : BaseDataMapper<BreedSource, Breed>
     {
-        private IEnumerable<Species> _species;
         private ISqlStorageContext<Species> _speciesStorage;
 
         public BreedDataMapper(ISqlStorageContext<Breed> sqlStorageContext, IRescueGroupsStorageContext<BreedSource> storageContext, IStateManager<OrganizationContext> orgStorageContext, ISqlStorageContext<Species> speciesStorageContext)
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
             this._speciesStorage = speciesStorageContext;
-            this._species = null;
         }
 
         protected override async Task<IEnumerable<string>> GetSourceItems(IStorageContext<BreedSource> storageContext)
@@ -49,12 +48,13 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         protected override Breed CreateTargetFromSource(BreedSource source)
         {
-            if (_species == null)
+            Species species = _speciesStorage.FindByName(source.Species);
+            if (species == null)
             {
-                _species = _speciesStorage.GetAll();
+                species = new Species(source.Species, source.Species, source.Species, null, null);
+                _speciesStorage.Add(species);
+                _speciesStorage.SaveChanges();
             }
-
-            Species species = _species.Single(x => x.Name == source.Species);
 
             return new Breed(int.Parse(source.ID), species.ID, source.BreedName);
         }
