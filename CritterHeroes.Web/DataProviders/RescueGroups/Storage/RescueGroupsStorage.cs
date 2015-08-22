@@ -31,7 +31,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get
             {
-                return "list";
+                return "publicList";
             }
         }
 
@@ -137,8 +137,17 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             string status = response.Value<string>("status");
             if (!status.SafeEquals("ok"))
             {
-                string message = response.Value<string>("message");
-                throw new RescueGroupsException(string.Format("Status: {0}, Message: {1}", status, message));
+                JToken property = response["messages"]["generalMessages"];
+                string errorMessage;
+                if (property != null)
+                {
+                    errorMessage = property[0]["messageText"].Value<string>();
+                }
+                else
+                {
+                    errorMessage = "Unable to parse error response";
+                }
+                throw new RescueGroupsException(errorMessage);
             }
         }
 

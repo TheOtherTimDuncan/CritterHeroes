@@ -267,6 +267,7 @@
     <Compile Include="RescueGroups\CritterStatusSourceTests.cs" />
     <Compile Include="RescueGroups\SpeciesSourceTests.cs" />
     <Compile Include="RescueGroups\ConfigurationTests.cs" />
+    <Compile Include="RescueGroups\StorageTests.cs" />
     <Compile Include="StateManagementTests\BaseContextTest.cs" />
     <Compile Include="StateManagementTests\OrganizationContextTests.cs" />
     <Compile Include="StateManagementTests\StateManagerTests.cs" />
