@@ -57,38 +57,30 @@ namespace CH.Test.AdminDataMapperTests
         [TestMethod]
         public async Task CopiesSourceToTarget()
         {
-            SpeciesSource source1 = new SpeciesSource("name1", "singular1", "plural1", null, null);
-            SpeciesSource source2 = new SpeciesSource("name2", "singular2", "plural2", null, null);
+            SpeciesSource source1 = new SpeciesSource("name1", "singular1", "plural1", "youngsingular1", "youngplural1");
+            SpeciesSource source2 = new SpeciesSource("name2", "singular2", "plural2", "youngsingular2", "youngplural2");
 
-            Species master1 = new Species("name2", "singular1", "plural1", null, null);
-            Species master2 = new Species("name3", "singular3", "plural3", null, null);
-
-            List<Species> entities = new List<Species>();
+            Species master2 = new Species("name2", "singular1", "plural1", null, null);
+            Species master3 = new Species("name3", "singular3", "plural3", null, null);
 
             MockRescueGroupsStorageContext<SpeciesSource> mockSourceStorage = new MockRescueGroupsStorageContext<SpeciesSource>(source1, source2);
 
-            MockSqlStorageContext<Species> mockSqlStorage = new MockSqlStorageContext<Species>(master1, master2);
-            mockSqlStorage.Setup(x => x.Add(It.IsAny<Species>())).Callback((Species entity) =>
-            {
-                entities.Add(entity);
-            });
+            MockSqlStorageContext<Species> mockSqlStorage = new MockSqlStorageContext<Species>(master2, master3);
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
             SpeciesMapper mapper = new SpeciesMapper(mockSqlStorage.Object, mockSourceStorage.Object, mockStateManager.Object);
             CommandResult commandResult = await mapper.CopySourceToTarget();
 
-            entities.Should().HaveCount(2);
+            mockSqlStorage.Object.Entities.Should().HaveCount(2);
 
-            Species result1 = entities.First();
-            result1.Name.Should().Be(source1.Name);
+            Species result1 = mockSqlStorage.Object.Entities.Single(x => x.Name == source1.Name);
             result1.Singular.Should().Be(source1.Singular);
             result1.YoungSingular.Should().Be(source1.YoungSingular);
             result1.Plural.Should().Be(source1.Plural);
             result1.YoungPlural.Should().Be(source1.YoungPlural);
 
-            Species result2 = entities.Last();
-            result2.Name.Should().Be(source2.Name);
+            Species result2 = mockSqlStorage.Object.Entities.Single(x => x.Name == source2.Name);
             result2.Singular.Should().Be(source2.Singular);
             result2.YoungSingular.Should().Be(source2.YoungSingular);
             result2.Plural.Should().Be(source2.Plural);

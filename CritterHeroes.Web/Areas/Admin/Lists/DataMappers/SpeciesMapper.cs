@@ -10,6 +10,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using TOTD.Utility.EnumerableHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
@@ -23,6 +24,19 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
         public override async Task<CommandResult> CopySourceToTarget()
         {
             IEnumerable<SpeciesSource> sources = await SourceStorageContext.GetAllAsync();
+
+            // First remove any in the target that don't exist in the source
+            // as long as nothing in OrganizationSupportedCritters is linked
+            IEnumerable<Species> targets = await TargetStorageContext.GetAllAsync();
+            foreach (Species species in targets)
+            {
+                if (species.OrganizationSupportedCritters.IsNullOrEmpty() && !sources.Any(x => x.Name == species.Name))
+                {
+                    TargetStorageContext.Delete(species);
+                }
+            }
+
+            // Add any new species from the source or update existing ones to match
             foreach (SpeciesSource source in sources)
             {
                 Species species = await TargetStorageContext.FindByNameAsync(source.Name);

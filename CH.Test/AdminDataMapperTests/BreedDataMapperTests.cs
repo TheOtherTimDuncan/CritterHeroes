@@ -62,42 +62,35 @@ namespace CH.Test.AdminDataMapperTests
         [TestMethod]
         public async Task CopiesSourceToTarget()
         {
-            BreedSource source1 = new BreedSource("1", "species1", "breed1");
-            BreedSource source2 = new BreedSource("2", "species2", "breed2");
+            Species species1 = new Species("species1", "singular1", "plural1", null, null, speciesID: 91);
+            Species species2 = new Species("species2", "singular2", "plural2", null, null, speciesID: 92);
+            Species species3 = new Species("species3", "singular3", "plural3", null, null, speciesID: 93);
 
-            Species species1 = new Species("species1", "singular1", "plural1", null, null);
-            Species species2 = new Species("species2", "singular2", "plural2", null, null);
-            Species species3 = new Species("species3", "singular3", "plural3", null, null);
+            BreedSource source1 = new BreedSource("1", species1.Name, "breed1");
+            BreedSource source2 = new BreedSource("2", species2.Name, "breed2");
 
             Breed master1 = new Breed(2, species2, "breed2");
             Breed master2 = new Breed(3, species3, "breed3");
 
-            List<Breed> entities = new List<Breed>();
-
             MockRescueGroupsStorageContext<BreedSource> mockSourceStorage = new MockRescueGroupsStorageContext<BreedSource>(source1, source2);
 
             MockSqlStorageContext<Breed> mockBreedStorage = new MockSqlStorageContext<Breed>(master1, master2);
-            mockBreedStorage.Setup(x => x.Add(It.IsAny<Breed>())).Callback((Breed entity) =>
-            {
-                entities.Add(entity);
-            });
 
             MockSqlStorageContext<Species> mockSpeciesStorage = new MockSqlStorageContext<Species>(species1, species2, species3);
+            IEnumerable<Species> test = mockSpeciesStorage.Object.GetAll();
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
             BreedDataMapper mapper = new BreedDataMapper(mockBreedStorage.Object, mockSourceStorage.Object, mockStateManager.Object, mockSpeciesStorage.Object);
             CommandResult commandResult = await mapper.CopySourceToTarget();
 
-            entities.Should().HaveCount(2);
+            mockBreedStorage.Object.Entities.Should().HaveCount(2);
 
-            Breed result1 = entities.First();
-            result1.ID.Should().Be(1);
+            Breed result1 = mockBreedStorage.Object.Entities.Single(x => x.ID == 1);
             result1.SpeciesID.Should().Be(species1.ID);
             result1.BreedName.Should().Be(source1.BreedName);
 
-            Breed result2 = entities.Last();
-            result2.ID.Should().Be(2);
+            Breed result2 = mockBreedStorage.Object.Entities.Single(x => x.ID == 2);
             result2.SpeciesID.Should().Be(species2.ID);
             result2.BreedName.Should().Be(source2.BreedName);
 
