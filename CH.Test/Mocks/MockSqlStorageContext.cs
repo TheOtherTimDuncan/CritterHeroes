@@ -1,20 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
 using EntityFramework.Testing;
+using EntityFramework.Testing.Moq;
 using Moq;
 
 namespace CH.Test.Mocks
 {
     public class MockSqlStorageContext<T> : Mock<ISqlStorageContext<T>> where T : class
     {
+        private MockDbSet<T> _dbset;
+
         public MockSqlStorageContext()
         {
+            _dbset = new MockDbSet<T>()
+                .SetupAddAndRemove()
+                .SetupLinq();
+
+            this.Setup(x => x.Entities).Returns(_dbset.Object);
+            this.Setup(x => x.Get(It.IsAny<Expression<Func<T, bool>>>())).Returns((Expression<Func<T, bool>> predicate) => _dbset.Object.Where(predicate).SingleOrDefault());
+            this.Setup(x => x.GetAsync(It.IsAny<Expression<Func<T, bool>>>())).Returns(async (Expression<Func<T, bool>> predicate) => await _dbset.Object.Where(predicate).SingleOrDefaultAsync());
+            this.Setup(x => x.GetAll()).Returns(_dbset.Object.ToList());
+            this.Setup(x => x.GetAllAsync()).Returns(async () => await _dbset.Object.ToListAsync());
+            this.Setup(x => x.Delete(It.IsAny<T>())).Callback((T entity) => _dbset.Object.Remove(entity));
+
             this.Setup(x => x.Add(It.IsAny<T>())).Callback((T entity) =>
             {
+                _dbset.Object.Add(entity);
+
                 if (OnAdd != null)
                 {
                     OnAdd(entity);
@@ -49,16 +66,11 @@ namespace CH.Test.Mocks
         public void AddEntity(T entity)
         {
             AddEntities(new[] { entity });
-
-            this.Setup(x => x.Get(It.IsAny<Expression<Func<T, bool>>>())).Returns(entity);
-            this.Setup(x => x.GetAsync(It.IsAny<Expression<Func<T, bool>>>())).Returns(Task.FromResult(entity));
         }
 
         public void AddEntities(IEnumerable<T> entities)
         {
-            this.Setup(x => x.Entities).Returns(new TestDbAsyncEnumerable<T>(entities));
-            this.Setup(x => x.GetAll()).Returns(entities);
-            this.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(entities));
+            _dbset.SetupSeedData(entities);
         }
     }
 }
