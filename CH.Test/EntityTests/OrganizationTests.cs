@@ -46,5 +46,47 @@ namespace CH.Test.EntityTests
                 deleted.Should().BeNull();
             }
         }
+
+        [TestMethod]
+        public async Task CanCreateAndReadOrganizationSupportedCritter()
+        {
+            // Use a separate context for saving vs retrieving to prevent any caching
+
+            Species species1 = new Species("1", "singular1", "plural1", null, null);
+            Species species2 = new Species("2", "singular2", "plural2", null, null);
+
+            Organization organization = new Organization()
+            {
+                FullName = "FullName",
+                AzureName = "Azure",
+                EmailAddress = "email@email.com"
+            };
+
+            organization.AddSupportedCritter(species1);
+            organization.AddSupportedCritter(species2);
+
+            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            {
+                storageContext.Add(organization);
+                await storageContext.SaveChangesAsync();
+            }
+
+            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            {
+                Organization result = await storageContext.FindByIDAsync(organization.ID);
+                result.Should().NotBeNull();
+
+                result.SupportedCritters.Should().HaveCount(2);
+
+                result.SupportedCritters.First().Species.ID.Should().Be(species1.ID);
+                result.SupportedCritters.Last().Species.ID.Should().Be(species2.ID);
+
+                storageContext.Delete(result);
+                await storageContext.SaveChangesAsync();
+
+                Organization deleted = await storageContext.FindByIDAsync(organization.ID);
+                deleted.Should().BeNull();
+            }
+        }
     }
 }

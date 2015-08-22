@@ -14,5 +14,11 @@ namespace CH.DatabaseMigrator.Migrations
             get;
             set;
         }
+
+        public virtual IDbSet<Species> Species
+        {
+            get;
+            set;
+        }
     }
 }

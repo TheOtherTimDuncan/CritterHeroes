@@ -39,6 +39,7 @@ namespace CritterHeroes.Web.Data.Contexts
             modelBuilder.Configurations.Add(new AnimalStatusConfiguration());
             modelBuilder.Configurations.Add(new BreedConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationSupportedCritterConfiguration());
             modelBuilder.Configurations.Add(new SpeciesConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

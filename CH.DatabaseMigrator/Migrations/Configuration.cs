@@ -59,11 +59,30 @@ namespace CH.DatabaseMigrator.Migrations
                 Logger.Verbose("Added " + appUser.Email + " to role " + UserRole.MasterAdmin);
             }
 
+            Species dog = context.Species.SingleOrDefault(x => x.Name == "Dog");
+            if (dog == null)
+            {
+                dog = new Species("Dog", "Dog", "Dogs", "Puppy", "Puppies");
+                context.Species.Add(dog);
+                context.SaveChanges();
+                Logger.Verbose("Added Species Dog");
+            }
+
+            Species cat = context.Species.SingleOrDefault(x => x.Name == "Cat");
+            if (cat == null)
+            {
+                cat = new Species("Cat", "Cat", "Cats", "Kitten", "Kittens");
+                context.Species.Add(cat);
+                context.SaveChanges();
+                Logger.Verbose("Added Species Cat");
+            }
+
             Guid fflah = Guid.Parse(ConfigurationManager.AppSettings["fflah"]);
             Organization fflahOrg = context.Organizations.SingleOrDefault(x => x.ID == fflah);
             if (fflahOrg == null)
             {
-                fflahOrg = new Organization(fflah) {
+                fflahOrg = new Organization(fflah)
+                {
                     FullName = "Friends For Life Animal Haven",
                     ShortName = "FFLAH",
                     AzureName = "fflah",
@@ -73,6 +92,20 @@ namespace CH.DatabaseMigrator.Migrations
                 context.Organizations.Add(fflahOrg);
                 context.SaveChanges();
                 Logger.Verbose("Added FFLAH organization");
+            }
+
+            if (!fflahOrg.SupportedCritters.Any(x => x.Species.Name == dog.Name))
+            {
+                context.SaveChanges();
+                fflahOrg.AddSupportedCritter(dog);
+                Logger.Verbose("Added Dog to Supported Critters for FFLAH");
+            }
+
+            if (!fflahOrg.SupportedCritters.Any(x => x.Species.Name == cat.Name))
+            {
+                context.SaveChanges();
+                fflahOrg.AddSupportedCritter(cat);
+                Logger.Verbose("Added Cat to Supported Critters for FFLAH");
             }
         }
     }

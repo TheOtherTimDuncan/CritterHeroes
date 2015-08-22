@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models;
 
@@ -17,7 +18,7 @@ namespace CritterHeroes.Web.Common.StateManagement
                 AzureName = organization.AzureName,
                 LogoFilename = organization.LogoFilename,
                 EmailAddress = organization.EmailAddress,
-                SupportedCritters = organization.SupportedCritters
+                SupportedCritters = organization.SupportedCritters.Select(x => x.Species).ToList()
             };
         }
 

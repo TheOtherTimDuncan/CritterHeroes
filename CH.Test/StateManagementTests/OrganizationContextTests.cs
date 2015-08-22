@@ -44,7 +44,7 @@ namespace CH.Test.StateManagementTests
             result.AzureName.Should().Be(context.AzureName);
             result.LogoFilename.Should().Be(context.LogoFilename);
             result.EmailAddress.Should().Be(context.EmailAddress);
-            result.SupportedCritters.Should().Equal(context.SupportedCritters);
+            result.SupportedCritters.Select(x => x.Name).Should().Equal(context.SupportedCritters.Select(x => x.Name));
 
             mockOwinContext.Verify(x => x.Request.Cookies, Times.Once);
         }
@@ -86,9 +86,9 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies()
+                EmailAddress = "email@email.com"
             };
+            AddTestSupportedCrittersToOrganization(organization);
 
             OrganizationContext context = OrganizationContext.FromOrganization(organization);
 
@@ -98,7 +98,7 @@ namespace CH.Test.StateManagementTests
             context.AzureName.Should().Be(organization.AzureName);
             context.LogoFilename.Should().Be(organization.LogoFilename);
             context.EmailAddress.Should().Be(organization.EmailAddress);
-            context.SupportedCritters.Should().Equal(organization.SupportedCritters);
+            context.SupportedCritters.Should().Equal(organization.SupportedCritters.Select(x => x.Species));
         }
 
         [TestMethod]

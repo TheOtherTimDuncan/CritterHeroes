@@ -15,6 +15,7 @@ namespace CritterHeroes.Web.Data.Configurations
             HasKey(x => x.ID);
 
             HasMany(x => x.Breeds).WithRequired(x => x.Species).WillCascadeOnDelete();
+            //HasMany(x => x.OrganizationSupportedCritters).WithRequired(x => x.Species).HasForeignKey(x=>x.SpeciesID).WillCascadeOnDelete(false);
 
             Property(x => x.ID).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Name).HasMaxLength(50).IsRequired().HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()

@@ -66,5 +66,11 @@ namespace CritterHeroes.Web.Data.Models
             get;
             private set;
         }
+
+        public virtual ICollection<OrganizationSupportedCritter> OrganizationSupportedCritters
+        {
+            get;
+            set;
+        }
     }
 }

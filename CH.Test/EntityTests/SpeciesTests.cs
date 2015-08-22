@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Data.Contexts;
@@ -43,6 +44,44 @@ namespace CH.Test.EntityTests
 
                 Species deleted = await storageContext.FindByNameAsync(species.Name);
                 deleted.Should().BeNull();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanReadOrganizationSupportedCritters()
+        {
+            Species species1 = new Species("org1", "singular1", "plural1", null, null);
+            Species species2 = new Species("org2", "singular2", "plural2", null, null);
+
+            Organization organization = new Organization()
+            {
+                FullName = "FullName",
+                AzureName = "Azure",
+                EmailAddress = "email@email.com"
+            };
+
+            organization.AddSupportedCritter(species1);
+            organization.AddSupportedCritter(species2);
+
+            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            {
+                storageContext.Add(organization);
+                await storageContext.SaveChangesAsync();
+            }
+
+            using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
+            {
+                Species result1 = await storageContext.FindByNameAsync(species1.Name);
+                result1.OrganizationSupportedCritters.Should().HaveCount(1);
+                result1.OrganizationSupportedCritters.Single().OrganizationID.Should().Be(organization.ID);
+
+                Species result2 = await storageContext.FindByNameAsync(species2.Name);
+                result2.OrganizationSupportedCritters.Should().HaveCount(1);
+                result2.OrganizationSupportedCritters.Single().OrganizationID.Should().Be(organization.ID);
+
+                storageContext.Delete(result1);
+                Action action = () => storageContext.SaveChanges();
+                action.ShouldThrow<InvalidOperationException>("foreign key relationship to OrganizationSupportedCritters should prevent Species from being deleted");
             }
         }
 

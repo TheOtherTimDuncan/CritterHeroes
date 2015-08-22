@@ -8,14 +8,14 @@ namespace CritterHeroes.Web.Data.Models
     public class Organization
     {
         public Organization()
+            : this(Guid.NewGuid())
         {
-            ID = Guid.NewGuid();
-            SupportedCritters = Enumerable.Empty<Species>();
         }
 
         public Organization(Guid organizationID)
         {
             this.ID = organizationID;
+            SupportedCritters = new List<OrganizationSupportedCritter>();
         }
 
         public Guid ID
@@ -54,10 +54,16 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public IEnumerable<Species> SupportedCritters
+        public virtual ICollection<OrganizationSupportedCritter> SupportedCritters
         {
             get;
             set;
+        }
+
+        public void AddSupportedCritter(Species species)
+        {
+            OrganizationSupportedCritter supportedCritter = new OrganizationSupportedCritter(this.ID, species);
+            SupportedCritters.Add(supportedCritter);
         }
     }
 }

@@ -14,11 +14,16 @@ namespace CH.Test
     {
         public IEnumerable<Species> GetTestSupportedSpecies()
         {
-            return new Species[] 
-            { 
-                new Species("1","singular-1","plural-2", null, null),
-                new Species("2","singular-2","plural-2", null, null) 
-            };
+            yield return new Species("1", "singular-1", "plural-1", null, null);
+            yield return new Species("2", "singular-2", "plural-2", null, null);
+        }
+
+        public void AddTestSupportedCrittersToOrganization(Organization organization)
+        {
+            foreach (Species species in GetTestSupportedSpecies())
+            {
+                organization.AddSupportedCritter(species);
+            }
         }
 
         public void AssertMethodsListIsNullOrEmpty(IEnumerable<MethodInfo> methods, string assertMessage)

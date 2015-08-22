@@ -65,9 +65,9 @@ namespace CH.Test.MiddlewareTests
                 FullName = "full",
                 AzureName = "azure",
                 LogoFilename = "logo",
-                EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies()
+                EmailAddress = "email@email.com"
             };
+            AddTestSupportedCrittersToOrganization(organization);
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockStateManager.Setup(x => x.GetContext()).Returns((OrganizationContext)null);

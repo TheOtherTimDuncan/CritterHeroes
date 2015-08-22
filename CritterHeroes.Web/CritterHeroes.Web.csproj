@@ -637,7 +637,6 @@
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\BaseAzureLoggerStorageContext.cs" />
-    <Compile Include="DataProviders\Azure\Storage\OrganizationAzureStorage.cs" />
     <Compile Include="DataProviders\Azure\Storage\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
@@ -654,6 +653,7 @@
     </Compile>
     <Compile Include="Data\Configurations\IdentityConfiguration.cs" />
     <Compile Include="Data\Configurations\OrganizationConfiguration.cs" />
+    <Compile Include="Data\Configurations\OrganizationSupportedCritterConfiguration.cs" />
     <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
     <Compile Include="Data\Extensions\AppUserExtensions.cs" />
     <Compile Include="Data\Contexts\BaseDbContext.cs">
@@ -671,6 +671,7 @@
     <Compile Include="Data\Models\Identity\AppUserLogin.cs" />
     <Compile Include="Data\Models\Identity\AppUserRole.cs" />
     <Compile Include="Data\Models\Identity\UserRole.cs" />
+    <Compile Include="Data\Models\OrganizationSupportedCritter.cs" />
     <Compile Include="Data\Storage\AppRoleStore.cs" />
     <Compile Include="Data\Storage\AppUserStore.cs" />
     <Compile Include="Global.asax.cs">

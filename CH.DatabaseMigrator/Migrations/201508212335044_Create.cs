@@ -21,6 +21,49 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID);
 
             CreateTable(
+                "dbo.OrganizationSupportedCritter",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    OrganizationID = c.Guid(nullable: false),
+                    SpeciesID = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Species", t => t.SpeciesID)
+                .ForeignKey("dbo.Organization", t => t.OrganizationID, cascadeDelete: true)
+                .Index(t => new
+                {
+                    t.OrganizationID,
+                    t.SpeciesID
+                }, unique: true, name: "OrganizationSpecies");
+
+            CreateTable(
+                "dbo.Species",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false, maxLength: 50),
+                    Singular = c.String(maxLength: 50),
+                    Plural = c.String(maxLength: 50),
+                    YoungSingular = c.String(maxLength: 50),
+                    YoungPlural = c.String(maxLength: 50),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.Name, unique: true);
+
+            CreateTable(
+                "dbo.Breed",
+                c => new
+                {
+                    ID = c.Int(nullable: false),
+                    SpeciesID = c.Int(nullable: false),
+                    BreedName = c.String(maxLength: 50),
+                })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
+                .Index(t => t.SpeciesID);
+
+            CreateTable(
                 "dbo.AppRole",
                 c => new
                 {
@@ -111,43 +154,17 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Name, unique: true);
 
-            CreateTable(
-                "dbo.Breed",
-                c => new
-                {
-                    ID = c.Int(nullable: false),
-                    SpeciesID = c.Int(nullable: false),
-                    BreedName = c.String(maxLength: 50),
-                })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
-                .Index(t => t.SpeciesID);
-
-            CreateTable(
-                "dbo.Species",
-                c => new
-                {
-                    ID = c.Int(nullable: false, identity: true),
-                    Name = c.String(nullable: false, maxLength: 50),
-                    Singular = c.String(maxLength: 50),
-                    Plural = c.String(maxLength: 50),
-                    YoungSingular = c.String(maxLength: 50),
-                    YoungPlural = c.String(maxLength: 50),
-                })
-                .PrimaryKey(t => t.ID)
-                .Index(t => t.Name, unique: true);
-
         }
 
         public override void Down()
         {
-            DropForeignKey("dbo.Breed", "SpeciesID", "dbo.Species");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserClaim", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserRole", "RoleId", "dbo.AppRole");
-            DropIndex("dbo.Species", new[] { "Name" });
-            DropIndex("dbo.Breed", new[] { "SpeciesID" });
+            DropForeignKey("dbo.OrganizationSupportedCritter", "OrganizationID", "dbo.Organization");
+            DropForeignKey("dbo.OrganizationSupportedCritter", "SpeciesID", "dbo.Species");
+            DropForeignKey("dbo.Breed", "SpeciesID", "dbo.Species");
             DropIndex("dbo.AnimalStatus", new[] { "Name" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
@@ -155,14 +172,18 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.AppUserRole", new[] { "RoleId" });
             DropIndex("dbo.AppUserRole", new[] { "UserId" });
             DropIndex("dbo.AppRole", "RoleNameIndex");
-            DropTable("dbo.Species");
-            DropTable("dbo.Breed");
+            DropIndex("dbo.Breed", new[] { "SpeciesID" });
+            DropIndex("dbo.Species", new[] { "Name" });
+            DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
             DropTable("dbo.AnimalStatus");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");
             DropTable("dbo.AppUser");
             DropTable("dbo.AppUserRole");
             DropTable("dbo.AppRole");
+            DropTable("dbo.Breed");
+            DropTable("dbo.Species");
+            DropTable("dbo.OrganizationSupportedCritter");
             DropTable("dbo.Organization");
         }
     }
