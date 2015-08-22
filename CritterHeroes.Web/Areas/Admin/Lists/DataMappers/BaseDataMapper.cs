@@ -16,22 +16,31 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
         where SourceType : class
         where TargetType : class
     {
-        private ISqlStorageContext<TargetType> _sqlStorageContext;
-        private IStorageContext<SourceType> _storageContext;
         private IStateManager<OrganizationContext> _orgStateManager;
 
         public BaseDataMapper(ISqlStorageContext<TargetType> sqlStorageContext, IRescueGroupsStorageContext<SourceType> storageContext, IStateManager<OrganizationContext> orgStorageContext)
         {
-            this._sqlStorageContext = sqlStorageContext;
-            this._storageContext = storageContext;
+            this.TargetStorageContext = sqlStorageContext;
+            this.SourceStorageContext = storageContext;
             this._orgStateManager = orgStorageContext;
+        }
+
+        protected IStorageContext<SourceType> SourceStorageContext
+        {
+            get;
+            private set;
+        }
+        protected ISqlStorageContext<TargetType> TargetStorageContext
+        {
+            get;
+            private set;
         }
 
         public async Task<DashboardItemStatus> GetDashboardItemStatusAsync()
         {
             this.OrganizationContext = _orgStateManager.GetContext();
 
-            IEnumerable<IEnumerable<string>> allItems = await Task.WhenAll(GetSourceItems(_storageContext), GetTargetItems(_sqlStorageContext));
+            IEnumerable<IEnumerable<string>> allItems = await Task.WhenAll(GetSourceItems(SourceStorageContext), GetTargetItems(TargetStorageContext));
             IEnumerable<string> sourceItems = allItems.First();
             IEnumerable<string> targetItems = allItems.Last();
             IEnumerable<string> masterItems = sourceItems.Union(targetItems).OrderBy(x => x);
@@ -53,22 +62,22 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             return result;
         }
 
-        public async Task<CommandResult> CopySourceToTarget()
+        public virtual async Task<CommandResult> CopySourceToTarget()
         {
-            IEnumerable<TargetType> targets = await _sqlStorageContext.GetAllAsync();
+            IEnumerable<TargetType> targets = await TargetStorageContext.GetAllAsync();
             targets.NullSafeForEach(x =>
             {
-                _sqlStorageContext.Delete(x);
+                TargetStorageContext.Delete(x);
             });
 
-            IEnumerable<SourceType> sources = await _storageContext.GetAllAsync();
+            IEnumerable<SourceType> sources = await SourceStorageContext.GetAllAsync();
             sources.NullSafeForEach(x =>
             {
                 TargetType target = CreateTargetFromSource(x);
-                _sqlStorageContext.Add(target);
+                TargetStorageContext.Add(target);
             });
 
-            await _sqlStorageContext.SaveChangesAsync();
+            await TargetStorageContext.SaveChangesAsync();
 
             return CommandResult.Success();
         }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 
@@ -16,6 +18,31 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
         public SpeciesMapper(ISqlStorageContext<Species> sqlStorageContext, IRescueGroupsStorageContext<SpeciesSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
+        }
+
+        public override async Task<CommandResult> CopySourceToTarget()
+        {
+            IEnumerable<SpeciesSource> sources = await SourceStorageContext.GetAllAsync();
+            foreach (SpeciesSource source in sources)
+            {
+                Species species = await TargetStorageContext.FindByNameAsync(source.Name);
+                if (species != null)
+                {
+                    species.Singular = source.Singular;
+                    species.Plural = source.Plural;
+                    species.YoungSingular = source.YoungSingular;
+                    species.YoungPlural = source.YoungPlural;
+                }
+                else
+                {
+                    species = new Species(source.Name, source.Singular, source.Plural, source.YoungSingular, source.YoungPlural);
+                    TargetStorageContext.Add(species);
+                }
+            }
+
+            await TargetStorageContext.SaveChangesAsync();
+
+            return CommandResult.Success();
         }
 
         protected override async Task<IEnumerable<string>> GetSourceItems(IStorageContext<SpeciesSource> storageContext)

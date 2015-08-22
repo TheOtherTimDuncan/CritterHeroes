@@ -40,25 +40,25 @@ namespace CritterHeroes.Web.Data.Models
         public string Singular
         {
             get;
-            private set;
+            set;
         }
 
         public string Plural
         {
             get;
-            private set;
+            set;
         }
 
         public string YoungSingular
         {
             get;
-            private set;
+            set;
         }
 
         public string YoungPlural
         {
             get;
-            private set;
+            set;
         }
 
         public virtual ICollection<Breed> Breeds
