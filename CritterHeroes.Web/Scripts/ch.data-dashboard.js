@@ -73,10 +73,10 @@
     function refreshStatus(element, parentRow, url) {
 
         element.hide();
-        var indicator = parentRow.find('.indicator');
-        indicator.show();
+        var indicator = parentRow.find('.indicator').show();
+        var errorMessage = parentRow.find('[data-error]').text('');
 
-        var success = function (data) {
+        var onSuccess = function (data) {
 
             var target = parentRow.find('[data-target]');
             var source = parentRow.find('[data-source]');
@@ -124,12 +124,19 @@
             element.show();
         };
 
+        var onError = function () {
+            errorMessage.text('An error has occurred.')
+            indicator.hide();
+            element.show();
+        };
+
         var options = {
             data: {
                 dataSource: parentRow.data('source'),
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-        },
-            success: success,
+            },
+            success: onSuccess,
+            error: onError,
             url: url
         };
 

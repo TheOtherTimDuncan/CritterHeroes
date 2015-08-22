@@ -11,6 +11,9 @@
         };
 
         requestOptions.error = function (jqxhr, textStatus, errorThrown) {
+            if (options.error) {
+                options.error(jqxhr, textStatus, errorThrown);
+            }
         };
 
         $.ajax(requestOptions);
