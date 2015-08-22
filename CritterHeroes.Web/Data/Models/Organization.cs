@@ -36,6 +36,12 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public int? RescueGroupsID
+        {
+            get;
+            set;
+        }
+
         public string AzureName
         {
             get;

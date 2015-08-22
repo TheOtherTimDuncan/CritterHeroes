@@ -85,6 +85,7 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     FullName = "Friends For Life Animal Haven",
                     ShortName = "FFLAH",
+                    RescueGroupsID = 1211,
                     AzureName = "fflah",
                     LogoFilename = "logo.svg",
                     EmailAddress = "email@email.com"

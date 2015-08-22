@@ -22,6 +22,7 @@ namespace CH.Test.StateManagementTests
                 OrganizationID = Guid.NewGuid(),
                 FullName = "Full",
                 ShortName = "Short",
+                RescueGroupsID = 123,
                 AzureName = "Azure",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
@@ -41,6 +42,7 @@ namespace CH.Test.StateManagementTests
             result.OrganizationID.Should().Be(context.OrganizationID);
             result.FullName.Should().Be(context.FullName);
             result.ShortName.Should().Be(context.ShortName);
+            result.RescueGroupsID.Should().Be(context.RescueGroupsID);
             result.AzureName.Should().Be(context.AzureName);
             result.LogoFilename.Should().Be(context.LogoFilename);
             result.EmailAddress.Should().Be(context.EmailAddress);
@@ -56,6 +58,7 @@ namespace CH.Test.StateManagementTests
             {
                 OrganizationID = Guid.NewGuid(),
                 FullName = "Full",
+                RescueGroupsID = 123,
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
@@ -83,6 +86,7 @@ namespace CH.Test.StateManagementTests
             Organization organization = new Organization()
             {
                 FullName = "Full",
+                RescueGroupsID = 123,
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
@@ -95,6 +99,7 @@ namespace CH.Test.StateManagementTests
             context.OrganizationID.Should().Be(organization.ID);
             context.FullName.Should().Be(organization.FullName);
             context.ShortName.Should().Be(organization.ShortName);
+            context.RescueGroupsID.Should().Be(organization.RescueGroupsID);
             context.AzureName.Should().Be(organization.AzureName);
             context.LogoFilename.Should().Be(organization.LogoFilename);
             context.EmailAddress.Should().Be(organization.EmailAddress);

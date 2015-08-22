@@ -35,6 +35,7 @@ namespace CH.Test.EntityTests
 
                 result.FullName.Should().Be(organization.FullName);
                 result.ShortName.Should().Be(organization.ShortName);
+                result.RescueGroupsID.Should().Be(organization.RescueGroupsID);
                 result.AzureName.Should().Be(organization.AzureName);
                 result.LogoFilename.Should().Be(organization.LogoFilename);
                 result.EmailAddress.Should().Be(organization.EmailAddress);

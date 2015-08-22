@@ -14,6 +14,7 @@ namespace CH.DatabaseMigrator.Migrations
                     ID = c.Guid(nullable: false),
                     FullName = c.String(nullable: false, maxLength: 100),
                     ShortName = c.String(maxLength: 50),
+                    RescueGroupsID = c.Int(),
                     AzureName = c.String(nullable: false, maxLength: 25, unicode: false),
                     LogoFilename = c.String(maxLength: 255, unicode: false),
                     EmailAddress = c.String(nullable: false, maxLength: 255),

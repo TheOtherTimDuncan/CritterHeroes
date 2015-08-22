@@ -15,6 +15,7 @@ namespace CritterHeroes.Web.Common.StateManagement
                 OrganizationID = organization.ID,
                 FullName = organization.FullName,
                 ShortName = organization.ShortName,
+                RescueGroupsID = organization.RescueGroupsID,
                 AzureName = organization.AzureName,
                 LogoFilename = organization.LogoFilename,
                 EmailAddress = organization.EmailAddress,
@@ -35,6 +36,12 @@ namespace CritterHeroes.Web.Common.StateManagement
         }
 
         public string ShortName
+        {
+            get;
+            set;
+        }
+
+        public int? RescueGroupsID
         {
             get;
             set;
