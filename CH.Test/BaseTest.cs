@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using TOTD.Utility.EnumerableHelpers;
@@ -16,6 +17,11 @@ namespace CH.Test
         {
             yield return new Species("1", "singular-1", "plural-1", null, null);
             yield return new Species("2", "singular-2", "plural-2", null, null);
+        }
+
+        public IEnumerable<SpeciesContext> GetTestSupportedSpeciesContext()
+        {
+            return GetTestSupportedSpecies().Select(x => SpeciesContext.FromSpecies(x));
         }
 
         public void AddTestSupportedCrittersToOrganization(Organization organization)

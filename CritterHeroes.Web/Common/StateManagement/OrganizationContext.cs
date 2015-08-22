@@ -18,7 +18,7 @@ namespace CritterHeroes.Web.Common.StateManagement
                 AzureName = organization.AzureName,
                 LogoFilename = organization.LogoFilename,
                 EmailAddress = organization.EmailAddress,
-                SupportedCritters = organization.SupportedCritters.Select(x => x.Species).ToList()
+                SupportedCritters = organization.SupportedCritters.Select(x => SpeciesContext.FromSpecies(x.Species)).ToList()
             };
         }
 
@@ -58,7 +58,7 @@ namespace CritterHeroes.Web.Common.StateManagement
             set;
         }
 
-        public IEnumerable<Species> SupportedCritters
+        public IEnumerable<SpeciesContext> SupportedCritters
         {
             get;
             set;

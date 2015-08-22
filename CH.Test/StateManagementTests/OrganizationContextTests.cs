@@ -25,7 +25,7 @@ namespace CH.Test.StateManagementTests
                 AzureName = "Azure",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies()
+                SupportedCritters = GetTestSupportedSpeciesContext()
             };
 
             StateSerializer serializer = new StateSerializer();
@@ -60,7 +60,7 @@ namespace CH.Test.StateManagementTests
                 AzureName = "Azure",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies()
+                SupportedCritters = GetTestSupportedSpeciesContext()
             };
 
             Dictionary<string, string[]> cookies = new Dictionary<string, string[]>();
@@ -98,7 +98,7 @@ namespace CH.Test.StateManagementTests
             context.AzureName.Should().Be(organization.AzureName);
             context.LogoFilename.Should().Be(organization.LogoFilename);
             context.EmailAddress.Should().Be(organization.EmailAddress);
-            context.SupportedCritters.Should().Equal(organization.SupportedCritters.Select(x => x.Species));
+            context.SupportedCritters.Should().HaveCount(organization.SupportedCritters.Count());
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace CH.Test.StateManagementTests
                 AzureName = "Azure",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies(),
+                SupportedCritters = GetTestSupportedSpeciesContext(),
 
                 FullName = null
             };
@@ -138,7 +138,7 @@ namespace CH.Test.StateManagementTests
                 AzureName = "Azure",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies(),
+                SupportedCritters = GetTestSupportedSpeciesContext(),
 
                 ShortName = null
             };
@@ -165,7 +165,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies(),
+                SupportedCritters = GetTestSupportedSpeciesContext(),
 
                 AzureName = null
             };
@@ -193,7 +193,7 @@ namespace CH.Test.StateManagementTests
                 AzureName = "Azure",
                 LogoFilename = "Logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = new Species[] { }
+                SupportedCritters = new SpeciesContext[] { }
             };
 
             StateSerializer serializer = new StateSerializer();
@@ -218,7 +218,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 LogoFilename = "Logo",
                 AzureName = "Azure",
-                SupportedCritters = GetTestSupportedSpecies(),
+                SupportedCritters = GetTestSupportedSpeciesContext(),
 
                 EmailAddress = null
             };

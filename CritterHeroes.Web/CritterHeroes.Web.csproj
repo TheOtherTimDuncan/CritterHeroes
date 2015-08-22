@@ -579,6 +579,7 @@
     <Compile Include="Common\StateManagement\PageContext.cs" />
     <Compile Include="Common\StateManagement\PageContextService.cs" />
     <Compile Include="Common\StateManagement\PageStateManager.cs" />
+    <Compile Include="Common\StateManagement\SpeciesContext.cs" />
     <Compile Include="Common\Validation\UniqueEmailValidator.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Contracts\Dashboard\IDataMapper.cs" />

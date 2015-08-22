@@ -31,7 +31,7 @@ namespace CH.Test.MiddlewareTests
                 AzureName = "azure",
                 LogoFilename = "logo",
                 EmailAddress = "email@email.com",
-                SupportedCritters = GetTestSupportedSpecies()
+                SupportedCritters = GetTestSupportedSpeciesContext()
             };
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
