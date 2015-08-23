@@ -7,10 +7,8 @@ using CritterHeroes.Web.Areas.Admin.Lists.Commands;
 using CritterHeroes.Web.Areas.Admin.Lists.Models;
 using CritterHeroes.Web.Areas.Admin.Lists.Queries;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists
@@ -19,12 +17,9 @@ namespace CritterHeroes.Web.Areas.Admin.Lists
     [Route("Lists/{action=index}")]
     public class ListsController : BaseAdminController
     {
-        private IStateManager<OrganizationContext> _orgStateManager;
-
-        public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher, IStateManager<OrganizationContext> orgStateManager)
+        public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {
-            this._orgStateManager = orgStateManager;
         }
 
         [HttpGet]
