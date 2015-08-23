@@ -264,7 +264,7 @@
       <DependentUpon>Site.less</DependentUpon>
     </Content>
     <Content Include="Content\Site.min.css">
-      <DependentUpon>Site.less</DependentUpon>
+      <DependentUpon>Site.css</DependentUpon>
     </Content>
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -435,6 +435,12 @@
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\defaults.less" />
+    <Content Include="Content\header.less" />
+    <Content Include="Content\shared.less" />
+    <Content Include="Content\admin-lists.less" />
+    <Content Include="Content\forms.less" />
+    <None Include="compilerconfig.json" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>
