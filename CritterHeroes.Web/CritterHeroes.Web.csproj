@@ -333,6 +333,7 @@
     <Content Include="Scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\ch.admin-critters.js" />
     <Content Include="Scripts\ch.busy-indicator.js" />
     <Content Include="Scripts\ch.cdnFallback.js" />
     <Content Include="Scripts\ch.data-dashboard.js" />

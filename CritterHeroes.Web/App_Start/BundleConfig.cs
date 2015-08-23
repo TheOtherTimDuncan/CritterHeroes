@@ -26,6 +26,7 @@ namespace CritterHeroes.Web
             bundles.Add(new ScriptBundle("~/bundles/chbusyindicator").Include("~/Scripts/ch.busy-indicator.js"));
             bundles.Add(new ScriptBundle("~/bundles/chlogin").Include("~/Scripts/ch.login.js"));
             bundles.Add(new ScriptBundle("~/bundles/orgedit").Include("~/Scripts/ch.organization-edit-profile.js"));
+            bundles.Add(new ScriptBundle("~/bundles/admincritters").Include("~/Scripts/ch.admin-critters.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
