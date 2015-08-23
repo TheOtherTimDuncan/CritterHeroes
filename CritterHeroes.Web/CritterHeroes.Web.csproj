@@ -657,7 +657,7 @@
     <Compile Include="DataProviders\RescueGroups\Storage\BreedSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterStatusSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\SpeciesSourceStorage.cs" />
-    <Compile Include="Data\Configurations\AnimalStatusConfiguration.cs" />
+    <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />
     <Compile Include="Data\Configurations\BreedConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterConfiguration.cs" />
     <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
@@ -673,7 +673,7 @@
     </Compile>
     <Compile Include="Data\Contexts\AppUserStorageContext.cs" />
     <Compile Include="Data\Contexts\SqlStorageContext.cs" />
-    <Compile Include="Data\Extensions\AnimalStatusExtensions.cs" />
+    <Compile Include="Data\Extensions\CritterStatusExtensions.cs" />
     <Compile Include="Data\Extensions\BreedExtensions.cs" />
     <Compile Include="Data\Extensions\CritterExtensions.cs" />
     <Compile Include="Data\Extensions\OrganizationExtensions.cs" />
@@ -694,7 +694,7 @@
     <Compile Include="Middleware\OrganizationContextMiddleware.cs" />
     <Compile Include="Middleware\PageContextMiddleware.cs" />
     <Compile Include="Middleware\UserContextMiddleware.cs" />
-    <Compile Include="Data\Models\AnimalStatus.cs" />
+    <Compile Include="Data\Models\CritterStatus.cs" />
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
     <Compile Include="Models\EmailMessage.cs" />

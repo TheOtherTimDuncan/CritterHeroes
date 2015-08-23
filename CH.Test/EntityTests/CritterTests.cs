@@ -19,11 +19,11 @@ namespace CH.Test.EntityTests
         {
             // Use a separate context for saving vs retrieving to prevent any caching
 
-            Species species = new Species("species", "species", "species", null, null);
+            Species species = new Species("critter-species", "species", "species", null, null);
 
             Breed breed = new Breed(1, species, "breed");
 
-            AnimalStatus status = new AnimalStatus(2, "status", "description");
+            CritterStatus status = new CritterStatus(2, "status", "description");
 
             Critter critter = new Critter(status, "critter", breed);
 

@@ -11,9 +11,9 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
-    public class CritterStatusMapper : BaseDataMapper<CritterStatusSource, AnimalStatus>
+    public class CritterStatusMapper : BaseDataMapper<CritterStatusSource, CritterStatus>
     {
-        public CritterStatusMapper(ISqlStorageContext<AnimalStatus> sqlStorageContext, IRescueGroupsStorageContext<CritterStatusSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
+        public CritterStatusMapper(ISqlStorageContext<CritterStatus> sqlStorageContext, IRescueGroupsStorageContext<CritterStatusSource> storageContext, IStateManager<OrganizationContext> orgStorageContext)
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
         }
@@ -24,15 +24,15 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             return sources.Select(x => x.Name);
         }
 
-        protected override async Task<IEnumerable<string>> GetTargetItems(ISqlStorageContext<AnimalStatus> sqlStorageContext)
+        protected override async Task<IEnumerable<string>> GetTargetItems(ISqlStorageContext<CritterStatus> sqlStorageContext)
         {
             IEnumerable<string> result = await sqlStorageContext.Entities.Select(x => x.Name).ToListAsync();
             return result;
         }
 
-        protected override AnimalStatus CreateTargetFromSource(CritterStatusSource source)
+        protected override CritterStatus CreateTargetFromSource(CritterStatusSource source)
         {
-            return new AnimalStatus(int.Parse(source.ID), source.Name, source.Description);
+            return new CritterStatus(int.Parse(source.ID), source.Name, source.Description);
         }
     }
 }

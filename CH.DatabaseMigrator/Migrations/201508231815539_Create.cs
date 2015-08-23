@@ -145,7 +145,7 @@ namespace CH.DatabaseMigrator.Migrations
                 .Index(t => t.UserId);
 
             CreateTable(
-                "dbo.AnimalStatus",
+                "dbo.CritterStatus",
                 c => new
                 {
                     ID = c.Int(nullable: false),
@@ -170,7 +170,7 @@ namespace CH.DatabaseMigrator.Migrations
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)
-                .ForeignKey("dbo.AnimalStatus", t => t.StatusID)
+                .ForeignKey("dbo.CritterStatus", t => t.StatusID)
                 .Index(t => t.StatusID)
                 .Index(t => t.Name)
                 .Index(t => t.BreedID);
@@ -179,7 +179,7 @@ namespace CH.DatabaseMigrator.Migrations
 
         public override void Down()
         {
-            DropForeignKey("dbo.Critter", "StatusID", "dbo.AnimalStatus");
+            DropForeignKey("dbo.Critter", "StatusID", "dbo.CritterStatus");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
@@ -191,7 +191,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Critter", new[] { "BreedID" });
             DropIndex("dbo.Critter", new[] { "Name" });
             DropIndex("dbo.Critter", new[] { "StatusID" });
-            DropIndex("dbo.AnimalStatus", new[] { "Name" });
+            DropIndex("dbo.CritterStatus", new[] { "Name" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -202,7 +202,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
             DropTable("dbo.Critter");
-            DropTable("dbo.AnimalStatus");
+            DropTable("dbo.CritterStatus");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");
             DropTable("dbo.AppUser");

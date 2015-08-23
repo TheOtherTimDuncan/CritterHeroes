@@ -4,13 +4,13 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Data.Models
 {
-    public class AnimalStatus
+    public class CritterStatus
     {
-        protected AnimalStatus()
+        protected CritterStatus()
         {
         }
 
-        public AnimalStatus(int id, string name, string description)
+        public CritterStatus(int id, string name, string description)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, "name");
 

@@ -25,12 +25,12 @@ namespace CH.Test.AdminDataMapperTests
             CritterStatusSource source1 = new CritterStatusSource("1", "name1", "description1");
             CritterStatusSource source2 = new CritterStatusSource("2", "name2", "description2");
 
-            AnimalStatus master1 = new AnimalStatus(2, "name2", "description3");
-            AnimalStatus master2 = new AnimalStatus(3, "name3", "description3");
+            CritterStatus master1 = new CritterStatus(2, "name2", "description3");
+            CritterStatus master2 = new CritterStatus(3, "name3", "description3");
 
             MockRescueGroupsStorageContext<CritterStatusSource> mockSourceStorage = new MockRescueGroupsStorageContext<CritterStatusSource>(source1, source2);
 
-            MockSqlStorageContext<AnimalStatus> mockSqlStorage = new MockSqlStorageContext<AnimalStatus>(master1, master2);
+            MockSqlStorageContext<CritterStatus> mockSqlStorage = new MockSqlStorageContext<CritterStatus>(master1, master2);
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
@@ -60,15 +60,15 @@ namespace CH.Test.AdminDataMapperTests
             CritterStatusSource source1 = new CritterStatusSource("1", "name1", "description1");
             CritterStatusSource source2 = new CritterStatusSource("2", "name2", "description2");
 
-            AnimalStatus master1 = new AnimalStatus(2, "name2", "description3");
-            AnimalStatus master2 = new AnimalStatus(3, "name3", "description3");
+            CritterStatus master1 = new CritterStatus(2, "name2", "description3");
+            CritterStatus master2 = new CritterStatus(3, "name3", "description3");
 
-            List<AnimalStatus> entities = new List<AnimalStatus>();
+            List<CritterStatus> entities = new List<CritterStatus>();
 
             MockRescueGroupsStorageContext<CritterStatusSource> mockSourceStorage = new MockRescueGroupsStorageContext<CritterStatusSource>(source1, source2);
 
-            MockSqlStorageContext<AnimalStatus> mockSqlStorage = new MockSqlStorageContext<AnimalStatus>(master1, master2);
-            mockSqlStorage.Setup(x => x.Add(It.IsAny<AnimalStatus>())).Callback((AnimalStatus entity) =>
+            MockSqlStorageContext<CritterStatus> mockSqlStorage = new MockSqlStorageContext<CritterStatus>(master1, master2);
+            mockSqlStorage.Setup(x => x.Add(It.IsAny<CritterStatus>())).Callback((CritterStatus entity) =>
             {
                 entities.Add(entity);
             });
@@ -80,12 +80,12 @@ namespace CH.Test.AdminDataMapperTests
 
             entities.Should().HaveCount(2);
 
-            AnimalStatus result1 = entities.First();
+            CritterStatus result1 = entities.First();
             result1.ID.Should().Be(1);
             result1.Name.Should().Be(source1.Name);
             result1.Description.Should().Be(source1.Description);
 
-            AnimalStatus result2 = entities.Last();
+            CritterStatus result2 = entities.Last();
             result2.ID.Should().Be(2);
             result2.Name.Should().Be(source2.Name);
             result2.Description.Should().Be(source2.Description);

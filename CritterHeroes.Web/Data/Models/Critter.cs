@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
-        public Critter(AnimalStatus status, string name, Breed breed)
+        public Critter(CritterStatus status, string name, Breed breed)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
 
@@ -42,7 +42,7 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public virtual AnimalStatus Status
+        public virtual CritterStatus Status
         {
             get;
             private set;
@@ -103,7 +103,7 @@ namespace CritterHeroes.Web.Data.Models
             this.Status = null;
         }
 
-        public void ChangeStatus(AnimalStatus status)
+        public void ChangeStatus(CritterStatus status)
         {
             ThrowIf.Argument.IsNull(status, nameof(status));
             this.StatusID = status.ID;

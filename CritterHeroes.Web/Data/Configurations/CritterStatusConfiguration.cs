@@ -7,9 +7,9 @@ using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Configurations
 {
-    public class AnimalStatusConfiguration : EntityTypeConfiguration<AnimalStatus>
+    public class CritterStatusConfiguration : EntityTypeConfiguration<CritterStatus>
     {
-        public AnimalStatusConfiguration()
+        public CritterStatusConfiguration()
         {
             HasKey(x => x.ID);
 

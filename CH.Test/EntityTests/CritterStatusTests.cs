@@ -12,25 +12,25 @@ using TOTD.EntityFramework;
 namespace CH.Test.EntityTests
 {
     [TestClass]
-    public class AnimalStatusTests : BaseEntityTest
+    public class CritterStatusTests : BaseEntityTest
     {
         [TestMethod]
         public async Task CanCreateReadAndDeleteAnimalStatus()
         {
             // Use a separate context for saving vs retrieving to prevent any caching
 
-            AnimalStatus animalStatus = new AnimalStatus(1, "name", "description");
+            CritterStatus animalStatus = new CritterStatus(1, "name", "description");
 
-            using (SqlStorageContext<AnimalStatus> storageContext = new SqlStorageContext<AnimalStatus>())
+            using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
             {
                 EntityTestHelper.FillWithTestData(storageContext, animalStatus, "ID");
                 storageContext.Add(animalStatus);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<AnimalStatus> storageContext = new SqlStorageContext<AnimalStatus>())
+            using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
             {
-                AnimalStatus result = await storageContext.FindByIDAsync(animalStatus.ID);
+                CritterStatus result = await storageContext.FindByIDAsync(animalStatus.ID);
                 result.Should().NotBeNull();
 
                 result.Name.Should().Be(animalStatus.Name);
@@ -39,7 +39,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                AnimalStatus deleted = await storageContext.FindByIDAsync(animalStatus.ID);
+                CritterStatus deleted = await storageContext.FindByIDAsync(animalStatus.ID);
                 deleted.Should().BeNull();
             }
         }
@@ -47,7 +47,7 @@ namespace CH.Test.EntityTests
         [TestMethod]
         public void ThrowsExceptionIfCreatedWithInvalidName()
         {
-            Action action = () => new AnimalStatus(1, null, null);
+            Action action = () => new CritterStatus(1, null, null);
             action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("name");
         }
     }
