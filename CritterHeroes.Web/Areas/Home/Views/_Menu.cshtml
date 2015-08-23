@@ -43,6 +43,10 @@
                                 )
                                 .AddElement(
                                     Html.FluentHtml().BootstrapNavItem().AddElement(
+                                        Html.FluentHtml().Link().AdminCrittersActionLink(x => x.Index()).Text("Critters")
+                                    )
+                                ).AddElement(
+                                    Html.FluentHtml().BootstrapNavItem().AddElement(
                                         Html.FluentHtml().Link().ListsActionLink(x => x.Index()).Text("Lists Dashboard")
                                     )
                                 )

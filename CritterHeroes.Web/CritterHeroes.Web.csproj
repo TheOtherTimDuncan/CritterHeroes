@@ -444,7 +444,9 @@
     <Content Include="Content\shared.less" />
     <Content Include="Content\admin-lists.less" />
     <Content Include="Content\forms.less" />
+    <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <None Include="compilerconfig.json" />
+    <Content Include="Content\admin-critters.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>
@@ -522,6 +524,7 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Admin\Critters\CrittersController.cs" />
     <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
     <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
@@ -543,6 +546,7 @@
     <Compile Include="Areas\Admin\Organizations\Queries\EditProfileQuery.cs" />
     <Compile Include="Areas\Admin\Organizations\QueryHandlers\EditProfileQueryHandler.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AccountActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\AdminCritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\HomeActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />
@@ -652,6 +656,7 @@
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\BreedSource.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\CritterSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SpeciesSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\BreedSourceStorage.cs" />

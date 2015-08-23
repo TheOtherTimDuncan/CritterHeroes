@@ -7979,3 +7979,9 @@ form a.primary .badge {
 .sync-container {
   list-style: none;
 }
+#log {
+  list-style: none;
+  padding: 8px;
+  height: 30em;
+  overflow: auto;
+}
