@@ -18,5 +18,25 @@ namespace CritterHeroes.Web.Data.Extensions
         {
             return await storageContext.GetAsync(x => x.ID == statusID);
         }
+
+        public static CritterStatus FindByName(this ISqlStorageContext<CritterStatus> storageContext, string name)
+        {
+            return storageContext.Get(x => x.Name == name);
+        }
+
+        public async static Task<CritterStatus> FindByNameAsync(this ISqlStorageContext<CritterStatus> storageContext, string name)
+        {
+            return await storageContext.GetAsync(x => x.Name == name);
+        }
+
+        public static CritterStatus FindByRescueGroupsID(this ISqlStorageContext<CritterStatus> storageContext, string rescueGroupsID)
+        {
+            return storageContext.Get(x => x.RescueGroupsID == rescueGroupsID);
+        }
+
+        public async static Task<CritterStatus> FindByRescueGroupsIDAsync(this ISqlStorageContext<CritterStatus> storageContext, string rescueGroupsID)
+        {
+            return await storageContext.GetAsync(x => x.RescueGroupsID == rescueGroupsID);
+        }
     }
 }

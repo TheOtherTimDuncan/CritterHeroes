@@ -23,7 +23,7 @@ namespace CH.Test.EntityTests
 
             Breed breed = new Breed(1, species, "breed");
 
-            CritterStatus status = new CritterStatus(2, "status", "description");
+            CritterStatus status = new CritterStatus("status", "description");
 
             Critter critter = new Critter(status, "critter", breed);
 

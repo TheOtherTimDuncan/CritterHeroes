@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         protected override CritterStatus CreateTargetFromSource(CritterStatusSource source)
         {
-            return new CritterStatus(int.Parse(source.ID), source.Name, source.Description);
+            return new CritterStatus(source.Name, source.Description, source.ID);
         }
     }
 }

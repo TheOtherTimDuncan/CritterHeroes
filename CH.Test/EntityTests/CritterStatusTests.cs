@@ -19,27 +19,28 @@ namespace CH.Test.EntityTests
         {
             // Use a separate context for saving vs retrieving to prevent any caching
 
-            CritterStatus animalStatus = new CritterStatus(1, "name", "description");
+            CritterStatus critterStatus = new CritterStatus("name", "description");
 
             using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, animalStatus, "ID");
-                storageContext.Add(animalStatus);
+                EntityTestHelper.FillWithTestData(storageContext, critterStatus, "ID");
+                storageContext.Add(critterStatus);
                 await storageContext.SaveChangesAsync();
             }
 
             using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
             {
-                CritterStatus result = await storageContext.FindByIDAsync(animalStatus.ID);
+                CritterStatus result = await storageContext.FindByIDAsync(critterStatus.ID);
                 result.Should().NotBeNull();
 
-                result.Name.Should().Be(animalStatus.Name);
-                result.Description.Should().Be(animalStatus.Description);
+                result.Name.Should().Be(critterStatus.Name);
+                result.Description.Should().Be(critterStatus.Description);
+                result.RescueGroupsID.Should().Be(critterStatus.RescueGroupsID);
 
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                CritterStatus deleted = await storageContext.FindByIDAsync(animalStatus.ID);
+                CritterStatus deleted = await storageContext.FindByIDAsync(critterStatus.ID);
                 deleted.Should().BeNull();
             }
         }

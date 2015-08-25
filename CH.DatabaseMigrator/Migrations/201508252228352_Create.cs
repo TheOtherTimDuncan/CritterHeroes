@@ -148,12 +148,14 @@ namespace CH.DatabaseMigrator.Migrations
                 "dbo.CritterStatus",
                 c => new
                 {
-                    ID = c.Int(nullable: false),
+                    ID = c.Int(nullable: false, identity: true),
                     Name = c.String(maxLength: 25),
                     Description = c.String(maxLength: 100),
+                    RescueGroupsID = c.String(maxLength: 6),
                 })
                 .PrimaryKey(t => t.ID)
-                .Index(t => t.Name, unique: true);
+                .Index(t => t.Name, unique: true)
+                .Index(t => t.RescueGroupsID, unique: true);
 
             CreateTable(
                 "dbo.Critter",
@@ -191,6 +193,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Critter", new[] { "BreedID" });
             DropIndex("dbo.Critter", new[] { "Name" });
             DropIndex("dbo.Critter", new[] { "StatusID" });
+            DropIndex("dbo.CritterStatus", new[] { "RescueGroupsID" });
             DropIndex("dbo.CritterStatus", new[] { "Name" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });

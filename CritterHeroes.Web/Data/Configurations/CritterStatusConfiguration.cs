@@ -13,12 +13,17 @@ namespace CritterHeroes.Web.Data.Configurations
         {
             HasKey(x => x.ID);
 
-            Property(x => x.ID).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            Property(x => x.Name).HasMaxLength(25).HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()
+            Property(x => x.ID).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.Name).HasMaxLength(25).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()
             {
                 IsUnique = true
             }));
             Property(x => x.Description).HasMaxLength(100);
+            Property(x => x.RescueGroupsID).HasMaxLength(6).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()
+            {
+                IsUnique = true
+            }));
+            ;
         }
     }
 }

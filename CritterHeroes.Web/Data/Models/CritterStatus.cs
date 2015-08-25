@@ -11,10 +11,23 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public CritterStatus(int id, string name, string description)
+            : this(name, description)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, "name");
 
             this.ID = id;
+        }
+
+        public CritterStatus(string name, string description, string rescueGroupsID)
+            : this(name, description)
+        {
+            this.RescueGroupsID = rescueGroupsID;
+        }
+
+        public CritterStatus(string name, string description)
+        {
+            ThrowIf.Argument.IsNullOrEmpty(name, "name");
+
             this.Name = name;
             this.Description = description;
         }
@@ -28,13 +41,19 @@ namespace CritterHeroes.Web.Data.Models
         public string Name
         {
             get;
-            private set;
+            set;
         }
 
         public string Description
         {
             get;
-            private set;
+            set;
+        }
+
+        public string RescueGroupsID
+        {
+            get;
+            set;
         }
     }
 }
