@@ -75,5 +75,11 @@ namespace CritterHeroes.Web.Data.Models
             get;
             set;
         }
+
+        public void ChangeSpecies(int speciesID)
+        {
+            this.SpeciesID = speciesID;
+            this.Species = null;
+        }
     }
 }

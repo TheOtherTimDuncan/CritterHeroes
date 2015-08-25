@@ -16,10 +16,7 @@ namespace CritterHeroes.Web.Data.Configurations
 
             Property(x => x.ID).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.SpeciesID).IsRequired();
-            Property(x => x.BreedName).IsRequired().HasMaxLength(50).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()
-            {
-                IsUnique = true
-            }));
+            Property(x => x.BreedName).IsRequired().HasMaxLength(50).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute())); // BreedName is not unique
             Property(x => x.RescueGroupsID).HasMaxLength(6).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()
             {
                 IsUnique = true

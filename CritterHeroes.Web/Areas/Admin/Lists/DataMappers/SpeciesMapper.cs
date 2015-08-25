@@ -49,7 +49,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
                 }
                 else
                 {
-                    species = new Species(source.Name, source.Singular, source.Plural, source.YoungSingular, source.YoungPlural);
+                    species = CreateTargetFromSource(source);
                     TargetStorageContext.Add(species);
                 }
             }

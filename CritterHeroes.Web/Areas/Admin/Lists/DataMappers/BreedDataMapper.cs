@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 {
@@ -20,6 +22,47 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             : base(sqlStorageContext, storageContext, orgStorageContext)
         {
             this._speciesStorage = speciesStorageContext;
+        }
+
+        public override async Task<CommandResult> CopySourceToTarget()
+        {
+            IEnumerable<BreedSource> sources = await SourceStorageContext.GetAllAsync();
+
+            // First remove any in the target that don't exist in the source
+            IEnumerable<Breed> targets = await TargetStorageContext.GetAllAsync();
+            foreach (Breed breed in targets)
+            {
+                if (!sources.Any(x => x.ID == breed.RescueGroupsID))
+                {
+                    TargetStorageContext.Delete(breed);
+                }
+            }
+
+            // Add any new breeds from the source or update existing ones to match
+            foreach (BreedSource source in sources)
+            {
+                Breed breed = await TargetStorageContext.FindByRescueGroupsIDAsync(source.ID);
+
+                if (breed != null)
+                {
+                    breed.BreedName = source.BreedName;
+
+                    if (breed.Species == null || !breed.Species.Name.SafeEquals(source.Species))
+                    {
+                        Species species = GetOrCreateSpecies(source.Species);
+                        breed.ChangeSpecies(species.ID);
+                    }
+                }
+                else
+                {
+                    breed = CreateTargetFromSource(source);
+                    TargetStorageContext.Add(breed);
+                }
+            }
+
+            await TargetStorageContext.SaveChangesAsync();
+
+            return CommandResult.Success();
         }
 
         protected override async Task<IEnumerable<string>> GetSourceItems(IStorageContext<BreedSource> storageContext)
@@ -48,15 +91,20 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         protected override Breed CreateTargetFromSource(BreedSource source)
         {
-            Species species = _speciesStorage.FindByName(source.Species);
+            Species species = GetOrCreateSpecies(source.Species);
+            return new Breed(species.ID, source.BreedName, source.ID);
+        }
+
+        private Species GetOrCreateSpecies(string speciesName)
+        {
+            Species species = _speciesStorage.FindByName(speciesName);
             if (species == null)
             {
-                species = new Species(source.Species, source.Species, source.Species, null, null);
+                species = new Species(speciesName, speciesName, speciesName, null, null);
                 _speciesStorage.Add(species);
                 _speciesStorage.SaveChanges();
             }
-
-            return new Breed(species.ID, source.BreedName, source.ID);
+            return species;
         }
     }
 }

@@ -64,7 +64,7 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
                 .Index(t => t.SpeciesID)
-                .Index(t => t.BreedName, unique: true)
+                .Index(t => t.BreedName)
                 .Index(t => t.RescueGroupsID, unique: true);
 
             CreateTable(
