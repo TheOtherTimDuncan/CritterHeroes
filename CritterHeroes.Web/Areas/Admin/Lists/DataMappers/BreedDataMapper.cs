@@ -56,7 +56,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
                 _speciesStorage.SaveChanges();
             }
 
-            return new Breed(int.Parse(source.ID), species.ID, source.BreedName);
+            return new Breed(species.ID, source.BreedName, source.ID);
         }
     }
 }

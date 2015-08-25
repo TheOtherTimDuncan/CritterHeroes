@@ -56,13 +56,16 @@ namespace CH.DatabaseMigrator.Migrations
                 "dbo.Breed",
                 c => new
                 {
-                    ID = c.Int(nullable: false),
+                    ID = c.Int(nullable: false, identity: true),
                     SpeciesID = c.Int(nullable: false),
-                    BreedName = c.String(maxLength: 50),
+                    BreedName = c.String(nullable: false, maxLength: 50),
+                    RescueGroupsID = c.String(maxLength: 6),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
-                .Index(t => t.SpeciesID);
+                .Index(t => t.SpeciesID)
+                .Index(t => t.BreedName, unique: true)
+                .Index(t => t.RescueGroupsID, unique: true);
 
             CreateTable(
                 "dbo.AppRole",
@@ -201,6 +204,8 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.AppUserRole", new[] { "RoleId" });
             DropIndex("dbo.AppUserRole", new[] { "UserId" });
             DropIndex("dbo.AppRole", "RoleNameIndex");
+            DropIndex("dbo.Breed", new[] { "RescueGroupsID" });
+            DropIndex("dbo.Breed", new[] { "BreedName" });
             DropIndex("dbo.Breed", new[] { "SpeciesID" });
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");

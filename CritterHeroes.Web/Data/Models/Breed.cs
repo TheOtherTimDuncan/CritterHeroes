@@ -11,25 +11,39 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public Breed(int id, Species species, string breedName)
-            : this(id, breedName)
+            : this(species, breedName)
+        {
+
+            this.ID = id;
+        }
+
+        public Breed(Species species, string breedName)
+            : this(species, breedName, null)
+        {
+
+        }
+
+        public Breed(Species species, string breedName, string rescueGroupsID)
+            : this(breedName, rescueGroupsID)
         {
             ThrowIf.Argument.IsNull(species, nameof(species));
 
             this.Species = species;
             this.SpeciesID = species.ID;
+
         }
 
-        public Breed(int id, int speciesID, string breedName)
-            : this(id, breedName)
+        public Breed(int speciesID, string breedName, string rescueGroupsID)
+            : this(breedName, rescueGroupsID)
         {
             this.SpeciesID = speciesID;
         }
 
-        protected Breed(int id, string breedName)
+        protected Breed(string breedName, string rescueGroupsID)
         {
 
-            this.ID = id;
             this.BreedName = breedName;
+            this.RescueGroupsID = rescueGroupsID;
         }
 
         public int ID
@@ -41,7 +55,7 @@ namespace CritterHeroes.Web.Data.Models
         public int SpeciesID
         {
             get;
-            set;
+            private set;
         }
 
         public virtual Species Species
@@ -53,7 +67,13 @@ namespace CritterHeroes.Web.Data.Models
         public string BreedName
         {
             get;
-            private set;
+            set;
+        }
+
+        public string RescueGroupsID
+        {
+            get;
+            set;
         }
     }
 }

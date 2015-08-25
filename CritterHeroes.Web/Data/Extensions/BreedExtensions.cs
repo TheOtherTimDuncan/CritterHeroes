@@ -18,5 +18,15 @@ namespace CritterHeroes.Web.Data.Extensions
         {
             return await storageContext.GetAsync(x => x.ID == breedID);
         }
+
+        public static Breed FindByRescueGroupsID(this ISqlStorageContext<Breed> storageContext, string rescueGroupsID)
+        {
+            return storageContext.Get(x => x.RescueGroupsID == rescueGroupsID);
+        }
+
+        public async static Task<Breed> FindByRescueGroupsIDAsync(this ISqlStorageContext<Breed> storageContext, string rescueGroupsID)
+        {
+            return await storageContext.GetAsync(x => x.RescueGroupsID == rescueGroupsID);
+        }
     }
 }

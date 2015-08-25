@@ -21,7 +21,7 @@ namespace CH.Test.EntityTests
 
             Species species = new Species("species", "singular", "plural", null, null);
 
-            Breed breed = new Breed(1, species, "breed");
+            Breed breed = new Breed(species, "breed");
 
             using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
             {
@@ -37,6 +37,7 @@ namespace CH.Test.EntityTests
 
                 result.Species.ID.Should().Be(species.ID);
                 result.BreedName.Should().Be(breed.BreedName);
+                result.RescueGroupsID.Should().Be(breed.RescueGroupsID);
 
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
@@ -49,7 +50,7 @@ namespace CH.Test.EntityTests
         [TestMethod]
         public void ThrowsExceptionIfCreatedWithInvalidName()
         {
-            Action action = () => new Breed(1, null, null);
+            Action action = () => new Breed(null, null);
             action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("species");
         }
     }

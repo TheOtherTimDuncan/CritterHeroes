@@ -23,7 +23,6 @@ namespace CritterHeroes.Web.Data.Configurations
             {
                 IsUnique = true
             }));
-            ;
         }
     }
 }

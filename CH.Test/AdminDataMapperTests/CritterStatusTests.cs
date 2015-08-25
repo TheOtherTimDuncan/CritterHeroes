@@ -25,12 +25,12 @@ namespace CH.Test.AdminDataMapperTests
             CritterStatusSource source1 = new CritterStatusSource("1", "name1", "description1");
             CritterStatusSource source2 = new CritterStatusSource("2", "name2", "description2");
 
-            CritterStatus master1 = new CritterStatus(2, "name2", "description3");
-            CritterStatus master2 = new CritterStatus(3, "name3", "description3");
+            CritterStatus master2 = new CritterStatus(source2.Name, source2.Description, source2.ID);
+            CritterStatus master3 = new CritterStatus("name3", "description3");
 
             MockRescueGroupsStorageContext<CritterStatusSource> mockSourceStorage = new MockRescueGroupsStorageContext<CritterStatusSource>(source1, source2);
 
-            MockSqlStorageContext<CritterStatus> mockSqlStorage = new MockSqlStorageContext<CritterStatus>(master1, master2);
+            MockSqlStorageContext<CritterStatus> mockSqlStorage = new MockSqlStorageContext<CritterStatus>(master2, master3);
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
@@ -42,8 +42,8 @@ namespace CH.Test.AdminDataMapperTests
             status.TargetItem.ValidCount.Should().Be(2);
 
             ValidateDataItem(status.TargetItem.Items.ElementAt(0), expectedValue: null, isValid: false);
-            ValidateDataItem(status.TargetItem.Items.ElementAt(1), expectedValue: master1.Name, isValid: true);
-            ValidateDataItem(status.TargetItem.Items.ElementAt(2), expectedValue: master2.Name, isValid: true);
+            ValidateDataItem(status.TargetItem.Items.ElementAt(1), expectedValue: master2.Name, isValid: true);
+            ValidateDataItem(status.TargetItem.Items.ElementAt(2), expectedValue: master3.Name, isValid: true);
 
             status.SourceItem.Items.Should().HaveCount(3);
             status.SourceItem.InvalidCount.Should().Be(1);
@@ -60,12 +60,12 @@ namespace CH.Test.AdminDataMapperTests
             CritterStatusSource source1 = new CritterStatusSource("1", "name1", "description1");
             CritterStatusSource source2 = new CritterStatusSource("2", "name2", "description2");
 
-            CritterStatus master1 = new CritterStatus(2, "name2", "description3");
-            CritterStatus master2 = new CritterStatus(3, "name3", "description3");
+            CritterStatus master2 = new CritterStatus(source2.Name, source2.Description, source2.ID);
+            CritterStatus master3 = new CritterStatus("name3", "description3");
 
             MockRescueGroupsStorageContext<CritterStatusSource> mockSourceStorage = new MockRescueGroupsStorageContext<CritterStatusSource>(source1, source2);
 
-            MockSqlStorageContext<CritterStatus> mockSqlStorage = new MockSqlStorageContext<CritterStatus>(master1, master2);
+            MockSqlStorageContext<CritterStatus> mockSqlStorage = new MockSqlStorageContext<CritterStatus>(master2, master3);
 
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
 
@@ -74,13 +74,11 @@ namespace CH.Test.AdminDataMapperTests
 
             mockSqlStorage.Object.Entities.Should().HaveCount(2);
 
-            CritterStatus result1 = mockSqlStorage.Object.Entities.First();
-            result1.RescueGroupsID.Should().Be(source1.ID);
+            CritterStatus result1 = mockSqlStorage.Object.Entities.Single(x => x.RescueGroupsID == source1.ID);
             result1.Name.Should().Be(source1.Name);
             result1.Description.Should().Be(source1.Description);
 
-            CritterStatus result2 = mockSqlStorage.Object.Entities.Last();
-            result2.RescueGroupsID.Should().Be(source2.ID);
+            CritterStatus result2 = mockSqlStorage.Object.Entities.Single(x => x.RescueGroupsID == source2.ID);
             result2.Name.Should().Be(source2.Name);
             result2.Description.Should().Be(source2.Description);
 
