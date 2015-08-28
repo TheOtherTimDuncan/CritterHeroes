@@ -49,7 +49,7 @@ namespace CritterHeroes.Web.Middleware
                 {
                     // It must not exist so let's create it
                     ISqlStorageContext<AppUser> userStorageContext = _dependencyResolver.GetService<ISqlStorageContext<AppUser>>();
-                    AppUser user = await userStorageContext.FindByUsernameAsync(context.Request.User.Identity.Name);
+                    AppUser user = await userStorageContext.Entities.FindByUsernameAsync(context.Request.User.Identity.Name);
                     userContext = UserContext.FromUser(user);
 
                     // Cache the result in the response for the next request

@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
         {
             EditProfileModel model = new EditProfileModel();
 
-            AppUser user = await _userStorageContext.FindByUsernameAsync(_httpUser.Username);
+            AppUser user = await _userStorageContext.Entities.FindByUsernameAsync(_httpUser.Username);
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;
