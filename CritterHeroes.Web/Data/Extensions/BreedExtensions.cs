@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
@@ -9,29 +10,35 @@ namespace CritterHeroes.Web.Data.Extensions
 {
     public static class BreedExtensions
     {
-        public static Breed FindByID(this ISqlStorageContext<Breed> storageContext, int breedID)
+        public static IQueryable<Breed> MatchingID(this IQueryable<Breed> source, int breedID)
         {
-            return storageContext.Get(x => x.ID == breedID);
+            return source.Where(x => x.ID == breedID);
         }
 
-        public async static Task<Breed> FindByIDAsync(this ISqlStorageContext<Breed> storageContext, int breedID)
+        public static IQueryable<Breed> MatchingRescueGroupsID(this IQueryable<Breed> source, string rescueGroupsID)
         {
-            return await storageContext.GetAsync(x => x.ID == breedID);
+            return source.Where(x => x.RescueGroupsID  == rescueGroupsID);
         }
 
-        public static Breed FindByRescueGroupsID(this ISqlStorageContext<Breed> storageContext, string rescueGroupsID)
+        public static IQueryable<Breed> MatchingName(this IQueryable<Breed> source, string name)
         {
-            return storageContext.Get(x => x.RescueGroupsID == rescueGroupsID);
+            return source.Where(x => x.BreedName == name);
         }
 
-        public async static Task<Breed> FindByRescueGroupsIDAsync(this ISqlStorageContext<Breed> storageContext, string rescueGroupsID)
+        public async static Task<Breed> FindByIDAsync(this IQueryable<Breed> source, int breedID)
         {
-            return await storageContext.GetAsync(x => x.RescueGroupsID == rescueGroupsID);
+            return await source.MatchingID(breedID).SingleOrDefaultAsync();
         }
 
-        public async static Task<Breed> FindByName(this ISqlStorageContext<Breed> storageContext, string breedName)
+        public async static Task<Breed> FindByRescueGroupsIDAsync(this IQueryable<Breed> source, string rescueGroupsID)
         {
-            return await storageContext.GetAsync(x => x.BreedName == breedName);
+            return await source.MatchingRescueGroupsID(rescueGroupsID).SingleOrDefaultAsync();
+        }
+
+        public async static Task<Breed> FindByNameAsync(this IQueryable<Breed> storageContext, string breedName)
+        {
+            return await storageContext.MatchingName(breedName).SingleOrDefaultAsync();
+            ;
         }
 
     }

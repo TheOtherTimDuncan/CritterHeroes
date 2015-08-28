@@ -32,7 +32,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
             {
-                Breed result = await storageContext.FindByIDAsync(breed.ID);
+                Breed result = await storageContext.Entities.FindByIDAsync(breed.ID);
                 result.Should().NotBeNull();
 
                 result.Species.ID.Should().Be(species.ID);
@@ -42,7 +42,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                Breed deleted = await storageContext.FindByIDAsync(breed.ID);
+                Breed deleted = await storageContext.Entities.FindByIDAsync(breed.ID);
                 deleted.Should().BeNull();
             }
         }
