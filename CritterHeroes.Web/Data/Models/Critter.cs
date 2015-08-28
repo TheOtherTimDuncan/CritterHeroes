@@ -11,6 +11,12 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
+        public Critter(CritterStatus status, string name, Breed breed, int rescueGroupsID)
+            : this(status, name, breed)
+        {
+            this.RescueGroupsID = rescueGroupsID;
+        }
+
         public Critter(CritterStatus status, string name, Breed breed)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));

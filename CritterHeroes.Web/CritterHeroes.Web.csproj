@@ -525,6 +525,8 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadFileCommandHandler.cs" />
+    <Compile Include="Areas\Admin\Critters\Commands\UploadFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\CrittersController.cs" />
     <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
     <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
