@@ -16,17 +16,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 {
     public class UploadFileCommandHandler : IAsyncCommandHandler<UploadFileCommand>
     {
-        private ISqlStorageContext<Critter> _critterStorage;
-        private ISqlStorageContext<CritterStatus> _statusStorage;
-        private ISqlStorageContext<Breed> _breedStorage;
-        private ISqlStorageContext<Species> _speciesStorage;
+        private ICritterBatchSqlStorageContext _critterStorage;
 
-        public UploadFileCommandHandler(ISqlStorageContext<Critter> critterStorage, ISqlStorageContext<CritterStatus> statusStorage, ISqlStorageContext<Breed> breedStorage, ISqlStorageContext<Species> speciesStorage)
+        public UploadFileCommandHandler(ICritterBatchSqlStorageContext critterStorage)
         {
             this._critterStorage = critterStorage;
-            this._statusStorage = statusStorage;
-            this._breedStorage = breedStorage;
-            this._speciesStorage = speciesStorage;
         }
 
         public async Task<CommandResult> ExecuteAsync(UploadFileCommand command)
@@ -41,11 +35,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     CritterStatus status = await GetCritterStatus(critterSource.Status);
                     Breed breed = await GetBreed(critterSource.PrimaryBreed, critterSource.Species);
 
-                    Critter critter = await _critterStorage.Entities.FindByRescueGroupsIDAsync(critterSource.AnimalID);
+                    Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(critterSource.AnimalID);
                     if (critter == null)
                     {
                         critter = new Critter(status, critterSource.Name, breed, critterSource.AnimalID);
-                        _critterStorage.Add(critter);
+                        _critterStorage.AddCritter(critter);
                     }
                     else
                     {
@@ -53,17 +47,19 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.BreedID != breed.ID)
                         {
-                            critter.ChangeBreed(breed.ID);
+                            critter.ChangeBreed(breed);
                         }
 
                         if (critter.StatusID != status.ID)
                         {
-                            critter.ChangeStatus(status.ID);
+                            critter.ChangeStatus(status);
                         }
                     }
 
                     critter.Sex = critterSource.Sex;
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
+
+                    await _critterStorage.SaveChangesAsync();
                 }
             }
 
@@ -72,32 +68,26 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<CritterStatus> GetCritterStatus(string status)
         {
-            CritterStatus critterStatus = await _statusStorage.Entities.FindByNameAsync(status);
+            CritterStatus critterStatus = await _critterStorage.CritterStatus.FindByNameAsync(status);
             if (critterStatus == null)
             {
                 critterStatus = new CritterStatus(status, status);
-                _statusStorage.Add(critterStatus);
-                await _statusStorage.SaveChangesAsync();
             }
             return critterStatus;
         }
 
         private async Task<Breed> GetBreed(string breedName, string speciesName)
         {
-            Breed breed = await _breedStorage.Entities.FindByNameAsync(breedName);
+            Breed breed = await _critterStorage.Breeds.FindByNameAsync(breedName);
             if (breed == null)
             {
-                Species species = await _speciesStorage.Entities.FindByNameAsync(speciesName);
+                Species species = await _critterStorage.Species.FindByNameAsync(speciesName);
                 if (species == null)
                 {
                     species = new Species(speciesName, speciesName, speciesName, null, null);
-                    _speciesStorage.Add(species);
-                    await _speciesStorage.SaveChangesAsync();
                 }
 
                 breed = new Breed(species.ID, breedName, null);
-                _breedStorage.Add(breed);
-                await _breedStorage.SaveChangesAsync();
             }
             return breed;
         }

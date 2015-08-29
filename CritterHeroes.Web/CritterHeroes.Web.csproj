@@ -613,6 +613,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
+    <Compile Include="Contracts\Storage\ICritterBatchSqlStorageContext.cs" />
     <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
     <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
@@ -675,6 +676,7 @@
     <Compile Include="Data\Configurations\OrganizationConfiguration.cs" />
     <Compile Include="Data\Configurations\OrganizationSupportedCritterConfiguration.cs" />
     <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
+    <Compile Include="Data\Contexts\CritterBatchStorageContext.cs" />
     <Compile Include="Data\Extensions\AppUserExtensions.cs" />
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>

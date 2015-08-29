@@ -8,7 +8,9 @@ using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers;
 using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
+using EntityFramework.Testing.Moq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -19,22 +21,20 @@ namespace CH.Test.AdminCrittersTests
     [TestClass]
     public class UploadFileCommandHandlerTests : BaseTest
     {
-        public Breed MockSqlStorage
-        {
-            get;
-            private set;
-        }
-
         [TestMethod]
         public async Task CanAddOrUpdateCrittersFromFileData()
         {
-            MockSqlStorageContext<Breed> breedStorage = new MockSqlStorageContext<Breed>();
+            MockDbSet<Breed> mockBreedSet = new MockDbSet<Breed>().SetupLinq().SetupAddAndRemove();
+            MockDbSet<CritterStatus> mockStatusSet = new MockDbSet<CritterStatus>().SetupLinq().SetupAddAndRemove();
+            MockDbSet<Species> mockSpeciesSet = new MockDbSet<Species>().SetupLinq().SetupAddAndRemove();
+            MockDbSet<Critter> mockCritterSet = new MockDbSet<Critter>().SetupLinq().SetupAddAndRemove();
 
-            MockSqlStorageContext<CritterStatus> statusStorage = new MockSqlStorageContext<CritterStatus>();
-
-            MockSqlStorageContext<Species> speciesStorage = new MockSqlStorageContext<Species>();
-
-            MockSqlStorageContext<Critter> critterStorage = new MockSqlStorageContext<Critter>();
+            Mock<ICritterBatchSqlStorageContext> mockCritterStorage = new Mock<ICritterBatchSqlStorageContext>();
+            mockCritterStorage.Setup(x => x.Breeds).Returns(mockBreedSet.Object);
+            mockCritterStorage.Setup(x => x.CritterStatus).Returns(mockStatusSet.Object);
+            mockCritterStorage.Setup(x => x.Species).Returns(mockSpeciesSet.Object);
+            mockCritterStorage.Setup(x => x.Critters).Returns(mockCritterSet.Object);
+            mockCritterStorage.Setup(x => x.AddCritter(It.IsAny<Critter>())).Callback((Critter critter) => mockCritterSet.Object.Add(critter));
 
             string filename = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "Sample Data", "FD5ObDXh_pets_1.json");
             using (FileStream stream = new FileStream(filename, FileMode.Open))
@@ -47,15 +47,14 @@ namespace CH.Test.AdminCrittersTests
                     File = mockFile.Object
                 };
 
-                UploadFileCommandHandler handler = new UploadFileCommandHandler(critterStorage.Object, statusStorage.Object, breedStorage.Object, speciesStorage.Object);
+                UploadFileCommandHandler handler = new UploadFileCommandHandler(mockCritterStorage.Object);
                 CommandResult commandResult = await handler.ExecuteAsync(command);
                 commandResult.Succeeded.Should().BeTrue();
 
-                breedStorage.Object.Entities.Should().NotBeNullOrEmpty();
-                statusStorage.Object.Entities.Should().NotBeNullOrEmpty();
-                speciesStorage.Object.Entities.Should().NotBeNullOrEmpty();
-                critterStorage.Object.Entities.Should().NotBeNullOrEmpty();
+                mockCritterSet.Object.ToList().Should().NotBeNullOrEmpty();
             }
+
+            mockCritterStorage.Verify(x => x.SaveChangesAsync(), Times.AtLeastOnce());
         }
     }
 }

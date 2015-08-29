@@ -64,6 +64,8 @@ namespace CritterHeroes.Web
             // Override SqlStorageContext<> for the one entity it can't handle
             container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(new WebRequestLifestyle());
 
+            container.RegisterPerWebRequest<ICritterBatchSqlStorageContext, CritterBatchStorageContext>();
+
             container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();
             container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
             container.RegisterPerWebRequest<IEmailConfiguration, EmailConfiguration>();
