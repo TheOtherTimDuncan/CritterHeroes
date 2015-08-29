@@ -10,6 +10,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
@@ -32,7 +33,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             IEnumerable<Breed> targets = await TargetStorageContext.GetAllAsync();
             foreach (Breed breed in targets)
             {
-                if (!sources.Any(x => x.ID == breed.RescueGroupsID))
+                if (breed.Critters.IsNullOrEmpty() && !sources.Any(x => x.ID == breed.RescueGroupsID))
                 {
                     TargetStorageContext.Delete(breed);
                 }
@@ -41,11 +42,11 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             // Add any new breeds from the source or update existing ones to match
             foreach (BreedSource source in sources)
             {
-                Breed breed = await TargetStorageContext.Entities.FindByRescueGroupsIDAsync(source.ID);
+                Breed breed = await TargetStorageContext.Entities.FindByNameAsync(source.BreedName);
 
                 if (breed != null)
                 {
-                    breed.BreedName = source.BreedName;
+                    breed.RescueGroupsID = source.ID;
 
                     if (breed.Species == null || !breed.Species.Name.SafeEquals(source.Species))
                     {
