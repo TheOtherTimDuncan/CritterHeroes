@@ -97,7 +97,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         private Species GetOrCreateSpecies(string speciesName)
         {
-            Species species = _speciesStorage.FindByName(speciesName);
+            Species species = _speciesStorage.Entities.FindByName(speciesName);
             if (species == null)
             {
                 species = new Species(speciesName, speciesName, speciesName, null, null);

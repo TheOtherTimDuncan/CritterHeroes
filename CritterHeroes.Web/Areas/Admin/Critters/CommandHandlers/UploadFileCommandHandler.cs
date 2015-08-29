@@ -87,7 +87,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             Breed breed = await _breedStorage.Entities.FindByNameAsync(breedName);
             if (breed == null)
             {
-                Species species = await _speciesStorage.FindByNameAsync(speciesName);
+                Species species = await _speciesStorage.Entities.FindByNameAsync(speciesName);
                 if (species == null)
                 {
                     species = new Species(speciesName, speciesName, speciesName, null, null);

@@ -39,7 +39,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             // Add any new species from the source or update existing ones to match
             foreach (SpeciesSource source in sources)
             {
-                Species species = await TargetStorageContext.FindByNameAsync(source.Name);
+                Species species = await TargetStorageContext.Entities.FindByNameAsync(source.Name);
                 if (species != null)
                 {
                     species.Singular = source.Singular;

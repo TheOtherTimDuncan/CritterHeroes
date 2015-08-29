@@ -31,7 +31,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
             {
-                Species result = await storageContext.FindByNameAsync(species.Name);
+                Species result = await storageContext.Entities.FindByNameAsync(species.Name);
                 result.Should().NotBeNull();
 
                 result.Singular.Should().Be(species.Singular);
@@ -42,7 +42,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                Species deleted = await storageContext.FindByNameAsync(species.Name);
+                Species deleted = await storageContext.Entities.FindByNameAsync(species.Name);
                 deleted.Should().BeNull();
             }
         }
@@ -71,11 +71,11 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
             {
-                Species result1 = await storageContext.FindByNameAsync(species1.Name);
+                Species result1 = await storageContext.Entities.FindByNameAsync(species1.Name);
                 result1.OrganizationSupportedCritters.Should().HaveCount(1);
                 result1.OrganizationSupportedCritters.Single().OrganizationID.Should().Be(organization.ID);
 
-                Species result2 = await storageContext.FindByNameAsync(species2.Name);
+                Species result2 = await storageContext.Entities.FindByNameAsync(species2.Name);
                 result2.OrganizationSupportedCritters.Should().HaveCount(1);
                 result2.OrganizationSupportedCritters.Single().OrganizationID.Should().Be(organization.ID);
 
