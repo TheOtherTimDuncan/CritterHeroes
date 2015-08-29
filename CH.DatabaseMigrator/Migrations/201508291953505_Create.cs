@@ -65,7 +65,7 @@ namespace CH.DatabaseMigrator.Migrations
                 .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
                 .Index(t => t.SpeciesID)
                 .Index(t => t.BreedName)
-                .Index(t => t.RescueGroupsID, unique: true);
+                .Index(t => t.RescueGroupsID);
 
             CreateTable(
                 "dbo.AppRole",
@@ -158,13 +158,13 @@ namespace CH.DatabaseMigrator.Migrations
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Name, unique: true)
-                .Index(t => t.RescueGroupsID, unique: true);
+                .Index(t => t.RescueGroupsID);
 
             CreateTable(
                 "dbo.Critter",
                 c => new
                 {
-                    ID = c.Int(nullable: false),
+                    ID = c.Int(nullable: false, identity: true),
                     RescueGroupsID = c.Int(),
                     StatusID = c.Int(nullable: false),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),

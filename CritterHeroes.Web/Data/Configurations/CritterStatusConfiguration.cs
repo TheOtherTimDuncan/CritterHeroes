@@ -19,10 +19,7 @@ namespace CritterHeroes.Web.Data.Configurations
                 IsUnique = true
             }));
             Property(x => x.Description).HasMaxLength(100);
-            Property(x => x.RescueGroupsID).HasMaxLength(6).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()
-            {
-                IsUnique = true
-            }));
+            Property(x => x.RescueGroupsID).HasMaxLength(6).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));
         }
     }
 }
