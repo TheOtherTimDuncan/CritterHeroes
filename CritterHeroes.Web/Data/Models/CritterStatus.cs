@@ -55,5 +55,11 @@ namespace CritterHeroes.Web.Data.Models
             get;
             set;
         }
+
+        public virtual ICollection<Critter> Critters
+        {
+            get;
+            private set;
+        }
     }
 }

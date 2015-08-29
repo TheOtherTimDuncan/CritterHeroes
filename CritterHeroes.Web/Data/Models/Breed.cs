@@ -76,6 +76,12 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public virtual ICollection<Critter> Critters
+        {
+            get;
+            private set;
+        }
+
         public void ChangeSpecies(int speciesID)
         {
             this.SpeciesID = speciesID;
