@@ -14,16 +14,16 @@ using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 {
-    public class UploadFileCommandHandler : IAsyncCommandHandler<UploadFileCommand>
+    public class UploadJsonFileCommandHandler : IAsyncCommandHandler<UploadJsonFileCommand>
     {
         private ICritterBatchSqlStorageContext _critterStorage;
 
-        public UploadFileCommandHandler(ICritterBatchSqlStorageContext critterStorage)
+        public UploadJsonFileCommandHandler(ICritterBatchSqlStorageContext critterStorage)
         {
             this._critterStorage = critterStorage;
         }
 
-        public async Task<CommandResult> ExecuteAsync(UploadFileCommand command)
+        public async Task<CommandResult> ExecuteAsync(UploadJsonFileCommand command)
         {
             using (StreamReader reader = new StreamReader(command.File.InputStream))
             {

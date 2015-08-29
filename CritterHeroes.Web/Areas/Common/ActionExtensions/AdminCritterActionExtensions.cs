@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Critters;
+using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
@@ -13,6 +14,11 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         public static LinkElement AdminCrittersActionLink(this LinkElement linkElement, Expression<Func<CrittersController, ActionResult>> actionSelector)
         {
             return linkElement.ActionLink<CrittersController>(actionSelector);
+        }
+
+        public static string AdminCrittersUploadJsonAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action<CrittersController>(x => x.UploadJson(null));
         }
     }
 }

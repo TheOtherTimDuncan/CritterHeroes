@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(UploadFileCommand command)
+        public async Task<ActionResult> UploadJson(UploadJsonFileCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
             return View(command);

@@ -19,7 +19,7 @@ using TOTD.Utility.Misc;
 namespace CH.Test.AdminCrittersTests
 {
     [TestClass]
-    public class UploadFileCommandHandlerTests : BaseTest
+    public class UploadJsonFileCommandHandlerTests : BaseTest
     {
         [TestMethod]
         public async Task CanAddOrUpdateCrittersFromFileData()
@@ -42,12 +42,12 @@ namespace CH.Test.AdminCrittersTests
                 Mock<HttpPostedFileBase> mockFile = new Mock<HttpPostedFileBase>();
                 mockFile.Setup(x => x.InputStream).Returns(stream);
 
-                UploadFileCommand command = new UploadFileCommand()
+                UploadJsonFileCommand command = new UploadJsonFileCommand()
                 {
                     File = mockFile.Object
                 };
 
-                UploadFileCommandHandler handler = new UploadFileCommandHandler(mockCritterStorage.Object);
+                UploadJsonFileCommandHandler handler = new UploadJsonFileCommandHandler(mockCritterStorage.Object);
                 CommandResult commandResult = await handler.ExecuteAsync(command);
                 commandResult.Succeeded.Should().BeTrue();
 
