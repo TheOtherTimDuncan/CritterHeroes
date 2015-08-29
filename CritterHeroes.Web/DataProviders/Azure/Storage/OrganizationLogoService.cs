@@ -51,7 +51,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 
         public async Task SaveLogo(Stream source, string filename, string contentType)
         {
-            Organization org = await _storageContext.FindByIDAsync(OrganizationContext.OrganizationID);
+            Organization org = await _storageContext.Entities.FindByIDAsync(OrganizationContext.OrganizationID);
 
             CloudBlobContainer container = await GetContainer();
 

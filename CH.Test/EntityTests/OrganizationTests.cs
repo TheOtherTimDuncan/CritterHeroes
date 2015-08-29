@@ -30,7 +30,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
             {
-                Organization result = await storageContext.FindByIDAsync(organization.ID);
+                Organization result = await storageContext.Entities.FindByIDAsync(organization.ID);
                 result.Should().NotBeNull();
 
                 result.FullName.Should().Be(organization.FullName);
@@ -43,7 +43,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                Organization deleted = await storageContext.FindByIDAsync(organization.ID);
+                Organization deleted = await storageContext.Entities.FindByIDAsync(organization.ID);
                 deleted.Should().BeNull();
             }
         }
@@ -74,7 +74,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
             {
-                Organization result = await storageContext.FindByIDAsync(organization.ID);
+                Organization result = await storageContext.Entities.FindByIDAsync(organization.ID);
                 result.Should().NotBeNull();
 
                 result.SupportedCritters.Should().HaveCount(2);
@@ -85,7 +85,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                Organization deleted = await storageContext.FindByIDAsync(organization.ID);
+                Organization deleted = await storageContext.Entities.FindByIDAsync(organization.ID);
                 deleted.Should().BeNull();
             }
         }

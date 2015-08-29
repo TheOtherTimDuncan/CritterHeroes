@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Middleware
                 // It must not exist so let's create it
                 ISqlStorageContext<Organization> storageContext = _dependencyResolver.GetService<ISqlStorageContext<Organization>>();
                 IAppConfiguration appConfiguration = _dependencyResolver.GetService<IAppConfiguration>();
-                Organization organization = await storageContext.FindByIDAsync(appConfiguration.OrganizationID);
+                Organization organization = await storageContext.Entities.FindByIDAsync(appConfiguration.OrganizationID);
                 organizationContext = OrganizationContext.FromOrganization(organization);
 
                 // Cache the result in the response for the next request

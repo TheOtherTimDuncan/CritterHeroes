@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
 
         public async Task<EditProfileModel> RetrieveAsync(EditProfileQuery query)
         {
-            Organization org = await _storageContext.FindByIDAsync(_appConfiguration.OrganizationID);
+            Organization org = await _storageContext.Entities.FindByIDAsync(_appConfiguration.OrganizationID);
             return new EditProfileModel()
             {
                 Name = org.FullName,

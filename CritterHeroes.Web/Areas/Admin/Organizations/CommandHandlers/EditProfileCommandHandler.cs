@@ -31,7 +31,7 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.CommandHandlers
 
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
-            Organization org = await _storageContext.FindByIDAsync(_appConfiguration.OrganizationID);
+            Organization org = await _storageContext.Entities.FindByIDAsync(_appConfiguration.OrganizationID);
             org.FullName = command.Name;
             org.ShortName = command.ShortName;
             org.EmailAddress = command.Email;
