@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CritterHeroes.Web.Contracts.Storage
@@ -12,9 +11,6 @@ namespace CritterHeroes.Web.Contracts.Storage
         {
             get;
         }
-
-        T Get(Expression<Func<T, bool>> predicate);
-        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
 
         IEnumerable<T> GetAll();
         Task<IEnumerable<T>> GetAllAsync();

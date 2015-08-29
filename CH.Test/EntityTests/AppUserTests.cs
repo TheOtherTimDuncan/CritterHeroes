@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Data.Contexts;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Data.Storage;
 using FluentAssertions;
@@ -39,7 +40,7 @@ namespace CH.Test.EntityTests
 
             using (AppUserStorageContext userContext = new AppUserStorageContext())
             {
-                AppUser result = await userContext.GetAsync(x => x.Id == appUser.Id);
+                AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
                 result.Should().NotBeNull();
 
                 result.FirstName.Should().Be(appUser.FirstName);

@@ -22,8 +22,6 @@ namespace CH.Test.Mocks
                 .SetupLinq();
 
             this.Setup(x => x.Entities).Returns(_dbset.Object);
-            this.Setup(x => x.Get(It.IsAny<Expression<Func<T, bool>>>())).Returns((Expression<Func<T, bool>> predicate) => _dbset.Object.Where(predicate).SingleOrDefault());
-            this.Setup(x => x.GetAsync(It.IsAny<Expression<Func<T, bool>>>())).Returns(async (Expression<Func<T, bool>> predicate) => await _dbset.Object.Where(predicate).SingleOrDefaultAsync());
             this.Setup(x => x.GetAll()).Returns(() => _dbset.Object.ToList());
             this.Setup(x => x.GetAllAsync()).Returns(async () => await _dbset.Object.ToListAsync());
             this.Setup(x => x.Delete(It.IsAny<T>())).Callback((T entity) => _dbset.Object.Remove(entity));

@@ -14,9 +14,19 @@ namespace CritterHeroes.Web.Data.Extensions
             return source.Where(x => x.UserName == username);
         }
 
+        public static IQueryable<AppUser> MatchingID(this IQueryable<AppUser> source, int userID)
+        {
+            return source.Where(x => x.Id == userID);
+        }
+
         public static async Task<AppUser> FindByUsernameAsync(this IQueryable<AppUser> source, string username)
         {
             return await source.MatchingUsername(username).SingleOrDefaultAsync();
+        }
+
+        public static async Task<AppUser> FindByIDAsync(this IQueryable<AppUser> source, int userID)
+        {
+            return await source.MatchingID(userID).SingleOrDefaultAsync();
         }
     }
 }
