@@ -1,42 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Extensions
 {
     public static class CritterStatusExtensions
     {
-        public static CritterStatus FindByID(this ISqlStorageContext<CritterStatus> storageContext, int statusID)
+        public static IQueryable<CritterStatus> MatchingID(this IQueryable<CritterStatus> source, int statusID)
         {
-            return storageContext.Get(x => x.ID == statusID);
+            return source.Where(x => x.ID == statusID);
         }
 
-        public async static Task<CritterStatus> FindByIDAsync(this ISqlStorageContext<CritterStatus> storageContext, int statusID)
+        public static IQueryable<CritterStatus> MatchingName(this IQueryable<CritterStatus> source, string name)
         {
-            return await storageContext.GetAsync(x => x.ID == statusID);
+            return source.Where(x => x.Name == name);
         }
 
-        public static CritterStatus FindByName(this ISqlStorageContext<CritterStatus> storageContext, string name)
+        public static IQueryable<CritterStatus> MatchingRescueGroupsID(this IQueryable<CritterStatus> source, string rescueGroupsID)
         {
-            return storageContext.Get(x => x.Name == name);
+            return source.Where(x => x.RescueGroupsID == rescueGroupsID);
         }
 
-        public async static Task<CritterStatus> FindByNameAsync(this ISqlStorageContext<CritterStatus> storageContext, string name)
+        public async static Task<CritterStatus> FindByIDAsync(this IQueryable<CritterStatus> source, int statusID)
         {
-            return await storageContext.GetAsync(x => x.Name == name);
+            return await source.MatchingID(statusID).SingleOrDefaultAsync();
         }
 
-        public static CritterStatus FindByRescueGroupsID(this ISqlStorageContext<CritterStatus> storageContext, string rescueGroupsID)
+        public async static Task<CritterStatus> FindByNameAsync(this IQueryable<CritterStatus> source, string name)
         {
-            return storageContext.Get(x => x.RescueGroupsID == rescueGroupsID);
+            return await source.MatchingName(name).SingleOrDefaultAsync();
         }
 
-        public async static Task<CritterStatus> FindByRescueGroupsIDAsync(this ISqlStorageContext<CritterStatus> storageContext, string rescueGroupsID)
+        public async static Task<CritterStatus> FindByRescueGroupsIDAsync(this IQueryable<CritterStatus> source, string rescueGroupsID)
         {
-            return await storageContext.GetAsync(x => x.RescueGroupsID == rescueGroupsID);
+            return await source.MatchingRescueGroupsID(rescueGroupsID).SingleOrDefaultAsync();
         }
     }
 }

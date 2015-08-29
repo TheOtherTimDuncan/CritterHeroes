@@ -72,7 +72,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<CritterStatus> GetCritterStatus(string status)
         {
-            CritterStatus critterStatus = await _statusStorage.FindByNameAsync(status);
+            CritterStatus critterStatus = await _statusStorage.Entities.FindByNameAsync(status);
             if (critterStatus == null)
             {
                 critterStatus = new CritterStatus(status, status);

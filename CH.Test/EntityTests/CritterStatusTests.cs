@@ -30,7 +30,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
             {
-                CritterStatus result = await storageContext.FindByIDAsync(critterStatus.ID);
+                CritterStatus result = await storageContext.Entities.FindByIDAsync(critterStatus.ID);
                 result.Should().NotBeNull();
 
                 result.Name.Should().Be(critterStatus.Name);
@@ -40,7 +40,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                CritterStatus deleted = await storageContext.FindByIDAsync(critterStatus.ID);
+                CritterStatus deleted = await storageContext.Entities.FindByIDAsync(critterStatus.ID);
                 deleted.Should().BeNull();
             }
         }

@@ -37,7 +37,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             // Add any new breeds from the source or update existing ones to match
             foreach (CritterStatusSource source in sources)
             {
-                CritterStatus critterStatus = await TargetStorageContext.FindByRescueGroupsIDAsync(source.ID);
+                CritterStatus critterStatus = await TargetStorageContext.Entities.FindByRescueGroupsIDAsync(source.ID);
 
                 if (critterStatus != null)
                 {
