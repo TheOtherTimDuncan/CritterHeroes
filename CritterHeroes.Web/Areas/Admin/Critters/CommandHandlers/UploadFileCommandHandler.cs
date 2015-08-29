@@ -41,7 +41,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     CritterStatus status = await GetCritterStatus(critterSource.Status);
                     Breed breed = await GetBreed(critterSource.PrimaryBreed, critterSource.Species);
 
-                    Critter critter = await _critterStorage.FindByRescueGroupsIDAsync(critterSource.AnimalID);
+                    Critter critter = await _critterStorage.Entities.FindByRescueGroupsIDAsync(critterSource.AnimalID);
                     if (critter == null)
                     {
                         critter = new Critter(status, critterSource.Name, breed, critterSource.AnimalID);

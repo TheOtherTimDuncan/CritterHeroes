@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Extensions
@@ -35,9 +34,9 @@ namespace CritterHeroes.Web.Data.Extensions
             return await source.MatchingRescueGroupsID(rescueGroupsID).SingleOrDefaultAsync();
         }
 
-        public async static Task<Breed> FindByNameAsync(this IQueryable<Breed> storageContext, string breedName)
+        public async static Task<Breed> FindByNameAsync(this IQueryable<Breed> source, string breedName)
         {
-            return await storageContext.MatchingName(breedName).SingleOrDefaultAsync();
+            return await source.MatchingName(breedName).SingleOrDefaultAsync();
             ;
         }
 

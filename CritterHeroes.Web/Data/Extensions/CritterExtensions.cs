@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
@@ -9,24 +10,29 @@ namespace CritterHeroes.Web.Data.Extensions
 {
     public static class CritterExtensions
     {
-        public static Critter FindByID(this ISqlStorageContext<Critter> storageContext, int critterID)
+        public static IQueryable<Critter> MatchingID(this IQueryable<Critter> source, int critterID)
         {
-            return storageContext.Get(x => x.ID == critterID);
+            return source.Where(x => x.ID == critterID);
         }
 
-        public async static Task<Critter> FindByIDAsync(this ISqlStorageContext<Critter> storageContext, int critterID)
+        public static IQueryable<Critter> MatchingRescueGroupsID(this IQueryable<Critter> source, int rescueGroupsID)
         {
-            return await storageContext.GetAsync(x => x.ID == critterID);
+            return source.Where(x => x.RescueGroupsID == rescueGroupsID);
         }
 
-        public static Critter FindByRescueGroupsID(this ISqlStorageContext<Critter> storageContext, int rescueGroupsID)
+        public static Critter FindByID(this IQueryable<Critter> storageContext, int critterID)
         {
-            return storageContext.Get(x => x.RescueGroupsID == rescueGroupsID);
+            return storageContext.MatchingID(critterID).SingleOrDefault();
         }
 
-        public async static Task<Critter> FindByRescueGroupsIDAsync(this ISqlStorageContext<Critter> storageContext, int rescueGroupsID)
+        public async static Task<Critter> FindByIDAsync(this IQueryable<Critter> source, int critterID)
         {
-            return await storageContext.GetAsync(x => x.RescueGroupsID == rescueGroupsID);
+            return await source.MatchingID(critterID).SingleOrDefaultAsync();
+        }
+
+        public async static Task<Critter> FindByRescueGroupsIDAsync(this IQueryable<Critter> source, int rescueGroupsID)
+        {
+            return await source.MatchingRescueGroupsID(rescueGroupsID).SingleOrDefaultAsync();
         }
     }
 }

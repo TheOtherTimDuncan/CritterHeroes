@@ -39,7 +39,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
             {
-                Critter result = await storageContext.FindByIDAsync(critter.ID);
+                Critter result = await storageContext.Entities.FindByIDAsync(critter.ID);
                 result.Should().NotBeNull();
 
                 result.RescueGroupsID.Should().Be(critter.RescueGroupsID);
@@ -59,7 +59,7 @@ namespace CH.Test.EntityTests
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
-                storageContext.FindByID(critter.ID).Should().BeNull();
+                storageContext.Entities.FindByID(critter.ID).Should().BeNull();
             }
         }
     }
