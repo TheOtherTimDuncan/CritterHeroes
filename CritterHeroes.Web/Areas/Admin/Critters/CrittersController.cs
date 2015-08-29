@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
@@ -21,6 +23,14 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public ViewResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(UploadFileCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+            return View(command);
         }
     }
 }

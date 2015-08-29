@@ -8,6 +8,14 @@
 
 <h2>Data Maintenance - Critters</h2>
 
+@using (Html.FluentHtml().Form().Attribute("enctype", "multipart/form-data").Begin())
+{
+    @Html.AntiForgeryToken()
+    <div class="file-upload btn btn-primary">
+        <span>Upload File</span>
+        <input type="file" id="file" name="file" />
+    </div>
+}
+
 <p>Log</p>
-<ul id="log" class="border-box">
-</ul>
+<ul id="log" class="border-box"></ul>
