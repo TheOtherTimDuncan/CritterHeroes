@@ -528,6 +528,10 @@
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadJsonFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\Commands\UploadJsonFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\CrittersController.cs" />
+    <Compile Include="Areas\Admin\Critters\Models\CritterSummaryModel.cs" />
+    <Compile Include="Areas\Admin\Critters\Models\StatusModel.cs" />
+    <Compile Include="Areas\Admin\Critters\Queries\CritterSummaryQuery.cs" />
+    <Compile Include="Areas\Admin\Critters\QueryHandlers\CritterSummaryQueryHandler.cs" />
     <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
     <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />

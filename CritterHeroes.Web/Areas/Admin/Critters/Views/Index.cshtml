@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CritterHeroes.Web.Areas.Admin.Critters.Models.CritterSummaryModel
+
+@{
     ViewBag.Title = "Data Maintenance - Critters";
 }
 
@@ -15,3 +17,21 @@
         <input type="file" name="file" />
     </div>
 </form>
+
+<h3>Summary</h3>
+
+<table class="status-table">
+    <tbody>
+        @foreach (var status in Model.StatusSummary)
+        {
+            <tr>
+                <td>@status.Status</td>
+                <td>@Html.DisplayFor(m => status.Count)</td>
+            </tr>
+        }
+        <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>@Html.DisplayFor(m => m.StatusTotal)</strong></td>
+        </tr>
+    </tbody>
+</table>

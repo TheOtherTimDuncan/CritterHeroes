@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Critters.Commands;
+using CritterHeroes.Web.Areas.Admin.Critters.Models;
+using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
@@ -20,9 +22,10 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         }
 
         [HttpGet]
-        public ViewResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
+            return View(model);
         }
 
         [HttpPost]
