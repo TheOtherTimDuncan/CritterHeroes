@@ -157,18 +157,15 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public async Task<JObject> GetDataAsync(JObject request)
         {
-            using (HttpClient client = new HttpClient())
+            HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
             {
-                HttpResponseMessage response = await client.PostAsync(_configuration.Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new RescueGroupsException("Unsuccesful status code: {0} - {1}; URL: {2}", (int)response.StatusCode, response.StatusCode, _configuration.Url);
-                }
-
-                string content = await response.Content.ReadAsStringAsync();
-                return JObject.Parse(content);
+                throw new RescueGroupsException("Unsuccesful status code: {0} - {1}; URL: {2}", (int)response.StatusCode, response.StatusCode, _configuration.Url);
             }
+
+            string content = await response.Content.ReadAsStringAsync();
+            return JObject.Parse(content);
         }
     }
 }
