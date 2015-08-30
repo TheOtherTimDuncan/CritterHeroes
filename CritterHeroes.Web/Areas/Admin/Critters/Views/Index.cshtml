@@ -10,13 +10,23 @@
 
 <h2>Data Maintenance - Critters</h2>
 
-<form action="@Url.AdminCrittersUploadJsonAction()" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-    <div class="file-upload btn btn-primary">
-        <span>Upload JSON</span>
-        <input type="file" name="file" />
-    </div>
-</form>
+<div class="clearfix">
+    <form action="@Url.AdminCrittersUploadJsonAction()" method="post" enctype="multipart/form-data" class="pull-left">
+        @Html.AntiForgeryToken()
+        <div class="file-upload btn btn-primary">
+            <span>Upload JSON</span>
+            <input type="file" name="file" />
+        </div>
+    </form>
+
+    <form action="@Url.AdminCrittersUploadCsvAction()" method="post" enctype="multipart/form-data" class="pull-left margin-left-small">
+        @Html.AntiForgeryToken()
+        <div class="file-upload btn btn-primary">
+            <span>Upload CSV</span>
+            <input type="file" name="file" />
+        </div>
+    </form>
+</div>
 
 <h3>Summary</h3>
 

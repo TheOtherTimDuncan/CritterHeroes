@@ -21,5 +21,10 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         {
             return urlHelper.Action<CrittersController>(x => x.UploadJson(null));
         }
+
+        public static string AdminCrittersUploadCsvAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action<CrittersController>(x => x.UploadCsv(null));
+        }
     }
 }

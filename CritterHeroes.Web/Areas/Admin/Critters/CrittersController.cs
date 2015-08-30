@@ -33,7 +33,15 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public async Task<ActionResult> UploadJson(UploadJsonFileCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
-            return View(command);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadCsv(UploadCsvFileCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+            return RedirectToAction("Index");
         }
     }
 }

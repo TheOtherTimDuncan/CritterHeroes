@@ -216,6 +216,7 @@
   <ItemGroup>
     <Compile Include="ActionResultTests\RedirectToLocalTests.cs" />
     <Compile Include="ActionResultTests\RedirectToPreviousTests.cs" />
+    <Compile Include="AdminCrittersTests\UploadCsvCommandHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\UploadJsonFileCommandHandlerTests.cs" />
     <Compile Include="AdminDataMapperTests\BaseDataMapperTest.cs" />
     <Compile Include="AdminDataMapperTests\BreedDataMapperTests.cs" />
