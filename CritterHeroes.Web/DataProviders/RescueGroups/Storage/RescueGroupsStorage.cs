@@ -91,7 +91,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public abstract IEnumerable<T> FromStorage(IEnumerable<JProperty> tokens);
 
-        public JObject CreateRequest(params JProperty[] requestProperties)
+        public virtual JObject CreateRequest(params JProperty[] requestProperties)
         {
             // API key is required for all requests
             JObject result = new JObject(new JProperty("apikey", _configuration.APIKey));
