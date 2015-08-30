@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Proxies;
+using System.Windows.Forms;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json.Linq;
@@ -15,8 +15,8 @@ namespace CH.RescueGroupsExplorer
         private bool _isPrivate;
         private string _objectAction;
 
-        public RescueGroupsExplorerStorage()
-            : base(new RescueGroupsConfiguration(), new HttpClientProxy())
+        public RescueGroupsExplorerStorage(HttpClientProxy httpClient)
+            : base(new RescueGroupsConfiguration(), httpClient)
         {
         }
 

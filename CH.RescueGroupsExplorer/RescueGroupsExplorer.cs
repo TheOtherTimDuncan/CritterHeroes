@@ -25,7 +25,7 @@ namespace CH.RescueGroupsExplorer
             IEnumerable<JProperty> result = null;
             try
             {
-                RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage();
+                RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(txtHttp));
                 result = await storage.GetAllAsync(cmbType.Text, cmbAction.Text, cbPrivate.Checked);
             }
             catch (Exception ex)

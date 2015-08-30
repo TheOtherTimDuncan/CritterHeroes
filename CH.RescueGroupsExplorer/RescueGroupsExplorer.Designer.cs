@@ -30,7 +30,6 @@
         {
             this.txtLog = new System.Windows.Forms.TextBox();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.tree = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbType = new System.Windows.Forms.ComboBox();
@@ -39,6 +38,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnLoadJson = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tree = new System.Windows.Forms.TreeView();
+            this.txtHttp = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtLog
@@ -49,7 +55,7 @@
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(288, 294);
+            this.txtLog.Size = new System.Drawing.Size(288, 513);
             this.txtLog.TabIndex = 0;
             // 
             // btnExecute
@@ -61,16 +67,6 @@
             this.btnExecute.Text = "Execute";
             this.btnExecute.UseVisualStyleBackColor = true;
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
-            // 
-            // tree
-            // 
-            this.tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tree.Location = new System.Drawing.Point(313, 15);
-            this.tree.Name = "tree";
-            this.tree.Size = new System.Drawing.Size(481, 396);
-            this.tree.TabIndex = 2;
             // 
             // label1
             // 
@@ -151,11 +147,50 @@
             this.btnLoadJson.UseVisualStyleBackColor = true;
             this.btnLoadJson.Click += new System.EventHandler(this.btnLoadJson_Click);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(321, 12);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tree);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.txtHttp);
+            this.splitContainer1.Size = new System.Drawing.Size(761, 618);
+            this.splitContainer1.SplitterDistance = 309;
+            this.splitContainer1.TabIndex = 11;
+            // 
+            // tree
+            // 
+            this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tree.Location = new System.Drawing.Point(0, 0);
+            this.tree.Name = "tree";
+            this.tree.Size = new System.Drawing.Size(761, 309);
+            this.tree.TabIndex = 4;
+            // 
+            // txtHttp
+            // 
+            this.txtHttp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtHttp.Location = new System.Drawing.Point(0, 0);
+            this.txtHttp.Multiline = true;
+            this.txtHttp.Name = "txtHttp";
+            this.txtHttp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtHttp.Size = new System.Drawing.Size(761, 305);
+            this.txtHttp.TabIndex = 0;
+            // 
             // RescueGroupsExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 423);
+            this.ClientSize = new System.Drawing.Size(1090, 642);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnLoadJson);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.label3);
@@ -164,11 +199,15 @@
             this.Controls.Add(this.cmbType);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.tree);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.txtLog);
             this.Name = "RescueGroupsExplorer";
             this.Text = "Rescue Groups Explorer";
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,7 +217,6 @@
 
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.TreeView tree;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbType;
@@ -187,6 +225,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnLoadJson;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TreeView tree;
+        private System.Windows.Forms.TextBox txtHttp;
     }
 }
 

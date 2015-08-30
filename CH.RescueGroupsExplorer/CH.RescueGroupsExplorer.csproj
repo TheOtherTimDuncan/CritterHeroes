@@ -58,8 +58,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TOTD.Utility, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Utility.2.3.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpClientProxy.cs" />
     <Compile Include="RescueGroupsExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
