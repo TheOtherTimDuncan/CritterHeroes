@@ -42,7 +42,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
             // Add any new breeds from the source or update existing ones to match
             foreach (BreedSource source in sources)
             {
-                Breed breed = await TargetStorageContext.Entities.FindByNameAsync(source.BreedName);
+                Breed breed = await TargetStorageContext.Entities.FindBySpeciesAndNameAsync(source.Species, source.BreedName);
 
                 if (breed != null)
                 {

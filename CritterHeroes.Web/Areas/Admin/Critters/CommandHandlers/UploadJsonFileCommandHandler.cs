@@ -78,7 +78,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<Breed> GetBreed(string breedName, string speciesName)
         {
-            Breed breed = await _critterStorage.Breeds.FindByNameAsync(breedName);
+            Breed breed = await _critterStorage.Breeds.FindBySpeciesAndNameAsync(speciesName, breedName);
             if (breed == null)
             {
                 Species species = await _critterStorage.Species.FindByNameAsync(speciesName);

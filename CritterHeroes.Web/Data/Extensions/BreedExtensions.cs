@@ -16,12 +16,12 @@ namespace CritterHeroes.Web.Data.Extensions
 
         public static IQueryable<Breed> MatchingRescueGroupsID(this IQueryable<Breed> source, string rescueGroupsID)
         {
-            return source.Where(x => x.RescueGroupsID  == rescueGroupsID);
+            return source.Where(x => x.RescueGroupsID == rescueGroupsID);
         }
 
-        public static IQueryable<Breed> MatchingName(this IQueryable<Breed> source, string name)
+        public static IQueryable<Breed> MatchingSpeciesAndName(this IQueryable<Breed> source, string speciesName, string name)
         {
-            return source.Where(x => x.BreedName == name);
+            return source.Where(x => x.Species.Name == speciesName && x.BreedName == name);
         }
 
         public async static Task<Breed> FindByIDAsync(this IQueryable<Breed> source, int breedID)
@@ -34,9 +34,9 @@ namespace CritterHeroes.Web.Data.Extensions
             return await source.MatchingRescueGroupsID(rescueGroupsID).SingleOrDefaultAsync();
         }
 
-        public async static Task<Breed> FindByNameAsync(this IQueryable<Breed> source, string breedName)
+        public async static Task<Breed> FindBySpeciesAndNameAsync(this IQueryable<Breed> source, string speciesName, string breedName)
         {
-            return await source.MatchingName(breedName).SingleOrDefaultAsync();
+            return await source.MatchingSpeciesAndName(speciesName, breedName).SingleOrDefaultAsync();
             ;
         }
 
