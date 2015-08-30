@@ -73,6 +73,7 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<IHttpUser, HttpUserProxy>();
             container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
             container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
+            container.RegisterPerWebRequest<IHttpClient, HttpClientProxy>();
 
             container.Register<IPageContextService, PageContextService>(new WebRequestLifestyle());
             container.Register<IStateSerializer, StateSerializer>(new WebRequestLifestyle());

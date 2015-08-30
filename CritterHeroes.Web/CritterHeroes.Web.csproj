@@ -599,6 +599,7 @@
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
+    <Compile Include="Common\Proxies\HttpClientProxy.cs" />
     <Compile Include="Common\Proxies\HttpUserProxy.cs" />
     <Compile Include="Common\StateManagement\PageContext.cs" />
     <Compile Include="Common\StateManagement\PageContextService.cs" />
@@ -612,6 +613,7 @@
     <Compile Include="Contracts\Email\IEmailService.cs" />
     <Compile Include="Contracts\Identity\IAppUserManager.cs" />
     <Compile Include="Contracts\Identity\IAppUserStore.cs" />
+    <Compile Include="Contracts\IHttpClient.cs" />
     <Compile Include="Contracts\IHttpUser.cs" />
     <Compile Include="Contracts\Notifications\INotification.cs" />
     <Compile Include="Contracts\Notifications\INotificationPublisher.cs" />

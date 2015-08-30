@@ -17,7 +17,7 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new SpeciesSourceStorage(new RescueGroupsConfiguration()).ObjectType.Should().Be("animalSpecies");
+            new SpeciesSourceStorage(new RescueGroupsConfiguration(), null).ObjectType.Should().Be("animalSpecies");
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace CH.Test.RescueGroups
             data.Add(element1);
             data.Add(element2);
 
-            IEnumerable<SpeciesSource> species = new SpeciesSourceStorage(new RescueGroupsConfiguration()).FromStorage(data.Properties());
+            IEnumerable<SpeciesSource> species = new SpeciesSourceStorage(new RescueGroupsConfiguration(), null).FromStorage(data.Properties());
             species.Should().HaveCount(2);
 
             SpeciesSource result1 = species.FirstOrDefault(x => x.Name == species1.Name);

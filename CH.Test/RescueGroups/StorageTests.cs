@@ -16,7 +16,7 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void CanReadErrorResponse()
         {
-            CritterStatusSourceStorage storage = new CritterStatusSourceStorage(new RescueGroupsConfiguration());
+            CritterStatusSourceStorage storage = new CritterStatusSourceStorage(new RescueGroupsConfiguration(), null);
             JObject json = JObject.Parse("{\"status\":\"error\",\"messages\":{\"generalMessages\":[{\"messageID\":\"1001\",\"messageCriticality\":\"error\",\"messageText\":\"The action you specified was not found.\"}],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}");
             Action action = () => storage.ValidateResponse(json);
             action.ShouldThrow<RescueGroupsException>().WithMessage("The action you specified was not found.");

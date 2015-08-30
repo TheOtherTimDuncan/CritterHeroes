@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Storage;
 using Newtonsoft.Json.Linq;
@@ -15,11 +16,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     public abstract class RescueGroupsStorage<T> : IRescueGroupsStorageContext<T> where T : class
     {
         private IRescueGroupsConfiguration _configuration;
+        private IHttpClient _client;
 
-        public RescueGroupsStorage(IRescueGroupsConfiguration configuration)
+        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
         {
-            ThrowIf.Argument.IsNull(configuration, "configuration");
-            _configuration = configuration;
+            ThrowIf.Argument.IsNull(configuration, nameof(configuration));
+
+            this._configuration = configuration;
+            this._client = client;
         }
 
         public abstract string ObjectType
