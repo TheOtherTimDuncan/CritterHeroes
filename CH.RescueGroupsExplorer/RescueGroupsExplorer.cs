@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -25,8 +27,16 @@ namespace CH.RescueGroupsExplorer
             IEnumerable<JProperty> result = null;
             try
             {
-                RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(txtHttp));
-                result = await storage.GetAllAsync(cmbType.Text, cmbAction.Text, cbPrivate.Checked);
+                if (cmbType.Text == "animals" && cmbAction.Text == "publicSearch")
+                {
+                    CritterSearchResultStorage storage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
+                    var searchResults = await storage.GetAllAsync();
+                }
+                else
+                {
+                    RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(txtHttp));
+                    result = await storage.GetAllAsync(cmbType.Text, cmbAction.Text, cbPrivate.Checked);
+                }
             }
             catch (Exception ex)
             {
