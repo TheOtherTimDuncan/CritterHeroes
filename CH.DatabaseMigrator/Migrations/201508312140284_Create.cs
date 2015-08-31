@@ -76,6 +76,7 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     ID = c.Int(nullable: false, identity: true),
                     RescueGroupsID = c.Int(),
+                    OrganizationID = c.Guid(nullable: false),
                     StatusID = c.Int(nullable: false),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     WhenUpdated = c.DateTimeOffset(nullable: false, precision: 7),
@@ -85,7 +86,9 @@ namespace CH.DatabaseMigrator.Migrations
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)
+                .ForeignKey("dbo.Organization", t => t.OrganizationID)
                 .ForeignKey("dbo.CritterStatus", t => t.StatusID)
+                .Index(t => t.OrganizationID)
                 .Index(t => t.StatusID)
                 .Index(t => t.Name)
                 .Index(t => t.BreedID);
@@ -195,6 +198,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.OrganizationSupportedCritter", "SpeciesID", "dbo.Species");
             DropForeignKey("dbo.Breed", "SpeciesID", "dbo.Species");
             DropForeignKey("dbo.Critter", "StatusID", "dbo.CritterStatus");
+            DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
@@ -207,6 +211,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Critter", new[] { "BreedID" });
             DropIndex("dbo.Critter", new[] { "Name" });
             DropIndex("dbo.Critter", new[] { "StatusID" });
+            DropIndex("dbo.Critter", new[] { "OrganizationID" });
             DropIndex("dbo.Breed", new[] { "RescueGroupsID" });
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });

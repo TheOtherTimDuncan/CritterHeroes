@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
@@ -15,14 +17,18 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
     public class UploadCsvFileCommandHandler : IAsyncCommandHandler<UploadCsvFileCommand>
     {
         private ICritterBatchSqlStorageContext _critterStorage;
+        private IStateManager<OrganizationContext> _stateManager;
 
-        public UploadCsvFileCommandHandler(ICritterBatchSqlStorageContext critterStorage)
+        public UploadCsvFileCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager)
         {
             this._critterStorage = critterStorage;
+            this._stateManager = stateManager;
         }
 
         public async Task<CommandResult> ExecuteAsync(UploadCsvFileCommand command)
         {
+            OrganizationContext orgContext = _stateManager.GetContext();
+
             using (TextFieldParser parser = new TextFieldParser(command.File.InputStream))
             {
                 parser.SetDelimiters(",");
@@ -48,7 +54,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(critterID);
                     if (critter == null)
                     {
-                        critter = new Critter(status, critterName, breed, critterID);
+                        critter = new Critter(critterName, status, breed, orgContext.OrganizationID, critterID);
                         _critterStorage.AddCritter(critter);
                     }
                     else

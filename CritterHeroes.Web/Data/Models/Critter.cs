@@ -11,13 +11,13 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
-        public Critter(CritterStatus status, string name, Breed breed, int rescueGroupsID)
-            : this(status, name, breed)
+        public Critter(string name, CritterStatus status, Breed breed, Guid organizationID, int rescueGroupsID)
+            : this(name, status, breed, organizationID)
         {
             this.RescueGroupsID = rescueGroupsID;
         }
 
-        public Critter(CritterStatus status, string name, Breed breed)
+        public Critter(string name, CritterStatus status, Breed breed, Guid organizationID)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
 
@@ -25,6 +25,8 @@ namespace CritterHeroes.Web.Data.Models
             ChangeBreed(breed);
 
             this.Name = name;
+
+            this.OrganizationID = organizationID;
 
             this.WhenCreated = DateTimeOffset.UtcNow;
             this.WhenUpdated = this.WhenCreated;
@@ -37,6 +39,18 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public int? RescueGroupsID
+        {
+            get;
+            private set;
+        }
+
+        public Guid OrganizationID
+        {
+            get;
+            private set;
+        }
+
+        public virtual Organization Organization
         {
             get;
             private set;

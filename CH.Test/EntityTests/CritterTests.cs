@@ -25,14 +25,27 @@ namespace CH.Test.EntityTests
 
             CritterStatus status = new CritterStatus("status", "description");
 
-            Critter critter = new Critter(status, "critter", breed);
+            Organization organization = new Organization()
+            {
+                FullName = "full",
+                AzureName = "azure",
+                EmailAddress = "email@emailcom"
+            };
+
+            Critter critter = new Critter("critter", status, breed, organization.ID);
 
             critter.WhenCreated.Should().BeCloseTo(DateTimeOffset.UtcNow);
             critter.WhenUpdated.Should().Be(critter.WhenCreated);
 
+            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            {
+                storageContext.Add(organization);
+                await storageContext.SaveChangesAsync();
+            }
+
             using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID");
+                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID");
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }

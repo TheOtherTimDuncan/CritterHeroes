@@ -7,6 +7,8 @@ using System.Web;
 using CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers;
 using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 using EntityFramework.Testing.Moq;
@@ -23,6 +25,11 @@ namespace CH.Test.AdminCrittersTests
         [TestMethod]
         public async Task CanAddOrUpdateCrittersFromFileData()
         {
+            OrganizationContext orgContext = new OrganizationContext()
+            {
+                OrganizationID = Guid.NewGuid()
+            };
+
             MockDbSet<Breed> mockBreedSet = new MockDbSet<Breed>().SetupLinq().SetupAddAndRemove();
             MockDbSet<CritterStatus> mockStatusSet = new MockDbSet<CritterStatus>().SetupLinq().SetupAddAndRemove();
             MockDbSet<Species> mockSpeciesSet = new MockDbSet<Species>().SetupLinq().SetupAddAndRemove();
@@ -35,6 +42,9 @@ namespace CH.Test.AdminCrittersTests
             mockCritterStorage.Setup(x => x.Critters).Returns(mockCritterSet.Object);
             mockCritterStorage.Setup(x => x.AddCritter(It.IsAny<Critter>())).Callback((Critter critter) => mockCritterSet.Object.Add(critter));
 
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockStateManager.Setup(x => x.GetContext()).Returns(orgContext);
+
             string filename = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "Sample Data", "pets.csv");
             using (FileStream stream = new FileStream(filename, FileMode.Open))
             {
@@ -46,7 +56,7 @@ namespace CH.Test.AdminCrittersTests
                     File = mockFile.Object
                 };
 
-                UploadCsvFileCommandHandler handler = new UploadCsvFileCommandHandler(mockCritterStorage.Object);
+                UploadCsvFileCommandHandler handler = new UploadCsvFileCommandHandler(mockCritterStorage.Object, mockStateManager.Object);
                 CommandResult commandResult = await handler.ExecuteAsync(command);
                 commandResult.Succeeded.Should().BeTrue();
 

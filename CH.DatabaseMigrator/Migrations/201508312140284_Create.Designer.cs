@@ -13,7 +13,7 @@ namespace CH.DatabaseMigrator.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201508301735490_Create"; }
+            get { return "201508312140284_Create"; }
         }
         
         string IMigrationMetadata.Source
