@@ -78,6 +78,7 @@ namespace CH.DatabaseMigrator.Migrations
                     RescueGroupsID = c.Int(),
                     OrganizationID = c.Guid(nullable: false),
                     StatusID = c.Int(nullable: false),
+                    RescueGroupsLastUpdated = c.DateTime(),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     WhenUpdated = c.DateTimeOffset(nullable: false, precision: 7),
                     Name = c.String(nullable: false, maxLength: 50),
