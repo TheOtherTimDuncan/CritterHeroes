@@ -5,7 +5,7 @@ namespace CritterHeroes.Web.Models.Logging
 {
     public class UserLog
     {
-        public UserLog(Guid logID, UserActions userAction, string userName, DateTime whenOccurredUtc)
+        public UserLog(Guid logID, UserActions userAction, string userName, DateTimeOffset whenOccurredUtc)
         {
             this.ID = logID;
             this.Action = userAction;
@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.Models.Logging
             this.WhenOccurredUtc = whenOccurredUtc;
         }
 
-        public UserLog(UserActions userAction, string userName, DateTime whenOccurredUtc)
+        public UserLog(UserActions userAction, string userName, DateTimeOffset whenOccurredUtc)
             : this(Guid.NewGuid(), userAction, userName, whenOccurredUtc)
         {
         }
@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Models.Logging
             private set;
         }
 
-        public DateTime WhenOccurredUtc
+        public DateTimeOffset WhenOccurredUtc
         {
             get;
             private set;

@@ -51,7 +51,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
         public async Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData)
         {
-            UserLog userLog = new UserLog(userAction, userName, DateTime.UtcNow)
+            UserLog userLog = new UserLog(userAction, userName, DateTimeOffset.UtcNow)
             {
                 ThreadID = Thread.CurrentThread.ManagedThreadId,
                 IPAddress = _owinContext.Request.RemoteIpAddress
@@ -80,7 +80,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
                 throw new AzureException("Invalid UserAction " + actionValue + " for UserLog ID " + tableEntity.RowKey);
             }
 
-            DateTime? whenOccurred = tableEntity.SafeGetEntityPropertyDateTimeValue("WhenOccurredUtc");
+            DateTimeOffset? whenOccurred = tableEntity.SafeGetEntityPropertyDateTimeOffsetValue("WhenOccurredUtc");
             if (whenOccurred == null)
             {
                 throw new AzureException("Invalid WhenOccurredUtc for UserLog ID " + tableEntity.RowKey);

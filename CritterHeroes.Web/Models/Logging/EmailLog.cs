@@ -5,7 +5,7 @@ namespace CritterHeroes.Web.Models.Logging
 {
     public class EmailLog
     {
-        public EmailLog(Guid logID, DateTime whenSentUtc, EmailMessage message)
+        public EmailLog(Guid logID, DateTimeOffset whenSentUtc, EmailMessage message)
         {
             this.ID = logID;
             this.WhenSentUtc = whenSentUtc;
@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.Models.Logging
             this.EmailTo = string.Join(",", message.To);
         }
 
-        public EmailLog(DateTime whenSentUtc, EmailMessage message)
+        public EmailLog(DateTimeOffset whenSentUtc, EmailMessage message)
             : this(Guid.NewGuid(), whenSentUtc, message)
         {
         }
@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Models.Logging
             private set;
         }
 
-        public DateTime WhenSentUtc
+        public DateTimeOffset WhenSentUtc
         {
             get;
             private set;

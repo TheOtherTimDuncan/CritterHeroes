@@ -26,7 +26,7 @@ namespace CH.Test.Azure
             };
             message.To.Add("to@to.com");
 
-            EmailLog emailLog = new EmailLog(DateTime.UtcNow, message);
+            EmailLog emailLog = new EmailLog(DateTimeOffset.UtcNow, message);
 
             AzureEmailLogger logger = new AzureEmailLogger(new AzureConfiguration());
             await logger.LogEmailAsync(emailLog);
@@ -37,7 +37,6 @@ namespace CH.Test.Azure
             result.Should().NotBeNull();
             result.EmailTo.Should().Be(emailLog.EmailTo);
             result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
-            result.WhenSentUtc.Kind.Should().Be(DateTimeKind.Utc);
 
             result.Message.Should().NotBeNull();
             result.Message.From.Should().Be(emailLog.Message.From);

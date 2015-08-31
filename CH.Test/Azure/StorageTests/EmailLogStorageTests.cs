@@ -25,7 +25,7 @@ namespace CH.Test.Azure.StorageTests
             };
             message.To.Add("to@to.com");
 
-            EmailLog emailLog = new EmailLog(DateTime.UtcNow, message);
+            EmailLog emailLog = new EmailLog(DateTimeOffset.UtcNow, message);
             emailLog.EmailTo.Should().Be(message.To.Single());
 
             AzureEmailLogger source = new AzureEmailLogger(new AzureConfiguration());
@@ -35,7 +35,6 @@ namespace CH.Test.Azure.StorageTests
             result.ID.Should().Be(emailLog.ID);
             result.EmailTo.Should().Be(emailLog.EmailTo);
             result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
-            result.WhenSentUtc.Kind.Should().Be(DateTimeKind.Utc);
 
             result.Message.Should().NotBeNull();
             result.Message.From.Should().Be(emailLog.Message.From);

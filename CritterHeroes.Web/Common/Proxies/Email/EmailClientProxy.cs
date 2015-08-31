@@ -26,7 +26,7 @@ namespace CritterHeroes.Web.Common.Proxies.Email
 
         public async Task SendAsync(EmailMessage emailMessage)
         {
-            EmailLog emailLog = new EmailLog(DateTime.UtcNow, emailMessage);
+            EmailLog emailLog = new EmailLog(DateTimeOffset.UtcNow, emailMessage);
             await _logger.LogEmailAsync(emailLog);
 
             SendGridMessage message = new SendGridMessage()
