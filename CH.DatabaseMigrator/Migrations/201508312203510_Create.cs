@@ -84,6 +84,7 @@ namespace CH.DatabaseMigrator.Migrations
                     Name = c.String(nullable: false, maxLength: 50),
                     BreedID = c.Int(nullable: false),
                     Sex = c.String(nullable: false, maxLength: 10),
+                    RescueID = c.String(maxLength: 100),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)

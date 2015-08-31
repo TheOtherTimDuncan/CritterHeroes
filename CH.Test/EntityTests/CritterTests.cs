@@ -61,6 +61,7 @@ namespace CH.Test.EntityTests
                 result.Name.Should().Be(critter.Name);
                 result.Sex.Should().Be(critter.Sex);
                 result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated);
+                result.RescueID.Should().Be(critter.RescueID);
 
                 result.OrganizationID.Should().Be(organization.ID);
                 result.Organization.Should().NotBeNull();

@@ -110,6 +110,12 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public string RescueID
+        {
+            get;
+            set;
+        }
+
         public void ChangeBreed(int breedID)
         {
             this.BreedID = breedID;
