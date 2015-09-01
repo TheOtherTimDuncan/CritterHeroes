@@ -692,6 +692,7 @@
     <Compile Include="Data\Configurations\IdentityConfiguration.cs" />
     <Compile Include="Data\Configurations\OrganizationConfiguration.cs" />
     <Compile Include="Data\Configurations\OrganizationSupportedCritterConfiguration.cs" />
+    <Compile Include="Data\Configurations\PersonConfiguration.cs" />
     <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
     <Compile Include="Data\Contexts\CritterBatchStorageContext.cs" />
     <Compile Include="Data\Extensions\AppUserExtensions.cs" />
@@ -713,6 +714,7 @@
     <Compile Include="Data\Models\Identity\AppUserRole.cs" />
     <Compile Include="Data\Models\Identity\UserRole.cs" />
     <Compile Include="Data\Models\OrganizationSupportedCritter.cs" />
+    <Compile Include="Data\Models\Person.cs" />
     <Compile Include="Data\Storage\AppRoleStore.cs" />
     <Compile Include="Data\Storage\AppUserStore.cs" />
     <Compile Include="Global.asax.cs">

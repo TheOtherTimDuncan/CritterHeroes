@@ -188,6 +188,21 @@ namespace CH.DatabaseMigrator.Migrations
                 .ForeignKey("dbo.AppUser", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
 
+            CreateTable(
+                "dbo.Person",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    FirstName = c.String(maxLength: 100),
+                    LastName = c.String(maxLength: 100),
+                    Email = c.String(maxLength: 256),
+                    City = c.String(maxLength: 100),
+                    State = c.String(maxLength: 2, unicode: false),
+                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.RescueGroupsID);
+
         }
 
         public override void Down()
@@ -202,6 +217,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.Critter", "StatusID", "dbo.CritterStatus");
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
+            DropIndex("dbo.Person", new[] { "RescueGroupsID" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -218,6 +234,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
+            DropTable("dbo.Person");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");
             DropTable("dbo.AppUser");
