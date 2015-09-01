@@ -59,7 +59,7 @@ namespace CH.DatabaseMigrator.Migrations
                     ID = c.Int(nullable: false, identity: true),
                     SpeciesID = c.Int(nullable: false),
                     BreedName = c.String(nullable: false, maxLength: 100),
-                    RescueGroupsID = c.String(maxLength: 6),
+                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
@@ -84,7 +84,7 @@ namespace CH.DatabaseMigrator.Migrations
                     Name = c.String(nullable: false, maxLength: 50),
                     BreedID = c.Int(nullable: false),
                     Sex = c.String(nullable: false, maxLength: 10),
-                    RescueID = c.String(maxLength: 100),
+                    RescueID = c.String(maxLength: 100, unicode: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)
@@ -102,7 +102,7 @@ namespace CH.DatabaseMigrator.Migrations
                     ID = c.Int(nullable: false, identity: true),
                     Name = c.String(maxLength: 25),
                     Description = c.String(maxLength: 100),
-                    RescueGroupsID = c.String(maxLength: 6),
+                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Name, unique: true)

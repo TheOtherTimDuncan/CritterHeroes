@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
 using CritterHeroes.Web.Data.Models;
-
 
 namespace CritterHeroes.Web.Data.Configurations
 {
