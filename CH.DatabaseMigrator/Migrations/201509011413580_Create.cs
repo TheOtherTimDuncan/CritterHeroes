@@ -58,7 +58,7 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     ID = c.Int(nullable: false, identity: true),
                     SpeciesID = c.Int(nullable: false),
-                    BreedName = c.String(nullable: false, maxLength: 50),
+                    BreedName = c.String(nullable: false, maxLength: 100),
                     RescueGroupsID = c.String(maxLength: 6),
                 })
                 .PrimaryKey(t => t.ID)
