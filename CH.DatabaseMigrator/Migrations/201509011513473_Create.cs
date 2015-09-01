@@ -203,6 +203,15 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
 
+            CreateTable(
+                "dbo.State",
+                c => new
+                {
+                    Abbreviation = c.String(nullable: false, maxLength: 2, unicode: false),
+                    Name = c.String(nullable: false, maxLength: 14, unicode: false),
+                })
+                .PrimaryKey(t => t.Abbreviation);
+
         }
 
         public override void Down()
@@ -234,6 +243,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
+            DropTable("dbo.State");
             DropTable("dbo.Person");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");

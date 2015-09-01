@@ -19,8 +19,10 @@ namespace CH.DatabaseMigrator.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(CH.DatabaseMigrator.Migrations.MigrationsDataContext context)
+        protected override void Seed(MigrationsDataContext context)
         {
+            SeedStates(context);
+
             foreach (string role in UserRole.GetAll())
             {
                 AppRole appRole = context.Roles.SingleOrDefault(x => x.Name == role);
@@ -107,6 +109,76 @@ namespace CH.DatabaseMigrator.Migrations
                 context.SaveChanges();
                 fflahOrg.AddSupportedCritter(cat);
                 Logger.Verbose("Added Cat to Supported Critters for FFLAH");
+            }
+        }
+
+        private void SeedStates(MigrationsDataContext context)
+        {
+            string[,] states = {
+               { "AL","Alabama" },
+               { "AK","Alaska"},
+               { "AZ","Arizona"},
+               { "AR","Arkansas"},
+               { "CA","California"},
+               { "CO","Colorado"},
+               { "CT","Connecticut"},
+               { "DE","Delaware"},
+               { "FL","Florida"},
+               { "GA","Georgia"},
+               { "HI","Hawaii"},
+               { "ID","Idaho"},
+               { "IL","Illinois"},
+               { "IN","Indiana"},
+               { "IA","Iowa"},
+               { "KS","Kansas"},
+               { "KY","Kentucky"},
+               { "LA","Louisiana"},
+               { "ME","Maine"},
+               { "MD","Maryland"},
+               { "MA","Massachusetts"},
+               { "MI","Michigan"},
+               { "MN","Minnesota"},
+               { "MS","Mississippi"},
+               { "MO","Missouri"},
+               { "MT","Montana"},
+               { "NE","Nebraska"},
+               { "NV","Nevada"},
+               { "NH","New Hampshire"},
+               { "NJ","New Jersey"},
+               { "NM","New Mexico"},
+               { "NY","New York"},
+               { "NC","North Carolina"},
+               { "ND","North Dakota"},
+               { "OH","Ohio"},
+               { "OK","Oklahoma"},
+               { "OR","Oregon"},
+               { "PA","Pennsylvania"},
+               { "RI","Rhode Island"},
+               { "SC","South Carolina"},
+               { "SD","South Dakota"},
+               { "TN","Tennessee"},
+               { "TX","Texas"},
+               { "UT","Utah"},
+               { "VT","Vermont"},
+               { "VA","Virginia"},
+               { "WA","Washington"},
+               { "WV","West Virginia"},
+               { "WI","Wisconsin"},
+               { "WY","Wyoming"}
+            };
+
+            for (int s = 0; s < states.GetLength(0); s++)
+            {
+                string abbreviation = states[s, 0];
+                string name = states[s, 1];
+                State state = context.States.SingleOrDefault(x => x.Abbreviation == abbreviation);
+                if (state == null)
+                {
+                    state = new State(abbreviation, name);
+                    context.States.Add(state);
+                    context.SaveChanges();
+                    Logger.Verbose("Added " + abbreviation + " - " + name);
+                }
             }
         }
     }

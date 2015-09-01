@@ -20,5 +20,11 @@ namespace CH.DatabaseMigrator.Migrations
             get;
             set;
         }
+
+        public virtual IDbSet<State> States
+        {
+            get;
+            set;
+        }
     }
 }
