@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
@@ -56,34 +57,31 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         /// </summary>
         /// <param name="requestProperties"></param>
         /// <returns></returns>
-        public override JObject CreateRequest(params JProperty[] requestProperties)
+        protected override async Task<JObject> CreateRequest()
         {
-            JObject request = base.CreateRequest(requestProperties);
+            JObject request = await base.CreateRequest();
 
-            if (!requestProperties.Any(x => x.Name == "action" && x.Value.ToString() == "login"))
+            SearchFilter filter = new SearchFilter()
             {
-                SearchFilter filter = new SearchFilter()
-                {
-                    FieldName = "animalStatus",
-                    Operation = "equal",
-                    Criteria = "Sponsorship"
-                };
+                FieldName = "animalStatus",
+                Operation = "equal",
+                Criteria = "Sponsorship"
+            };
 
-                SearchModel search = new SearchModel()
-                {
-                    ResultStart = 0,
-                    ResultLimit = 100,
-                    ResultSort = "contactID",
-                    // Filters = new[] { filter },
-                    Fields = new[] { "contactID", "contactFirstname", "contactLastname" }
-                };
+            SearchModel search = new SearchModel()
+            {
+                ResultStart = 0,
+                ResultLimit = 100,
+                ResultSort = "contactID",
+                // Filters = new[] { filter },
+                Fields = new[] { "contactID", "contactFirstname", "contactLastname" }
+            };
 
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-                JProperty searchProperty = new JProperty("search", JToken.FromObject(search, serializer));
-                request.Add(searchProperty);
-            }
+            JProperty searchProperty = new JProperty("search", JToken.FromObject(search, serializer));
+            request.Add(searchProperty);
 
             return request;
         }

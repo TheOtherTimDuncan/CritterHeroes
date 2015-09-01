@@ -44,18 +44,44 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
-        public virtual async Task<T> GetAsync(string entityID)
+        public virtual Task<T> GetAsync(string entityID)
         {
             throw new NotImplementedException();
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            JObject request = CreateRequest
-            (
-                new JProperty("objectType", ObjectType),
-                new JProperty("objectAction", ObjectAction)
-            );
+            JObject request = await CreateRequest();
+            JObject response = await GetDataAsync(request);
+            JObject data = response.Value<JObject>("data");
+            return FromStorage(data.Properties());
+        }
+
+        public virtual Task SaveAsync(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task SaveAsync(IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task DeleteAsync(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task DeleteAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract IEnumerable<T> FromStorage(IEnumerable<JProperty> tokens);
+
+        protected virtual async Task<JObject> CreateRequest()
+        {
+            JObject request = new JObject();
 
             if (IsPrivate)
             {
@@ -65,58 +91,21 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                     request.Add(property);
                 }
             }
-
-            JObject response = await GetDataAsync(request);
-            ValidateResponse(response);
-
-            JObject data = response.Value<JObject>("data");
-            return FromStorage(data.Properties());
-        }
-
-        public virtual async Task SaveAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual async Task SaveAsync(IEnumerable<T> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual async Task DeleteAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual async Task DeleteAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public abstract IEnumerable<T> FromStorage(IEnumerable<JProperty> tokens);
-
-        public virtual JObject CreateRequest(params JProperty[] requestProperties)
-        {
-            JObject result = new JObject();
-
-            // API key is only needed for public requests
-            if (!IsPrivate)
+            else
             {
-                result.Add(new JProperty("apikey", _configuration.APIKey));
+                // API key is needed for all public requests
+                request.Add(new JProperty("apikey", _configuration.APIKey));
             }
 
-            foreach (JProperty property in requestProperties)
-            {
-                result.Add(property);
-            }
+            request.Add(new JProperty("objectType", ObjectType));
+            request.Add(new JProperty("objectAction", ObjectAction));
 
-            return result;
+            return request;
         }
 
-        public async Task<IEnumerable<JProperty>> LoginAsync()
+        protected async Task<IEnumerable<JProperty>> LoginAsync()
         {
-            JObject request = CreateRequest
-            (
+            JObject request = new JObject(
                 new JProperty("username", _configuration.Username),
                 new JProperty("password", _configuration.Password),
                 new JProperty("accountNumber", _configuration.AccountNumber),
@@ -132,8 +121,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             {
                 throw new RescueGroupsException("Login", ex);
             }
-
-            ValidateResponse(response);
 
             JObject data = response.Value<JObject>("data");
             return new JProperty[]
@@ -162,7 +149,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        public async Task<JObject> GetDataAsync(JObject request)
+        protected async Task<JObject> GetDataAsync(JObject request)
         {
             HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
 
@@ -172,7 +159,10 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
 
             string content = await response.Content.ReadAsStringAsync();
-            return JObject.Parse(content);
+            JObject result = JObject.Parse(content);
+            ValidateResponse(result);
+
+            return result;
         }
     }
 }
