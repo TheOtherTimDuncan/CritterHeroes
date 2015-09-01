@@ -4,8 +4,20 @@ using System.Xml.Serialization;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
+    [XmlRoot(ElementName = "animals")]
+    public class CritterXml
+    {
+        [XmlElement(ElementName = "animals")]
+        public CritterExport[] Critters
+        {
+            get;
+            set;
+        }
+    }
+
     public class CritterExport
     {
+        [XmlElement(ElementName = "Animal_AnimalID")]
         public int ID
         {
             get;
@@ -27,7 +39,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [XmlElement(ElementName = "Animal_LastUpdatedDT")]
-        public DateTime? LastUpdated
+        public string LastUpdated
         {
             get;
             set;
@@ -41,7 +53,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [XmlElement(ElementName = "Foster_ContactID")]
-        public int? FosterContactID
+        public string FosterContactID
         {
             get;
             set;

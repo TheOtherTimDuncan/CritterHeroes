@@ -43,5 +43,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
             await CommandDispatcher.DispatchAsync(command);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadXml(UploadXmlFileCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+            return RedirectToAction("Index");
+        }
     }
 }

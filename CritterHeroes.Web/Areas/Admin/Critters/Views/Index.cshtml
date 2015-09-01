@@ -26,6 +26,15 @@
             <input type="file" name="file" />
         </div>
     </form>
+
+    <form action="@Url.AdminCrittersUploadXmlAction()" method="post" enctype="multipart/form-data" class="pull-left margin-left-small">
+        @Html.AntiForgeryToken()
+        <div class="file-upload btn btn-primary">
+            <span>Upload XML</span>
+            <input type="file" name="file" />
+        </div>
+    </form>
+
 </div>
 
 <h3>Summary</h3>

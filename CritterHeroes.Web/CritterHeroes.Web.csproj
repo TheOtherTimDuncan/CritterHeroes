@@ -528,8 +528,10 @@
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadCsvFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadJsonFileCommandHandler.cs" />
+    <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadXmlFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\Commands\UploadCsvFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\Commands\UploadJsonFileCommand.cs" />
+    <Compile Include="Areas\Admin\Critters\Commands\UploadXmlFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\CrittersController.cs" />
     <Compile Include="Areas\Admin\Critters\Models\CritterSummaryModel.cs" />
     <Compile Include="Areas\Admin\Critters\Models\StatusModel.cs" />
