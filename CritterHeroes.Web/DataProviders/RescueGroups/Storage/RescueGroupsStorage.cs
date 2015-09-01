@@ -35,7 +35,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get
             {
-                return "publicList";
+                return "list";
             }
         }
 
@@ -97,12 +97,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public virtual JObject CreateRequest(params JProperty[] requestProperties)
         {
-            // API key is required for all requests
-            JObject result = new JObject(new JProperty("apikey", _configuration.APIKey));
+            JObject result = new JObject();
+
+            // API key is only needed for public requests
+            if (!IsPrivate)
+            {
+                result.Add(new JProperty("apikey", _configuration.APIKey));
+            }
+
             foreach (JProperty property in requestProperties)
             {
                 result.Add(property);
             }
+
             return result;
         }
 

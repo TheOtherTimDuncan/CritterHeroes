@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get
             {
-                return "publicSearch";
+                return "search";
             }
         }
 
