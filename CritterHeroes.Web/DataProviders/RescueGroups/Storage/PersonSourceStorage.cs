@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public class PersonSourceStorage : RescueGroupsStorage<PersonSource>
+    public class PersonSourceStorage : RescueGroupsSearchStorageBase<PersonSource>
     {
+        private IEnumerable<string> _fields;
+
         public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)
         {
+            this._fields = new[] { "contactID", "contactFirstname", "contactLastname" };
         }
 
         public override string ObjectType
@@ -23,22 +23,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get
             {
                 return "contacts";
-            }
-        }
-
-        public override string ObjectAction
-        {
-            get
-            {
-                return "search";
-            }
-        }
-
-        public override bool IsPrivate
-        {
-            get
-            {
-                return true;
             }
         }
 
@@ -52,38 +36,20 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="requestProperties"></param>
-        /// <returns></returns>
-        protected override async Task<JObject> CreateRequest()
+        protected override string SortField
         {
-            JObject request = await base.CreateRequest();
-
-            SearchFilter filter = new SearchFilter()
+            get
             {
-                FieldName = "animalStatus",
-                Operation = "equal",
-                Criteria = "Sponsorship"
-            };
+                return "contactID";
+            }
+        }
 
-            SearchModel search = new SearchModel()
+        protected override IEnumerable<string> Fields
+        {
+            get
             {
-                ResultStart = 0,
-                ResultLimit = 100,
-                ResultSort = "contactID",
-                // Filters = new[] { filter },
-                Fields = new[] { "contactID", "contactFirstname", "contactLastname" }
-            };
-
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-            JProperty searchProperty = new JProperty("search", JToken.FromObject(search, serializer));
-            request.Add(searchProperty);
-
-            return request;
+                return _fields;
+            }
         }
     }
 }

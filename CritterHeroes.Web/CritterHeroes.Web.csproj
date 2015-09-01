@@ -684,6 +684,7 @@
     <Compile Include="DataProviders\RescueGroups\Storage\CritterSearchResultStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterStatusSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\PersonSourceStorage.cs" />
+    <Compile Include="DataProviders\RescueGroups\Storage\RescueGroupsSearchStorageBase.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\SpeciesSourceStorage.cs" />
     <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />
     <Compile Include="Data\Configurations\BreedConfiguration.cs" />

@@ -18,6 +18,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         private IRescueGroupsConfiguration _configuration;
         private IHttpClient _client;
 
+        private string _token;
+        private string _tokenHash;
+
         public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
         {
             ThrowIf.Argument.IsNull(configuration, nameof(configuration));
@@ -105,29 +108,44 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         protected async Task<IEnumerable<JProperty>> LoginAsync()
         {
-            JObject request = new JObject(
-                new JProperty("username", _configuration.Username),
-                new JProperty("password", _configuration.Password),
-                new JProperty("accountNumber", _configuration.AccountNumber),
-                new JProperty("action", "login")
-            );
+            if (_token.IsNullOrEmpty() && _tokenHash.IsNullOrEmpty())
+            {
+                JObject request = new JObject(
+                    new JProperty("username", _configuration.Username),
+                    new JProperty("password", _configuration.Password),
+                    new JProperty("accountNumber", _configuration.AccountNumber),
+                    new JProperty("action", "login")
+                );
 
-            JObject response;
-            try
-            {
-                response = await GetDataAsync(request);
-            }
-            catch (RescueGroupsException ex)
-            {
-                throw new RescueGroupsException("Login", ex);
-            }
+                JObject response;
+                try
+                {
+                    response = await GetDataAsync(request);
+                }
+                catch (RescueGroupsException ex)
+                {
+                    throw new RescueGroupsException("Login", ex);
+                }
 
-            JObject data = response.Value<JObject>("data");
-            return new JProperty[]
+                JObject data = response.Value<JObject>("data");
+
+                _token = data.Property("token").Value.Value<string>();
+                _tokenHash = data.Property("tokenHash").Value.Value<string>();
+
+                return new JProperty[]
+                {
+                    data.Property("token"),
+                    data.Property("tokenHash")
+                };
+            }
+            else
             {
-                data.Property("token"),
-                data.Property("tokenHash")
-            };
+                return new JProperty[]
+                {
+                    new JProperty("token", _token),
+                    new JProperty("tokenHash", _tokenHash)
+                };
+            }
         }
 
         public void ValidateResponse(JObject response)
