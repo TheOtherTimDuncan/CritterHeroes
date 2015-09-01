@@ -92,7 +92,8 @@
             this.cmbType.Items.AddRange(new object[] {
             "animals",
             "animalBreeds",
-            "animalStatuses"});
+            "animalStatuses",
+            "contacts"});
             this.cmbType.Location = new System.Drawing.Point(89, 12);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(121, 21);
@@ -103,7 +104,8 @@
             this.cmbAction.FormattingEnabled = true;
             this.cmbAction.Items.AddRange(new object[] {
             "define",
-            "list"});
+            "list",
+            "search"});
             this.cmbAction.Location = new System.Drawing.Point(89, 40);
             this.cmbAction.Name = "cmbAction";
             this.cmbAction.Size = new System.Drawing.Size(121, 21);

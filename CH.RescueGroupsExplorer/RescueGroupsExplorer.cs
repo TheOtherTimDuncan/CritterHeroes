@@ -27,9 +27,14 @@ namespace CH.RescueGroupsExplorer
             IEnumerable<JProperty> result = null;
             try
             {
-                if (cmbType.Text == "animals" && cmbAction.Text == "publicSearch")
+                if (cmbType.Text == "animals" && cmbAction.Text == "search")
                 {
                     CritterSearchResultStorage storage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
+                    var searchResults = await storage.GetAllAsync();
+                }
+                else if (cmbType.Text == "contacts" && cmbAction.Text == "search")
+                {
+                    PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
                     var searchResults = await storage.GetAllAsync();
                 }
                 else

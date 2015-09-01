@@ -676,12 +676,14 @@
     <Compile Include="DataProviders\RescueGroups\Models\CritterSearchResult.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\PersonSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchFilter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SpeciesSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\BreedSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterSearchResultStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterStatusSourceStorage.cs" />
+    <Compile Include="DataProviders\RescueGroups\Storage\PersonSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\SpeciesSourceStorage.cs" />
     <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />
     <Compile Include="Data\Configurations\BreedConfiguration.cs" />
