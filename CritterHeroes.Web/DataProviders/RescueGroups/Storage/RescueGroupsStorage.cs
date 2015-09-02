@@ -148,7 +148,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        public void ValidateResponse(JObject response)
+        protected void ValidateResponse(JObject response)
         {
             string status = response.Value<string>("status");
             if (!status.SafeEquals("ok"))

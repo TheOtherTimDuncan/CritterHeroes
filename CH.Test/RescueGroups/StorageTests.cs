@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CH.Test.Mocks;
 using CritterHeroes.Web.DataProviders.RescueGroups;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 
 namespace CH.Test.RescueGroups
 {
@@ -16,10 +16,29 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void CanReadErrorResponse()
         {
-            CritterStatusSourceStorage storage = new CritterStatusSourceStorage(new RescueGroupsConfiguration(), null);
-            JObject json = JObject.Parse("{\"status\":\"error\",\"messages\":{\"generalMessages\":[{\"messageID\":\"1001\",\"messageCriticality\":\"error\",\"messageText\":\"The action you specified was not found.\"}],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}");
-            Action action = () => storage.ValidateResponse(json);
+            MockHttpClient mockHttpClient = new MockHttpClient("{\"status\":\"error\",\"messages\":{\"generalMessages\":[{\"messageID\":\"1001\",\"messageCriticality\":\"error\",\"messageText\":\"The action you specified was not found.\"}],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}");
+            TestStorage storage = new TestStorage(new RescueGroupsConfiguration(), mockHttpClient);
+            Action action = () =>
+            {
+                var result = storage.GetAllAsync().Result;
+            };
             action.ShouldThrow<RescueGroupsException>().WithMessage("The action you specified was not found.");
+        }
+
+        public class TestStorage : CritterStatusSourceStorage
+        {
+            public TestStorage(RescueGroupsConfiguration configuration, MockHttpClient client)
+                : base(configuration, client.Object)
+            {
+            }
+
+            public override bool IsPrivate
+            {
+                get
+                {
+                    return false;
+                }
+            }
         }
     }
 }
