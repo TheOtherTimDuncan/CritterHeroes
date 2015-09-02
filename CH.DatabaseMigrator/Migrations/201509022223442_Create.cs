@@ -209,7 +209,7 @@ namespace CH.DatabaseMigrator.Migrations
                     City = c.String(maxLength: 100),
                     State = c.String(maxLength: 2, unicode: false),
                     Zip = c.String(maxLength: 10, unicode: false),
-                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
