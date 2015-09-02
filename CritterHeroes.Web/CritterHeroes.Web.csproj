@@ -447,6 +447,7 @@
     <Content Include="Content\admin-lists.less" />
     <Content Include="Content\forms.less" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
+    <Content Include="Areas\Admin\People\Views\Index.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\admin-critters.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
@@ -557,8 +558,11 @@
     <Compile Include="Areas\Admin\Organizations\OrganizationController.cs" />
     <Compile Include="Areas\Admin\Organizations\Queries\EditProfileQuery.cs" />
     <Compile Include="Areas\Admin\Organizations\QueryHandlers\EditProfileQueryHandler.cs" />
+    <Compile Include="Areas\Admin\People\Models\PeopleSummaryModel.cs" />
+    <Compile Include="Areas\Admin\People\PeopleController.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AccountActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminCritterActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\AdminPeopleActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\HomeActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />

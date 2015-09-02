@@ -45,7 +45,13 @@
                                     Html.FluentHtml().BootstrapNavItem().AddElement(
                                         Html.FluentHtml().Link().AdminCrittersActionLink(x => x.Index()).Text("Critters")
                                     )
-                                ).AddElement(
+                                )
+                                .AddElement(
+                                    Html.FluentHtml().BootstrapNavItem().AddElement(
+                                        Html.FluentHtml().Link().AdminPeopleActionLink(x => x.Index()).Text("People")
+                                    )
+                                )
+                                .AddElement(
                                     Html.FluentHtml().BootstrapNavItem().AddElement(
                                         Html.FluentHtml().Link().ListsActionLink(x => x.Index()).Text("Lists Dashboard")
                                     )
