@@ -30,6 +30,12 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public string Address
+        {
+            get;
+            set;
+        }
+
         public string City
         {
             get;
@@ -37,6 +43,12 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public string State
+        {
+            get;
+            set;
+        }
+
+        public string Zip
         {
             get;
             set;

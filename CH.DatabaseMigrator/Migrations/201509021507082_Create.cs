@@ -189,21 +189,6 @@ namespace CH.DatabaseMigrator.Migrations
                 .Index(t => t.UserId);
 
             CreateTable(
-                "dbo.Person",
-                c => new
-                {
-                    ID = c.Int(nullable: false, identity: true),
-                    FirstName = c.String(maxLength: 100),
-                    LastName = c.String(maxLength: 100),
-                    Email = c.String(maxLength: 256),
-                    City = c.String(maxLength: 100),
-                    State = c.String(maxLength: 2, unicode: false),
-                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
-                })
-                .PrimaryKey(t => t.ID)
-                .Index(t => t.RescueGroupsID);
-
-            CreateTable(
                 "dbo.State",
                 c => new
                 {
@@ -211,6 +196,23 @@ namespace CH.DatabaseMigrator.Migrations
                     Name = c.String(nullable: false, maxLength: 14, unicode: false),
                 })
                 .PrimaryKey(t => t.Abbreviation);
+
+            CreateTable(
+                "dbo.Person",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    FirstName = c.String(maxLength: 100),
+                    LastName = c.String(maxLength: 100),
+                    Email = c.String(maxLength: 256),
+                    Address = c.String(maxLength: 100),
+                    City = c.String(maxLength: 100),
+                    State = c.String(maxLength: 2, unicode: false),
+                    Zip = c.String(maxLength: 10, unicode: false),
+                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.RescueGroupsID);
 
         }
 
@@ -243,8 +245,8 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
-            DropTable("dbo.State");
             DropTable("dbo.Person");
+            DropTable("dbo.State");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");
             DropTable("dbo.AppUser");
