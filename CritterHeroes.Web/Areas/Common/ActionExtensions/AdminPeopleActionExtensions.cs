@@ -16,5 +16,10 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         {
             return linkElement.ActionLink<PeopleController>(actionSelector);
         }
+
+        public static string AdminPeopleImportAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action<PeopleController>(x => x.Import(null));
+        }
     }
 }

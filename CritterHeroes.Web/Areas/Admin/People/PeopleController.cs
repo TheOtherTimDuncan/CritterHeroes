@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Admin.People.Commands;
 using CritterHeroes.Web.Areas.Admin.People.Models;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
@@ -24,6 +25,14 @@ namespace CritterHeroes.Web.Areas.Admin.People
         {
             PeopleSummaryModel model = new PeopleSummaryModel();
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Import(ImportPeopleCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+            return RedirectToAction("Index");
         }
     }
 }

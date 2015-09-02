@@ -9,3 +9,7 @@
 
 <h2>Data Maintenance - People</h2>
 
+<form action="@Url.AdminPeopleImportAction()" method="post">
+    @Html.AntiForgeryToken()
+    <input type="submit" class="btn btn-primary" value="Import" />
+</form>

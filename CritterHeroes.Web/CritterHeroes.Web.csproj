@@ -558,6 +558,8 @@
     <Compile Include="Areas\Admin\Organizations\OrganizationController.cs" />
     <Compile Include="Areas\Admin\Organizations\Queries\EditProfileQuery.cs" />
     <Compile Include="Areas\Admin\Organizations\QueryHandlers\EditProfileQueryHandler.cs" />
+    <Compile Include="Areas\Admin\People\CommandHandlers\ImportPeopleCommandHandler.cs" />
+    <Compile Include="Areas\Admin\People\Commands\ImportPeopleCommand.cs" />
     <Compile Include="Areas\Admin\People\Models\PeopleSummaryModel.cs" />
     <Compile Include="Areas\Admin\People\PeopleController.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AccountActionExtensions.cs" />
