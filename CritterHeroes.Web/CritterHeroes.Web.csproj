@@ -709,6 +709,7 @@
     <Compile Include="Data\Extensions\BreedExtensions.cs" />
     <Compile Include="Data\Extensions\CritterExtensions.cs" />
     <Compile Include="Data\Extensions\OrganizationExtensions.cs" />
+    <Compile Include="Data\Extensions\PersonExtensions.cs" />
     <Compile Include="Data\Extensions\SpeciesExtensions.cs" />
     <Compile Include="Data\Models\Critter.cs" />
     <Compile Include="Data\Models\Identity\AppRole.cs" />
