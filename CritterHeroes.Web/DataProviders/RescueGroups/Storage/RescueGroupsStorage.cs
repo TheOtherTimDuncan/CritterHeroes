@@ -155,7 +155,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             {
                 JToken property = response["messages"]["generalMessages"];
                 string errorMessage;
-                if (property != null)
+                if (property != null && property.HasValues)
                 {
                     errorMessage = property[0]["messageText"].Value<string>();
                 }
