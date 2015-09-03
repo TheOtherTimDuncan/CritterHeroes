@@ -10,6 +10,7 @@ using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using TOTD.Utility.EnumerableHelpers;
+using TOTD.Utility.Misc;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
@@ -18,11 +19,13 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
     {
         private IRescueGroupsStorageContext<PersonSource> _sourceStorage;
         private ISqlStorageContext<Person> _personStorage;
+        private ISqlStorageContext<Group> _groupStorage;
 
-        public ImportPeopleCommandHandler(IRescueGroupsStorageContext<PersonSource> sourceStorage, ISqlStorageContext<Person> personStorage)
+        public ImportPeopleCommandHandler(IRescueGroupsStorageContext<PersonSource> sourceStorage, ISqlStorageContext<Person> personStorage, ISqlStorageContext<Group> groupStorage)
         {
             this._sourceStorage = sourceStorage;
             this._personStorage = personStorage;
+            this._groupStorage = groupStorage;
         }
 
         public async Task<CommandResult> ExecuteAsync(ImportPeopleCommand command)
@@ -50,6 +53,24 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
                     person.City = source.City.EmptyToNull();
                     person.State = source.State.EmptyToNull();
                     person.Zip = source.Zip.EmptyToNull();
+
+                    if (!source.GroupNames.IsNullOrEmpty())
+                    {
+                        foreach (string groupName in source.GroupNames)
+                        {
+                            if (!person.Groups.Any(x => x.Group.IfNotNull(g => g.Name) == groupName))
+                            {
+                                Group group = await _groupStorage.Entities.FindByNameAsync(groupName);
+                                if (group == null)
+                                {
+                                    group = new Group(groupName);
+                                    _groupStorage.Add(group);
+                                    await _groupStorage.SaveChangesAsync();
+                                }
+                                person.AddGroup(group.ID);
+                            }
+                        }
+                    }
 
                     await _personStorage.SaveChangesAsync();
                 }
