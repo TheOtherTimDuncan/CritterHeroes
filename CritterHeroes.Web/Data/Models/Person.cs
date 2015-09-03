@@ -9,6 +9,7 @@ namespace CritterHeroes.Web.Data.Models
         public Person()
         {
             Groups = new List<PersonGroup>();
+            IsActive = true;
         }
 
         public int ID
@@ -60,6 +61,12 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public string RescueGroupsID
+        {
+            get;
+            set;
+        }
+
+        public bool IsActive
         {
             get;
             set;

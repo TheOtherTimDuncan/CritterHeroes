@@ -36,7 +36,7 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     t.OrganizationID,
                     t.SpeciesID
-                }, unique: true, name: "OrganizationSpecies");
+                }, unique: true, name: "IX_OrganizationSpecies");
 
             CreateTable(
                 "dbo.Species",
@@ -236,6 +236,7 @@ namespace CH.DatabaseMigrator.Migrations
                     State = c.String(maxLength: 2, unicode: false),
                     Zip = c.String(maxLength: 10, unicode: false),
                     RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                    IsActive = c.Boolean(nullable: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
@@ -257,7 +258,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
             DropIndex("dbo.Person", new[] { "RescueGroupsID" });
-            DropIndex("dbo.PersonGroup", "PersonGroup");
+            DropIndex("dbo.PersonGroup", "IX_PersonGroup");
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -273,7 +274,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", new[] { "RescueGroupsID" });
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
-            DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
+            DropIndex("dbo.OrganizationSupportedCritter", "IX_OrganizationSpecies");
             DropTable("dbo.Person");
             DropTable("dbo.PersonGroup");
             DropTable("dbo.Group");

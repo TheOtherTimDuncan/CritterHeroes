@@ -16,7 +16,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)
         {
-            this._fields = new[] { "contactID", "contactFirstname", "contactLastname", "contactAddress", "contactCity", "contactState", "contactPostalcode", "contactPlus4", "contactEmail", "contactGroups" };
+            this._fields = new[] { "contactID", "contactFirstname", "contactLastname", "contactAddress", "contactCity", "contactState", "contactPostalcode", "contactPlus4", "contactEmail", "contactActive", "contactGroups" };
         }
 
         public override string ObjectType
@@ -48,6 +48,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 {
                     result.Zip += zipExtended;
                 }
+
+                string active = x.Value.Value<string>("contactActive");
+                result.IsActive = (active.SafeEquals("Yes"));
 
                 string groupNames = x.Value.Value<string>("contactGroups");
                 result.GroupNames = groupNames.NullSafeSplit(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

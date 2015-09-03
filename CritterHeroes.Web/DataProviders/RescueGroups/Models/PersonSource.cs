@@ -54,6 +54,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        public bool IsActive
+        {
+            get;
+            set;
+        }
+
         public IEnumerable<string> GroupNames
         {
             get;

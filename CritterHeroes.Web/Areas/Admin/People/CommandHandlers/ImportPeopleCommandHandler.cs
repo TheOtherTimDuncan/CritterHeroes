@@ -53,6 +53,7 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
                     person.City = source.City.EmptyToNull();
                     person.State = source.State.EmptyToNull();
                     person.Zip = source.Zip.EmptyToNull();
+                    person.IsActive = source.IsActive;
 
                     if (!source.GroupNames.IsNullOrEmpty())
                     {

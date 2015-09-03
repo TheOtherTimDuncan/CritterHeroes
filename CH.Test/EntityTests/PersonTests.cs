@@ -52,6 +52,7 @@ namespace CH.Test.EntityTests
                 result.Zip.Should().Be(person.Zip);
                 result.State.Should().Be(person.State);
                 result.RescueGroupsID.Should().Be(person.RescueGroupsID);
+                result.IsActive.Should().Be(person.IsActive);
 
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
