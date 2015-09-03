@@ -198,6 +198,32 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.Abbreviation);
 
             CreateTable(
+                "dbo.Group",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false, maxLength: 100),
+                })
+                .PrimaryKey(t => t.ID);
+
+            CreateTable(
+                "dbo.PersonGroup",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    PersonID = c.Int(nullable: false),
+                    GroupID = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Person", t => t.PersonID, cascadeDelete: true)
+                .ForeignKey("dbo.Group", t => t.GroupID, cascadeDelete: true)
+                .Index(t => new
+                {
+                    t.PersonID,
+                    t.GroupID
+                }, unique: true, name: "IX_PersonGroup");
+
+            CreateTable(
                 "dbo.Person",
                 c => new
                 {
@@ -218,6 +244,8 @@ namespace CH.DatabaseMigrator.Migrations
 
         public override void Down()
         {
+            DropForeignKey("dbo.PersonGroup", "GroupID", "dbo.Group");
+            DropForeignKey("dbo.PersonGroup", "PersonID", "dbo.Person");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserClaim", "UserId", "dbo.AppUser");
@@ -229,6 +257,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
             DropIndex("dbo.Person", new[] { "RescueGroupsID" });
+            DropIndex("dbo.PersonGroup", "PersonGroup");
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -246,6 +275,8 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "OrganizationSpecies");
             DropTable("dbo.Person");
+            DropTable("dbo.PersonGroup");
+            DropTable("dbo.Group");
             DropTable("dbo.State");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");

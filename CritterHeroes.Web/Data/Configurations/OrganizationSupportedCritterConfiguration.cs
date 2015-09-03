@@ -15,8 +15,8 @@ namespace CritterHeroes.Web.Data.Configurations
             HasRequired(x => x.Species).WithMany(x => x.OrganizationSupportedCritters).WillCascadeOnDelete(false);
 
             Property(x => x.ID).IsRequired().IsIdentity();
-            Property(x => x.OrganizationID).IsRequired().HasUniqueIndex("OrganizationSpecies", 1);
-            Property(x => x.SpeciesID).IsRequired().HasUniqueIndex("OrganizationSpecies", 2);
+            Property(x => x.OrganizationID).IsRequired().HasUniqueIndex("IX_OrganizationSpecies", 1);
+            Property(x => x.SpeciesID).IsRequired().HasUniqueIndex("IX_OrganizationSpecies", 2);
         }
     }
 }

@@ -12,7 +12,7 @@ using TOTD.EntityFramework;
 namespace CH.Test.EntityTests
 {
     [TestClass]
-    public class CritterTests : BaseTest
+    public class CritterTests : BaseEntityTest
     {
         [TestMethod]
         public async Task CanCreateReadAndDeleteCritter()

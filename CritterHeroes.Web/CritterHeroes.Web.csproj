@@ -698,10 +698,12 @@
     <Compile Include="Data\Configurations\EntityFrameworkConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Configurations\GroupConfiguration.cs" />
     <Compile Include="Data\Configurations\IdentityConfiguration.cs" />
     <Compile Include="Data\Configurations\OrganizationConfiguration.cs" />
     <Compile Include="Data\Configurations\OrganizationSupportedCritterConfiguration.cs" />
     <Compile Include="Data\Configurations\PersonConfiguration.cs" />
+    <Compile Include="Data\Configurations\PersonGroupConfiguration.cs" />
     <Compile Include="Data\Configurations\SpeciesConfiguration.cs" />
     <Compile Include="Data\Configurations\StateConfiguration.cs" />
     <Compile Include="Data\Contexts\CritterBatchStorageContext.cs" />
@@ -714,10 +716,12 @@
     <Compile Include="Data\Extensions\CritterStatusExtensions.cs" />
     <Compile Include="Data\Extensions\BreedExtensions.cs" />
     <Compile Include="Data\Extensions\CritterExtensions.cs" />
+    <Compile Include="Data\Extensions\GroupExtensions.cs" />
     <Compile Include="Data\Extensions\OrganizationExtensions.cs" />
     <Compile Include="Data\Extensions\PersonExtensions.cs" />
     <Compile Include="Data\Extensions\SpeciesExtensions.cs" />
     <Compile Include="Data\Models\Critter.cs" />
+    <Compile Include="Data\Models\Group.cs" />
     <Compile Include="Data\Models\Identity\AppRole.cs" />
     <Compile Include="Data\Models\Identity\AppUser.cs" />
     <Compile Include="Data\Models\Identity\AppUserClaim.cs" />
@@ -726,6 +730,7 @@
     <Compile Include="Data\Models\Identity\UserRole.cs" />
     <Compile Include="Data\Models\OrganizationSupportedCritter.cs" />
     <Compile Include="Data\Models\Person.cs" />
+    <Compile Include="Data\Models\PersonGroup.cs" />
     <Compile Include="Data\Models\State.cs" />
     <Compile Include="Data\Storage\AppRoleStore.cs" />
     <Compile Include="Data\Storage\AppUserStore.cs" />

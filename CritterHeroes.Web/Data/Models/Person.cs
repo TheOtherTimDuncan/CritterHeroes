@@ -6,6 +6,11 @@ namespace CritterHeroes.Web.Data.Models
 {
     public class Person
     {
+        public Person()
+        {
+            Groups = new List<PersonGroup>();
+        }
+
         public int ID
         {
             get;
@@ -58,6 +63,18 @@ namespace CritterHeroes.Web.Data.Models
         {
             get;
             set;
+        }
+
+        public virtual ICollection<PersonGroup> Groups
+        {
+            get;
+            private set;
+        }
+
+        public void AddGroup(int groupID)
+        {
+            PersonGroup personGroup = new PersonGroup(this, groupID);
+            Groups.Add(personGroup);
         }
     }
 }

@@ -36,12 +36,14 @@ namespace CritterHeroes.Web.Data.Contexts
 
             IdentityConfiguration.ConfigureIdentity(modelBuilder);
 
-            modelBuilder.Configurations.Add(new CritterStatusConfiguration());
             modelBuilder.Configurations.Add(new BreedConfiguration());
             modelBuilder.Configurations.Add(new CritterConfiguration());
+            modelBuilder.Configurations.Add(new CritterStatusConfiguration());
+            modelBuilder.Configurations.Add(new GroupConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationSupportedCritterConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
+            modelBuilder.Configurations.Add(new PersonGroupConfiguration());
             modelBuilder.Configurations.Add(new SpeciesConfiguration());
             modelBuilder.Configurations.Add(new StateConfiguration());
 
