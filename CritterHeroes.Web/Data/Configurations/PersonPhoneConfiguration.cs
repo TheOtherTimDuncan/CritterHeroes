@@ -19,6 +19,7 @@ namespace CritterHeroes.Web.Data.Configurations
 
             HasRequired(x => x.PhoneType).WithMany().WillCascadeOnDelete(false);
 
+            Property(x => x.ID).IsIdentity();
             Property(x => x.PhoneNumber).IsRequired().IsUnicode(false).HasMaxLength(10);
             Property(x => x.PhoneExtension).IsUnicode(false).HasMaxLength(6);
         }

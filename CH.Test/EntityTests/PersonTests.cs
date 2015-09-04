@@ -150,8 +150,8 @@ namespace CH.Test.EntityTests
             }
 
             Person person = new Person();
-            person.AddPhoneNumber("1234567890", "123456", phoneType);
-            PersonPhone personPhone = person.PhoneNumbers.Single();
+            PersonPhone personPhone1 = person.AddPhoneNumber("1234567890", "123456", phoneType);
+            PersonPhone personPhone2 = person.AddPhoneNumber("9876543210", null, phoneType);
 
             using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
             {
@@ -164,9 +164,9 @@ namespace CH.Test.EntityTests
                 Person result = await storageContext.Entities.FindByIDAsync(person.ID);
                 result.Should().NotBeNull();
 
-                result.PhoneNumbers.Should().HaveCount(1);
+                result.PhoneNumbers.Should().HaveCount(2);
 
-                PersonPhone resultPhone = result.PhoneNumbers.Single();
+                PersonPhone resultPhone = result.PhoneNumbers.Single(x => x.PhoneNumber == personPhone1.PhoneNumber);
 
                 resultPhone.PersonID.Should().Be(person.ID);
                 resultPhone.Person.Should().NotBeNull();
@@ -176,8 +176,7 @@ namespace CH.Test.EntityTests
                 resultPhone.PhoneType.Should().NotBeNull();
                 resultPhone.PhoneType.ID.Should().Be(phoneType.ID);
 
-                resultPhone.PhoneNumber.Should().Be(personPhone.PhoneNumber);
-                resultPhone.PhoneExtension.Should().Be(personPhone.PhoneExtension);
+                resultPhone.PhoneExtension.Should().Be(personPhone1.PhoneExtension);
 
                 // Can phone be removed from person?
                 result.PhoneNumbers.Remove(resultPhone);

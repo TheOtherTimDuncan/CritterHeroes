@@ -254,7 +254,7 @@ namespace CH.DatabaseMigrator.Migrations
                 "dbo.PersonPhone",
                 c => new
                 {
-                    ID = c.Int(nullable: false),
+                    ID = c.Int(nullable: false, identity: true),
                     PersonID = c.Int(nullable: false),
                     PhoneNumber = c.String(nullable: false, maxLength: 10, unicode: false),
                     PhoneExtension = c.String(maxLength: 6, unicode: false),
