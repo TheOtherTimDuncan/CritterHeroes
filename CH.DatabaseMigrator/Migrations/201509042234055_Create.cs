@@ -109,6 +109,15 @@ namespace CH.DatabaseMigrator.Migrations
                 .Index(t => t.RescueGroupsID);
 
             CreateTable(
+                "dbo.PhoneType",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false, maxLength: 10),
+                })
+                .PrimaryKey(t => t.ID);
+
+            CreateTable(
                 "dbo.AppRole",
                 c => new
                 {
@@ -210,18 +219,18 @@ namespace CH.DatabaseMigrator.Migrations
                 "dbo.PersonGroup",
                 c => new
                 {
-                    ID = c.Int(nullable: false, identity: true),
                     PersonID = c.Int(nullable: false),
                     GroupID = c.Int(nullable: false),
                 })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Person", t => t.PersonID, cascadeDelete: true)
-                .ForeignKey("dbo.Group", t => t.GroupID, cascadeDelete: true)
-                .Index(t => new
+                .PrimaryKey(t => new
                 {
                     t.PersonID,
                     t.GroupID
-                }, unique: true, name: "IX_PersonGroup");
+                })
+                .ForeignKey("dbo.Person", t => t.PersonID, cascadeDelete: true)
+                .ForeignKey("dbo.Group", t => t.GroupID, cascadeDelete: true)
+                .Index(t => t.PersonID)
+                .Index(t => t.GroupID);
 
             CreateTable(
                 "dbo.Person",
@@ -241,11 +250,33 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
 
+            CreateTable(
+                "dbo.PersonPhone",
+                c => new
+                {
+                    ID = c.Int(nullable: false),
+                    PersonID = c.Int(nullable: false),
+                    PhoneNumber = c.String(nullable: false, maxLength: 10, unicode: false),
+                    PhoneExtension = c.String(maxLength: 6, unicode: false),
+                    PhoneTypeID = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => new
+                {
+                    t.ID,
+                    t.PersonID
+                })
+                .ForeignKey("dbo.PhoneType", t => t.PhoneTypeID)
+                .ForeignKey("dbo.Person", t => t.PersonID, cascadeDelete: true)
+                .Index(t => t.PersonID)
+                .Index(t => t.PhoneTypeID);
+
         }
 
         public override void Down()
         {
             DropForeignKey("dbo.PersonGroup", "GroupID", "dbo.Group");
+            DropForeignKey("dbo.PersonPhone", "PersonID", "dbo.Person");
+            DropForeignKey("dbo.PersonPhone", "PhoneTypeID", "dbo.PhoneType");
             DropForeignKey("dbo.PersonGroup", "PersonID", "dbo.Person");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
@@ -257,8 +288,11 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.Critter", "StatusID", "dbo.CritterStatus");
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
+            DropIndex("dbo.PersonPhone", new[] { "PhoneTypeID" });
+            DropIndex("dbo.PersonPhone", new[] { "PersonID" });
             DropIndex("dbo.Person", new[] { "RescueGroupsID" });
-            DropIndex("dbo.PersonGroup", "IX_PersonGroup");
+            DropIndex("dbo.PersonGroup", new[] { "GroupID" });
+            DropIndex("dbo.PersonGroup", new[] { "PersonID" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -275,6 +309,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "IX_OrganizationSpecies");
+            DropTable("dbo.PersonPhone");
             DropTable("dbo.Person");
             DropTable("dbo.PersonGroup");
             DropTable("dbo.Group");
@@ -284,6 +319,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropTable("dbo.AppUser");
             DropTable("dbo.AppUserRole");
             DropTable("dbo.AppRole");
+            DropTable("dbo.PhoneType");
             DropTable("dbo.CritterStatus");
             DropTable("dbo.Critter");
             DropTable("dbo.Breed");

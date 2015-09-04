@@ -33,12 +33,6 @@ namespace CritterHeroes.Web.Data.Models
             this.Group = group;
         }
 
-        public int ID
-        {
-            get;
-            private set;
-        }
-
         public int PersonID
         {
             get;

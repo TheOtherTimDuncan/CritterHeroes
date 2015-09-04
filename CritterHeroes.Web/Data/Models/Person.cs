@@ -9,6 +9,7 @@ namespace CritterHeroes.Web.Data.Models
         public Person()
         {
             Groups = new List<PersonGroup>();
+            PhoneNumbers = new List<PersonPhone>();
             IsActive = true;
         }
 
@@ -78,10 +79,22 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public virtual ICollection<PersonPhone> PhoneNumbers
+        {
+            get;
+            private set;
+        }
+
         public void AddGroup(int groupID)
         {
             PersonGroup personGroup = new PersonGroup(this, groupID);
             Groups.Add(personGroup);
+        }
+
+        public void AddPhoneNumber(string phoneNumber, string phoneExtension, PhoneType phoneType)
+        {
+            PersonPhone personPhone = new PersonPhone(this, phoneType, phoneNumber, phoneExtension);
+            PhoneNumbers.Add(personPhone);
         }
     }
 }

@@ -6,15 +6,12 @@ using TOTD.EntityFramework;
 
 namespace CritterHeroes.Web.Data.Configurations
 {
-    public class PersonGroupConfiguration : EntityTypeConfiguration<PersonGroup>
+    public class PhoneTypeConfiguration : EntityTypeConfiguration<PhoneType>
     {
-        public PersonGroupConfiguration()
+        public PhoneTypeConfiguration()
         {
-            HasKey(x => new
-            {
-                x.PersonID,
-                x.GroupID
-            });
+            HasKey(x => x.ID);
+            Property(x => x.Name).IsRequired().HasMaxLength(10);
         }
     }
 }

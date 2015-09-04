@@ -26,5 +26,11 @@ namespace CH.DatabaseMigrator.Migrations
             get;
             set;
         }
+
+        public virtual IDbSet<PhoneType> PhoneTypes
+        {
+            get;
+            set;
+        }
     }
 }

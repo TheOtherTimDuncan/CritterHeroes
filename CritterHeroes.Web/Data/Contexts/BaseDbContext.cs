@@ -44,6 +44,8 @@ namespace CritterHeroes.Web.Data.Contexts
             modelBuilder.Configurations.Add(new OrganizationSupportedCritterConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
             modelBuilder.Configurations.Add(new PersonGroupConfiguration());
+            modelBuilder.Configurations.Add(new PersonPhoneConfiguration());
+            modelBuilder.Configurations.Add(new PhoneTypeConfiguration());
             modelBuilder.Configurations.Add(new SpeciesConfiguration());
             modelBuilder.Configurations.Add(new StateConfiguration());
 

@@ -22,6 +22,7 @@ namespace CH.DatabaseMigrator.Migrations
         protected override void Seed(MigrationsDataContext context)
         {
             SeedStates(context);
+            SeedPhoneTypes(context);
 
             foreach (string role in UserRole.GetAll())
             {
@@ -177,7 +178,24 @@ namespace CH.DatabaseMigrator.Migrations
                     state = new State(abbreviation, name);
                     context.States.Add(state);
                     context.SaveChanges();
-                    Logger.Verbose("Added " + abbreviation + " - " + name);
+                    Logger.Verbose("Added state " + abbreviation + " - " + name);
+                }
+            }
+        }
+
+        private void SeedPhoneTypes(MigrationsDataContext context)
+        {
+            string[] seeds = new[] { "Home", "Work", "Cell", "Fax" };
+
+            foreach (string seed in seeds)
+            {
+                PhoneType phoneType = context.PhoneTypes.SingleOrDefault(x => x.Name == seed);
+                if (phoneType == null)
+                {
+                    phoneType = new PhoneType(seed) ;
+                    context.PhoneTypes.Add(phoneType);
+                    context.SaveChanges();
+                    Logger.Verbose("Added phone type " + seed);
                 }
             }
         }
