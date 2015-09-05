@@ -20,12 +20,14 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
         private IRescueGroupsStorageContext<PersonSource> _sourceStorage;
         private ISqlStorageContext<Person> _personStorage;
         private ISqlStorageContext<Group> _groupStorage;
+        private ISqlStorageContext<PhoneType> _phoneTypeStorage;
 
-        public ImportPeopleCommandHandler(IRescueGroupsStorageContext<PersonSource> sourceStorage, ISqlStorageContext<Person> personStorage, ISqlStorageContext<Group> groupStorage)
+        public ImportPeopleCommandHandler(IRescueGroupsStorageContext<PersonSource> sourceStorage, ISqlStorageContext<Person> personStorage, ISqlStorageContext<Group> groupStorage, ISqlStorageContext<PhoneType> phoneTypeStorage)
         {
             this._sourceStorage = sourceStorage;
             this._personStorage = personStorage;
             this._groupStorage = groupStorage;
+            this._phoneTypeStorage = phoneTypeStorage;
         }
 
         public async Task<CommandResult> ExecuteAsync(ImportPeopleCommand command)
@@ -34,6 +36,8 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
 
             if (!sources.IsNullOrEmpty())
             {
+                IEnumerable<PhoneType> phoneTypes = await _phoneTypeStorage.GetAllAsync();
+
                 foreach (PersonSource source in sources)
                 {
                     Person person = await _personStorage.Entities.FindByRescueGroupsIDAsync(source.ID);
@@ -55,6 +59,11 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
                     person.Zip = source.Zip.EmptyToNull();
                     person.IsActive = source.IsActive;
 
+                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Home")), source.PhoneHome);
+                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Work")), source.PhoneWork, source.PhoneWorkExtension.EmptyToNull());
+                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Cell")), source.PhoneCell);
+                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Fax")), source.PhoneFax);
+
                     if (!source.GroupNames.IsNullOrEmpty())
                     {
                         foreach (string groupName in source.GroupNames)
@@ -72,12 +81,46 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
                             }
                         }
                     }
+                    else
+                    {
+                        person.Groups.Clear();
+                    }
 
                     await _personStorage.SaveChangesAsync();
                 }
             }
 
             return CommandResult.Success();
+        }
+
+        private void ImportPhoneNumber(Person person, PhoneType phoneType, string phoneNumber)
+        {
+            ImportPhoneNumber(person, phoneType, phoneNumber, null);
+        }
+
+        private void ImportPhoneNumber(Person person, PhoneType phoneType, string phoneNumber, string phoneExtension)
+        {
+            PersonPhone personPhone = person.PhoneNumbers.SingleOrDefault(x => x.PhoneTypeID == phoneType.ID);
+
+            if (!phoneNumber.IsNullOrEmpty())
+            {
+                if (personPhone == null)
+                {
+                    person.AddPhoneNumber(phoneNumber, phoneExtension, phoneType.ID);
+                }
+                else
+                {
+                    personPhone.PhoneNumber = phoneNumber;
+                    personPhone.PhoneExtension = phoneExtension;
+                }
+            }
+            else
+            {
+                if (personPhone != null)
+                {
+                    person.PhoneNumbers.Remove(personPhone);
+                }
+            }
         }
     }
 }

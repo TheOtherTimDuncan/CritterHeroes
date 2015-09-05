@@ -91,10 +91,18 @@ namespace CritterHeroes.Web.Data.Models
             Groups.Add(personGroup);
         }
 
-        public void AddPhoneNumber(string phoneNumber, string phoneExtension, PhoneType phoneType)
+        public PersonPhone AddPhoneNumber(string phoneNumber, string phoneExtension, int phoneTypeID)
+        {
+            PersonPhone personPhone = new PersonPhone(this, phoneTypeID, phoneNumber, phoneExtension);
+            PhoneNumbers.Add(personPhone);
+            return personPhone;
+        }
+
+        public PersonPhone AddPhoneNumber(string phoneNumber, string phoneExtension, PhoneType phoneType)
         {
             PersonPhone personPhone = new PersonPhone(this, phoneType, phoneNumber, phoneExtension);
             PhoneNumbers.Add(personPhone);
+            return personPhone;
         }
     }
 }

@@ -54,6 +54,36 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        public string PhoneHome
+        {
+            get;
+            set;
+        }
+
+        public string PhoneCell
+        {
+            get;
+            set;
+        }
+
+        public string PhoneWork
+        {
+            get;
+            set;
+        }
+
+        public string PhoneWorkExtension
+        {
+            get;
+            set;
+        }
+
+        public string PhoneFax
+        {
+            get;
+            set;
+        }
+
         public bool IsActive
         {
             get;

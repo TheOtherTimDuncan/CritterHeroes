@@ -11,19 +11,26 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
-        internal PersonPhone(Person person, PhoneType phoneType, string phoneNumber)
-            : this(person, phoneType, phoneNumber, null)
+        internal PersonPhone(Person person, int phoneTypeID, string phoneNumber, string phoneExtension)
+            : this(person, phoneNumber, null)
         {
+            this.PhoneType = null;
+            this.PhoneTypeID = phoneTypeID;
         }
 
         internal PersonPhone(Person person, PhoneType phoneType, string phoneNumber, string phoneExtension)
+            : this(person, phoneNumber, phoneExtension)
         {
-            ThrowIf.Argument.IsNull(person, nameof(person));
             ThrowIf.Argument.IsNull(phoneType, nameof(phoneType));
-            ThrowIf.Argument.IsNullOrEmpty(phoneNumber, nameof(phoneNumber));
 
             this.PhoneType = phoneType;
             this.PhoneTypeID = phoneType.ID;
+        }
+
+        private PersonPhone(Person person, string phoneNumber, string phoneExtension)
+        {
+            ThrowIf.Argument.IsNull(person, nameof(person));
+            ThrowIf.Argument.IsNullOrEmpty(phoneNumber, nameof(phoneNumber));
 
             this.Person = person;
             this.PersonID = person.ID;

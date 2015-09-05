@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
@@ -16,7 +17,25 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)
         {
-            this._fields = new[] { "contactID", "contactFirstname", "contactLastname", "contactAddress", "contactCity", "contactState", "contactPostalcode", "contactPlus4", "contactEmail", "contactActive", "contactGroups" };
+            this._fields = new[]
+            {
+                "contactID",
+                "contactFirstname",
+                "contactLastname",
+                "contactAddress",
+                "contactCity",
+                "contactState",
+                "contactPostalcode",
+                "contactPlus4",
+                "contactEmail",
+                "contactPhoneHome",
+                "contactPhoneWork",
+                "contactPhoneWorkExt",
+                "contactPhoneCell",
+                "contactFax",
+                "contactActive",
+                "contactGroups"
+            };
         }
 
         public override string ObjectType
@@ -39,8 +58,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                     Email = x.Value.Value<string>("contactEmail"),
                     Address = x.Value.Value<string>("contactAddress"),
                     City = x.Value.Value<string>("contactCity"),
-                    State = x.Value.Value<string>("contactState"),
-                    Zip = x.Value.Value<string>("contactPostalcode")
+                    State = x.Value.Value<string>("contactState").NullSafeToUpper(),
+                    Zip = x.Value.Value<string>("contactPostalcode"),
+                    PhoneHome = CleanupPhone(x.Value.Value<string>("contactPhoneHome")),
+                    PhoneWork = CleanupPhone(x.Value.Value<string>("contactPhoneWork")),
+                    PhoneWorkExtension = x.Value.Value<string>("contactPhoneWorkExt"),
+                    PhoneCell = CleanupPhone(x.Value.Value<string>("contactPhoneCell")),
+                    PhoneFax = CleanupPhone(x.Value.Value<string>("contactFax"))
                 };
 
                 string zipExtended = x.Value.Value<string>("contactPlus4");
@@ -73,6 +97,17 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             {
                 return _fields;
             }
+        }
+
+        private string CleanupPhone(string phoneNumber)
+        {
+            return Regex.Replace(phoneNumber, @"\D", "");
+            //return phoneNumber
+            //    .NullSafeReplace(" ", "")
+            //    .NullSafeReplace("-", "")
+            //    .NullSafeReplace(".", "")
+            //    .NullSafeReplace("(", "")
+            //    .NullSafeReplace(")", "");
         }
     }
 }
