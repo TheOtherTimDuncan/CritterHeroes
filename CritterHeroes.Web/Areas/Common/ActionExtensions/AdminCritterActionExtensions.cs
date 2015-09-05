@@ -31,5 +31,10 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         {
             return urlHelper.Action<CrittersController>(x => x.UploadXml(null));
         }
+
+        public static string AdminCrittersImportAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action<CrittersController>(x => x.Import(null));
+        }
     }
 }

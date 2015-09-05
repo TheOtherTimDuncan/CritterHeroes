@@ -27,12 +27,18 @@
         </div>
     </form>
 
+
     <form action="@Url.AdminCrittersUploadXmlAction()" method="post" enctype="multipart/form-data" class="pull-left margin-left-small">
         @Html.AntiForgeryToken()
         <div class="file-upload btn btn-primary">
             <span>Upload XML</span>
             <input type="file" name="file" />
         </div>
+    </form>
+
+    <form action="@Url.AdminCrittersImportAction()" method="post" class="pull-left margin-left-small">
+        @Html.AntiForgeryToken()
+        <input type="submit" class="btn btn-primary" value="Import" />
     </form>
 
 </div>

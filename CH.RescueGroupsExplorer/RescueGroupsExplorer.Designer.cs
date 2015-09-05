@@ -92,6 +92,7 @@
             this.cmbType.Items.AddRange(new object[] {
             "animals",
             "animalBreeds",
+            "animalSpecies",
             "animalStatuses",
             "contacts"});
             this.cmbType.Location = new System.Drawing.Point(89, 12);

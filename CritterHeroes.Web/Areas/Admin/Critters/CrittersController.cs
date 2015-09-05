@@ -51,5 +51,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
             await CommandDispatcher.DispatchAsync(command);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Import(ImportCrittersCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+            return RedirectToAction("Index");
+        }
     }
 }

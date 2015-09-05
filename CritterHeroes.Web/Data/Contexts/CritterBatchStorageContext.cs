@@ -34,6 +34,12 @@ namespace CritterHeroes.Web.Data.Contexts
             set;
         }
 
+        public virtual IDbSet<Person> _Persons
+        {
+            get;
+            set;
+        }
+
         public IQueryable<Breed> Breeds
         {
             get
@@ -63,6 +69,14 @@ namespace CritterHeroes.Web.Data.Contexts
             get
             {
                 return _Species;
+            }
+        }
+
+        public IQueryable<Person> People
+        {
+            get
+            {
+                return _Persons;
             }
         }
 

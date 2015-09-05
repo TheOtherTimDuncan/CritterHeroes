@@ -160,5 +160,11 @@ namespace CritterHeroes.Web.Data.Models
             this.PersonID = person.ID;
             this.Person = person;
         }
+
+        public void RemovePerson()
+        {
+            this.Person = null;
+            this.PersonID = null;
+        }
     }
 }
