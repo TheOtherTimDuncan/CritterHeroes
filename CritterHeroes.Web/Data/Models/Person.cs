@@ -97,6 +97,12 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public virtual ICollection<Critter> Critters
+        {
+            get;
+            private set;
+        }
+
         public void AddGroup(int groupID)
         {
             PersonGroup personGroup = new PersonGroup(this, groupID);

@@ -116,6 +116,18 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public int? PersonID
+        {
+            get;
+            private set;
+        }
+
+        public virtual Person Person
+        {
+            get;
+            private set;
+        }
+
         public void ChangeBreed(int breedID)
         {
             this.BreedID = breedID;
@@ -140,6 +152,13 @@ namespace CritterHeroes.Web.Data.Models
             ThrowIf.Argument.IsNull(status, nameof(status));
             this.StatusID = status.ID;
             this.Status = status;
+        }
+
+        public void ChangePerson(Person person)
+        {
+            ThrowIf.Argument.IsNull(person, nameof(person));
+            this.PersonID = person.ID;
+            this.Person = person;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace CritterHeroes.Web.Data.Configurations
 
             HasMany(x => x.Groups).WithRequired(x => x.Person).WillCascadeOnDelete();
             HasMany(x => x.PhoneNumbers).WithRequired(x => x.Person).WillCascadeOnDelete();
+            HasMany(x => x.Critters).WithOptional(x => x.Person).WillCascadeOnDelete(false);
 
             Property(x => x.ID).IsRequired().IsIdentity();
             Property(x => x.FirstName).HasMaxLength(100);
