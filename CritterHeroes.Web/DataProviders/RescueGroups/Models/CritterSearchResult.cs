@@ -66,6 +66,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        public string Created
+        {
+            get;
+            set;
+        }
+
         public string FosterContactID
         {
             get;

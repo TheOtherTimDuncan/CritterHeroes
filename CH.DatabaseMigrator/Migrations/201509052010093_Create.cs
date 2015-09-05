@@ -79,6 +79,7 @@ namespace CH.DatabaseMigrator.Migrations
                     OrganizationID = c.Guid(nullable: false),
                     StatusID = c.Int(nullable: false),
                     RescueGroupsLastUpdated = c.DateTime(),
+                    RescueGroupsCreated = c.DateTime(),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     WhenUpdated = c.DateTimeOffset(nullable: false, precision: 7),
                     Name = c.String(nullable: false, maxLength: 50),

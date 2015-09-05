@@ -93,7 +93,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
         protected override Breed CreateTargetFromSource(BreedSource source)
         {
             Species species = GetOrCreateSpecies(source.Species);
-            return new Breed(species, source.BreedName, source.ID);
+            return new Breed(species.ID, source.BreedName, source.ID);
         }
 
         private Species GetOrCreateSpecies(string speciesName)

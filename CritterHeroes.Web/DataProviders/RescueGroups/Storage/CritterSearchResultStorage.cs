@@ -28,12 +28,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 "animalFosterID",
                 "animalInternalID",
                 "animalRescueID",
+                "animalCreatedDate",
                 "animalUpdatedDate",
                 "animalGroups",
                 "animalPictures",
                 "fosterFirstname",
                 "fosterLastname",
-                "fosterEmail",
+                "fosterEmail"
             };
         }
 
@@ -78,7 +79,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 FosterLastName = x.Value.Value<string>("fosterLastname"),
                 FosterEmail = x.Value.Value<string>("fosterEmail"),
                 RescueID = x.Value.Value<string>("animalRescueID"),
-                LastUpdated = x.Value.Value<string>("animalUpdatedDate")
+                LastUpdated = x.Value.Value<string>("animalUpdatedDate"),
+                Created = x.Value.Value<string>("animalCreatedDate")
             });
         }
     }

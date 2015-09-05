@@ -66,7 +66,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                 if (!source.FosterContactID.IsNullOrEmpty())
                 {
-                    Person person =await  GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail);
+                    Person person = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail);
                     critter.ChangePerson(person);
                 }
                 else
@@ -77,6 +77,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 if (!source.LastUpdated.IsNullOrEmpty())
                 {
                     critter.RescueGroupsLastUpdated = DateTime.Parse(source.LastUpdated);
+                }
+
+                if (!source.Created.IsNullOrEmpty())
+                {
+                    critter.RescueGroupsCreated = DateTime.Parse(source.Created);
                 }
 
                 await _critterStorage.SaveChangesAsync();

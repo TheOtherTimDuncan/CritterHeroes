@@ -50,6 +50,7 @@ namespace CH.DatabaseMigrator.Migrations
                 appUser = new AppUser(seedEmail);
                 appUser.Person.FirstName = "Tim";
                 appUser.Person.LastName = "Duncan";
+                appUser.Person.RescueGroupsID = "3654564";
 
                 Task.WaitAll(userManager.CreateAsync(appUser, seedPassword));
                 Logger.Verbose("Created user for " + appUser.Email);

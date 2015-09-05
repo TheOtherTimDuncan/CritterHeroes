@@ -45,7 +45,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID");
+                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "PersonID");
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }
@@ -62,6 +62,8 @@ namespace CH.Test.EntityTests
                 result.Sex.Should().Be(critter.Sex);
                 result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated);
                 result.RescueID.Should().Be(critter.RescueID);
+                result.RescueGroupsCreated.Should().Be(critter.RescueGroupsCreated);
+                result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated);
 
                 result.OrganizationID.Should().Be(organization.ID);
                 result.Organization.Should().NotBeNull();
