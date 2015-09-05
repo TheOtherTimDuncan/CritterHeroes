@@ -28,13 +28,13 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
             EditProfileModel model = new EditProfileModel();
 
             AppUser user = await _userStorageContext.Entities.FindByUsernameAsync(_httpUser.Username);
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
+            model.FirstName = user.Person.FirstName;
+            model.LastName = user.Person.LastName;
             model.Email = user.Email;
 
             if (!user.EmailConfirmed)
             {
-                model.UnconfirmedEmail = user.NewEmail;
+                model.UnconfirmedEmail = user.Person.NewEmail;
             }
 
             return model;

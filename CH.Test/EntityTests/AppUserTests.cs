@@ -43,14 +43,15 @@ namespace CH.Test.EntityTests
                 AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
                 result.Should().NotBeNull();
 
-                result.FirstName.Should().Be(appUser.FirstName);
-                result.LastName.Should().Be(appUser.LastName);
                 result.Email.Should().Be(appUser.Email);
-                result.NewEmail.Should().Be(appUser.NewEmail);
-                result.PhoneNumber.Should().Be(appUser.PhoneNumber);
 
                 AppUserManager userManager = new AppUserManager(new AppUserStore(userContext));
                 (await userManager.CheckPasswordAsync(result, password)).Should().BeTrue();
+
+                userContext.Delete(result);
+                await userContext.SaveChangesAsync();
+
+                userContext.Entities.MatchingID(appUser.Id).SingleOrDefault().Should().BeNull();
             }
         }
 
@@ -63,6 +64,29 @@ namespace CH.Test.EntityTests
 
             user.UserName = "new@new.com";
             user.Email.Should().Be(user.UserName);
+        }
+
+        [TestMethod]
+        public async Task CanReadAndWritePerson()
+        {
+            AppUser appUser = new AppUser("email@email.com");
+            appUser.Person.FirstName = "FirstName";
+            appUser.Person.LastName = "LastName";
+
+            using (AppUserStorageContext userContext = new AppUserStorageContext())
+            {
+                userContext.Users.Add(appUser);
+                await userContext.SaveChangesAsync();
+            }
+
+            using (AppUserStorageContext userContext = new AppUserStorageContext())
+            {
+                AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
+                result.Should().NotBeNull();
+
+                result.Person.FirstName.Should().Be(appUser.Person.FirstName);
+                result.Person.LastName.Should().Be(appUser.Person.LastName);
+            }
         }
     }
 }

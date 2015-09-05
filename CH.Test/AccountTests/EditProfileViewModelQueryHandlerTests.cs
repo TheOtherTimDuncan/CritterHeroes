@@ -20,11 +20,9 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task EditProfileQueryHandlerReturnsViewModel()
         {
-            AppUser user = new AppUser("email@email.com")
-            {
-                FirstName = "First",
-                LastName = "Last"
-            };
+            AppUser user = new AppUser("email@email.com");
+            user.Person.FirstName = "First";
+            user.Person.LastName = "Last";
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
@@ -35,8 +33,8 @@ namespace CH.Test.AccountTests
             EditProfileModel model = await handler.RetrieveAsync(new UserIDQuery());
 
             model.Should().NotBeNull();
-            model.FirstName.Should().Be(user.FirstName);
-            model.LastName.Should().Be(user.LastName);
+            model.FirstName.Should().Be(user.Person.FirstName);
+            model.LastName.Should().Be(user.Person.LastName);
             model.Email.Should().Be(user.Email);
         }
     }

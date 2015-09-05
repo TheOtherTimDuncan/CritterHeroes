@@ -30,8 +30,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         public async Task<CommandResult> ExecuteAsync(EditProfileModel command)
         {
             AppUser user = await _userManager.FindByNameAsync(_httpUser.Username);
-            user.FirstName = command.FirstName;
-            user.LastName = command.LastName;
+            user.Person.FirstName = command.FirstName;
+            user.Person.LastName = command.LastName;
 
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
             if (!identityResult.Succeeded)

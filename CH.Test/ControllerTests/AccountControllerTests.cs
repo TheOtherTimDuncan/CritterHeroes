@@ -113,11 +113,9 @@ namespace CH.Test.ControllerTests
         [TestMethod]
         public async Task GetEditProfileReturnsViewWithModel()
         {
-            AppUser user = new AppUser("email@email.com")
-            {
-                FirstName = "First",
-                LastName = "Last"
-            };
+            AppUser user = new AppUser("email@email.com");
+            user.Person.FirstName = "First";
+            user.Person.LastName = "Last";
 
             mockAppUserStorageContext.AddEntity(user);
 

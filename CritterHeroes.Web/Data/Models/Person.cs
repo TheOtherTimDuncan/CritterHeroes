@@ -37,6 +37,18 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public string NewEmail
+        {
+            get;
+            set;
+        }
+
+        public bool IsEmailConfirmed
+        {
+            get;
+            set;
+        }
+
         public string Address
         {
             get;

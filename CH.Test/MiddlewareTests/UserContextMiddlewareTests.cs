@@ -107,11 +107,9 @@ namespace CH.Test.MiddlewareTests
         [TestMethod]
         public async Task GetsUserContextFromStorageIfNotAlreadyCachedInRequestAndCachesContext()
         {
-            AppUser user = new AppUser("unit.test")
-            {
-                FirstName = "First",
-                LastName = "Last"
-            };
+            AppUser user = new AppUser("unit.test");
+            user.Person.FirstName = "First";
+            user.Person.LastName = "Last";
 
             ClaimsIdentity identity = new ClaimsIdentity("cookie");
             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));

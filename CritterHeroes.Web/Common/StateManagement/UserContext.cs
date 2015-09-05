@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Common.StateManagement
             return new UserContext()
             {
                 UserID = user.Id.ToString(),
-                DisplayName = user.FirstName + " " + user.LastName
+                DisplayName = user.Person.FirstName + " " + user.Person.LastName
             };
         }
 

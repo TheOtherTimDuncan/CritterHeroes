@@ -74,14 +74,12 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task ReturnsSucceededIfConfirmEmailSucceeds()
         {
-            AppUser user = new AppUser("email@email.com")
-            {
-                NewEmail = "new@new.com"
-            };
+            AppUser user = new AppUser("email@email.com");
+            user.Person.NewEmail = "new@new.com";
 
             ConfirmEmailModel command = new ConfirmEmailModel()
             {
-                Email = user.NewEmail,
+                Email = user.Person.NewEmail,
                 ConfirmationCode = "code"
             };
 

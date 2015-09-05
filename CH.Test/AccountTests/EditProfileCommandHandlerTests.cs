@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
@@ -24,11 +23,9 @@ namespace CH.Test.AccountTests
         [TestMethod]
         public async Task EditProfileCommandUpdatesUser()
         {
-            AppUser user = new AppUser("email@email.com")
-            {
-                FirstName = null,
-                LastName = null
-            };
+            AppUser user = new AppUser("email@email.com");
+            user.Person.FirstName = null;
+            user.Person.LastName = null;
 
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
@@ -50,8 +47,8 @@ namespace CH.Test.AccountTests
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
-            user.FirstName.Should().Be(model.FirstName);
-            user.LastName.Should().Be(model.LastName);
+            user.Person.FirstName.Should().Be(model.FirstName);
+            user.Person.LastName.Should().Be(model.LastName);
 
             mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);

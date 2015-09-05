@@ -64,11 +64,9 @@ namespace CH.Test.StateManagementTests
         [TestMethod]
         public void CanCreateItselfFromUser()
         {
-            AppUser user = new AppUser("unit.test")
-            {
-                FirstName = "first",
-                LastName = "last"
-            };
+            AppUser user = new AppUser("unit.test");
+            user.Person.FirstName = "first";
+            user.Person.LastName = "last";
 
             UserContext userContext = UserContext.FromUser(user);
             userContext.DisplayName.Should().Be("first last");

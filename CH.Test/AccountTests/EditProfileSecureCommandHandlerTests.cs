@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
@@ -17,7 +16,6 @@ using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -59,7 +57,7 @@ namespace CH.Test.AccountTests
             commandResult.Succeeded.Should().BeTrue();
 
             user.Email.Should().Be(email);
-            user.NewEmail.Should().Be(model.NewEmail);
+            user.Person.NewEmail.Should().Be(model.NewEmail);
             user.EmailConfirmed.Should().BeFalse();
 
             mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);

@@ -47,11 +47,10 @@ namespace CH.DatabaseMigrator.Migrations
             AppUser appUser = context.Users.SingleOrDefault(x => x.UserName == seedEmail);
             if (appUser == null)
             {
-                appUser = new AppUser(seedEmail)
-                {
-                    FirstName = "Tim",
-                    LastName = "Duncan"
-                };
+                appUser = new AppUser(seedEmail);
+                appUser.Person.FirstName = "Tim";
+                appUser.Person.LastName = "Duncan";
+
                 Task.WaitAll(userManager.CreateAsync(appUser, seedPassword));
                 Logger.Verbose("Created user for " + appUser.Email);
             }
@@ -192,7 +191,7 @@ namespace CH.DatabaseMigrator.Migrations
                 PhoneType phoneType = context.PhoneTypes.SingleOrDefault(x => x.Name == seed);
                 if (phoneType == null)
                 {
-                    phoneType = new PhoneType(seed) ;
+                    phoneType = new PhoneType(seed);
                     context.PhoneTypes.Add(phoneType);
                     context.SaveChanges();
                     Logger.Verbose("Added phone type " + seed);

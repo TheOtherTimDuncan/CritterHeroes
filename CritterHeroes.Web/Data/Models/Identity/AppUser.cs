@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CritterHeroes.Web.Data.Models.Identity
 {
-    public class AppUser : IdentityUser<int, AppUserLogin, AppUserRole, AppUserClaim>, IUser<int>
+    public class AppUser : IdentityUser<int, AppUserLogin, AppUserRole, AppUserClaim>
     {
         protected AppUser()
         {
@@ -14,26 +14,21 @@ namespace CritterHeroes.Web.Data.Models.Identity
 
         public AppUser(string email)
         {
+            this.Person = new Person();
             this.UserName = email;
             this.Email = email;
         }
 
-        public string FirstName
+        public int PersonID
         {
             get;
-            set;
+            private set;
         }
 
-        public string LastName
+        public virtual Person Person
         {
             get;
-            set;
-        }
-
-        public string NewEmail
-        {
-            get;
-            set;
+            private set;
         }
 
         public override string UserName
@@ -59,6 +54,29 @@ namespace CritterHeroes.Web.Data.Models.Identity
             {
                 base.Email = value;
                 base.UserName = value;
+
+                if (Person != null)
+                {
+                    Person.Email = value;
+                }
+            }
+        }
+
+        public override bool EmailConfirmed
+        {
+            get
+            {
+                return base.EmailConfirmed;
+            }
+
+            set
+            {
+                base.EmailConfirmed = value;
+
+                if (Person != null)
+                {
+                    Person.IsEmailConfirmed = value;
+                }
             }
         }
     }

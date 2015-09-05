@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
 using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Data.Configurations
@@ -18,10 +17,7 @@ namespace CritterHeroes.Web.Data.Configurations
 
             EntityTypeConfiguration<AppUser> userConfiguration = modelBuilder.Entity<AppUser>();
             userConfiguration.ToTable("AppUser");
-
-            userConfiguration.Property(x => x.NewEmail).HasMaxLength(256);
-            userConfiguration.Property(x => x.FirstName).HasMaxLength(50);
-            userConfiguration.Property(x => x.LastName).HasMaxLength(50);
+            userConfiguration.HasRequired(x => x.Person).WithMany().WillCascadeOnDelete();
         }
     }
 }

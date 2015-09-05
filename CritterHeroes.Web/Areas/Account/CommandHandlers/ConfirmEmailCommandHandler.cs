@@ -44,7 +44,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             if (identityResult.Succeeded)
             {
                 // Update the email address
-                user.Email = user.NewEmail;
+                user.Email = user.Person.NewEmail;
                 await _appUserManager.UpdateAsync(user);
 
                 // In case the user is logged in make sure they are logged out so the new email address is used
