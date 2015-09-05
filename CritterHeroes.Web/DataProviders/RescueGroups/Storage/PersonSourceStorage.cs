@@ -101,13 +101,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         private string CleanupPhone(string phoneNumber)
         {
+            if (phoneNumber.IsNullOrEmpty())
+            {
+                return phoneNumber;
+            }
+
             return Regex.Replace(phoneNumber, @"\D", "");
-            //return phoneNumber
-            //    .NullSafeReplace(" ", "")
-            //    .NullSafeReplace("-", "")
-            //    .NullSafeReplace(".", "")
-            //    .NullSafeReplace("(", "")
-            //    .NullSafeReplace(")", "");
         }
     }
 }
