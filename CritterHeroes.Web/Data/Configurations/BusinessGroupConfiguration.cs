@@ -6,13 +6,13 @@ using TOTD.EntityFramework;
 
 namespace CritterHeroes.Web.Data.Configurations
 {
-    public class PersonGroupConfiguration : EntityTypeConfiguration<PersonGroup>
+    public class BusinessGroupConfiguration : EntityTypeConfiguration<BusinessGroup>
     {
-        public PersonGroupConfiguration()
+        public BusinessGroupConfiguration()
         {
             HasKey(x => new
             {
-                x.PersonID,
+                x.BusinessID,
                 x.GroupID
             });
 

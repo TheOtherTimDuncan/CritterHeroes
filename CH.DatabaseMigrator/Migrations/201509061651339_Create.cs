@@ -142,6 +142,8 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     ID = c.Int(nullable: false, identity: true),
                     Name = c.String(nullable: false, maxLength: 100),
+                    IsPerson = c.Boolean(nullable: false),
+                    IsBusiness = c.Boolean(nullable: false),
                 })
                 .PrimaryKey(t => t.ID);
 
@@ -276,10 +278,67 @@ namespace CH.DatabaseMigrator.Migrations
                 })
                 .PrimaryKey(t => t.Abbreviation);
 
+            CreateTable(
+                "dbo.Business",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    Name = c.String(maxLength: 100),
+                    Address = c.String(maxLength: 100),
+                    City = c.String(maxLength: 100),
+                    State = c.String(maxLength: 2, unicode: false),
+                    Zip = c.String(maxLength: 10, unicode: false),
+                    Email = c.String(maxLength: 256),
+                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.RescueGroupsID);
+
+            CreateTable(
+                "dbo.BusinessGroup",
+                c => new
+                {
+                    BusinessID = c.Int(nullable: false),
+                    GroupID = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => new
+                {
+                    t.BusinessID,
+                    t.GroupID
+                })
+                .ForeignKey("dbo.Group", t => t.GroupID, cascadeDelete: true)
+                .ForeignKey("dbo.Business", t => t.BusinessID, cascadeDelete: true)
+                .Index(t => t.BusinessID)
+                .Index(t => t.GroupID);
+
+            CreateTable(
+                "dbo.BusinessPhone",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    BusinessID = c.Int(nullable: false),
+                    PhoneNumber = c.String(nullable: false, maxLength: 10, unicode: false),
+                    PhoneExtension = c.String(maxLength: 6, unicode: false),
+                    PhoneTypeID = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => new
+                {
+                    t.ID,
+                    t.BusinessID
+                })
+                .ForeignKey("dbo.PhoneType", t => t.PhoneTypeID)
+                .ForeignKey("dbo.Business", t => t.BusinessID, cascadeDelete: true)
+                .Index(t => t.BusinessID)
+                .Index(t => t.PhoneTypeID);
+
         }
 
         public override void Down()
         {
+            DropForeignKey("dbo.BusinessPhone", "BusinessID", "dbo.Business");
+            DropForeignKey("dbo.BusinessPhone", "PhoneTypeID", "dbo.PhoneType");
+            DropForeignKey("dbo.BusinessGroup", "BusinessID", "dbo.Business");
+            DropForeignKey("dbo.BusinessGroup", "GroupID", "dbo.Group");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUser", "PersonID", "dbo.Person");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
@@ -296,6 +355,11 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.Critter", "PersonID", "dbo.Person");
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
+            DropIndex("dbo.BusinessPhone", new[] { "PhoneTypeID" });
+            DropIndex("dbo.BusinessPhone", new[] { "BusinessID" });
+            DropIndex("dbo.BusinessGroup", new[] { "GroupID" });
+            DropIndex("dbo.BusinessGroup", new[] { "BusinessID" });
+            DropIndex("dbo.Business", new[] { "RescueGroupsID" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -319,6 +383,9 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "IX_OrganizationSpecies");
+            DropTable("dbo.BusinessPhone");
+            DropTable("dbo.BusinessGroup");
+            DropTable("dbo.Business");
             DropTable("dbo.State");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");

@@ -84,22 +84,6 @@ namespace CH.Test.EntityTests
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
-            {
-                Group result = await storageContext.Entities.SingleOrDefaultAsync(x => x.ID == group1.ID);
-                result.Persons.Should().HaveCount(1);
-
-                PersonGroup personGroup = result.Persons.Single();
-
-                personGroup.PersonID.Should().Be(person.ID);
-                personGroup.Person.Should().NotBeNull();
-                personGroup.Person.ID.Should().Be(person.ID);
-
-                personGroup.GroupID.Should().Be(group1.ID);
-                personGroup.Group.Should().NotBeNull();
-                personGroup.Group.ID.Should().Be(group1.ID);
-            }
-
             using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
             {
                 Person result = await storageContext.Entities.FindByIDAsync(person.ID);

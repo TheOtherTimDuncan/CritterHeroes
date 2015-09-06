@@ -694,6 +694,10 @@
     <Compile Include="DataProviders\RescueGroups\Storage\PersonSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\RescueGroupsSearchStorageBase.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\SpeciesSourceStorage.cs" />
+    <Compile Include="Data\Configurations\BusinessGroupConfiguration.cs" />
+    <Compile Include="Data\Configurations\BusinessPhoneConfiguration.cs" />
+    <Compile Include="Data\Models\BusinessPhone.cs" />
+    <Compile Include="Data\Configurations\BusinessConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />
     <Compile Include="Data\Configurations\BreedConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterConfiguration.cs" />
@@ -717,6 +721,7 @@
     </Compile>
     <Compile Include="Data\Contexts\AppUserStorageContext.cs" />
     <Compile Include="Data\Contexts\SqlStorageContext.cs" />
+    <Compile Include="Data\Extensions\BusinessExtensions.cs" />
     <Compile Include="Data\Extensions\CritterStatusExtensions.cs" />
     <Compile Include="Data\Extensions\BreedExtensions.cs" />
     <Compile Include="Data\Extensions\CritterExtensions.cs" />
@@ -724,6 +729,8 @@
     <Compile Include="Data\Extensions\OrganizationExtensions.cs" />
     <Compile Include="Data\Extensions\PersonExtensions.cs" />
     <Compile Include="Data\Extensions\SpeciesExtensions.cs" />
+    <Compile Include="Data\Models\Business.cs" />
+    <Compile Include="Data\Models\BusinessGroup.cs" />
     <Compile Include="Data\Models\Critter.cs" />
     <Compile Include="Data\Models\Group.cs" />
     <Compile Include="Data\Models\Identity\AppRole.cs" />

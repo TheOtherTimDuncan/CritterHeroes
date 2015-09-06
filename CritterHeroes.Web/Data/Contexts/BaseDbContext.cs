@@ -37,6 +37,9 @@ namespace CritterHeroes.Web.Data.Contexts
             IdentityConfiguration.ConfigureIdentity(modelBuilder);
 
             modelBuilder.Configurations.Add(new BreedConfiguration());
+            modelBuilder.Configurations.Add(new BusinessConfiguration());
+            modelBuilder.Configurations.Add(new BusinessGroupConfiguration());
+            modelBuilder.Configurations.Add(new BusinessPhoneConfiguration());
             modelBuilder.Configurations.Add(new CritterConfiguration());
             modelBuilder.Configurations.Add(new CritterStatusConfiguration());
             modelBuilder.Configurations.Add(new GroupConfiguration());

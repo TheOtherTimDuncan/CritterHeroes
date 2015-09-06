@@ -16,8 +16,6 @@ namespace CritterHeroes.Web.Data.Models
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
 
             this.Name = name;
-
-            Persons = new List<PersonGroup>();
         }
 
         public int ID
@@ -32,16 +30,16 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public virtual ICollection<PersonGroup> Persons
+        public bool IsPerson
         {
             get;
-            private set;
+            set;
         }
 
-        public void AddPerson(int personID)
+        public bool IsBusiness
         {
-            PersonGroup personGroup = new PersonGroup(this, personID);
-            Persons.Add(personGroup);
+            get;
+            set;
         }
     }
 }

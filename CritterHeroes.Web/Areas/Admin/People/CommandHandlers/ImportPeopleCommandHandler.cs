@@ -37,6 +37,10 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
             if (!sources.IsNullOrEmpty())
             {
                 IEnumerable<PhoneType> phoneTypes = await _phoneTypeStorage.GetAllAsync();
+                PhoneType phoneTypeHome = phoneTypes.Single(x => x.Name.SafeEquals("Home"));
+                PhoneType phoneTypeWork = phoneTypes.Single(x => x.Name.SafeEquals("Work"));
+                PhoneType phoneTypeCell = phoneTypes.Single(x => x.Name.SafeEquals("Cell"));
+                PhoneType phoneTypeFax = phoneTypes.Single(x => x.Name.SafeEquals("Fax"));
 
                 foreach (PersonSource source in sources)
                 {
@@ -59,10 +63,10 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
                     person.Zip = source.Zip.EmptyToNull();
                     person.IsActive = source.IsActive;
 
-                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Home")), source.PhoneHome);
-                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Work")), source.PhoneWork, source.PhoneWorkExtension.EmptyToNull());
-                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Cell")), source.PhoneCell);
-                    ImportPhoneNumber(person, phoneTypes.Single(x => x.Name.SafeEquals("Fax")), source.PhoneFax);
+                    ImportPhoneNumber(person, phoneTypeHome, source.PhoneHome);
+                    ImportPhoneNumber(person, phoneTypeWork, source.PhoneWork, source.PhoneWorkExtension.EmptyToNull());
+                    ImportPhoneNumber(person, phoneTypeCell, source.PhoneCell);
+                    ImportPhoneNumber(person, phoneTypeFax, source.PhoneFax);
 
                     if (!source.GroupNames.IsNullOrEmpty())
                     {
@@ -73,7 +77,10 @@ namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
                                 Group group = await _groupStorage.Entities.FindByNameAsync(groupName);
                                 if (group == null)
                                 {
-                                    group = new Group(groupName);
+                                    group = new Group(groupName)
+                                    {
+                                        IsPerson = true
+                                    };
                                     _groupStorage.Add(group);
                                     await _groupStorage.SaveChangesAsync();
                                 }
