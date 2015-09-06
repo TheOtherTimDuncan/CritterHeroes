@@ -11,5 +11,10 @@
 
 <form action="@Url.AdminPeopleImportAction()" method="post">
     @Html.AntiForgeryToken()
-    <input type="submit" class="btn btn-primary" value="Import" />
+    <input type="submit" class="btn btn-primary" value="Import People" />
+</form>
+
+<form action="@Url.AdminBusinessImportAction()" method="post">
+    @Html.AntiForgeryToken()
+    <input type="submit" class="btn btn-primary" value="Import Businesses" />
 </form>

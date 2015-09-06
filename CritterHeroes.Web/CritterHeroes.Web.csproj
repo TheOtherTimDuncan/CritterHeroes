@@ -560,7 +560,9 @@
     <Compile Include="Areas\Admin\Organizations\OrganizationController.cs" />
     <Compile Include="Areas\Admin\Organizations\Queries\EditProfileQuery.cs" />
     <Compile Include="Areas\Admin\Organizations\QueryHandlers\EditProfileQueryHandler.cs" />
+    <Compile Include="Areas\Admin\People\CommandHandlers\ImportBusinessCommandHandler.cs" />
     <Compile Include="Areas\Admin\People\CommandHandlers\ImportPeopleCommandHandler.cs" />
+    <Compile Include="Areas\Admin\People\Commands\ImportBusinessCommand.cs" />
     <Compile Include="Areas\Admin\People\Commands\ImportPeopleCommand.cs" />
     <Compile Include="Areas\Admin\People\Models\PeopleSummaryModel.cs" />
     <Compile Include="Areas\Admin\People\PeopleController.cs" />
@@ -679,6 +681,7 @@
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\BreedSource.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\BusinessSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ContactExport.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterExport.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterSearchResult.cs" />
@@ -689,6 +692,8 @@
     <Compile Include="DataProviders\RescueGroups\Models\SearchModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SpeciesSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\BreedSourceStorage.cs" />
+    <Compile Include="DataProviders\RescueGroups\Storage\BusinessSourceStorage.cs" />
+    <Compile Include="DataProviders\RescueGroups\Storage\ContactSourceStorageBase.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterSearchResultStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterStatusSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\PersonSourceStorage.cs" />

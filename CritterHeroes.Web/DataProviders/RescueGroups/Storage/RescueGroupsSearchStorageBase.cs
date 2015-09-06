@@ -31,6 +31,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             result.AddRange(batch);
 
             int foundRows = response.Value<int>("foundRows");
+            ResultStart += ResultLimit;
             while (ResultStart < foundRows)
             {
                 ResultStart += ResultLimit;

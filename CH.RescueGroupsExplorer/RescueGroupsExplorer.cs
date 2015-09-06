@@ -37,6 +37,11 @@ namespace CH.RescueGroupsExplorer
                     PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
                     var searchResults = await storage.GetAllAsync();
                 }
+                else if (cmbType.Text == "business")
+                {
+                    BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
+                    var searchResults = await storage.GetAllAsync();
+                }
                 else
                 {
                     RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(txtHttp));

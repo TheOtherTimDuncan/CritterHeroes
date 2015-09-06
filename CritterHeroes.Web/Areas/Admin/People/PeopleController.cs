@@ -29,7 +29,15 @@ namespace CritterHeroes.Web.Areas.Admin.People
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Import(ImportPeopleCommand command)
+        public async Task<ActionResult> ImportPeople(ImportPeopleCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ImportBusinesses(ImportBusinessCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
             return RedirectToAction("Index");

@@ -19,7 +19,12 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 
         public static string AdminPeopleImportAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action<PeopleController>(x => x.Import(null));
+            return urlHelper.Action<PeopleController>(x => x.ImportPeople(null));
+        }
+
+        public static string AdminBusinessImportAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action<PeopleController>(x => x.ImportBusinesses(null));
         }
     }
 }
