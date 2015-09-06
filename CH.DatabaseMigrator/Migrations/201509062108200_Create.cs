@@ -155,7 +155,7 @@ namespace CH.DatabaseMigrator.Migrations
                     PersonID = c.Int(nullable: false),
                     PhoneNumber = c.String(nullable: false, maxLength: 10, unicode: false),
                     PhoneExtension = c.String(maxLength: 6, unicode: false),
-                    PhoneTypeID = c.Int(nullable: false),
+                    PhoneTypeID = c.Int(),
                 })
                 .PrimaryKey(t => new
                 {
@@ -319,7 +319,7 @@ namespace CH.DatabaseMigrator.Migrations
                     BusinessID = c.Int(nullable: false),
                     PhoneNumber = c.String(nullable: false, maxLength: 10, unicode: false),
                     PhoneExtension = c.String(maxLength: 6, unicode: false),
-                    PhoneTypeID = c.Int(nullable: false),
+                    PhoneTypeID = c.Int(),
                 })
                 .PrimaryKey(t => new
                 {

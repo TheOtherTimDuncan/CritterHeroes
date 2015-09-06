@@ -17,7 +17,7 @@ namespace CritterHeroes.Web.Data.Configurations
                 x.BusinessID
             });
 
-            HasRequired(x => x.PhoneType).WithMany().WillCascadeOnDelete(false);
+            HasOptional(x => x.PhoneType).WithMany().WillCascadeOnDelete(false);
 
             Property(x => x.ID).IsIdentity();
             Property(x => x.PhoneNumber).IsRequired().IsUnicode(false).HasMaxLength(10);
