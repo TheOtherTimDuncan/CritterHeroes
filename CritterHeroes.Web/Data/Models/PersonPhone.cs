@@ -21,10 +21,11 @@ namespace CritterHeroes.Web.Data.Models
         internal PersonPhone(Person person, PhoneType phoneType, string phoneNumber, string phoneExtension)
             : this(person, phoneNumber, phoneExtension)
         {
-            ThrowIf.Argument.IsNull(phoneType, nameof(phoneType));
-
-            this.PhoneType = phoneType;
-            this.PhoneTypeID = phoneType.ID;
+            if (phoneType != null)
+            {
+                this.PhoneType = phoneType;
+                this.PhoneTypeID = phoneType.ID;
+            }
         }
 
         private PersonPhone(Person person, string phoneNumber, string phoneExtension)
@@ -57,7 +58,7 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public int PhoneTypeID
+        public int? PhoneTypeID
         {
             get;
             private set;
