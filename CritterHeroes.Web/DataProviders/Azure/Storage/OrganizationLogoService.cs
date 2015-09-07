@@ -14,34 +14,14 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
-    public class OrganizationLogoService : IOrganizationLogoService
+    public class OrganizationLogoService : BaseAzureBlobStorage, IOrganizationLogoService
     {
-        private IAppConfiguration _appConfiguration;
-        private IStateManager<OrganizationContext> _orgStateManager;
-        private IAzureConfiguration _configuration;
         private ISqlStorageContext<Organization> _storageContext;
 
-        private OrganizationContext _orgContext;
-        private CloudBlobContainer _container;
-
         public OrganizationLogoService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration, ISqlStorageContext<Organization> storageContext)
+            : base(orgStateManager, appConfiguration, azureConfiguration)
         {
-            this._appConfiguration = appConfiguration;
-            this._orgStateManager = orgStateManager;
-            this._configuration = azureConfiguration;
             this._storageContext = storageContext;
-        }
-
-        private OrganizationContext OrganizationContext
-        {
-            get
-            {
-                if (_orgContext == null)
-                {
-                    _orgContext = _orgStateManager.GetContext();
-                }
-                return _orgContext;
-            }
         }
 
         public string GetLogoUrl()
@@ -58,7 +38,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
             // Let's delete the original logo first if there is one
             if (!org.LogoFilename.IsNullOrEmpty())
             {
-                CloudBlockBlob oldBlob = container.GetBlockBlobReference(org.LogoFilename);
+                CloudBlockBlob oldBlob = container.GetBlockBlobReference(org.LogoFilename.ToLower());
                 if (oldBlob != null)
                 {
                     await oldBlob.DeleteIfExistsAsync();
@@ -77,28 +57,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 
         private string GetBlobUrl(string filename)
         {
-            // Blob urls are case sensitive and convention is they should always be lowercase
-            return string.Format("{0}/{1}/{2}", _appConfiguration.BlobBaseUrl, OrganizationContext.AzureName.ToLower(), filename.ToLower());
-        }
-
-        private async Task<CloudBlobContainer> GetContainer()
-        {
-            if (_container != null)
-            {
-                return _container;
-            }
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
-            CloudBlobClient client = storageAccount.CreateCloudBlobClient();
-
-            _container = client.GetContainerReference(OrganizationContext.AzureName.ToLower());
-            await _container.CreateIfNotExistsAsync();
-            await _container.SetPermissionsAsync(new BlobContainerPermissions()
-            {
-                PublicAccess = BlobContainerPublicAccessType.Blob
-            });
-
-            return _container;
+            return GetBlobUrl(filename);
         }
     }
 }

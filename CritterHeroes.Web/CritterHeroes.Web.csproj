@@ -673,6 +673,7 @@
     <Compile Include="Contracts\Storage\IStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureException.cs" />
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />
+    <Compile Include="DataProviders\Azure\Storage\BaseAzureBlobStorage.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureEmailLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />
