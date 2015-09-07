@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
     public class CritterSearchResult
     {
-        [JsonProperty(PropertyName ="animalID")]
+        [JsonProperty(PropertyName = "animalID")]
         public int ID
         {
             get;
@@ -107,6 +106,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 
         [JsonProperty(PropertyName = "fosterEmail")]
         public string FosterEmail
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalPictures")]
+        public  CritterPictureSource[] PictureSources
         {
             get;
             set;

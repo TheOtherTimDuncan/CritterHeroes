@@ -20,7 +20,7 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
-        public void ConvertsJsonResultToModel()
+        public void ConvertsCritterJsonResultToModel()
         {
             CritterSearchResult critterSource1 = new CritterSearchResult()
             {
@@ -33,8 +33,8 @@ namespace CH.Test.RescueGroups
                 PrimaryBreed = "Breed1",
                 Sex = "Sex1",
                 RescueID = "RescueID1",
-                LastUpdated = "01/01/2001",
-                Created = "02/02/2002",
+                LastUpdated = "01/01/2001 1:01 AM",
+                Created = "02/02/2002 2:02 PM",
                 FosterContactID = "4",
                 FosterFirstName = "FosterFirstName1",
                 FosterLastName = "FosterLastName1",
@@ -52,8 +52,8 @@ namespace CH.Test.RescueGroups
                 PrimaryBreed = "Breed2",
                 Sex = "Sex2",
                 RescueID = "RescueID2",
-                LastUpdated = "03/03/2003",
-                Created = "04/04/2004",
+                LastUpdated = "03/03/2003 3:03 AM",
+                Created = "04/04/2004 4:04 PM",
                 FosterContactID = "7",
                 FosterFirstName = "FosterFirstName2",
                 FosterLastName = "FosterLastName2",
@@ -136,6 +136,95 @@ namespace CH.Test.RescueGroups
             result2.RescueID.Should().Be(critterSource2.RescueID);
             result2.LastUpdated.Should().Be(critterSource2.LastUpdated);
             result2.Created.Should().Be(critterSource2.Created);
+        }
+
+        [TestMethod]
+        public void ConvertsCritterPictureJsonResultToModel()
+        {
+            CritterSearchResult critterSource1 = new CritterSearchResult()
+            {
+                ID = 1,
+                Name = "Name1"
+            };
+
+            CritterPictureSource picture1 = new CritterPictureSource()
+            {
+                ID = "3",
+                DisplayOrder = 44,
+                LastUpdated = "01/01/2001 1:01 AM",
+                FileSize = 123456,
+                Width = 800,
+                Height = 900,
+                Filename = "Filename1",
+                Url = "Url1",
+
+                LargePicture = new PictureChild()
+                {
+                    FileSize = 8888,
+                    Width = 111,
+                    Height = 222,
+                    Url = "LargeUrl"
+                },
+
+                SmallPicture = new PictureChild()
+                {
+                    FileSize = 9999,
+                    Width = 333,
+                    Height = 444,
+                    Url = "SmallUrl"
+                }
+            };
+
+            JArray jsonPicture1 = new JArray(
+                new JObject(
+                    new JProperty("mediaID", picture1.ID),
+                    new JProperty("mediaOrder", picture1.DisplayOrder),
+                    new JProperty("lastUpdated", picture1.LastUpdated),
+                    new JProperty("fileSize", picture1.FileSize),
+                    new JProperty("resolutionX", picture1.Width),
+                    new JProperty("resolutionY", picture1.Height),
+                    new JProperty("fileNameFullsize", picture1.Filename),
+                    new JProperty("urlSecureFullsize", picture1.Url),
+                    new JProperty("large", JToken.FromObject(picture1.LargePicture)),
+                    new JProperty("small", JToken.FromObject(picture1.SmallPicture))
+                )
+            );
+
+            JProperty property1 = new JProperty(critterSource1.ID.ToString(), new JObject(
+                new JProperty("animalID", critterSource1.ID),
+                new JProperty("animalName", critterSource1.Name),
+                new JProperty("animalPictures", jsonPicture1)
+            ));
+
+            JObject data = new JObject(property1);
+
+            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null).FromStorage(data.Properties());
+
+            CritterSearchResult result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
+            result1.Should().NotBeNull();
+
+            result1.PictureSources.Should().HaveCount(1);
+            CritterPictureSource sourcePicture1 = result1.PictureSources.Single();
+            sourcePicture1.ID.Should().Be(picture1.ID);
+            sourcePicture1.DisplayOrder.Should().Be(picture1.DisplayOrder);
+            sourcePicture1.LastUpdated.Should().Be(picture1.LastUpdated);
+            sourcePicture1.FileSize.Should().Be(picture1.FileSize);
+            sourcePicture1.Width.Should().Be(picture1.Width);
+            sourcePicture1.Height.Should().Be(picture1.Height);
+            sourcePicture1.Filename.Should().Be(picture1.Filename);
+            sourcePicture1.Url.Should().Be(picture1.Url);
+
+            sourcePicture1.LargePicture.Should().NotBeNull();
+            sourcePicture1.LargePicture.FileSize.Should().Be(picture1.LargePicture.FileSize);
+            sourcePicture1.LargePicture.Width.Should().Be(picture1.LargePicture.Width);
+            sourcePicture1.LargePicture.Height.Should().Be(picture1.LargePicture.Height);
+            sourcePicture1.LargePicture.Url.Should().Be(picture1.LargePicture.Url);
+
+            sourcePicture1.SmallPicture.Should().NotBeNull();
+            sourcePicture1.SmallPicture.FileSize.Should().Be(picture1.SmallPicture.FileSize);
+            sourcePicture1.SmallPicture.Width.Should().Be(picture1.SmallPicture.Width);
+            sourcePicture1.SmallPicture.Height.Should().Be(picture1.SmallPicture.Height);
+            sourcePicture1.SmallPicture.Url.Should().Be(picture1.SmallPicture.Url);
         }
     }
 }

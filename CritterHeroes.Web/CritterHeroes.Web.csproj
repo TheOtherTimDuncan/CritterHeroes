@@ -684,10 +684,12 @@
     <Compile Include="DataProviders\RescueGroups\Models\BusinessSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ContactExport.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterExport.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\CritterPictureSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterSearchResult.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\PersonSource.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\PictureChild.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchFilter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SpeciesSource.cs" />

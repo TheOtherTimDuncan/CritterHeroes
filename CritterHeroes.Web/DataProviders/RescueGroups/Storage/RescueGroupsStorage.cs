@@ -57,7 +57,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             JObject request = await CreateRequest();
             JObject response = await GetDataAsync(request);
             JObject data = response.Value<JObject>("data");
-            return FromStorage(data.Properties());
+            return FromStorage(data.Properties()).ToList();
         }
 
         public virtual Task SaveAsync(T entity)
