@@ -64,24 +64,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public override IEnumerable<CritterSearchResult> FromStorage(IEnumerable<JProperty> tokens)
         {
-            return tokens.Select(x => new CritterSearchResult()
-            {
-                ID = x.Value.Value<int>("animalID"),
-                Name = x.Value.Value<string>("animalName"),
-                Sex = x.Value.Value<string>("animalSex"),
-                StatusID = x.Value.Value<string>("animalStatusID"),
-                Status = x.Value.Value<string>("animalStatus"),
-                PrimaryBreedID = x.Value.Value<string>("animalPrimaryBreedID"),
-                PrimaryBreed = x.Value.Value<string>("animalPrimaryBreed"),
-                Species = x.Value.Value<string>("animalSpecies"),
-                FosterContactID = x.Value.Value<string>("animalFosterID"),
-                FosterFirstName = x.Value.Value<string>("fosterFirstname"),
-                FosterLastName = x.Value.Value<string>("fosterLastname"),
-                FosterEmail = x.Value.Value<string>("fosterEmail"),
-                RescueID = x.Value.Value<string>("animalRescueID"),
-                LastUpdated = x.Value.Value<string>("animalUpdatedDate"),
-                Created = x.Value.Value<string>("animalCreatedDate")
-            });
+            return tokens.Select(x => x.Value.ToObject<CritterSearchResult>());
         }
     }
 }
