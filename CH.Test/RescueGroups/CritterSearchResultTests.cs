@@ -158,7 +158,7 @@ namespace CH.Test.RescueGroups
                 Filename = "Filename1",
                 Url = "Url1",
 
-                LargePicture = new PictureChild()
+                LargePicture = new PictureChildSource()
                 {
                     FileSize = 8888,
                     Width = 111,
@@ -166,7 +166,7 @@ namespace CH.Test.RescueGroups
                     Url = "LargeUrl"
                 },
 
-                SmallPicture = new PictureChild()
+                SmallPicture = new PictureChildSource()
                 {
                     FileSize = 9999,
                     Width = 333,

@@ -92,7 +92,7 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public PictureChild AddChildPicture(int width, int height, int fileSize)
+        public PictureChild AddChildPicture(int width, int height, long fileSize)
         {
             PictureChild child = new PictureChild(this, $"{Filename}_{width}x{height}", width, height, fileSize);
             ChildPictures.Add(child);

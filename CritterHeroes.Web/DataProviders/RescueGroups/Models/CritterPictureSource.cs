@@ -64,14 +64,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "large")]
-        public PictureChild LargePicture
+        public PictureChildSource LargePicture
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "small")]
-        public PictureChild SmallPicture
+        public PictureChildSource SmallPicture
         {
             get;
             set;

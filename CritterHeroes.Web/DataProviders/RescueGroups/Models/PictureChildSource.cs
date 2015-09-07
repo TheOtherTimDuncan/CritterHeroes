@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
-    public class PictureChild
+    public class PictureChildSource
     {
         [JsonProperty(PropertyName = "fileSize")]
         public long FileSize

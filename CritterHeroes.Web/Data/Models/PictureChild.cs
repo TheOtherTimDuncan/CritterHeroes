@@ -63,12 +63,6 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public DateTime? RescueGroupsCreated
-        {
-            get;
-            set;
-        }
-
         public int ParentID
         {
             get;

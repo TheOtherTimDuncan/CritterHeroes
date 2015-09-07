@@ -11,6 +11,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
@@ -82,6 +83,39 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 if (!source.Created.IsNullOrEmpty())
                 {
                     critter.RescueGroupsCreated = DateTime.Parse(source.Created);
+                }
+
+                if (!source.PictureSources.IsNullOrEmpty())
+                {
+                    foreach (CritterPictureSource pictureSource in source.PictureSources)
+                    {
+                        if (!critter.Pictures.Any(x => x.Picture.Filename == pictureSource.Filename))
+                        {
+                            Picture picture = new Picture(pictureSource.Filename, pictureSource.Width, pictureSource.Height, pictureSource.FileSize, "contentType")
+                            {
+                                RescueGroupsID = pictureSource.ID,
+                                RescueGroupsCreated = DateTime.Parse(pictureSource.LastUpdated),
+                                DisplayOrder = pictureSource.DisplayOrder
+                            };
+
+                            if (
+                                pictureSource.LargePicture != null
+                                && pictureSource.LargePicture.Width != pictureSource.Width
+                                && pictureSource.LargePicture.Height != pictureSource.Height
+                                && !critter.Pictures.Any(x => x.Picture.Width == pictureSource.LargePicture.Width && x.Picture.Height == pictureSource.LargePicture.Height)
+                            )
+                            {
+                                picture.AddChildPicture(pictureSource.LargePicture.Width, pictureSource.LargePicture.Height, pictureSource.LargePicture.FileSize);
+                            }
+
+                            if (!critter.Pictures.Any(x => x.Picture.Width == pictureSource.SmallPicture.Width && x.Picture.Height == pictureSource.SmallPicture.Height))
+                            {
+                                PictureChild pictureChild = picture.AddChildPicture(pictureSource.SmallPicture.Width, pictureSource.SmallPicture.Height, pictureSource.SmallPicture.FileSize);
+                            }
+
+                            critter.AddPicture(picture);
+                        }
+                    }
                 }
 
                 await _critterStorage.SaveChangesAsync();

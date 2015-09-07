@@ -81,7 +81,6 @@ namespace CH.Test.EntityTests
                 result1.Height.Should().Be(child1.Height);
                 result1.FileSize.Should().Be(child1.FileSize);
                 result1.WhenCreated.Should().Be(child1.WhenCreated);
-                result1.RescueGroupsCreated.Should().Be(child1.RescueGroupsCreated);
 
                 result1.ParentID.Should().Be(result.ID);
                 result1.Parent.Should().NotBeNull();
@@ -95,7 +94,6 @@ namespace CH.Test.EntityTests
                 result2.Height.Should().Be(child2.Height);
                 result2.FileSize.Should().Be(child2.FileSize);
                 result2.WhenCreated.Should().Be(child2.WhenCreated);
-                result2.RescueGroupsCreated.Should().Be(child2.RescueGroupsCreated);
 
                 result2.ParentID.Should().Be(result.ID);
                 result2.Parent.Should().NotBeNull();

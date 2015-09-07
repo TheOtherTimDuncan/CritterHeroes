@@ -689,7 +689,7 @@
     <Compile Include="DataProviders\RescueGroups\Models\CritterSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\PersonSource.cs" />
-    <Compile Include="DataProviders\RescueGroups\Models\PictureChild.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\PictureChildSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchFilter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SpeciesSource.cs" />
