@@ -30,6 +30,8 @@ namespace CritterHeroes.Web.Data.Models
 
             this.WhenCreated = DateTimeOffset.UtcNow;
             this.WhenUpdated = this.WhenCreated;
+
+            this.Pictures = new List<CritterPicture>();
         }
 
         public int ID
@@ -134,6 +136,12 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public virtual ICollection<CritterPicture> Pictures
+        {
+            get;
+            private set;
+        }
+
         public void ChangeBreed(int breedID)
         {
             this.BreedID = breedID;
@@ -171,6 +179,13 @@ namespace CritterHeroes.Web.Data.Models
         {
             this.Person = null;
             this.PersonID = null;
+        }
+
+        public CritterPicture AddPicture(Picture picture)
+        {
+            CritterPicture critterPicture = new CritterPicture(this, picture);
+            Pictures.Add(critterPicture);
+            return critterPicture;
         }
     }
 }

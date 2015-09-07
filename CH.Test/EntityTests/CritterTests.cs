@@ -19,7 +19,7 @@ namespace CH.Test.EntityTests
         {
             // Use a separate context for saving vs retrieving to prevent any caching
 
-            Species species = new Species("critter-species", "species", "species", null, null);
+            Species species = new Species("species", "species", "species", null, null);
 
             Breed breed = new Breed(1, species, "breed");
 
@@ -81,6 +81,58 @@ namespace CH.Test.EntityTests
                 await storageContext.SaveChangesAsync();
 
                 storageContext.Entities.FindByID(critter.ID).Should().BeNull();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanCreateReadAndDeleteCritterPicture()
+        {
+            Picture picture = new Picture("picture", 1, 2, 3, "contentType");
+
+            Organization organization = new Organization()
+            {
+                FullName = "full",
+                AzureName = "azure",
+                EmailAddress = "email@emailcom"
+            };
+
+            Critter critter = new Critter("name", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), organization.ID)
+            {
+                Sex = "Male"
+            };
+            CritterPicture critterPicture = critter.AddPicture(picture);
+
+            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            {
+                storageContext.Add(organization);
+                await storageContext.SaveChangesAsync();
+            }
+
+            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            {
+                storageContext.Add(critter);
+                await storageContext.SaveChangesAsync();
+            }
+
+            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            {
+                Critter result = await storageContext.Entities.FindByIDAsync(critter.ID);
+                result.Should().NotBeNull();
+
+                result.Pictures.Should().HaveCount(1);
+                CritterPicture resultPicture = result.Pictures.Single();
+
+                resultPicture.PictureID.Should().Be(picture.ID);
+                resultPicture.Picture.Should().NotBeNull();
+                resultPicture.Picture.ID.Should().Be(picture.ID);
+
+                resultPicture.CritterID.Should().Be(critter.ID);
+                resultPicture.Critter.Should().NotBeNull();
+                resultPicture.Critter.ID.Should().Be(critter.ID);
+
+                // Can we remove a picture?
+                result.Pictures.Remove(resultPicture);
+                await storageContext.SaveChangesAsync();
             }
         }
     }
