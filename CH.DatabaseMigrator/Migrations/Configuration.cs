@@ -12,7 +12,7 @@ namespace CH.DatabaseMigrator.Migrations
     using CritterHeroes.Web.Data.Storage;
     using EntityFramework.DatabaseMigrator.Migrations;
 
-    internal sealed class Configuration : BaseMigrationConfiguration<CH.DatabaseMigrator.Migrations.MigrationsDataContext>
+    public sealed class Configuration : BaseMigrationConfiguration<CH.DatabaseMigrator.Migrations.MigrationsDataContext>
     {
         public Configuration()
         {

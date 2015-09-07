@@ -701,6 +701,9 @@
     <Compile Include="DataProviders\RescueGroups\Storage\SpeciesSourceStorage.cs" />
     <Compile Include="Data\Configurations\BusinessGroupConfiguration.cs" />
     <Compile Include="Data\Configurations\BusinessPhoneConfiguration.cs" />
+    <Compile Include="Data\Configurations\PictureChildConfiguration.cs" />
+    <Compile Include="Data\Configurations\PictureConfiguration.cs" />
+    <Compile Include="Data\Extensions\PIctureExtensions.cs" />
     <Compile Include="Data\Models\BusinessPhone.cs" />
     <Compile Include="Data\Configurations\BusinessConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />
@@ -749,6 +752,8 @@
     <Compile Include="Data\Models\PersonGroup.cs" />
     <Compile Include="Data\Models\PersonPhone.cs" />
     <Compile Include="Data\Models\PhoneType.cs" />
+    <Compile Include="Data\Models\Picture.cs" />
+    <Compile Include="Data\Models\PictureChild.cs" />
     <Compile Include="Data\Models\State.cs" />
     <Compile Include="Data\Storage\AppRoleStore.cs" />
     <Compile Include="Data\Storage\AppUserStore.cs" />

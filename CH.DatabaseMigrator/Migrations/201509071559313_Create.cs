@@ -279,6 +279,23 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.Abbreviation);
 
             CreateTable(
+                "dbo.BusinessGroup",
+                c => new
+                {
+                    BusinessID = c.Int(nullable: false),
+                    GroupID = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => new
+                {
+                    t.BusinessID,
+                    t.GroupID
+                })
+                .ForeignKey("dbo.Business", t => t.BusinessID, cascadeDelete: true)
+                .ForeignKey("dbo.Group", t => t.GroupID, cascadeDelete: true)
+                .Index(t => t.BusinessID)
+                .Index(t => t.GroupID);
+
+            CreateTable(
                 "dbo.Business",
                 c => new
                 {
@@ -293,23 +310,6 @@ namespace CH.DatabaseMigrator.Migrations
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
-
-            CreateTable(
-                "dbo.BusinessGroup",
-                c => new
-                {
-                    BusinessID = c.Int(nullable: false),
-                    GroupID = c.Int(nullable: false),
-                })
-                .PrimaryKey(t => new
-                {
-                    t.BusinessID,
-                    t.GroupID
-                })
-                .ForeignKey("dbo.Group", t => t.GroupID, cascadeDelete: true)
-                .ForeignKey("dbo.Business", t => t.BusinessID, cascadeDelete: true)
-                .Index(t => t.BusinessID)
-                .Index(t => t.GroupID);
 
             CreateTable(
                 "dbo.BusinessPhone",
@@ -331,14 +331,54 @@ namespace CH.DatabaseMigrator.Migrations
                 .Index(t => t.BusinessID)
                 .Index(t => t.PhoneTypeID);
 
+            CreateTable(
+                "dbo.PictureChild",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    ParentID = c.Int(nullable: false),
+                    Filename = c.String(nullable: false, maxLength: 256, unicode: false),
+                    Width = c.Int(nullable: false),
+                    Height = c.Int(nullable: false),
+                    FileSize = c.Long(nullable: false),
+                    WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
+                    RescueGroupsCreated = c.DateTime(),
+                })
+                .PrimaryKey(t => new
+                {
+                    t.ID,
+                    t.ParentID
+                })
+                .ForeignKey("dbo.Picture", t => t.ParentID, cascadeDelete: true)
+                .Index(t => t.ParentID);
+
+            CreateTable(
+                "dbo.Picture",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    Filename = c.String(nullable: false, maxLength: 256, unicode: false),
+                    DisplayOrder = c.Int(),
+                    Width = c.Int(nullable: false),
+                    Height = c.Int(nullable: false),
+                    FileSize = c.Long(nullable: false),
+                    ContentType = c.String(nullable: false, maxLength: 256, unicode: false),
+                    WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
+                    RescueGroupsCreated = c.DateTime(),
+                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.RescueGroupsID);
+
         }
 
         public override void Down()
         {
+            DropForeignKey("dbo.PictureChild", "ParentID", "dbo.Picture");
+            DropForeignKey("dbo.BusinessGroup", "GroupID", "dbo.Group");
             DropForeignKey("dbo.BusinessPhone", "BusinessID", "dbo.Business");
             DropForeignKey("dbo.BusinessPhone", "PhoneTypeID", "dbo.PhoneType");
             DropForeignKey("dbo.BusinessGroup", "BusinessID", "dbo.Business");
-            DropForeignKey("dbo.BusinessGroup", "GroupID", "dbo.Group");
             DropForeignKey("dbo.AppUserRole", "UserId", "dbo.AppUser");
             DropForeignKey("dbo.AppUser", "PersonID", "dbo.Person");
             DropForeignKey("dbo.AppUserLogin", "UserId", "dbo.AppUser");
@@ -355,11 +395,13 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.Critter", "PersonID", "dbo.Person");
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
+            DropIndex("dbo.Picture", new[] { "RescueGroupsID" });
+            DropIndex("dbo.PictureChild", new[] { "ParentID" });
             DropIndex("dbo.BusinessPhone", new[] { "PhoneTypeID" });
             DropIndex("dbo.BusinessPhone", new[] { "BusinessID" });
+            DropIndex("dbo.Business", new[] { "RescueGroupsID" });
             DropIndex("dbo.BusinessGroup", new[] { "GroupID" });
             DropIndex("dbo.BusinessGroup", new[] { "BusinessID" });
-            DropIndex("dbo.Business", new[] { "RescueGroupsID" });
             DropIndex("dbo.AppUserLogin", new[] { "UserId" });
             DropIndex("dbo.AppUserClaim", new[] { "UserId" });
             DropIndex("dbo.AppUser", "UserNameIndex");
@@ -383,9 +425,11 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Breed", "SpeciesBreed");
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.OrganizationSupportedCritter", "IX_OrganizationSpecies");
+            DropTable("dbo.Picture");
+            DropTable("dbo.PictureChild");
             DropTable("dbo.BusinessPhone");
-            DropTable("dbo.BusinessGroup");
             DropTable("dbo.Business");
+            DropTable("dbo.BusinessGroup");
             DropTable("dbo.State");
             DropTable("dbo.AppUserLogin");
             DropTable("dbo.AppUserClaim");

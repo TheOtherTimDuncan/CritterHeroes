@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
@@ -13,22 +14,48 @@ namespace CH.Test.EntityTests
     [TestClass]
     public class BaseEntityTest : BaseTest
     {
-        [AssemblyInitialize]
-        public static void ResetDatabase(TestContext testContext)
+        [TestInitialize]
+        public void CleanDatabase()
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<BaseDbContext>());
             using (BaseDbContext dbContext = new BaseDbContext())
             {
-                dbContext.Database.Initialize(force: true);
-            }
-        }
+                DbMigrator migrator = new DbMigrator(new DatabaseMigrator.Migrations.Configuration());
+                if (migrator.GetPendingMigrations().Any())
+                {
+                    Database.SetInitializer(new DropCreateDatabaseAlways<BaseDbContext>());
+                    dbContext.Database.Initialize(force: true);
+                }
+                else
+                {
+                    IEnumerable<string> tableNames = new[]
+                    {
+                        "BusinessPhone" ,
+                        "BusinessGroup",
+                        "PersonPhone",
+                        "PersonGroup",
+                        "Group",
+                        "Person",
+                        "Business",
+                        "AppUserLogin",
+                        "AppUserClaim",
+                        "AppUser",
+                        "AppUserRole",
+                        "AppRole",
+                        "Critter",
+                        "OrganizationSupportedCritter",
+                        "Organization",
+                        "CritterStatus",
+                        "Breed",
+                        "Species",
+                        "State",
+                        "PhoneType"
+                    };
 
-        [AssemblyCleanup]
-        public static void DeleteDatabase()
-        {
-            using (BaseDbContext dbContext = new BaseDbContext())
-            {
-                dbContext.Database.Delete();
+                    foreach (string tableName in tableNames)
+                    {
+                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");
+                    }
+                }
             }
         }
 
