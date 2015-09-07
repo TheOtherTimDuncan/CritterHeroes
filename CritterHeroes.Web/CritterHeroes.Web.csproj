@@ -635,6 +635,7 @@
     </Compile>
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
     <Compile Include="Contracts\Storage\ICritterBatchSqlStorageContext.cs" />
+    <Compile Include="Contracts\Storage\ICritterPictureService.cs" />
     <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
     <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
@@ -674,6 +675,7 @@
     <Compile Include="DataProviders\Azure\AzureException.cs" />
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Storage\BaseAzureBlobStorage.cs" />
+    <Compile Include="DataProviders\Azure\Storage\CritterPictureService.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureEmailLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />

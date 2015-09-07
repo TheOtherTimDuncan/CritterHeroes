@@ -232,6 +232,7 @@
     <Compile Include="Azure\BaseAzureTest.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\EmailLogTests.cs" />
+    <Compile Include="Azure\StorageTests\CritterPictureServiceTests.cs" />
     <Compile Include="Azure\StorageTests\EmailLogStorageTests.cs" />
     <Compile Include="Azure\StorageTests\OrganizationLogoServiceTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
