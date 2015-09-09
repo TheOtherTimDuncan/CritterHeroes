@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
@@ -19,13 +18,7 @@ namespace CH.Test.EntityTests
         {
             using (BaseDbContext dbContext = new BaseDbContext())
             {
-                DbMigrator migrator = new DbMigrator(new DatabaseMigrator.Migrations.Configuration());
-                if (migrator.GetPendingMigrations().Any())
-                {
-                    Database.SetInitializer(new DropCreateDatabaseAlways<BaseDbContext>());
-                    dbContext.Database.Initialize(force: true);
-                }
-                else
+                if (dbContext.Database.CompatibleWithModel(throwIfNoMetadata: true))
                 {
                     IEnumerable<string> tableNames = new[]
                     {
@@ -55,6 +48,11 @@ namespace CH.Test.EntityTests
                     {
                         dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");
                     }
+                }
+                else
+                {
+                    Database.SetInitializer(new DropCreateDatabaseAlways<BaseDbContext>());
+                    dbContext.Database.Initialize(force: true);
                 }
             }
         }
