@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
@@ -32,6 +33,16 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         {
             get;
             set;
+        }
+
+        [JsonIgnore]
+        public string Filename
+        {
+            get
+            {
+                Uri uri = new Uri(Url);
+                return Path.GetFileName(uri.LocalPath);
+            }
         }
     }
 }

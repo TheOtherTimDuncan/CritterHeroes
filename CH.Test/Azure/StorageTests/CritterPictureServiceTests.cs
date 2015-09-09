@@ -41,13 +41,9 @@ namespace CH.Test.Azure.StorageTests
 
             CritterPictureService service = new CritterPictureService(mockOrgStateManager.Object, appConfiguration, azureConfiguration);
 
-            Critter critter = new Critter("name", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), org.ID);
-            Picture picture = new Picture(filename, 1, 1, 1, "image/jpeg");
-            CritterPicture critterPicture = critter.AddPicture(picture);
-
             using (FileStream stream = new FileStream(filepath, FileMode.Open))
             {
-                await service.SavePicture(stream, critterPicture);
+                await service.SavePictureAsync(stream, 0, filename,"image/jpeg");
             }
         }
     }

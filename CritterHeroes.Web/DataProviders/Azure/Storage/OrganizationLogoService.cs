@@ -26,7 +26,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 
         public string GetLogoUrl()
         {
-            return GetBlobUrl(OrganizationContext.LogoFilename);
+            return CreateBlobUrl(OrganizationContext.LogoFilename);
         }
 
         public async Task SaveLogo(Stream source, string filename, string contentType)
@@ -53,11 +53,6 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
             CloudBlockBlob blob = container.GetBlockBlobReference(filename.ToLower());
             blob.Properties.ContentType = contentType;
             await blob.UploadFromStreamAsync(source);
-        }
-
-        private string GetBlobUrl(string filename)
-        {
-            return GetBlobUrl(filename);
         }
     }
 }

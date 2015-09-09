@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TOTD.Utility.ExceptionHelpers;
 
@@ -94,7 +95,15 @@ namespace CritterHeroes.Web.Data.Models
 
         public PictureChild AddChildPicture(int width, int height, long fileSize)
         {
-            PictureChild child = new PictureChild(this, $"{Filename}_{width}x{height}", width, height, fileSize);
+            string filename = Path.GetFileNameWithoutExtension(this.Filename);
+            string ext = Path.GetExtension(this.Filename);
+            return AddChildPicture(width, height, fileSize, $"{filename}_{width}x{height}{ext}");
+        }
+
+        public PictureChild AddChildPicture(int width, int height, long fileSize, string filename)
+        {
+            ThrowIf.Argument.IsNullOrEmpty(filename, nameof(filename));
+            PictureChild child = new PictureChild(this, filename, width, height, fileSize);
             ChildPictures.Add(child);
             return child;
         }

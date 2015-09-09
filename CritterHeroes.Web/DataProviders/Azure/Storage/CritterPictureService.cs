@@ -21,11 +21,11 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         {
         }
 
-        public async Task SavePicture(Stream source, CritterPicture critterPicture)
+        public async Task SavePictureAsync(Stream source, int critterID, string filename, string contentType)
         {
             CloudBlobContainer container = await GetContainer();
-            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobPath(critterPicture.Critter.ID, critterPicture.Picture.Filename));
-            blob.Properties.ContentType = critterPicture.Picture.ContentType;
+            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobPath(critterID, filename));
+            blob.Properties.ContentType = contentType;
             await blob.UploadFromStreamAsync(source);
         }
 

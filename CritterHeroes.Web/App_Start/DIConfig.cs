@@ -80,6 +80,7 @@ namespace CritterHeroes.Web
 
             container.Register<IEmailClient, EmailClientProxy>();
             container.Register<IOrganizationLogoService, OrganizationLogoService>();
+            container.Register<ICritterPictureService, CritterPictureService>();
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
             container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();

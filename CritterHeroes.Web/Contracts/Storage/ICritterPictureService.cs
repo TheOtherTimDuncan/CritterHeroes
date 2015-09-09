@@ -8,6 +8,6 @@ namespace CritterHeroes.Web.Contracts.Storage
 {
     public interface ICritterPictureService
     {
-        Task SavePicture(Stream source, CritterPicture critterPicture);
+        Task SavePictureAsync(Stream source, int critterID, string filename, string contentType);
     }
 }

@@ -104,5 +104,13 @@ namespace CH.Test.EntityTests
                 await storageContext.SaveChangesAsync();
             }
         }
+
+        [TestMethod]
+        public void PictureCreatesChildWithFilenameBasedOnPictureFilename()
+        {
+            Picture picture = new Picture("filename.jpg", 1, 1, 1, "contenttype");
+            PictureChild child = picture.AddChildPicture(100, 200, 300);
+            child.Filename.Should().Be("filename_100x200.jpg");
+        }
     }
 }
