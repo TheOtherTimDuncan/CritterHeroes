@@ -17,7 +17,7 @@ namespace CritterHeroes.Web.Data.Configurations
             });
 
             HasRequired(x => x.Critter).WithMany(x => x.Pictures).WillCascadeOnDelete();
-            HasRequired(x => x.Picture).WithMany().WillCascadeOnDelete(false);
+            HasRequired(x => x.Picture).WithMany().WillCascadeOnDelete();
         }
     }
 }
