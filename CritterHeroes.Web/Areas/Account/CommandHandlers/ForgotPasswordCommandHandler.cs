@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Home;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
@@ -38,7 +38,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found send an email to the entered email address and just return success
-                string homeUrl = _urlGenerator.GenerateAbsoluteUrl<HomeController>(x => x.Index());
+                string homeUrl = _urlGenerator.GenerateAbsoluteHomeUrl();
                 ResetPasswordAttemptEmailCommand emailAttempt = new ResetPasswordAttemptEmailCommand(command.ResetPasswordEmail, homeUrl);
                 await _emailService.SendEmailAsync(emailAttempt);
                 await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail);

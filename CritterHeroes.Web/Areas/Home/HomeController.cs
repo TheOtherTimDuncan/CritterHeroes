@@ -10,17 +10,12 @@ using CritterHeroes.Web.Contracts.Queries;
 
 namespace CritterHeroes.Web.Areas.Home
 {
-    [Route("~/{action=index}")]
+    [Route("~/{action}")]
     public class HomeController : BaseController
     {
         public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {
-        }
-
-        public ActionResult Index()
-        {
-            return View();
         }
 
         [ChildActionOnly]

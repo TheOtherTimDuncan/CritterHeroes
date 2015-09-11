@@ -26,15 +26,5 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         {
             return urlHelper.Action<HomeController>(actionSelector);
         }
-
-        public static string Local(this UrlHelper urlHelper, string url)
-        {
-            if (urlHelper.IsLocalUrl(url))
-            {
-                return url;
-            };
-
-            return urlHelper.HomeAction(x => x.Index());
-        }
     }
 }

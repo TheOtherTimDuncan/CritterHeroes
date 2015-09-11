@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
             </button>
             <img src="@Model.LogoUrl" class="logo-small" />
-            @Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text(Model.OrganizationShortName).Class("navbar-brand")
+            @Html.FluentHtml().Link().CritterHomeActionLink().Text(Model.OrganizationShortName).Class("navbar-brand")
         </header>
         <div class="navbar-collapse collapse">
             @{
@@ -19,7 +19,7 @@
                     .Class("navbar-left")
                     .AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().HomeActionLink(x => x.Index()).Text("Home")
+                            Html.FluentHtml().Link().CritterHomeActionLink().Text("Home")
                         )
                     );
 

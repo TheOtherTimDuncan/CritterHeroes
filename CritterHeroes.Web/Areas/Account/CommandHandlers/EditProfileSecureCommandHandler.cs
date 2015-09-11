@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Home;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
@@ -56,7 +56,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             ConfirmEmailCommand emailCommand = new ConfirmEmailCommand(command.NewEmail)
             {
-                HomeUrl = _urlGenerator.GenerateAbsoluteUrl<HomeController>(x => x.Index()),
+                HomeUrl = _urlGenerator.GenerateAbsoluteHomeUrl(),
                 TokenLifespan = _userManager.TokenLifespan
             };
             emailCommand.Token = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);

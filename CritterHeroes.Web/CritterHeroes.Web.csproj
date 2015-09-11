@@ -448,6 +448,7 @@
     <Content Include="Content\forms.less" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Admin\People\Views\Index.cshtml" />
+    <Content Include="Areas\Critters\Views\Index.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\admin-critters.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
@@ -569,6 +570,7 @@
     <Compile Include="Areas\Common\ActionExtensions\AccountActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminCritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminPeopleActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\CritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\HomeActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />
@@ -578,6 +580,7 @@
     <Compile Include="Areas\Common\ButtonCss.cs" />
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
+    <Compile Include="Areas\Critters\CrittersController.cs" />
     <Compile Include="Areas\Home\QueryHandlers\HeaderViewModelQueryHandler.cs" />
     <Compile Include="Areas\Home\QueryHandlers\MenuViewModelQueryHandler.cs" />
     <Compile Include="Areas\Home\HomeController.cs" />
