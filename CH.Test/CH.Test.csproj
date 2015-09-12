@@ -268,6 +268,7 @@
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Mocks\MockHttpClient.cs" />
+    <Compile Include="Mocks\MockHttpContext.cs" />
     <Compile Include="Mocks\MockRescueGroupsStorageContext.cs" />
     <Compile Include="Mocks\MockSqlStorageContext.cs" />
     <Compile Include="ProxyTests.cs" />

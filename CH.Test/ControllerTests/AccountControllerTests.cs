@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
@@ -74,7 +75,7 @@ namespace CH.Test.ControllerTests
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
-            Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
+            MockHttpContext mockHttpContext = new MockHttpContext();
 
             AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
@@ -97,7 +98,7 @@ namespace CH.Test.ControllerTests
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
-            Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
+            MockHttpContext mockHttpContext = new MockHttpContext();
 
             AccountController controller = CreateController<AccountController>();
             controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
@@ -176,7 +177,7 @@ namespace CH.Test.ControllerTests
             Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
             mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("Error")));
 
-            Mock<HttpContextBase> mockHttpContext = GetMockHttpContext();
+            MockHttpContext mockHttpContext = new MockHttpContext();
             mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
 
             AccountController controller = new AccountController(null, mockDispatcher.Object);
@@ -204,7 +205,7 @@ namespace CH.Test.ControllerTests
             mockUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
 
             AccountController controller = CreateController<AccountController>();
-            controller.ControllerContext = CreateControllerContext(GetMockHttpContext(), controller);
+            controller.ControllerContext = CreateControllerContext(new MockHttpContext(), controller);
 
             ActionResult actionResult = await controller.ForgotPassword(model);
 
