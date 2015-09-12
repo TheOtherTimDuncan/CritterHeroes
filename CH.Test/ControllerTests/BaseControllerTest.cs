@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using CH.Test.Mocks;
 using CritterHeroes.Web;
 using CritterHeroes.Web.Areas.Common;
@@ -98,19 +97,6 @@ namespace CH.Test.ControllerTests
             container.Register(() => mockAppUserStorageContext.Object);
 
             container.Register<INotificationPublisher, NotificationPublisher>();
-        }
-
-        public RouteCollection GetRouteCollection()
-        {
-            RouteCollection result = new RouteCollection();
-            result.Add(new Route("{controller}/{action}/{id}", null)
-            {
-                Defaults = new RouteValueDictionary(new
-                {
-                    id = "defaultid"
-                })
-            });
-            return result;
         }
 
         public T CreateController<T>() where T : BaseController

@@ -77,7 +77,7 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             });
         }
 
-        private static string ControllerRouteName
+        public static string ControllerRouteName
         {
             get;
         } = ActionHelper.GetControllerRouteName(nameof(AccountController));

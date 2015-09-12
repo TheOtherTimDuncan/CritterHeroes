@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
@@ -62,7 +62,6 @@ namespace CH.Test.AccountTests
             };
 
             string code = "code";
-            string url = "http://www.password.reset.com/code";
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -70,17 +69,20 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.FindByEmailAsync(command.ResetPasswordEmail)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(code));
 
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
             {
                 emailCommand.Token.Should().Be(code);
-                emailCommand.Url.Should().Be(url);
+
+                emailCommand.Url.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountActionExtensions.ControllerRouteName, new
+                {
+                    code = code
+                }));
 
                 return Task.FromResult(CommandResult.Success());
             });
-
-            Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
-            mockUrlGenerator.Setup(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>())).Returns(url);
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
@@ -90,7 +92,6 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
-            mockUrlGenerator.Verify(x => x.GenerateAbsoluteUrl<AccountController>(It.IsAny<Expression<Func<AccountController, ActionResult>>>()), Times.Once);
         }
     }
 }

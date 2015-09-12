@@ -75,10 +75,8 @@ namespace CH.Test.ControllerTests
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
-            MockHttpContext mockHttpContext = new MockHttpContext();
-
             AccountController controller = CreateController<AccountController>();
-            controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
+            controller.Url = new MockUrlHelper(new MockHttpContext());
 
             RedirectToLocalResult redirectResult = (await controller.Login(model, null)) as RedirectToLocalResult;
             redirectResult.Should().NotBeNull();
@@ -98,10 +96,8 @@ namespace CH.Test.ControllerTests
 
             mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
-            MockHttpContext mockHttpContext = new MockHttpContext();
-
             AccountController controller = CreateController<AccountController>();
-            controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, GetRouteCollection());
+            controller.Url = new MockUrlHelper(new MockHttpContext());
 
             RedirectToLocalResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectToLocalResult;
             redirectResult.Should().NotBeNull();
