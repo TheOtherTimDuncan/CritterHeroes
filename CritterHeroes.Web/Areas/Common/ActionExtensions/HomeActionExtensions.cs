@@ -11,12 +11,12 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static void RenderHomeMenuAction(this HtmlHelper htmlHelper)
         {
-            htmlHelper.RenderAction(nameof(HomeController.Menu), ControllerRouteName);
+            htmlHelper.RenderAction(nameof(HomeController.Menu), ControllerRouteName, AreaName.NoAreaRouteValue);
         }
 
         public static void RenderHomeHeaderAction(this HtmlHelper htmlHelper)
         {
-            htmlHelper.RenderAction(nameof(HomeController.Header), ControllerRouteName);
+            htmlHelper.RenderAction(nameof(HomeController.Header), ControllerRouteName, AreaName.NoAreaRouteValue);
         }
 
         private static string ControllerRouteName

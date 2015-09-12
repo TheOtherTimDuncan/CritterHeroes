@@ -14,5 +14,13 @@ namespace CritterHeroes.Web.Areas.Common
         {
             area = Admin
         };
+
+        public static object NoAreaRouteValue
+        {
+            get;
+        } = new
+        {
+            area = ""
+        };
     }
 }
