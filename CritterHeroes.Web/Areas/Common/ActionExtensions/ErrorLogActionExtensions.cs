@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.ErrorLog;
+using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class ErrorLogActionExtensions
     {
-        public static LinkElement ErrorLogActionLink(this LinkElement linkElement, Expression<Func<ErrorLogController, ActionResult>> actionSelector)
+        public static LinkElement ErrorLogHomeActionLink(this LinkElement linkElement)
         {
-            return linkElement.ActionLink<ErrorLogController>(actionSelector);
+            return linkElement.ActionLink(nameof(ErrorLogController.Index), ControllerRouteName, AreaName.AdminRouteValue);
         }
+
+        private static string ControllerRouteName
+        {
+            get;
+        } = ActionHelper.GetControllerRouteName(nameof(ErrorLogController));
     }
 }
