@@ -32,7 +32,7 @@
             }
             using (var footer = content.CreateFooter().Begin())
             {
-                <a href="@Url.AccountAction(x=>x.Login(null))" class="btn btn-primary">Login</a>
+                <a href="@Url.AccountLoginAction()" class="btn btn-primary">Login</a>
             }
         }
     }
@@ -72,7 +72,7 @@
 
             <section class="form-group">
                 <span><input type="submit" id="submit" value="Confirm Email" data-show-modal="@Model.IsSuccess" /></span>
-                <a href="@Url.AccountAction(x => x.Login(null))" class="primary">Cancel</a>
+                <a href="@Url.AccountLoginAction()" class="primary">Cancel</a>
             </section>
         }
     </div>

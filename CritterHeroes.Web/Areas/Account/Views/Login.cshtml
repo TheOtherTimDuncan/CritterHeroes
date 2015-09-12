@@ -30,7 +30,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                     @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
-                    <span class="input-group-btn"><button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountAction(x => x.ForgotPassword())">?</button></span>
+                    <span class="input-group-btn"><button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountForgotPasswordAction()">?</button></span>
                 </div>
                 @Html.ValidationMessageFor(m => m.Password)
             </section>
@@ -42,7 +42,7 @@
             <section class="form-group">
                 <input type="submit" value="Login" />
                 <span class="pull-right">
-                    <a href="@Url.AccountAction(x => x.ConfirmEmail(null,null))" tabindex="-1">Have confirmation code?</a><br />
+                    <a href="@Url.AccountConfirmEmailAction()" tabindex="-1">Have confirmation code?</a><br />
                 </span>
             </section>
         }

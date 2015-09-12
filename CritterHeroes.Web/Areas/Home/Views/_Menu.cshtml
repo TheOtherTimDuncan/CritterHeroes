@@ -72,19 +72,19 @@
                 {
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountActionLink(x => x.EditProfile()).Class("hidden-xs").Text("Welcome, " + Model.UserDisplayName)
+                            Html.FluentHtml().Link().AccountEditProfileLink().Class("hidden-xs").Text("Welcome, " + Model.UserDisplayName)
                         )
                     );
 
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountActionLink(x => x.EditProfile()).Class("visible-xs").Text("Edit Profile")
+                            Html.FluentHtml().Link().AccountEditProfileLink().Class("visible-xs").Text("Edit Profile")
                         )
                     );
 
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountActionLink(x => x.LogOut()).Text("Logout")
+                            Html.FluentHtml().Link().AccountLogoutLink().Text("Logout")
                         )
                     );
                 }
@@ -92,7 +92,7 @@
                 {
                     loginNav.AddElement(
                         Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountActionLink(x => x.Login(null)).Text("Login")
+                            Html.FluentHtml().Link().AccountLoginLink().Text("Login")
                         )
                     );
                 }

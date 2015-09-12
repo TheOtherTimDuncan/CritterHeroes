@@ -11,7 +11,7 @@
                 @header.CreateCloseButton()
                 @header.CreateTitle("Edit Email")
             }
-            <form id="edit-email-form" action="@Url.AccountAction(x => x.EditProfileSecure())">
+            <form id="edit-email-form" action="@Url.AccountEditProfileSecureAction()">
                 @Html.AntiForgeryToken()
                 @using (var body = content.CreateBody().Begin())
                 {

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using CritterHeroes.Web.Areas.Critters;
 using CritterHeroes.Web.Contracts;
+using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
@@ -13,9 +14,7 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static void RenderCritterHomeAction(this HtmlHelper htmlHelper)
         {
-            string controllerName = nameof(CrittersController);
-            controllerName = controllerName.Substring(0, controllerName.Length - "Controller".Length);
-            htmlHelper.RenderAction(nameof(CrittersController.Index), controllerName);
+            htmlHelper.RenderAction(nameof(CrittersController.Index), ControllerRouteName);
         }
 
         public static string GenerateAbsoluteHomeUrl(this IUrlGenerator urlGenerator)
@@ -25,14 +24,12 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 
         public static string HomeAction(this UrlHelper urlHelper)
         {
-            string controllerName = nameof(CrittersController);
-            controllerName = controllerName.Substring(0, controllerName.Length - "Controller".Length);
-            return urlHelper.Action(nameof(CrittersController.Index), controllerName);
+            return urlHelper.Action(nameof(CrittersController.Index), ControllerRouteName);
         }
 
         public static LinkElement CritterHomeActionLink(this LinkElement linkElement)
         {
-            return linkElement.ActionLink<CrittersController>(x => x.Index());
+            return linkElement.ActionLink(nameof(CrittersController.Index), ControllerRouteName);
         }
 
         public static string Local(this UrlHelper urlHelper, string url)
@@ -44,16 +41,9 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return urlHelper.HomeAction();
         }
 
-        private static string ControllerName
+        public static string ControllerRouteName
         {
             get;
-        } = GetControllerRouteName();
-
-        private static string GetControllerRouteName()
-        {
-            string controllerName = nameof(CrittersController);
-            controllerName = controllerName.Substring(0, controllerName.Length - "Controller".Length);
-            return controllerName;
-        }
+        } = ActionHelper.GetControllerRouteName(nameof(CrittersController));
     }
 }

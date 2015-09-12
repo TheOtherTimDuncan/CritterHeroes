@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account;
 using TOTD.Mvc.Actions;
@@ -13,33 +10,57 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class AccountActionExtensions
     {
-        public static string AccountAction(this UrlHelper urlHelper, Expression<Func<AccountController, Task<ActionResult>>> actionSelector)
+        public static string AccountLoginAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action<AccountController>(actionSelector);
+            return urlHelper.Action(nameof(AccountController.Login), ControllerRouteName);
         }
 
-        public static string AccountAction(this UrlHelper urlHelper, Expression<Func<AccountController, ActionResult>> actionSelector)
+        public static string AccountEditProfileLoginAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action<AccountController>(actionSelector);
+            return urlHelper.Action(nameof(AccountController.EditProfileLogin), ControllerRouteName);
+        }
+
+        public static string AccountEditProfileSecureAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action(nameof(AccountController.EditProfileSecure), ControllerRouteName);
+        }
+
+        public static string AccountConfirmEmailAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action(nameof(AccountController.ConfirmEmail), ControllerRouteName);
+        }
+
+        public static string AccountForgotPasswordAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action(nameof(AccountController.ForgotPassword), ControllerRouteName);
+        }
+
+        public static LinkElement AccountLoginLink(this LinkElement linkElement)
+        {
+            return linkElement.ActionLink(nameof(AccountController.Login), ControllerRouteName);
+        }
+
+        public static LinkElement AccountLogoutLink(this LinkElement linkElement)
+        {
+            return linkElement.ActionLink(nameof(AccountController.LogOut), ControllerRouteName);
+        }
+
+        public static LinkElement AccountEditProfileLink(this LinkElement linkElement)
+        {
+            return linkElement.ActionLink(nameof(AccountController.EditProfile), ControllerRouteName);
         }
 
         public static FormElement LoginAction(this FormElement formElement, string returnUrl)
         {
-            ActionHelperResult actionResult = ActionHelper.GetRouteValues<AccountController>(x => x.Login(null));
-            return formElement.Action(actionResult.ActionName, actionResult.ControllerName, new
+            return formElement.Action(nameof(AccountController.Login), ControllerRouteName, new
             {
                 returnUrl = returnUrl
             });
         }
 
-        public static LinkElement AccountActionLink(this LinkElement linkElement, Expression<Func<AccountController, Task<ActionResult>>> actionSelector)
+        private static string ControllerRouteName
         {
-            return linkElement.ActionLink<AccountController>(actionSelector);
-        }
-
-        public static LinkElement AccountActionLink(this LinkElement linkElement, Expression<Func<AccountController, ActionResult>> actionSelector)
-        {
-            return linkElement.ActionLink<AccountController>(actionSelector);
-        }
+            get;
+        } = ActionHelper.GetControllerRouteName(nameof(AccountController));
     }
 }

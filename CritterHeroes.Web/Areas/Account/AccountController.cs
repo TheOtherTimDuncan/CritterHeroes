@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
+using CritterHeroes.Web.Areas.Admin.Critters;
 using CritterHeroes.Web.Areas.Common;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Queries;
@@ -51,7 +53,7 @@ namespace CritterHeroes.Web.Areas.Account
         public ActionResult LogOut()
         {
             CommandDispatcher.Dispatch(new LogoutModel());
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName);
         }
 
         [HttpGet]
