@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using CritterHeroes.Web.Areas.Critters;
@@ -19,7 +18,7 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 
         public static string GenerateAbsoluteHomeUrl(this IUrlGenerator urlGenerator)
         {
-            return urlGenerator.GenerateAbsoluteUrl<CrittersController>(x => x.Index());
+            return urlGenerator.GenerateAbsoluteUrl(nameof(CrittersController.Index), ControllerRouteName);
         }
 
         public static string HomeAction(this UrlHelper urlHelper)
