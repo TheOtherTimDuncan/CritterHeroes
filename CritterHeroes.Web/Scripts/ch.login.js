@@ -5,7 +5,9 @@
     function loadResetPassword(data) {
         var modalContainer = $('#modal-container')
             .html(data)
-            .find('div:first').modal();
+            .find('div:first').modal({
+                backdrop: false
+            });
 
         var frm = modalContainer
             .find('#reset-password-form')
