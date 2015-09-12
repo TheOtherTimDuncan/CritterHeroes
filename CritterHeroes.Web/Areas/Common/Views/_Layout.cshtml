@@ -39,8 +39,8 @@
 </head>
 <body>
 
-    @{Html.RenderHomeAction(x => x.Menu());}
-    @{Html.RenderHomeAction(x => x.Header());}
+    @{Html.RenderHomeMenuAction();}
+    @{Html.RenderHomeHeaderAction();}
 
     <div class="body-content">
         @RenderBody()
