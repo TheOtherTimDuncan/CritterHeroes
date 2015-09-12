@@ -60,7 +60,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 TokenLifespan = _userManager.TokenLifespan
             };
             emailCommand.Token = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            emailCommand.Url = _urlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ConfirmEmail(command.NewEmail, emailCommand.Token));
+            emailCommand.Url = _urlGenerator.GenerateConfirmEmailAbsoluteUrl(command.NewEmail, emailCommand.Token);
             await _emailService.SendEmailAsync(emailCommand);
 
             return CommandResult.Success();

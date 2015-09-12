@@ -51,7 +51,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             };
 
             emailCommand.Token = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
-            emailCommand.Url = _urlGenerator.GenerateAbsoluteUrl<AccountController>(x => x.ResetPassword(emailCommand.Token));
+            emailCommand.Url = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.Token);
 
             await _emailService.SendEmailAsync(emailCommand);
             await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email);

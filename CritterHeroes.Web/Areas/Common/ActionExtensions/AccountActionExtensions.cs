@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account;
+using CritterHeroes.Web.Areas.Account.Models;
+using CritterHeroes.Web.Contracts;
 using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
@@ -55,6 +57,23 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return formElement.Action(nameof(AccountController.Login), ControllerRouteName, new
             {
                 returnUrl = returnUrl
+            });
+        }
+
+        public static string GenerateResetPasswordAbsoluteUrl(this IUrlGenerator urlGenerator, string token)
+        {
+            return urlGenerator.GenerateAbsoluteUrl(nameof(AccountController.ResetPassword), ControllerRouteName, new
+            {
+                code = token
+            });
+        }
+
+        public static string GenerateConfirmEmailAbsoluteUrl(this IUrlGenerator urlGenerator, string email, string confirmationCode)
+        {
+            return urlGenerator.GenerateAbsoluteUrl(nameof(AccountController.ConfirmEmail), ControllerRouteName, new
+            {
+                email = email,
+                confirmationCode = confirmationCode
             });
         }
 

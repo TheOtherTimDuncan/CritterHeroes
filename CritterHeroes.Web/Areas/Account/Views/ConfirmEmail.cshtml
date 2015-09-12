@@ -13,7 +13,9 @@
         (function (cheroes, $) {
             var btn = $('#submit').busyIndicator({ message: 'Confirming email...' });
             if (btn.data('show-modal') !== "") {
-                $('#success-message').modal();
+                $('#success-message').modal({
+                    backdrop: false
+                });
             }
         }(this.cheroes = this.cheroes || {}, jQuery));
 
