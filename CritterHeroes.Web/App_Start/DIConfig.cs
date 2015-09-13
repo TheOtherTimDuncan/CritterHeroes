@@ -20,7 +20,6 @@ using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
@@ -35,7 +34,6 @@ using FluentValidation;
 using Microsoft.Owin;
 using SimpleInjector;
 using SimpleInjector.Advanced;
-using SimpleInjector.Extensions;
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 using TOTD.Utility.ExceptionHelpers;
@@ -47,6 +45,7 @@ namespace CritterHeroes.Web
         public static Container ConfigureDependencyContainer(Assembly additionalAssembly = null)
         {
             Container container = new Container();
+            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
             List<Assembly> defaultAssemblies = new List<Assembly>();
             defaultAssemblies.Add(typeof(DIConfig).Assembly);
@@ -55,14 +54,15 @@ namespace CritterHeroes.Web
                 defaultAssemblies.Add(additionalAssembly);
             }
 
-            container.RegisterManyForOpenGeneric(typeof(IStateManager<>), new WebRequestLifestyle(), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IAzureStorageContext<>), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IEmailHandler<>), defaultAssemblies);
-            container.RegisterOpenGeneric(typeof(ISqlStorageContext<>), typeof(SqlStorageContext<>), new WebRequestLifestyle());
+            container.Register(typeof(IStateManager<>), defaultAssemblies, Lifestyle.Scoped);
+            container.Register(typeof(IAzureStorageContext<>), defaultAssemblies);
+            container.Register(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
+            container.Register(typeof(IEmailHandler<>), defaultAssemblies);
 
-            // Override SqlStorageContext<> for the one entity it can't handle
-            container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(new WebRequestLifestyle());
+            // Register AppUserStorageContext for the one entity SqlStorageContext<> can't handle
+            // then register SqlStorageContext<> as a fallback registration for ISqlStorageContext<>
+            container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(Lifestyle.Scoped);
+            container.RegisterConditional(typeof(ISqlStorageContext<>), typeof(SqlStorageContext<>), Lifestyle.Scoped, (c) => !c.Handled);
 
             container.RegisterPerWebRequest<ICritterBatchSqlStorageContext, CritterBatchStorageContext>();
 
@@ -75,23 +75,22 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
             container.RegisterPerWebRequest<IHttpClient, HttpClientProxy>();
 
-            container.Register<IPageContextService, PageContextService>(new WebRequestLifestyle());
-            container.Register<IStateSerializer, StateSerializer>(new WebRequestLifestyle());
+            container.Register<IPageContextService, PageContextService>(Lifestyle.Scoped);
+            container.Register<IStateSerializer, StateSerializer>(Lifestyle.Scoped);
 
             container.Register<IEmailClient, EmailClientProxy>();
             container.Register<IOrganizationLogoService, OrganizationLogoService>();
             container.Register<ICritterPictureService, CritterPictureService>();
             container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
             container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
-            container.RegisterPerWebRequest<INotificationPublisher, NotificationPublisher>();
             container.RegisterPerWebRequest<IEmailService, EmailService>();
 
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();
 
-            container.RegisterManyForOpenGeneric(typeof(IValidator<>), defaultAssemblies);
+            container.Register(typeof(IValidator<>), defaultAssemblies);
 
-            container.RegisterSingle<IDataMapperFactory>(new DataMapperFactory() {
+            container.RegisterSingleton<IDataMapperFactory>(new DataMapperFactory() {
                 { DataSources.Breed, () => container.GetInstance<BreedDataMapper>() },
                 { DataSources.CritterStatus, () => container.GetInstance<CritterStatusMapper>() },
                 { DataSources.Species, () => container.GetInstance<SpeciesMapper>() }
@@ -110,37 +109,23 @@ namespace CritterHeroes.Web
         public static void RegisterIdentityInterfaces(Container container)
         {
             container.RegisterPerWebRequest<IAppSignInManager, AppSignInManager>();
-            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), new WebRequestLifestyle());
+            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), Lifestyle.Scoped);
             container.RegisterPerWebRequest<IAppUserStore, AppUserStore>();
             container.RegisterPerWebRequest<IAppUserManager, AppUserManager>();
         }
 
         public static void RegisterHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)
         {
-            container.RegisterManyForOpenGeneric(typeof(IQueryHandler<,>), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IAsyncQueryHandler<,>), defaultAssemblies);
+            container.Register(typeof(IQueryHandler<,>), defaultAssemblies);
+            container.Register(typeof(IAsyncQueryHandler<,>), defaultAssemblies);
 
-            container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), defaultAssemblies);
-            container.RegisterManyForOpenGeneric(typeof(IAsyncCommandHandler<>), defaultAssemblies);
-
-            IEnumerable<Type> notificationHandlers =
-                from a in defaultAssemblies
-                from t in a.GetTypes()
-                where t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(INotificationHandler<>))
-                select t;
-            container.RegisterAll(typeof(INotificationHandler<>), notificationHandlers);
-
-            IEnumerable<Type> asyncNotificationHandlers =
-                from a in defaultAssemblies
-                from t in a.GetTypes()
-                where t.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IAsyncNotificationHandler<>))
-                select t;
-            container.RegisterAll(typeof(IAsyncNotificationHandler<>), asyncNotificationHandlers);
+            container.Register(typeof(ICommandHandler<>), defaultAssemblies);
+            container.Register(typeof(IAsyncCommandHandler<>), defaultAssemblies);
         }
 
         public static void RegisterContextSensitiveInterfaces(Container container)
         {
-            container.RegisterPerWebRequest(() =>
+            container.Register(() =>
             {
                 if (container.IsVerifying())
                 {
@@ -149,9 +134,9 @@ namespace CritterHeroes.Web
 
                 ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
                 return container.GetInstance<IOwinContext>().Authentication;
-            });
+            }, Lifestyle.Scoped);
 
-            container.RegisterPerWebRequest(() =>
+            container.Register(() =>
             {
                 if (container.IsVerifying())
                 {
@@ -160,7 +145,7 @@ namespace CritterHeroes.Web
 
                 ThrowIf.Argument.IsNull(HttpContext.Current, "HttpContext.Current");
                 return HttpContext.Current.GetOwinContext();
-            });
+            }, Lifestyle.Scoped);
         }
     }
 }

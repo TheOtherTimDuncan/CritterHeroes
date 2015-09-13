@@ -14,7 +14,6 @@ using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Contracts.Notifications;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
@@ -46,8 +45,6 @@ namespace CH.Test.ControllerTests
         public OrganizationContext organizationContext;
         public UserContext userContext;
         public MockSqlStorageContext<AppUser> mockAppUserStorageContext;
-
-        public const string webAppPath = "/debug/";
 
         [TestInitialize]
         public void InitializeTest()
@@ -95,8 +92,6 @@ namespace CH.Test.ControllerTests
 
             mockAppUserStorageContext = new MockSqlStorageContext<AppUser>();
             container.Register(() => mockAppUserStorageContext.Object);
-
-            container.Register<INotificationPublisher, NotificationPublisher>();
         }
 
         public T CreateController<T>() where T : BaseController
