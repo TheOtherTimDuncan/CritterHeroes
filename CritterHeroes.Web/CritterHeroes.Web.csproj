@@ -311,9 +311,6 @@
     <Content Include="Areas\Home\Views\_Menu.cshtml" />
     <Content Include="Content\bootswatch\bootswatch.less" />
     <Content Include="Content\bootswatch\variables.less" />
-    <Content Include="Content\Site.css.map">
-      <DependentUpon>Site.less</DependentUpon>
-    </Content>
     <Content Include="Content\Site.less" />
     <Content Include="mstile-144x144.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -451,6 +448,9 @@
     <Content Include="Areas\Critters\Views\Index.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\admin-critters.less" />
+    <Content Include="Content\Site.css.map">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>
@@ -581,6 +581,10 @@
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
     <Compile Include="Areas\Critters\CrittersController.cs" />
+    <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />
+    <Compile Include="Areas\Critters\Models\CritterModel.cs" />
+    <Compile Include="Areas\Critters\Queries\CrittersListQuery.cs" />
+    <Compile Include="Areas\Critters\QueryHandlers\CrittersListQueryHandler.cs" />
     <Compile Include="Areas\Home\QueryHandlers\HeaderViewModelQueryHandler.cs" />
     <Compile Include="Areas\Home\QueryHandlers\MenuViewModelQueryHandler.cs" />
     <Compile Include="Areas\Home\HomeController.cs" />
