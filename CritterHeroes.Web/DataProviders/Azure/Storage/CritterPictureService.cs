@@ -8,6 +8,7 @@ using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Models;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
@@ -19,6 +20,13 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         public CritterPictureService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration)
             : base(orgStateManager, appConfiguration, azureConfiguration)
         {
+        }
+
+        public async Task GetPictureAsync(int critterID, string filename, Stream outputStream)
+        {
+            CloudBlobContainer container = await GetContainer();
+            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobPath(critterID, filename));
+            await blob.DownloadToStreamAsync(outputStream);
         }
 
         public async Task SavePictureAsync(Stream source, int critterID, string filename, string contentType)

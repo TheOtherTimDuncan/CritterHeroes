@@ -574,6 +574,7 @@
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\HomeActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\MiscExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\OrganizationActionExtensions.cs" />
     <Compile Include="Areas\Common\AreaName.cs" />
     <Compile Include="Areas\Common\BaseController.cs" />
@@ -770,6 +771,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middleware\ImageMiddleware.cs" />
     <Compile Include="Middleware\OrganizationContextMiddleware.cs" />
     <Compile Include="Middleware\PageContextMiddleware.cs" />
     <Compile Include="Middleware\UserContextMiddleware.cs" />

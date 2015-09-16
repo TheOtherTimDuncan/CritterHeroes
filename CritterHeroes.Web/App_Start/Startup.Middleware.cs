@@ -10,6 +10,7 @@ namespace CritterHeroes.Web
         public void ConfigureMiddleware(IAppBuilder app)
         {
             app.UseOrganizationContext(DependencyResolver.Current);
+            app.UseImage(DependencyResolver.Current); // Should run after OrganizationContextMiddleware
             app.UseUserContext(DependencyResolver.Current);
             app.UsePageContext(DependencyResolver.Current);
         }

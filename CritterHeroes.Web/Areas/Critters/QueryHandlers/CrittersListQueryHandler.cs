@@ -32,7 +32,8 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
                     ID = x.ID,
                     Name = x.Name,
                     Status = x.Status.Name,
-                    Breed = x.Breed.BreedName
+                    Breed = x.Breed.BreedName,
+                    PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 }
             ).ToListAsync();
 

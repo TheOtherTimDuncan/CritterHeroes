@@ -29,5 +29,11 @@ namespace CritterHeroes.Web.Areas.Critters.Models
             get;
             set;
         }
+
+        public string PictureFilename
+        {
+            get;
+            set;
+        }
     }
 }
