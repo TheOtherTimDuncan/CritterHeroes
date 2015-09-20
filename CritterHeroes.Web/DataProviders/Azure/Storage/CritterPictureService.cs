@@ -22,6 +22,11 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         {
         }
 
+        public string GetPictureUrl(int critterID, string filename)
+        {
+            return CreateBlobUrl(GetBlobPath(critterID, filename));
+        }
+
         public async Task GetPictureAsync(int critterID, string filename, Stream outputStream)
         {
             CloudBlobContainer container = await GetContainer();
