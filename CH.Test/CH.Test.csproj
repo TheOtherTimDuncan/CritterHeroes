@@ -265,6 +265,7 @@
     <Compile Include="EntityTests\PersonTests.cs" />
     <Compile Include="EntityTests\PictureTests.cs" />
     <Compile Include="EntityTests\SpeciesTests.cs" />
+    <Compile Include="MiddlewareTests\ImageMiddlewareTests.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="Mocks\MockHttpClient.cs" />

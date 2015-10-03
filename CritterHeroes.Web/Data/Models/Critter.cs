@@ -11,6 +11,12 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
+        public Critter(string name, CritterStatus status, Breed breed, Guid organizationID, int rescueGroupsID, int critterID)
+            : this(name, status, breed, organizationID, rescueGroupsID)
+        {
+            this.ID = critterID;
+        }
+
         public Critter(string name, CritterStatus status, Breed breed, Guid organizationID, int rescueGroupsID)
             : this(name, status, breed, organizationID)
         {
