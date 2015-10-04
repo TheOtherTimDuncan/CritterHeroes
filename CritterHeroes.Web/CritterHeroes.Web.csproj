@@ -446,11 +446,13 @@
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Admin\People\Views\Index.cshtml" />
     <Content Include="Areas\Critters\Views\Index.cshtml" />
+    <Content Include="Areas\Common\Views\_Paging.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\admin-critters.less" />
     <Content Include="Content\Site.css.map">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
+    <Content Include="Content\paging.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>
@@ -576,10 +578,13 @@
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\MiscExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\OrganizationActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\PagingExtensions.cs" />
     <Compile Include="Areas\Common\AreaName.cs" />
     <Compile Include="Areas\Common\BaseController.cs" />
     <Compile Include="Areas\Common\ButtonCss.cs" />
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
+    <Compile Include="Areas\Common\Models\PagingModel.cs" />
+    <Compile Include="Areas\Common\Queries\PagingQuery.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
     <Compile Include="Areas\Critters\CrittersController.cs" />
     <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />
@@ -714,6 +719,7 @@
     <Compile Include="Data\Configurations\PictureChildConfiguration.cs" />
     <Compile Include="Data\Configurations\PictureConfiguration.cs" />
     <Compile Include="Data\Extensions\PIctureExtensions.cs" />
+    <Compile Include="Data\Extensions\QueryableExtensions.cs" />
     <Compile Include="Data\Models\BusinessPhone.cs" />
     <Compile Include="Data\Configurations\BusinessConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />

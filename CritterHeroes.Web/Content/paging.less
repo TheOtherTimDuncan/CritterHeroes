@@ -1,0 +1,57 @@
+﻿@import (reference) "bootswatch/variables.less";
+@import (reference) "bootstrap/bootstrap.less";
+
+.paging-container {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    font-size: @font-size-small;
+}
+
+.paging-container li {
+    cursor: pointer;
+    width: 3em;
+    text-align: center;
+    border: solid 1px @gray-dark;
+    margin-left: -1px;
+}
+
+.paging-container a {
+    text-decoration: none;
+    color: @text-color;
+}
+
+.paging-container .current {
+    background-color: @gray-light;
+}
+
+.paging-container page-chunk-break {
+    cursor: auto;
+}
+
+.paging-container .page-prev {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.paging-container .page-prev a {
+    .glyphicon;
+    .glyphicon-chevron-left;
+}
+
+.paging-container .page-next {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.paging-container .page-next a {
+    .glyphicon;
+    .glyphicon-chevron-right;
+}

@@ -274,6 +274,7 @@
     <Compile Include="Mocks\MockSqlStorageContext.cs" />
     <Compile Include="Mocks\MockUrlGenerator.cs" />
     <Compile Include="Mocks\MockUrlHelper.cs" />
+    <Compile Include="PagingModelTests.cs" />
     <Compile Include="ProxyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccountTests\LoginCommandHandlerTests.cs">

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Areas.Critters.Models;
 using CritterHeroes.Web.Areas.Critters.Queries;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
@@ -24,9 +26,15 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
         {
             CrittersListModel model = new CrittersListModel();
 
+            var critters = _critterStorage.Entities;
+
+            model.Paging = new PagingModel(critters.Count(), query);
+
+            critters = critters.OrderBy(x => x.Name);
+
             model.Critters = await
             (
-                from x in _critterStorage.Entities
+                from x in critters
                 select new CritterModel()
                 {
                     ID = x.ID,
@@ -35,7 +43,7 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
                     Breed = x.Breed.BreedName,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 }
-            ).ToListAsync();
+            ).TakePage(query.Page, model.Paging.PageSize).ToListAsync();
 
             return model;
         }
