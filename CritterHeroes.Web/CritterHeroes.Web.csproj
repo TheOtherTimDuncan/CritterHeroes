@@ -205,16 +205,16 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="TOTD.EntityFramework, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.EntityFramework.2.6.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
+    <Reference Include="TOTD.EntityFramework, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.EntityFramework.2.7.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Mvc, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Mvc.2.6.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
+    <Reference Include="TOTD.Mvc, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mvc.2.7.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Utility.2.6.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+    <Reference Include="TOTD.Utility, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Utility.2.7.0.0\lib\net451\TOTD.Utility.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
