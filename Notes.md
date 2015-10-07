@@ -15,3 +15,5 @@
 4. Allow linking to existing animals in bio editor.
 
 5. Send weekly (monthly?) email listing animals on site.
+
+http://action.humanesociety.org/site/MessageViewer?em_id=109942.0&dlv_id=113327
