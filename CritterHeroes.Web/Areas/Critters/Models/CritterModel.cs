@@ -30,6 +30,12 @@ namespace CritterHeroes.Web.Areas.Critters.Models
             set;
         }
 
+        public string FosterName
+        {
+            get;
+            set;
+        }
+
         public string PictureFilename
         {
             get;
