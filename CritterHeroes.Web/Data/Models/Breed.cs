@@ -10,13 +10,6 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
-        public Breed(int id, Species species, string breedName)
-            : this(species, breedName)
-        {
-
-            this.ID = id;
-        }
-
         public Breed(Species species, string breedName)
             : this(species, breedName, null)
         {

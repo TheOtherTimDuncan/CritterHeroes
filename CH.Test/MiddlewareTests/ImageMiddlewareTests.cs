@@ -12,6 +12,7 @@ using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TOTD.EntityFramework;
 
 namespace CH.Test.MiddlewareTests
 {
@@ -144,7 +145,7 @@ namespace CH.Test.MiddlewareTests
         {
             string filename = "test.jpg";
 
-            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99, critterID: 1);
+            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural"), "breed"), Guid.NewGuid(), rescueGroupsID: 99).SetEntityID(x => x.ID);
 
             Dictionary<string, string[]> queryValues = new Dictionary<string, string[]>();
             queryValues["width"] = new string[] { "100" };
@@ -189,7 +190,7 @@ namespace CH.Test.MiddlewareTests
             string filename = "test.jpg";
             string url = "redirect";
 
-            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99, critterID: 1);
+            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural"), "breed"), Guid.NewGuid(), rescueGroupsID: 99).SetEntityID(x => x.ID);
             CritterPicture critterPicture = critter.AddPicture(new Picture(filename, 100, 100, 500, "jpeg"));
 
             Dictionary<string, string[]> queryValues = new Dictionary<string, string[]>();
@@ -235,7 +236,7 @@ namespace CH.Test.MiddlewareTests
             string filename = "test.jpg";
             string url = "redirect";
 
-            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99, critterID: 1);
+            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99).SetEntityID(x => x.ID);
             CritterPicture critterPicture = critter.AddPicture(new Picture(filename, 100, 100, 500, "jpeg"));
 
             Dictionary<string, string[]> queryValues = new Dictionary<string, string[]>();
@@ -283,7 +284,7 @@ namespace CH.Test.MiddlewareTests
             int requestWidth = width / 2;
             int requestHeight = height / 2;
 
-            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99, critterID: 1);
+            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99).SetEntityID(x => x.ID);
             CritterPicture critterPicture = critter.AddPicture(new Picture("test.jpg", width, height, 500, "jpeg"));
             PictureChild childPicture = critterPicture.Picture.AddChildPicture(requestWidth, requestHeight, 100);
 
@@ -332,7 +333,7 @@ namespace CH.Test.MiddlewareTests
             int requestWidth = width / 2;
             int requestHeight = height / 2;
 
-            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99, critterID: 1);
+            Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), Guid.NewGuid(), rescueGroupsID: 99).SetEntityID(x => x.ID);
             CritterPicture critterPicture = critter.AddPicture(new Picture("test.jpg", width, height, 500, "jpeg"));
             PictureChild childPicture = critterPicture.Picture.AddChildPicture(requestWidth, requestHeight, 100);
 

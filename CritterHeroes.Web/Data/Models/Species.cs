@@ -10,13 +10,7 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
-        public Species(string name, string singular, string plural, string youngSingular, string youngPlural, int speciesID)
-            : this(name, singular, plural, youngSingular, youngPlural)
-        {
-            this.ID = speciesID;
-        }
-
-        public Species(string name, string singular, string plural, string youngSingular, string youngPlural)
+        public Species(string name, string singular, string plural, string youngSingular = null, string youngPlural = null)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
             ThrowIf.Argument.IsNullOrEmpty(singular, nameof(singular));

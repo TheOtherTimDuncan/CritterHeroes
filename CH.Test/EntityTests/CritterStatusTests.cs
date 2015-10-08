@@ -48,7 +48,7 @@ namespace CH.Test.EntityTests
         [TestMethod]
         public void ThrowsExceptionIfCreatedWithInvalidName()
         {
-            Action action = () => new CritterStatus(1, null, null);
+            Action action = () => new CritterStatus(null, null);
             action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("name");
         }
     }

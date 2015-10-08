@@ -13,6 +13,7 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TOTD.EntityFramework;
 
 namespace CH.Test.AdminDataMapperTests
 {
@@ -62,9 +63,9 @@ namespace CH.Test.AdminDataMapperTests
         [TestMethod]
         public async Task CopiesSourceToTarget()
         {
-            Species species1 = new Species("species1", "singular1", "plural1", null, null, speciesID: 91);
-            Species species2 = new Species("species2", "singular2", "plural2", null, null, speciesID: 92);
-            Species species3 = new Species("species3", "singular3", "plural3", null, null, speciesID: 93);
+            Species species1 = new Species("species1", "singular1", "plural1").SetEntityID(x => x.ID);
+            Species species2 = new Species("species2", "singular2", "plural2").SetEntityID(x => x.ID);
+            Species species3 = new Species("species3", "singular3", "plural3").SetEntityID(x => x.ID);
 
             BreedSource source1 = new BreedSource("1", species1.Name, "breed1");
             BreedSource source2 = new BreedSource("2", species2.Name, "breed2");
