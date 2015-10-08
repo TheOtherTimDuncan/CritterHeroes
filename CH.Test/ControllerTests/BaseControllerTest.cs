@@ -23,6 +23,7 @@ using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SimpleInjector;
+using SimpleInjector.Integration.Web.Mvc;
 using TOTD.Mvc.FluentHtml;
 
 namespace CH.Test.ControllerTests
@@ -51,6 +52,7 @@ namespace CH.Test.ControllerTests
         {
             container = new Container();
             DIConfig.RegisterHandlers(container, new Assembly[] { typeof(MvcApplication).Assembly });
+            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
 
             container.Register<ICommandDispatcher, CommandDispatcher>();
             container.Register<IQueryDispatcher, QueryDispatcher>();
