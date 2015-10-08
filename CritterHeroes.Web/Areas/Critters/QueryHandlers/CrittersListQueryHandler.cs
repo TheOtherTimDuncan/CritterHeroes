@@ -41,6 +41,7 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
                     Name = x.Name,
                     Status = x.Status.Name,
                     Breed = x.Breed.BreedName,
+                    Sex = x.Sex,
                     FosterName = x.Person.FirstName + " " + x.Person.LastName,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using CritterHeroes.Web.Common;
 
 namespace CritterHeroes.Web.Areas.Critters.Models
 {
@@ -28,6 +28,20 @@ namespace CritterHeroes.Web.Areas.Critters.Models
         {
             get;
             set;
+        }
+
+        public string Sex
+        {
+            get;
+            set;
+        }
+
+        public string SexName
+        {
+            get
+            {
+                return SexHelper.GetSexName(Sex);
+            }
         }
 
         public string FosterName
