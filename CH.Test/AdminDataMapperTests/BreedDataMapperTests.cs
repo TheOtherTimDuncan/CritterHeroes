@@ -66,6 +66,7 @@ namespace CH.Test.AdminDataMapperTests
             Species species1 = new Species("species1", "singular1", "plural1").SetEntityID(x => x.ID);
             Species species2 = new Species("species2", "singular2", "plural2").SetEntityID(x => x.ID);
             Species species3 = new Species("species3", "singular3", "plural3").SetEntityID(x => x.ID);
+            Species[] species = new[] {species1,species2,species3 };
 
             BreedSource source1 = new BreedSource("1", species1.Name, "breed1");
             BreedSource source2 = new BreedSource("2", species2.Name, "breed2");
@@ -76,6 +77,13 @@ namespace CH.Test.AdminDataMapperTests
             MockRescueGroupsStorageContext<BreedSource> mockSourceStorage = new MockRescueGroupsStorageContext<BreedSource>(source1, source2);
 
             MockSqlStorageContext<Breed> mockBreedStorage = new MockSqlStorageContext<Breed>(master2, master3);
+            mockBreedStorage.OnAdd = (Breed breed) =>
+            {
+                if (breed.Species == null)
+                {
+                    breed.ChangeSpecies(species.Single(x => x.ID == breed.SpeciesID));
+                }
+            };
 
             MockSqlStorageContext<Species> mockSpeciesStorage = new MockSqlStorageContext<Species>(species1, species2, species3);
 
