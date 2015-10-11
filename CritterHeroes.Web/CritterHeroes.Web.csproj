@@ -592,8 +592,11 @@
     <Compile Include="Areas\Critters\CrittersController.cs" />
     <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />
     <Compile Include="Areas\Critters\Models\CritterModel.cs" />
+    <Compile Include="Areas\Critters\Models\CrittersModel.cs" />
     <Compile Include="Areas\Critters\Queries\CrittersListQuery.cs" />
+    <Compile Include="Areas\Critters\Queries\CrittersQuery.cs" />
     <Compile Include="Areas\Critters\QueryHandlers\CrittersListQueryHandler.cs" />
+    <Compile Include="Areas\Critters\QueryHandlers\CrittersQueryHandler.cs" />
     <Compile Include="Areas\Home\QueryHandlers\HeaderViewModelQueryHandler.cs" />
     <Compile Include="Areas\Home\QueryHandlers\MenuViewModelQueryHandler.cs" />
     <Compile Include="Areas\Home\HomeController.cs" />

@@ -12,6 +12,11 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class MiscExtensions
     {
+        public static string Picture(this UrlHelper urlHelper)
+        {
+            return urlHelper.Content($"~/{ImageMiddleware.Route}");
+        }
+
         public static string Picture(this UrlHelper urlHelper, int critterID, string filename, int? desiredWidth = null, int? desiredHeight = null)
         {
             StringBuilder builder = new StringBuilder();

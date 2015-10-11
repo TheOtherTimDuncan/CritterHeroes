@@ -20,10 +20,16 @@ namespace CritterHeroes.Web.Areas.Critters
         }
 
         [Route("~/")]
-        public async Task<ActionResult> Index(CrittersListQuery query)
+        public async Task<ActionResult> Index(CrittersQuery query)
+        {
+            CrittersModel model = await QueryDispatcher.DispatchAsync(query);
+            return View(model);
+        }
+
+        public async Task<ActionResult> List(CrittersListQuery query)
         {
             CrittersListModel model = await QueryDispatcher.DispatchAsync(query);
-            return View(model);
+            return Json(model);
         }
     }
 }
