@@ -4,7 +4,7 @@
 
     function send(defaultOptions, options) {
 
-        var requestOptions = $.extend(defaultOptions, options);
+        var requestOptions = $.extend({}, defaultOptions, options);
 
         requestOptions.success = function (data) {
             options.success(data);
