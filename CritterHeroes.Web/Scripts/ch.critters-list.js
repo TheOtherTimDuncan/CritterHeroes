@@ -5,9 +5,14 @@
     var query = {
     };
 
-    var container = $('#critters-container tbody');
-    var critterUrl = container.data('url');
-    var pictureUrl = container.data('picture-url');
+    var crittersContainer = $('#critters-container tbody');
+    var critterUrl = crittersContainer.data('url');
+    var pictureUrl = crittersContainer.data('picture-url');
+
+    var pagingContainer = $('.paging-container').on('click', '[data-page]', function () {
+        query.page = $(this).data('page');
+        getData();
+    });
 
     $('select[data-filter]').each(function () {
         $(this).on('change', function () {
@@ -26,6 +31,13 @@
             data: query,
 
             success: function (data) {
+
+                if (data.paging.currentPage !== 1) {
+                    window.scrollTo(0, 0);
+                }
+
+                pagingContainer.paging(data.paging);
+
                 if (data.critters && data.critters.length > 0) {
                     var rows = [];
                     for (var c = 0; c < data.critters.length; c++) {
@@ -41,8 +53,9 @@
                             )
                         );
                     }
-                    container.html(rows);
+                    crittersContainer.html(rows);
                 }
+
             }
 
         });

@@ -419,6 +419,7 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Scripts\ch.login.js" />
     <Content Include="Scripts\ch.organization-edit-profile.js" />
+    <Content Include="Scripts\ch.paging.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css">
       <DependentUpon>basic.css</DependentUpon>

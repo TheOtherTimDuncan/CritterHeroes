@@ -8016,7 +8016,8 @@ form a.primary .badge {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-.paging-container .page-prev a {
+.paging-container .page-prev a,
+.paging-container .page-prev span {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -8027,14 +8028,16 @@ form a.primary .badge {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.paging-container .page-prev a:before {
+.paging-container .page-prev a:before,
+.paging-container .page-prev span:before {
   content: "\e079";
 }
 .paging-container .page-next {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-.paging-container .page-next a {
+.paging-container .page-next a,
+.paging-container .page-next span {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -8045,7 +8048,8 @@ form a.primary .badge {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.paging-container .page-next a:before {
+.paging-container .page-next a:before,
+.paging-container .page-next span:before {
   content: "\e080";
 }
 .filters-container {

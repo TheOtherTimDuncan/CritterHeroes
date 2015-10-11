@@ -18,6 +18,7 @@ namespace CritterHeroes.Web
 
             bundles.Add(new ScriptBundle("~/bundles/cheroes")
                 .Include("~/Scripts/ch.data.js")
+                .Include("~/Scripts/ch.paging.js")
                 .Include("~/Scripts/validation.extensions.js")
             );
 
