@@ -1,5 +1,6 @@
-﻿@import (reference) "bootswatch/variables.less";
-@import (reference) "bootstrap/bootstrap.less";
+﻿@import "bootswatch/variables.less";
+@import "variables.less";
+@import "bootstrap/bootstrap.less";
 
 .paging-container {
     list-style: none;
@@ -37,8 +38,8 @@
 }
 
 .paging-container .page-prev {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: @border-radius;
+    border-bottom-left-radius: @border-radius;
 }
 
 .paging-container .page-prev a {
@@ -47,8 +48,8 @@
 }
 
 .paging-container .page-next {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
 }
 
 .paging-container .page-next a {

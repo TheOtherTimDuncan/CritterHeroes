@@ -4,7 +4,25 @@
     ViewBag.Title = "Critters";
 }
 
+@section scripts{
+    @Scripts.Render("~/bundles/critterslist")
+}
+
 <h2>Critters</h2>
+
+<form action="@Url.CritterHomeAction()" method="get" class="filters-container">
+    <section>Filters</section>
+    <section>
+        <label for="StatusID">Status</label>
+        <select id="StatusID" name="StatusID">
+            <option>Any status</option>
+            @foreach (var item in Model.StatusItems)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </section>
+</form>
 
 <table class="table table-striped table-hover table-condensed">
     <thead>

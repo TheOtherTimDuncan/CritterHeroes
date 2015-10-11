@@ -8048,6 +8048,33 @@ form a.primary .badge {
 .paging-container .page-next a:before {
   content: "\e080";
 }
+.filters-container {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  font-size: 12px;
+}
+.filters-container section {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 8px;
+  margin-left: 8px;
+}
+.filters-container section > label {
+  padding-right: 8px;
+  margin: 0;
+}
+.filters-container section:first-child {
+  border-right: 1px solid #ddd;
+  padding-right: 8px;
+  font-weight: bold;
+  height: 100%;
+}
 .text-with-button {
   padding-top: 4px;
   display: inline-block;

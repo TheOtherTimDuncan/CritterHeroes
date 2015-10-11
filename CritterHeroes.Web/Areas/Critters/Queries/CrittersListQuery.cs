@@ -8,5 +8,10 @@ namespace CritterHeroes.Web.Areas.Critters.Queries
 {
     public class CrittersListQuery : PagingQuery, IAsyncQuery<CrittersListModel>
     {
+        public int? StatusID
+        {
+            get;
+            set;
+        }
     }
 }

@@ -334,6 +334,7 @@
     <Content Include="Scripts\ch.admin-critters.js" />
     <Content Include="Scripts\ch.busy-indicator.js" />
     <Content Include="Scripts\ch.cdnFallback.js" />
+    <Content Include="Scripts\ch.critters-list.js" />
     <Content Include="Scripts\ch.data-dashboard.js" />
     <Content Include="Scripts\ch.data.js" />
     <Content Include="Scripts\ch.edit-profile.js" />
@@ -453,6 +454,8 @@
       <DependentUpon>Site.less</DependentUpon>
     </Content>
     <Content Include="Content\paging.less" />
+    <Content Include="Content\filters.less" />
+    <Content Include="Content\variables.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>

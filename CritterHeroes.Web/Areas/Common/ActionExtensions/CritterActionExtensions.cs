@@ -26,6 +26,11 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return urlHelper.Action(nameof(CrittersController.Index), ControllerRouteName);
         }
 
+        public static string CritterHomeAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action(nameof(CrittersController.Index), ControllerRouteName);
+        }
+
         public static LinkElement CritterHomeActionLink(this LinkElement linkElement)
         {
             return linkElement.ActionLink(nameof(CrittersController.Index), ControllerRouteName);

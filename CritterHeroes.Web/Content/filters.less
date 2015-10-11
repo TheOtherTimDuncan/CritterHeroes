@@ -1,0 +1,34 @@
+﻿@import "bootswatch/variables.less";
+@import "variables.less";
+@import "bootstrap/bootstrap.less";
+
+.filters-container {
+    width: 100%;
+    border: 1px solid @table-border-color;
+    border-radius: @border-radius;
+    display: flex;
+    align-items: center;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    font-size: @font-size-small;
+}
+
+.filters-container section {
+    padding-top: @padding-small-vertical;
+    padding-bottom: @padding-small-vertical;
+    padding-right: @padding-small-vertical;
+    margin-left: @padding-small-vertical;
+}
+
+.filters-container section > label {
+    padding-right: @padding-base-vertical;
+    margin: 0;
+}
+
+.filters-container section:first-child {
+    border-right: 1px solid @table-border-color;
+    padding-right: @padding-small-vertical;
+    font-weight: bold;
+    height: 100%;
+}
