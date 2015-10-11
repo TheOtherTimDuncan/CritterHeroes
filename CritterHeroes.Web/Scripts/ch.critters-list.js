@@ -26,21 +26,23 @@
             data: query,
 
             success: function (data) {
-                var rows = [];
-                for (var c = 0; c < data.Critters.length; c++) {
-                    var critter = data.Critters[c];
-                    rows.push(
-                        $('<tr>').append(
-                            $('<td>').html(getCritterImageHtml(critter)),
-                            $('<td>').text(critter.Name),
-                            $('<td>').text(critter.SexName),
-                            $('<td>').text(critter.Status),
-                            $('<td>').text(critter.Breed),
-                            $('<td>').text(critter.FosterName)
-                        )
-                    );
+                if (data.critters && data.critters.length > 0) {
+                    var rows = [];
+                    for (var c = 0; c < data.critters.length; c++) {
+                        var critter = data.critters[c];
+                        rows.push(
+                            $('<tr>').append(
+                                $('<td>').html(getCritterImageHtml(critter)),
+                                $('<td>').text(critter.name),
+                                $('<td>').text(critter.sexName),
+                                $('<td>').text(critter.status),
+                                $('<td>').text(critter.breed),
+                                $('<td>').text(critter.fosterName)
+                            )
+                        );
+                    }
+                    container.html(rows);
                 }
-                container.html(rows);
             }
 
         });
@@ -48,8 +50,8 @@
     }
 
     function getCritterImageHtml(critter) {
-        if (critter.PictureFilename) {
-            return $('<img>').attr('height', 50).prop('src', pictureUrl + "/" + critter.ID + "/" + critter.PictureFilename + "?height=50");
+        if (critter.pictureFilename) {
+            return $('<img>').attr('height', 50).prop('src', pictureUrl + "/" + critter.id + "/" + critter.pictureFilename + "?height=50");
         } else {
             return '&nbsp;';
         }

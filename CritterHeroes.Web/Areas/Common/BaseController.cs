@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.ActionResults;
@@ -8,6 +10,7 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using Microsoft.AspNet.Identity;
+using TOTD.Mvc;
 
 namespace CritterHeroes.Web.Areas.Common
 {
@@ -46,6 +49,20 @@ namespace CritterHeroes.Web.Areas.Common
         protected RedirectToLocalResult RedirectToLocal(string redirectUrl)
         {
             return new RedirectToLocalResult(redirectUrl);
+        }
+
+        protected  JsonCamelCaseResult JsonCamelCase( object data, HttpStatusCode statusCode, string contentType = null, Encoding contentEncoding = null)
+        {
+            return JsonCamelCase(data, (int)statusCode, contentType, contentEncoding);
+        }
+
+        protected  JsonCamelCaseResult JsonCamelCase( object data, int? statusCode = null, string contentType = null, Encoding contentEncoding = null)
+        {
+            return new JsonCamelCaseResult()
+            {
+                Data = data,
+                StatusCode = statusCode
+            };
         }
 
         protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)

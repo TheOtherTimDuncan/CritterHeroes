@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Critters
         public async Task<ActionResult> List(CrittersListQuery query)
         {
             CrittersListModel model = await QueryDispatcher.DispatchAsync(query);
-            return Json(model);
+            return JsonCamelCase(model);
         }
     }
 }
