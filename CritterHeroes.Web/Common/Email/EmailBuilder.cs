@@ -20,8 +20,8 @@ namespace CritterHeroes.Web.Common.Email
         private EmailBuilder(EmailMessage message)
         {
             _html = new StringBuilder();
-            _html.Append("<html>");
-            _html.Append("<body>");
+            _html.AppendLine("<html>");
+            _html.AppendLine("<body>");
 
             _text = new StringBuilder();
 
@@ -42,13 +42,47 @@ namespace CritterHeroes.Web.Common.Email
         public EmailBuilder AddParagraph(string text)
         {
             _text.AppendLine(text);
-            _html.AppendFormat("<p {0}>{1}</p>", _style, text);
+            _html.AppendLine($"<p {_style}>{text}</p>");
+            return this;
+        }
+
+        public EmailBuilder StartTable()
+        {
+            _html.AppendLine($"<table {_style}>");
+            return this;
+        }
+
+        public EmailBuilder EndTable()
+        {
+            _html.AppendLine("</table>");
+            return this;
+        }
+
+        public EmailBuilder StartTableRow()
+        {
+            _html.AppendLine($"<tr {_style}>");
+            return this;
+        }
+
+        public EmailBuilder EndTableRow()
+        {
+            _html.AppendLine("</tr>");
+            _text.AppendLine();
+            return this;
+        }
+
+        public EmailBuilder AddTableCell(string contents)
+        {
+            _html.Append($"<td {_style}>{contents}</td>");
+            _text.Append(contents);
+            _text.Append("\t");
             return this;
         }
 
         public void End()
         {
-            _html.Append("</body></html>");
+            _html.AppendLine("</body>");
+            _html.AppendLine("</html>");
             _message.HtmlBody = _html.ToString();
             _message.TextBody = _text.ToString();
         }
