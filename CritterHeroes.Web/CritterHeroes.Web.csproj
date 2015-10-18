@@ -417,6 +417,7 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Scripts\ch.history.js" />
     <Content Include="Scripts\ch.login.js" />
     <Content Include="Scripts\ch.organization-edit-profile.js" />
     <Content Include="Scripts\ch.paging.js" />
@@ -587,6 +588,7 @@
     <Compile Include="Areas\Common\BaseController.cs" />
     <Compile Include="Areas\Common\ButtonCss.cs" />
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
+    <Compile Include="Areas\Common\JavascriptConvert.cs" />
     <Compile Include="Areas\Common\Models\PagingModel.cs" />
     <Compile Include="Areas\Common\Queries\PagingQuery.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
@@ -594,6 +596,7 @@
     <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />
     <Compile Include="Areas\Critters\Models\CritterModel.cs" />
     <Compile Include="Areas\Critters\Models\CrittersModel.cs" />
+    <Compile Include="Areas\Critters\Queries\BaseCrittersQuery.cs" />
     <Compile Include="Areas\Critters\Queries\CrittersListQuery.cs" />
     <Compile Include="Areas\Critters\Queries\CrittersQuery.cs" />
     <Compile Include="Areas\Critters\QueryHandlers\CrittersListQueryHandler.cs" />

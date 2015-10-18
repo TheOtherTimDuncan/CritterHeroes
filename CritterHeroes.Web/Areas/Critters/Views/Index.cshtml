@@ -5,6 +5,11 @@
 }
 
 @section scripts{
+    <script type="text/javascript">
+        (function (cheroes) {
+            cheroes.query = @JavascriptConvert.SerializeObject(Model.Query);
+        })(this.cheroes = this.cheroes || {});
+    </script>
     @Scripts.Render("~/bundles/critterslist")
 }
 
@@ -13,12 +18,12 @@
 <div class="filters-container">
     <section>Filters</section>
     <section>
-        <label for="StatusID">Status</label>
-        <select data-filter="statusID">
-            <option>Any status</option>
+        <label for="status-id">Status</label>
+        <select id="status-id" data-filter="statusid">
+            <option value="">Any status</option>
             @foreach (var item in Model.StatusItems)
             {
-                <option value="@item.Value">@item.Text</option>
+                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
             }
         </select>
     </section>

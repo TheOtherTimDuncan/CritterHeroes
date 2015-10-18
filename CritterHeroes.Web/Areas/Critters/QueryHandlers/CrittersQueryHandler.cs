@@ -16,7 +16,7 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
     {
         private ISqlStorageContext<CritterStatus> _statusStorage;
 
-        public CrittersQueryHandler( ISqlStorageContext<CritterStatus> statusStorage)
+        public CrittersQueryHandler(ISqlStorageContext<CritterStatus> statusStorage)
         {
             this._statusStorage = statusStorage;
         }
@@ -25,12 +25,15 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
         {
             CrittersModel model = new CrittersModel();
 
+            model.Query = query;
+
             model.StatusItems = await _statusStorage.Entities
                 .OrderBy(x => x.Name)
                 .Select(x => new SelectListItem()
                 {
                     Value = x.ID.ToString(),
-                    Text = x.Name
+                    Text = x.Name,
+                    Selected = (x.ID == query.StatusID)
                 })
                 .ToListAsync();
 

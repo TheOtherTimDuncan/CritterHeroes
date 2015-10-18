@@ -5,7 +5,7 @@ using CritterHeroes.Web.Contracts.Queries;
 
 namespace CritterHeroes.Web.Areas.Critters.Queries
 {
-    public class CrittersQuery : IAsyncQuery<CrittersModel>
+    public class CrittersQuery : BaseCrittersQuery, IAsyncQuery<CrittersModel>
     {
     }
 }

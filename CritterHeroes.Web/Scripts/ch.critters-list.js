@@ -2,8 +2,7 @@
 
     'use strict';
 
-    var query = {
-    };
+    var query = cheroes.historyManager.copySafeQuery(cheroes.query);
 
     var crittersContainer = $('#critters-container tbody');
     var critterUrl = crittersContainer.data('url');
@@ -14,11 +13,26 @@
         getData();
     });
 
-    $('select[data-filter]').each(function () {
+    var filters = $('select[data-filter]').each(function () {
         $(this).on('change', function () {
             query[$(this).data('filter')] = $(this).val();
             getData();
         });
+    });
+
+    cheroes.historyManager.registerPopState(function (state) {
+
+        query = state;
+
+        filters.each(function () {
+
+            var key = $(this).data('filter').toLowerCase();
+            $(this).val(cheroes.historyManager.getQueryValue(query, key));
+
+        });
+
+        getData();
+
     });
 
     getData();
@@ -31,6 +45,8 @@
             data: query,
 
             success: function (data) {
+
+                cheroes.historyManager.pushState(getQueryState());
 
                 if (data.paging.currentPage !== 1) {
                     window.scrollTo(0, 0);
@@ -68,6 +84,24 @@
         } else {
             return '&nbsp;';
         }
+    }
+
+    function getQueryState() {
+
+        var queryState = {};
+
+        for (var p in query) {
+
+            if (p.toLowerCase() === "page") {
+                if (query[p] != 1) {
+                    queryState[p] = query[p];
+                }
+            } else if (query[p]) {
+                queryState[p] = query[p];
+            }
+        }
+
+        return queryState;
     }
 
 }(this.cheroes = this.cheroes || {}, jQuery));
