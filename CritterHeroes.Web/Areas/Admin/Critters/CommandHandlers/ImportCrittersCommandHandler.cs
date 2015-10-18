@@ -72,11 +72,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 if (!source.FosterContactID.IsNullOrEmpty())
                 {
                     Person person = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail);
-                    critter.ChangePerson(person);
+                    critter.ChangeFoster(person);
                 }
                 else
                 {
-                    critter.RemovePerson();
+                    critter.RemoveFoster();
                 }
 
                 if (!source.LastUpdated.IsNullOrEmpty())

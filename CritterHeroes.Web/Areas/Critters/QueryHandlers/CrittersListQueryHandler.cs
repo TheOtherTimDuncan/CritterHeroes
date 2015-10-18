@@ -47,7 +47,7 @@ namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
                     Status = x.Status.Name,
                     Breed = x.Breed.BreedName,
                     Sex = x.Sex,
-                    FosterName = x.Person.FirstName + " " + x.Person.LastName,
+                    FosterName = x.Foster.FirstName + " " + x.Foster.LastName,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 }
             ).TakePage(query.Page, model.Paging.PageSize).ToListAsync();

@@ -19,7 +19,7 @@ namespace CH.Test.EntityTests
         {
             // Use a separate context for saving vs retrieving to prevent any caching
 
-            Species species = new Species("species", "species", "species", null, null);
+            Species species = new Species("species", "species", "species");
 
             Breed breed = new Breed(species, "breed");
 
@@ -45,7 +45,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "PersonID");
+                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "FosterID");
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }
@@ -96,7 +96,7 @@ namespace CH.Test.EntityTests
                 EmailAddress = "email@emailcom"
             };
 
-            Critter critter = new Critter("name", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural", null, null), "breed"), organization.ID)
+            Critter critter = new Critter("name", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural"), "breed"), organization.ID)
             {
                 Sex = "Male"
             };
@@ -132,6 +132,56 @@ namespace CH.Test.EntityTests
 
                 // Can we remove a picture?
                 result.Pictures.Remove(resultPicture);
+                await storageContext.SaveChangesAsync();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanCreateReadAndDeleteCritterFoster()
+        {
+            Person person = new Person()
+            {
+                FirstName = "First",
+                LastName = "Last"
+            };
+
+            Organization organization = new Organization()
+            {
+                FullName = "full",
+                AzureName = "azure",
+                EmailAddress = "email@emailcom"
+            };
+
+            Critter critter = new Critter("name", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural"), "breed"), organization.ID)
+            {
+                Sex = "Male"
+            };
+            critter.ChangeFoster(person);
+
+            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            {
+                storageContext.Add(organization);
+                await storageContext.SaveChangesAsync();
+            }
+
+            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            {
+                storageContext.Add(critter);
+                await storageContext.SaveChangesAsync();
+            }
+
+            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            {
+                Critter result = await storageContext.Entities.FindByIDAsync(critter.ID);
+                result.Should().NotBeNull();
+
+                result.FosterID.Should().Be(person.ID);
+                result.Foster.Should().NotBeNull();
+                result.Foster.ID.Should().Be(person.ID);
+
+
+                // Can we remove the foster?
+                result.RemoveFoster();
                 await storageContext.SaveChangesAsync();
             }
         }

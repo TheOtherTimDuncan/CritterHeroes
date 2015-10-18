@@ -124,13 +124,13 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public int? PersonID
+        public int? FosterID
         {
             get;
             private set;
         }
 
-        public virtual Person Person
+        public virtual Person Foster
         {
             get;
             private set;
@@ -168,17 +168,17 @@ namespace CritterHeroes.Web.Data.Models
             this.Status = status;
         }
 
-        public void ChangePerson(Person person)
+        public void ChangeFoster(Person person)
         {
             ThrowIf.Argument.IsNull(person, nameof(person));
-            this.PersonID = person.ID;
-            this.Person = person;
+            this.FosterID = person.ID;
+            this.Foster = person;
         }
 
-        public void RemovePerson()
+        public void RemoveFoster()
         {
-            this.Person = null;
-            this.PersonID = null;
+            this.Foster = null;
+            this.FosterID = null;
         }
 
         public CritterPicture AddPicture(Picture picture)
