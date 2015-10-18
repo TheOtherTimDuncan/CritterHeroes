@@ -450,6 +450,7 @@
     <Content Include="Areas\Admin\People\Views\Index.cshtml" />
     <Content Include="Areas\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Common\Views\_Paging.cshtml" />
+    <Content Include="Areas\Admin\Emails\Views\Index.cshtml" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\admin-critters.less" />
     <Content Include="Content\Site.css.map">
@@ -548,6 +549,7 @@
     <Compile Include="Areas\Admin\Critters\Models\StatusModel.cs" />
     <Compile Include="Areas\Admin\Critters\Queries\CritterSummaryQuery.cs" />
     <Compile Include="Areas\Admin\Critters\QueryHandlers\CritterSummaryQueryHandler.cs" />
+    <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
     <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
     <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
@@ -578,6 +580,7 @@
     <Compile Include="Areas\Common\ActionExtensions\AdminCritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminPeopleActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\CritterActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\EmailActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\HomeActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />

@@ -56,6 +56,11 @@
                                         Html.FluentHtml().Link().ListsHomeActionLink().Text("Lists Dashboard")
                                     )
                                 )
+                                .AddElement(
+                                    Html.FluentHtml().BootstrapNavItem().AddElement(
+                                        Html.FluentHtml().Link().AdminEmailHomeActionLink().Text("Email")
+                                    )
+                                )
                             );
                     menuNav.AddElement(dropdownMaintenance);
                 }
