@@ -36,6 +36,12 @@ namespace CritterHeroes.Web.Areas.Critters.Models
             set;
         }
 
+        public string SiteID
+        {
+            get;
+            set;
+        }
+
         public string SexName
         {
             get

@@ -65,7 +65,13 @@
                                 $('<td>').text(critter.sexName),
                                 $('<td>').text(critter.status),
                                 $('<td>').text(critter.breed),
-                                $('<td>').text(critter.fosterName)
+                                $('<td>').text(critter.fosterName),
+                                $('<td>').append(
+                                    $('<a>')
+                                        .prop('href', 'http://www.fflah.org/animals/detail?AnimalID=' + critter.siteID)
+                                        .attr('target', '_blank')
+                                        .text('View on site')
+                                )
                             )
                         );
                     }
