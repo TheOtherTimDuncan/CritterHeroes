@@ -10,7 +10,11 @@ namespace CritterHeroes.Web.Models.Logging
             this.ID = logID;
             this.WhenSentUtc = whenSentUtc;
             this.Message = message;
-            this.EmailTo = string.Join(",", message.To);
+
+            if (message != null)
+            {
+                this.EmailTo = string.Join(",", message.To);
+            }
         }
 
         public EmailLog(DateTimeOffset whenSentUtc, EmailMessage message)
@@ -33,7 +37,7 @@ namespace CritterHeroes.Web.Models.Logging
         public EmailMessage Message
         {
             get;
-            private set;
+            set;
         }
 
         public string EmailTo

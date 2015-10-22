@@ -10,14 +10,18 @@ using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
+using CritterHeroes.Web.Contracts.Storage;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 {
     public class AzureEmailLogger : BaseAzureLoggerStorageContext<EmailLog>, IEmailLogger
     {
-        public AzureEmailLogger(IAzureConfiguration azureConfiguration)
+        private IEmailStorageService _emailStorage;
+
+        public AzureEmailLogger(IAzureConfiguration azureConfiguration, IEmailStorageService emailStorage)
             : base("emaillog", azureConfiguration)
         {
+            this._emailStorage = emailStorage;
         }
 
         public async Task<IEnumerable<EmailLog>> GetEmailLogAsync(DateTime dateFrom, DateTime dateTo)
@@ -36,7 +40,9 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             List<EmailLog> result = new List<EmailLog>();
             foreach (DynamicTableEntity tableEntity in entities)
             {
-                result.Add(FromStorage(tableEntity));
+                EmailLog emailLog = FromStorage(tableEntity);
+                emailLog.Message = await _emailStorage.GetEmailAsync(emailLog.ID);
+                result.Add(emailLog);
             }
             return result;
         }
@@ -44,6 +50,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         public async Task LogEmailAsync(EmailLog emailLog)
         {
             await SaveAsync(emailLog);
+            await _emailStorage.SaveEmail(emailLog.Message, emailLog.ID);
         }
 
         public override EmailLog FromStorage(DynamicTableEntity tableEntity)
@@ -54,9 +61,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
                 throw new AzureException("EmailLog has invalid ID: " + tableEntity.RowKey);
             }
 
-            EmailMessage message = JsonConvert.DeserializeObject<EmailMessage>(tableEntity["Message"].StringValue);
-
-            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTime.Value, message);
+            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTime.Value, null);
 
             return result;
         }
@@ -67,7 +72,6 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
             tableEntity["EmailTo"] = new EntityProperty(entity.EmailTo);
             tableEntity["WhenSentUtc"] = new EntityProperty(entity.WhenSentUtc);
-            tableEntity["Message"] = new EntityProperty(JsonConvert.SerializeObject(entity.Message));
 
             return tableEntity;
         }

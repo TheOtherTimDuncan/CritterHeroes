@@ -16,32 +16,18 @@ namespace CH.Test.Azure.StorageTests
         [TestMethod]
         public void SuccessfullyMapsEntityToAndFromStorage()
         {
-            EmailMessage message = new EmailMessage()
-            {
-                From = "from@from.com",
-                HtmlBody = "html",
-                TextBody = "text",
-                Subject = "subject"
-            };
+            EmailMessage message = new EmailMessage();
             message.To.Add("to@to.com");
 
             EmailLog emailLog = new EmailLog(DateTimeOffset.UtcNow, message);
             emailLog.EmailTo.Should().Be(message.To.Single());
 
-            AzureEmailLogger source = new AzureEmailLogger(new AzureConfiguration());
-            AzureEmailLogger target = new AzureEmailLogger(new AzureConfiguration());
+            AzureEmailLogger source = new AzureEmailLogger(new AzureConfiguration(), null);
+            AzureEmailLogger target = new AzureEmailLogger(new AzureConfiguration(), null);
             EmailLog result = target.FromStorage(source.ToStorage(emailLog));
 
             result.ID.Should().Be(emailLog.ID);
-            result.EmailTo.Should().Be(emailLog.EmailTo);
             result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
-
-            result.Message.Should().NotBeNull();
-            result.Message.From.Should().Be(emailLog.Message.From);
-            result.Message.HtmlBody.Should().Be(emailLog.Message.HtmlBody);
-            result.Message.TextBody.Should().Be(emailLog.Message.TextBody);
-            result.Message.Subject.Should().Be(emailLog.Message.Subject);
-            result.Message.To.Should().Equal(emailLog.Message.To);
         }
     }
 }
