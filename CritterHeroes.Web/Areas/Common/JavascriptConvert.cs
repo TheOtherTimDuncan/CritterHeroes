@@ -39,8 +39,8 @@ namespace CritterHeroes.Web.Areas.Common
 
                 jsonWriter.Formatting = Formatting.Indented;
 
-                // We don't want quotes around object names
-                jsonWriter.QuoteName = false;
+                // Let's play it safe and make sure the object properties have quotes
+                jsonWriter.QuoteName = true;
                 serializer.Serialize(jsonWriter, value);
 
                 string json = stringWriter.ToString();
