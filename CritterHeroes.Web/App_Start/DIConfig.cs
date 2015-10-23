@@ -74,6 +74,8 @@ namespace CritterHeroes.Web
             container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
             container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
             container.RegisterPerWebRequest<IHttpClient, HttpClientProxy>();
+            container.RegisterPerWebRequest<IEmailStorageService, EmailStorageService>();
+            container.RegisterPerWebRequest<IAzureService, AzureService>();
 
             container.Register<IPageContextService, PageContextService>(Lifestyle.Scoped);
             container.Register<IStateSerializer, StateSerializer>(Lifestyle.Scoped);

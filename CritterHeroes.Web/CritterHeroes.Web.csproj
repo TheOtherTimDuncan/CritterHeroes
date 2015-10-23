@@ -660,6 +660,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
+    <Compile Include="Contracts\Storage\IAzureService.cs" />
     <Compile Include="Contracts\Storage\ICritterBatchSqlStorageContext.cs" />
     <Compile Include="Contracts\Storage\ICritterPictureService.cs" />
     <Compile Include="Contracts\Storage\IEmailStorageService.cs" />
@@ -700,6 +701,7 @@
     <Compile Include="Contracts\Storage\IRescueGroupsStorageContext.cs" />
     <Compile Include="Contracts\Storage\IStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureException.cs" />
+    <Compile Include="DataProviders\Azure\AzureService.cs" />
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Storage\BaseAzureBlobStorage.cs" />
     <Compile Include="DataProviders\Azure\Storage\CritterPictureService.cs" />
