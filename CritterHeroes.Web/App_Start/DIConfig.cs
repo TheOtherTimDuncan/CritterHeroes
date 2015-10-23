@@ -64,18 +64,18 @@ namespace CritterHeroes.Web
             container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(Lifestyle.Scoped);
             container.RegisterConditional(typeof(ISqlStorageContext<>), typeof(SqlStorageContext<>), Lifestyle.Scoped, (c) => !c.Handled);
 
-            container.RegisterPerWebRequest<ICritterBatchSqlStorageContext, CritterBatchStorageContext>();
+            container.Register<ICritterBatchSqlStorageContext, CritterBatchStorageContext>(Lifestyle.Scoped);
 
-            container.RegisterPerWebRequest<IAppConfiguration, AppConfiguration>();
-            container.RegisterPerWebRequest<IAzureConfiguration, AzureConfiguration>();
-            container.RegisterPerWebRequest<IEmailConfiguration, EmailConfiguration>();
-            container.RegisterPerWebRequest<IRescueGroupsConfiguration, RescueGroupsConfiguration>();
-            container.RegisterPerWebRequest<IHttpUser, HttpUserProxy>();
-            container.RegisterPerWebRequest<IHttpContext, HttpContextProxy>();
-            container.RegisterPerWebRequest<IUrlGenerator, UrlGenerator>();
-            container.RegisterPerWebRequest<IHttpClient, HttpClientProxy>();
-            container.RegisterPerWebRequest<IEmailStorageService, EmailStorageService>();
-            container.RegisterPerWebRequest<IAzureService, AzureService>();
+            container.Register<IAppConfiguration, AppConfiguration>(Lifestyle.Scoped);
+            container.Register<IAzureConfiguration, AzureConfiguration>(Lifestyle.Scoped);
+            container.Register<IEmailConfiguration, EmailConfiguration>(Lifestyle.Scoped);
+            container.Register<IRescueGroupsConfiguration, RescueGroupsConfiguration>(Lifestyle.Scoped);
+            container.Register<IHttpUser, HttpUserProxy>(Lifestyle.Scoped);
+            container.Register<IHttpContext, HttpContextProxy>(Lifestyle.Scoped);
+            container.Register<IUrlGenerator, UrlGenerator>(Lifestyle.Scoped);
+            container.Register<IHttpClient, HttpClientProxy>(Lifestyle.Scoped);
+            container.Register<IEmailStorageService, EmailStorageService>(Lifestyle.Scoped);
+            container.Register<IAzureService, AzureService>(Lifestyle.Scoped);
 
             container.Register<IPageContextService, PageContextService>(Lifestyle.Scoped);
             container.Register<IStateSerializer, StateSerializer>(Lifestyle.Scoped);
@@ -83,9 +83,9 @@ namespace CritterHeroes.Web
             container.Register<IEmailClient, EmailClientProxy>();
             container.Register<IOrganizationLogoService, OrganizationLogoService>();
             container.Register<ICritterPictureService, CritterPictureService>();
-            container.RegisterPerWebRequest<ICommandDispatcher, CommandDispatcher>();
-            container.RegisterPerWebRequest<IQueryDispatcher, QueryDispatcher>();
-            container.RegisterPerWebRequest<IEmailService, EmailService>();
+            container.Register<ICommandDispatcher, CommandDispatcher>(Lifestyle.Scoped);
+            container.Register<IQueryDispatcher, QueryDispatcher>(Lifestyle.Scoped);
+            container.Register<IEmailService, EmailService>(Lifestyle.Scoped);
 
             container.Register<IUserLogger, AzureUserLogger>();
             container.Register<IEmailLogger, AzureEmailLogger>();
@@ -110,10 +110,10 @@ namespace CritterHeroes.Web
 
         public static void RegisterIdentityInterfaces(Container container)
         {
-            container.RegisterPerWebRequest<IAppSignInManager, AppSignInManager>();
+            container.Register<IAppSignInManager, AppSignInManager>(Lifestyle.Scoped);
             container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), Lifestyle.Scoped);
-            container.RegisterPerWebRequest<IAppUserStore, AppUserStore>();
-            container.RegisterPerWebRequest<IAppUserManager, AppUserManager>();
+            container.Register<IAppUserStore, AppUserStore>(Lifestyle.Scoped);
+            container.Register<IAppUserManager, AppUserManager>(Lifestyle.Scoped);
         }
 
         public static void RegisterHandlers(Container container, IEnumerable<Assembly> defaultAssemblies)
