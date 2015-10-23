@@ -550,6 +550,9 @@
     <Compile Include="Areas\Admin\Critters\Queries\CritterSummaryQuery.cs" />
     <Compile Include="Areas\Admin\Critters\QueryHandlers\CritterSummaryQueryHandler.cs" />
     <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
+    <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
+    <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />
+    <Compile Include="Areas\Admin\Emails\QueryHandlers\EmailQueryHandler.cs" />
     <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
     <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
@@ -659,6 +662,7 @@
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
     <Compile Include="Contracts\Storage\ICritterBatchSqlStorageContext.cs" />
     <Compile Include="Contracts\Storage\ICritterPictureService.cs" />
+    <Compile Include="Contracts\Storage\IEmailStorageService.cs" />
     <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
     <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
@@ -699,6 +703,7 @@
     <Compile Include="DataProviders\Azure\BaseAzureStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Storage\BaseAzureBlobStorage.cs" />
     <Compile Include="DataProviders\Azure\Storage\CritterPictureService.cs" />
+    <Compile Include="DataProviders\Azure\Storage\EmailStorageService.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureEmailLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />

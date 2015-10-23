@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CritterHeroes.Web.Areas.Admin.Emails.Models;
+using CritterHeroes.Web.Areas.Admin.Emails.Queries;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
@@ -18,9 +20,10 @@ namespace CritterHeroes.Web.Areas.Admin.Emails
         {
         }
 
-        public ActionResult Index()
+        public async Task< ActionResult >Index(EmailQuery query)
         {
-            return View();
+            EmailModel model = await QueryDispatcher.DispatchAsync(query);
+            return View(model);
         }
     }
 }

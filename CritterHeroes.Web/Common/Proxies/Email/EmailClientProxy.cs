@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Common.Proxies.Email
         public async Task SendAsync(EmailMessage emailMessage)
         {
             EmailLog emailLog = new EmailLog(DateTimeOffset.UtcNow, emailMessage);
-            await _logger.LogEmailAsync(emailLog);
+            //await _logger.LogEmailAsync(emailLog);
 
             SendGridMessage message = new SendGridMessage()
             {
@@ -41,7 +41,14 @@ namespace CritterHeroes.Web.Common.Proxies.Email
 
             NetworkCredential credentials = new NetworkCredential(_configuration.Username, _configuration.Password);
             SendGrid.Web transport = new SendGrid.Web(credentials);
-            await transport.DeliverAsync(message);
+            try
+            {
+                await transport.DeliverAsync(message);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

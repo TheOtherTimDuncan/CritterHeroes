@@ -16,6 +16,7 @@ namespace CritterHeroes.Web.Common.Email
         private StringBuilder _text;
 
         private const string _style = "style='font-family: \"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;'";
+        private const string _tableStyle = "style='font-family: \"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; padding: 3px; border: 1px solid #333; border-collapse: collapse;'";
 
         private EmailBuilder(EmailMessage message)
         {
@@ -48,7 +49,7 @@ namespace CritterHeroes.Web.Common.Email
 
         public EmailBuilder StartTable()
         {
-            _html.AppendLine($"<table {_style}>");
+            _html.AppendLine($"<table {_tableStyle}>");
             return this;
         }
 
@@ -71,11 +72,28 @@ namespace CritterHeroes.Web.Common.Email
             return this;
         }
 
-        public EmailBuilder AddTableCell(string contents)
+        public EmailBuilder AddTableHeader(string contents)
         {
-            _html.Append($"<td {_style}>{contents}</td>");
+            _html.Append($"<th {_tableStyle}>{contents}</th>");
             _text.Append(contents);
             _text.Append("\t");
+            return this;
+        }
+
+        public EmailBuilder AddTableCell(string contents)
+        {
+            _html.Append($"<td {_tableStyle}>{contents}</td>");
+            _text.Append(contents);
+            _text.Append("\t");
+            return this;
+        }
+
+        public EmailBuilder Repeat<T>(IEnumerable<T> source, Action<T, EmailBuilder> action)
+        {
+            foreach (T element in source)
+            {
+                action(element, this);
+            }
             return this;
         }
 
