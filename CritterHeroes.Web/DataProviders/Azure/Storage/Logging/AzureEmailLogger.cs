@@ -61,7 +61,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
                 throw new AzureException("EmailLog has invalid ID: " + tableEntity.RowKey);
             }
 
-            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTimeOffsetValue.Value, tableEntity["EmailTo"].StringValue);
+            EmailLog result = new EmailLog(logID, tableEntity[nameof(EmailLog.WhenSentUtc)].DateTimeOffsetValue.Value, tableEntity[nameof(EmailLog.EmailTo)].StringValue);
 
             return result;
         }
@@ -70,8 +70,8 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         {
             DynamicTableEntity tableEntity = base.ToStorage(entity);
 
-            tableEntity["EmailTo"] = new EntityProperty(entity.EmailTo);
-            tableEntity["WhenSentUtc"] = new EntityProperty(entity.WhenSentUtc);
+            tableEntity[nameof(EmailLog.EmailTo)] = new EntityProperty(entity.EmailTo);
+            tableEntity[nameof(EmailLog.WhenSentUtc)] = new EntityProperty(entity.WhenSentUtc);
 
             return tableEntity;
         }

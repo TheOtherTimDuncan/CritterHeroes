@@ -20,7 +20,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
         public AzureErrorLog(IDictionary config)
         {
-            ThrowIf.Argument.IsNull(config, "config");
+            ThrowIf.Argument.IsNull(config, nameof(config));
 
             this.ConnectionString = GetConnectionString(config);
         }
@@ -50,7 +50,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
         public override ErrorLogEntry GetError(string id)
         {
-            ThrowIf.Argument.IsNullOrEmpty(id, "id");
+            ThrowIf.Argument.IsNullOrEmpty(id, nameof(id));
 
             CloudTable table = GetCloudTable();
 
@@ -64,8 +64,8 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 
         public override int GetErrors(int pageIndex, int pageSize, System.Collections.IList errorEntryList)
         {
-            ThrowIf.Argument.IsLessThan(pageIndex, "pageIndex", 0);
-            ThrowIf.Argument.IsLessThan(pageSize, "pageSize", 0);
+            ThrowIf.Argument.IsLessThan(pageIndex, nameof(pageIndex), 0);
+            ThrowIf.Argument.IsLessThan(pageSize, nameof(pageSize), 0);
 
             // Default is to get all of today's errors
             DateTime now = DateTime.UtcNow;
@@ -98,14 +98,14 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             string errorID = Guid.NewGuid().ToString();
 
             DynamicTableEntity entity = new DynamicTableEntity(partitionKey, errorID);
-            entity["HostName"] = new EntityProperty(error.HostName);
-            entity["Type"] = new EntityProperty(error.Type);
-            entity["ErrorXml"] = new EntityProperty(ErrorXml.EncodeString(error));
-            entity["Message"] = new EntityProperty(error.Message);
-            entity["StatusCode"] = new EntityProperty(error.StatusCode);
-            entity["User"] = new EntityProperty(error.User);
-            entity["Source"] = new EntityProperty(error.Source);
-            entity["TimeUtc"] = new EntityProperty(error.Time.ToUniversalTime());
+            entity[nameof(Error.HostName)] = new EntityProperty(error.HostName);
+            entity[nameof(Error.Type)] = new EntityProperty(error.Type);
+            entity[nameof(ErrorXml)] = new EntityProperty(ErrorXml.EncodeString(error));
+            entity[nameof(Error.Message)] = new EntityProperty(error.Message);
+            entity[nameof(Error.StatusCode)] = new EntityProperty(error.StatusCode);
+            entity[nameof(Error.User)] = new EntityProperty(error.User);
+            entity[nameof(Error.Source)] = new EntityProperty(error.Source);
+            entity[nameof(Error.Time)] = new EntityProperty(error.Time.ToUniversalTime());
 
             CloudTable table = GetCloudTable();
             table.CreateIfNotExists();

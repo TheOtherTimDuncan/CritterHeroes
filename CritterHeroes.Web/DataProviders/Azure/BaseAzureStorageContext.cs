@@ -22,8 +22,8 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public BaseAzureStorageContext(string tableName, IAzureConfiguration azureConfiguration)
         {
-            ThrowIf.Argument.IsNullOrEmpty(tableName, "tableName");
-            ThrowIf.Argument.IsNull(azureConfiguration, "azureConfiguration");
+            ThrowIf.Argument.IsNullOrEmpty(tableName, nameof(tableName));
+            ThrowIf.Argument.IsNull(azureConfiguration, nameof(azureConfiguration));
 
             this._tableName = tableName;
             this._configuration = azureConfiguration;

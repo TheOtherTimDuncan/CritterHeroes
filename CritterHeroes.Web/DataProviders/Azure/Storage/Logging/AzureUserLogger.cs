@@ -74,22 +74,22 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             }
 
             UserActions userAction;
-            string actionValue = tableEntity.SafeGetEntityPropertyStringValue("Action");
+            string actionValue = tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.Action));
             if (!Enum.TryParse(actionValue, out userAction))
             {
                 throw new AzureException("Invalid UserAction " + actionValue + " for UserLog ID " + tableEntity.RowKey);
             }
 
-            DateTimeOffset? whenOccurred = tableEntity.SafeGetEntityPropertyDateTimeOffsetValue("WhenOccurredUtc");
+            DateTimeOffset? whenOccurred = tableEntity.SafeGetEntityPropertyDateTimeOffsetValue(nameof(UserLog.WhenOccurredUtc));
             if (whenOccurred == null)
             {
                 throw new AzureException("Invalid WhenOccurredUtc for UserLog ID " + tableEntity.RowKey);
             }
 
-            UserLog result = new UserLog(logID, userAction, tableEntity.SafeGetEntityPropertyStringValue("Username"), whenOccurred.Value);
-            result.AdditionalData = tableEntity.SafeGetEntityPropertyStringValue("AdditionalData");
-            result.IPAddress = tableEntity.SafeGetEntityPropertyStringValue("IPAddress");
-            result.ThreadID = tableEntity.SafeGetEntityPropertyIntValue("ThreadID");
+            UserLog result = new UserLog(logID, userAction, tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.Username)), whenOccurred.Value);
+            result.AdditionalData = tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.AdditionalData));
+            result.IPAddress = tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.IPAddress));
+            result.ThreadID = tableEntity.SafeGetEntityPropertyIntValue(nameof(UserLog.ThreadID));
 
             return result;
         }
@@ -98,12 +98,12 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         {
             DynamicTableEntity tableEntity = base.ToStorage(entity);
 
-            tableEntity["Action"] = new EntityProperty(entity.Action.ToString());
-            tableEntity["Username"] = new EntityProperty(entity.Username);
-            tableEntity["WhenOccurredUtc"] = new EntityProperty(entity.WhenOccurredUtc);
-            tableEntity["ThreadID"] = new EntityProperty(entity.ThreadID);
-            tableEntity["IPAddress"] = new EntityProperty(entity.IPAddress);
-            tableEntity["AdditionalData"] = new EntityProperty(entity.AdditionalData);
+            tableEntity[nameof(UserLog.Action)] = new EntityProperty(entity.Action.ToString());
+            tableEntity[nameof(UserLog.Username)] = new EntityProperty(entity.Username);
+            tableEntity[nameof(UserLog.WhenOccurredUtc)] = new EntityProperty(entity.WhenOccurredUtc);
+            tableEntity[nameof(UserLog.ThreadID)] = new EntityProperty(entity.ThreadID);
+            tableEntity[nameof(UserLog.IPAddress)] = new EntityProperty(entity.IPAddress);
+            tableEntity[nameof(UserLog.AdditionalData)] = new EntityProperty(entity.AdditionalData);
 
             return tableEntity;
         }
