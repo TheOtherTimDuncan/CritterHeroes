@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
             return message;
         }
 
-        public async Task SaveEmail(EmailMessage message, Guid emailID)
+        public async Task SaveEmailAsync(EmailMessage message, Guid emailID)
         {
             CloudBlobContainer container = await GetContainer();
             CloudBlockBlob blob = container.GetBlockBlobReference($"{_path}/{emailID}");

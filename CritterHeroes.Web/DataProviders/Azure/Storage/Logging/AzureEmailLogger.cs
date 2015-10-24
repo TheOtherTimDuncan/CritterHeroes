@@ -50,7 +50,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         public async Task LogEmailAsync(EmailLog emailLog)
         {
             await SaveAsync(emailLog);
-            await _emailStorage.SaveEmail(emailLog.Message, emailLog.ID);
+            await _emailStorage.SaveEmailAsync(emailLog.Message, emailLog.ID);
         }
 
         public override EmailLog FromStorage(DynamicTableEntity tableEntity)
@@ -61,7 +61,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
                 throw new AzureException("EmailLog has invalid ID: " + tableEntity.RowKey);
             }
 
-            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTime.Value, null);
+            EmailLog result = new EmailLog(logID, tableEntity["WhenSentUtc"].DateTimeOffsetValue.Value, tableEntity["EmailTo"].StringValue);
 
             return result;
         }
