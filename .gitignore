@@ -47,6 +47,8 @@ packages/
 *.pidb
 *.log
 *.scc
+node_modules/
+typings/
 
 # Visual C++ cache files
 ipch/

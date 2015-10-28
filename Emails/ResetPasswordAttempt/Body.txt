@@ -1,0 +1,7 @@
+You (or someone else) entered this email address when trying to change the password for an account at {{ organizationFullName }}.
+
+However, this email address did not match an existing account and therefore the attempted password reset has failed.
+
+If you have an account at {{ organizationFullName }} and were expecting this email, please try again using the email address you used when you created your account.
+
+If you do not have an account at {{ organizationFullName }}, please ignore this email.

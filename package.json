@@ -1,0 +1,16 @@
+{
+  "name": "critter-heroes",
+  "version": "1.0.0",
+  "author": "Tim Duncan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheOtherTimDuncan/CritterHeroes.git"
+  },
+  "dependencies": {
+    "handlebars": "^4.0.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
