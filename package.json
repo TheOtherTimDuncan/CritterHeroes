@@ -7,10 +7,16 @@
     "type": "git",
     "url": "https://github.com/TheOtherTimDuncan/CritterHeroes.git"
   },
-  "dependencies": {
-    "handlebars": "^4.0.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "gulp": "^3.9.0"
+    "del": "^2.0.2",
+    "glob": "^5.0.15",
+    "gulp": "^3.9.0",
+    "gulp-compile-handlebars": "^0.5.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-handlebars": "^4.0.0",
+    "gulp-htmlmin": "^1.2.0",
+    "gulp-inline-css": "^3.0.0",
+    "path": "^0.12.7"
   }
 }
