@@ -631,7 +631,7 @@
     <Compile Include="Common\Commands\ConfirmEmailCommand.cs" />
     <Compile Include="Common\Email\ConfirmEmailCommandHandler.cs" />
     <Compile Include="Common\Email\EmailBuilder.cs" />
-    <Compile Include="Common\Email\EmailService.cs" />
+    <Compile Include="Common\Email\EmailServiceOld.cs" />
     <Compile Include="Common\Email\ResetPasswordAttemptEmailCommandHandler.cs" />
     <Compile Include="Common\Email\ResetPasswordEmailCommandHandler.cs" />
     <Compile Include="Common\Identity\AppUserManager.cs" />
@@ -673,7 +673,7 @@
     <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
     <Compile Include="Common\Proxies\Email\EmailClientProxy.cs" />
-    <Compile Include="Common\Proxies\Email\EmailConfiguration.cs" />
+    <Compile Include="Common\Email\EmailConfiguration.cs" />
     <Compile Include="Common\Proxies\FakeAuthenticationManager.cs" />
     <Compile Include="Common\Proxies\FakeOwinContext.cs" />
     <Compile Include="Common\Proxies\HttpContextProxy.cs" />

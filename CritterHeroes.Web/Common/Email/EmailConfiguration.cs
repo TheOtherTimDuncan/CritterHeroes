@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using CritterHeroes.Web.Contracts.Email;
 
-namespace CritterHeroes.Web.Common.Proxies.Email
+namespace CritterHeroes.Web.Common.Email
 {
     public class EmailConfiguration : IEmailConfiguration
     {

@@ -9,11 +9,11 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Common.Email
 {
-    public class EmailService : IEmailService
+    public class EmailServiceOld : IEmailService
     {
         private Container _container;
 
-        public EmailService(Container container)
+        public EmailServiceOld(Container container)
         {
             ThrowIf.Argument.IsNull(container, "container");
             this._container = container;
