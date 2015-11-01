@@ -260,6 +260,9 @@
     <Content Include="apple-touch-icon.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
+    <Content Include="Areas\Emails\ResetPasswordAttempt\Body.html" />
+    <Content Include="Areas\Emails\ResetPasswordAttempt\Body.txt" />
+    <Content Include="Areas\Emails\ResetPasswordAttempt\Subject.txt" />
     <Content Include="browserconfig.xml">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
