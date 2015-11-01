@@ -6,7 +6,7 @@ namespace CritterHeroes.Web.Common.Commands
     public class ResetPasswordEmailCommand : BaseTokenEmailCommand
     {
         public ResetPasswordEmailCommand(string emailTo)
-            : base(emailTo)
+            : base(EmailCommand.GetEmailNameFromCommandName(nameof(ResetPasswordEmailCommand)), emailTo)
         {
         }
 

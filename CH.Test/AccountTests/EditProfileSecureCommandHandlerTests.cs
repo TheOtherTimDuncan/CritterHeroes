@@ -65,7 +65,7 @@ namespace CH.Test.AccountTests
 
             mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, email, It.IsAny<string>()), Times.Once);
 
-            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ConfirmEmailCommand>()), Times.Once);
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ConfirmEmailEmailCommand>()), Times.Once);
         }
     }
 }

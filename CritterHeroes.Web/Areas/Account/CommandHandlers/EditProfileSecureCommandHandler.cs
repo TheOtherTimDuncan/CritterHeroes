@@ -54,7 +54,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             await _userLogger.LogActionAsync(UserActions.EmailChanged, user.Email, "New email: " + command.NewEmail);
 
-            ConfirmEmailCommand emailCommand = new ConfirmEmailCommand(command.NewEmail)
+            ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail)
             {
                 HomeUrl = _urlGenerator.GenerateAbsoluteHomeUrl(),
                 TokenLifespan = _userManager.TokenLifespan

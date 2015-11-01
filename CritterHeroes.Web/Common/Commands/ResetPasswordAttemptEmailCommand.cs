@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace CritterHeroes.Web.Common.Commands
 {
-    public class ResetPasswordAttemptEmailCommand: BaseTokenEmailCommand
+    public class ResetPasswordAttemptEmailCommand : BaseTokenEmailCommand
     {
         public ResetPasswordAttemptEmailCommand(string emailTo, string homeUrl)
-            : base(emailTo)
+            : base(EmailCommand.GetEmailNameFromCommandName(nameof(ResetPasswordAttemptEmailCommand)), emailTo)
         {
             this.HomeUrl = homeUrl;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Commands;
@@ -11,12 +12,26 @@ using CritterHeroes.Web.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TOTD.Utility.Misc;
 
 namespace CH.Test.EmailTests
 {
     [TestClass]
     public class EmailHandlerTests
     {
+        public void VerifyEmailFolder(EmailCommand emailCommand)
+        {
+            string path = Path.Combine(UnitTestHelper.GetSolutionRoot(), "CritterHeroes.Web", "Areas", "Emails", emailCommand.EmailName);
+            Directory.Exists(path).Should().BeTrue($"folder{path} should exist for email command {emailCommand.GetType().Name}");
+        }
+
+        [TestMethod]
+        public void ResetPasswordAttemptEmailCommandHasExistingEmailFolder()
+        {
+            ResetPasswordAttemptEmailCommand command = new ResetPasswordAttemptEmailCommand("to", "url");
+            VerifyEmailFolder(command);
+        }
+
         [TestMethod]
         public async Task ResetPasswordEmailHandlerSendsResetPasswordEmail()
         {

@@ -5,10 +5,10 @@ using System.Web;
 
 namespace CritterHeroes.Web.Common.Commands
 {
-    public class ConfirmEmailCommand: BaseTokenEmailCommand
+    public class ConfirmEmailEmailCommand : BaseTokenEmailCommand
     {
-        public ConfirmEmailCommand(string emailTo)
-            : base(emailTo)
+        public ConfirmEmailEmailCommand(string emailTo)
+            : base(EmailCommand.GetEmailNameFromCommandName(nameof(ConfirmEmailEmailCommand)), emailTo)
         {
         }
 

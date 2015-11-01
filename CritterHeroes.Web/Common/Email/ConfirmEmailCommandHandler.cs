@@ -9,7 +9,7 @@ using CritterHeroes.Web.Models;
 
 namespace CritterHeroes.Web.Common.Email
 {
-    public class ConfirmEmailCommandHandler : BaseEmailCommandHandler<ConfirmEmailCommand>
+    public class ConfirmEmailCommandHandler : BaseEmailCommandHandler<ConfirmEmailEmailCommand>
     {
         private IStateManager<OrganizationContext> _orgStateManager;
 
@@ -19,7 +19,7 @@ namespace CritterHeroes.Web.Common.Email
             this._orgStateManager = orgStateManager;
         }
 
-        protected override EmailMessage CreateEmail(ConfirmEmailCommand emailCommand)
+        protected override EmailMessage CreateEmail(ConfirmEmailEmailCommand emailCommand)
         {
             OrganizationContext orgContext = _orgStateManager.GetContext();
 

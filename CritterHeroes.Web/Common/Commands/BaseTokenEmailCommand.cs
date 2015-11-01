@@ -5,8 +5,8 @@ namespace CritterHeroes.Web.Common.Commands
 {
     public class BaseTokenEmailCommand : EmailCommand
     {
-        public BaseTokenEmailCommand(string emailTo)
-            : base(emailTo)
+        public BaseTokenEmailCommand(string emailName, string emailTo)
+            : base(emailName, emailTo)
         {
         }
 
