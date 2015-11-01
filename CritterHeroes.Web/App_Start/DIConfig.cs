@@ -59,6 +59,8 @@ namespace CritterHeroes.Web
             container.Register(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
             container.Register(typeof(IEmailHandler<>), defaultAssemblies);
 
+            container.RegisterSingleton<IFileSystem, FileSystemProxy>();
+
             // Register AppUserStorageContext for the one entity SqlStorageContext<> can't handle
             // then register SqlStorageContext<> as a fallback registration for ISqlStorageContext<>
             container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(Lifestyle.Scoped);
