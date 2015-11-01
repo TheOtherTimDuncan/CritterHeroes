@@ -12,5 +12,10 @@ namespace CritterHeroes.Web.Common.Proxies
         {
             return File.ReadAllText(path);
         }
+
+        public string CombinePath(params string[] paths)
+        {
+            return Path.Combine(paths);
+        }
     }
 }

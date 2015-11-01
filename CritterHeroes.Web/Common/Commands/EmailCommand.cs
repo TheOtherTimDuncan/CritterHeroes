@@ -23,6 +23,18 @@ namespace CritterHeroes.Web.Common.Commands
             private set;
         }
 
+        public string EmailFrom
+        {
+            get;
+            set;
+        }
+
+        public object EmailData
+        {
+            get;
+            set;
+        }
+
         protected static string GetEmailNameFromCommandName(string commandName)
         {
             return commandName.Substring(0, commandName.Length - nameof(EmailCommand).Length);

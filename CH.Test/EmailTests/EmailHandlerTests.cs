@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Models;
@@ -30,6 +32,26 @@ namespace CH.Test.EmailTests
         {
             ResetPasswordAttemptEmailCommand command = new ResetPasswordAttemptEmailCommand("to", "url");
             VerifyEmailFolder(command);
+        }
+
+        [TestMethod]
+        public async Task EmailServiceAddsEmailToQueue()
+        {
+            EmailCommand emailCommand = new EmailCommand("emailname", "emailto");
+
+            string pathRoot = "root";
+            
+            Mock<IEmailConfiguration> mockConfiguration = new Mock<IEmailConfiguration>();
+
+            MockFileSystem mockFileSystem = new MockFileSystem ();
+            mockFileSystem.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns((string path) => path);
+
+            Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
+            mockHttpContext.Setup(x => x.Server.MapPath(It.IsAny<string>())).Returns(pathRoot);
+
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockHttpContext.Object, mockConfiguration.Object);
+            CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
+            commandResult.Succeeded.Should().BeTrue();
         }
 
         [TestMethod]
