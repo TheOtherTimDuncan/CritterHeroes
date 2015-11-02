@@ -10,6 +10,7 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,7 +31,7 @@ namespace CH.Test.EmailTests
         [TestMethod]
         public void ResetPasswordAttemptEmailCommandHasExistingEmailFolder()
         {
-            ResetPasswordAttemptEmailCommand command = new ResetPasswordAttemptEmailCommand("to", "url");
+            ResetPasswordAttemptEmailCommand command = new ResetPasswordAttemptEmailCommand("to", "url", "logo", "org");
             VerifyEmailFolder(command);
         }
 
@@ -40,16 +41,16 @@ namespace CH.Test.EmailTests
             EmailCommand emailCommand = new EmailCommand("emailname", "emailto");
 
             string pathRoot = "root";
-            
+
             Mock<IEmailConfiguration> mockConfiguration = new Mock<IEmailConfiguration>();
 
-            MockFileSystem mockFileSystem = new MockFileSystem ();
+            MockFileSystem mockFileSystem = new MockFileSystem();
             mockFileSystem.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns((string path) => path);
 
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
             mockHttpContext.Setup(x => x.Server.MapPath(It.IsAny<string>())).Returns(pathRoot);
 
-            EmailService emailService = new EmailService(mockFileSystem.Object, mockHttpContext.Object, mockConfiguration.Object);
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockHttpContext.Object, mockConfiguration.Object, new AzureConfiguration());
             CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
             commandResult.Succeeded.Should().BeTrue();
         }
@@ -88,6 +89,7 @@ namespace CH.Test.EmailTests
 
             Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockOrgStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
+
 
             ResetPasswordEmailCommandHandler handler = new ResetPasswordEmailCommandHandler(mockEmailClient.Object, mockOrgStateManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(command);

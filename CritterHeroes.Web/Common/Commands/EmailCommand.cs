@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Common.Commands
         public object EmailData
         {
             get;
-            set;
+            protected set;
         }
 
         protected static string GetEmailNameFromCommandName(string commandName)

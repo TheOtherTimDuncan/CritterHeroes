@@ -8,10 +8,13 @@ using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
@@ -27,6 +30,15 @@ namespace CH.Test.AccountTests
         public async Task ReturnsSuccessAndSendsAttemptEmailIfUserNotFound()
         {
             string email = "email@email.com";
+            string urlLogo = "logo";
+
+            OrganizationContext organizationContext = new OrganizationContext()
+            {
+                FullName = "FullName"
+            };
+
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
 
             ForgotPasswordModel command = new ForgotPasswordModel()
             {
@@ -38,7 +50,10 @@ namespace CH.Test.AccountTests
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
+            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
+
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object, mockStateManager.Object, mockLogoService.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
@@ -62,6 +77,15 @@ namespace CH.Test.AccountTests
             };
 
             string code = "code";
+            string urlLogo = "logo";
+
+            OrganizationContext organizationContext = new OrganizationContext()
+            {
+                FullName = "FullName"
+            };
+
+            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -70,6 +94,9 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.GeneratePasswordResetTokenAsync(user.Id)).Returns(Task.FromResult(code));
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
+            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
 
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
@@ -84,7 +111,7 @@ namespace CH.Test.AccountTests
                 return Task.FromResult(CommandResult.Success());
             });
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object, mockStateManager.Object, mockLogoService.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
