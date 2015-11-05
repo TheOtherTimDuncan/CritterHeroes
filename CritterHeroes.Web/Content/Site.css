@@ -8009,7 +8009,7 @@ form a.primary .badge {
 .paging-container .current {
   background-color: #999999;
 }
-.paging-container page-chunk-break {
+.paging-container .page-chunk-break {
   cursor: auto;
 }
 .paging-container .page-prev {
