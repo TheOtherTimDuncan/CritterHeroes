@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "author": "Tim Duncan",
   "license": "MIT",
+  "readme": "Thanks to https://github.com/mailgun/transactional-email-templates",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheOtherTimDuncan/CritterHeroes.git"
