@@ -6,7 +6,9 @@
         var modalContainer = $('#modal-container')
             .html(data)
             .find('div:first')
-            .modal()
+            .modal({
+                backdrop: false
+            })
             .on('shown.bs.modal', function () {
                 $('#Password').focus();
             });
@@ -47,7 +49,9 @@
             .html(data)
             .find('div:first')
             .removeClass('fade')
-            .modal()
+            .modal({
+                backdrop: false
+            })
             .on('shown.bs.modal', function () {
                 $('#NewEmail').focus();
             });
