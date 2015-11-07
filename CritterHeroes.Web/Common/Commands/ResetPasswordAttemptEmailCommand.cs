@@ -8,12 +8,40 @@ namespace CritterHeroes.Web.Common.Commands
         public ResetPasswordAttemptEmailCommand(string emailTo, string homeUrl, string logoUrl, string organizationFullName)
             : base(EmailCommand.GetEmailNameFromCommandName(nameof(ResetPasswordAttemptEmailCommand)), emailTo)
         {
-            this.EmailData = new
+            this.HomeUrl = homeUrl;
+            this.LogoUrl = logoUrl;
+            this.OrganizationFullName = organizationFullName;
+        }
+
+        public string OrganizationFullName
+        {
+            get;
+            private set;
+        }
+
+        public string HomeUrl
+        {
+            get;
+            private set;
+        }
+
+        public string LogoUrl
+        {
+            get;
+            private set;
+        }
+
+        public override object EmailData
+        {
+            get
             {
-                OrganizationFullName = organizationFullName,
-                UrlHome = homeUrl,
-                UrlLogo = logoUrl
-            };
+                return new
+                {
+                    OrganizationFullName = OrganizationFullName,
+                    UrlHome = HomeUrl,
+                    UrlLogo = LogoUrl
+                };
+            }
         }
     }
 }

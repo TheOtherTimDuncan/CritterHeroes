@@ -43,12 +43,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             OrganizationContext organizationContext = _stateManager.GetContext();
 
+            string homeUrl = _urlGenerator.GenerateAbsoluteHomeUrl();
+            string logoUrl = _logoService.GetLogoUrl();
+
             if (user == null)
             {
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found send an email to the entered email address and just return success
-                string homeUrl = _urlGenerator.GenerateAbsoluteHomeUrl();
-                ResetPasswordAttemptEmailCommand emailAttempt = new ResetPasswordAttemptEmailCommand(command.ResetPasswordEmail, homeUrl, _logoService.GetLogoUrl(), organizationContext.FullName);
+                ResetPasswordAttemptEmailCommand emailAttempt = new ResetPasswordAttemptEmailCommand(command.ResetPasswordEmail, homeUrl, logoUrl, organizationContext.FullName);
                 await _emailService.SendEmailAsync(emailAttempt);
                 await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail);
                 return CommandResult.Success();
@@ -56,11 +58,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             ResetPasswordEmailCommand emailCommand = new ResetPasswordEmailCommand(user.Email)
             {
-                TokenLifespan = _appUserManager.TokenLifespan
+                TokenLifespan = _appUserManager.TokenLifespan,
+                OrganizationFullName = organizationContext.FullName,
+                HomeUrl = homeUrl,
+                LogoUrl = logoUrl,
             };
 
             emailCommand.Token = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
-            emailCommand.Url = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.Token);
+            emailCommand.ResetUrl = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.Token);
 
             await _emailService.SendEmailAsync(emailCommand);
             await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email);

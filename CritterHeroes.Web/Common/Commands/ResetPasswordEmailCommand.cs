@@ -10,10 +10,44 @@ namespace CritterHeroes.Web.Common.Commands
         {
         }
 
-        public string Url
+        public string OrganizationFullName
         {
             get;
             set;
+        }
+
+        public string ResetUrl
+        {
+            get;
+            set;
+        }
+
+        public string HomeUrl
+        {
+            get;
+            set;
+        }
+
+        public string LogoUrl
+        {
+            get;
+            set;
+        }
+
+        public override object EmailData
+        {
+            get
+            {
+                return new
+                {
+                    OrganizationFullName = OrganizationFullName,
+                    UrlHome = HomeUrl,
+                    UrlLogo = LogoUrl,
+                    UrlReset = ResetUrl,
+                    TokenLifespan = TokenLifespanDisplay,
+                    Token = Token
+                };
+            }
         }
     }
 }

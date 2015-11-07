@@ -7,6 +7,7 @@ using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Common.ActionExtensions;
+using CritterHeroes.Web.Areas.Critters;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
@@ -47,11 +48,22 @@ namespace CH.Test.AccountTests
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
-            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
-            Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
+
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
+
+            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
+            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>())).Returns((ResetPasswordAttemptEmailCommand emailCommand) =>
+            {
+                emailCommand.OrganizationFullName.Should().Be(organizationContext.FullName);
+                emailCommand.LogoUrl.Should().Be(urlLogo);
+
+                emailCommand.HomeUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
+
+                return Task.FromResult(CommandResult.Success());
+            });
 
             ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object, mockStateManager.Object, mockLogoService.Object);
             CommandResult result = await handler.ExecuteAsync(command);
@@ -102,8 +114,12 @@ namespace CH.Test.AccountTests
             mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
             {
                 emailCommand.Token.Should().Be(code);
+                emailCommand.OrganizationFullName.Should().Be(organizationContext.FullName);
+                emailCommand.LogoUrl.Should().Be(urlLogo);
 
-                emailCommand.Url.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountActionExtensions.ControllerRouteName, new
+                emailCommand.HomeUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
+
+                emailCommand.ResetUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountActionExtensions.ControllerRouteName, new
                 {
                     code = code
                 }));
@@ -119,6 +135,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
+            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Never);
         }
     }
 }

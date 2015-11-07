@@ -16,6 +16,7 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
 using Microsoft.Owin;
@@ -46,6 +47,7 @@ namespace CH.Test.ControllerTests
         public OrganizationContext organizationContext;
         public UserContext userContext;
         public MockSqlStorageContext<AppUser> mockAppUserStorageContext;
+        public Mock<IOrganizationLogoService> mockOrganizationLogoService;
 
         [TestInitialize]
         public void InitializeTest()
@@ -94,6 +96,9 @@ namespace CH.Test.ControllerTests
 
             mockAppUserStorageContext = new MockSqlStorageContext<AppUser>();
             container.Register(() => mockAppUserStorageContext.Object);
+
+            mockOrganizationLogoService = new Mock<IOrganizationLogoService>();
+            container.Register(() => mockOrganizationLogoService.Object);
         }
 
         public T CreateController<T>() where T : BaseController

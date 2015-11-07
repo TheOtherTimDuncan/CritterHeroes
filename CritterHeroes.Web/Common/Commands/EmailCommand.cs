@@ -29,10 +29,9 @@ namespace CritterHeroes.Web.Common.Commands
             set;
         }
 
-        public object EmailData
+        public virtual object EmailData
         {
             get;
-            protected set;
         }
 
         protected static string GetEmailNameFromCommandName(string commandName)

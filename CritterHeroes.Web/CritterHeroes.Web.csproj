@@ -633,7 +633,6 @@
     <Compile Include="Common\Email\EmailBuilder.cs" />
     <Compile Include="Common\Email\EmailService.cs" />
     <Compile Include="Common\Email\EmailServiceOld.cs" />
-    <Compile Include="Common\Email\ResetPasswordEmailCommandHandler.cs" />
     <Compile Include="Common\Identity\AppUserManager.cs" />
     <Compile Include="Common\Identity\AppSignInManager.cs" />
     <Compile Include="Common\Identity\ClaimExtensions.cs" />
