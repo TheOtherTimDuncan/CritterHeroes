@@ -1,0 +1,5 @@
+Please confirm your email address by visiting {{organizationFullName}} and copying the code into the provided form. This code will be valid for {{tokenLifespan}}.
+
+Confirmation Code: {{token}}
+
+-- {{organizationFullName}}
