@@ -8,23 +8,17 @@ var del = require('del');
 var glob = require('glob');
 var handlebars = require('gulp-compile-handlebars');
 var htmlmin = require('gulp-htmlmin');
+var merge = require('merge-stream');
 
 var emailsPath = 'Emails';
 var buildPath = 'CritterHeroes.Web/Areas/Emails';
 var examplesPath = '.vs/Emails';
 
-function getExamples(callback) {
-
-    return glob(emailsPath + '/**/*.json', function (err, files) {
-
-        if (err) {
-            return console.error(err);
-        }
-
-        return files.map(callback);
-
-    });
-
+function getFolders(dir) {
+    return fs.readdirSync(dir)
+        .filter(function (file) {
+            return fs.statSync(path.join(dir, file)).isDirectory();
+        });
 }
 
 gulp.task('clean', function () {
@@ -40,32 +34,35 @@ gulp.task('copy', ['clean', 'inline-emails'], function () {
 
 });
 
-gulp.task('handlebars-txt', ['clean'], function () {
+gulp.task('handlebars-examples', ['clean', 'inline-emails'], function () {
 
-    var tasks = getExamples(function (example) {
+    var folders = getFolders(emailsPath);
 
-        return gulp.src(emailsPath + '/**/*.txt')
-            .pipe(handlebars(require('./' + example)))
-            .pipe(gulp.dest(examplesPath));
+    var txtTasks = folders.map(function (folder) {
 
-    });
+        var example = fs.readFileSync(emailsPath + '/' + folder + '/example.json', 'utf8');
+        var data = JSON.parse(example);
 
-    return tasks;
-
-});
-
-gulp.task('handlebars-html', ['clean'], function () {
-
-    var tasks = getExamples(function (example) {
-
-        return gulp.src(emailsPath + '/**/*.html')
-            .pipe(handlebars(require('./' + example)))
+        return gulp.src(path.join(emailsPath, folder, '/**/*.txt'))
+            .pipe(handlebars(data))
             .pipe(inlineCss())
-            .pipe(gulp.dest(examplesPath));
+            .pipe(gulp.dest(examplesPath + '/' + folder));
 
     });
 
-    return tasks;
+    var htmlTasks = folders.map(function (folder) {
+
+        var example = fs.readFileSync(emailsPath + '/' + folder + '/example.json', 'utf8');
+        var data = JSON.parse(example);
+
+        return gulp.src(path.join(emailsPath, folder, '/**/*.html'))
+            .pipe(handlebars(data))
+            .pipe(inlineCss())
+            .pipe(gulp.dest(examplesPath + '/' + folder));
+
+    });
+
+    return merge(txtTasks, htmlTasks);
 
 });
 
@@ -78,4 +75,4 @@ gulp.task('inline-emails', ['clean'], function () {
 
 });
 
-gulp.task('build', ['clean', 'handlebars-txt', 'handlebars-html', 'inline-emails', 'copy']);
+gulp.task('build', ['clean', 'handlebars-examples', 'inline-emails', 'copy']);

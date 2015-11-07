@@ -5,3 +5,5 @@ However, this email address did not match an existing account and therefore the 
 If you have an account at {{organizationFullName}} and were expecting this email, please try again using the email address you used when you created your account.
 
 If you do not have an account at {{organizationFullName}}, please ignore this email.
+
+-- {{organizationFullName}}

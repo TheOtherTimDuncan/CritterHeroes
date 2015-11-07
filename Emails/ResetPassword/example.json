@@ -1,0 +1,8 @@
+{
+    "organizationFullName": "Friends For Life Animal Haven",
+    "tokenLifespan": "24 hours",
+    "token": "token",
+    "urlHome": "https://localhost:44301/debug/",
+    "urlReset": "",
+    "urlLogo": "http://127.0.0.1:10000/devstoreaccount1/fflah/logo.svg"
+}
