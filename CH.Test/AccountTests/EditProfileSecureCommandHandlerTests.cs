@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
+using CritterHeroes.Web.Areas.Admin.Critters;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
@@ -12,6 +15,7 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
@@ -28,8 +32,14 @@ namespace CH.Test.AccountTests
         public async Task EditProfileSecureCommandUpdatesUserEmailAndLogsChange()
         {
             string email = "email@email.com";
+            string urlLogo = "logo";
 
             AppUser user = new AppUser(email);
+
+            OrganizationContext organizationContext = new OrganizationContext()
+            {
+                FullName = "FullName"
+            };
 
             EditProfileSecureModel model = new EditProfileSecureModel()
             {
@@ -48,11 +58,26 @@ namespace CH.Test.AccountTests
 
             Mock<IStateManager<UserContext>> mockUserContextManager = new Mock<IStateManager<UserContext>>();
 
+            Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockOrganizationStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
+
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
+            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
+            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
+
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
+            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>())).Returns((ResetPasswordAttemptEmailCommand emailCommand) =>
+            {
+                emailCommand.OrganizationFullName.Should().Be(organizationContext.FullName);
+                emailCommand.LogoUrl.Should().Be(urlLogo);
 
-            Mock<IUrlGenerator> mockUrlGenerator = new Mock<IUrlGenerator>();
+                emailCommand.HomeUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
 
-            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object, mockUrlGenerator.Object, mockEmailService.Object);
+                return Task.FromResult(CommandResult.Success());
+            });
+
+            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object, mockUrlGenerator.Object, mockEmailService.Object, mockOrganizationStateManager.Object, mockLogoService.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 

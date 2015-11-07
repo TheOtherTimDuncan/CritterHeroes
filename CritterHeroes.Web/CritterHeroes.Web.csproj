@@ -629,7 +629,6 @@
     <Compile Include="Common\Email\BaseEmailCommandHandler.cs" />
     <Compile Include="Common\Commands\EmailCommand.cs" />
     <Compile Include="Common\Commands\ConfirmEmailEmailCommand.cs" />
-    <Compile Include="Common\Email\ConfirmEmailCommandHandler.cs" />
     <Compile Include="Common\Email\EmailBuilder.cs" />
     <Compile Include="Common\Email\EmailService.cs" />
     <Compile Include="Common\Email\EmailServiceOld.cs" />
