@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -24,16 +25,20 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IAppUserManager _userManager;
         private IAppSignInManager _signinManager;
         private IUserLogger _userLogger;
-        private IEmailClient _emailClient;
         private IStateManager<OrganizationContext> _organizationStateManager;
+        private IUrlGenerator _urlGenerator;
+        private IEmailService _emailService;
+        private IOrganizationLogoService _logoService;
 
-        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAppUserManager userManager, IEmailClient emailClient, IStateManager<OrganizationContext> organizationStateManager)
+        public ResetPasswordCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> organizationStateManager, IOrganizationLogoService logoService)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;
             this._userLogger = userLogger;
-            this._emailClient = emailClient;
+            this._emailService = emailService;
+            this._urlGenerator = urlGenerator;
             this._organizationStateManager = organizationStateManager;
+            this._logoService = logoService;
         }
 
         public async Task<CommandResult> ExecuteAsync(ResetPasswordModel command)
@@ -48,19 +53,11 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     if (loginResult == SignInStatus.Success)
                     {
                         OrganizationContext orgcontext = _organizationStateManager.GetContext();
-                        EmailMessage emailMessage = new EmailMessage()
-                        {
-                            Subject = "Admin Notification - " + orgcontext.FullName,
-                            From = orgcontext.EmailAddress
-                        };
-                        emailMessage.To.Add(identityUser.Email);
+                        string homeUrl = _urlGenerator.GenerateAbsoluteHomeUrl();
+                        string logoUrl = _logoService.GetLogoUrl();
 
-                        EmailBuilder
-                            .Begin(emailMessage)
-                            .AddParagraph("This is a notification that your password has been successfuly reset.")
-                            .End();
-
-                        await _emailClient.SendAsync(emailMessage);
+                        ResetPasswordNotificationEmailCommand emailCommand = new ResetPasswordNotificationEmailCommand(identityUser.Email, homeUrl, logoUrl, orgcontext.FullName);
+                        await _emailService.SendEmailAsync(emailCommand);
                         await _userLogger.LogActionAsync(UserActions.ResetPasswordSuccess, command.Email);
 
                         // Let the view know we succeeded

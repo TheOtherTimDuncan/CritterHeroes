@@ -624,6 +624,7 @@
     <Compile Include="Common\Commands\BaseTokenEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordEmailCommand.cs" />
+    <Compile Include="Common\Commands\ResetPasswordNotificationEmailCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Common\Dispatchers\QueryDispatcher.cs" />
     <Compile Include="Common\Email\BaseEmailCommandHandler.cs" />

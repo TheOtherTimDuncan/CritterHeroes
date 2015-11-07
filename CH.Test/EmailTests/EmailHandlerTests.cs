@@ -40,6 +40,20 @@ namespace CH.Test.EmailTests
         }
 
         [TestMethod]
+        public void ConfirmEmailEmailCommandHasExistingEmailFolder()
+        {
+            ConfirmEmailEmailCommand command = new ConfirmEmailEmailCommand("to");
+            VerifyEmailFolder(command);
+        }
+
+        [TestMethod]
+        public void ResetPasswordNotificationEmailCommandHasExistingEmailFolder()
+        {
+            ResetPasswordNotificationEmailCommand command = new ResetPasswordNotificationEmailCommand("to", "url", "logo", "org");
+            VerifyEmailFolder(command);
+        }
+
+        [TestMethod]
         public async Task EmailServiceAddsEmailToQueue()
         {
             EmailCommand emailCommand = new EmailCommand("emailname", "emailto");
