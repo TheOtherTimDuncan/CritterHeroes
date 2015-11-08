@@ -15,6 +15,7 @@ namespace CritterHeroes.Web.Data.Configurations
             HasRequired(x => x.Breed).WithMany(x => x.Critters).WillCascadeOnDelete(false);
             HasRequired(x => x.Status).WithMany(x => x.Critters).WillCascadeOnDelete(false);
             HasRequired(x => x.Organization).WithMany().WillCascadeOnDelete(false);
+            HasOptional(x => x.Location).WithMany().WillCascadeOnDelete(false);
 
             Property(x => x.ID).IsRequired().IsIdentity();
             Property(x => x.Name).IsRequired().HasMaxLength(50).HasIndex();

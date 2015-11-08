@@ -25,6 +25,8 @@ namespace CH.Test.EntityTests
 
             CritterStatus status = new CritterStatus("status", "description");
 
+            Location location = new Location("location");
+
             Organization organization = new Organization()
             {
                 FullName = "full",
@@ -33,6 +35,7 @@ namespace CH.Test.EntityTests
             };
 
             Critter critter = new Critter("critter", status, breed, organization.ID);
+            critter.ChangeLocation(location);
 
             critter.WhenCreated.Should().BeCloseTo(DateTimeOffset.UtcNow);
             critter.WhenUpdated.Should().Be(critter.WhenCreated);
@@ -45,7 +48,7 @@ namespace CH.Test.EntityTests
 
             using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "FosterID");
+                storageContext.FillWithTestData(critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "FosterID");
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }
@@ -76,6 +79,10 @@ namespace CH.Test.EntityTests
                 result.BreedID.Should().Be(breed.ID);
                 result.Breed.Should().NotBeNull();
                 result.Breed.ID.Should().Be(breed.ID);
+
+                result.LocationID.Should().Be(location.ID);
+                result.Location.Should().NotBeNull();
+                result.Location.ID.Should().Be(location.ID);
 
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();

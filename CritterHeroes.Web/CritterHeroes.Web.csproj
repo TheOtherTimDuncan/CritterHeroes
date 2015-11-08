@@ -751,8 +751,10 @@
     <Compile Include="Data\Configurations\BusinessGroupConfiguration.cs" />
     <Compile Include="Data\Configurations\BusinessPhoneConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterPictureConfiguration.cs" />
+    <Compile Include="Data\Configurations\LocationConfiguration.cs" />
     <Compile Include="Data\Configurations\PictureChildConfiguration.cs" />
     <Compile Include="Data\Configurations\PictureConfiguration.cs" />
+    <Compile Include="Data\Extensions\LocationExtensions.cs" />
     <Compile Include="Data\Extensions\PIctureExtensions.cs" />
     <Compile Include="Data\Extensions\QueryableExtensions.cs" />
     <Compile Include="Data\Models\BusinessPhone.cs" />
@@ -799,6 +801,7 @@
     <Compile Include="Data\Models\Identity\AppUserLogin.cs" />
     <Compile Include="Data\Models\Identity\AppUserRole.cs" />
     <Compile Include="Data\Models\Identity\UserRole.cs" />
+    <Compile Include="Data\Models\Location.cs" />
     <Compile Include="Data\Models\OrganizationSupportedCritter.cs" />
     <Compile Include="Data\Models\Person.cs" />
     <Compile Include="Data\Models\PersonGroup.cs" />

@@ -70,6 +70,18 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public int? LocationID
+        {
+            get;
+            private set;
+        }
+
+        public virtual Location Location
+        {
+            get;
+            private set;
+        }
+
         public DateTime? RescueGroupsLastUpdated
         {
             get;
@@ -186,6 +198,20 @@ namespace CritterHeroes.Web.Data.Models
             CritterPicture critterPicture = new CritterPicture(this, picture);
             Pictures.Add(critterPicture);
             return critterPicture;
+        }
+
+        public void ChangeLocation(int locationID)
+        {
+            this.Location = null;
+            this.LocationID = locationID;
+        }
+
+        public void ChangeLocation(Location location)
+        {
+            ThrowIf.Argument.IsNull(location, nameof(location));
+
+            this.Location = location;
+            this.LocationID = location.ID;
         }
     }
 }

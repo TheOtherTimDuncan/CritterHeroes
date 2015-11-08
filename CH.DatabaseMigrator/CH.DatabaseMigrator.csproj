@@ -85,6 +85,10 @@
     <Compile Include="Migrations\201510181455459_Create.Designer.cs">
       <DependentUpon>201510181455459_Create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511082053174_Locations.cs" />
+    <Compile Include="Migrations\201511082053174_Locations.Designer.cs">
+      <DependentUpon>201511082053174_Locations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MigrationsDataContext.cs" />
     <Compile Include="Program.cs" />
@@ -115,6 +119,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510181455459_Create.resx">
       <DependentUpon>201510181455459_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511082053174_Locations.resx">
+      <DependentUpon>201511082053174_Locations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
