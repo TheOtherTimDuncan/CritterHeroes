@@ -38,7 +38,9 @@ namespace CH.Test.RescueGroups
                 FosterContactID = "4",
                 FosterFirstName = "FosterFirstName1",
                 FosterLastName = "FosterLastName1",
-                FosterEmail = "FosterEmail1"
+                FosterEmail = "FosterEmail1",
+                LocationID = "LocationID1",
+                LocationName = "LocationName1"
             };
 
             CritterSearchResult critterSource2 = new CritterSearchResult()
@@ -57,7 +59,9 @@ namespace CH.Test.RescueGroups
                 FosterContactID = "7",
                 FosterFirstName = "FosterFirstName2",
                 FosterLastName = "FosterLastName2",
-                FosterEmail = "FosterEmail2"
+                FosterEmail = "FosterEmail2",
+                LocationID = "LocationID2",
+                LocationName = "LocationName2"
             };
 
             JProperty property1 = new JProperty(critterSource1.ID.ToString(), new JObject(
@@ -75,7 +79,9 @@ namespace CH.Test.RescueGroups
                 new JProperty("fosterEmail", critterSource1.FosterEmail),
                 new JProperty("animalRescueID", critterSource1.RescueID),
                 new JProperty("animalUpdatedDate", critterSource1.LastUpdated),
-                new JProperty("animalCreatedDate", critterSource1.Created)
+                new JProperty("animalCreatedDate", critterSource1.Created),
+                new JProperty("animalLocationID", critterSource1.LocationID),
+                new JProperty("locationName", critterSource1.LocationName)
             ));
 
             JProperty property2 = new JProperty(critterSource2.ID.ToString(), new JObject(
@@ -93,7 +99,9 @@ namespace CH.Test.RescueGroups
                 new JProperty("fosterEmail", critterSource2.FosterEmail),
                 new JProperty("animalRescueID", critterSource2.RescueID),
                 new JProperty("animalUpdatedDate", critterSource2.LastUpdated),
-                new JProperty("animalCreatedDate", critterSource2.Created)
+                new JProperty("animalCreatedDate", critterSource2.Created),
+                new JProperty("animalLocationID", critterSource2.LocationID),
+                new JProperty("locationName", critterSource2.LocationName)
             ));
 
             JObject data = new JObject(property1, property2);
@@ -118,6 +126,8 @@ namespace CH.Test.RescueGroups
             result1.RescueID.Should().Be(critterSource1.RescueID);
             result1.LastUpdated.Should().Be(critterSource1.LastUpdated);
             result1.Created.Should().Be(critterSource1.Created);
+            result1.LocationID.Should().Be(critterSource1.LocationID);
+            result1.LocationName.Should().Be(critterSource1.LocationName);
 
             CritterSearchResult result2 = critters.SingleOrDefault(x => x.ID == critterSource2.ID);
             result2.Should().NotBeNull();
@@ -136,6 +146,8 @@ namespace CH.Test.RescueGroups
             result2.RescueID.Should().Be(critterSource2.RescueID);
             result2.LastUpdated.Should().Be(critterSource2.LastUpdated);
             result2.Created.Should().Be(critterSource2.Created);
+            result2.LocationID.Should().Be(critterSource2.LocationID);
+            result2.LocationName.Should().Be(critterSource2.LocationName);
         }
 
         [TestMethod]

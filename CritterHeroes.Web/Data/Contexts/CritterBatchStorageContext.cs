@@ -40,45 +40,23 @@ namespace CritterHeroes.Web.Data.Contexts
             set;
         }
 
-        public IQueryable<Breed> Breeds
+        public virtual IDbSet<Location> _Locations
         {
-            get
-            {
-                return _Breeds;
-            }
+            get;
+            set;
         }
 
-        public IQueryable<Critter> Critters
-        {
-            get
-            {
-                return _Critters;
-            }
-        }
+        public IQueryable<Breed> Breeds => _Breeds;
 
-        public IQueryable<CritterStatus> CritterStatus
-        {
-            get
-            {
-                return _CritterStatus;
-            }
-        }
+        public IQueryable<Critter> Critters => _Critters;
 
-        public IQueryable<Species> Species
-        {
-            get
-            {
-                return _Species;
-            }
-        }
+        public IQueryable<CritterStatus> CritterStatus => _CritterStatus;
 
-        public IQueryable<Person> People
-        {
-            get
-            {
-                return _Persons;
-            }
-        }
+        public IQueryable<Species> Species => _Species;
+
+        public IQueryable<Person> People => _Persons;
+
+        public IQueryable<Location> Locations => _Locations;
 
         public void AddCritter(Critter critter)
         {

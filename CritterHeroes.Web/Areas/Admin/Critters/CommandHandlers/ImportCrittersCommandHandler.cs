@@ -14,6 +14,7 @@ using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using TOTD.Utility.EnumerableHelpers;
+using TOTD.Utility.Misc;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
@@ -25,12 +26,16 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
         private IStateManager<OrganizationContext> _stateManager;
         private ICritterPictureService _pictureService;
 
+        private List<string> messages = new List<string>();
+
         public ImportCrittersCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsStorageContext<CritterSearchResult> sourceStorage, ICritterPictureService pictureService)
         {
             this._critterStorage = critterStorage;
             this._stateManager = stateManager;
             this._sourceStorage = sourceStorage;
             this._pictureService = pictureService;
+
+            messages = new List<string>();
         }
 
         public async Task<CommandResult> ExecuteAsync(ImportCrittersCommand command)
@@ -49,6 +54,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 {
                     critter = new Critter(source.Name, status, breed, orgContext.OrganizationID, source.ID);
                     _critterStorage.AddCritter(critter);
+                    messages.Add($"{source.Name} - {source.ID} - Added");
                 }
                 else
                 {
@@ -56,11 +62,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                     if (critter.BreedID != breed.ID)
                     {
+                        messages.Add($"{source.Name} - {source.ID} - Changed breed from {critter.Breed.IfNotNull(x => x.BreedName, "not set")} to {breed.BreedName}");
                         critter.ChangeBreed(breed);
                     }
 
                     if (critter.StatusID != status.ID)
                     {
+                        messages.Add($"{source.Name} - {source.ID} - Changed breed from {critter.Status.IfNotNull(x => x.Name, "not set")} to {status.Name}");
                         critter.ChangeStatus(status);
                     }
                 }
@@ -72,11 +80,33 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 if (!source.FosterContactID.IsNullOrEmpty())
                 {
                     Person person = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail);
-                    critter.ChangeFoster(person);
+
+                    if (critter.FosterID != person.ID)
+                    {
+                        messages.Add($"{source.Name} - {source.ID} - Changed foster from {critter.Foster.IfNotNull(x => x.FirstName, "not set")} to {person.FirstName}");
+                        critter.ChangeFoster(person);
+                    }
                 }
-                else
+                else if (critter.FosterID != null)
                 {
+                    messages.Add($"{source.Name} - {source.ID} - Removed foster {critter.Foster.IfNotNull(x => x.FirstName, "not set")}");
                     critter.RemoveFoster();
+                }
+
+                if (!source.LocationID.IsNullOrEmpty())
+                {
+                    Location location = await GetLocationAsync(source.LocationID, source.LocationName);
+
+                    if (critter.LocationID != location.ID)
+                    {
+                        messages.Add($"{source.Name} - {source.ID} - Changed location from {critter.Location.IfNotNull(x => x.Name, "not set")} to {location.Name}");
+                        critter.ChangeLocation(location);
+                    }
+                }
+                else if (critter.LocationID != null)
+                {
+                    messages.Add($"{source.Name} - {source.ID} - Removed location {critter.Location.IfNotNull(x => x.Name, "not set")}");
+                    critter.RemoveLocation();
                 }
 
                 if (!source.LastUpdated.IsNullOrEmpty())
@@ -124,12 +154,15 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                             }
 
                             CritterPicture critterPicture = critter.AddPicture(picture);
+                            messages.Add($"{source.Name} - {source.ID} - Added picture {pictureSource.Filename}");
                         }
                     }
                 }
 
                 await _critterStorage.SaveChangesAsync();
             }
+
+            command.Messages = messages;
 
             return CommandResult.Success();
         }
@@ -189,6 +222,21 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             }
 
             return person;
+        }
+
+        private async Task<Location> GetLocationAsync(string locationID, string locationName)
+        {
+            Location location = await _critterStorage.Locations.FindByRescueGroupsIDAsync(locationID);
+
+            if (location == null)
+            {
+                location = new Location(locationName)
+                {
+                    RescueGroupsID = locationID
+                };
+            }
+
+            return location;
         }
     }
 }

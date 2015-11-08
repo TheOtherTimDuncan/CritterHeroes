@@ -60,3 +60,13 @@
         </tr>
     </tbody>
 </table>
+
+@if (!Model.Messages.IsNullOrEmpty())
+{
+    <ul>
+        @foreach (string message in Model.Messages)
+        {
+            <li>@message</li>
+        }
+    </ul>
+}

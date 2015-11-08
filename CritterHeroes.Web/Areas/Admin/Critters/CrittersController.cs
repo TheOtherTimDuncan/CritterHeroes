@@ -25,6 +25,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public async Task<ActionResult> Index()
         {
             CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
+            model.Messages = TempData["Messages"] as IEnumerable<string>;
             return View(model);
         }
 
@@ -57,6 +58,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public async Task<ActionResult> Import(ImportCrittersCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
+            TempData["Messages"] = command.Messages;
             return RedirectToAction("Index");
         }
     }

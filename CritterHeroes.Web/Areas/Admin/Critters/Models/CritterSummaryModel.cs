@@ -21,5 +21,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Models
                 return StatusSummary.Sum(x => x.Count);
             }
         }
+
+        public IEnumerable<string> Messages
+        {
+            get;
+            set;
+        }
     }
 }

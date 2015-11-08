@@ -14,6 +14,8 @@ namespace CritterHeroes.Web.Data.Models
         public Location(string name)
         {
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
+
+            this.Name = name;
         }
 
         public int ID

@@ -33,6 +33,11 @@ namespace CritterHeroes.Web.Contracts.Storage
             get;
         }
 
+        IQueryable<Location> Locations
+        {
+            get;
+        }
+
         void AddCritter(Critter critter);
         Task<int> SaveChangesAsync();
     }

@@ -213,5 +213,11 @@ namespace CritterHeroes.Web.Data.Models
             this.Location = location;
             this.LocationID = location.ID;
         }
+
+        public void RemoveLocation()
+        {
+            this.Location = null;
+            this.LocationID = null;
+        }
     }
 }

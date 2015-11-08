@@ -111,6 +111,20 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        [JsonProperty(PropertyName = "animalLocationID")]
+        public string LocationID
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "locationName")]
+        public string LocationName
+        {
+            get;
+            set;
+        }
+
         [JsonProperty(PropertyName = "animalPictures")]
         public  CritterPictureSource[] PictureSources
         {
