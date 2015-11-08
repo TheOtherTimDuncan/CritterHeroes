@@ -3,12 +3,22 @@ using System.Collections.Generic;
 
 namespace CritterHeroes.Web.Common.Commands
 {
-    public class EmailCommand
+    public class EmailCommand<TEmailDataType> where TEmailDataType : BaseEmailData, new()
     {
         public EmailCommand(string emailName, string emailTo)
         {
-            this.EmailName = emailName;
+            string suffix = nameof(EmailCommand<TEmailDataType>);
+            if (emailName.EndsWith(suffix))
+            {
+                this.EmailName = emailName.Substring(0, emailName.Length - suffix.Length);
+            }
+            else
+            {
+                this.EmailName = emailName;
+            }
+
             this.EmailTo = emailTo;
+            this.EmailData = new TEmailDataType();
         }
 
         public string EmailName
@@ -29,14 +39,10 @@ namespace CritterHeroes.Web.Common.Commands
             set;
         }
 
-        public virtual object EmailData
+        public TEmailDataType EmailData
         {
             get;
-        }
-
-        protected static string GetEmailNameFromCommandName(string commandName)
-        {
-            return commandName.Substring(0, commandName.Length - nameof(EmailCommand).Length);
+            protected set;
         }
     }
 }

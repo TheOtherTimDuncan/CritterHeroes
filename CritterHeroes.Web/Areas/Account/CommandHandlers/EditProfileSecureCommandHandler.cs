@@ -12,7 +12,6 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
@@ -27,10 +26,8 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
         private IEmailService _emailService;
-        private IOrganizationLogoService _logoService;
-        private IStateManager<OrganizationContext> _stateManager;
 
-        public EditProfileSecureCommandHandler(IAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService)
+        public EditProfileSecureCommandHandler(IAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
         {
             this._userManager = userManager;
             this._userLogger = userLogger;
@@ -38,8 +35,6 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             this._userContextManager = userContextManager;
             this._urlGenerator = urlGenerator;
             this._emailService = emailService;
-            this._stateManager = stateManager;
-            this._logoService = logoService;
         }
 
         public async Task<CommandResult> ExecuteAsync(EditProfileSecureModel command)
@@ -59,17 +54,10 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             await _userLogger.LogActionAsync(UserActions.EmailChanged, user.Email, "New email: " + command.NewEmail);
 
-            OrganizationContext organizationContext = _stateManager.GetContext();
-
-            ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail)
-            {
-                OrganizationFullName = organizationContext.FullName,
-                HomeUrl = _urlGenerator.GenerateAbsoluteHomeUrl(),
-                LogoUrl = _logoService.GetLogoUrl(),
-                TokenLifespan = _userManager.TokenLifespan
-            };
-            emailCommand.Token = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            emailCommand.ConfirmUrl = _urlGenerator.GenerateConfirmEmailAbsoluteUrl(command.NewEmail, emailCommand.Token);
+            ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail);
+            emailCommand.EmailData.TokenLifespan = _userManager.TokenLifespan;
+            emailCommand.EmailData.Token = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            emailCommand.EmailData.UrlConfirm = _urlGenerator.GenerateConfirmEmailAbsoluteUrl(command.NewEmail, emailCommand.EmailData.Token);
             await _emailService.SendEmailAsync(emailCommand);
 
             return CommandResult.Success();

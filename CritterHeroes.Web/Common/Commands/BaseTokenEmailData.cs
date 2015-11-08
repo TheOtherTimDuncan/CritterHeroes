@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.Common.Commands
 {
-    public class BaseTokenEmailCommand : EmailCommand
+    public class BaseTokenEmailData : BaseEmailData
     {
-        public BaseTokenEmailCommand(string emailName, string emailTo)
-            : base(emailName, emailTo)
-        {
-        }
-
         public string Token
         {
             get;
             set;
         }
 
+        [JsonIgnore]
         public TimeSpan TokenLifespan
         {
             get;
             set;
         }
 
+        [JsonProperty("tokenLifespan")]
         public string TokenLifespanDisplay
         {
             get

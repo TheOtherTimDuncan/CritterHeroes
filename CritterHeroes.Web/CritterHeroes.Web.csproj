@@ -633,7 +633,8 @@
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
-    <Compile Include="Common\Commands\BaseTokenEmailCommand.cs" />
+    <Compile Include="Common\Commands\BaseEmailData.cs" />
+    <Compile Include="Common\Commands\BaseTokenEmailData.cs" />
     <Compile Include="Common\Commands\FosterCrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordEmailCommand.cs" />

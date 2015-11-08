@@ -3,50 +3,19 @@ using System.Collections.Generic;
 
 namespace CritterHeroes.Web.Common.Commands
 {
-    public class ResetPasswordEmailCommand : BaseTokenEmailCommand
+    public class ResetPasswordEmailCommand : EmailCommand<ResetPasswordEmailCommand.ResetPasswordEmailData>
     {
         public ResetPasswordEmailCommand(string emailTo)
-            : base(EmailCommand.GetEmailNameFromCommandName(nameof(ResetPasswordEmailCommand)), emailTo)
+            : base(nameof(ResetPasswordEmailCommand), emailTo)
         {
         }
 
-        public string OrganizationFullName
+        public class ResetPasswordEmailData : BaseTokenEmailData
         {
-            get;
-            set;
-        }
-
-        public string ResetUrl
-        {
-            get;
-            set;
-        }
-
-        public string HomeUrl
-        {
-            get;
-            set;
-        }
-
-        public string LogoUrl
-        {
-            get;
-            set;
-        }
-
-        public override object EmailData
-        {
-            get
+            public string UrlReset
             {
-                return new
-                {
-                    OrganizationFullName = OrganizationFullName,
-                    UrlHome = HomeUrl,
-                    UrlLogo = LogoUrl,
-                    UrlReset = ResetUrl,
-                    TokenLifespan = TokenLifespanDisplay,
-                    Token = Token
-                };
+                get;
+                set;
             }
         }
     }

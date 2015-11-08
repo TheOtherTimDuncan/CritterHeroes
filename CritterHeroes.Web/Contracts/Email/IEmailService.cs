@@ -7,6 +7,6 @@ namespace CritterHeroes.Web.Contracts.Email
 {
     public interface IEmailService
     {
-        Task<CommandResult> SendEmailAsync<TParameter>(TParameter command) where TParameter : EmailCommand;
+        Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new();
     }
 }

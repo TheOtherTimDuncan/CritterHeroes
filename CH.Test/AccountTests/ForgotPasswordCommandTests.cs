@@ -7,15 +7,10 @@ using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Common.ActionExtensions;
-using CritterHeroes.Web.Areas.Critters;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
@@ -31,15 +26,6 @@ namespace CH.Test.AccountTests
         public async Task ReturnsSuccessAndSendsAttemptEmailIfUserNotFound()
         {
             string email = "email@email.com";
-            string urlLogo = "logo";
-
-            OrganizationContext organizationContext = new OrganizationContext()
-            {
-                FullName = "FullName"
-            };
-
-            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
-            mockStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
 
             ForgotPasswordModel command = new ForgotPasswordModel()
             {
@@ -51,21 +37,9 @@ namespace CH.Test.AccountTests
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
-            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
-            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
-
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
-            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>())).Returns((ResetPasswordAttemptEmailCommand emailCommand) =>
-            {
-                emailCommand.OrganizationFullName.Should().Be(organizationContext.FullName);
-                emailCommand.LogoUrl.Should().Be(urlLogo);
 
-                emailCommand.HomeUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
-
-                return Task.FromResult(CommandResult.Success());
-            });
-
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object, mockStateManager.Object, mockLogoService.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
@@ -89,15 +63,6 @@ namespace CH.Test.AccountTests
             };
 
             string code = "code";
-            string urlLogo = "logo";
-
-            OrganizationContext organizationContext = new OrganizationContext()
-            {
-                FullName = "FullName"
-            };
-
-            Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
-            mockStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
 
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
@@ -107,19 +72,12 @@ namespace CH.Test.AccountTests
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
-            Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
-            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
-
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
             mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
             {
-                emailCommand.Token.Should().Be(code);
-                emailCommand.OrganizationFullName.Should().Be(organizationContext.FullName);
-                emailCommand.LogoUrl.Should().Be(urlLogo);
+                emailCommand.EmailData.Token.Should().Be(code);
 
-                emailCommand.HomeUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
-
-                emailCommand.ResetUrl.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountActionExtensions.ControllerRouteName, new
+                emailCommand.EmailData.UrlReset.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountActionExtensions.ControllerRouteName, new
                 {
                     code = code
                 }));
@@ -127,7 +85,7 @@ namespace CH.Test.AccountTests
                 return Task.FromResult(CommandResult.Success());
             });
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object, mockStateManager.Object, mockLogoService.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 

@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Common;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 
@@ -17,25 +21,38 @@ namespace CritterHeroes.Web.Common.Email
         private IFileSystem _fileSystem;
         private IHttpContext _httpContext;
         private IEmailConfiguration _emailConfiguration;
+        private IUrlGenerator _urlGenerator;
         private IAzureConfiguration _azureConfiguration;
+        private IOrganizationLogoService _logoService;
+        private IStateManager<OrganizationContext> _stateManager;
 
         private CloudQueue _cloudQueue = null;
 
-        public EmailService(IFileSystem fileSystem, IHttpContext httpContext, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration)
+        public EmailService(IFileSystem fileSystem, IHttpContext httpContext, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService)
         {
             this._fileSystem = fileSystem;
             this._httpContext = httpContext;
             this._emailConfiguration = emailConfiguration;
+            this._urlGenerator = urlGenerator;
             this._azureConfiguration = azureConfiguration;
+            this._stateManager = stateManager;
+            this._logoService = logoService;
         }
 
-        public async Task<CommandResult> SendEmailAsync<TParameter>(TParameter command) where TParameter : EmailCommand
+        public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
         {
             string folder = _httpContext.Server.MapPath($"~/Areas/Emails/{command.EmailName}");
 
             string filenameSubject = _fileSystem.CombinePath(folder, "Subject.txt");
             string filenameHtmlBody = _fileSystem.CombinePath(folder, "Body.html");
             string filenameTxtBody = _fileSystem.CombinePath(folder, "Body.txt");
+
+            OrganizationContext organizationContext = _stateManager.GetContext();
+            command.EmailData.OrganizationFullName = organizationContext.FullName;
+            command.EmailData.OrganizationShortName = organizationContext.ShortName;
+
+            command.EmailData.UrlLogo = _logoService.GetLogoUrl();
+            command.EmailData.UrlHome = _urlGenerator.GenerateAbsoluteHomeUrl();
 
             var email = new
             {

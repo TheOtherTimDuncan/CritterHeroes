@@ -42,32 +42,30 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
                 PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
             }).ToListAsync();
 
-            FosterCrittersEmailCommand emailCommand = new FosterCrittersEmailCommand("tduncan72@gmail.com")
+            FosterCrittersEmailCommand emailCommand = new FosterCrittersEmailCommand("tduncan72@gmail.com");
+            emailCommand.EmailData.OrganizationFullName = "Friends For Life Animal Haven";
+            emailCommand.EmailData.OrganizationShortName = "FFLAH";
+            emailCommand.EmailData.UrlHome = "http://www.fflah.org/";
+            emailCommand.EmailData.UrlLogo = "https://fflah.blob.core.windows.net/fflah/logo.svg";
+            emailCommand.EmailData.Critters = data.Select(x =>
             {
-                OrganizationFullName = "Friends For Life Animal Haven",
-                OrganizationShortName = "FFLAH",
-                HomeUrl = "http://www.fflah.org/",
-                LogoUrl = "https://fflah.blob.core.windows.net/fflah/logo.svg",
-                Critters = data.Select(x =>
+
+                string urlThumbnail = null;
+                if (!x.PictureFilename.IsNullOrEmpty())
                 {
+                    urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
+                }
 
-                    string urlThumbnail = null;
-                    if (!x.PictureFilename.IsNullOrEmpty())
-                    {
-                        urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
-                    }
-
-                    return new
-                    {
-                        UrlThumbnail = urlThumbnail,
-                        Name = x.Name,
-                        Status = x.Status,
-                        RescueID = x.RescueID,
-                        Sex = x.Sex,
-                        RescueGroupsID = x.RescueGroupsID
-                    };
-                })
-            };
+                return new
+                {
+                    UrlThumbnail = urlThumbnail,
+                    Name = x.Name,
+                    Status = x.Status,
+                    RescueID = x.RescueID,
+                    Sex = x.Sex,
+                    RescueGroupsID = x.RescueGroupsID
+                };
+            });
 
             if (query.SendEmail)
             {

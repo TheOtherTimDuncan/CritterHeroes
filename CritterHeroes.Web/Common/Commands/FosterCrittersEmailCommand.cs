@@ -4,55 +4,19 @@ using System.Linq;
 
 namespace CritterHeroes.Web.Common.Commands
 {
-    public class FosterCrittersEmailCommand : EmailCommand
+    public class FosterCrittersEmailCommand : EmailCommand<FosterCrittersEmailCommand.FosterCrittersEmailData>
     {
         public FosterCrittersEmailCommand(string emailTo)
-            : base(EmailCommand.GetEmailNameFromCommandName(nameof(FosterCrittersEmailCommand)), emailTo)
+            : base(nameof(FosterCrittersEmailCommand), emailTo)
         {
         }
 
-        public string OrganizationFullName
+        public class FosterCrittersEmailData : BaseEmailData
         {
-            get;
-            set;
-        }
-
-        public string OrganizationShortName
-        {
-            get;
-            set;
-        }
-
-        public string HomeUrl
-        {
-            get;
-            set;
-        }
-
-        public string LogoUrl
-        {
-            get;
-            set;
-        }
-
-        public IEnumerable<Object> Critters
-        {
-            get;
-            set;
-        }
-
-        public override object EmailData
-        {
-            get
+            public IEnumerable<Object> Critters
             {
-                return new
-                {
-                    OrganizationFullName = OrganizationFullName,
-                    OrganizationShortName = OrganizationShortName,
-                    UrlHome = HomeUrl,
-                    UrlLogo = LogoUrl,
-                    Critters = Critters.ToArray()
-                };
+                get;
+                set;
             }
         }
     }
