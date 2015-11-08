@@ -260,9 +260,20 @@
     <Content Include="apple-touch-icon.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
+    <Content Include="Areas\Emails\ConfirmEmail\Body.html" />
+    <Content Include="Areas\Emails\ConfirmEmail\Body.txt" />
+    <Content Include="Areas\Emails\ConfirmEmail\Subject.txt" />
+    <Content Include="Areas\Emails\FosterCritters\Body.html" />
+    <Content Include="Areas\Emails\FosterCritters\Subject.txt" />
     <Content Include="Areas\Emails\ResetPasswordAttempt\Body.html" />
     <Content Include="Areas\Emails\ResetPasswordAttempt\Body.txt" />
     <Content Include="Areas\Emails\ResetPasswordAttempt\Subject.txt" />
+    <Content Include="Areas\Emails\ResetPasswordNotification\Body.html" />
+    <Content Include="Areas\Emails\ResetPasswordNotification\Body.txt" />
+    <Content Include="Areas\Emails\ResetPasswordNotification\Subject.txt" />
+    <Content Include="Areas\Emails\ResetPassword\Body.html" />
+    <Content Include="Areas\Emails\ResetPassword\Body.txt" />
+    <Content Include="Areas\Emails\ResetPassword\Subject.txt" />
     <Content Include="browserconfig.xml">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
