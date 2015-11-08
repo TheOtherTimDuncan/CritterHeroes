@@ -41,10 +41,8 @@ body {
 }
 
 .container {
-  display: block !important;
+  display: block !important; 
   max-width: 600px !important;
-  margin: 0 auto !important;
-  /* makes it centered */
   clear: both !important;
 }
 
@@ -217,7 +215,7 @@ a {
     Styles for the critters table
 ------------------------------------- */
 .critters-list {
-  width: 80%;
+  width: 100%;
   border-collapse: collapse;
   margin-bottom: 15px;
 }
