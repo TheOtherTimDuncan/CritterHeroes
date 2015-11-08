@@ -57,7 +57,6 @@ namespace CritterHeroes.Web
             container.Register(typeof(IStateManager<>), defaultAssemblies, Lifestyle.Scoped);
             container.Register(typeof(IAzureStorageContext<>), defaultAssemblies);
             container.Register(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
-            container.Register(typeof(IEmailHandler<>), defaultAssemblies);
 
             container.RegisterSingleton<IFileSystem, FileSystemProxy>();
 

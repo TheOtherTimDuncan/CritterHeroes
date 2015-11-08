@@ -260,7 +260,6 @@
     <Compile Include="ControllerTests\MiscTests.cs" />
     <Compile Include="DependencyTests.cs" />
     <Compile Include="EmailTests\EmailClientTests.cs" />
-    <Compile Include="EmailTests\EmailBuilderTests.cs" />
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="EntityTests\BusinessTests.cs" />
     <Compile Include="EntityTests\CritterStatusTests.cs" />

@@ -640,12 +640,9 @@
     <Compile Include="Common\Commands\ResetPasswordNotificationEmailCommand.cs" />
     <Compile Include="Common\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Common\Dispatchers\QueryDispatcher.cs" />
-    <Compile Include="Common\Email\BaseEmailCommandHandler.cs" />
     <Compile Include="Common\Commands\EmailCommand.cs" />
     <Compile Include="Common\Commands\ConfirmEmailEmailCommand.cs" />
-    <Compile Include="Common\Email\EmailBuilder.cs" />
     <Compile Include="Common\Email\EmailService.cs" />
-    <Compile Include="Common\Email\EmailServiceOld.cs" />
     <Compile Include="Common\Identity\AppUserManager.cs" />
     <Compile Include="Common\Identity\AppSignInManager.cs" />
     <Compile Include="Common\Identity\ClaimExtensions.cs" />
@@ -666,7 +663,6 @@
     <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Contracts\Dashboard\IDataMapper.cs" />
     <Compile Include="Contracts\Dashboard\IDataMapperFactory.cs" />
-    <Compile Include="Contracts\Email\IEmailHandler.cs" />
     <Compile Include="Contracts\Email\IEmailService.cs" />
     <Compile Include="Contracts\Identity\IAppUserManager.cs" />
     <Compile Include="Contracts\Identity\IAppUserStore.cs" />
