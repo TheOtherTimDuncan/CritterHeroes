@@ -19,7 +19,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         private const string _path = "email";
 
         public EmailStorageService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration)
-            : base(orgStateManager, appConfiguration, azureConfiguration)
+            : base(orgStateManager, appConfiguration, azureConfiguration, isPrivate: true)
         {
         }
 

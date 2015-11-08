@@ -15,15 +15,17 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         private IAzureConfiguration _configuration;
         private IStateManager<OrganizationContext> _orgStateManager;
         private IAppConfiguration _appConfiguration;
+        private bool _isPrivate;
 
         private CloudBlobContainer _container;
         private OrganizationContext _orgContext;
 
-        protected BaseAzureBlobStorage(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration)
+        protected BaseAzureBlobStorage(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration, bool isPrivate = false)
         {
             this._appConfiguration = appConfiguration;
             this._orgStateManager = orgStateManager;
             this._configuration = azureConfiguration;
+            this._isPrivate = isPrivate;
         }
 
         protected OrganizationContext OrganizationContext
@@ -54,7 +56,13 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
             CloudBlobClient client = storageAccount.CreateCloudBlobClient();
 
-            _container = client.GetContainerReference(OrganizationContext.AzureName.ToLower());
+            string containerName = OrganizationContext.AzureName.ToLower();
+            if (_isPrivate)
+            {
+                containerName += "-private";
+            }
+
+            _container = client.GetContainerReference(containerName);
             await _container.CreateIfNotExistsAsync();
             await _container.SetPermissionsAsync(new BlobContainerPermissions()
             {
