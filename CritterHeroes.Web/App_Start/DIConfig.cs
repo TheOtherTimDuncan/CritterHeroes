@@ -57,8 +57,7 @@ namespace CritterHeroes.Web
             container.Register(typeof(IStateManager<>), defaultAssemblies, Lifestyle.Scoped);
             container.Register(typeof(IAzureStorageContext<>), defaultAssemblies);
             container.Register(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
-
-            container.RegisterSingleton<IFileSystem, FileSystemProxy>();
+            container.Register<IFileSystem, FileSystemProxy>(Lifestyle.Scoped);
 
             // Register AppUserStorageContext for the one entity SqlStorageContext<> can't handle
             // then register SqlStorageContext<> as a fallback registration for ISqlStorageContext<>

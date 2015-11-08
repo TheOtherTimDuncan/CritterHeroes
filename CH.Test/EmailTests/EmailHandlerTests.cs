@@ -78,9 +78,9 @@ namespace CH.Test.EmailTests
 
             MockFileSystem mockFileSystem = new MockFileSystem();
             mockFileSystem.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns((string path) => path);
+            mockFileSystem.Setup(x => x.MapServerPath(It.IsAny<string>())).Returns(pathRoot);
 
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
-            mockHttpContext.Setup(x => x.Server.MapPath(It.IsAny<string>())).Returns(pathRoot);
 
             Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockOrganizationStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
@@ -90,7 +90,7 @@ namespace CH.Test.EmailTests
 
             EmailCommand<EmailHandlerTests.TestEmailData> emailCommand = new EmailCommand<EmailHandlerTests.TestEmailData>("emailname", "emailto");
 
-            EmailService emailService = new EmailService(mockFileSystem.Object, mockHttpContext.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object);
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object);
             CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
             commandResult.Succeeded.Should().BeTrue();
 

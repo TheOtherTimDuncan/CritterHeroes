@@ -19,7 +19,6 @@ namespace CritterHeroes.Web.Common.Email
     public class EmailService : IEmailService
     {
         private IFileSystem _fileSystem;
-        private IHttpContext _httpContext;
         private IEmailConfiguration _emailConfiguration;
         private IUrlGenerator _urlGenerator;
         private IAzureConfiguration _azureConfiguration;
@@ -28,10 +27,9 @@ namespace CritterHeroes.Web.Common.Email
 
         private CloudQueue _cloudQueue = null;
 
-        public EmailService(IFileSystem fileSystem, IHttpContext httpContext, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService)
+        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService)
         {
             this._fileSystem = fileSystem;
-            this._httpContext = httpContext;
             this._emailConfiguration = emailConfiguration;
             this._urlGenerator = urlGenerator;
             this._azureConfiguration = azureConfiguration;
@@ -41,7 +39,7 @@ namespace CritterHeroes.Web.Common.Email
 
         public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
         {
-            string folder = _httpContext.Server.MapPath($"~/Areas/Emails/{command.EmailName}");
+            string folder = _fileSystem.MapServerPath($"Areas/Emails/{command.EmailName}");
 
             string filenameSubject = _fileSystem.CombinePath(folder, "Subject.txt");
             string filenameHtmlBody = _fileSystem.CombinePath(folder, "Body.html");

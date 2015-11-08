@@ -7,5 +7,6 @@ namespace CritterHeroes.Web.Contracts
     {
         string ReadAllText(string path);
         string CombinePath(params string[] paths);
+        string MapServerPath(string path);
     }
 }
