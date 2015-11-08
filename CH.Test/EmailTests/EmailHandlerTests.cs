@@ -88,9 +88,11 @@ namespace CH.Test.EmailTests
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
 
+            Mock<IEmailStorageService> mockEmailStorage = new Mock<IEmailStorageService>();
+
             EmailCommand<EmailHandlerTests.TestEmailData> emailCommand = new EmailCommand<EmailHandlerTests.TestEmailData>("emailname", "emailto");
 
-            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object);
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailStorage.Object);
             CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -98,6 +100,8 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.OrganizationShortName.Should().Be(organizationContext.ShortName);
             emailCommand.EmailData.UrlLogo.Should().Be(urlLogo);
             emailCommand.EmailData.UrlHome.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
+
+            mockEmailStorage.Verify(x => x.SaveEmailAsync(It.IsAny<Guid>(), It.IsAny<string>()), Times.Once);
         }
 
         public class TestEmailData : BaseTokenEmailData

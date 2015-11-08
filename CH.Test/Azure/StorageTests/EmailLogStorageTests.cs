@@ -14,6 +14,7 @@ using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 
 namespace CH.Test.Azure.StorageTests
 {
@@ -63,8 +64,9 @@ namespace CH.Test.Azure.StorageTests
             mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
 
             EmailStorageService service = new EmailStorageService(mockOrgStateManager.Object, new AppConfiguration(), new AzureConfiguration());
-            await service.SaveEmailAsync(message, logID);
-            EmailMessage result = await service.GetEmailAsync(logID);
+            await service.SaveEmailAsync(logID, JsonConvert.SerializeObject(message));
+            string emailData = await service.GetEmailAsync(logID);
+            EmailMessage result = JsonConvert.DeserializeObject<EmailMessage>(emailData);
 
             result.Should().NotBeNull();
             result.From.Should().Be(message.From);

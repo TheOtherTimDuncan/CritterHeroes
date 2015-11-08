@@ -24,10 +24,11 @@ namespace CritterHeroes.Web.Common.Email
         private IAzureConfiguration _azureConfiguration;
         private IOrganizationLogoService _logoService;
         private IStateManager<OrganizationContext> _stateManager;
+        private IEmailStorageService _emailStorage;
 
         private CloudQueue _cloudQueue = null;
 
-        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService)
+        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailStorageService emailStorage)
         {
             this._fileSystem = fileSystem;
             this._emailConfiguration = emailConfiguration;
@@ -35,6 +36,7 @@ namespace CritterHeroes.Web.Common.Email
             this._azureConfiguration = azureConfiguration;
             this._stateManager = stateManager;
             this._logoService = logoService;
+            this._emailStorage = emailStorage;
         }
 
         public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
@@ -64,9 +66,12 @@ namespace CritterHeroes.Web.Common.Email
             };
 
             string json = JavascriptConvert.SerializeObject(email).ToString();
+
             CloudQueue queue = await GetCloudQueue();
             CloudQueueMessage queueMessage = new CloudQueueMessage(json);
             await queue.AddMessageAsync(queueMessage);
+
+            await _emailStorage.SaveEmailAsync(Guid.NewGuid(), json);
 
             return CommandResult.Success();
         }

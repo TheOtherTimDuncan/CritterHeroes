@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models;
 using Microsoft.WindowsAzure.Storage.Blob;
-using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
@@ -23,21 +19,19 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         {
         }
 
-        public async Task<EmailMessage> GetEmailAsync(Guid emailID)
+        public async Task<string> GetEmailAsync(Guid emailID)
         {
             CloudBlobContainer container = await GetContainer();
             CloudBlockBlob blob = container.GetBlockBlobReference($"{_path}/{emailID}");
             string data = await blob.DownloadTextAsync();
-            EmailMessage message = JsonConvert.DeserializeObject<EmailMessage>(data);
-            return message;
+            return data;
         }
 
-        public async Task SaveEmailAsync(EmailMessage message, Guid emailID)
+        public async Task SaveEmailAsync(Guid emailID, string emailData)
         {
             CloudBlobContainer container = await GetContainer();
             CloudBlockBlob blob = container.GetBlockBlobReference($"{_path}/{emailID}");
-            string data = JsonConvert.SerializeObject(message);
-            await blob.UploadTextAsync(data);
+            await blob.UploadTextAsync(emailData);
         }
     }
 }

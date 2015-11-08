@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.DataProviders.Azure.Storage;
-using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.DataProviders.Azure.Storage;
+using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
-using CritterHeroes.Web.Contracts.Storage;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 {
@@ -41,7 +42,11 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             foreach (DynamicTableEntity tableEntity in entities)
             {
                 EmailLog emailLog = FromStorage(tableEntity);
-                emailLog.Message = await _emailStorage.GetEmailAsync(emailLog.ID);
+                string emaildata = await _emailStorage.GetEmailAsync(emailLog.ID);
+                if (!emaildata.IsNullOrEmpty())
+                {
+                    emailLog.Message = JsonConvert.DeserializeObject<EmailMessage>(emaildata);
+                }
                 result.Add(emailLog);
             }
             return result;
@@ -50,7 +55,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         public async Task LogEmailAsync(EmailLog emailLog)
         {
             await SaveAsync(emailLog);
-            await _emailStorage.SaveEmailAsync(emailLog.Message, emailLog.ID);
+            await _emailStorage.SaveEmailAsync(emailLog.ID, JsonConvert.SerializeObject(emailLog.Message));
         }
 
         public override EmailLog FromStorage(DynamicTableEntity tableEntity)
