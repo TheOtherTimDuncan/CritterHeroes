@@ -264,6 +264,7 @@
     <Content Include="Areas\Emails\ConfirmEmail\Body.txt" />
     <Content Include="Areas\Emails\ConfirmEmail\Subject.txt" />
     <Content Include="Areas\Emails\FosterCritters\Body.html" />
+    <Content Include="Areas\Emails\FosterCritters\Body.txt" />
     <Content Include="Areas\Emails\FosterCritters\Subject.txt" />
     <Content Include="Areas\Emails\ResetPasswordAttempt\Body.html" />
     <Content Include="Areas\Emails\ResetPasswordAttempt\Body.txt" />
@@ -633,6 +634,7 @@
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\Commands\BaseTokenEmailCommand.cs" />
+    <Compile Include="Common\Commands\FosterCrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordNotificationEmailCommand.cs" />

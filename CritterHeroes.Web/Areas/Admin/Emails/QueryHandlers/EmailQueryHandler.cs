@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Emails.Models;
 using CritterHeroes.Web.Areas.Admin.Emails.Queries;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Queries;
@@ -18,12 +19,12 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
     public class EmailQueryHandler : IAsyncQueryHandler<EmailQuery, EmailModel>
     {
         private ISqlStorageContext<Critter> _critterStorage;
-        private IEmailClient _emailClient;
+        private IEmailService _emailService;
 
-        public EmailQueryHandler(ISqlStorageContext<Critter> critterStorage, IEmailClient emailClient)
+        public EmailQueryHandler(ISqlStorageContext<Critter> critterStorage, IEmailService emailService)
         {
             this._critterStorage = critterStorage;
-            this._emailClient = emailClient;
+            this._emailService = emailService;
         }
 
         public async Task<EmailModel> RetrieveAsync(EmailQuery query)
@@ -41,58 +42,41 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
                 PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
             }).ToListAsync();
 
-            EmailMessage msg = new EmailMessage();
-            EmailBuilder
-                .Begin(msg)
-                    .StartTable()
-                        .StartTableRow()
-                            .AddTableHeader("&nbsp;")
-                            .AddTableHeader("Name")
-                            .AddTableHeader("Status")
-                            .AddTableHeader("ID")
-                            .AddTableHeader("Sex")
-                            .AddTableHeader("Foster Name")
-                            .AddTableHeader("Foster Email")
-                            .AddTableHeader("&nbsp;")
-                            .AddTableHeader("&nbsp;")
-                        .EndTableRow()
-                        .Repeat(data, (element, builder) =>
-                        {
-                            builder.StartTableRow();
+            FosterCrittersEmailCommand emailCommand = new FosterCrittersEmailCommand("tduncan72@gmail.com")
+            {
+                OrganizationFullName = "Friends For Life Animal Haven",
+                OrganizationShortName = "FFLAH",
+                HomeUrl = "http://www.fflah.org/",
+                LogoUrl = "https://fflah.blob.core.windows.net/fflah/logo.svg",
+                Critters = data.Select(x =>
+                {
 
-                            if (!element.PictureFilename.IsNullOrEmpty())
-                            {
-                                builder.AddTableCell("<img height='50' src='https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + element.RescueGroupsID.ToString().Substring(0, 4) + "/" + element.RescueGroupsID + "/" + element.PictureFilename + "'/>");
-                                //builder.AddTableCell("<img height='50' src='/debug/image/critter/" + element.ID + "/" + element.PictureFilename + "?height=50'/>");
-                            }
-                            else
-                            {
-                                builder.AddTableCell("&nbsp;");
-                            }
+                    string urlThumbnail = null;
+                    if (!x.PictureFilename.IsNullOrEmpty())
+                    {
+                        urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
+                    }
 
-                            builder.AddTableCell(element.Name);
-                            builder.AddTableCell(element.Status);
-                            builder.AddTableCell(element.RescueID);
-                            builder.AddTableCell(element.Sex);
-                            builder.AddTableCell(element.Foster);
-                            builder.AddTableCell(element.FosterEmail);
-                            builder.AddTableCell("<a href='http://www.fflah.org/animals/detail?AnimalID=" + element.RescueGroupsID + "'>View<a/>");
-                            builder.AddTableCell("<a href='https://manage.rescuegroups.org/animal?animalID=" + element.RescueGroupsID + "'>Edit<a/>");
-                            builder.EndTableRow();
-                        })
-                    .EndTable()
-                .End();
+                    return new
+                    {
+                        UrlThumbnail = urlThumbnail,
+                        Name = x.Name,
+                        Status = x.Status,
+                        RescueID = x.RescueID,
+                        Sex = x.Sex,
+                        RescueGroupsID = x.RescueGroupsID
+                    };
+                })
+            };
 
             if (query.SendEmail)
             {
-                msg.To.Add("tduncan72@gmail.com");
-                msg.Subject = "FFLAH Critters Update";
-                await _emailClient.SendAsync(msg);
+                await _emailService.SendEmailAsync(emailCommand);
             }
 
             EmailModel model = new EmailModel()
             {
-                HtmlBody = msg.HtmlBody
+                //HtmlBody = msg.HtmlBody
             };
 
             return model;
