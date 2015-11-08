@@ -78,6 +78,7 @@ namespace CH.DatabaseMigrator.Migrations
                     RescueGroupsID = c.Int(),
                     OrganizationID = c.Guid(nullable: false),
                     StatusID = c.Int(nullable: false),
+                    LocationID = c.Int(),
                     RescueGroupsLastUpdated = c.DateTime(),
                     RescueGroupsCreated = c.DateTime(),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
@@ -91,10 +92,12 @@ namespace CH.DatabaseMigrator.Migrations
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)
                 .ForeignKey("dbo.Person", t => t.FosterID)
+                .ForeignKey("dbo.Location", t => t.LocationID)
                 .ForeignKey("dbo.Organization", t => t.OrganizationID)
                 .ForeignKey("dbo.CritterStatus", t => t.StatusID)
                 .Index(t => t.OrganizationID)
                 .Index(t => t.StatusID)
+                .Index(t => t.LocationID)
                 .Index(t => t.Name)
                 .Index(t => t.BreedID)
                 .Index(t => t.FosterID);
@@ -175,6 +178,17 @@ namespace CH.DatabaseMigrator.Migrations
                     Name = c.String(nullable: false, maxLength: 10),
                 })
                 .PrimaryKey(t => t.ID);
+
+            CreateTable(
+                "dbo.Location",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    Name = c.String(maxLength: 50),
+                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.RescueGroupsID);
 
             CreateTable(
                 "dbo.CritterPicture",
@@ -407,6 +421,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.PictureChild", "ParentID", "dbo.Picture");
             DropForeignKey("dbo.CritterPicture", "CritterID", "dbo.Critter");
             DropForeignKey("dbo.Critter", "OrganizationID", "dbo.Organization");
+            DropForeignKey("dbo.Critter", "LocationID", "dbo.Location");
             DropForeignKey("dbo.PersonPhone", "PersonID", "dbo.Person");
             DropForeignKey("dbo.PersonPhone", "PhoneTypeID", "dbo.PhoneType");
             DropForeignKey("dbo.PersonGroup", "PersonID", "dbo.Person");
@@ -431,6 +446,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Picture", new[] { "RescueGroupsID" });
             DropIndex("dbo.CritterPicture", new[] { "PictureID" });
             DropIndex("dbo.CritterPicture", new[] { "CritterID" });
+            DropIndex("dbo.Location", new[] { "RescueGroupsID" });
             DropIndex("dbo.PersonPhone", new[] { "PhoneTypeID" });
             DropIndex("dbo.PersonPhone", new[] { "PersonID" });
             DropIndex("dbo.PersonGroup", new[] { "GroupID" });
@@ -439,6 +455,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.Critter", new[] { "FosterID" });
             DropIndex("dbo.Critter", new[] { "BreedID" });
             DropIndex("dbo.Critter", new[] { "Name" });
+            DropIndex("dbo.Critter", new[] { "LocationID" });
             DropIndex("dbo.Critter", new[] { "StatusID" });
             DropIndex("dbo.Critter", new[] { "OrganizationID" });
             DropIndex("dbo.Breed", new[] { "RescueGroupsID" });
@@ -458,6 +475,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropTable("dbo.PictureChild");
             DropTable("dbo.Picture");
             DropTable("dbo.CritterPicture");
+            DropTable("dbo.Location");
             DropTable("dbo.PhoneType");
             DropTable("dbo.PersonPhone");
             DropTable("dbo.Group");
