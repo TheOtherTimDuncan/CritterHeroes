@@ -22,6 +22,7 @@ namespace CritterHeroes.Web.Contracts.Identity
         }
 
         Task<AppUser> FindByEmailAsync(string email);
+        Task<AppUser> FindByUnconfirmedEmailAsync(string email);
         Task<AppUser> FindByIdAsync(int userID);
         Task<AppUser> FindByNameAsync(string userName);
 
