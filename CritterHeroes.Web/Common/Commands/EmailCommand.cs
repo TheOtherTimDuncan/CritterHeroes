@@ -5,6 +5,8 @@ namespace CritterHeroes.Web.Common.Commands
 {
     public class EmailCommand<TEmailDataType> where TEmailDataType : BaseEmailData, new()
     {
+        private List<string> _emailTos;
+
         public EmailCommand(string emailName, string emailTo)
         {
             string suffix = nameof(EmailCommand<TEmailDataType>);
@@ -17,7 +19,9 @@ namespace CritterHeroes.Web.Common.Commands
                 this.EmailName = emailName;
             }
 
-            this.EmailTo = emailTo;
+            _emailTos = new List<string>();
+            _emailTos.Add(emailTo);
+
             this.EmailData = new TEmailDataType();
         }
 
@@ -27,11 +31,7 @@ namespace CritterHeroes.Web.Common.Commands
             private set;
         }
 
-        public string EmailTo
-        {
-            get;
-            private set;
-        }
+        public IEnumerable<string> EmailTo => _emailTos;
 
         public string EmailFrom
         {
@@ -42,7 +42,11 @@ namespace CritterHeroes.Web.Common.Commands
         public TEmailDataType EmailData
         {
             get;
-            protected set;
+        }
+
+        public void AddTo(string email)
+        {
+            _emailTos.Add(email);
         }
     }
 }

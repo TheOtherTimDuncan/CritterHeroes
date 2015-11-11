@@ -635,6 +635,7 @@
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\Commands\BaseEmailData.cs" />
     <Compile Include="Common\Commands\BaseTokenEmailData.cs" />
+    <Compile Include="Common\Commands\CrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\FosterCrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordEmailCommand.cs" />

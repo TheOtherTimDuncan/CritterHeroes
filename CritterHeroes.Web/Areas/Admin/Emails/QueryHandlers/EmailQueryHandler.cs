@@ -39,44 +39,73 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
                 RescueID = x.RescueID,
                 Foster = x.Foster.FirstName + " " + x.Foster.LastName,
                 FosterEmail = x.Foster.Email,
+                LocationName = x.Location.Name,
                 PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
             }).ToListAsync();
 
-            FosterCrittersEmailCommand emailCommand = new FosterCrittersEmailCommand("tduncan72@gmail.com");
-            emailCommand.EmailData.OrganizationFullName = "Friends For Life Animal Haven";
-            emailCommand.EmailData.OrganizationShortName = "FFLAH";
-            emailCommand.EmailData.UrlHome = "http://www.fflah.org/";
-            emailCommand.EmailData.UrlLogo = "https://fflah.blob.core.windows.net/fflah/logo.svg";
-            emailCommand.EmailData.Critters = data.Select(x =>
-            {
-
-                string urlThumbnail = null;
-                if (!x.PictureFilename.IsNullOrEmpty())
-                {
-                    urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
-                }
-
-                return new
-                {
-                    UrlThumbnail = urlThumbnail,
-                    Name = x.Name,
-                    Status = x.Status,
-                    RescueID = x.RescueID,
-                    Sex = x.Sex,
-                    RescueGroupsID = x.RescueGroupsID
-                };
-            });
-
             if (query.SendEmail)
             {
-                await _emailService.SendEmailAsync(emailCommand);
+                CrittersEmailCommand emailCommandCritters = new CrittersEmailCommand("tduncan72@gmail.com");
+                emailCommandCritters.AddTo("nan3176165@aol.com");
+                emailCommandCritters.AddTo("swonger66@gmail.com");
+                emailCommandCritters.AddTo("uponastar9@yahoo.com");
+                emailCommandCritters.AddTo("pchapman72@yahoo.com");
+
+                emailCommandCritters.EmailData.Critters = data.Select(x =>
+                {
+
+                    string urlThumbnail = null;
+                    if (!x.PictureFilename.IsNullOrEmpty())
+                    {
+                        urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
+                    }
+
+                    return new
+                    {
+                        UrlThumbnail = urlThumbnail,
+                        Name = x.Name,
+                        Status = x.Status,
+                        RescueID = x.RescueID,
+                        Sex = x.Sex,
+                        RescueGroupsID = x.RescueGroupsID,
+                        Location = x.LocationName,
+                        FosterName = x.Foster,
+                        FosterEmail = x.FosterEmail
+                    };
+                });
+
+                await _emailService.SendEmailAsync(emailCommandCritters);
+
+                IEnumerable<string> fosterEmails = data.Where(x => !x.FosterEmail.IsNullOrEmpty()).Select(x => x.FosterEmail).Distinct();
+                foreach (string email in fosterEmails)
+                {
+
+                    FosterCrittersEmailCommand emailcommandFosterCritters = new FosterCrittersEmailCommand(email);
+                    emailcommandFosterCritters.EmailData.Critters = data.Where(x => x.FosterEmail == email).Select(x =>
+                    {
+
+                        string urlThumbnail = null;
+                        if (!x.PictureFilename.IsNullOrEmpty())
+                        {
+                            urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
+                        }
+
+                        return new
+                        {
+                            UrlThumbnail = urlThumbnail,
+                            Name = x.Name,
+                            Status = x.Status,
+                            RescueID = x.RescueID,
+                            Sex = x.Sex,
+                            RescueGroupsID = x.RescueGroupsID
+                        };
+                    });
+
+                    await _emailService.SendEmailAsync(emailcommandFosterCritters);
+                }
             }
 
-            EmailModel model = new EmailModel()
-            {
-                //HtmlBody = msg.HtmlBody
-            };
-
+            EmailModel model = new EmailModel();
             return model;
         }
     }
