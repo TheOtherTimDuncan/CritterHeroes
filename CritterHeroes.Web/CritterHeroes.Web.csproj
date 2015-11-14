@@ -327,6 +327,7 @@
     <Content Include="Content\bootswatch\bootswatch.less" />
     <Content Include="Content\bootswatch\variables.less" />
     <Content Include="Content\Site.less" />
+    <None Include="gulpfile.js" />
     <Content Include="mstile-144x144.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
@@ -466,6 +467,7 @@
     <Content Include="Areas\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Common\Views\_Paging.cshtml" />
     <Content Include="Areas\Admin\Emails\Views\Index.cshtml" />
+    <None Include="bower.json" />
     <None Include="compilerconfig.json" />
     <Content Include="Content\admin-critters.less" />
     <Content Include="Content\Site.css.map">
@@ -474,6 +476,7 @@
     <Content Include="Content\paging.less" />
     <Content Include="Content\filters.less" />
     <Content Include="Content\variables.less" />
+    <None Include="package.json" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </None>
@@ -841,6 +844,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="tsd.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

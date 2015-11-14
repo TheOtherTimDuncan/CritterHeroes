@@ -1,0 +1,19 @@
+{
+  "name": "critter-heroes",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Tim Duncan"
+  ],
+  "license": "MIT",
+  "moduleType": [ ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

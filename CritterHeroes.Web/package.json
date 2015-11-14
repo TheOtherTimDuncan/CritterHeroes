@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "author": "Tim Duncan",
   "license": "MIT",
+  "private": true,
   "readme": "Thanks to https://github.com/mailgun/transactional-email-templates",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheOtherTimDuncan/CritterHeroes.git"
   },
-  "dependencies": {},
+  "dependencies": { },
   "devDependencies": {
     "del": "^2.0.2",
-    "glob": "^5.0.15",
     "gulp": "^3.9.0",
     "gulp-compile-handlebars": "^0.5.0",
     "gulp-handlebars": "^4.0.0",

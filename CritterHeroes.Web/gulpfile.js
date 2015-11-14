@@ -5,7 +5,6 @@ var inlineCss = require('gulp-inline-css');
 var fs = require('fs');
 var path = require('path');
 var del = require('del');
-var glob = require('glob');
 var handlebars = require('gulp-compile-handlebars');
 var htmlmin = require('gulp-htmlmin');
 var merge = require('merge-stream');
