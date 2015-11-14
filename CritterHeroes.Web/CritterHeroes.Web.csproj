@@ -515,6 +515,25 @@
     </Content>
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\validation.extensions.js" />
+    <None Include="src\Emails\ConfirmEmail\Body.html" />
+    <None Include="src\Emails\ConfirmEmail\Body.txt" />
+    <None Include="src\Emails\ConfirmEmail\Subject.txt" />
+    <None Include="src\Emails\Critters\Body.html" />
+    <None Include="src\Emails\Critters\Body.txt" />
+    <None Include="src\Emails\Critters\Subject.txt" />
+    <None Include="src\Emails\FosterCritters\Body.html" />
+    <None Include="src\Emails\FosterCritters\Body.txt" />
+    <None Include="src\Emails\FosterCritters\Subject.txt" />
+    <None Include="src\Emails\ResetPasswordAttempt\Body.html" />
+    <None Include="src\Emails\ResetPasswordAttempt\Body.txt" />
+    <None Include="src\Emails\ResetPasswordAttempt\Subject.txt" />
+    <None Include="src\Emails\ResetPasswordNotification\Body.html" />
+    <None Include="src\Emails\ResetPasswordNotification\Body.txt" />
+    <None Include="src\Emails\ResetPasswordNotification\Subject.txt" />
+    <None Include="src\Emails\ResetPassword\Body.html" />
+    <None Include="src\Emails\ResetPassword\Body.txt" />
+    <None Include="src\Emails\ResetPassword\Subject.txt" />
+    <None Include="src\Emails\styles.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -844,6 +863,12 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="src\Emails\ConfirmEmail\example.json" />
+    <None Include="src\Emails\Critters\example.json" />
+    <None Include="src\Emails\FosterCritters\example.json" />
+    <None Include="src\Emails\ResetPasswordAttempt\example.json" />
+    <None Include="src\Emails\ResetPasswordNotification\example.json" />
+    <None Include="src\Emails\ResetPassword\example.json" />
     <None Include="tsd.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -852,7 +877,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="js\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

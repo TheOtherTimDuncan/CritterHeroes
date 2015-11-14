@@ -9,9 +9,11 @@ var handlebars = require('gulp-compile-handlebars');
 var htmlmin = require('gulp-htmlmin');
 var merge = require('merge-stream');
 
-var emailsPath = 'Emails';
-var buildPath = 'CritterHeroes.Web/Areas/Emails';
-var examplesPath = '.vs/Emails';
+var srcPath = 'src';
+
+var srcEmails = srcPath + '/Emails';
+var targetEmails = 'Areas/Emails';
+var targetExamples = '../.vs/Emails';
 
 function getFolders(dir) {
     return fs.readdirSync(dir)
@@ -20,44 +22,44 @@ function getFolders(dir) {
         });
 }
 
-gulp.task('clean', function () {
-    del(buildPath);
-    del(examplesPath);
+gulp.task('clean-emails', function () {
+    del(targetEmails);
+    del(targetExamples);
 });
 
-gulp.task('copy', ['clean', 'inline-emails'], function () {
+gulp.task('copy-emails', ['clean-emails', 'inline-emails'], function () {
 
-    return gulp.src(emailsPath + '/**/*.txt')
+    return gulp.src(srcEmails + '/**/*.txt')
         .pipe(inlineCss())
-        .pipe(gulp.dest(buildPath));
+        .pipe(gulp.dest(targetEmails));
 
 });
 
-gulp.task('handlebars-examples', ['clean', 'inline-emails'], function () {
+gulp.task('handlebars-examples', ['clean-emails', 'inline-emails'], function () {
 
-    var folders = getFolders(emailsPath);
+    var folders = getFolders(srcEmails);
 
     var txtTasks = folders.map(function (folder) {
 
-        var example = fs.readFileSync(emailsPath + '/' + folder + '/example.json', 'utf8');
+        var example = fs.readFileSync(srcEmails + '/' + folder + '/example.json', 'utf8');
         var data = JSON.parse(example);
 
-        return gulp.src(path.join(emailsPath, folder, '/**/*.txt'))
+        return gulp.src(path.join(srcEmails, folder, '/**/*.txt'))
             .pipe(handlebars(data))
             .pipe(inlineCss())
-            .pipe(gulp.dest(examplesPath + '/' + folder));
+            .pipe(gulp.dest(targetExamples + '/' + folder));
 
     });
 
     var htmlTasks = folders.map(function (folder) {
 
-        var example = fs.readFileSync(emailsPath + '/' + folder + '/example.json', 'utf8');
+        var example = fs.readFileSync(srcEmails + '/' + folder + '/example.json', 'utf8');
         var data = JSON.parse(example);
 
-        return gulp.src(path.join(emailsPath, folder, '/**/*.html'))
+        return gulp.src(path.join(srcEmails, folder, '/**/*.html'))
             .pipe(handlebars(data))
             .pipe(inlineCss())
-            .pipe(gulp.dest(examplesPath + '/' + folder));
+            .pipe(gulp.dest(targetExamples + '/' + folder));
 
     });
 
@@ -65,13 +67,13 @@ gulp.task('handlebars-examples', ['clean', 'inline-emails'], function () {
 
 });
 
-gulp.task('inline-emails', ['clean'], function () {
+gulp.task('inline-emails', ['clean-emails'], function () {
 
-    return gulp.src(emailsPath + '/**/*.html')
+    return gulp.src(srcEmails + '/**/*.html')
         .pipe(inlineCss())
         .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(gulp.dest(buildPath));
+        .pipe(gulp.dest(targetEmails));
 
 });
 
-gulp.task('build', ['clean', 'handlebars-examples', 'inline-emails', 'copy']);
+gulp.task('build-emails', ['clean-emails', 'handlebars-examples', 'inline-emails', 'copy-emails']);
