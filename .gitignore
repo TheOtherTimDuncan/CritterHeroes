@@ -49,6 +49,7 @@ packages/
 *.log
 *.scc
 node_modules/
+bower_components/
 typings/
 
 # Visual C++ cache files
