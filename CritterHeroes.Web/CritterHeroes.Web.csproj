@@ -328,6 +328,7 @@
     <Content Include="Content\bootswatch\variables.less" />
     <Content Include="Content\Site.less" />
     <None Include="gulpfile.js" />
+    <None Include="gulp-tasks\emails.js" />
     <Content Include="mstile-144x144.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
