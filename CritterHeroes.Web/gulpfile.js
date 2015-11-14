@@ -8,6 +8,7 @@ var plugins = require('gulp-load-plugins')({
 
 var common = {
     srcPath: 'src',
+    distPath: 'dist',
     fs: require('fs'),
     path: require('path')
 }
@@ -17,3 +18,4 @@ function getTask(task) {
 }
 
 gulp.task('build-emails', getTask('emails.js'));
+gulp.task('build-scripts', getTask('scripts.js'));

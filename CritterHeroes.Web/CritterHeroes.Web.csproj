@@ -329,6 +329,7 @@
     <Content Include="Content\Site.less" />
     <None Include="gulpfile.js" />
     <None Include="gulp-tasks\emails.js" />
+    <None Include="gulp-tasks\scripts.js" />
     <Content Include="mstile-144x144.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
@@ -871,6 +872,7 @@
     <None Include="src\Emails\ResetPasswordNotification\example.json" />
     <None Include="src\Emails\ResetPassword\example.json" />
     <None Include="tsd.json" />
+    <Content Include="versioned-js.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -878,9 +880,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
