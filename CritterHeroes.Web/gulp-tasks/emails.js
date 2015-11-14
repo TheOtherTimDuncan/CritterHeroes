@@ -14,19 +14,17 @@ module.exports = function (gulp, plugins, common) {
     }
 
     gulp.task('clean-emails', function () {
-        plugins.del(targetEmails);
-        plugins.del(targetExamples);
+        return plugins.del([targetEmails, targetExamples, '!' + targetEmails], { force: true });
     });
 
-    gulp.task('copy-emails', ['clean-emails', 'inline-emails'], function () {
+    gulp.task('copy-emails', ['clean-emails'], function () {
 
         return gulp.src(srcEmails + '/**/*.txt')
-            .pipe(plugins.inlineCss())
             .pipe(gulp.dest(targetEmails));
 
     });
 
-    gulp.task('handlebars-examples', ['clean-emails', 'inline-emails'], function () {
+    gulp.task('handlebars-examples', ['clean-emails'], function () {
 
         var folders = getFolders(srcEmails);
 
@@ -37,7 +35,6 @@ module.exports = function (gulp, plugins, common) {
 
             return gulp.src(common.path.join(srcEmails, folder, '/**/*.txt'))
                 .pipe(plugins.compileHandlebars(data))
-                .pipe(plugins.inlineCss())
                 .pipe(gulp.dest(targetExamples + '/' + folder));
 
         });
