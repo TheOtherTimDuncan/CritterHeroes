@@ -308,6 +308,7 @@
     <Compile Include="StateManagementTests\UserContextTests.cs" />
     <Compile Include="ValidationTests\AccountValidationTests.cs" />
     <Compile Include="ValidationTests\OrganizationValidationTests.cs" />
+    <Compile Include="VersionedStaticsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CH.DatabaseMigrator\CH.DatabaseMigrator.csproj">

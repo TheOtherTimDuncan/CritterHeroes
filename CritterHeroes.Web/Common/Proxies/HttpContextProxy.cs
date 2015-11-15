@@ -56,5 +56,18 @@ namespace CritterHeroes.Web.Common.Proxies
                 return Context.Server;
             }
         }
+
+        public bool IsDebuggingEnabled
+        {
+            get
+            {
+                return Context.IsDebuggingEnabled;
+            }
+        }
+
+        public string ConvertToAbsoluteUrl(string virtualPath)
+        {
+            return VirtualPathUtility.ToAbsolute(virtualPath);
+        }
     }
 }

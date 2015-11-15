@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
-using Microsoft.Owin;
 
 namespace CritterHeroes.Web.Contracts
 {
@@ -27,5 +26,12 @@ namespace CritterHeroes.Web.Contracts
         {
             get;
         }
+
+        bool IsDebuggingEnabled
+        {
+            get;
+        }
+
+        string ConvertToAbsoluteUrl(string virtualPath);
     }
 }

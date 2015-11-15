@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using CritterHeroes.Web.Common.VersionedStatics;
+using CritterHeroes.Web.Contracts;
 
 namespace CritterHeroes.Web
 {
@@ -10,7 +12,9 @@ namespace CritterHeroes.Web
         protected void Application_Start()
         {
             var container = DIConfig.ConfigureDependencyContainer();
+
             ValidationConfig.ConfigureValidation(container);
+            VersionedStatics.Configure(container.GetInstance<IFileSystem>(), container.GetInstance<IHttpContext>());
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

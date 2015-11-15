@@ -687,6 +687,8 @@
     <Compile Include="Common\StateManagement\SpeciesContext.cs" />
     <Compile Include="Common\Validation\UniqueEmailValidator.cs" />
     <Compile Include="Common\Validation\ValidationFactory.cs" />
+    <Compile Include="Common\VersionedStatics\StaticFile.cs" />
+    <Compile Include="Common\VersionedStatics\VersionedStatics.cs" />
     <Compile Include="Contracts\Dashboard\IDataMapper.cs" />
     <Compile Include="Contracts\Dashboard\IDataMapperFactory.cs" />
     <Compile Include="Contracts\Email\IEmailService.cs" />
@@ -872,7 +874,7 @@
     <None Include="src\Emails\ResetPasswordNotification\example.json" />
     <None Include="src\Emails\ResetPassword\example.json" />
     <None Include="tsd.json" />
-    <Content Include="versioned-js.json" />
+    <Content Include="versioned-lib.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

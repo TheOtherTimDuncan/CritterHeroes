@@ -16,6 +16,7 @@ module.exports = function (gulp, plugins, common) {
         var sources = [
             bowerBase + '/jquery/dist/jquery.js',
             bowerBase + '/jquery/dist/jquery.min.js',
+            bowerBase + '/jquery/dist/jquery.min.map',
             bowerBase + '/jquery-validation/dist/jquery.validate.js',
             bowerBase + '/jquery-validation/dist/jquery.validate.min.js',
             bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive.ajax.js',
@@ -36,7 +37,7 @@ module.exports = function (gulp, plugins, common) {
             .pipe(plugins.flatten())
             .pipe(plugins.rev())
             .pipe(gulp.dest(distScripts))
-            .pipe(plugins.rev.manifest({ path: "versioned-js.json" }))
+            .pipe(plugins.rev.manifest({ path: "versioned-lib.json" }))
             .pipe(gulp.dest('./'));
 
     });
