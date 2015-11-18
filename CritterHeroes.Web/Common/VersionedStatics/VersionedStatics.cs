@@ -11,7 +11,6 @@ namespace CritterHeroes.Web.Common.VersionedStatics
     {
         private static Dictionary<string, StaticFile> _tags;
 
-        private const string pathSource = "~/src";
         private const string pathDist = "~/dist";
 
         public static bool IsDebug
@@ -31,8 +30,10 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
             foreach (JProperty property in json.Properties())
             {
-                string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathSource}/lib/{property.Name}");
-                string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/lib/{property.Value.Value<string>()}");
+                string debugFilename = property.Value.Value<string>();
+                string productionFilename = fileSystem.GetFileNameWithoutExtension(debugFilename) + ".min" + fileSystem.GetFileExtension(debugFilename);
+                string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{debugFilename}");
+                string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{productionFilename}");
                 _tags[property.Name] = new StaticFile(debugUrl, productionUrl);
             }
         }
@@ -42,7 +43,7 @@ namespace CritterHeroes.Web.Common.VersionedStatics
             StaticFile staticFile;
             if (!_tags.TryGetValue(filename, out staticFile))
             {
-                throw new InvalidOperationException($"No tag found for {filename}");
+                throw new InvalidOperationException($"No configuration found for {filename}");
             }
 
             return (IsDebug ? staticFile.DebugUrl : staticFile.ProductionUrl);

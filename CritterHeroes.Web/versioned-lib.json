@@ -1,5 +1,6 @@
 {
-  "jquery.min.js": "jquery-4a356126b9.min.js",
-  "jquery.validate.min.js": "jquery-3b00d60f87.validate.min.js",
-  "jquery.validate.unobtrusive.min.js": "jquery-887fa31edd.validate.unobtrusive.min.js"
+  "jquery.js": "jquery-107fbe9555.js",
+  "jquery.unobtrusive-ajax.js": "jquery-cd06784fa5.unobtrusive-ajax.js",
+  "jquery.validate.js": "jquery-9fe5472760.validate.js",
+  "jquery.validate.unobtrusive.js": "jquery-79ca56d4af.validate.unobtrusive.js"
 }

@@ -7,6 +7,21 @@ module.exports = function (gulp, plugins, common) {
 
     var bowerBase = 'bower_components';
 
+    var hashes = {};
+
+    var getHashes = function () {
+
+        var collect = function (file, enc, cb) {
+            if (file.revHash) {
+                hashes[common.path.basename(file.revOrigPath, common.path.extname(file.revOrigPath))] = file.revHash;
+            }
+            this.push(file);
+            return cb();
+        };
+
+        return plugins.through2.obj(collect);
+    };
+
     gulp.task('clean-scripts', function () {
         return plugins.del([distScripts + '/**', '!' + common.distPath, srcScripts, '!' + common.srcPath]);
     });
@@ -19,8 +34,8 @@ module.exports = function (gulp, plugins, common) {
             bowerBase + '/jquery/dist/jquery.min.map',
             bowerBase + '/jquery-validation/dist/jquery.validate.js',
             bowerBase + '/jquery-validation/dist/jquery.validate.min.js',
-            bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive.ajax.js',
-            bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive.ajax.min.js',
+            bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js',
+            bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
             bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
             bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
         ];
@@ -33,15 +48,28 @@ module.exports = function (gulp, plugins, common) {
 
     gulp.task('copy-scripts-dist', ['clean-scripts', 'copy-scripts-src'], function () {
 
-        return gulp.src(srcScripts + '/*.min.js')
+        return gulp.src([srcScripts + '/*.js', '!' + srcScripts + '/*.min.js'])
             .pipe(plugins.flatten())
             .pipe(plugins.rev())
+            .pipe(getHashes())
             .pipe(gulp.dest(distScripts))
             .pipe(plugins.rev.manifest({ path: "versioned-lib.json" }))
             .pipe(gulp.dest('./'));
 
     });
 
-    return ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist'];
+    gulp.task('copy-scripts-dist-min', ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist'], function () {
+
+        return gulp.src([srcScripts + '/*.min.js'])
+            .pipe(plugins.rename(function (path) {
+                var fileKey = common.path.basename(path.basename, '.min');
+                path.basename = fileKey + '-' + hashes[fileKey] + '.min';
+            }))
+            .pipe(plugins.flatten())
+            .pipe(gulp.dest(distScripts));
+
+    });
+
+    return ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist', 'copy-scripts-dist-min'];
 
 }

@@ -25,6 +25,16 @@ namespace CritterHeroes.Web.Common.Proxies
             return Path.Combine(paths);
         }
 
+        public string GetFileNameWithoutExtension(string path)
+        {
+            return Path.GetFileNameWithoutExtension(path);
+        }
+
+        public string GetFileExtension(string path)
+        {
+            return Path.GetExtension(path);
+        }
+
         public string MapServerPath(string path)
         {
             return _httpContext.Server.MapPath($"~/{path}");

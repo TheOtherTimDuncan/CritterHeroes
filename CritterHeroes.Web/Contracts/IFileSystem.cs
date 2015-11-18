@@ -7,6 +7,8 @@ namespace CritterHeroes.Web.Contracts
     {
         string ReadAllText(string path);
         string CombinePath(params string[] paths);
+        string GetFileNameWithoutExtension(string path);
+        string GetFileExtension(string path);
         string MapServerPath(string path);
     }
 }
