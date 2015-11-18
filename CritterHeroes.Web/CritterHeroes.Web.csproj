@@ -349,13 +349,13 @@
     <Content Include="Scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\ch.admin-critters.js" />
-    <Content Include="Scripts\ch.busy-indicator.js" />
-    <Content Include="Scripts\ch.cdnFallback.js" />
-    <Content Include="Scripts\ch.critters-list.js" />
-    <Content Include="Scripts\ch.data-dashboard.js" />
-    <Content Include="Scripts\ch.data.js" />
-    <Content Include="Scripts\ch.edit-profile.js" />
+    <Content Include="src\js\ch.admin-critters.js" />
+    <Content Include="src\js\ch.busy-indicator.js" />
+    <Content Include="src\js\ch.cdnFallback.js" />
+    <Content Include="src\js\ch.critters-list.js" />
+    <Content Include="src\js\ch.data-dashboard.js" />
+    <Content Include="src\js\ch.data.js" />
+    <Content Include="src\js\ch.edit-profile.js" />
     <Content Include="Areas\Account\Views\_EditProfileLogin.cshtml" />
     <Content Include="Areas\Account\Views\_EditProfileSecure.cshtml" />
     <Content Include="Areas\Account\Views\_ForgotPassword.cshtml" />
@@ -435,10 +435,10 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <Content Include="Scripts\ch.history.js" />
-    <Content Include="Scripts\ch.login.js" />
-    <Content Include="Scripts\ch.organization-edit-profile.js" />
-    <Content Include="Scripts\ch.paging.js" />
+    <Content Include="src\js\ch.history.js" />
+    <Content Include="src\js\ch.login.js" />
+    <Content Include="src\js\ch.organization-edit-profile.js" />
+    <Content Include="src\js\ch.paging.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css">
       <DependentUpon>basic.css</DependentUpon>

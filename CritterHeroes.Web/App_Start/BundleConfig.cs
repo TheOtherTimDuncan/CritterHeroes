@@ -14,22 +14,22 @@ namespace CritterHeroes.Web
 
             bundles.UseCdn = true;
 
-            bundles.Add(new ScriptBundle("~/bundles/cdnFallback").Include("~/Scripts/ch.cdnFallback.js"));
+            bundles.Add(new ScriptBundle("~/bundles/cdnFallback").Include("~/src/js/ch.cdnFallback.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/cheroes")
-                .Include("~/Scripts/ch.data.js")
-                .Include("~/Scripts/ch.paging.js")
-                .Include("~/Scripts/ch.history.js")
-                .Include("~/Scripts/validation.extensions.js")
+                .Include("~/src/js/ch.data.js")
+                .Include("~/src/js/ch.paging.js")
+                .Include("~/src/js/ch.history.js")
+                .Include("~/src/js/validation.extensions.js")
             );
 
-            bundles.Add(new ScriptBundle("~/bundles/datadashboard").Include("~/Scripts/ch.data-dashboard.js"));
-            bundles.Add(new ScriptBundle("~/bundles/cheditprofile").Include("~/Scripts/ch.edit-profile.js"));
-            bundles.Add(new ScriptBundle("~/bundles/chbusyindicator").Include("~/Scripts/ch.busy-indicator.js"));
-            bundles.Add(new ScriptBundle("~/bundles/chlogin").Include("~/Scripts/ch.login.js"));
-            bundles.Add(new ScriptBundle("~/bundles/orgedit").Include("~/Scripts/ch.organization-edit-profile.js"));
-            bundles.Add(new ScriptBundle("~/bundles/admincritters").Include("~/Scripts/ch.admin-critters.js"));
-            bundles.Add(new ScriptBundle("~/bundles/critterslist").Include("~/Scripts/ch.critters-list.js"));
+            bundles.Add(new ScriptBundle("~/bundles/datadashboard").Include("~/src/js/ch.data-dashboard.js"));
+            bundles.Add(new ScriptBundle("~/bundles/cheditprofile").Include("~/src/js/ch.edit-profile.js"));
+            bundles.Add(new ScriptBundle("~/bundles/chbusyindicator").Include("~/src/js/ch.busy-indicator.js"));
+            bundles.Add(new ScriptBundle("~/bundles/chlogin").Include("~/src/js/ch.login.js"));
+            bundles.Add(new ScriptBundle("~/bundles/orgedit").Include("~/src/js/ch.organization-edit-profile.js"));
+            bundles.Add(new ScriptBundle("~/bundles/admincritters").Include("~/src/js/ch.admin-critters.js"));
+            bundles.Add(new ScriptBundle("~/bundles/critterslist").Include("~/src/js/ch.critters-list.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
