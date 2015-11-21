@@ -489,22 +489,6 @@
     <Content Include="Scripts\jquery-2.1.4.min.map">
       <DependentUpon>jquery-2.1.4.js</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery.validate-vsdoc.js">
-      <DependentUpon>jquery.validate.js</DependentUpon>
-    </None>
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js">
-      <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js">
-      <DependentUpon>jquery.validate.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
-      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js">
       <DependentUpon>respond.js</DependentUpon>

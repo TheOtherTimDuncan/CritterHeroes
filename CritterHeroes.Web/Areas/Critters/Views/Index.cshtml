@@ -10,7 +10,7 @@
             cheroes.query = @JavascriptConvert.SerializeObject(Model.Query);
         })(this.cheroes = this.cheroes || {});
     </script>
-    @Scripts.Render("~/bundles/critterslist")
+   <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.critters-list.js"))"></script>
 }
 
 <h2>Critters</h2>

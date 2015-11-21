@@ -6,7 +6,7 @@
 
 @section scripts{
     @Scripts.Render("~/bundles/dropzonescripts")
-    @Scripts.Render("~/bundles/orgedit")
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.organization-edit-profile.js"))"></script>
 }
 
 @section css{

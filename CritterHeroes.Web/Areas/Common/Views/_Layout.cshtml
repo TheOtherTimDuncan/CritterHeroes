@@ -28,14 +28,6 @@
 
     @RenderSection("css", required: false)
 
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/cdnFallback")
-
-    <script type="text/javascript">
-        cdnFallback.options.siteRoot = '@Url.Content("~")';
-        cdnFallback.modernizerFallback('modernizr');
-    </script>
-
 </head>
 <body>
 
@@ -52,41 +44,43 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.cdnFallback.js"))"></script>
+
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
-        cdnFallback.jqueryFallback('jquery');
+        cheroes.cdnFallback.jqueryFallback('@Url.Content(VersionedStatics.UrlFor("jquery.js"))');
     </script>
 
-    @Scripts.Render("~/bundles/jqueryvalidation")
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
     <script type="text/javascript">
-        cdnFallback.jqueryValidationFallback('jqueryvalidation');
+        cheroes.cdnFallback.jqueryValidationFallback('@Url.Content(VersionedStatics.UrlFor("jquery.validate.js"))');
     </script>
 
-    @Scripts.Render("~/bundles/jqueryunobtrusive")
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
-        cdnFallback.unobtrusiveFallback('jqueryunobtrusive');
+        cheroes.cdnFallback.unobtrusiveFallback('@Url.Content(VersionedStatics.UrlFor("jquery.validate.unobtrusive.js"))');
     </script>
 
-    @Scripts.Render("~/bundles/jqueryunobtrusiveajax")
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.unobtrusive-ajax.min.js"></script>
     <script type="text/javascript">
-        cdnFallback.unobtrusiveajaxFallback('jqueryunobtrusive');
+        cheroes.cdnFallback.unobtrusiveajaxFallback('@Url.Content(VersionedStatics.UrlFor("jquery.unobtrusive-ajax.js"))');
     </script>
 
     @Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript">
-        cdnFallback.bootstrapFallback('bootstrap');
+        cheroes.cdnFallback.bootstrapFallback('bootstrap');
     </script>
 
     @Scripts.Render("~/bundles/respond")
     <script type="text/javascript">
-        cdnFallback.respondFallback('respond');
+        cheroes.cdnFallback.respondFallback('respond');
     </script>
 
     <script type="text/javascript">
-        cdnFallback.cssBootStrapFallback("Content/bootstrap");
+        cheroes.cdnFallback.cssBootStrapFallback("Content/bootstrap");
     </script>
 
-    @Scripts.Render("~/bundles/cheroes")
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("cheroes.js"))"></script>
 
     @RenderSection("scripts", required: false)
 

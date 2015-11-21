@@ -1,47 +1,43 @@
-﻿var cdnFallback = (function ($) {
+﻿(function (cheroes) {
 
     'use strict';
 
-    function writeScriptBundleUrl(bundleName ) {
-        document.write('<script src="' + result.options.siteRoot + result.options.bundleRoot + '/' + bundleName + '"><\/script>');
+    function writeScriptBundleUrl(url) {
+        document.write('<script src="' + url + '"><\/script>');
     }
 
     var result = {
-        options: {
-            siteRoot: '/',
-            bundleRoot: 'bundles'
+
+        jqueryFallback: function (url) {
+            window.jQuery || writeScriptBundleUrl(url);
         },
 
-        jqueryFallback: function (bundleName) {
-            window.jQuery || writeScriptBundleUrl(bundleName);
+        jqueryValidationFallback: function (url) {
+            window.jQuery.validator || writeScriptBundleUrl(url);
         },
 
-        jqueryValidationFallback: function (bundleName) {
-            window.jQuery.validator || writeScriptBundleUrl(bundleName);
+        jqueryUIFallback: function (url) {
+            window.jQuery.ui || writeScriptBundleUrl(url);
         },
 
-        jqueryUIFallback: function (bundleName) {
-            window.jQuery.ui || writeScriptBundleUrl(bundleName);
+        unobtrusiveFallback: function (url) {
+            window.jQuery.validator.unobtrusive || writeScriptBundleUrl(url);
         },
 
-        unobtrusiveFallback: function (bundleName) {
-            window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
+        unobtrusiveajaxFallback: function (url) {
+            window.jQuery.validator.unobtrusive || writeScriptBundleUrl(url);
         },
 
-        unobtrusiveajaxFallback: function (bundleName) {
-            window.jQuery.validator.unobtrusive || writeScriptBundleUrl(bundleName);
+        bootstrapFallback: function (url) {
+            window.jQuery.fn.modal || writeScriptBundleUrl(url);
         },
 
-        bootstrapFallback: function (bundleName) {
-            window.jQuery.fn.modal || writeScriptBundleUrl(bundleName);
-        },
-
-        respondFallback: function (bundleName) {
+        respondFallback: function (url) {
             window.respond || writeScriptBundleUrl(bundleName);
         },
 
-        modernizerFallback: function (bundleName) {
-            window.Modernizr || writeScriptBundleUrl(bundleName);
+        modernizerFallback: function (url) {
+            window.Modernizr || writeScriptBundleUrl(url);
         },
 
         cssBootStrapFallback: function (bundlePath) {
@@ -53,6 +49,6 @@
         }
     };
 
-    return result;
+    cheroes.cdnFallback = result;
 
-})();
+})(this.cheroes = this.cheroes || {});
