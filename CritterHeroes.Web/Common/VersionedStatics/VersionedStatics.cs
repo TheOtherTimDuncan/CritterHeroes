@@ -13,6 +13,11 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
         private const string pathDist = "~/dist";
 
+        private static readonly string[] _manifests = new[] {
+            "/versioned-lib.json",
+            "/versioned-js.json"
+        };
+
         public static bool IsDebug
         {
             get;
@@ -25,16 +30,19 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
             IsDebug = httpContext.IsDebuggingEnabled;
 
-            string libFilename = fileSystem.MapServerPath("/versioned-lib.json");
-            JObject json = JObject.Parse(fileSystem.ReadAllText(libFilename));
-
-            foreach (JProperty property in json.Properties())
+            foreach (string filename in _manifests)
             {
-                string debugFilename = property.Value.Value<string>();
-                string productionFilename = fileSystem.GetFileNameWithoutExtension(debugFilename) + ".min" + fileSystem.GetFileExtension(debugFilename);
-                string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{debugFilename}");
-                string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{productionFilename}");
-                _tags[property.Name] = new StaticFile(debugUrl, productionUrl);
+                string libFilename = fileSystem.MapServerPath(filename);
+                JObject json = JObject.Parse(fileSystem.ReadAllText(libFilename));
+
+                foreach (JProperty property in json.Properties())
+                {
+                    string debugFilename = property.Value.Value<string>();
+                    string productionFilename = fileSystem.GetFileNameWithoutExtension(debugFilename) + ".min" + fileSystem.GetFileExtension(debugFilename);
+                    string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{debugFilename}");
+                    string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{productionFilename}");
+                    _tags[property.Name] = new StaticFile(debugUrl, productionUrl);
+                }
             }
         }
 

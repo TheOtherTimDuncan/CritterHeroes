@@ -1,3 +1,4 @@
+/// <binding ProjectOpened='watch' />
 'use strict';
 
 var gulp = require('gulp');
@@ -19,3 +20,9 @@ function getTask(task) {
 
 gulp.task('build-emails', getTask('emails.js'));
 gulp.task('build-scripts', getTask('scripts.js'));
+
+gulp.task('watch', ['build-scripts'], function () {
+
+    gulp.watch(common.srcPath + '/js/**/*.js', ['build-scripts']);
+
+});

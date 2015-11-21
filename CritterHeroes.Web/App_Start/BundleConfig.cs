@@ -16,12 +16,7 @@ namespace CritterHeroes.Web
 
             bundles.Add(new ScriptBundle("~/bundles/cdnFallback").Include("~/src/js/ch.cdnFallback.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/cheroes")
-                .Include("~/src/js/ch.data.js")
-                .Include("~/src/js/ch.paging.js")
-                .Include("~/src/js/ch.history.js")
-                .Include("~/src/js/validation.extensions.js")
-            );
+            bundles.Add(new ScriptBundle("~/bundles/cheroes").Include("~/src/js/bundled/*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datadashboard").Include("~/src/js/ch.data-dashboard.js"));
             bundles.Add(new ScriptBundle("~/bundles/cheditprofile").Include("~/src/js/ch.edit-profile.js"));

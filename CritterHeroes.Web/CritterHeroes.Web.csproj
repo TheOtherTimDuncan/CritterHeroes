@@ -354,7 +354,7 @@
     <Content Include="src\js\ch.cdnFallback.js" />
     <Content Include="src\js\ch.critters-list.js" />
     <Content Include="src\js\ch.data-dashboard.js" />
-    <Content Include="src\js\ch.data.js" />
+    <Content Include="src\js\bundled\ch.data.js" />
     <Content Include="src\js\ch.edit-profile.js" />
     <Content Include="Areas\Account\Views\_EditProfileLogin.cshtml" />
     <Content Include="Areas\Account\Views\_EditProfileSecure.cshtml" />
@@ -435,10 +435,10 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <Content Include="src\js\ch.history.js" />
+    <Content Include="src\js\bundled\ch.history.js" />
     <Content Include="src\js\ch.login.js" />
     <Content Include="src\js\ch.organization-edit-profile.js" />
-    <Content Include="src\js\ch.paging.js" />
+    <Content Include="src\js\bundled\ch.paging.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css">
       <DependentUpon>basic.css</DependentUpon>
@@ -516,7 +516,7 @@
       <DependentUpon>respond.js</DependentUpon>
     </Content>
     <None Include="Scripts\_references.js" />
-    <Content Include="Scripts\validation.extensions.js" />
+    <Content Include="src\js\bundled\validation.extensions.js" />
     <None Include="src\Emails\ConfirmEmail\Body.html" />
     <None Include="src\Emails\ConfirmEmail\Body.txt" />
     <None Include="src\Emails\ConfirmEmail\Subject.txt" />
@@ -875,6 +875,7 @@
     <None Include="src\Emails\ResetPassword\example.json" />
     <None Include="tsd.json" />
     <Content Include="versioned-lib.json" />
+    <Content Include="versioned-js.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
