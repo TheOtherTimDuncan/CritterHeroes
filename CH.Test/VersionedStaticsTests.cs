@@ -17,7 +17,9 @@ namespace CH.Test
         public void ReturnsUrlForDebugFileIfDebuging()
         {
             MockFileSystem mockFileSystem = new MockFileSystem();
-            mockFileSystem.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(LibManifest);
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-js.json")).Returns(LibManifest);
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-lib.json")).Returns("{}");
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-css.json")).Returns("{}");
             mockFileSystem.Setup(x => x.MapServerPath(It.IsAny<string>())).Returns((string path) => path);
 
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
@@ -33,7 +35,9 @@ namespace CH.Test
         public void ReturnsUrlForProductionFileIfNotDebuging()
         {
             MockFileSystem mockFileSystem = new MockFileSystem();
-            mockFileSystem.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(LibManifest);
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-js.json")).Returns(LibManifest);
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-lib.json")).Returns("{}");
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-css.json")).Returns("{}");
             mockFileSystem.Setup(x => x.MapServerPath(It.IsAny<string>())).Returns((string path) => path);
 
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
