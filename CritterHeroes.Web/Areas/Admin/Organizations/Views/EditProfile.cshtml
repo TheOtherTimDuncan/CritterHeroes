@@ -5,12 +5,8 @@
 }
 
 @section scripts{
-    @Scripts.Render("~/bundles/dropzonescripts")
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("dropzone.js"))"></script>
     <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.organization-edit-profile.js"))"></script>
-}
-
-@section css{
-    @Styles.Render("~/Content/dropzonecss")
 }
 
 @using (var container = Html.FluentHtml().BootstrapModalContainer().ID("modal").Begin())
@@ -38,10 +34,10 @@
 
 
 @using (Html.BeginForm("", "", FormMethod.Post, new
-        {
-            enctype = "multipart/form-data",
-            id = "edit-profile"
-        }))
+{
+    enctype = "multipart/form-data",
+    id = "edit-profile"
+}))
 {
 
     @Html.AntiForgeryToken()

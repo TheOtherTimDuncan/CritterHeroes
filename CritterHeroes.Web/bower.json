@@ -20,6 +20,7 @@
     "jquery": "~2.1.4",
     "jquery-validation": "~1.14.0",
     "jquery-validation-unobtrusive": "~3.2.4",
-    "jquery-ajax-unobtrusive": "~3.2.3"
+    "jquery-ajax-unobtrusive": "~3.2.3",
+    "dropzone": "4.2.0"
   }
 }

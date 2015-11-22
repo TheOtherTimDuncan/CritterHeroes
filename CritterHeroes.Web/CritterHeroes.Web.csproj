@@ -439,22 +439,6 @@
     <Content Include="src\js\ch.login.js" />
     <Content Include="src\js\ch.organization-edit-profile.js" />
     <Content Include="src\js\bundled\ch.paging.js" />
-    <Content Include="Scripts\dropzone\basic.css" />
-    <Content Include="Scripts\dropzone\basic.min.css">
-      <DependentUpon>basic.css</DependentUpon>
-    </Content>
-    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
-    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js">
-      <DependentUpon>dropzone-amd-module.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\dropzone\dropzone.css" />
-    <Content Include="Scripts\dropzone\dropzone.js" />
-    <Content Include="Scripts\dropzone\dropzone.min.css">
-      <DependentUpon>dropzone.css</DependentUpon>
-    </Content>
-    <Content Include="Scripts\dropzone\dropzone.min.js">
-      <DependentUpon>dropzone.js</DependentUpon>
-    </Content>
     <Content Include="..\.vs\Configurations\ConnectionStrings.Local.config">
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

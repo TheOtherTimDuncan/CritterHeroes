@@ -44,8 +44,10 @@ module.exports = function (gulp, plugins, common) {
             bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js',
             bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
             bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
-            bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
-        ];
+            bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
+            bowerBase + '/dropzone//dist/dropzone.js',
+            bowerBase + '/dropzone/dist/min/dropzone.min.js'
+    ];
 
         return gulp.src(sources, { base: bowerBase })
             .pipe(plugins.flatten())
