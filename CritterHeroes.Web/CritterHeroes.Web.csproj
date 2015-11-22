@@ -575,7 +575,6 @@
     <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
     <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
-    <Compile Include="Common\Proxies\Email\EmailClientProxy.cs" />
     <Compile Include="Common\Email\EmailConfiguration.cs" />
     <Compile Include="Common\Proxies\FakeAuthenticationManager.cs" />
     <Compile Include="Common\Proxies\FakeOwinContext.cs" />
@@ -594,7 +593,6 @@
     <Compile Include="Contracts\Configuration\IAppConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IAzureConfiguration.cs" />
     <Compile Include="Contracts\Configuration\IRescueGroupsConfiguration.cs" />
-    <Compile Include="Contracts\Email\IEmailClient.cs" />
     <Compile Include="Contracts\Email\IEmailConfiguration.cs" />
     <Compile Include="Contracts\Identity\IAppSignInManager.cs" />
     <Compile Include="Contracts\IHttpContext.cs" />

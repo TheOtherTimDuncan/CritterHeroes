@@ -11,7 +11,6 @@ using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Proxies;
 using CritterHeroes.Web.Common.Proxies.Configuration;
-using CritterHeroes.Web.Common.Proxies.Email;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
@@ -80,7 +79,6 @@ namespace CritterHeroes.Web
             container.Register<IPageContextService, PageContextService>(Lifestyle.Scoped);
             container.Register<IStateSerializer, StateSerializer>(Lifestyle.Scoped);
 
-            container.Register<IEmailClient, EmailClientProxy>();
             container.Register<IOrganizationLogoService, OrganizationLogoService>();
             container.Register<ICritterPictureService, CritterPictureService>();
             container.Register<ICommandDispatcher, CommandDispatcher>(Lifestyle.Scoped);

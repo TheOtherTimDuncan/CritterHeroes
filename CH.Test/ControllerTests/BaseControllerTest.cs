@@ -36,7 +36,6 @@ namespace CH.Test.ControllerTests
         public Mock<IUserLogger> mockUserLogger;
         public Mock<IAppSignInManager> mockSignInManager;
         public Mock<IUrlGenerator> mockUrlGenerator;
-        public Mock<IEmailClient> mockEmailClient;
         public Mock<IAuthenticationManager> mockAuthenticationManager;
         public Mock<IHttpUser> mockHttpUser;
         public Mock<IOwinContext> mockOwinContext;
@@ -70,9 +69,6 @@ namespace CH.Test.ControllerTests
 
             mockUrlGenerator = new Mock<IUrlGenerator>();
             container.Register<IUrlGenerator>(() => mockUrlGenerator.Object);
-
-            mockEmailClient = new Mock<IEmailClient>();
-            container.Register<IEmailClient>(() => mockEmailClient.Object);
 
             mockAuthenticationManager = new Mock<IAuthenticationManager>();
             container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);
