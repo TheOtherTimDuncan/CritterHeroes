@@ -8,8 +8,6 @@ module.exports = function (gulp, plugins, common) {
     var appBundle = appScripts + '/bundled';
     var stagingScripts = common.srcPath + '/staging';
 
-    var bowerBase = 'bower_components';
-
     var hashes = {};
 
     var getHashes = function () {
@@ -29,27 +27,29 @@ module.exports = function (gulp, plugins, common) {
         return plugins.del([distScripts + '/**', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
     });
 
-    gulp.task('clean-staging', ['app-scripts'], function () {
+    gulp.task('clean-scripts-staging', ['app-scripts'], function () {
         return plugins.del(stagingScripts);
     });
 
     gulp.task('copy-scripts-src', ['clean-scripts'], function () {
 
         var sources = [
-            bowerBase + '/jquery/dist/jquery.js',
-            bowerBase + '/jquery/dist/jquery.min.js',
-            bowerBase + '/jquery/dist/jquery.min.map',
-            bowerBase + '/jquery-validation/dist/jquery.validate.js',
-            bowerBase + '/jquery-validation/dist/jquery.validate.min.js',
-            bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js',
-            bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
-            bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
-            bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
-            bowerBase + '/dropzone//dist/dropzone.js',
-            bowerBase + '/dropzone/dist/min/dropzone.min.js'
-    ];
+            common.bowerBase + '/jquery/dist/jquery.js',
+            common.bowerBase + '/jquery/dist/jquery.min.js',
+            common.bowerBase + '/jquery/dist/jquery.min.map',
+            common.bowerBase + '/jquery-validation/dist/jquery.validate.js',
+            common.bowerBase + '/jquery-validation/dist/jquery.validate.min.js',
+            common.bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js',
+            common.bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
+            common.bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
+            common.bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
+            common.bowerBase + '/dropzone//dist/dropzone.js',
+            common.bowerBase + '/dropzone/dist/min/dropzone.min.js',
+            common.bowerBase + '/bootstrap/dist/js/bootstrap.js',
+            common.bowerBase + '/bootstrap/dist/js/bootstrap.min.js'
+        ];
 
-        return gulp.src(sources, { base: bowerBase })
+        return gulp.src(sources, { base: common.bowerBase })
             .pipe(plugins.flatten())
             .pipe(gulp.dest(libScripts));
 
@@ -108,6 +108,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist', 'copy-scripts-dist-min', 'stage-app-scripts', 'app-scripts', 'clean-staging'];
+    return ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist', 'copy-scripts-dist-min', 'stage-app-scripts', 'app-scripts', 'clean-scripts-staging'];
 
-}
+};

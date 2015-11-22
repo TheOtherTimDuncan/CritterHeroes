@@ -24,7 +24,7 @@
 
     <title>@ViewBag.Title - Critter Heroes</title>
 
-    @Styles.Render("~/Content/css")
+    <link type="text/css" rel="stylesheet" href="@Url.Content(VersionedStatics.UrlFor("site.css"))" />
 
     @RenderSection("css", required: false)
 
@@ -66,18 +66,9 @@
         cheroes.cdnFallback.unobtrusiveajaxFallback('@Url.Content(VersionedStatics.UrlFor("jquery.unobtrusive-ajax.js"))');
     </script>
 
-    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        cheroes.cdnFallback.bootstrapFallback('bootstrap');
-    </script>
-
-    @Scripts.Render("~/bundles/respond")
-    <script type="text/javascript">
-        cheroes.cdnFallback.respondFallback('respond');
-    </script>
-
-    <script type="text/javascript">
-        cheroes.cdnFallback.cssBootStrapFallback("Content/bootstrap");
+        cheroes.cdnFallback.bootstrapFallback('@Url.Content(VersionedStatics.UrlFor("bootstrap.js"))');
     </script>
 
     <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("cheroes.js"))"></script>

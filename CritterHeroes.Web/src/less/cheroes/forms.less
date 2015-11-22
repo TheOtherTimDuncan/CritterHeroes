@@ -1,0 +1,48 @@
+﻿@import "bootstrap.less";
+
+form {
+
+    input[type="submit"] {
+        .btn;
+        .btn-primary;
+    }
+
+    a.primary {
+        .btn;
+        .btn-primary;
+    }
+}
+
+.form-col-offset {
+    .make-md-column(2);
+    .make-sm-column(1);
+}
+
+.form-col {
+    .make-md-column(8);
+    .make-sm-column(9);
+}
+
+.form-col-2 {
+    .make-md-column(6);
+    .make-sm-column(7);
+}
+
+.form-col-3 {
+    .make-md-column(2);
+    .make-sm-column(3);
+}
+
+/* Validation */
+
+.field-validation-error {
+    color: @brand-danger;
+}
+
+.validation-summary-errors {
+    color: @brand-danger;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+}

@@ -1,0 +1,56 @@
+﻿@import "bootstrap.less";
+
+nav {
+    .navbar;
+    .navbar-inverse;
+    .navbar-fixed-top;
+
+    > div {
+        .container;
+    }
+
+    header {
+        .navbar-header;
+
+        .logo-small {
+            .pull-left;
+        }
+    }
+}
+
+.page-banner {
+    background-color: #b8edff;
+    margin-bottom: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @media(min-width: @screen-sm-max) {
+        padding-top: @padding-large-vertical;
+        padding-bottom: @padding-large-vertical;
+    }
+
+    .banner-container {
+        .hidden-sm;
+        .hidden-xs;
+        .container;
+
+        .banner-row {
+            .row;
+
+            .logo-col {
+                .make-sm-column(4);
+                .make-md-column(2);
+            }
+
+            .quote-col {
+                .make-sm-column(8);
+                .make-md-column(10);
+            }
+        }
+    }
+
+    blockquote {
+        border-style: none;
+        margin-bottom: 0;
+    }
+}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 using CritterHeroes.Web.Common.VersionedStatics;
 using CritterHeroes.Web.Contracts;
@@ -18,7 +17,6 @@ namespace CritterHeroes.Web
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DefaultHtmlConventions.AddHtmlConventions();
 

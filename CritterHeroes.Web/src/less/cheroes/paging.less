@@ -1,0 +1,53 @@
+﻿@import "variables.less";
+@import "bootstrap.less";
+
+.paging-container {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: @font-size-small;
+}
+
+.paging-container li {
+    cursor: pointer;
+    width: 3em;
+    text-align: center;
+    border: solid 1px @gray-dark;
+    margin-left: -1px;
+}
+
+.paging-container a {
+    text-decoration: none;
+    color: @text-color;
+}
+
+.paging-container .current {
+    background-color: @gray-light;
+}
+
+.paging-container .page-chunk-break {
+    cursor: auto;
+}
+
+.paging-container .page-prev {
+    border-top-left-radius: @border-radius;
+    border-bottom-left-radius: @border-radius;
+}
+
+.paging-container .page-prev a, .paging-container .page-prev span {
+    .glyphicon;
+    .glyphicon-chevron-left;
+}
+
+.paging-container .page-next {
+    border-top-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+}
+
+.paging-container .page-next a, .paging-container .page-next span {
+    .glyphicon;
+    .glyphicon-chevron-right;
+}

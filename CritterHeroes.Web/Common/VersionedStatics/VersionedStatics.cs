@@ -13,9 +13,10 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
         private const string pathDist = "~/dist";
 
-        private static readonly string[] _manifests = new[] {
-            "/versioned-lib.json",
-            "/versioned-js.json"
+        private static readonly string[,] _manifests = new string[,] {
+            { "/versioned-lib.json","js" },
+            { "/versioned-js.json","js" },
+            { "/versioned-css.json","css" }
         };
 
         public static bool IsDebug
@@ -30,17 +31,19 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
             IsDebug = httpContext.IsDebuggingEnabled;
 
-            foreach (string filename in _manifests)
+            for (int i = 0; i < _manifests.GetLength(0); i++)
             {
-                string libFilename = fileSystem.MapServerPath(filename);
-                JObject json = JObject.Parse(fileSystem.ReadAllText(libFilename));
+                string filename = fileSystem.MapServerPath(_manifests[i, 0]);
+                string folder = _manifests[i, 1];
+
+                JObject json = JObject.Parse(fileSystem.ReadAllText(filename));
 
                 foreach (JProperty property in json.Properties())
                 {
                     string debugFilename = property.Value.Value<string>();
                     string productionFilename = fileSystem.GetFileNameWithoutExtension(debugFilename) + ".min" + fileSystem.GetFileExtension(debugFilename);
-                    string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{debugFilename}");
-                    string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/js/{productionFilename}");
+                    string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/{folder}/{debugFilename}");
+                    string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/{folder}/{productionFilename}");
                     _tags[property.Name] = new StaticFile(debugUrl, productionUrl);
                 }
             }
