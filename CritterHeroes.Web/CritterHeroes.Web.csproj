@@ -349,13 +349,13 @@
     <Content Include="Scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
-    <Content Include="src\js\ch.admin-critters.js" />
-    <Content Include="src\js\ch.busy-indicator.js" />
-    <Content Include="src\js\ch.cdnFallback.js" />
-    <Content Include="src\js\ch.critters-list.js" />
-    <Content Include="src\js\ch.data-dashboard.js" />
-    <Content Include="src\js\bundled\ch.data.js" />
-    <Content Include="src\js\ch.edit-profile.js" />
+    <None Include="src\js\ch.admin-critters.js" />
+    <None Include="src\js\ch.busy-indicator.js" />
+    <None Include="src\js\ch.cdnFallback.js" />
+    <None Include="src\js\ch.critters-list.js" />
+    <None Include="src\js\ch.data-dashboard.js" />
+    <None Include="src\js\bundled\ch.data.js" />
+    <None Include="src\js\ch.edit-profile.js" />
     <Content Include="Areas\Account\Views\_EditProfileLogin.cshtml" />
     <Content Include="Areas\Account\Views\_EditProfileSecure.cshtml" />
     <Content Include="Areas\Account\Views\_ForgotPassword.cshtml" />
@@ -435,10 +435,10 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <Content Include="src\js\bundled\ch.history.js" />
-    <Content Include="src\js\ch.login.js" />
-    <Content Include="src\js\ch.organization-edit-profile.js" />
-    <Content Include="src\js\bundled\ch.paging.js" />
+    <None Include="src\js\bundled\ch.history.js" />
+    <None Include="src\js\ch.login.js" />
+    <None Include="src\js\ch.organization-edit-profile.js" />
+    <None Include="src\js\bundled\ch.paging.js" />
     <Content Include="..\.vs\Configurations\ConnectionStrings.Local.config">
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -484,7 +484,7 @@
       <DependentUpon>respond.js</DependentUpon>
     </Content>
     <None Include="Scripts\_references.js" />
-    <Content Include="src\js\bundled\validation.extensions.js" />
+    <None Include="src\js\bundled\validation.extensions.js" />
     <None Include="src\Emails\ConfirmEmail\Body.html" />
     <None Include="src\Emails\ConfirmEmail\Body.txt" />
     <None Include="src\Emails\ConfirmEmail\Subject.txt" />
@@ -504,6 +504,16 @@
     <None Include="src\Emails\ResetPassword\Body.txt" />
     <None Include="src\Emails\ResetPassword\Subject.txt" />
     <None Include="src\Emails\styles.css" />
+    <None Include="src\lib\dropzone.js" />
+    <None Include="src\lib\dropzone.min.js" />
+    <None Include="src\lib\jquery.js" />
+    <None Include="src\lib\jquery.min.js" />
+    <None Include="src\lib\jquery.unobtrusive-ajax.js" />
+    <None Include="src\lib\jquery.unobtrusive-ajax.min.js" />
+    <None Include="src\lib\jquery.validate.js" />
+    <None Include="src\lib\jquery.validate.min.js" />
+    <None Include="src\lib\jquery.validate.unobtrusive.js" />
+    <None Include="src\lib\jquery.validate.unobtrusive.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -841,6 +851,7 @@
     <None Include="src\Emails\ResetPasswordAttempt\example.json" />
     <None Include="src\Emails\ResetPasswordNotification\example.json" />
     <None Include="src\Emails\ResetPassword\example.json" />
+    <None Include="src\lib\jquery.min.map" />
     <None Include="tsd.json" />
     <Content Include="versioned-lib.json" />
     <Content Include="versioned-js.json" />
