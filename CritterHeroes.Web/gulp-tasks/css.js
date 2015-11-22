@@ -6,7 +6,11 @@ module.exports = function (gulp, plugins, common) {
 
     var distCss = common.distPath + '/css';
     var distFonts = common.distPath + '/fonts';
+    var distImages = common.distPath + '/images';
+
     var srcLess = common.srcPath + '/less';
+    var srcImages = common.srcPath + '/images';
+
     var libBootstrap = srcLess + '/bootstrap';
     var stagingCss = srcLess + '/staging';
 
@@ -26,11 +30,18 @@ module.exports = function (gulp, plugins, common) {
     };
 
     gulp.task('clean-css', function () {
-        return plugins.del([distCss + '/**', distFonts + '/**', '!' + common.distPath, libBootstrap, '!' + srcLess, './versioned-css.json']);
+        return plugins.del([distCss + '/**', distFonts + '/**', distImages + '/**/' + '!' + common.distPath, libBootstrap, '!' + srcLess, './versioned-css.json']);
     });
 
     gulp.task('clean-css-staging', ['app-css'], function () {
         return plugins.del(stagingCss);
+    });
+
+    gulp.task('copy-images', ['clean-css'], function () {
+
+        return gulp.src(srcImages + '/**/*.*')
+            .pipe(gulp.dest(distImages));
+
     });
 
     gulp.task('copy-bootstrap', ['clean-css'], function () {
@@ -80,6 +91,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-css', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'stage-css', 'app-css', 'clean-css-staging'];
+    return ['clean-css', 'copy-images', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'stage-css', 'app-css', 'clean-css-staging'];
 
 };
