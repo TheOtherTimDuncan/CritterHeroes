@@ -20,32 +20,14 @@ namespace CH.Test.MiddlewareTests
     public class ImageMiddlewareTests
     {
         [TestMethod]
-        public async Task PassesControlToNextMiddewareIfRouteDoesNotMatchPath()
-        {
-            // Only the setup methods for mockResolver should be called
-            Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-
-            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            mockOwinContext.Setup(x => x.Request.Path).Returns(new PathString("/debug"));
-
-            TestEndMiddleware testMiddleware = new TestEndMiddleware();
-            testMiddleware.isInvoked.Should().BeFalse();
-
-            ImageMiddleware middleware = new ImageMiddleware(testMiddleware, mockResolver.Object);
-            await middleware.Invoke(mockOwinContext.Object);
-
-            testMiddleware.isInvoked.Should().BeTrue();
-        }
-
-        [TestMethod]
         public async Task ReturnsBadRequestIfCritterIDNotInCorrectSegment()
         {
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            mockOwinContext.Setup(x => x.Request.Path).Returns(new PathString($"/{ImageMiddleware.Route}/zz/test.jpg"));
-            mockOwinContext.Setup(x => x.Request.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}"));
+            mockOwinContext.Setup(x => x.Request.Path).Returns(new PathString($"{ImageMiddleware.Route}/zz/test.jpg"));
+            mockOwinContext.Setup(x => x.Request.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
             mockResponse.SetupProperty(x => x.StatusCode);
@@ -81,8 +63,8 @@ namespace CH.Test.MiddlewareTests
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
             mockRequest.Setup(x => x.Query).Returns(requestQuery);
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/1/test.jpg"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/1/test.jpg"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/1/test.jpg"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/1/test.jpg"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
             mockResponse.SetupProperty(x => x.StatusCode);
@@ -120,8 +102,8 @@ namespace CH.Test.MiddlewareTests
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/{critterID}/{filename}"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/{critterID}/{filename}"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/{critterID}/{filename}"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critterID}/{filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
 
@@ -163,8 +145,8 @@ namespace CH.Test.MiddlewareTests
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
             mockRequest.Setup(x => x.Query).Returns(requestQuery);
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/{critter.ID}/{filename}"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/{critter.ID}/{filename}"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/{critter.ID}/{filename}"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critter.ID}/{filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
             mockResponse.SetupProperty(x => x.StatusCode);
@@ -210,8 +192,8 @@ namespace CH.Test.MiddlewareTests
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
             mockRequest.Setup(x => x.Query).Returns(requestQuery);
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/{critter.ID}/{filename}"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/{critter.ID}/{filename}"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/{critter.ID}/{filename}"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critter.ID}/{filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
 
@@ -256,8 +238,8 @@ namespace CH.Test.MiddlewareTests
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
             mockRequest.Setup(x => x.Query).Returns(requestQuery);
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/{critter.ID}/{filename}"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/{critter.ID}/{filename}"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/{critter.ID}/{filename}"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critter.ID}/{filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
 
@@ -305,8 +287,8 @@ namespace CH.Test.MiddlewareTests
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
             mockRequest.Setup(x => x.Query).Returns(requestQuery);
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
 
@@ -354,8 +336,8 @@ namespace CH.Test.MiddlewareTests
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
             mockRequest.Setup(x => x.Query).Returns(requestQuery);
-            mockRequest.Setup(x => x.Path).Returns(new PathString($"/{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
-            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost/{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
+            mockRequest.Setup(x => x.Path).Returns(new PathString($"{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
+            mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critter.ID}/{critterPicture.Picture.Filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
 

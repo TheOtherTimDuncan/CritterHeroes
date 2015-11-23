@@ -20,17 +20,15 @@ namespace CritterHeroes.Web.Middleware
     {
         public static void UseImage(this IAppBuilder builder, IDependencyResolver dependencyResolver)
         {
-            builder.Use<ImageMiddleware>(dependencyResolver);
+            builder.Map(ImageMiddleware.Route, (IAppBuilder mab) => mab.Use<ImageMiddleware>(dependencyResolver));
         }
     }
 
     public class ImageMiddleware : OwinMiddleware
     {
-        public const string Route = "image/critter";
+        public const string Route = "/image/critter";
 
         private IDependencyResolver _dependencyResolver;
-
-        private static readonly PathString _path = new PathString("/" + Route);
 
         public ImageMiddleware(OwinMiddleware next, IDependencyResolver dependencyResolver)
             : base(next)
@@ -41,13 +39,6 @@ namespace CritterHeroes.Web.Middleware
 
         public override async Task Invoke(IOwinContext context)
         {
-            if (!context.Request.Path.StartsWithSegments(_path))
-            {
-                // If this isn't the target of the request then let's move on
-                await Next.Invoke(context);
-                return;
-            }
-
             int segmentCount = context.Request.Uri.Segments.Length;
 
             // Critter ID should be an integer and in the url segment before the filename
