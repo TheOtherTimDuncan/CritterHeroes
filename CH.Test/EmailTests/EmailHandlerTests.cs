@@ -11,9 +11,11 @@ using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
+using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -88,7 +90,7 @@ namespace CH.Test.EmailTests
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
 
-            Mock<IEmailStorageService> mockEmailStorage = new Mock<IEmailStorageService>();
+            Mock<IEmailLogger> mockEmailStorage = new Mock<IEmailLogger>();
 
             EmailCommand<EmailHandlerTests.TestEmailData> emailCommand = new EmailCommand<EmailHandlerTests.TestEmailData>("emailname", "emailto");
 
@@ -101,7 +103,7 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.UrlLogo.Should().Be(urlLogo);
             emailCommand.EmailData.UrlHome.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
 
-            mockEmailStorage.Verify(x => x.SaveEmailAsync(It.IsAny<Guid>(), It.IsAny<string>()), Times.Once);
+            mockEmailStorage.Verify(x => x.LogEmailAsync(It.IsAny<EmailLog>()), Times.Once);
         }
 
         public class TestEmailData : BaseTokenEmailData

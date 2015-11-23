@@ -9,8 +9,10 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Models.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 
@@ -24,11 +26,11 @@ namespace CritterHeroes.Web.Common.Email
         private IAzureConfiguration _azureConfiguration;
         private IOrganizationLogoService _logoService;
         private IStateManager<OrganizationContext> _stateManager;
-        private IEmailStorageService _emailStorage;
+        private IEmailLogger _emailLogger;
 
         private CloudQueue _cloudQueue = null;
 
-        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailStorageService emailStorage)
+        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailLogger emailLogger)
         {
             this._fileSystem = fileSystem;
             this._emailConfiguration = emailConfiguration;
@@ -36,7 +38,7 @@ namespace CritterHeroes.Web.Common.Email
             this._azureConfiguration = azureConfiguration;
             this._stateManager = stateManager;
             this._logoService = logoService;
-            this._emailStorage = emailStorage;
+            this._emailLogger = emailLogger;
         }
 
         public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
@@ -71,7 +73,7 @@ namespace CritterHeroes.Web.Common.Email
             CloudQueueMessage queueMessage = new CloudQueueMessage(json);
             await queue.AddMessageAsync(queueMessage);
 
-            await _emailStorage.SaveEmailAsync(Guid.NewGuid(), json);
+            await _emailLogger.LogEmailAsync (new EmailLog(email));
 
             return CommandResult.Success();
         }
