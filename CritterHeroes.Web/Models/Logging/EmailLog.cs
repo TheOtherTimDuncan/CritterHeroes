@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.Areas.Common;
+using Newtonsoft.Json;
 using TOTD.Utility.ExceptionHelpers;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Models.Logging
 {
     public class EmailLog
     {
-        public EmailLog(Guid logID, DateTimeOffset whenSentUtc, string emailTo)
-            : this(logID, whenSentUtc)
+        public EmailLog(object emailData)
+            : this(Guid.NewGuid(), DateTimeOffset.UtcNow)
         {
-            this.WhenSentUtc = whenSentUtc;
-            this.EmailTo = emailTo;
+            this.EmailData = JavascriptConvert.SerializeObject(emailData).ToString();
         }
 
-        public EmailLog(DateTimeOffset whenSentUtc, EmailMessage message)
-            : this(Guid.NewGuid(), whenSentUtc)
-        {
-            ThrowIf.Argument.IsNull(message, nameof(message));
-
-            this.Message = message;
-            this.EmailTo = string.Join(",", message.To);
-        }
-
-        private EmailLog(Guid logID, DateTimeOffset whenSentUtc)
+        public EmailLog(Guid logID, DateTimeOffset whenSentUtc)
         {
             this.ID = logID;
-            this.WhenSentUtc = whenSentUtc;
+            this.WhenCreatedUtc = whenSentUtc;
         }
 
         public Guid ID
@@ -34,22 +27,25 @@ namespace CritterHeroes.Web.Models.Logging
             private set;
         }
 
-        public DateTimeOffset WhenSentUtc
+        public DateTimeOffset WhenCreatedUtc
         {
             get;
             private set;
         }
 
-        public EmailMessage Message
+        public string EmailData
         {
             get;
             set;
         }
 
-        public string EmailTo
+        public T ConvertEmailData<T>() where T : class
         {
-            get;
-            set;
+            if (EmailData.IsNullOrEmpty())
+            {
+                return null;
+            }
+            return JsonConvert.DeserializeObject<T>(EmailData);
         }
     }
 }

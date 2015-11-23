@@ -714,7 +714,6 @@
     <Compile Include="Data\Models\CritterStatus.cs" />
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
-    <Compile Include="Models\EmailMessage.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Models\Logging\UserActions.cs" />
     <Compile Include="Models\Logging\UserLog.cs" />

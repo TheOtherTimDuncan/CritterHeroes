@@ -41,28 +41,19 @@ namespace CH.Test.Azure
             string testUsername = "test.user";
             UserActions userAction = UserActions.PasswordLoginSuccess;
 
-            EmailMessage message = new EmailMessage()
-            {
-                From = "from",
-                Subject = "subject",
-                HtmlBody = "html",
-                TextBody = "text"
-            };
-            message.To.Add("to");
-
-            string additionalData = JsonConvert.SerializeObject(message);
+            string data = "data";
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns("1.1.1.1");
 
             AzureUserLogger userLogger = new AzureUserLogger(new AzureConfiguration(), mockOwinContext.Object);
-            await userLogger.LogActionAsync(userAction, testUsername, message);
+            await userLogger.LogActionAsync(userAction, testUsername, data);
 
             IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
             UserLog log = userLogs.FirstOrDefault(x => x.Username == testUsername && x.AdditionalData != null);
             log.Should().NotBeNull();
             log.Action.Should().Be(userAction);
-            log.AdditionalData = additionalData;
+            log.AdditionalData = data;
         }
     }
 }

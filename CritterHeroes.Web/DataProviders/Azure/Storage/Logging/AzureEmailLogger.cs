@@ -42,11 +42,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             foreach (DynamicTableEntity tableEntity in entities)
             {
                 EmailLog emailLog = FromStorage(tableEntity);
-                string emaildata = await _emailStorage.GetEmailAsync(emailLog.ID);
-                if (!emaildata.IsNullOrEmpty())
-                {
-                    emailLog.Message = JsonConvert.DeserializeObject<EmailMessage>(emaildata);
-                }
+                emailLog.EmailData = await _emailStorage.GetEmailAsync(emailLog.ID);
                 result.Add(emailLog);
             }
             return result;
@@ -55,7 +51,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         public async Task LogEmailAsync(EmailLog emailLog)
         {
             await SaveAsync(emailLog);
-            await _emailStorage.SaveEmailAsync(emailLog.ID, JsonConvert.SerializeObject(emailLog.Message));
+            await _emailStorage.SaveEmailAsync(emailLog.ID, emailLog.EmailData);
         }
 
         public override EmailLog FromStorage(DynamicTableEntity tableEntity)
@@ -66,7 +62,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
                 throw new AzureException("EmailLog has invalid ID: " + tableEntity.RowKey);
             }
 
-            EmailLog result = new EmailLog(logID, tableEntity[nameof(EmailLog.WhenSentUtc)].DateTimeOffsetValue.Value, tableEntity[nameof(EmailLog.EmailTo)].StringValue);
+            EmailLog result = new EmailLog(logID, tableEntity[nameof(EmailLog.WhenCreatedUtc)].DateTimeOffsetValue.Value);
 
             return result;
         }
@@ -75,8 +71,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         {
             DynamicTableEntity tableEntity = base.ToStorage(entity);
 
-            tableEntity[nameof(EmailLog.EmailTo)] = new EntityProperty(entity.EmailTo);
-            tableEntity[nameof(EmailLog.WhenSentUtc)] = new EntityProperty(entity.WhenSentUtc);
+            tableEntity[nameof(EmailLog.WhenCreatedUtc)] = new EntityProperty(entity.WhenCreatedUtc);
 
             return tableEntity;
         }

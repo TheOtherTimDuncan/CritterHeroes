@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
@@ -22,20 +23,36 @@ namespace CH.Test.Azure.StorageTests
     public class EmailLogStorageTests : BaseAzureTest
     {
         [TestMethod]
-        public void SuccessfullyMapsEntityToAndFromStorage()
+        public async Task CanSaveAndRetrieveEmailLog()
         {
-            EmailMessage message = new EmailMessage();
-            message.To.Add("to@to.com");
+            TestEmailData testData = new TestEmailData()
+            {
+                Message = "message"
+            };
 
-            EmailLog emailLog = new EmailLog(DateTimeOffset.UtcNow, message);
-            emailLog.EmailTo.Should().Be(message.To.Single());
+            EmailLog emailLog = new EmailLog(testData);
 
-            AzureEmailLogger source = new AzureEmailLogger(new AzureConfiguration(), null);
-            AzureEmailLogger target = new AzureEmailLogger(new AzureConfiguration(), null);
-            EmailLog result = target.FromStorage(source.ToStorage(emailLog));
+            string emailData = null;
 
-            result.ID.Should().Be(emailLog.ID);
-            result.WhenSentUtc.Should().Be(emailLog.WhenSentUtc);
+            Mock<IEmailStorageService> mockEmailStorage = new Mock<IEmailStorageService>();
+            mockEmailStorage.Setup(x => x.SaveEmailAsync(emailLog.ID, It.IsAny<string>())).Returns((Guid emailID, string saveEmailData) =>
+            {
+                emailData = saveEmailData;
+                return Task.FromResult(0);
+            });
+            mockEmailStorage.Setup(x => x.GetEmailAsync(emailLog.ID)).Returns(() => Task.FromResult(emailData));
+
+            AzureEmailLogger logger = new AzureEmailLogger(new AzureConfiguration(), mockEmailStorage.Object);
+            await logger.LogEmailAsync(emailLog);
+
+            IEnumerable<EmailLog> results = await logger.GetEmailLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
+
+            EmailLog result = results.FirstOrDefault(x => x.ID == emailLog.ID);
+            result.Should().NotBeNull();
+            result.WhenCreatedUtc.Should().Be(emailLog.WhenCreatedUtc);
+
+            TestEmailData resultData = result.ConvertEmailData<TestEmailData>();
+            resultData.Message.Should().Be(testData.Message);
         }
 
         [TestMethod]
@@ -49,14 +66,10 @@ namespace CH.Test.Azure.StorageTests
                 AzureName = "fflah"
             };
 
-            EmailMessage message = new EmailMessage()
+            TestEmailData testData = new TestEmailData()
             {
-                From = "from@from.com",
-                HtmlBody = "html",
-                TextBody = "text",
-                Subject = "subject"
+                Message = "message"
             };
-            message.To.Add("to@to.com");
 
             Guid logID = Guid.NewGuid();
 
@@ -64,16 +77,21 @@ namespace CH.Test.Azure.StorageTests
             mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
 
             EmailStorageService service = new EmailStorageService(mockOrgStateManager.Object, new AppConfiguration(), new AzureConfiguration());
-            await service.SaveEmailAsync(logID, JsonConvert.SerializeObject(message));
+            await service.SaveEmailAsync(logID, JsonConvert.SerializeObject(testData));
             string emailData = await service.GetEmailAsync(logID);
-            EmailMessage result = JsonConvert.DeserializeObject<EmailMessage>(emailData);
+            TestEmailData result = JsonConvert.DeserializeObject<TestEmailData>(emailData);
 
             result.Should().NotBeNull();
-            result.From.Should().Be(message.From);
-            result.HtmlBody.Should().Be(message.HtmlBody);
-            result.TextBody.Should().Be(message.TextBody);
-            result.Subject.Should().Be(message.Subject);
-            result.To.Should().Equal(message.To);
+            result.Message.Should().Be(testData.Message);
+        }
+
+        public class TestEmailData
+        {
+            public string Message
+            {
+                get;
+                set;
+            }
         }
     }
 }
