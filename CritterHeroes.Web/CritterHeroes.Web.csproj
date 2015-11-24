@@ -497,6 +497,7 @@
     <Compile Include="Areas\Common\ActionExtensions\OrganizationActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\PagingExtensions.cs" />
     <Compile Include="Areas\Common\AreaName.cs" />
+    <Compile Include="Areas\Common\AuthorizeRolesAttribute.cs" />
     <Compile Include="Areas\Common\BaseController.cs" />
     <Compile Include="Areas\Common\ButtonCss.cs" />
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
