@@ -453,8 +453,11 @@
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Contacts\ContactsController.cs" />
+    <Compile Include="Areas\Contacts\Models\ContactModel.cs" />
+    <Compile Include="Areas\Contacts\Models\ContactsListModel.cs" />
     <Compile Include="Areas\Contacts\Models\ContactsModel.cs" />
     <Compile Include="Areas\Contacts\Queries\BaseContactsQuery.cs" />
+    <Compile Include="Areas\Contacts\Queries\ContactsListQuery.cs" />
     <Compile Include="Areas\Contacts\Queries\ContactsQuery.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\ImportCrittersCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadCsvFileCommandHandler.cs" />
@@ -520,6 +523,7 @@
     <Compile Include="Areas\Common\Models\PagingModel.cs" />
     <Compile Include="Areas\Common\Queries\PagingQuery.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
+    <Compile Include="Areas\Contacts\QueryHandlers\ContactsListQueryHandler.cs" />
     <Compile Include="Areas\Contacts\QueryHandlers\ContactsQueryHandler.cs" />
     <Compile Include="Areas\Critters\CrittersController.cs" />
     <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />

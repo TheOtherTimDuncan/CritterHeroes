@@ -26,5 +26,11 @@ namespace CritterHeroes.Web.Areas.Contacts
             ContactsModel model = await QueryDispatcher.DispatchAsync(query);
             return View(model);
         }
+
+        public async Task<ActionResult> List(ContactsListQuery query)
+        {
+            ContactsListModel model = await QueryDispatcher.DispatchAsync(query);
+            return JsonCamelCase(model);
+        }
     }
 }

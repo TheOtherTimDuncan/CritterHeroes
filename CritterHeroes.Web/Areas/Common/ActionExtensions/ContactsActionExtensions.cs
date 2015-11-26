@@ -15,6 +15,11 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return linkElement.ActionLink(nameof(ContactsController.Index), ControllerRouteName, AreaName.NoAreaRouteValue);
         }
 
+        public static string ContactsListAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action(nameof(ContactsController.List), ControllerRouteName, AreaName.NoAreaRouteValue);
+        }
+
         public static string ControllerRouteName
         {
             get;
