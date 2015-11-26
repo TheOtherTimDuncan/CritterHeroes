@@ -364,7 +364,7 @@
     <None Include="src\less\cheroes\filters.less" />
     <None Include="src\less\cheroes\variables.less" />
     <None Include="package.json" />
-    <None Include="Scripts\_references.js" />
+    <None Include="src\js\_references.js" />
     <None Include="src\js\bundled\validation.extensions.js" />
     <None Include="src\Emails\ConfirmEmail\Body.html" />
     <None Include="src\Emails\ConfirmEmail\Body.txt" />
