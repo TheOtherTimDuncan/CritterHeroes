@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using CritterHeroes.Web.Contracts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -57,7 +58,18 @@ namespace CritterHeroes.Web.Common.VersionedStatics
                 throw new InvalidOperationException($"No configuration found for {filename}");
             }
 
-            return (IsDebug ? staticFile.DebugUrl : staticFile.ProductionUrl);
+            string url = (IsDebug ? staticFile.DebugUrl : staticFile.ProductionUrl);
+#if DEBUG
+            IHttpContext httpContext = DependencyResolver.Current.GetService<IHttpContext>();
+            IFileSystem fileSystem = DependencyResolver.Current.GetService<IFileSystem>();
+            string localFilename = httpContext.Server.MapPath(url);
+            if (!System.IO.File.Exists(localFilename))
+            {
+                Configure(fileSystem, httpContext);
+                return UrlFor(filename);
+            }
+#endif
+            return url;
         }
     }
 }
