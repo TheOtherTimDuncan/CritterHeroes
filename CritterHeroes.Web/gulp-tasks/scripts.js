@@ -72,6 +72,12 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('copy-scripts-dist-min', ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist'], function () {
 
         return gulp.src([libScripts + '/*.min.js'])
+            .pipe(plugins.plumber({
+                errorHandler: function (err) {
+                    console.log(err);
+                    this.emit('end');
+                }
+            }))
             .pipe(plugins.rename(function (path) {
                 var fileKey = common.path.basename(path.basename, '.min');
                 path.basename = fileKey + '-' + hashes[fileKey] + '.min';
@@ -103,6 +109,12 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('app-scripts', ['clean-scripts', 'stage-app-scripts'], function () {
 
         return gulp.src(stagingScripts + '/*.js')
+            .pipe(plugins.plumber({
+                errorHandler: function (err) {
+                    console.log(err);
+                    this.emit('end');
+                }
+            }))
             .pipe(gulp.dest(distScripts))
             .pipe(plugins.uglify())
             .pipe(plugins.rename({ extname: '.min.js' }))

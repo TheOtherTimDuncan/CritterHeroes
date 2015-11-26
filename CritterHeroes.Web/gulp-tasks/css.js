@@ -84,6 +84,12 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('app-css', ['clean-css', 'stage-css'], function () {
 
         return gulp.src(stagingCss + '/*.css')
+            .pipe(plugins.plumber({
+                errorHandler: function (err) {
+                    console.log(err);
+                    this.emit('end');
+                }
+            }))
             .pipe(gulp.dest(distCss))
             .pipe(plugins.minifyCss())
             .pipe(plugins.rename({ extname: '.min.css' }))
