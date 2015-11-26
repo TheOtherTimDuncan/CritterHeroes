@@ -1,8 +1,10 @@
-﻿(function (cheroes, $) {
+﻿(function (cheroes, $, handlebars) {
 
     'use strict';
 
     var query = cheroes.historyManager.copySafeQuery(cheroes.query);
+
+    var template = handlebars.compile($('#template').html());
 
     var crittersContainer = $('#critters-container tbody');
     var critterUrl = crittersContainer.data('url');
@@ -53,43 +55,12 @@
                 }
 
                 pagingContainer.paging(data.paging);
-
-                if (data.critters && data.critters.length > 0) {
-                    var rows = [];
-                    for (var c = 0; c < data.critters.length; c++) {
-                        var critter = data.critters[c];
-                        rows.push(
-                            $('<tr>').append(
-                                $('<td>').html(getCritterImageHtml(critter)),
-                                $('<td>').text(critter.name),
-                                $('<td>').text(critter.sexName),
-                                $('<td>').text(critter.status),
-                                $('<td>').text(critter.breed),
-                                $('<td>').text(critter.fosterName),
-                                $('<td>').append(
-                                    $('<a>')
-                                        .prop('href', 'http://www.fflah.org/animals/detail?AnimalID=' + critter.siteID)
-                                        .attr('target', '_blank')
-                                        .text('View on site')
-                                )
-                            )
-                        );
-                    }
-                    crittersContainer.html(rows);
-                }
-
+                var html = template(data);
+                crittersContainer.html(html);
             }
 
         });
 
-    }
-
-    function getCritterImageHtml(critter) {
-        if (critter.pictureFilename) {
-            return $('<img>').attr('height', 50).prop('src', pictureUrl + "/" + critter.id + "/" + critter.pictureFilename + "?height=50");
-        } else {
-            return '&nbsp;';
-        }
     }
 
     function getQueryState() {
@@ -99,7 +70,7 @@
         for (var p in query) {
 
             if (p.toLowerCase() === "page") {
-                if (query[p] != 1) {
+                if (query[p] !== 1) {
                     queryState[p] = query[p];
                 }
             } else if (query[p]) {
@@ -110,4 +81,4 @@
         return queryState;
     }
 
-}(this.cheroes = this.cheroes || {}, jQuery));
+}(this.cheroes = this.cheroes || {}, jQuery, Handlebars));

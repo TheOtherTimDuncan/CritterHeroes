@@ -4,13 +4,38 @@
     ViewBag.Title = "Critters";
 }
 
+<script id="template" type="text/x-handlebars">
+    {{#each critters}}
+    <tr>
+        <td>
+            {{#if pictureFilename}}
+            <img height="50" src="@Url.Picture()/{{id}}/{{pictureFilename}}" />
+            {{else}}
+            &nbsp;
+            {{/if}}
+        </td>
+        <td>{{name}}</td>
+        <td>{{sexName}}</td>
+        <td>{{status}}</td>
+        <td>{{breed}}</td>
+        <td>{{fosterName}}</td>
+        <td><a href="http://www.fflah.org/animals/detail?AnimalID={{siteID}}" target="_blank">View on site</a></td>
+    </tr>
+    {{else}}
+    <tr>
+        <td colspan="7">No critters found.</td>
+    </tr>
+    {{/each}}
+</script>
+
 @section scripts{
     <script type="text/javascript">
         (function (cheroes) {
             cheroes.query = @JavascriptConvert.SerializeObject(Model.Query);
         })(this.cheroes = this.cheroes || {});
     </script>
-   <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.critters-list.js"))"></script>
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("handlebars.js"))"></script>
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.critters-list.js"))"></script>
 }
 
 <h2>Critters</h2>
@@ -41,8 +66,7 @@
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody data-url="@Url.CritterListAction()" data-picture-url="@Url.Picture()">
-    </tbody>
+    <tbody data-url="@Url.CritterListAction()" data-picture-url="@Url.Picture()"></tbody>
 </table>
 
 <ul class="paging-container"></ul>
