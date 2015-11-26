@@ -23,6 +23,15 @@
                         )
                     );
 
+                if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.Admin) | Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+                {
+                    menuNav.AddElement(
+                           Html.FluentHtml().BootstrapNavItem().AddElement(
+                               Html.FluentHtml().Link().ContactsHomeActionLink().Text("Contacts")
+                           )
+                       );
+                }
+
                 if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
                 {
                     menuNav.AddElement(

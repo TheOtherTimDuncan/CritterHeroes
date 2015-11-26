@@ -10,7 +10,7 @@ using CritterHeroes.Web.Contracts.Queries;
 
 namespace CritterHeroes.Web.Areas.Home
 {
-    [Route("~/{action}")]
+    [Route("Home/{action}")]
     public class HomeController : BaseController
     {
         public HomeController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)

@@ -269,6 +269,7 @@
     <Content Include="browserconfig.xml">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
+    <Content Include="Areas\Contacts\Views\Index.cshtml" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -404,6 +405,7 @@
       <DependentUpon>jquery.validate.js</DependentUpon>
     </None>
     <None Include="src\lib\jquery.validate.unobtrusive.js" />
+    <Content Include="src\js\ch.contacts-list.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -442,6 +444,10 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Contacts\ContactsController.cs" />
+    <Compile Include="Areas\Contacts\Models\ContactsModel.cs" />
+    <Compile Include="Areas\Contacts\Queries\BaseContactsQuery.cs" />
+    <Compile Include="Areas\Contacts\Queries\ContactsQuery.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\ImportCrittersCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadCsvFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadJsonFileCommandHandler.cs" />
@@ -488,6 +494,7 @@
     <Compile Include="Areas\Common\ActionExtensions\AccountActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminCritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminPeopleActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\ContactsActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\CritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\EmailActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
@@ -505,6 +512,7 @@
     <Compile Include="Areas\Common\Models\PagingModel.cs" />
     <Compile Include="Areas\Common\Queries\PagingQuery.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
+    <Compile Include="Areas\Contacts\QueryHandlers\ContactsQueryHandler.cs" />
     <Compile Include="Areas\Critters\CrittersController.cs" />
     <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />
     <Compile Include="Areas\Critters\Models\CritterModel.cs" />
