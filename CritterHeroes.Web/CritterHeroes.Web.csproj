@@ -364,7 +364,7 @@
     <None Include="src\less\cheroes\filters.less" />
     <None Include="src\less\cheroes\variables.less" />
     <None Include="package.json" />
-    <None Include="src\js\_references.js" />
+    <None Include="src\_references.js" />
     <None Include="src\js\bundled\validation.extensions.js" />
     <None Include="src\Emails\ConfirmEmail\Body.html" />
     <None Include="src\Emails\ConfirmEmail\Body.txt" />
@@ -406,6 +406,14 @@
     </None>
     <None Include="src\lib\jquery.validate.unobtrusive.js" />
     <Content Include="src\js\ch.contacts-list.js" />
+    <None Include="src\lib\bootstrap.js" />
+    <None Include="src\lib\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </None>
+    <None Include="src\lib\handlebars.js" />
+    <None Include="src\lib\handlebars.min.js">
+      <DependentUpon>handlebars.js</DependentUpon>
+    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

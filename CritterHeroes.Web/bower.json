@@ -23,6 +23,7 @@
     "jquery-ajax-unobtrusive": "~3.2.3",
     "dropzone": "~4.2.0",
     "bootstrap": "~3.3.5",
-    "bootswatch": "~3.3.5+4"
+    "bootswatch": "~3.3.5+4",
+    "handlebars": "~4.0.5"
   }
 }
