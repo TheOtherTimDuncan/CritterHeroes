@@ -356,7 +356,6 @@
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Admin\People\Views\Index.cshtml" />
     <Content Include="Areas\Critters\Views\Index.cshtml" />
-    <Content Include="Areas\Common\Views\_Paging.cshtml" />
     <Content Include="Areas\Admin\Emails\Views\Index.cshtml" />
     <None Include="bower.json" />
     <None Include="src\less\cheroes\admin-critters.less" />
@@ -513,7 +512,6 @@
     <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\MiscExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\OrganizationActionExtensions.cs" />
-    <Compile Include="Areas\Common\ActionExtensions\PagingExtensions.cs" />
     <Compile Include="Areas\Common\AreaName.cs" />
     <Compile Include="Areas\Common\AuthorizeRolesAttribute.cs" />
     <Compile Include="Areas\Common\BaseController.cs" />
