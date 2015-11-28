@@ -12,9 +12,11 @@ using CritterHeroes.Web.Data.Models.Identity;
 namespace CritterHeroes.Web.Areas.Admin.People
 {
     [Authorize(Roles = UserRole.MasterAdmin)]
-    [Route("People/{action=index}")]
+    [Route(PeopleController.Route + "/{action=index}")]
     public class PeopleController : BaseAdminController
     {
+        public const string Route = "People";
+
         public PeopleController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {

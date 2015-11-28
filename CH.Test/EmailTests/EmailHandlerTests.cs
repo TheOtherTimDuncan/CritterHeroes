@@ -101,7 +101,7 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.OrganizationFullName.Should().Be(organizationContext.FullName);
             emailCommand.EmailData.OrganizationShortName.Should().Be(organizationContext.ShortName);
             emailCommand.EmailData.UrlLogo.Should().Be(urlLogo);
-            emailCommand.EmailData.UrlHome.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CritterActionExtensions.ControllerRouteName));
+            emailCommand.EmailData.UrlHome.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Index), CrittersController.Route));
 
             mockEmailStorage.Verify(x => x.LogEmailAsync(It.IsAny<EmailLog>()), Times.Once);
         }

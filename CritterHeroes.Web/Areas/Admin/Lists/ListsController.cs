@@ -14,9 +14,11 @@ using CritterHeroes.Web.Data.Models.Identity;
 namespace CritterHeroes.Web.Areas.Admin.Lists
 {
     [Authorize(Roles = UserRole.MasterAdmin)]
-    [Route("Lists/{action=index}")]
+    [Route(ListsController.Route + "/{action=index}")]
     public class ListsController : BaseAdminController
     {
+        public const string Route = "Lists";
+
         public ListsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {

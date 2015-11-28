@@ -9,9 +9,11 @@ using CritterHeroes.Web.Data.Models.Identity;
 namespace CritterHeroes.Web.Areas.Admin.ErrorLog
 {
     [Authorize(Roles = UserRole.MasterAdmin)]
-    [Route("ErrorLog/{action=index}")]
+    [Route(ErrorLogController.Route + "/{action=index}")]
     public class ErrorLogController : BaseAdminController
     {
+        public const string Route = "ErrorLog";
+
         public ErrorLogController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {

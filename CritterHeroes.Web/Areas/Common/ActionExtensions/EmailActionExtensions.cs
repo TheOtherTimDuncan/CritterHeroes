@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Areas.Admin.Emails;
-using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
@@ -11,12 +10,7 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static LinkElement AdminEmailHomeActionLink(this LinkElement linkElement)
         {
-            return linkElement.ActionLink(nameof(EmailsController.Index), ControllerRouteName, AreaName.AdminRouteValue);
+            return linkElement.ActionLink(nameof(EmailsController.Index), EmailsController.Route, AreaName.AdminRouteValue);
         }
-
-        public static string ControllerRouteName
-        {
-            get;
-        } = ActionHelper.GetControllerRouteName(nameof(EmailsController));
     }
 }

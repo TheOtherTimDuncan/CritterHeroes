@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using CritterHeroes.Web.Areas.Home;
-using TOTD.Mvc.Actions;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
@@ -11,17 +10,12 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static void RenderHomeMenuAction(this HtmlHelper htmlHelper)
         {
-            htmlHelper.RenderAction(nameof(HomeController.Menu), ControllerRouteName, AreaName.NoAreaRouteValue);
+            htmlHelper.RenderAction(nameof(HomeController.Menu), HomeController.Route, AreaName.NoAreaRouteValue);
         }
 
         public static void RenderHomeHeaderAction(this HtmlHelper htmlHelper)
         {
-            htmlHelper.RenderAction(nameof(HomeController.Header), ControllerRouteName, AreaName.NoAreaRouteValue);
+            htmlHelper.RenderAction(nameof(HomeController.Header), HomeController.Route, AreaName.NoAreaRouteValue);
         }
-
-        private static string ControllerRouteName
-        {
-            get;
-        } = ActionHelper.GetControllerRouteName(nameof(HomeController));
     }
 }

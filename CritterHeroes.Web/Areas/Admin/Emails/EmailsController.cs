@@ -12,15 +12,17 @@ using CritterHeroes.Web.Data.Models.Identity;
 namespace CritterHeroes.Web.Areas.Admin.Emails
 {
     [Authorize(Roles = UserRole.MasterAdmin)]
-    [Route("Emails/{action=index}")]
+    [Route(EmailsController.Route + "/{action=index}")]
     public class EmailsController : BaseAdminController
     {
+        public const string Route = "Emails";
+
         public EmailsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {
         }
 
-        public async Task< ActionResult >Index(EmailQuery query)
+        public async Task<ActionResult> Index(EmailQuery query)
         {
             EmailModel model = await QueryDispatcher.DispatchAsync(query);
             return View(model);

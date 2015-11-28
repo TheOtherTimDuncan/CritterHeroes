@@ -77,7 +77,7 @@ namespace CH.Test.AccountTests
             {
                 emailCommand.EmailData.Token.Should().Be(code);
 
-                emailCommand.EmailData.UrlReset.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountActionExtensions.ControllerRouteName, new
+                emailCommand.EmailData.UrlReset.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountController.Route, new
                 {
                     code = code
                 }));

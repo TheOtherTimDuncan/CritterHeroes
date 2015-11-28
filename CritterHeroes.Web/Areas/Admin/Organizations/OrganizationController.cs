@@ -13,9 +13,11 @@ using CritterHeroes.Web.Contracts.Queries;
 
 namespace CritterHeroes.Web.Areas.Admin.Organizations
 {
-    [Route("Organization/{action=index}")]
+    [Route(OrganizationController.Route + "/{action=index}")]
     public class OrganizationController : BaseAdminController
     {
+        public const string Route = "Organization";
+
         public OrganizationController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {

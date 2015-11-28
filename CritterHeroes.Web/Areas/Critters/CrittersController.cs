@@ -11,9 +11,11 @@ using CritterHeroes.Web.Contracts.Queries;
 
 namespace CritterHeroes.Web.Areas.Critters
 {
-    [Route("Critters/{action=index}")]
+    [Route(CrittersController.Route + "/{action=index}")]
     public class CrittersController : BaseController
     {
+        public const string Route = "Critters";
+
         public CrittersController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
             : base(queryDispatcher, commandDispatcher)
         {

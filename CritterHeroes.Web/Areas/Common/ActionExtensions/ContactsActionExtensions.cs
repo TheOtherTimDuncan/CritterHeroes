@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Contacts;
-using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
@@ -12,17 +11,12 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static LinkElement ContactsHomeActionLink(this LinkElement linkElement)
         {
-            return linkElement.ActionLink(nameof(ContactsController.Index), ControllerRouteName, AreaName.NoAreaRouteValue);
+            return linkElement.ActionLink(nameof(ContactsController.Index), ContactsController.Route, AreaName.NoAreaRouteValue);
         }
 
         public static string ContactsListAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action(nameof(ContactsController.List), ControllerRouteName, AreaName.NoAreaRouteValue);
+            return urlHelper.Action(nameof(ContactsController.List), ContactsController.Route, AreaName.NoAreaRouteValue);
         }
-
-        public static string ControllerRouteName
-        {
-            get;
-        } = ActionHelper.GetControllerRouteName(nameof(ContactsController));
     }
 }

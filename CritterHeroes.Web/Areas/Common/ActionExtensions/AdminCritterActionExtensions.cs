@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Critters;
-using TOTD.Mvc.Actions;
 using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
@@ -11,32 +10,27 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static LinkElement AdminCrittersHomeActionLink(this LinkElement linkElement)
         {
-            return linkElement.ActionLink(nameof(CrittersController.Index), ControllerRouteName, AreaName.AdminRouteValue);
+            return linkElement.ActionLink(nameof(CrittersController.Index), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         public static string AdminCrittersUploadJsonAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action(nameof(CrittersController.UploadJson), ControllerRouteName, AreaName.AdminRouteValue);
+            return urlHelper.Action(nameof(CrittersController.UploadJson), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         public static string AdminCrittersUploadCsvAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action(nameof(CrittersController.UploadCsv), ControllerRouteName, AreaName.AdminRouteValue);
+            return urlHelper.Action(nameof(CrittersController.UploadCsv), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         public static string AdminCrittersUploadXmlAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action(nameof(CrittersController.UploadXml), ControllerRouteName, AreaName.AdminRouteValue);
+            return urlHelper.Action(nameof(CrittersController.UploadXml), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         public static string AdminCrittersImportAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action(nameof(CrittersController.Import), ControllerRouteName, AreaName.AdminRouteValue);
+            return urlHelper.Action(nameof(CrittersController.Import), CrittersController.Route, AreaName.AdminRouteValue);
         }
-
-        private static string ControllerRouteName
-        {
-            get;
-        } = ActionHelper.GetControllerRouteName(nameof(CrittersController));
     }
 }
