@@ -451,6 +451,7 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Common\Models\ControllerActionModel.cs" />
     <Compile Include="Areas\Contacts\ContactsController.cs" />
     <Compile Include="Areas\Contacts\Models\ContactModel.cs" />
     <Compile Include="Areas\Contacts\Models\ContactsListModel.cs" />

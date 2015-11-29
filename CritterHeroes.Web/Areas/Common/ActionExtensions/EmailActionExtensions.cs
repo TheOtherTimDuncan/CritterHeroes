@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Emails;
+using CritterHeroes.Web.Areas.Common.Models;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class EmailActionExtensions
     {
-        public static string AdminEmailHomeAction(this UrlHelper urlHelper)
+        public static ControllerActionModel HomeAction(string title)
         {
-            return urlHelper.Action(nameof(EmailsController.Index), EmailsController.Route, AreaName.AdminRouteValue);
+            return new ControllerActionModel()
+            {
+                ControllerRoute = EmailsController.Route,
+                ActionName = nameof(EmailsController.Index),
+                AreaName = AreaName.Admin,
+                Title = title
+            };
         }
     }
 }

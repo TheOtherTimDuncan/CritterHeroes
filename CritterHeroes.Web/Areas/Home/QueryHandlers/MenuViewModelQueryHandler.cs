@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Areas.Common.ActionExtensions;
+using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Areas.Home.Models;
 using CritterHeroes.Web.Areas.Home.Queries;
+using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Queries;
@@ -29,13 +32,38 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 
         public MenuModel Retrieve(MenuQuery query)
         {
-            return new MenuModel()
+            MenuModel model = new MenuModel()
             {
-                CurrentUser = _httpUser,
                 OrganizationShortName = _orgStateManager.GetContext().IfNotNull(x => x.ShortName),
                 UserDisplayName = _userStateManager.GetContext().IfNotNull(x => x.DisplayName),
-                LogoUrl = _logoService.GetLogoUrl()
+                LogoUrl = _logoService.GetLogoUrl(),
+                IsLoggedIn = _httpUser.IsAuthenticated
             };
+
+            List<ControllerActionModel> navItems = new List<ControllerActionModel>();
+            List<ControllerActionModel> adminItems = new List<ControllerActionModel>();
+
+            navItems.Add(CritterActionExtensions.HomeAction("Home"));
+
+            if (_httpUser.IsInRole(IdentityRole.RoleNames.Admin) || _httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+            {
+                navItems.Add(ContactsActionExtensions.HomeAction("Contacts"));
+            }
+
+            if (_httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+            {
+                navItems.Add(ErrorLogActionExtensions.HomeAction("Error Log"));
+                adminItems.Add(OrganizationActionExtensions.EditProfileAction("Organization Profile"));
+                adminItems.Add(AdminCritterActionExtensions.HomeAction("Critters"));
+                adminItems.Add(AdminPeopleActionExtensions.HomeAction("People"));
+                adminItems.Add(ListsActionExtensions.HomeAction("Lists Dashboard"));
+                adminItems.Add(EmailActionExtensions.HomeAction("Emails"));
+            }
+
+            model.NavItems = navItems;
+            model.AdminNavItems = adminItems;
+
+            return model;
         }
     }
 }

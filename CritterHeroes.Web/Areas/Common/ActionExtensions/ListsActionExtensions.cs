@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists;
+using CritterHeroes.Web.Areas.Common.Models;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class ListsActionExtensions
     {
-        public static string ListsHomeAction(this UrlHelper urlHelper)
+        public static ControllerActionModel HomeAction(string title)
         {
-            return urlHelper.Action(nameof(ListsController.Index), ListsController.Route, AreaName.AdminRouteValue);
+            return new ControllerActionModel()
+            {
+                ControllerRoute = ListsController.Route,
+                ActionName = nameof(ListsController.Index),
+                AreaName = AreaName.Admin,
+                Title = title
+            };
         }
 
         public static string ListsRefreshAction(this UrlHelper urlHelper)

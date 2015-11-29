@@ -1,5 +1,4 @@
 ﻿@model CritterHeroes.Web.Areas.Home.Models.MenuModel
-@using CritterHeroes.Web.Common.Identity
 
 <nav>
     <div>
@@ -14,29 +13,25 @@
         </header>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
-                <li><a href="@Url.CritterHomeAction()">Home</a></li>
-                @if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.Admin) | Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+                @foreach (var controllerAction in Model.NavItems)
                 {
-                    <li><a href="@Url.ContactsHomeAction()">Contacts</a></li>
+                    <li><a href="@Url.ForControllerAction(controllerAction)">@controllerAction.Title</a></li>
                 }
-                @if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+                @if (!Model.AdminNavItems.IsNullOrEmpty())
                 {
-                    <li><a href="@Url.ErrorLogHomeAction()">Error Log</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.OrganizationEditProfileAction()">Organization Profile</a></li>
-                            <li><a href="@Url.AdminCrittersHomeAction()">Critters</a></li>
-                            <li><a href="@Url.AdminPeopleHomeAction()">People</a></li>
-                            <li><a href="@Url.ListsHomeAction()">Lists Dashboard</a></li>
-                            <li><a href="@Url.AdminEmailHomeAction()">Email</a></li>
+                            @foreach (var controllerAction in Model.AdminNavItems)
+                            {
+                                <li><a href="@Url.ForControllerAction(controllerAction)">@controllerAction.Title</a></li>
+                            }
                         </ul>
                     </li>
                 }
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
-                @if (Model.CurrentUser.IsAuthenticated)
+                @if (Model.IsLoggedIn)
                 {
                     <li><a href="@Url.AccountEditProfileAction()" class="hidden-xs">Welcome, @Model.UserDisplayName</a></li>
                     <li><a href="@Url.AccountEditProfileAction()" class="visible-xs">Edit Profile</a></li>
@@ -47,7 +42,6 @@
                     <li><a href="@Url.AccountLoginAction()">Login</a></li>
                 }
             </ul>
-
         </div>
     </div>
 </nav>

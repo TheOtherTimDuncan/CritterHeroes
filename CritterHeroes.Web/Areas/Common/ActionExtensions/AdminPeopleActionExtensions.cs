@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.People;
+using CritterHeroes.Web.Areas.Common.Models;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class AdminPeopleActionExtensions
     {
-        public static string AdminPeopleHomeAction(this UrlHelper urlHelper)
+        public static ControllerActionModel HomeAction(string title)
         {
-            return urlHelper.Action(nameof(PeopleController.Index), PeopleController.Route, AreaName.AdminRouteValue);
+            return new ControllerActionModel()
+            {
+                ControllerRoute = PeopleController.Route,
+                ActionName = nameof(PeopleController.Index),
+                AreaName = AreaName.Admin,
+                Title = title
+            };
         }
 
         public static string AdminPeopleImportAction(this UrlHelper urlHelper)
