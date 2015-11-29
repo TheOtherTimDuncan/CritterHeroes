@@ -10,108 +10,44 @@
                 <span class="icon-bar"></span>
             </button>
             <img src="@Model.LogoUrl" class="logo-small" />
-            @Html.FluentHtml().Link().CritterHomeActionLink().Text(Model.OrganizationShortName).Class("navbar-brand")
+            <a href="@Url.CritterHomeAction()" class="navbar-brand">@Model.OrganizationShortName</a>
         </header>
         <div class="navbar-collapse collapse">
-            @{
-                var menuNav = Html.FluentHtml().BootstrapNav()
-                    .AsNavBar()
-                    .Class("navbar-left")
-                    .AddElement(
-                        Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().CritterHomeActionLink().Text("Home")
-                        )
-                    );
-
-                if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.Admin) | Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="@Url.CritterHomeAction()">Home</a></li>
+                @if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.Admin) | Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
                 {
-                    menuNav.AddElement(
-                           Html.FluentHtml().BootstrapNavItem().AddElement(
-                               Html.FluentHtml().Link().ContactsHomeActionLink().Text("Contacts")
-                           )
-                       );
+                    <li><a href="@Url.ContactsHomeAction()">Contacts</a></li>
                 }
-
-                if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+                @if (Model.CurrentUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
                 {
-                    menuNav.AddElement(
-                        Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().ErrorLogHomeActionLink().Text("Error Log")
-                        )
-                    );
-
-                    var dropdownMaintenance = Html.FluentHtml().BootstrapNavItem()
-                        .AsDropdown("Admin")
-                        .AddElement(
-                            Html.FluentHtml().BootstrapNav()
-                                .AsDropdown()
-                                .AddElement(
-                                    Html.FluentHtml().BootstrapNavItem().AddElement(
-                                        Html.FluentHtml().Link().OrganizationEditProfileActionLink().Text("Organization Profile")
-                                    )
-                                )
-                                .AddElement(
-                                    Html.FluentHtml().BootstrapNavItem().AddElement(
-                                        Html.FluentHtml().Link().AdminCrittersHomeActionLink().Text("Critters")
-                                    )
-                                )
-                                .AddElement(
-                                    Html.FluentHtml().BootstrapNavItem().AddElement(
-                                        Html.FluentHtml().Link().AdminPeopleHomeActionLink().Text("People")
-                                    )
-                                )
-                                .AddElement(
-                                    Html.FluentHtml().BootstrapNavItem().AddElement(
-                                        Html.FluentHtml().Link().ListsHomeActionLink().Text("Lists Dashboard")
-                                    )
-                                )
-                                .AddElement(
-                                    Html.FluentHtml().BootstrapNavItem().AddElement(
-                                        Html.FluentHtml().Link().AdminEmailHomeActionLink().Text("Email")
-                                    )
-                                )
-                            );
-                    menuNav.AddElement(dropdownMaintenance);
+                    <li><a href="@Url.ErrorLogHomeAction()">Error Log</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.OrganizationEditProfileAction()">Organization Profile</a></li>
+                            <li><a href="@Url.AdminCrittersHomeAction()">Critters</a></li>
+                            <li><a href="@Url.AdminPeopleHomeAction()">People</a></li>
+                            <li><a href="@Url.ListsHomeAction()">Lists Dashboard</a></li>
+                            <li><a href="@Url.AdminEmailHomeAction()">Email</a></li>
+                        </ul>
+                    </li>
                 }
+            </ul>
 
-            }
-            @menuNav
-
-            @{
-                var loginNav = Html.FluentHtml().BootstrapNav()
-                    .AsNavBar()
-                    .Class("navbar-right");
-
-                if (Model.CurrentUser.IsAuthenticated)
+            <ul class="nav navbar-nav navbar-right">
+                @if (Model.CurrentUser.IsAuthenticated)
                 {
-                    loginNav.AddElement(
-                        Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountEditProfileLink().Class("hidden-xs").Text("Welcome, " + Model.UserDisplayName)
-                        )
-                    );
-
-                    loginNav.AddElement(
-                        Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountEditProfileLink().Class("visible-xs").Text("Edit Profile")
-                        )
-                    );
-
-                    loginNav.AddElement(
-                        Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountLogoutLink().Text("Logout")
-                        )
-                    );
+                    <li><a href="@Url.AccountEditProfileAction()" class="hidden-xs">Welcome, @Model.UserDisplayName</a></li>
+                    <li><a href="@Url.AccountEditProfileAction()" class="visible-xs">Edit Profile</a></li>
+                    <li><a href="@Url.AccountLogoutAction()">Logout</a></li>
                 }
                 else
                 {
-                    loginNav.AddElement(
-                        Html.FluentHtml().BootstrapNavItem().AddElement(
-                            Html.FluentHtml().Link().AccountLoginLink().Text("Login")
-                        )
-                    );
+                    <li><a href="@Url.AccountLoginAction()">Login</a></li>
                 }
-            }
-            @loginNav
+            </ul>
+
         </div>
     </div>
 </nav>

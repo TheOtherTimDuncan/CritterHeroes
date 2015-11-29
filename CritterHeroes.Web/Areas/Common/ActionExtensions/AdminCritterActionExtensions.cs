@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Critters;
-using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class AdminCritterActionExtensions
     {
-        public static LinkElement AdminCrittersHomeActionLink(this LinkElement linkElement)
+        public static string AdminCrittersHomeAction(this UrlHelper urlHelper)
         {
-            return linkElement.ActionLink(nameof(CrittersController.Index), CrittersController.Route, AreaName.AdminRouteValue);
+            return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         public static string AdminCrittersUploadJsonAction(this UrlHelper urlHelper)

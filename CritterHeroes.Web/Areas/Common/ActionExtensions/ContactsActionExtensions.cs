@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Contacts;
-using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class ContactsActionExtensions
     {
-        public static LinkElement ContactsHomeActionLink(this LinkElement linkElement)
+        public static string ContactsHomeAction(this UrlHelper urlHelper)
         {
-            return linkElement.ActionLink(nameof(ContactsController.Index), ContactsController.Route, AreaName.NoAreaRouteValue);
+            return urlHelper.Action(nameof(ContactsController.Index), ContactsController.Route, AreaName.NoAreaRouteValue);
         }
 
         public static string ContactsListAction(this UrlHelper urlHelper)

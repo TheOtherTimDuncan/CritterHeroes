@@ -36,19 +36,14 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return urlHelper.Action(nameof(AccountController.ForgotPassword), AccountController.Route);
         }
 
-        public static LinkElement AccountLoginLink(this LinkElement linkElement)
+        public static string AccountLogoutAction(this UrlHelper urlHelper)
         {
-            return linkElement.ActionLink(nameof(AccountController.Login), AccountController.Route);
+            return urlHelper.Action(nameof(AccountController.LogOut), AccountController.Route);
         }
 
-        public static LinkElement AccountLogoutLink(this LinkElement linkElement)
+        public static string AccountEditProfileAction(this UrlHelper urlHelper)
         {
-            return linkElement.ActionLink(nameof(AccountController.LogOut), AccountController.Route);
-        }
-
-        public static LinkElement AccountEditProfileLink(this LinkElement linkElement)
-        {
-            return linkElement.ActionLink(nameof(AccountController.EditProfile), AccountController.Route);
+            return urlHelper.Action(nameof(AccountController.EditProfile), AccountController.Route);
         }
 
         public static FormElement LoginAction(this FormElement formElement, string returnUrl)
