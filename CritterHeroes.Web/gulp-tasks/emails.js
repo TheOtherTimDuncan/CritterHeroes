@@ -3,7 +3,7 @@
 module.exports = function (gulp, plugins, common) {
 
     var srcEmails = common.srcPath + '/Emails';
-    var targetEmails = 'Areas/Emails';
+    var targetEmails = common.distPath + '/emails';
     var targetExamples = '../.vs/Emails';
 
     function getFolders(dir) {

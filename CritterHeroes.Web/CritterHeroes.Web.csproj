@@ -251,21 +251,7 @@
     <Content Include="apple-touch-icon.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
-    <Content Include="Areas\Emails\ConfirmEmail\Body.html" />
-    <Content Include="Areas\Emails\ConfirmEmail\Body.txt" />
-    <Content Include="Areas\Emails\ConfirmEmail\Subject.txt" />
-    <Content Include="Areas\Emails\FosterCritters\Body.html" />
-    <Content Include="Areas\Emails\FosterCritters\Body.txt" />
-    <Content Include="Areas\Emails\FosterCritters\Subject.txt" />
-    <Content Include="Areas\Emails\ResetPasswordAttempt\Body.html" />
-    <Content Include="Areas\Emails\ResetPasswordAttempt\Body.txt" />
-    <Content Include="Areas\Emails\ResetPasswordAttempt\Subject.txt" />
-    <Content Include="Areas\Emails\ResetPasswordNotification\Body.html" />
-    <Content Include="Areas\Emails\ResetPasswordNotification\Body.txt" />
-    <Content Include="Areas\Emails\ResetPasswordNotification\Subject.txt" />
-    <Content Include="Areas\Emails\ResetPassword\Body.html" />
-    <Content Include="Areas\Emails\ResetPassword\Body.txt" />
-    <Content Include="Areas\Emails\ResetPassword\Subject.txt" />
+    <Content Include="Areas\Admin\Emails\Views\Index.cshtml" />
     <Content Include="browserconfig.xml">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
@@ -355,7 +341,6 @@
     <None Include="src\less\cheroes\forms.less" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Critters\Views\Index.cshtml" />
-    <Content Include="Areas\Admin\Emails\Views\Index.cshtml" />
     <None Include="bower.json" />
     <None Include="src\less\cheroes\admin-critters.less" />
     <None Include="src\less\cheroes\paging.less" />
@@ -450,6 +435,10 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
+    <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
+    <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />
+    <Compile Include="Areas\Admin\Emails\QueryHandlers\EmailQueryHandler.cs" />
     <Compile Include="Areas\Common\Models\ControllerActionModel.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\ContactModel.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\ContactsListModel.cs" />
@@ -470,10 +459,6 @@
     <Compile Include="Areas\Admin\Critters\Models\StatusModel.cs" />
     <Compile Include="Areas\Admin\Critters\Queries\CritterSummaryQuery.cs" />
     <Compile Include="Areas\Admin\Critters\QueryHandlers\CritterSummaryQueryHandler.cs" />
-    <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
-    <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
-    <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />
-    <Compile Include="Areas\Admin\Emails\QueryHandlers\EmailQueryHandler.cs" />
     <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
     <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
     <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
