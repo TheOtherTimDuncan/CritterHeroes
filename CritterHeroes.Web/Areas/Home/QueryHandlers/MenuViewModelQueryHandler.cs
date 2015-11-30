@@ -45,17 +45,12 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
 
             navItems.Add(CritterActionExtensions.HomeAction("Home"));
 
-            if (_httpUser.IsInRole(IdentityRole.RoleNames.Admin) || _httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
-            {
-                navItems.Add(ContactsActionExtensions.HomeAction("Contacts"));
-            }
-
             if (_httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
             {
                 navItems.Add(ErrorLogActionExtensions.HomeAction("Error Log"));
                 adminItems.Add(OrganizationActionExtensions.EditProfileAction("Organization Profile"));
                 adminItems.Add(AdminCritterActionExtensions.HomeAction("Critters"));
-                adminItems.Add(AdminPeopleActionExtensions.HomeAction("People"));
+                adminItems.Add(AdminContactsActionExtensions.HomeAction("Contacts"));
                 adminItems.Add(ListsActionExtensions.HomeAction("Lists Dashboard"));
                 adminItems.Add(EmailActionExtensions.HomeAction("Emails"));
             }

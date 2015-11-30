@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Contacts.Models;
-using CritterHeroes.Web.Areas.Contacts.Queries;
+using CritterHeroes.Web.Areas.Admin.Contacts.Models;
+using CritterHeroes.Web.Areas.Admin.Contacts.Queries;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 
-namespace CritterHeroes.Web.Areas.Contacts.QueryHandlers
+namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
 {
     public class ContactsListQueryHandler : IAsyncQueryHandler<ContactsListQuery, ContactsListModel>
     {

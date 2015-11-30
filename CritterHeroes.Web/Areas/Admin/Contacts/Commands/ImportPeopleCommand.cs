@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CritterHeroes.Web.Areas.Admin.People.Commands
+namespace CritterHeroes.Web.Areas.Admin.Contacts.Commands
 {
     public class ImportPeopleCommand
     {

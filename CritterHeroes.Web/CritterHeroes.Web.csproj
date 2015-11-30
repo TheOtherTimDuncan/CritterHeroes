@@ -269,7 +269,7 @@
     <Content Include="browserconfig.xml">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
-    <Content Include="Areas\Contacts\Views\Index.cshtml" />
+    <Content Include="Areas\Admin\Contacts\Views\Index.cshtml" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -354,7 +354,6 @@
     <None Include="src\less\cheroes\admin-lists.less" />
     <None Include="src\less\cheroes\forms.less" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
-    <Content Include="Areas\Admin\People\Views\Index.cshtml" />
     <Content Include="Areas\Critters\Views\Index.cshtml" />
     <Content Include="Areas\Admin\Emails\Views\Index.cshtml" />
     <None Include="bower.json" />
@@ -452,13 +451,12 @@
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Common\Models\ControllerActionModel.cs" />
-    <Compile Include="Areas\Contacts\ContactsController.cs" />
-    <Compile Include="Areas\Contacts\Models\ContactModel.cs" />
-    <Compile Include="Areas\Contacts\Models\ContactsListModel.cs" />
-    <Compile Include="Areas\Contacts\Models\ContactsModel.cs" />
-    <Compile Include="Areas\Contacts\Queries\BaseContactsQuery.cs" />
-    <Compile Include="Areas\Contacts\Queries\ContactsListQuery.cs" />
-    <Compile Include="Areas\Contacts\Queries\ContactsQuery.cs" />
+    <Compile Include="Areas\Admin\Contacts\Models\ContactModel.cs" />
+    <Compile Include="Areas\Admin\Contacts\Models\ContactsListModel.cs" />
+    <Compile Include="Areas\Admin\Contacts\Models\ContactsModel.cs" />
+    <Compile Include="Areas\Admin\Contacts\Queries\BaseContactsQuery.cs" />
+    <Compile Include="Areas\Admin\Contacts\Queries\ContactsListQuery.cs" />
+    <Compile Include="Areas\Admin\Contacts\Queries\ContactsQuery.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\ImportCrittersCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadCsvFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadJsonFileCommandHandler.cs" />
@@ -496,16 +494,14 @@
     <Compile Include="Areas\Admin\Organizations\OrganizationController.cs" />
     <Compile Include="Areas\Admin\Organizations\Queries\EditProfileQuery.cs" />
     <Compile Include="Areas\Admin\Organizations\QueryHandlers\EditProfileQueryHandler.cs" />
-    <Compile Include="Areas\Admin\People\CommandHandlers\ImportBusinessCommandHandler.cs" />
-    <Compile Include="Areas\Admin\People\CommandHandlers\ImportPeopleCommandHandler.cs" />
-    <Compile Include="Areas\Admin\People\Commands\ImportBusinessCommand.cs" />
-    <Compile Include="Areas\Admin\People\Commands\ImportPeopleCommand.cs" />
-    <Compile Include="Areas\Admin\People\Models\PeopleSummaryModel.cs" />
-    <Compile Include="Areas\Admin\People\PeopleController.cs" />
+    <Compile Include="Areas\Admin\Contacts\CommandHandlers\ImportBusinessCommandHandler.cs" />
+    <Compile Include="Areas\Admin\Contacts\CommandHandlers\ImportPeopleCommandHandler.cs" />
+    <Compile Include="Areas\Admin\Contacts\Commands\ImportBusinessCommand.cs" />
+    <Compile Include="Areas\Admin\Contacts\Commands\ImportPeopleCommand.cs" />
+    <Compile Include="Areas\Admin\Contacts\ContactsController.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AccountActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\AdminCritterActionExtensions.cs" />
-    <Compile Include="Areas\Common\ActionExtensions\AdminPeopleActionExtensions.cs" />
-    <Compile Include="Areas\Common\ActionExtensions\ContactsActionExtensions.cs" />
+    <Compile Include="Areas\Common\ActionExtensions\AdminContactsActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\CritterActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\EmailActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
@@ -522,8 +518,8 @@
     <Compile Include="Areas\Common\Models\PagingModel.cs" />
     <Compile Include="Areas\Common\Queries\PagingQuery.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
-    <Compile Include="Areas\Contacts\QueryHandlers\ContactsListQueryHandler.cs" />
-    <Compile Include="Areas\Contacts\QueryHandlers\ContactsQueryHandler.cs" />
+    <Compile Include="Areas\Admin\Contacts\QueryHandlers\ContactsListQueryHandler.cs" />
+    <Compile Include="Areas\Admin\Contacts\QueryHandlers\ContactsQueryHandler.cs" />
     <Compile Include="Areas\Critters\CrittersController.cs" />
     <Compile Include="Areas\Critters\Models\CrittersListModel.cs" />
     <Compile Include="Areas\Critters\Models\CritterModel.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Admin.People.Commands;
+using CritterHeroes.Web.Areas.Admin.Contacts.Commands;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Storage;
@@ -13,7 +13,7 @@ using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.Misc;
 using TOTD.Utility.StringHelpers;
 
-namespace CritterHeroes.Web.Areas.Admin.People.CommandHandlers
+namespace CritterHeroes.Web.Areas.Admin.Contacts.CommandHandlers
 {
     public class ImportBusinessCommandHandler : IAsyncCommandHandler<ImportBusinessCommand>
     {

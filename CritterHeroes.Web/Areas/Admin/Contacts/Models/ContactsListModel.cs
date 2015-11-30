@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Areas.Common.Models;
 
-namespace CritterHeroes.Web.Areas.Contacts.Models
+namespace CritterHeroes.Web.Areas.Admin.Contacts.Models
 {
     public class ContactsListModel
     {
