@@ -2,23 +2,11 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Contacts;
-using CritterHeroes.Web.Areas.Common.Models;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class AdminContactsActionExtensions
     {
-        public static ControllerActionModel HomeAction(string title)
-        {
-            return new ControllerActionModel()
-            {
-                ControllerRoute = ContactsController.Route,
-                ActionName = nameof(ContactsController.Index),
-                AreaName = AreaName.Admin,
-                Title = title
-            };
-        }
-
         public static string AdminContactsHomeAction(this UrlHelper urlHelper)
         {
             return urlHelper.Action(nameof(ContactsController.Index), ContactsController.Route, AreaName.AdminRouteValue);

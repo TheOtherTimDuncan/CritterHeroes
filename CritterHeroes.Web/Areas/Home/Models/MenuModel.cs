@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using CritterHeroes.Web.Areas.Common.Models;
-using CritterHeroes.Web.Contracts;
 
 namespace CritterHeroes.Web.Areas.Home.Models
 {
@@ -32,13 +29,13 @@ namespace CritterHeroes.Web.Areas.Home.Models
             set;
         }
 
-        public IEnumerable<ControllerActionModel> NavItems
+        public bool ShowAdminMenu
         {
             get;
             set;
         }
 
-        public IEnumerable<ControllerActionModel> AdminNavItems
+        public bool ShowMasterAdminMenu
         {
             get;
             set;

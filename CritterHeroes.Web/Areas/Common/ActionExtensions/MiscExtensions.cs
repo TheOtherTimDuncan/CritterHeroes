@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Text;
 using System.Web.Mvc;
-using System.Web.Routing;
-using CritterHeroes.Web.Areas.Common.Models;
-using CritterHeroes.Web.Areas.Common.Queries;
 using CritterHeroes.Web.Middleware;
-using TOTD.Mvc.FluentHtml;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
@@ -44,14 +39,6 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             }
 
             return urlHelper.Content($"~/{ImageMiddleware.Route}/{critterID}/{filename}{builder}");
-        }
-
-        public static string ForControllerAction(this UrlHelper urlHelper, ControllerActionModel controllerAction)
-        {
-            return urlHelper.Action(controllerAction.ActionName, controllerAction.ControllerRoute, routeValues: new
-            {
-                area = controllerAction.AreaName ?? ""
-            });
         }
     }
 }

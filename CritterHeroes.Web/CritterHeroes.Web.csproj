@@ -439,7 +439,6 @@
     <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
     <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />
     <Compile Include="Areas\Admin\Emails\QueryHandlers\EmailQueryHandler.cs" />
-    <Compile Include="Areas\Common\Models\ControllerActionModel.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\ContactModel.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\ContactsListModel.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\ContactsModel.cs" />

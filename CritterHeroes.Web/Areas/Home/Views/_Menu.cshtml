@@ -9,23 +9,23 @@
                 <span class="icon-bar"></span>
             </button>
             <img src="@Model.LogoUrl" class="logo-small" />
-            <a href="@Url.CritterHomeAction()" class="navbar-brand">@Model.OrganizationShortName</a>
+            <a href="@Url.HomeAction()" class="navbar-brand">@Model.OrganizationShortName</a>
         </header>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
-                @foreach (var controllerAction in Model.NavItems)
-                {
-                    <li><a href="@Url.ForControllerAction(controllerAction)">@controllerAction.Title</a></li>
-                }
-                @if (!Model.AdminNavItems.IsNullOrEmpty())
+                <li><a href="@Url.HomeAction()">Home</a></li>
+                @if (Model.ShowAdminMenu)
                 {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            @foreach (var controllerAction in Model.AdminNavItems)
-                            {
-                                <li><a href="@Url.ForControllerAction(controllerAction)">@controllerAction.Title</a></li>
-                            }
+                            <li><a href="@Url.AdminContactsHomeAction()">Contacts</a></li>
+                            <li><a href="@Url.OrganizationEditProfileAction()">Organization Profile</a></li>
+                            <li class="divider" role="separator"></li>
+                            <li><a href="@Url.AdminCrittersHomeAction()">Critters</a></li>
+                            <li><a href="@Url.EmailHomeAction()">Emails</a></li>
+                            <li><a href="@Url.ErrorLogHomeAction()">Error Log</a></li>
+                            <li><a href="@Url.ListsHomeAction()">Lists Dashboard</a></li>
                         </ul>
                     </li>
                 }

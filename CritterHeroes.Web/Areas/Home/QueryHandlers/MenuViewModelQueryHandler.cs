@@ -37,26 +37,10 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
                 OrganizationShortName = _orgStateManager.GetContext().IfNotNull(x => x.ShortName),
                 UserDisplayName = _userStateManager.GetContext().IfNotNull(x => x.DisplayName),
                 LogoUrl = _logoService.GetLogoUrl(),
-                IsLoggedIn = _httpUser.IsAuthenticated
+                IsLoggedIn = _httpUser.IsAuthenticated,
+                ShowAdminMenu = (_httpUser.IsInRole(IdentityRole.RoleNames.Admin) || _httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin)),
+                ShowMasterAdminMenu = (_httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
             };
-
-            List<ControllerActionModel> navItems = new List<ControllerActionModel>();
-            List<ControllerActionModel> adminItems = new List<ControllerActionModel>();
-
-            navItems.Add(CritterActionExtensions.HomeAction("Home"));
-
-            if (_httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
-            {
-                navItems.Add(ErrorLogActionExtensions.HomeAction("Error Log"));
-                adminItems.Add(OrganizationActionExtensions.EditProfileAction("Organization Profile"));
-                adminItems.Add(AdminCritterActionExtensions.HomeAction("Critters"));
-                adminItems.Add(AdminContactsActionExtensions.HomeAction("Contacts"));
-                adminItems.Add(ListsActionExtensions.HomeAction("Lists Dashboard"));
-                adminItems.Add(EmailActionExtensions.HomeAction("Emails"));
-            }
-
-            model.NavItems = navItems;
-            model.AdminNavItems = adminItems;
 
             return model;
         }

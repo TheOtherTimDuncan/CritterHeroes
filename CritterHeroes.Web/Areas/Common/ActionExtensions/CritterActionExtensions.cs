@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Areas.Critters;
 using CritterHeroes.Web.Contracts;
-using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
@@ -26,16 +24,6 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route);
         }
 
-        public static ControllerActionModel HomeAction(string title)
-        {
-            return new ControllerActionModel()
-            {
-                ControllerRoute = CrittersController.Route,
-                ActionName = nameof(CrittersController.Index),
-                Title = title
-            };
-        }
-
         public static string CritterHomeAction(this UrlHelper urlHelper)
         {
             return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route);
@@ -44,11 +32,6 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         public static string CritterListAction(this UrlHelper urlHelper)
         {
             return urlHelper.Action(nameof(CrittersController.List), CrittersController.Route);
-        }
-
-        public static LinkElement CritterHomeActionLink(this LinkElement linkElement)
-        {
-            return linkElement.ActionLink(nameof(CrittersController.Index), CrittersController.Route);
         }
 
         public static string Local(this UrlHelper urlHelper, string url)
