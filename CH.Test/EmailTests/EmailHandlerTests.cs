@@ -29,7 +29,7 @@ namespace CH.Test.EmailTests
         public void VerifyEmailFolder<TEmailDataType>(EmailCommand<TEmailDataType> emailCommand) where TEmailDataType : BaseEmailData, new()
         {
             emailCommand.EmailName.Should().NotBeNullOrEmpty();
-            string path = Path.Combine(UnitTestHelper.GetSolutionRoot(), "CritterHeroes.Web", "Areas", "Emails", emailCommand.EmailName);
+            string path = Path.Combine(UnitTestHelper.GetSolutionRoot(), "CritterHeroes.Web", "dist", "emails", emailCommand.EmailName);
             Directory.Exists(path).Should().BeTrue($"folder{path} should exist for email command {emailCommand.GetType().Name}");
         }
 
