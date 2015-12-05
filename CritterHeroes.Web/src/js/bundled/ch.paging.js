@@ -10,7 +10,7 @@
 
             var element = $(this);
 
-            if (!model || model.TotalPages < 1) {
+            if (!model || model.totalPages <= 1) {
                 element.empty();
                 return;
             }
