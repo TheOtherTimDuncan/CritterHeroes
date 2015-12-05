@@ -48,7 +48,7 @@
 
             success: function (data) {
 
-                cheroes.historyManager.pushState(getQueryState());
+                cheroes.historyManager.pushState(query);
 
                 if (data.paging.currentPage !== 1) {
                     window.scrollTo(0, 0);
@@ -61,24 +61,6 @@
 
         });
 
-    }
-
-    function getQueryState() {
-
-        var queryState = {};
-
-        for (var p in query) {
-
-            if (p.toLowerCase() === "page") {
-                if (query[p] && query[p] !== 1) {
-                    queryState[p] = query[p];
-                }
-            } else if (query[p]) {
-                queryState[p] = query[p];
-            }
-        }
-
-        return queryState;
     }
 
 }(this.cheroes = this.cheroes || {}, jQuery, Handlebars));

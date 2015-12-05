@@ -8,7 +8,15 @@
 
         for (var p in state) {
             if (state.hasOwnProperty(p)) {
-                query.push(encodeURIComponent(p) + "=" + encodeURIComponent(state[p]));
+                var value = state[p];
+                if (p.toLowerCase() === "page") {
+                    if (value == 1) {
+                        value = null; // Don't show page in url if page value is first page
+                    }
+                }
+                if (value) {
+                    query.push(encodeURIComponent(p) + "=" + encodeURIComponent(state[p]));
+                }
             }
         }
 
@@ -24,8 +32,9 @@
                 stateUrl = url;
             } else {
                 stateUrl = window.location.pathname;
-                if (state && Object.keys(state).length > 0) {
-                    stateUrl += '?' + stateToQuery(state);
+                var query = stateToQuery(state);
+                if (state && query.length > 0) {
+                    stateUrl += '?' + query;
                 }
             }
 
