@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.Routing;
 using CritterHeroes.Web.Areas.Critters;
+using CritterHeroes.Web.Areas.Critters.Queries;
 using CritterHeroes.Web.Contracts;
+using TOTD.Mvc.FluentHtml;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
@@ -24,9 +27,17 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route);
         }
 
-        public static string CritterHomeAction(this UrlHelper urlHelper)
+        public static string CritterHomeAction(this UrlHelper urlHelper, int? statusID = null)
         {
-            return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route);
+            CrittersQuery query = new CrittersQuery()
+            {
+                StatusID = statusID
+            };
+
+            RouteValueDictionary routeValues = new RouteValueDictionary(query);
+            routeValues[RouteValueKeys.Area] = "";
+
+            return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route, routeValues);
         }
 
         public static string CritterListAction(this UrlHelper urlHelper)

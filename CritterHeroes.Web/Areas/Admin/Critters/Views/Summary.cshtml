@@ -1,14 +1,14 @@
 ﻿@model CritterHeroes.Web.Areas.Admin.Critters.Models.CritterSummaryModel
 
 @{
-    ViewBag.Title = "Data Maintenance - Critters";
+    ViewBag.Title = "Critters Summary";
 }
 
 @section scripts{
     <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.admin-critters.js"))"></script>
 }
 
-<h2>Data Maintenance - Critters</h2>
+<h2>Critters Summary</h2>
 
 <div class="clearfix">
     <form action="@Url.AdminCrittersUploadJsonAction()" method="post" enctype="multipart/form-data" class="pull-left">
@@ -43,14 +43,12 @@
 
 </div>
 
-<h3>Summary</h3>
-
 <table class="status-table">
     <tbody>
         @foreach (var status in Model.StatusSummary)
         {
             <tr>
-                <td>@status.Status</td>
+                <td><a href="@Url.CritterHomeAction(status.StatusID)">@status.Status</a></td>
                 <td class="text-right">@Html.DisplayFor(m => status.Count)</td>
             </tr>
         }

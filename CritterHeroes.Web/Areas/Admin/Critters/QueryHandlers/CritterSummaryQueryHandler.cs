@@ -28,10 +28,15 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
             model.StatusSummary = await
             (
                 from x in _critterStorage.Entities
-                group x by x.Status.Name into g
+                group x by new
+                {
+                    x.StatusID,
+                    x.Status.Name
+                } into g
                 select new StatusModel()
                 {
-                    Status = g.Key,
+                    StatusID = g.Key.StatusID,
+                    Status = g.Key.Name,
                     Count = g.Count()
                 }
             ).ToListAsync();

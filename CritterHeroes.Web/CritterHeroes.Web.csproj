@@ -339,7 +339,7 @@
     <None Include="src\less\cheroes\shared.less" />
     <None Include="src\less\cheroes\admin-lists.less" />
     <None Include="src\less\cheroes\forms.less" />
-    <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
+    <Content Include="Areas\Admin\Critters\Views\Summary.cshtml" />
     <Content Include="Areas\Critters\Views\Index.cshtml" />
     <None Include="bower.json" />
     <None Include="src\less\cheroes\admin-critters.less" />

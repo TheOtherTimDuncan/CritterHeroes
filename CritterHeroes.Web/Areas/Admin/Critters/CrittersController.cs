@@ -6,13 +6,13 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
+using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters
 {
-    [Authorize(Roles = UserRole.MasterAdmin)]
     [Route(CrittersController.Route + "/{action=index}")]
     public class CrittersController : BaseAdminController
     {
@@ -24,7 +24,8 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index()
+        [AuthorizeRoles(UserRole.Admin, UserRole.MasterAdmin)]
+        public async Task<ActionResult> Summary()
         {
             CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
             model.Messages = TempData["Messages"] as IEnumerable<string>;
@@ -33,6 +34,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRole.MasterAdmin)]
         public async Task<ActionResult> UploadJson(UploadJsonFileCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
@@ -41,6 +43,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRole.MasterAdmin)]
         public async Task<ActionResult> UploadCsv(UploadCsvFileCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
@@ -49,6 +52,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRole.MasterAdmin)]
         public async Task<ActionResult> UploadXml(UploadXmlFileCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
@@ -57,6 +61,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRole.MasterAdmin)]
         public async Task<ActionResult> Import(ImportCrittersCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);

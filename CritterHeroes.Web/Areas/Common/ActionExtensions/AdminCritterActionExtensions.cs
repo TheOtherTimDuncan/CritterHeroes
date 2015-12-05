@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
     {
         public static string AdminCrittersHomeAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action(nameof(CrittersController.Index), CrittersController.Route, AreaName.AdminRouteValue);
+            return urlHelper.Action(nameof(CrittersController.Summary), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         public static string AdminCrittersUploadJsonAction(this UrlHelper urlHelper)
