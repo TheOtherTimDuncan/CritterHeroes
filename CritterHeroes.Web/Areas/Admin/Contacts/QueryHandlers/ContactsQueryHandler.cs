@@ -23,6 +23,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
         {
             ContactsModel model = new ContactsModel();
 
+            model.Query = query;
             model.ShowImports = _httpUser.IsInRole(IdentityRole.MasterAdmin.Name);
 
             return model;

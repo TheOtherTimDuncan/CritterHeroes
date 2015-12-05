@@ -15,9 +15,24 @@
         getData();
     });
 
+    var filters = $('select[data-filter]').each(function () {
+        $(this).on('change', function () {
+            query[$(this).data('filter')] = $(this).val();
+            getData();
+        });
+    });
+
     cheroes.historyManager.registerPopState(function (state) {
 
         query = state;
+
+        filters.each(function () {
+
+            var key = $(this).data('filter').toLowerCase();
+            $(this).val(cheroes.historyManager.getQueryValue(query, key));
+
+        });
+
         getData();
 
     });

@@ -10,6 +10,7 @@ using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
 {
@@ -27,6 +28,15 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
             ContactsListModel model = new ContactsListModel();
 
             var filteredContacts = _storagePersons.Entities;
+
+            if (query.Status.IsNullOrEmpty() || query.Status.SafeEquals(ContactsQuery.StatusKeys.Active))
+            {
+                filteredContacts = filteredContacts.Where(x => x.IsActive == true);
+            }
+            else if (query.Status.SafeEquals(ContactsQuery.StatusKeys.Inactive))
+            {
+                filteredContacts = filteredContacts.Where(x => x.IsActive == false);
+            }
 
             filteredContacts = filteredContacts.OrderBy(x => x.LastName);
 

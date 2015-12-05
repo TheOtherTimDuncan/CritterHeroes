@@ -1,4 +1,5 @@
 ﻿@model CritterHeroes.Web.Areas.Admin.Contacts.Models.ContactsModel
+@using CritterHeroes.Web.Areas.Admin.Contacts.Queries
 
 @{
     ViewBag.Title = "Contacts";
@@ -36,10 +37,24 @@
 
 <h2>Contacts</h2>
 
+<div class="filters-container">
+    <section>Filters</section>
+    <section>
+        <label for="status">Status</label>
+        <select id="status" data-filter="status">
+            <option value="@ContactsQuery.StatusKeys.Any" selected="@(Model.Query.Status==ContactsQuery.StatusKeys.Any)">Any status</option>
+            <option value="@ContactsQuery.StatusKeys.Active" selected="@(Model.Query.Status.IsNullOrEmpty() || Model.Query.Status==ContactsQuery.StatusKeys.Active)">Active</option>
+            <option value="@ContactsQuery.StatusKeys.Inactive" selected="@(Model.Query.Status==ContactsQuery.StatusKeys.Inactive)">Inactive</option>
+        </select>
+    </section>
+    <section>
+        <span data-active="false" class="color-key">Inactive</span>
+    </section>
+</div>
+
 @if (Model.ShowImports)
 {
     <div>
-        <span data-active="false" class="color-key">Inactive</span>
         <form action="@Url.AdminPeopleImportAction()" method="post" class="pull-right">
             @Html.AntiForgeryToken()
             <input type="submit" class="btn btn-primary" value="Import People" />

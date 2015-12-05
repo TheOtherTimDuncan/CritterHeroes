@@ -8,5 +8,11 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Queries
 {
     public class ContactsQuery : BaseContactsQuery, IAsyncQuery<ContactsModel>
     {
+        public class StatusKeys
+        {
+            public const string Any = "Any";
+            public const string Active = "Active";
+            public const string Inactive = "Inactive";
+        }
     }
 }

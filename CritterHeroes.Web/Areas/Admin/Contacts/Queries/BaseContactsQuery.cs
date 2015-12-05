@@ -6,5 +6,10 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Queries
 {
     public class BaseContactsQuery : PagingQuery
     {
+        public string Status
+        {
+            get;
+            set;
+        }
     }
 }
