@@ -37,9 +37,13 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                 from x in filteredContacts
                 select new ContactModel()
                 {
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Email = x.Email
+                    ContactName = x.LastName + (x.FirstName != null && x.LastName != null ? ", " : "") + x.FirstName,
+                    Address = x.Address,
+                    City = x.City,
+                    State = x.State,
+                    Zip = x.Zip,
+                    Email = x.Email,
+                    IsActive = x.IsActive
                 }
             ).TakePage(query.Page, model.Paging.PageSize).ToListAsync();
 
