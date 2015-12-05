@@ -6,14 +6,14 @@ namespace CritterHeroes.Web.Data.Extensions
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> TakePage<T>(this IQueryable<T> source, int page, int pageSize)
+        public static IQueryable<T> TakePage<T>(this IQueryable<T> source, int? page, int pageSize)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            return source.Skip((page - 1) * pageSize).Take(pageSize);
+            return source.Skip(((page ?? 1) - 1) * pageSize).Take(pageSize);
         }
     }
 }

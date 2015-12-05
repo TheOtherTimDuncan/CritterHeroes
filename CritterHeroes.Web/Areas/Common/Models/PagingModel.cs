@@ -22,7 +22,7 @@ namespace CritterHeroes.Web.Areas.Common.Models
             ThrowIf.Argument.IsNull(query, nameof(query));
 
             this._totalRows = totalRows;
-            this.CurrentPage = query.Page;
+            this.CurrentPage = query.Page ?? 1;
             this.Query = query;
 
             CalculatePages();

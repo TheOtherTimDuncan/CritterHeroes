@@ -6,7 +6,6 @@ namespace CritterHeroes.Web.Areas.Common.Queries
     public class PagingQuery
     {
         public PagingQuery()
-            : this(1)
         {
         }
 
@@ -15,7 +14,7 @@ namespace CritterHeroes.Web.Areas.Common.Queries
             this.Page = page;
         }
 
-        public int Page
+        public int? Page
         {
             get;
             set;

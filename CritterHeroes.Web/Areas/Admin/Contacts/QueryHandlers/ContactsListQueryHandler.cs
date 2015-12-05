@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Contacts.Models;
 using CritterHeroes.Web.Areas.Admin.Contacts.Queries;
+using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
@@ -29,7 +30,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
 
             filteredContacts = filteredContacts.OrderBy(x => x.LastName);
 
-            model.Paging = new Common.Models.PagingModel(filteredContacts.Count(), query);
+            model.Paging = new PagingModel(filteredContacts.Count(), query);
 
             model.Contacts = await
             (
