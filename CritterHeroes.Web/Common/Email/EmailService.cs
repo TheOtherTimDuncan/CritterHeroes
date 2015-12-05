@@ -43,7 +43,7 @@ namespace CritterHeroes.Web.Common.Email
 
         public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
         {
-            string folder = _fileSystem.MapServerPath($"Areas/Emails/{command.EmailName}");
+            string folder = _fileSystem.MapServerPath($"dist/emails/{command.EmailName}");
 
             string filenameSubject = _fileSystem.CombinePath(folder, "Subject.txt");
             string filenameHtmlBody = _fileSystem.CombinePath(folder, "Body.html");
