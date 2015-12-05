@@ -70,7 +70,7 @@
         for (var p in query) {
 
             if (p.toLowerCase() === "page") {
-                if (query[p] !== 1) {
+                if (query[p] && query[p] !== 1) {
                     queryState[p] = query[p];
                 }
             } else if (query[p]) {

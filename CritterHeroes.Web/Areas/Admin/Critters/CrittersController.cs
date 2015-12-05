@@ -23,6 +23,19 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         {
         }
 
+        public async Task<ActionResult> Index(CrittersQuery query)
+        {
+            CrittersModel model = await QueryDispatcher.DispatchAsync(query);
+            return View(model);
+        }
+
+        [AuthorizeRoles(UserRole.Admin, UserRole.MasterAdmin)]
+        public async Task<ActionResult> List(CrittersListQuery query)
+        {
+            CrittersListModel model = await QueryDispatcher.DispatchAsync(query);
+            return JsonCamelCase(model);
+        }
+
         [HttpGet]
         [AuthorizeRoles(UserRole.Admin, UserRole.MasterAdmin)]
         public async Task<ActionResult> Summary()

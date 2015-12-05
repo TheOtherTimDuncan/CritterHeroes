@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Areas.Admin.Critters.Models;
+using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Areas.Common.Models;
-using CritterHeroes.Web.Areas.Critters.Models;
-using CritterHeroes.Web.Areas.Critters.Queries;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 
-namespace CritterHeroes.Web.Areas.Critters.QueryHandlers
+namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
 {
     public class CrittersListQueryHandler : IAsyncQueryHandler<CrittersListQuery, CrittersListModel>
     {

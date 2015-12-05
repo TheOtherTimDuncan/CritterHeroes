@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Areas.Common.Models;
 
-namespace CritterHeroes.Web.Areas.Critters.Models
+namespace CritterHeroes.Web.Areas.Admin.Critters.Models
 {
     public class CrittersListModel
     {

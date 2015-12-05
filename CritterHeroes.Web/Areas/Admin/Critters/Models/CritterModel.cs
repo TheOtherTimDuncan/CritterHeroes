@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CritterHeroes.Web.Common;
 
-namespace CritterHeroes.Web.Areas.Critters.Models
+namespace CritterHeroes.Web.Areas.Admin.Critters.Models
 {
     public class CritterModel
     {
