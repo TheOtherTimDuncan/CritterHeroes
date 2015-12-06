@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -8,6 +7,7 @@ using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
@@ -29,13 +29,12 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
 
             model.StatusItems = await _statusStorage.Entities
                 .OrderBy(x => x.Name)
-                .Select(x => new SelectListItem()
+                .SelectToListAsync(x => new SelectListItem()
                 {
                     Value = x.ID.ToString(),
                     Text = x.Name,
                     Selected = (x.ID == query.StatusID)
-                })
-                .ToListAsync();
+                });
 
             return model;
         }

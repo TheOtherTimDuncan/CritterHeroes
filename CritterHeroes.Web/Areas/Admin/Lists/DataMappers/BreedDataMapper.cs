@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Commands;
@@ -82,11 +81,8 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.DataMappers
 
         protected override async Task<IEnumerable<string>> GetTargetItems(ISqlStorageContext<Breed> sqlStorageContext)
         {
-            IEnumerable<string> result = await
-            (
-                from x in sqlStorageContext.Entities
-                select x.Species.Name + (x.BreedName != null ? " - " + x.BreedName : "")
-            ).ToListAsync();
+            IEnumerable<string> result = await sqlStorageContext.Entities
+                .SelectToListAsync(x => x.Species.Name + (x.BreedName != null ? " - " + x.BreedName : ""));
             return result;
         }
 

@@ -31,7 +31,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
             model.Query = query;
             model.ShowImports = _httpUser.IsInRole(IdentityRole.MasterAdmin.Name);
 
-            model.GroupItems = await _groupStorage.Entities.OrderBy(x => x.Name).SelectAsync(x => new GroupSelectOptionModel()
+            model.GroupItems = await _groupStorage.Entities.OrderBy(x => x.Name).SelectToListAsync(x => new GroupSelectOptionModel()
             {
                 Value = x.ID,
                 Text = x.Name,

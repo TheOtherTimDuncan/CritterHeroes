@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
@@ -51,7 +50,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
                     FosterName = x.Foster.FirstName + " " + x.Foster.LastName,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 }
-            ).TakePage(query.Page, model.Paging.PageSize).ToListAsync();
+            ).TakePageToListAsync(query.Page, model.Paging.PageSize);
 
             return model;
         }

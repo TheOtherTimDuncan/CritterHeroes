@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Emails.Models;
@@ -10,6 +9,7 @@ using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Models;
 using TOTD.Utility.StringHelpers;
@@ -29,19 +29,22 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
 
         public async Task<EmailModel> RetrieveAsync(EmailQuery query)
         {
-            var data = await _critterStorage.Entities.OrderBy(x => x.Name).Where(x => new[] { "Available", "Not Available", "Sponsorship" }.Contains(x.Status.Name)).Select(x => new
-            {
-                ID = x.ID,
-                Name = x.Name,
-                Status = x.Status.Name,
-                Sex = x.Sex,
-                RescueGroupsID = x.RescueGroupsID,
-                RescueID = x.RescueID,
-                Foster = x.Foster.FirstName + " " + x.Foster.LastName,
-                FosterEmail = x.Foster.Email,
-                LocationName = x.Location.Name,
-                PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
-            }).ToListAsync();
+            var data = await _critterStorage.Entities
+                .OrderBy(x => x.Name)
+                .Where(x => new[] { "Available", "Not Available", "Sponsorship" }.Contains(x.Status.Name))
+                .SelectToListAsync(x => new
+                {
+                    ID = x.ID,
+                    Name = x.Name,
+                    Status = x.Status.Name,
+                    Sex = x.Sex,
+                    RescueGroupsID = x.RescueGroupsID,
+                    RescueID = x.RescueID,
+                    Foster = x.Foster.FirstName + " " + x.Foster.LastName,
+                    FosterEmail = x.Foster.Email,
+                    LocationName = x.Location.Name,
+                    PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
+                });
 
             if (query.SendEmail)
             {

@@ -19,7 +19,17 @@ namespace CritterHeroes.Web.Data.Extensions
             return source.Skip(((page ?? 1) - 1) * pageSize).Take(pageSize);
         }
 
-        public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector)
+        public static async Task<IEnumerable<T>> TakePageToListAsync<T>(this IQueryable<T> source, int? page, int pageSize)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return await source.TakePage(page, pageSize).ToListAsync();
+        }
+
+        public static async Task<IEnumerable<TResult>> SelectToListAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector)
         {
             return await source.Select(selector).ToListAsync();
         }

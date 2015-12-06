@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
@@ -24,22 +24,18 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
         {
             CritterSummaryModel model = new CritterSummaryModel();
 
-
-            model.StatusSummary = await
-            (
-                from x in _critterStorage.Entities
-                group x by new
+            model.StatusSummary = await _critterStorage.Entities
+                .GroupBy(x => new
                 {
                     x.StatusID,
                     x.Status.Name
-                } into g
-                select new StatusModel()
+                })
+                .SelectToListAsync(x => new StatusModel()
                 {
-                    StatusID = g.Key.StatusID,
-                    Status = g.Key.Name,
-                    Count = g.Count()
-                }
-            ).ToListAsync();
+                    StatusID = x.Key.StatusID,
+                    Status = x.Key.Name,
+                    Count = x.Count()
+                });
 
             return model;
         }

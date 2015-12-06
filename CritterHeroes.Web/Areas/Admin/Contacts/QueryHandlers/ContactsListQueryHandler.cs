@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Contacts.Models;
@@ -95,7 +94,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                     IsPerson = x.IsPerson,
                     IsBusiness = x.IsBusiness
                 }
-            ).TakePage(query.Page, model.Paging.PageSize).ToListAsync();
+            ).TakePageToListAsync(query.Page, model.Paging.PageSize);
 
             return model;
         }
