@@ -499,6 +499,7 @@
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
     <Compile Include="Areas\Common\JavascriptConvert.cs" />
     <Compile Include="Areas\Common\Models\PagingModel.cs" />
+    <Compile Include="Areas\Common\Models\SelectOptionModel.cs" />
     <Compile Include="Areas\Common\Queries\PagingQuery.cs" />
     <Compile Include="Areas\Common\UrlGenerator.cs" />
     <Compile Include="Areas\Admin\Contacts\QueryHandlers\ContactsListQueryHandler.cs" />
