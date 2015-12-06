@@ -16,44 +16,69 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
 {
     public class ContactsListQueryHandler : IAsyncQueryHandler<ContactsListQuery, ContactsListModel>
     {
-        private ISqlStorageContext<Person> _storagePersons;
+        private IContactsStorageContext _storageContacts;
 
-        public ContactsListQueryHandler(ISqlStorageContext<Person> storagePersons)
+        public ContactsListQueryHandler(IContactsStorageContext storageContacts)
         {
-            this._storagePersons = storagePersons;
+            this._storageContacts = storageContacts;
         }
 
         public async Task<ContactsListModel> RetrieveAsync(ContactsListQuery query)
         {
             ContactsListModel model = new ContactsListModel();
 
-            var filteredContacts = _storagePersons.Entities;
+            var contactsQuery = _storageContacts.People.Select(x => new
+            {
+                ContactName = x.LastName + (x.FirstName != null && x.LastName != null ? ", " : "") + x.FirstName,
+                Address = x.Address,
+                City = x.City,
+                State = x.State,
+                Zip = x.Zip,
+                Email = x.Email,
+                IsActive = x.IsActive,
+                IsPerson = true,
+                IsBusiness = false
+            })
+            .Concat(_storageContacts.Businesses.Select(x => new
+            {
+                ContactName = x.Name,
+                Address = x.Address,
+                City = x.City,
+                State = x.State,
+                Zip = x.Zip,
+                Email = x.Email,
+                IsActive = true,
+                IsPerson = false,
+                IsBusiness = true
+            }));
 
             if (query.Status.IsNullOrEmpty() || query.Status.SafeEquals(ContactsQuery.StatusKeys.Active))
             {
-                filteredContacts = filteredContacts.Where(x => x.IsActive == true);
+                contactsQuery = contactsQuery.Where(x => x.IsActive == true);
             }
             else if (query.Status.SafeEquals(ContactsQuery.StatusKeys.Inactive))
             {
-                filteredContacts = filteredContacts.Where(x => x.IsActive == false);
+                contactsQuery = contactsQuery.Where(x => x.IsActive == false);
             }
 
-            filteredContacts = filteredContacts.OrderBy(x => x.LastName);
+            contactsQuery = contactsQuery.OrderBy(x => x.ContactName);
 
-            model.Paging = new PagingModel(filteredContacts.Count(), query);
+            model.Paging = new PagingModel(contactsQuery.Count(), query);
 
             model.Contacts = await
             (
-                from x in filteredContacts
+                from x in contactsQuery
                 select new ContactModel()
                 {
-                    ContactName = x.LastName + (x.FirstName != null && x.LastName != null ? ", " : "") + x.FirstName,
+                    ContactName = x.ContactName,
                     Address = x.Address,
                     City = x.City,
                     State = x.State,
                     Zip = x.Zip,
                     Email = x.Email,
-                    IsActive = x.IsActive
+                    IsActive = x.IsActive,
+                    IsPerson = x.IsPerson,
+                    IsBusiness = x.IsBusiness
                 }
             ).TakePage(query.Page, model.Paging.PageSize).ToListAsync();
 

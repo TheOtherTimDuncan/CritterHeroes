@@ -17,7 +17,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Models
             get;
             set;
         }
-        
+
         public string City
         {
             get;
@@ -43,6 +43,18 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Models
         }
 
         public bool IsActive
+        {
+            get;
+            set;
+        }
+
+        public bool IsPerson
+        {
+            get;
+            set;
+        }
+
+        public bool IsBusiness
         {
             get;
             set;
