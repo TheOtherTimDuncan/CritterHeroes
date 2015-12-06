@@ -16,5 +16,11 @@ namespace CritterHeroes.Web.Areas.Common.Models
             get;
             set;
         }
+
+        public bool IsSelected
+        {
+            get;
+            set;
+        }
     }
 }

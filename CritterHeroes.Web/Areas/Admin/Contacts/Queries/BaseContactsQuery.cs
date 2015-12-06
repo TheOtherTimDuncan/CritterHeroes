@@ -17,5 +17,11 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Queries
             get;
             set;
         }
+
+        public int? GroupID
+        {
+            get;
+            set;
+        }
     }
 }

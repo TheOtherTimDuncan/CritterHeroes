@@ -435,6 +435,7 @@
     <Compile Include="Areas\Account\Queries\LoginQuery.cs" />
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
+    <Compile Include="Areas\Admin\Contacts\Models\GroupSelectOptionModel.cs" />
     <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
     <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
     <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />

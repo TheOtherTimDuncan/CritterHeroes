@@ -27,7 +27,25 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
         {
             ContactsListModel model = new ContactsListModel();
 
-            var queryPeople = _storageContacts.People.Select(x => new
+            var filteredPeople = _storageContacts.People;
+            var filteredBusinesses = _storageContacts.Businesses;
+
+            if (query.Status.IsNullOrEmpty() || query.Status.SafeEquals(ContactsQuery.StatusKeys.Active))
+            {
+                filteredPeople = filteredPeople.Where(x => x.IsActive == true);
+            }
+            else if (query.Status.SafeEquals(ContactsQuery.StatusKeys.Inactive))
+            {
+                filteredPeople = filteredPeople.Where(x => x.IsActive == false);
+            }
+
+            if (query.GroupID != null)
+            {
+                filteredPeople = filteredPeople.Where(x => x.Groups.Any(g => g.GroupID == query.GroupID));
+                filteredBusinesses = filteredBusinesses.Where(x => x.Groups.Any(g => g.GroupID == query.GroupID));
+            }
+
+            var queryPeople = filteredPeople.Select(x => new
             {
                 ContactName = x.LastName + (x.FirstName != null && x.LastName != null ? ", " : "") + x.FirstName,
                 Address = x.Address,
@@ -40,7 +58,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                 IsBusiness = false
             });
 
-            var queryBusinesses = _storageContacts.Businesses.Select(x => new
+            var queryBusinesses = filteredBusinesses.Select(x => new
             {
                 ContactName = x.Name,
                 Address = x.Address,
@@ -54,18 +72,9 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
             });
 
             var contactsQuery = (
-                query.Show.SafeEquals(ContactsQuery.ShowKeys.People) ? queryPeople : 
-                query.Show.SafeEquals(ContactsQuery.ShowKeys.Businesses) ? queryBusinesses : 
+                query.Show.SafeEquals(ContactsQuery.ShowKeys.People) ? queryPeople :
+                query.Show.SafeEquals(ContactsQuery.ShowKeys.Businesses) ? queryBusinesses :
                 queryPeople.Concat(queryBusinesses));
-
-            if (query.Status.IsNullOrEmpty() || query.Status.SafeEquals(ContactsQuery.StatusKeys.Active))
-            {
-                contactsQuery = contactsQuery.Where(x => x.IsActive == true);
-            }
-            else if (query.Status.SafeEquals(ContactsQuery.StatusKeys.Inactive))
-            {
-                contactsQuery = contactsQuery.Where(x => x.IsActive == false);
-            }
 
             contactsQuery = contactsQuery.OrderBy(x => x.ContactName);
 

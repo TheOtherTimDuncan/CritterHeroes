@@ -17,5 +17,11 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Models
             get;
             set;
         }
+
+        public IEnumerable<GroupSelectOptionModel> GroupItems
+        {
+            get;
+            set;
+        }
     }
 }
