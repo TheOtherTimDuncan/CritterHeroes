@@ -17,6 +17,7 @@
 
     var filters = $('select[data-filter]').each(function () {
         $(this).on('change', function () {
+            query.page = 1;
             query[$(this).data('filter')] = $(this).val();
             getData();
         });
