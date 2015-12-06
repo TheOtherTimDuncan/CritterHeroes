@@ -11,5 +11,11 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Queries
             get;
             set;
         }
+
+        public string Show
+        {
+            get;
+            set;
+        }
     }
 }

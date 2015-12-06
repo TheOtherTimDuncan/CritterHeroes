@@ -21,7 +21,7 @@
     </tr>
     {{else}}
     <tr>
-        <td colspan="3">No critters found.</td>
+        <td colspan="3">No contacts found.</td>
     </tr>
     {{/each}}
 </script>
@@ -46,6 +46,14 @@
             <option value="@ContactsQuery.StatusKeys.Any" selected="@(Model.Query.Status==ContactsQuery.StatusKeys.Any)">Any status</option>
             <option value="@ContactsQuery.StatusKeys.Active" selected="@(Model.Query.Status.IsNullOrEmpty() || Model.Query.Status==ContactsQuery.StatusKeys.Active)">Active</option>
             <option value="@ContactsQuery.StatusKeys.Inactive" selected="@(Model.Query.Status==ContactsQuery.StatusKeys.Inactive)">Inactive</option>
+        </select>
+    </section>
+    <section>
+        <label for="show">Show</label>
+        <select id="show" data-filter="show">
+            <option value="@ContactsQuery.ShowKeys.All" selected="@(Model.Query.Show==ContactsQuery.ShowKeys.All)">All</option>
+            <option value="@ContactsQuery.ShowKeys.Businesses" selected="@(Model.Query.Show==ContactsQuery.ShowKeys.Businesses)">Businesses</option>
+            <option value="@ContactsQuery.ShowKeys.People" selected="@(Model.Query.Show==ContactsQuery.ShowKeys.People)">People</option>
         </select>
     </section>
     <section>

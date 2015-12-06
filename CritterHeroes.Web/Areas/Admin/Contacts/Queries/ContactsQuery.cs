@@ -14,5 +14,12 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Queries
             public const string Active = "Active";
             public const string Inactive = "Inactive";
         }
+
+        public class ShowKeys
+        {
+            public const string All = "All";
+            public const string Businesses = "Businesses";
+            public const string People = "People";
+        }
     }
 }

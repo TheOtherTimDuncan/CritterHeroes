@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
         {
             ContactsListModel model = new ContactsListModel();
 
-            var contactsQuery = _storageContacts.People.Select(x => new
+            var queryPeople = _storageContacts.People.Select(x => new
             {
                 ContactName = x.LastName + (x.FirstName != null && x.LastName != null ? ", " : "") + x.FirstName,
                 Address = x.Address,
@@ -38,8 +38,9 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                 IsActive = x.IsActive,
                 IsPerson = true,
                 IsBusiness = false
-            })
-            .Concat(_storageContacts.Businesses.Select(x => new
+            });
+
+            var queryBusinesses = _storageContacts.Businesses.Select(x => new
             {
                 ContactName = x.Name,
                 Address = x.Address,
@@ -50,7 +51,12 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                 IsActive = true,
                 IsPerson = false,
                 IsBusiness = true
-            }));
+            });
+
+            var contactsQuery = (
+                query.Show.SafeEquals(ContactsQuery.ShowKeys.People) ? queryPeople : 
+                query.Show.SafeEquals(ContactsQuery.ShowKeys.Businesses) ? queryBusinesses : 
+                queryPeople.Concat(queryBusinesses));
 
             if (query.Status.IsNullOrEmpty() || query.Status.SafeEquals(ContactsQuery.StatusKeys.Active))
             {
