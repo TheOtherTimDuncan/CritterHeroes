@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Critters;
+using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
@@ -101,7 +102,7 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.OrganizationFullName.Should().Be(organizationContext.FullName);
             emailCommand.EmailData.OrganizationShortName.Should().Be(organizationContext.ShortName);
             emailCommand.EmailData.UrlLogo.Should().Be(urlLogo);
-            emailCommand.EmailData.UrlHome.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(CrittersController.Summary), CrittersController.Route));
+            emailCommand.EmailData.UrlHome.Should().NotBeNullOrEmpty();
 
             mockEmailStorage.Verify(x => x.LogEmailAsync(It.IsAny<EmailLog>()), Times.Once);
         }
