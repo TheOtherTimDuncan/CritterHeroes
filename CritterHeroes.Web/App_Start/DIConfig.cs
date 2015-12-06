@@ -61,6 +61,8 @@ namespace CritterHeroes.Web
             // Register AppUserStorageContext for the one entity SqlStorageContext<> can't handle
             // then register SqlStorageContext<> as a fallback registration for ISqlStorageContext<>
             container.Register<ISqlStorageContext<AppUser>, AppUserStorageContext>(Lifestyle.Scoped);
+
+            container.Register<IContactsStorageContext, ContactsStorageContext>(Lifestyle.Scoped);
             container.RegisterConditional(typeof(ISqlStorageContext<>), typeof(SqlStorageContext<>), Lifestyle.Scoped, (c) => !c.Handled);
 
             container.Register<ICritterBatchSqlStorageContext, CritterBatchStorageContext>(Lifestyle.Scoped);

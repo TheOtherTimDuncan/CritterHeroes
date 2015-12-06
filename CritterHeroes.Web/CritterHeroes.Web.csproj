@@ -567,6 +567,7 @@
     </Compile>
     <Compile Include="Contracts\StateManagement\IPageContextService.cs" />
     <Compile Include="Contracts\Storage\IAzureService.cs" />
+    <Compile Include="Contracts\Storage\IContactsStorageContext.cs" />
     <Compile Include="Contracts\Storage\ICritterBatchSqlStorageContext.cs" />
     <Compile Include="Contracts\Storage\ICritterPictureService.cs" />
     <Compile Include="Contracts\Storage\IEmailStorageService.cs" />
@@ -644,6 +645,7 @@
     <Compile Include="Data\Configurations\LocationConfiguration.cs" />
     <Compile Include="Data\Configurations\PictureChildConfiguration.cs" />
     <Compile Include="Data\Configurations\PictureConfiguration.cs" />
+    <Compile Include="Data\Contexts\ContactsStorageContext.cs" />
     <Compile Include="Data\Extensions\LocationExtensions.cs" />
     <Compile Include="Data\Extensions\PIctureExtensions.cs" />
     <Compile Include="Data\Extensions\QueryableExtensions.cs" />
