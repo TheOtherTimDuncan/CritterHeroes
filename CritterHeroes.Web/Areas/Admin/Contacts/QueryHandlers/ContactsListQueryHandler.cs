@@ -46,6 +46,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
 
             var queryPeople = filteredPeople.Select(x => new
             {
+                x.ID,
                 ContactName = x.LastName + (x.FirstName != null && x.LastName != null ? ", " : "") + x.FirstName,
                 Address = x.Address,
                 City = x.City,
@@ -59,6 +60,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
 
             var queryBusinesses = filteredBusinesses.Select(x => new
             {
+                x.ID,
                 ContactName = x.Name,
                 Address = x.Address,
                 City = x.City,
@@ -84,6 +86,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                 from x in contactsQuery
                 select new ContactModel()
                 {
+                    ContactID = x.ID,
                     ContactName = x.ContactName,
                     Address = x.Address,
                     City = x.City,
@@ -95,6 +98,40 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
                     IsBusiness = x.IsBusiness
                 }
             ).TakePageToListAsync(query.Page, model.Paging.PageSize);
+
+            IEnumerable<int> personIDs = model.Contacts.Where(x => x.IsPerson).Select(x => x.ContactID);
+            var personGroups = await _storageContacts.People
+                .Where(x => personIDs.Contains(x.ID))
+                .SelectMany(x => x.Groups)
+                .OrderBy(x => x.Group.Name)
+                .SelectToListAsync(x => new
+                {
+                    x.PersonID,
+                    x.Group.Name
+                });
+
+            IEnumerable<int> businessIDs = model.Contacts.Where(x => x.IsBusiness).Select(x => x.ContactID);
+            var businessGroups = await _storageContacts.Businesses
+                .Where(x => businessIDs.Contains(x.ID))
+                .SelectMany(x => x.Groups)
+                .OrderBy(x => x.Group.Name)
+                .SelectToListAsync(x => new
+                {
+                    x.BusinessID,
+                    x.Group.Name
+                });
+
+            foreach (ContactModel contactModel in model.Contacts)
+            {
+                if (contactModel.IsPerson)
+                {
+                    contactModel.Groups = string.Join(", ", personGroups.Where(x => x.PersonID == contactModel.ContactID).Select(x => x.Name));
+                }
+                else
+                {
+                    contactModel.Groups = string.Join(", ", businessGroups.Where(x => x.BusinessID == contactModel.ContactID).Select(x => x.Name));
+                }
+            }
 
             return model;
         }

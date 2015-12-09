@@ -18,10 +18,11 @@
             {{city}}{{#if city}}, {{/if}}{{state}}&nbsp;{{zip}}
         </td>
         <td>{{email}}</td>
+        <td>{{groups}}</td>
     </tr>
     {{else}}
     <tr>
-        <td colspan="3">No contacts found.</td>
+        <td colspan="4">No contacts found.</td>
     </tr>
     {{/each}}
 </script>
@@ -94,6 +95,7 @@
             <th>Name</th>
             <th>Address</th>
             <th>Email</th>
+            <th>Groups</th>
         </tr>
     </thead>
     <tbody data-url="@Url.AdminContactsListAction()"></tbody>

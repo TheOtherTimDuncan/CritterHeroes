@@ -6,6 +6,12 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Models
 {
     public class ContactModel
     {
+        public int ContactID
+        {
+            get;
+            set;
+        }
+
         public string ContactName
         {
             get;
@@ -37,6 +43,12 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.Models
         }
 
         public string Email
+        {
+            get;
+            set;
+        }
+
+        public string Groups
         {
             get;
             set;
