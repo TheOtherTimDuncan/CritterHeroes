@@ -295,6 +295,9 @@
     <Content Include="Areas\Home\Views\Index.cshtml" />
     <Content Include="Areas\Home\Views\_Header.cshtml" />
     <Content Include="Areas\Home\Views\_Menu.cshtml" />
+    <Content Include="gulp-tasks\handlebars.js" />
+    <Content Include="src\js\templates\contacts.hb" />
+    <None Include="src\js\templates\critters.hb" />
     <None Include="src\less\cheroes\bootstrap.less" />
     <None Include="src\less\site.less" />
     <None Include="gulpfile.js" />
@@ -746,6 +749,7 @@
     <Content Include="versioned-lib.json" />
     <Content Include="versioned-js.json" />
     <Content Include="versioned-css.json" />
+    <Content Include="versioned-templates.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
