@@ -17,7 +17,8 @@ namespace CritterHeroes.Web.Common.VersionedStatics
         private static readonly string[,] _manifests = new string[,] {
             { "/versioned-lib.json","js" },
             { "/versioned-js.json","js" },
-            { "/versioned-css.json","css" }
+            { "/versioned-css.json","css" },
+            { "/versioned-templates.json","templates" }
         };
 
         public static bool IsDebug
