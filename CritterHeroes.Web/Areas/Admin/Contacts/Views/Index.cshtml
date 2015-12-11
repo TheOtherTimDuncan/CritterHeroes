@@ -5,28 +5,6 @@
     ViewBag.Title = "Contacts";
 }
 
-<script id="template" type="text/x-handlebars">
-    {{#each contacts}}
-    <tr data-active="{{isActive}}">
-        <td><span class="{{#if isPerson}}person{{/if}}{{#if isBusiness}}business{{/if}}">&nbsp;</span></td>
-        <td>{{contactName}}</td>
-        <td>
-            {{address}}
-            {{#if address}}
-            <br />
-            {{/if}}
-            {{city}}{{#if city}}, {{/if}}{{state}}&nbsp;{{zip}}
-        </td>
-        <td>{{email}}</td>
-        <td>{{groups}}</td>
-    </tr>
-    {{else}}
-    <tr>
-        <td colspan="4">No contacts found.</td>
-    </tr>
-    {{/each}}
-</script>
-
 @section scripts{
     <script type="text/javascript">
         (function (cheroes) {
@@ -34,6 +12,7 @@
         })(this.cheroes = this.cheroes || {});
     </script>
     <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("handlebars.js"))"></script>
+    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.contacts-template.js"))"></script>
     <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.contacts-list.js"))"></script>
 }
 

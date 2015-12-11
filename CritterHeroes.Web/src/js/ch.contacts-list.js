@@ -4,11 +4,10 @@
 
     var query = cheroes.historyManager.copySafeQuery(cheroes.query);
 
-    var template = handlebars.compile($('#template').html());
+    var template = cheroes.templates.contacts;
 
     var contactsContainer = $('#contacts-container tbody');
     var contactsUrl = contactsContainer.data('url');
-
 
     var pagingContainer = $('.paging-container').on('click', '[data-page]', function () {
         query.page = $(this).data('page');
