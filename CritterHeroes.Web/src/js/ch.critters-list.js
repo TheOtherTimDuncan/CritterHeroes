@@ -4,11 +4,11 @@
 
     var query = cheroes.historyManager.copySafeQuery(cheroes.query);
 
-    var template = handlebars.compile($('#template').html());
+    var template = cheroes.templates.critters;
 
     var crittersContainer = $('#critters-container tbody');
     var critterUrl = crittersContainer.data('url');
-    var pictureUrl = crittersContainer.data('picture-url');
+    var pictureUrl = cheroes.pictureUrl;
 
     var pagingContainer = $('.paging-container').on('click', '[data-page]', function () {
         query.page = $(this).data('page');
@@ -55,6 +55,7 @@
                 }
 
                 pagingContainer.paging(data.paging);
+                data.pictureUrl = pictureUrl;
                 var html = template(data);
                 crittersContainer.html(html);
             }
