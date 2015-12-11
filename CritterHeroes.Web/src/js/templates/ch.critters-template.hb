@@ -2,7 +2,7 @@
 <tr>
     <td>
         {{#if pictureFilename}}
-        <img height="50" src="@Url.Picture()/{{id}}/{{pictureFilename}}" />
+        <img height="50" src="{{../pictureUrl}}/{{id}}/{{pictureFilename}}" />
         {{else}}
         &nbsp;
         {{/if}}

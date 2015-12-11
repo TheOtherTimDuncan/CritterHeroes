@@ -9,7 +9,9 @@
     "type": "git",
     "url": "https://github.com/TheOtherTimDuncan/CritterHeroes.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "handlebars": "^4.0.5"
+  },
   "devDependencies": {
     "del": "^2.0.2",
     "gulp": "^3.9.0",

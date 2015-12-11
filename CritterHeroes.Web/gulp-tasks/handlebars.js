@@ -17,12 +17,19 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('stage-templates', ['clean-templates'], function () {
 
         return gulp.src(srcTemplates + '/*.hb')
-            .pipe(plugins.handlebars())
+            .pipe(plugins.handlebars({
+                handlebars: require('handlebars')
+            }))
             .pipe(plugins.wrap('Handlebars.template(<%= contents %>)'))
             .pipe(plugins.declare({
                 namespace: 'cheroes.templates',
-                noRedeclare: true,
+                noRedeclare: false,
+                root: 'global',
+                processName: function (filePath) {
+                    return common.path.basename(filePath, '.js').replace('ch.', '').replace('-template', '');
+                }
             }))
+            .pipe(plugins.wrap('(function(global){\n"use strict";\n<%= contents %>\n})(this);'))
             .pipe(plugins.rev())
             .pipe(gulp.dest(stagingTemplates))
             .pipe(plugins.rev.manifest({ path: "versioned-templates.json", merge: true }))
