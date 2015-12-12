@@ -167,8 +167,8 @@ CritterHeroes.Web/AppSettings.config
 CritterHeroes.Web/ConnectionStrings.Local.config
 CritterHeroes.Web/dist/
 CritterHeroes.Web/src/lib/
-CritterHeroes.Web/src/less/bootstrap/
-CritterHeroes.Web/src/less/staging/
+CritterHeroes.Web/src/css/bootstrap/
+CritterHeroes.Web/src/css/staging/
 CritterHeroes.Web/src/staging/
 CritterHeroes.Web/.vscode
 versioned-js.json
