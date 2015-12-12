@@ -6,29 +6,9 @@ module.exports = function (gulp, plugins, common) {
     var libScripts = common.srcPath + '/lib';
     var appScripts = common.srcPath + '/js';
     var appBundle = appScripts + '/bundled';
-    var stagingScripts = common.srcPath + '/staging';
-
-    var hashes = {};
-
-    var getHashes = function () {
-
-        var collect = function (file, enc, cb) {
-            if (file.revHash) {
-                hashes[common.path.basename(file.revOrigPath, common.path.extname(file.revOrigPath))] = file.revHash;
-            }
-            this.push(file);
-            return cb();
-        };
-
-        return plugins.through2.obj(collect);
-    };
 
     gulp.task('clean-scripts', function () {
-        return plugins.del([distScripts + '/**', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
-    });
-
-    gulp.task('clean-scripts-staging', ['app-scripts'], function () {
-        return plugins.del(stagingScripts);
+        return common.del([distScripts + '/**/', common.distPath + '/lib/**/', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
     });
 
     gulp.task('copy-scripts-src', ['clean-scripts'], function () {
@@ -59,69 +39,57 @@ module.exports = function (gulp, plugins, common) {
 
     gulp.task('copy-scripts-dist', ['clean-scripts', 'copy-scripts-src'], function () {
 
-        return gulp.src([libScripts + '/*.js', '!' + libScripts + '/*.min.js'])
-            .pipe(plugins.flatten())
-            .pipe(plugins.rev())
-            .pipe(getHashes())
-            .pipe(gulp.dest(distScripts))
-            .pipe(plugins.rev.manifest({ path: "versioned-lib.json" }))
-            .pipe(gulp.dest('./'));
+        return gulp.src([libScripts + '/*.js', '!' + libScripts + '/*.min.js'], { base: common.srcPath })
+            .pipe(gulp.dest(common.distPath));
 
     });
 
     gulp.task('copy-scripts-dist-min', ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist'], function () {
 
-        return gulp.src([libScripts + '/*.min.js'])
+        return gulp.src([libScripts + '/*.min.js'], { base: common.srcPath })
             .pipe(plugins.plumber({
                 errorHandler: function (err) {
                     console.log(err);
                     this.emit('end');
                 }
             }))
-            .pipe(plugins.rename(function (path) {
-                var fileKey = common.path.basename(path.basename, '.min');
-                path.basename = fileKey + '-' + hashes[fileKey] + '.min';
-            }))
-            .pipe(plugins.flatten())
-            .pipe(gulp.dest(distScripts));
+            .pipe(plugins.rev())
+            .pipe(gulp.dest(common.distPath))
+            .pipe(plugins.rev.manifest({ path: "versioned-lib.json" }))
+            .pipe(gulp.dest('./'));
 
     });
 
-    gulp.task('stage-app-scripts', ['clean-scripts'], function () {
+    gulp.task('app-bundle', ['clean-scripts'], function () {
 
-        var bundleTask = gulp.src(appBundle + '/*.js')
-            .pipe(plugins.concat('cheroes.js'))
-            .pipe(plugins.rev())
-            .pipe(gulp.dest(stagingScripts))
-            .pipe(plugins.rev.manifest({ path: "versioned-js.json", merge: true }))
-            .pipe(gulp.dest('./'));
-
-        var remainingTask = gulp.src(appScripts + '/*.js')
-            .pipe(plugins.rev())
-            .pipe(gulp.dest(stagingScripts))
-            .pipe(plugins.rev.manifest({ path: "versioned-js.json", merge: true }))
-            .pipe(gulp.dest('./'));
-
-        return plugins.mergeStream(bundleTask, remainingTask);
-
-    });
-
-    gulp.task('app-scripts', ['clean-scripts', 'stage-app-scripts'], function () {
-
-        return gulp.src(stagingScripts + '/*.js')
-            .pipe(plugins.plumber({
-                errorHandler: function (err) {
-                    console.log(err);
-                    this.emit('end');
-                }
-            }))
-            .pipe(gulp.dest(distScripts))
+        return gulp.src(appBundle + '/*.js')
+            .pipe(plugins.concat('cheroes.js', { cwd: 'js' }))
+            .pipe(plugins.sourcemaps.init())
             .pipe(plugins.uglify())
             .pipe(plugins.rename({ extname: '.min.js' }))
-            .pipe(gulp.dest(distScripts));
+            .pipe(plugins.rev())
+            .pipe(plugins.sourcemaps.write('.'))
+            .pipe(gulp.dest(distScripts))
+            .pipe(plugins.rev.manifest("versioned-js.json", { merge: true, base: 'js' }))
+            .pipe(gulp.dest('./'));
+
 
     });
 
-    return ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist', 'copy-scripts-dist-min', 'stage-app-scripts', 'app-scripts', 'clean-scripts-staging'];
+    gulp.task('app-scripts', ['clean-scripts'], function () {
+
+        return gulp.src(appScripts + '/*.js', { base: common.srcPath })
+            .pipe(plugins.sourcemaps.init())
+            .pipe(plugins.uglify())
+            .pipe(plugins.rename({ extname: '.min.js' }))
+            .pipe(plugins.rev())
+            .pipe(plugins.sourcemaps.write('.'))
+            .pipe(gulp.dest(common.distPath))
+            .pipe(plugins.rev.manifest("versioned-js.json", { merge: true }))
+            .pipe(gulp.dest('./'));
+
+    });
+
+    return ['clean-scripts', 'copy-scripts-src', 'copy-scripts-dist', 'copy-scripts-dist-min', 'app-bundle', 'app-scripts'];
 
 };
