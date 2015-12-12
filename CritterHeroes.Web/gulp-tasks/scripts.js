@@ -8,7 +8,7 @@ module.exports = function (gulp, plugins, common) {
     var appBundle = appScripts + '/bundled';
 
     gulp.task('clean-scripts', function () {
-        return common.del([distScripts + '/**/', common.distPath + '/lib/**/', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
+        return plugins.del([distScripts + '/**/', common.distPath + '/lib/**/', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
     });
 
     gulp.task('copy-scripts-src', ['clean-scripts'], function () {

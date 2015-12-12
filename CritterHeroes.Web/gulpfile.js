@@ -13,7 +13,6 @@ var common = {
     distPath: 'dist',
     fs: require('fs'),
     path: require('path'),
-    del: require('del'),
     bowerBase: 'bower_components'
 };
 
