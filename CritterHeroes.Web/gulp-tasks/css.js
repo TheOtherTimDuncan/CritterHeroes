@@ -8,7 +8,7 @@ module.exports = function (gulp, plugins, common) {
     var distFonts = common.distPath + '/fonts';
     var distImages = common.distPath + '/images';
 
-    var srcLess = common.srcPath + '/less';
+    var srcLess = common.srcPath + '/css';
     var srcImages = common.srcPath + '/images';
 
     var libBootstrap = srcLess + '/bootstrap';
@@ -49,15 +49,15 @@ module.exports = function (gulp, plugins, common) {
 
         var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
 
-        return gulp.src(srcLess + '/*.less')
-            .pipe(plugins.sourcemaps.init())
+        return gulp.src(srcLess + '/*.less', { base: common.srcPath })
             .pipe(plugins.less({ plugins: [autoprefix] }))
-            .pipe(gulp.dest(distCss))
+            .pipe(gulp.dest(common.distPath))
+            .pipe(plugins.sourcemaps.init())
             .pipe(plugins.minifyCss())
             .pipe(plugins.rename({ extname: '.min.css' }))
             .pipe(plugins.rev())
             .pipe(plugins.sourcemaps.write('.'))
-            .pipe(gulp.dest(distCss))
+            .pipe(gulp.dest(common.distPath))
             .pipe(plugins.rev.manifest("versioned-css.json"))
             .pipe(gulp.dest('./'));
 
