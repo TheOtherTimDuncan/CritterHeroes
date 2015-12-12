@@ -20,6 +20,7 @@ namespace CH.Test
             mockFileSystem.Setup(x => x.ReadAllText("/versioned-js.json")).Returns(LibManifest);
             mockFileSystem.Setup(x => x.ReadAllText("/versioned-lib.json")).Returns("{}");
             mockFileSystem.Setup(x => x.ReadAllText("/versioned-css.json")).Returns("{}");
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-templates.json")).Returns("{}");
             mockFileSystem.Setup(x => x.MapServerPath(It.IsAny<string>())).Returns((string path) => path);
 
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
@@ -28,7 +29,7 @@ namespace CH.Test
 
             VersionedStatics.Configure(mockFileSystem.Object, mockHttpContext.Object);
             VersionedStatics.IsDebug = true;
-            VersionedStatics.UrlFor("file1.js").Should().Be("~/dist/js/file1-12345.js");
+            VersionedStatics.UrlFor("file1.js").Should().Be("~/dist/js/file1.js");
         }
 
         [TestMethod]
@@ -38,6 +39,7 @@ namespace CH.Test
             mockFileSystem.Setup(x => x.ReadAllText("/versioned-js.json")).Returns(LibManifest);
             mockFileSystem.Setup(x => x.ReadAllText("/versioned-lib.json")).Returns("{}");
             mockFileSystem.Setup(x => x.ReadAllText("/versioned-css.json")).Returns("{}");
+            mockFileSystem.Setup(x => x.ReadAllText("/versioned-templates.json")).Returns("{}");
             mockFileSystem.Setup(x => x.MapServerPath(It.IsAny<string>())).Returns((string path) => path);
 
             Mock<IHttpContext> mockHttpContext = new Mock<IHttpContext>();
@@ -49,6 +51,6 @@ namespace CH.Test
             VersionedStatics.UrlFor("file1.js").Should().Be("~/dist/js/file1-12345.min.js");
         }
 
-        public const string LibManifest = "{\"file1.js\": \"file1-12345.js\"}";
+        public const string LibManifest = "{\"js/file1.min.js\": \"js/file1-12345.min.js\"}";
     }
 }

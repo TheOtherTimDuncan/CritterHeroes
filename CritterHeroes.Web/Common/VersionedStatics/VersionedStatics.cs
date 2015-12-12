@@ -14,12 +14,7 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
         private const string pathDist = "~/dist";
 
-        private static readonly string[,] _manifests = new string[,] {
-            { "/versioned-lib.json","js" },
-            { "/versioned-js.json","js" },
-            { "/versioned-css.json","css" },
-            { "/versioned-templates.json","templates" }
-        };
+        private static readonly string[] _manifests = new[] { "/versioned-lib.json", "/versioned-js.json", "/versioned-css.json", "/versioned-templates.json" };
 
         public static bool IsDebug
         {
@@ -33,20 +28,19 @@ namespace CritterHeroes.Web.Common.VersionedStatics
 
             IsDebug = httpContext.IsDebuggingEnabled;
 
-            for (int i = 0; i < _manifests.GetLength(0); i++)
+            foreach (string manifest in _manifests)
             {
-                string filename = fileSystem.MapServerPath(_manifests[i, 0]);
-                string folder = _manifests[i, 1];
+                string filename = fileSystem.MapServerPath(manifest);
 
                 JObject json = JObject.Parse(fileSystem.ReadAllText(filename));
 
                 foreach (JProperty property in json.Properties())
                 {
-                    string debugFilename = property.Value.Value<string>();
-                    string productionFilename = fileSystem.GetFileNameWithoutExtension(debugFilename) + ".min" + fileSystem.GetFileExtension(debugFilename);
-                    string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/{folder}/{debugFilename}");
-                    string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/{folder}/{productionFilename}");
-                    _tags[property.Name] = new StaticFile(debugUrl, productionUrl);
+                    string productionFilePath = property.Value.Value<string>();
+                    string debugFilePath = property.Name.Replace(".min", "");
+                    string debugUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/{debugFilePath}");
+                    string productionUrl = httpContext.ConvertToAbsoluteUrl($"{pathDist}/{productionFilePath}");
+                    _tags[fileSystem.GetFileName(debugFilePath)] = new StaticFile(debugUrl, productionUrl);
                 }
             }
         }
@@ -60,16 +54,6 @@ namespace CritterHeroes.Web.Common.VersionedStatics
             }
 
             string url = (IsDebug ? staticFile.DebugUrl : staticFile.ProductionUrl);
-#if DEBUG
-            IHttpContext httpContext = DependencyResolver.Current.GetService<IHttpContext>();
-            IFileSystem fileSystem = DependencyResolver.Current.GetService<IFileSystem>();
-            string localFilename = httpContext.Server.MapPath(url);
-            if (!System.IO.File.Exists(localFilename))
-            {
-                Configure(fileSystem, httpContext);
-                return UrlFor(filename);
-            }
-#endif
             return url;
         }
     }
