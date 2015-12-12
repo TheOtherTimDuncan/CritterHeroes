@@ -396,9 +396,9 @@
     <None Include="src\lib\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </None>
-    <None Include="src\lib\handlebars.js" />
-    <None Include="src\lib\handlebars.min.js">
-      <DependentUpon>handlebars.js</DependentUpon>
+    <None Include="src\lib\handlebars.runtime.js" />
+    <None Include="src\lib\handlebars.runtime.min.js">
+      <DependentUpon>handlebars.runtime.js</DependentUpon>
     </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
