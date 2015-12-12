@@ -79,6 +79,7 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('app-scripts', ['clean-scripts'], function () {
 
         return gulp.src(appScripts + '/*.js', { base: common.srcPath })
+            .pipe(gulp.dest(common.distPath))
             .pipe(plugins.sourcemaps.init())
             .pipe(plugins.uglify())
             .pipe(plugins.rename({ extname: '.min.js' }))
