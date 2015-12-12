@@ -63,14 +63,15 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('app-bundle', ['clean-scripts'], function () {
 
         return gulp.src(appBundle + '/*.js')
-            .pipe(plugins.concat('cheroes.js', { cwd: 'js' }))
+            .pipe(plugins.concat('js/cheroes.js'))
+            .pipe(gulp.dest(common.distPath))
             .pipe(plugins.sourcemaps.init())
             .pipe(plugins.uglify())
             .pipe(plugins.rename({ extname: '.min.js' }))
             .pipe(plugins.rev())
             .pipe(plugins.sourcemaps.write('.'))
-            .pipe(gulp.dest(distScripts))
-            .pipe(plugins.rev.manifest("versioned-js.json", { merge: true, base: 'js' }))
+            .pipe(gulp.dest(common.distPath))
+            .pipe(plugins.rev.manifest({ path: "versioned-js.json", merge: true }))
             .pipe(gulp.dest('./'));
 
 
