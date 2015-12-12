@@ -296,8 +296,8 @@
     <Content Include="Areas\Home\Views\_Header.cshtml" />
     <Content Include="Areas\Home\Views\_Menu.cshtml" />
     <Content Include="gulp-tasks\handlebars.js" />
-    <Content Include="src\js\templates\ch.contacts-template.hb" />
-    <None Include="src\js\templates\ch.critters-template.hb" />
+    <None Include="src\templates\ch.contacts-template.hb" />
+    <None Include="src\templates\ch.critters-template.hb" />
     <None Include="src\css\cheroes\bootstrap.less" />
     <None Include="src\css\site.less" />
     <None Include="gulpfile.js" />
