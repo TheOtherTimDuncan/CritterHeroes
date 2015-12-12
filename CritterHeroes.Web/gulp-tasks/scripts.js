@@ -47,8 +47,8 @@ module.exports = function (gulp, plugins, common) {
             common.bowerBase + '/dropzone/dist/min/dropzone.min.js',
             common.bowerBase + '/bootstrap/dist/js/bootstrap.js',
             common.bowerBase + '/bootstrap/dist/js/bootstrap.min.js',
-            'node_modules/handlebars/dist/handlebars.js',
-            'node_modules/handlebars/dist/handlebars.min.js'
+            'node_modules/handlebars/dist/handlebars.runtime.js',
+            'node_modules/handlebars/dist/handlebars.runtime.min.js'
         ];
 
         return gulp.src(sources, { base: common.bowerBase })
