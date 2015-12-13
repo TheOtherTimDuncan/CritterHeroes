@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using CritterHeroes.Web.Common.VersionedStatics;
 using CritterHeroes.Web.Contracts;
+using SimpleInjector.Integration.Web.Mvc;
 
 namespace CritterHeroes.Web
 {
@@ -11,6 +12,7 @@ namespace CritterHeroes.Web
         protected void Application_Start()
         {
             var container = DIConfig.ConfigureDependencyContainer();
+            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
 
             ValidationConfig.ConfigureValidation(container);
             VersionedStatics.Configure(container.GetInstance<IFileSystem>(), container.GetInstance<IHttpContext>());

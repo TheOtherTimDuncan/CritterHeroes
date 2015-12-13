@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
@@ -34,7 +33,6 @@ using Microsoft.Owin;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SimpleInjector.Integration.Web;
-using SimpleInjector.Integration.Web.Mvc;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web
@@ -103,7 +101,6 @@ namespace CritterHeroes.Web
             RegisterContextSensitiveInterfaces(container);
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
-            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
 
             return container;
         }
