@@ -101,7 +101,7 @@ namespace CritterHeroes.Web.Areas.Account
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await CommandDispatcher.DispatchAsync<ResetPasswordModel>(model);
+                CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (!commandResult.Succeeded)
                 {
                     AddCommandResultErrorsToModelState(ModelState, commandResult);

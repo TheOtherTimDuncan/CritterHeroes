@@ -1,27 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Dispatchers;
-using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models.Logging;
+using CritterHeroes.Web.Common.Queries;
 using FluentAssertions;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -31,281 +20,284 @@ namespace CH.Test.ControllerTests
     public class AccountControllerTests : BaseControllerTest
     {
         [TestMethod]
-        public void GetLoginReturnsViewWithModel()
-        {
-            LoginQuery loginQuery = new LoginQuery()
-            {
-            };
-
-            AccountController controller = CreateController<AccountController>();
-
-            ViewResult viewResult = controller.Login(loginQuery) as ViewResult;
-            viewResult.Should().NotBeNull();
-            viewResult.Model.Should().NotBeNull();
-            viewResult.Model.Should().BeOfType<LoginModel>();
-        }
-
-        [TestMethod]
-        public async Task PostLoginReturnsViewWithModelErrorsIfLoginFails()
+        public void LoginGetReturnsViewWithModel()
         {
             LoginModel model = new LoginModel();
 
-            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
+            LoginQuery query = new LoginQuery();
 
-            AccountController controller = CreateController<AccountController>();
+            mockQueryDispatcher.Setup(x => x.Dispatch(query)).Returns(model);
 
-            ViewResult viewResult = (await controller.Login(model, null)) as ViewResult;
-            viewResult.Should().NotBeNull();
+            ViewResult result = TestController<AccountController, ViewResult>((controller) => controller.Login(query));
+            result.Model.Should().Be(model);
 
-            controller.ModelState.IsValid.Should().BeFalse();
-            controller.ModelState[""].Errors[0].ErrorMessage.Should().Be("The username or password that you entered was incorrect. Please try again.");
-
-            mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Email), Times.Once);
+            mockQueryDispatcher.Verify(x => x.Dispatch(query), Times.Once);
         }
 
         [TestMethod]
-        public async Task PostLoginRedirectsToHomeIfLoginSuccessfulAndNoReturnUrl()
+        public async Task LoginPostReturnsViewWithModelIfModelStateIsInvalid()
         {
-            LoginModel model = new LoginModel()
+            LoginModel model = new LoginModel();
+
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) =>
             {
-                Email = "email@email.com",
-                Password = "password"
-            };
+                controller.ModelState.AddModelError("", "test");
+                controller.ModelState.IsValid.Should().BeFalse();
 
-            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
+                return await controller.Login(model, null);
+            });
 
-            AccountController controller = CreateController<AccountController>();
-            controller.Url = new MockUrlHelper(new MockHttpContext());
-
-            RedirectToLocalResult redirectResult = (await controller.Login(model, null)) as RedirectToLocalResult;
-            redirectResult.Should().NotBeNull();
-
-            mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Email), Times.Once);
+            result.Model.Should().Be(model);
         }
 
         [TestMethod]
-        public async Task PostLoginRedirectsToReturnUrlIfLoginSuccessfulAndHasReturnUrl()
+        public async Task LoginPostReturnsViewWithModelErrorsIfCommandHandlerFails()
         {
-            LoginModel model = new LoginModel()
+            LoginModel model = new LoginModel();
+
+            string error = "error";
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Failed(error)));
+
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) =>
+             {
+                 controller.ModelState.IsValid.Should().BeTrue();
+
+                 ActionResult actionResult = await controller.Login(model, null);
+
+                 ModelState modelState = controller.ModelState[""];
+                 modelState.Errors.Should().HaveCount(1);
+                 modelState.Errors[0].ErrorMessage.Should().Be(error);
+
+                 return actionResult;
+             });
+
+            result.Model.Should().Be(model);
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task LoginPostRedirectsToHomeIfModelStateIsValidAndCommandHandlerSucceedsAndNoReturnUrl()
+        {
+            LoginModel model = new LoginModel();
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Success()));
+
+            RedirectToLocalResult result = await TestController<AccountController, RedirectToLocalResult>(async (controller) =>
             {
-                Email = "email@email.com",
-                Password = "password"
-            };
+                controller.ModelState.IsValid.Should().BeTrue();
 
-            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
+                return await controller.Login(model, null);
+            });
 
-            AccountController controller = CreateController<AccountController>();
-            controller.Url = new MockUrlHelper(new MockHttpContext());
-
-            RedirectToLocalResult redirectResult = (await controller.Login(model, "/Account/EditProfile")) as RedirectToLocalResult;
-            redirectResult.Should().NotBeNull();
-            redirectResult.Url.Should().Be("/Account/EditProfile");
-
-            mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Email), Times.Once);
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
         }
 
         [TestMethod]
-        public async Task GetEditProfileReturnsViewWithModel()
+        public async Task LoginPostRedirectsToReturnUrlfModelStateIsValidAndCommandHandlerSucceedsAndHasReturnUrl()
         {
-            AppUser user = new AppUser("email@email.com");
-            user.Person.FirstName = "First";
-            user.Person.LastName = "Last";
+            LoginModel model = new LoginModel();
 
-            mockAppUserStorageContext.AddEntity(user);
+            string url = "/Account/EditProfile";
 
-            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Success()));
 
-            Mock<IHeaderDictionary> mockHeaderDictionary = new Mock<IHeaderDictionary>();
-            string[] headerValue = new string[] { "http://google.com" };
-            mockHeaderDictionary.Setup(x => x.TryGetValue(It.IsAny<string>(), out headerValue)).Returns(true);
-
-            mockOwinContext.Setup(x => x.Request.Headers).Returns(mockHeaderDictionary.Object);
-
-            AccountController controller = CreateController<AccountController>();
-
-            ViewResult viewResult = (ViewResult)await controller.EditProfile();
-            viewResult.Model.Should().NotBeNull();
-            viewResult.Model.Should().BeOfType<EditProfileModel>();
-        }
-
-        [TestMethod]
-        public async Task PostEditProfileRedirectsToReturnUrlOnSuccess()
-        {
-            AppUser user = new AppUser("email@email.com");
-
-            EditProfileModel model = new EditProfileModel()
+            RedirectToLocalResult result = await TestController<AccountController, RedirectToLocalResult>(async (controller) =>
             {
-                Email = user.Email,
-            };
+                controller.ModelState.IsValid.Should().BeTrue();
 
-            mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
+                return await controller.Login(model, url);
+            });
 
-            mockUserManager.Setup(x => x.FindByNameAsync(user.UserName)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+            result.Url.Should().Be(url);
 
-            Mock<UrlHelper> mockUrlHelper = new Mock<UrlHelper>();
-            mockUrlHelper.Setup(x => x.IsLocalUrl(It.IsAny<string>())).Returns(true);
-
-            AccountController controller = CreateController<AccountController>();
-            controller.Url = mockUrlHelper.Object;
-
-            RedirectToPreviousResult redirectResult = await controller.EditProfile(model) as RedirectToPreviousResult;
-            redirectResult.Should().NotBeNull();
-
-            mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
-            mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
-            mockUserContextManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
         }
 
         [TestMethod]
-        public async Task PostEditProfileReturnsModelErrorIfCommandFails()
+        public async Task EditProfileGetReturnsViewWithModel()
         {
-            string userID = Guid.NewGuid().ToString();
-
             EditProfileModel model = new EditProfileModel();
 
-            ClaimsIdentity identity = new ClaimsIdentity();
-            identity.AddClaim(new Claim(AppClaimTypes.UserID, userID));
+            mockQueryDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(It.IsAny<UserIDQuery>())).Returns(Task.FromResult(model));
 
-            Mock<ICommandDispatcher> mockDispatcher = new Mock<ICommandDispatcher>();
-            mockDispatcher.Setup(x => x.DispatchAsync<EditProfileModel>(model)).Returns(Task.FromResult(CommandResult.Failed("Error")));
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) => await controller.EditProfile());
+            result.Model.Should().Be(model);
 
-            MockHttpContext mockHttpContext = new MockHttpContext();
-            mockHttpContext.Setup(x => x.User).Returns(new ClaimsPrincipal(identity));
-
-            AccountController controller = new AccountController(null, mockDispatcher.Object);
-            controller.ControllerContext = CreateControllerContext(mockHttpContext, controller);
-
-            ActionResult actionResult = await controller.EditProfile(model);
-            actionResult.Should().BeOfType<ViewResult>();
-
-            controller.ModelState.IsValid.Should().BeFalse();
-            controller.ModelState[""].Errors[0].ErrorMessage.Should().Be("Error");
-
-            mockDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(model), Times.Once);
+            mockQueryDispatcher.Verify(x => x.DispatchAsync<EditProfileModel>(It.IsAny<UserIDQuery>()), Times.Once);
         }
 
         [TestMethod]
-        public async Task PostForgotPasswordReturnsJsonCommandResultIfCommandSucceeds()
+        public async Task EditProfilePostReturnsViewWithModelIfModelStateIsInvalid()
         {
-            ForgotPasswordModel model = new ForgotPasswordModel()
+            EditProfileModel model = new EditProfileModel();
+
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) =>
             {
-                ResetPasswordEmail = "email@email.com"
-            };
+                controller.ModelState.AddModelError("", "test");
+                controller.ModelState.IsValid.Should().BeFalse();
 
-            AppUser user = new AppUser(model.ResetPasswordEmail);
+                return await controller.EditProfile(model);
+            });
 
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.ResetPasswordEmail)).Returns(Task.FromResult(user));
+            result.Model.Should().Be(model);
+        }
 
-            AccountController controller = CreateController<AccountController>();
-            controller.ControllerContext = CreateControllerContext(new MockHttpContext(), controller);
+        [TestMethod]
+        public async Task EditProfilePostReturnsViewWithModelErrorsIfCommandHandlerFails()
+        {
+            EditProfileModel model = new EditProfileModel();
 
-            ActionResult actionResult = await controller.ForgotPassword(model);
+            string error = "error";
 
-            JsonResult jsonResult = actionResult as JsonResult;
-            jsonResult.Should().NotBeNull();
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Failed(error)));
 
-            JsonCommandResult resultModel = jsonResult.Data as JsonCommandResult;
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+
+                ActionResult actionResult = await controller.EditProfile(model);
+
+                ModelState modelState = controller.ModelState[""];
+                modelState.Errors.Should().HaveCount(1);
+                modelState.Errors[0].ErrorMessage.Should().Be(error);
+
+                return actionResult;
+            });
+
+            result.Model.Should().Be(model);
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task EditProfilePostRedirectsIfModelStateIsValidAndCommandHandlerSucceeds()
+        {
+            EditProfileModel model = new EditProfileModel();
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Success()));
+
+            RedirectToPreviousResult result = await TestController<AccountController, RedirectToPreviousResult>(async (controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+
+                return await controller.EditProfile(model);
+            });
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task ForgotPasswordPostReturnsJsonWithErrorIfModelStateIsInvalid()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
+
+            string error = "error";
+
+            JsonResult result = await TestController<AccountController, JsonResult>(async (controller) =>
+            {
+                controller.ModelState.AddModelError("", error);
+                controller.ModelState.IsValid.Should().BeFalse();
+
+                return await controller.ForgotPassword(model);
+            });
+
+            JsonCommandResult resultModel = result.Data as JsonCommandResult;
             resultModel.Should().NotBeNull();
+
+            resultModel.Succeeded.Should().BeFalse();
+            resultModel.Message.Should().Be(error);
+        }
+
+        [TestMethod]
+        public async Task ForgotPasswordPostReturnJsonWithErrorIfModelStateIsValidAndCommandHandlerFails()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
+
+            string error = "error";
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Failed(error)));
+
+            JsonResult result = await TestController<AccountController, JsonResult>(async (controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+
+                return await controller.ForgotPassword(model);
+            });
+
+            JsonCommandResult resultModel = result.Data as JsonCommandResult;
+            resultModel.Should().NotBeNull();
+
+            resultModel.Succeeded.Should().BeFalse();
+            resultModel.Message.Should().Be(error);
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task ForgotPasswordPostReturnJsonIfModelStateIsValidAndCommandHandlerSucceeds()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Success()));
+
+            JsonResult result = await TestController<AccountController, JsonResult>(async (controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+
+                return await controller.ForgotPassword(model);
+            });
+
+            JsonCommandResult resultModel = result.Data as JsonCommandResult;
+            resultModel.Should().NotBeNull();
+
             resultModel.Succeeded.Should().BeTrue();
 
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.ResetPasswordEmail), Times.Once);
-            mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
-            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
         }
 
         [TestMethod]
-        public async Task PostResetPasswordReturnsModelErrorIfUsernameIsInvalid()
+        public async Task ResetPostReturnsViewWithModelIfModelStateIsInvalid()
         {
-            ResetPasswordModel model = new ResetPasswordModel()
+            ResetPasswordModel model = new ResetPasswordModel();
+
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) =>
             {
-                Email = "unit.test",
-                Code = "code"
-            };
+                controller.ModelState.AddModelError("", "test");
+                controller.ModelState.IsValid.Should().BeFalse();
 
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
+                return await controller.ResetPassword(model);
+            });
 
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
-            ActionResult actionResult = await controller.ResetPassword(model);
-
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
+            result.Model.Should().Be(model);
         }
 
         [TestMethod]
-        public async Task PostResetPasswordReturnsModelErrorIfResetPasswordFails()
+        public async Task ResetPasswordPostReturnsViewWithModelErrorsIfCommandHandlerFails()
         {
-            ResetPasswordModel model = new ResetPasswordModel()
+            ResetPasswordModel model = new ResetPasswordModel();
+
+            string error = "error";
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(model)).Returns(Task.FromResult(CommandResult.Failed(error)));
+
+            ViewResult result = await TestController<AccountController, ViewResult>(async (controller) =>
             {
-                Email = "email@email.com",
-                Code = "code"
-            };
+                controller.ModelState.IsValid.Should().BeTrue();
 
-            AppUser user = new AppUser(model.Email);
+                ActionResult actionResult = await controller.ResetPassword(model);
 
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
+                ModelState modelState = controller.ModelState[""];
+                modelState.Errors.Should().HaveCount(1);
+                modelState.Errors[0].ErrorMessage.Should().Be(error);
 
-            AccountController controller = CreateController<AccountController>();
-            ActionResult actionResult = await controller.ResetPassword(model);
+                return actionResult;
+            });
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-        }
+            result.Model.Should().Be(model);
 
-        [TestMethod]
-        public async Task PostResetPasswordReturnsModelErrorIfLoginFails()
-        {
-            ResetPasswordModel model = new ResetPasswordModel()
-            {
-                Email = "unit.test",
-                Code = "code"
-            };
-
-            AppUser user = new AppUser(model.Email);
-
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
-
-            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
-
-            AccountController controller = new AccountController(new QueryDispatcher(container), new CommandDispatcher(container));
-            ActionResult actionResult = await controller.ResetPassword(model);
-
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-            mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-        }
-
-        [TestMethod]
-        public async Task PostResetPasswordReturnsViewIfResetPasswordSucceeds()
-        {
-            ResetPasswordModel model = new ResetPasswordModel()
-            {
-                Email = "unit.test",
-                Code = "code",
-                Password = "password"
-            };
-
-            AppUser user = new AppUser(model.Email);
-
-            mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Success));
-
-            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
-
-            AccountController controller = CreateController<AccountController>();
-            ActionResult actionResult = await controller.ResetPassword(model);
-
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, model.Email), Times.Once);
-            mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(model), Times.Once);
         }
     }
 }

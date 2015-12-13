@@ -1,110 +1,77 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 using CH.Test.Mocks;
-using CritterHeroes.Web;
 using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Common.Dispatchers;
-using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Email;
-using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
-using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SimpleInjector;
-using SimpleInjector.Integration.Web.Mvc;
+using TOTD.Mvc;
 using TOTD.Mvc.FluentHtml;
 
 namespace CH.Test.ControllerTests
 {
     public class BaseControllerTest : BaseTest
     {
-        public Container container;
+        public MockHttpContext mockHttpContext;
 
-        public Mock<IUserLogger> mockUserLogger;
-        public Mock<IAppSignInManager> mockSignInManager;
-        public Mock<IUrlGenerator> mockUrlGenerator;
-        public Mock<IAuthenticationManager> mockAuthenticationManager;
-        public Mock<IHttpUser> mockHttpUser;
-        public Mock<IOwinContext> mockOwinContext;
-        public Mock<IEmailService> mockEmailService;
-        public Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager;
-        public Mock<IStateManager<UserContext>> mockUserContextManager;
-        public Mock<IAppUserManager> mockUserManager;
-        public OrganizationContext organizationContext;
-        public UserContext userContext;
-        public MockSqlStorageContext<AppUser> mockAppUserStorageContext;
-        public Mock<IOrganizationLogoService> mockOrganizationLogoService;
+        public Mock<IQueryDispatcher> mockQueryDispatcher;
+        public Mock<ICommandDispatcher> mockCommandDispatcher;
 
         [TestInitialize]
-        public void InitializeTest()
+        public void SetupDependencyContainer()
         {
-            container = new Container();
-            DIConfig.RegisterHandlers(container, new Assembly[] { typeof(MvcApplication).Assembly });
-            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
-
-            container.Register<ICommandDispatcher, CommandDispatcher>();
-            container.Register<IQueryDispatcher, QueryDispatcher>();
-
-            mockUserLogger = new Mock<IUserLogger>();
-            container.Register<IUserLogger>(() => mockUserLogger.Object);
-
-            mockSignInManager = new Mock<IAppSignInManager>();
-            container.Register<IAppSignInManager>(() => mockSignInManager.Object);
-
-            mockUserManager = new Mock<IAppUserManager>();
-            container.Register(() => mockUserManager.Object);
-
-            mockUrlGenerator = new Mock<IUrlGenerator>();
-            container.Register<IUrlGenerator>(() => mockUrlGenerator.Object);
-
-            mockAuthenticationManager = new Mock<IAuthenticationManager>();
-            container.Register<IAuthenticationManager>(() => mockAuthenticationManager.Object);
-
-            mockHttpUser = new Mock<IHttpUser>();
-            container.Register(() => mockHttpUser.Object, Lifestyle.Singleton);
-
-            mockUserContextManager = new Mock<IStateManager<UserContext>>();
-            container.Register(() => mockUserContextManager.Object);
-
-            mockOwinContext = new Mock<IOwinContext>();
-            container.Register(() => mockOwinContext.Object);
-
-            mockOrganizationStateManager = new Mock<IStateManager<OrganizationContext>>();
-            organizationContext = new OrganizationContext();
-            mockOrganizationStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
-            container.Register(() => mockOrganizationStateManager.Object);
-
-            mockEmailService = new Mock<IEmailService>();
-            container.Register(() => mockEmailService.Object);
-
-            mockAppUserStorageContext = new MockSqlStorageContext<AppUser>();
-            container.Register(() => mockAppUserStorageContext.Object);
-
-            mockOrganizationLogoService = new Mock<IOrganizationLogoService>();
-            container.Register(() => mockOrganizationLogoService.Object);
+            mockQueryDispatcher = new Mock<IQueryDispatcher>(MockBehavior.Strict); // Only what is mocked in the test should be called
+            mockCommandDispatcher = new Mock<ICommandDispatcher>(MockBehavior.Strict); // Only what is mocked in the test should be called
+            mockHttpContext = new MockHttpContext();
         }
 
         public T CreateController<T>() where T : BaseController
         {
-            return container.GetInstance<T>();
+            T controller = (T)Activator.CreateInstance(typeof(T), mockQueryDispatcher.Object, mockCommandDispatcher.Object);
+
+            RouteCollection routeCollection = new RouteCollection();
+            routeCollection.Add(new Route("{controller}/{action}/{id}", null) { Defaults = new RouteValueDictionary(new { id = "defaultid" }) });
+
+            controller.ControllerContext = new ControllerContext(mockHttpContext.Object.Request.RequestContext, controller);
+            controller.Url = new UrlHelper(mockHttpContext.Object.Request.RequestContext, routeCollection);
+
+            string controllerRoute = typeof(T).Name;
+            controllerRoute = controllerRoute.Substring(0, controllerRoute.Length - "Controller".Length);
+            controller.RouteData.Values.Add("controller", controllerRoute);
+
+            return controller;
         }
 
-        public ControllerContext CreateControllerContext(Mock<HttpContextBase> mockHttpContext, ControllerBase controller)
+        public ResultType TestController<ControllerType, ResultType>(Func<ControllerType, ActionResult> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
         {
-            return new ControllerContext(mockHttpContext.Object, mockHttpContext.Object.Request.RequestContext.RouteData, controller);
+            using (ControllerType controller = CreateController<ControllerType>())
+            {
+                ResultType result = test(controller) as ResultType;
+                result.Should().NotBeNull("expected " + typeof(ResultType).Name + " to be returned");
+                return result;
+            }
+        }
+
+        public async Task<ResultType> TestController<ControllerType, ResultType>(Func<ControllerType, Task<ActionResult>> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            using (ControllerType controller = CreateController<ControllerType>())
+            {
+                ResultType result = (await test(controller)) as ResultType;
+                result.Should().NotBeNull("expected " + typeof(ResultType).Name + " to be returned");
+                return result;
+            }
         }
 
         public void VerifyRedirectToRouteResult(RedirectToRouteResult redirectResult, string actionName, string controllerName)
@@ -112,6 +79,30 @@ namespace CH.Test.ControllerTests
             redirectResult.Should().NotBeNull();
             redirectResult.RouteValues[RouteValueKeys.Controller].Should().Be(controllerName);
             redirectResult.RouteValues[RouteValueKeys.Action].Should().Be(actionName);
+        }
+
+        public T GetJsonResultValue<T>(JsonResult jsonResult, string key)
+        {
+            return GetPropertyValue<T>(jsonResult.Data, key);
+        }
+
+        public T GetJsonResultValue<T>(JsonCamelCaseResult jsonResult, string key)
+        {
+            return GetPropertyValue<T>(jsonResult.Data, key);
+        }
+
+        private T GetPropertyValue<T>(object data, string key)
+        {
+            PropertyInfo propertyInfo = data.GetType().GetProperty(key);
+            object propertyValue = propertyInfo.GetValue(data, null);
+            propertyValue.Should().NotBeNull(key + " should exist in " + data.GetType().Name);
+
+            if (propertyValue is IEnumerable)
+            {
+                return (T)propertyValue;
+            }
+
+            return (T)Convert.ChangeType(propertyValue, typeof(T));
         }
     }
 }
