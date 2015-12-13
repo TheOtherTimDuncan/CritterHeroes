@@ -60,11 +60,16 @@ namespace CH.Test.EntityTests
         [TestMethod]
         public void AllEntityClassesShouldHaveDefaultEmptyConstructor()
         {
-            var invalidTypes =
+            var configurations =
                 from t in typeof(BaseDbContext).Assembly.GetExportedTypes()
                 let b = t.BaseType
                 where b != null && b.IsGenericType && b.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>)
-                from g in b.GetGenericArguments()
+                select t;
+            configurations.Should().NotBeNullOrEmpty("doesn't help to verify entity classes if we can't find their configurations");
+
+            var invalidTypes =
+                from t in configurations
+                from g in t.GetGenericArguments()
                 let c = g.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null)
                 where (c == null) || ((c.Attributes & MethodAttributes.Private) == MethodAttributes.Private)
                 select g;
