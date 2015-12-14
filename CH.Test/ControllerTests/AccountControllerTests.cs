@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
+using CritterHeroes.Web.Areas.Admin.Critters;
 using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
@@ -62,6 +63,17 @@ namespace CH.Test.ControllerTests
         }
 
         [TestMethod]
+        public void LogoutRedirectsToHome()
+        {
+            mockCommandDispatcher.Setup(x => x.Dispatch(It.IsAny<LogoutModel>())).Returns(CommandResult.Success());
+
+            RedirectToRouteResult result = TestController<AccountController, RedirectToRouteResult>((controller) => controller.LogOut());
+            VerifyRedirectToRouteResult(result, nameof(CrittersController.Index), CrittersController.Route);
+
+            mockCommandDispatcher.Verify(x => x.Dispatch(It.IsAny<LogoutModel>()), Times.Once);
+        }
+
+        [TestMethod]
         public async Task EditProfileGetReturnsViewWithModel()
         {
             EditProfileModel model = new EditProfileModel();
@@ -96,6 +108,12 @@ namespace CH.Test.ControllerTests
         {
             EditProfileModel model = new EditProfileModel();
             RedirectToPreviousResult result = await TestControllerPostSuccessWithValidModelStateAsync<AccountController, RedirectToPreviousResult>(model, async (controller) => await controller.EditProfile(model));
+        }
+
+        [TestMethod]
+        public void ForgotPasswordGetReturnsPartialView()
+        {
+            PartialViewResult result = TestController<AccountController, PartialViewResult>((controller) => controller.ForgotPassword());
         }
 
         [TestMethod]
@@ -143,6 +161,18 @@ namespace CH.Test.ControllerTests
         }
 
         [TestMethod]
+        public void ResetPasswordGetReturnsViewWithModel()
+        {
+            string code = "code";
+
+            ViewResult result = TestController<AccountController, ViewResult>((controller) => controller.ResetPassword(code));
+
+            ResetPasswordModel model = result.Model as ResetPasswordModel;
+            model.Should().NotBeNull();
+            model.Code.Should().Be(code);
+        }
+
+        [TestMethod]
         public async Task ResetPostReturnsViewWithModelIfModelStateIsInvalid()
         {
             ResetPasswordModel model = new ResetPasswordModel();
@@ -157,6 +187,45 @@ namespace CH.Test.ControllerTests
             string error = "error";
             ViewResult result = await TestControllerPostFailWithValidModelStateAsync<AccountController, ViewResult>(model, error, async (controller) => await controller.ResetPassword(model));
             result.Model.Should().Be(model);
+        }
+
+        [TestMethod]
+        public async Task ConfirmEmailGetReturnsViewWithEmptyModelIfEmailIsMissing()
+        {
+            ViewResult result = await TestControllerAsync<AccountController, ViewResult>(async (controller) => await controller.ConfirmEmail(email: null, confirmationCode: "code"));
+            ConfirmEmailModel model = result.Model as ConfirmEmailModel;
+            model.Should().NotBeNull();
+            model.Email.Should().BeNull();
+            model.ConfirmationCode.Should().BeNull();
+        }
+
+        [TestMethod]
+        public async Task ConfirmEmailGetReturnsViewWithEmptyModelIfCodeIsMissing()
+        {
+            ViewResult result = await TestControllerAsync<AccountController, ViewResult>(async (controller) => await controller.ConfirmEmail(email: "email@email.com", confirmationCode: null));
+            ConfirmEmailModel model = result.Model as ConfirmEmailModel;
+            model.Should().NotBeNull();
+            model.Email.Should().BeNull();
+            model.ConfirmationCode.Should().BeNull();
+        }
+
+        [TestMethod]
+        public async Task ConfirmEmailGetExecutesCommandHandlerIfEmailAndConfirmationCodeExist()
+        {
+            string email = "email@email.com";
+            string code = "code";
+
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(It.IsAny<ConfirmEmailModel>())).Returns(Task.FromResult(CommandResult.Success()));
+
+            ViewResult result = await TestControllerAsync<AccountController, ViewResult>(async (controller) => await controller.ConfirmEmail(email, code));
+
+            ConfirmEmailModel model = result.Model as ConfirmEmailModel;
+            model.Should().NotBeNull();
+
+            model.Email.Should().Be(email);
+            model.ConfirmationCode.Should().Be(code);
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(It.IsAny<ConfirmEmailModel>()), Times.Once);
         }
     }
 }
