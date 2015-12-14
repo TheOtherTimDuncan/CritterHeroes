@@ -13,18 +13,23 @@ using TOTD.EntityFramework;
 namespace CritterHeroes.Web.Data.Contexts
 {
     [DbConfigurationType(typeof(EntityFrameworkConfiguration))]
-    public class BaseDbContext : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
+    public class BaseDbContext<T> : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
+        where T : DbContext
     {
         public BaseDbContext()
             : base("name=CritterHeroes")
         {
+            Database.SetInitializer<T>(null);
+
 #if DEBUG
             if (Debugger.IsAttached)
             {
+                Debug.WriteLine(Database.Connection.ConnectionString);
                 Database.Log = (string value) => Debug.WriteLine(value);
             }
             else
             {
+                Console.WriteLine(Database.Connection.ConnectionString);
                 Database.Log = Console.WriteLine;
             }
 #endif

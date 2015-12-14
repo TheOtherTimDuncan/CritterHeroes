@@ -16,44 +16,38 @@ namespace CH.Test.EntityTests
         [TestInitialize]
         public void CleanDatabase()
         {
-            using (BaseDbContext dbContext = new BaseDbContext())
+            using (AppUserStorageContext dbContext = new AppUserStorageContext())
             {
-                if (dbContext.Database.CompatibleWithModel(throwIfNoMetadata: true))
-                {
-                    IEnumerable<string> tableNames = new[]
-                    {
-                        "BusinessPhone" ,
-                        "BusinessGroup",
-                        "PersonPhone",
-                        "PersonGroup",
-                        "Group",
-                        "Person",
-                        "Business",
-                        "AppUserLogin",
-                        "AppUserClaim",
-                        "AppUser",
-                        "AppUserRole",
-                        "AppRole",
-                        "Critter",
-                        "OrganizationSupportedCritter",
-                        "Organization",
-                        "CritterStatus",
-                        "Breed",
-                        "Species",
-                        "State",
-                        "PhoneType"
-                    };
+                Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AppUserStorageContext>());
+                dbContext.Database.Initialize(force: true);
 
-                    foreach (string tableName in tableNames)
-                    {
-                        dbContext.Database.ExecuteSqlCommand($"DELETE FROM [{tableName}];");
-                    }
-                }
-                else
+                IEnumerable<string> queries = new[]
                 {
-                    Database.SetInitializer(new DropCreateDatabaseAlways<BaseDbContext>());
-                    dbContext.Database.Initialize(force: true);
+                    "BusinessPhone" ,
+                    "BusinessGroup",
+                    "PersonPhone",
+                    "PersonGroup",
+                    "Group",
+                    "Person",
+                    "Business",
+                    "AppUserLogin",
+                    "AppUserClaim",
+                    "AppUser",
+                    "AppUserRole",
+                    "AppRole",
+                    "Critter",
+                    "OrganizationSupportedCritter",
+                    "Organization",
+                    "CritterStatus",
+                    "Breed",
+                    "Species",
+                    "State",
+                    "PhoneType"
                 }
+                    .Select(x => $"DELETE FROM [{x}]");
+
+                string sql = string.Join(";", queries);
+                dbContext.Database.ExecuteSqlCommand(sql);
             }
         }
 
@@ -61,7 +55,7 @@ namespace CH.Test.EntityTests
         public void AllEntityClassesShouldHaveDefaultEmptyConstructor()
         {
             var configurations =
-                from t in typeof(BaseDbContext).Assembly.GetExportedTypes()
+                from t in typeof(BaseDbContext<>).Assembly.GetExportedTypes()
                 let b = t.BaseType
                 where b != null && b.IsGenericType && b.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>)
                 select t;

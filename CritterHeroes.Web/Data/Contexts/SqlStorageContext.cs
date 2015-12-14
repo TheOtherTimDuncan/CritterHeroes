@@ -8,8 +8,13 @@ using CritterHeroes.Web.Contracts.Storage;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
-    public class SqlStorageContext<T> : BaseDbContext, ISqlStorageContext<T> where T : class
+    public class SqlStorageContext<T> : BaseDbContext<SqlStorageContext<T>>, ISqlStorageContext<T> where T : class
     {
+        public SqlStorageContext()
+        {
+            Database.SetInitializer<SqlStorageContext<T>>(null);
+        }
+
         public virtual IDbSet<T> _Entities
         {
             get;

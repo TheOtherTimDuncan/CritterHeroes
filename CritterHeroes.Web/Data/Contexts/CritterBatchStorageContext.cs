@@ -8,7 +8,7 @@ using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
-    public class CritterBatchStorageContext : BaseDbContext, ICritterBatchSqlStorageContext
+    public class CritterBatchStorageContext : BaseDbContext<CritterBatchStorageContext>, ICritterBatchSqlStorageContext
     {
         public virtual IDbSet<Breed> _Breeds
         {

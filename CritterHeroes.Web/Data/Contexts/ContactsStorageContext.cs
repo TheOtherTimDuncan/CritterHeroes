@@ -7,7 +7,7 @@ using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
-    public class ContactsStorageContext : BaseDbContext, IContactsStorageContext
+    public class ContactsStorageContext : BaseDbContext<ContactsStorageContext>, IContactsStorageContext
     {
         public virtual IDbSet<Business> _Businesses
         {
