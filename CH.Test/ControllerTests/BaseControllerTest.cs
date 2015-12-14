@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Common;
+using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using FluentAssertions;
@@ -26,7 +27,7 @@ namespace CH.Test.ControllerTests
         public Mock<ICommandDispatcher> mockCommandDispatcher;
 
         [TestInitialize]
-        public void SetupDependencyContainer()
+        public void SetupDependencies()
         {
             mockQueryDispatcher = new Mock<IQueryDispatcher>(MockBehavior.Strict); // Only what is mocked in the test should be called
             mockCommandDispatcher = new Mock<ICommandDispatcher>(MockBehavior.Strict); // Only what is mocked in the test should be called
@@ -62,7 +63,7 @@ namespace CH.Test.ControllerTests
             }
         }
 
-        public async Task<ResultType> TestController<ControllerType, ResultType>(Func<ControllerType, Task<ActionResult>> test)
+        public async Task<ResultType> TestControllerAsync<ControllerType, ResultType>(Func<ControllerType, Task<ActionResult>> test)
             where ControllerType : BaseController
             where ResultType : ActionResult
         {
@@ -72,6 +73,134 @@ namespace CH.Test.ControllerTests
                 result.Should().NotBeNull("expected " + typeof(ResultType).Name + " to be returned");
                 return result;
             }
+        }
+
+        public ResultType TestControllerGet<ControllerType, ResultType, ModelType>(IQuery<ModelType> query, ModelType model, Func<ControllerType, ActionResult> test)
+           where ControllerType : BaseController
+           where ResultType : ActionResult
+        {
+            mockQueryDispatcher.Setup(x => x.Dispatch(query)).Returns(model);
+            ResultType result = TestController<ControllerType, ResultType>(test);
+            mockQueryDispatcher.Verify(x => x.Dispatch(query), Times.Once);
+            return result;
+        }
+
+        public async Task<ResultType> TestControllerGetAsync<ControllerType, ResultType, ModelType>(IAsyncQuery<ModelType> query, ModelType model, Func<ControllerType, Task<ActionResult>> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            mockQueryDispatcher.Setup(x => x.DispatchAsync(query)).Returns(Task.FromResult(model));
+            ResultType result = await TestControllerAsync<ControllerType, ResultType>(test);
+            mockQueryDispatcher.Verify(x => x.DispatchAsync(query), Times.Once);
+            return result;
+        }
+
+        public ResultType TestControllerPostSuccessWithValidModelState<ControllerType, ResultType>(object command, Func<ControllerType, ActionResult> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            mockCommandDispatcher.Setup(x => x.Dispatch(command)).Returns(CommandResult.Success());
+
+            ResultType result = TestController<ControllerType, ResultType>((controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+                return test(controller);
+            });
+
+            mockCommandDispatcher.Verify(x => x.Dispatch(command), Times.Once);
+
+            return result;
+        }
+
+        public async Task<ResultType> TestControllerPostSuccessWithValidModelStateAsync<ControllerType, ResultType>(object command, Func<ControllerType, Task<ActionResult>> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(command)).Returns(Task.FromResult(CommandResult.Success()));
+
+            ResultType result = await TestControllerAsync<ControllerType, ResultType>(async (controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+                return await test(controller);
+            });
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(command), Times.Once);
+
+            return result;
+        }
+
+        public ResultType TestControllerPostFailWithValidModelState<ControllerType, ResultType>(object command, string errorMessage, Func<ControllerType, ActionResult> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            mockCommandDispatcher.Setup(x => x.Dispatch(command)).Returns(CommandResult.Failed(errorMessage));
+
+            ResultType result = TestController<ControllerType, ResultType>((controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+                ActionResult actionResult = test(controller);
+
+                ModelState modelState = controller.ModelState[""];
+                modelState.Errors.Should().HaveCount(1);
+                modelState.Errors[0].ErrorMessage.Should().Be(errorMessage);
+
+                return actionResult;
+            });
+
+            mockCommandDispatcher.Verify(x => x.Dispatch(command), Times.Once);
+
+            return result;
+        }
+
+        public async Task<ResultType> TestControllerPostFailWithValidModelStateAsync<ControllerType, ResultType>(object command, string errorMessage, Func<ControllerType, Task<ActionResult>> test)
+           where ControllerType : BaseController
+           where ResultType : ActionResult
+        {
+            mockCommandDispatcher.Setup(x => x.DispatchAsync(command)).Returns(Task.FromResult(CommandResult.Failed(errorMessage)));
+
+            ResultType result = await TestControllerAsync<ControllerType, ResultType>(async (controller) =>
+            {
+                controller.ModelState.IsValid.Should().BeTrue();
+                ActionResult actionResult = await test(controller);
+
+                ModelState modelState = controller.ModelState[""];
+                modelState.Errors.Should().HaveCount(1);
+                modelState.Errors[0].ErrorMessage.Should().Be(errorMessage);
+
+                return actionResult;
+            });
+
+            mockCommandDispatcher.Verify(x => x.DispatchAsync(command), Times.Once);
+
+            return result;
+        }
+
+        public ResultType TestControllerPostWithInvalidModelState<ControllerType, ResultType>(string errorMessage, Func<ControllerType, ActionResult> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            ResultType result = TestController<ControllerType, ResultType>((controller) =>
+            {
+                controller.ModelState.AddModelError("", errorMessage);
+                controller.ModelState.IsValid.Should().BeFalse();
+                return test(controller);
+            });
+
+            return result;
+        }
+
+        public async Task<ResultType> TestControllerPostWithInvalidModelStateAsync<ControllerType, ResultType>(string errorMessage, Func<ControllerType, Task<ActionResult>> test)
+            where ControllerType : BaseController
+            where ResultType : ActionResult
+        {
+            ResultType result = await TestControllerAsync<ControllerType, ResultType>(async (controller) =>
+            {
+                controller.ModelState.AddModelError("", errorMessage);
+                controller.ModelState.IsValid.Should().BeFalse();
+                return await test(controller);
+            });
+
+            return result;
         }
 
         public void VerifyRedirectToRouteResult(RedirectToRouteResult redirectResult, string actionName, string controllerName)
