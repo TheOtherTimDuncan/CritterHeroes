@@ -18,7 +18,7 @@ namespace CritterHeroes.Web.Areas.Admin.Lists.QueryHandlers
             this._factory = factory;
         }
 
-        public async Task<DashboardItemStatus> RetrieveAsync(ListItemQuery query)
+        public async Task<DashboardItemStatus> ExecuteAsync(ListItemQuery query)
         {
             IDataMapper dataMapper = _factory.Create(query.DataSource);
             DashboardItemStatus result = await dataMapper.GetDashboardItemStatusAsync();

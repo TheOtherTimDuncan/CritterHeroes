@@ -39,7 +39,7 @@ namespace CH.Test.AdminOrganizationTests
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(logoUrl);
 
             EditProfileQueryHandler handler = new EditProfileQueryHandler(mockAppConfiguration.Object, mockStorageContext.Object, mockLogoService.Object);
-            EditProfileModel model = await handler.RetrieveAsync(new EditProfileQuery());
+            EditProfileModel model = await handler.ExecuteAsync(new EditProfileQuery());
             model.Should().NotBeNull();
 
             model.Name.Should().Be(org.FullName);

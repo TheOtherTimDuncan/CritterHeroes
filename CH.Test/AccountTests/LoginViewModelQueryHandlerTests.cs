@@ -20,7 +20,7 @@ namespace CH.Test.AccountTests
                 ReturnUrl = "url"
             };
             LoginViewModelQueryHandler handler = new LoginViewModelQueryHandler();
-            LoginModel model = handler.Retrieve(query);
+            LoginModel model = handler.Execute(query);
             model.Should().NotBeNull();
             model.ReturnUrl.Should().Be(query.ReturnUrl);
         }

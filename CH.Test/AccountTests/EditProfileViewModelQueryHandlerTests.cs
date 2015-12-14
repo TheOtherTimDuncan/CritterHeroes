@@ -30,7 +30,7 @@ namespace CH.Test.AccountTests
             MockSqlStorageContext<AppUser> mockUserStorageContext = new MockSqlStorageContext<AppUser>(user);
 
             EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpUser.Object, mockUserStorageContext.Object);
-            EditProfileModel model = await handler.RetrieveAsync(new UserIDQuery());
+            EditProfileModel model = await handler.ExecuteAsync(new UserIDQuery());
 
             model.Should().NotBeNull();
             model.FirstName.Should().Be(user.Person.FirstName);

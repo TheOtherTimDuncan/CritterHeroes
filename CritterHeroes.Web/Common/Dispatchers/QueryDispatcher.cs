@@ -23,14 +23,14 @@ namespace CritterHeroes.Web.Common.Dispatchers
         {
             Type handlerType = typeof(IAsyncQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
             dynamic handler = _container.GetInstance(handlerType);
-            return await handler.RetrieveAsync((dynamic)query);
+            return await handler.ExecuteAsync((dynamic)query);
         }
 
         public TResult Dispatch<TResult>(IQuery<TResult> query)
         {
             Type handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
             dynamic handler = _container.GetInstance(handlerType);
-            return handler.Retrieve((dynamic)query);
+            return handler.Execute((dynamic)query);
         }
     }
 }

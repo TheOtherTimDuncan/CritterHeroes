@@ -25,7 +25,7 @@ namespace CritterHeroes.Web.Areas.Admin.Organizations.QueryHandlers
             this._logoService = logoService;
         }
 
-        public async Task<EditProfileModel> RetrieveAsync(EditProfileQuery query)
+        public async Task<EditProfileModel> ExecuteAsync(EditProfileQuery query)
         {
             Organization org = await _storageContext.Entities.FindByIDAsync(_appConfiguration.OrganizationID);
             return new EditProfileModel()

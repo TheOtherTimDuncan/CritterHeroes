@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
             this._emailService = emailService;
         }
 
-        public async Task<EmailModel> RetrieveAsync(EmailQuery query)
+        public async Task<EmailModel> ExecuteAsync(EmailQuery query)
         {
             var data = await _critterStorage.Entities
                 .OrderBy(x => x.Name)

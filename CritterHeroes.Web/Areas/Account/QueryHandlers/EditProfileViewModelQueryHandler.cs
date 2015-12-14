@@ -23,7 +23,7 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
             this._httpUser = httpUser;
         }
 
-        public async Task<EditProfileModel> RetrieveAsync(UserIDQuery query)
+        public async Task<EditProfileModel> ExecuteAsync(UserIDQuery query)
         {
             EditProfileModel model = new EditProfileModel();
 

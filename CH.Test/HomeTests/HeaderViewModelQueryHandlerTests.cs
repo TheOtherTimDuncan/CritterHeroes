@@ -21,7 +21,7 @@ namespace CH.Test.HomeTests
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns("http://root/azure/logo.svg");
 
             HeaderViewModelQueryHandler handler = new HeaderViewModelQueryHandler(mockLogoService.Object);
-            HeaderModel model = handler.Retrieve(new HeaderQuery()); 
+            HeaderModel model = handler.Execute(new HeaderQuery()); 
 
             model.Should().NotBeNull();
             model.LogoUrl.Should().Be("http://root/azure/logo.svg");

@@ -18,7 +18,7 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
             this._logoService = logoService;
         }
 
-        public HeaderModel Retrieve(HeaderQuery query)
+        public HeaderModel Execute(HeaderQuery query)
         {
             return new HeaderModel()
             {

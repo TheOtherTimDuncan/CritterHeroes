@@ -21,7 +21,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
             this._critterStorage = critterStorage;
         }
 
-        public async Task<CrittersListModel> RetrieveAsync(CrittersListQuery query)
+        public async Task<CrittersListModel> ExecuteAsync(CrittersListQuery query)
         {
             CrittersListModel model = new CrittersListModel();
 

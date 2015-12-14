@@ -9,7 +9,7 @@ namespace CritterHeroes.Web.Areas.Account.QueryHandlers
 {
     public class LoginViewModelQueryHandler : IQueryHandler<LoginQuery, LoginModel>
     {
-        public LoginModel Retrieve(LoginQuery query)
+        public LoginModel Execute(LoginQuery query)
         {
             LoginModel model = new LoginModel()
             {

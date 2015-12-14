@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
             this._groupStorage = groupStorage;
         }
 
-        public async Task<ContactsModel> RetrieveAsync(ContactsQuery query)
+        public async Task<ContactsModel> ExecuteAsync(ContactsQuery query)
         {
             ContactsModel model = new ContactsModel();
 

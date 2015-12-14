@@ -30,7 +30,7 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
             this._userStateManager = userStateManager;
         }
 
-        public MenuModel Retrieve(MenuQuery query)
+        public MenuModel Execute(MenuQuery query)
         {
             MenuModel model = new MenuModel()
             {

@@ -22,7 +22,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
             this._storageContacts = storageContacts;
         }
 
-        public async Task<ContactsListModel> RetrieveAsync(ContactsListQuery query)
+        public async Task<ContactsListModel> ExecuteAsync(ContactsListQuery query)
         {
             ContactsListModel model = new ContactsListModel();
 
