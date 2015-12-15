@@ -391,6 +391,7 @@
       <DependentUpon>jquery.validate.js</DependentUpon>
     </None>
     <None Include="src\lib\jquery.validate.unobtrusive.js" />
+    <None Include="src\js\bundled\ch.pubsub.js" />
     <Content Include="src\js\ch.contacts-list.js" />
     <None Include="src\lib\bootstrap.js" />
     <None Include="src\lib\bootstrap.min.js">
