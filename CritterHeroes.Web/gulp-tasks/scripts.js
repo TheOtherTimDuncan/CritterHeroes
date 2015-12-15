@@ -19,8 +19,6 @@ module.exports = function (gulp, plugins, common) {
             common.bowerBase + '/jquery/dist/jquery.min.map',
             common.bowerBase + '/jquery-validation/dist/jquery.validate.js',
             common.bowerBase + '/jquery-validation/dist/jquery.validate.min.js',
-            common.bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js',
-            common.bowerBase + '/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js',
             common.bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
             common.bowerBase + '/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
             common.bowerBase + '/dropzone//dist/dropzone.js',

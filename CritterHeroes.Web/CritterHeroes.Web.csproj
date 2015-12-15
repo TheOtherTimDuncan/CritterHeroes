@@ -382,10 +382,6 @@
     <None Include="src\lib\jquery.min.map">
       <DependentUpon>jquery.js</DependentUpon>
     </None>
-    <None Include="src\lib\jquery.unobtrusive-ajax.js" />
-    <None Include="src\lib\jquery.unobtrusive-ajax.min.js">
-      <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
-    </None>
     <None Include="src\lib\jquery.validate.js" />
     <None Include="src\lib\jquery.validate.min.js">
       <DependentUpon>jquery.validate.js</DependentUpon>
