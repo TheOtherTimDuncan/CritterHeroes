@@ -10,8 +10,8 @@
     var critterUrl = crittersContainer.data('url');
     var pictureUrl = cheroes.pictureUrl;
 
-    var pagingContainer = $('.paging-container').on('click', '[data-page]', function () {
-        query.page = $(this).data('page');
+    var pager = $('.paging-container').pagify().on(cheroes.events.pagify.CHANGE_PAGE, function (event, page) {
+        query.page = page;
         getData();
     });
 
@@ -54,7 +54,8 @@
                     window.scrollTo(0, 0);
                 }
 
-                pagingContainer.paging(data.paging);
+                pager.trigger(cheroes.events.pagify.PAGE_LOADED, data.paging);
+
                 data.pictureUrl = pictureUrl;
                 var html = template(data);
                 crittersContainer.html(html);

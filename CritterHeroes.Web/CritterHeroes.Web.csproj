@@ -332,7 +332,7 @@
     <None Include="src\js\bundled\ch.history.js" />
     <None Include="src\js\ch.login.js" />
     <None Include="src\js\ch.organization-edit-profile.js" />
-    <None Include="src\js\bundled\ch.paging.js" />
+    <None Include="src\js\bundled\ch.pagify.js" />
     <Content Include="..\.vs\Configurations\ConnectionStrings.Local.config">
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

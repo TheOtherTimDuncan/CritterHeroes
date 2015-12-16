@@ -9,8 +9,8 @@
     var contactsContainer = $('#contacts-container tbody');
     var contactsUrl = contactsContainer.data('url');
 
-    var pagingContainer = $('.paging-container').on('click', '[data-page]', function () {
-        query.page = $(this).data('page');
+    var pager = $('.paging-container').pagify().on(cheroes.events.pagify.CHANGE_PAGE, function (event, page) {
+        query.page = page;
         getData();
     });
 
@@ -48,37 +48,20 @@
 
             success: function (data) {
 
-                cheroes.historyManager.pushState(getQueryState());
+                cheroes.historyManager.pushState(query);
 
                 if (data.paging.currentPage !== 1) {
                     window.scrollTo(0, 0);
                 }
 
-                pagingContainer.paging(data.paging);
+                pager.trigger(cheroes.events.pagify.PAGE_LOADED, data.paging);
+
                 var html = template(data);
                 contactsContainer.html(html);
             }
 
         });
 
-    }
-
-    function getQueryState() {
-
-        var queryState = {};
-
-        for (var p in query) {
-
-            if (p.toLowerCase() === "page") {
-                if (query[p] !== 1) {
-                    queryState[p] = query[p];
-                }
-            } else if (query[p]) {
-                queryState[p] = query[p];
-            }
-        }
-
-        return queryState;
     }
 
 }(this.cheroes = this.cheroes || {}, jQuery, Handlebars));

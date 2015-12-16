@@ -46,9 +46,7 @@
 
     }
 
-    cheroes.events = {
-    };
-
+    cheroes.events = {};
 
     cheroes.pubsub = {
         publish: publish,

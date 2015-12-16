@@ -5,7 +5,6 @@ module.exports = function (gulp, plugins, common) {
     var distScripts = common.distPath + '/js';
     var libScripts = common.srcPath + '/lib';
     var appScripts = common.srcPath + '/js';
-    var appBundle = appScripts + '/bundled';
 
     gulp.task('clean-scripts', function () {
         return plugins.del([distScripts + '/**/', common.distPath + '/lib/**/', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
@@ -60,7 +59,15 @@ module.exports = function (gulp, plugins, common) {
 
     gulp.task('app-bundle', ['clean-scripts'], function () {
 
-        return gulp.src(appBundle + '/*.js')
+        var sources = [
+            appScripts + '/bundled/ch.pubsub.js',
+            appScripts + '/bundled/ch.data.js',
+            appScripts + '/bundled/ch.history.js',
+            appScripts + '/bundled/ch.pagify.js',
+            appScripts + '/bundled/ch.validationextensions.js'
+        ];
+
+        return gulp.src(sources)
             .pipe(plugins.concat('js/cheroes.js'))
             .pipe(gulp.dest(common.distPath))
             .pipe(plugins.sourcemaps.init())
