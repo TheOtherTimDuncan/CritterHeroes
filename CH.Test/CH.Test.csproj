@@ -255,8 +255,13 @@
     <Compile Include="AccountTests\LogoutCommandHandlerTests.cs" />
     <Compile Include="AccountTests\ResetPasswordCommandHandlerTests.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
-    <Compile Include="ControllerTests\BaseControllerTest.cs" />
     <Compile Include="ControllerTests\MiscTests.cs" />
+    <Compile Include="ControllerTests\TestHelpers\BaseJsonResultTester.cs" />
+    <Compile Include="ControllerTests\TestHelpers\ControllerTester.cs" />
+    <Compile Include="ControllerTests\TestHelpers\JsonCamelCaseResultTester.cs" />
+    <Compile Include="ControllerTests\TestHelpers\RedirectToLocalResultTester.cs" />
+    <Compile Include="ControllerTests\TestHelpers\RedirectToRouteResultTester.cs" />
+    <Compile Include="ControllerTests\TestHelpers\ViewResultTester.cs" />
     <Compile Include="DependencyTests.cs" />
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="EntityTests\BusinessTests.cs" />
