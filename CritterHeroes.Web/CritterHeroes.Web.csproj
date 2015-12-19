@@ -496,7 +496,6 @@
     <Compile Include="Areas\Common\AreaName.cs" />
     <Compile Include="Areas\Common\AuthorizeRolesAttribute.cs" />
     <Compile Include="Areas\Common\BaseController.cs" />
-    <Compile Include="Areas\Common\ButtonCss.cs" />
     <Compile Include="Areas\Common\HtmlHelperExtensions.cs" />
     <Compile Include="Areas\Common\JavascriptConvert.cs" />
     <Compile Include="Areas\Common\Models\PagingModel.cs" />
