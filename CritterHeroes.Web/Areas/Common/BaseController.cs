@@ -4,12 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Models;
 using CritterHeroes.Web.Common.ActionResults;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
-using Microsoft.AspNet.Identity;
 using TOTD.Mvc;
 
 namespace CritterHeroes.Web.Areas.Common
@@ -51,28 +49,6 @@ namespace CritterHeroes.Web.Areas.Common
             return new RedirectToLocalResult(redirectUrl);
         }
 
-        protected  JsonCamelCaseResult JsonCamelCase( object data, HttpStatusCode statusCode, string contentType = null, Encoding contentEncoding = null)
-        {
-            return JsonCamelCase(data, (int)statusCode, contentType, contentEncoding);
-        }
-
-        protected  JsonCamelCaseResult JsonCamelCase( object data, int? statusCode = null, string contentType = null, Encoding contentEncoding = null)
-        {
-            return new JsonCamelCaseResult()
-            {
-                Data = data,
-                StatusCode = statusCode
-            };
-        }
-
-        protected void AddIdentityErrorsToModelState(ModelStateDictionary modelState, IdentityResult identityResult)
-        {
-            foreach (string error in identityResult.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
-
         protected void AddCommandResultErrorsToModelState(ModelStateDictionary modelState, CommandResult commandResult)
         {
             foreach (string errorMessage in commandResult.Errors)
@@ -81,18 +57,23 @@ namespace CritterHeroes.Web.Areas.Common
             }
         }
 
-        protected JsonResult JsonCommandSuccess()
+        protected HttpStatusCodeResult StatusCode(HttpStatusCode statusCode)
         {
-            return Json(JsonCommandResult.Success());
+            return new HttpStatusCodeResult(statusCode);
         }
 
-        protected JsonResult JsonCommandError(ModelStateDictionary modelState)
+        protected JsonCamelCaseResult JsonCamelCase(object data, HttpStatusCode statusCode, string contentType = null, Encoding contentEncoding = null)
         {
-            IEnumerable<string> errors =
-                from v in modelState.Values
-                from e in v.Errors
-                select e.ErrorMessage;
-            return Json(JsonCommandResult.Error(string.Join(", ", errors)));
+            return JsonCamelCase(data, (int)statusCode, contentType, contentEncoding);
+        }
+
+        protected JsonCamelCaseResult JsonCamelCase(object data, int? statusCode = null, string contentType = null, Encoding contentEncoding = null)
+        {
+            return new JsonCamelCaseResult()
+            {
+                Data = data,
+                StatusCode = statusCode
+            };
         }
     }
 }

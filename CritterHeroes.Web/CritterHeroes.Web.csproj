@@ -520,7 +520,7 @@
     <Compile Include="Areas\Home\Models\MenuModel.cs" />
     <Compile Include="Areas\Home\Queries\HeaderQuery.cs" />
     <Compile Include="Areas\Home\Queries\MenuQuery.cs" />
-    <Compile Include="Areas\Models\JsonCommandResult.cs" />
+    <Compile Include="Areas\Common\Models\JsonError.cs" />
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />

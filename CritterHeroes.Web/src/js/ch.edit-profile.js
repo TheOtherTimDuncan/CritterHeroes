@@ -24,18 +24,19 @@
 
         if (frm.valid()) {
             var request = {
+
                 url: frm.prop('action'),
                 data: frm.serialize(),
-                success: function (response) {
-                    if (response.Succeeded) {
-                        var getRequest = {
-                            url: frm.data('next'),
-                            success: loadEmailEdit
-                        };
-                        cheroes.dataManager.getHtml(getRequest);
-                    } else {
-                        validator.showErrors({ "Password": response.Message });
-                    }
+
+                badRequest: function (data) {
+                    validator.showErrors({ "Password": data.errors });
+                },
+
+                success: function () {
+                    cheroes.dataManager.getHtml({
+                        url: frm.data('next'),
+                        success: loadEmailEdit
+                    });
                 }
             };
             cheroes.dataManager.sendRequest(request);
@@ -69,22 +70,24 @@
             var btn = $('#button-container').hide();
             var busy = $('.busy').show();
             var request = {
+
                 url: frm.prop('action'),
                 data: frm.serialize(),
+
+                badRequest: function (data) {
+                    busy.hide();
+                    btn.show();
+                    validator.showErrors({ "ResetPasswordEmail": data.Message });
+                },
+
                 success: function (data) {
-                    if (data.Succeeded) {
-                        $('#success').show();
-                        frm.find('.form-group').hide();
-                        busy.hide();
-                        frm.find('input[type="submit"]').hide();
-                        frm.find('#close').text('Continue');
-                        btn.show();
-                        $('#unconfirmed-email').removeClass('hidden').find('#unconfirmed-email').text($('#NewEmail').val());
-                    } else {
-                        busy.hide();
-                        btn.show();
-                        validator.showErrors({ "ResetPasswordEmail": data.Message });
-                    }
+                    $('#success').show();
+                    frm.find('.form-group').hide();
+                    busy.hide();
+                    frm.find('input[type="submit"]').hide();
+                    frm.find('#close').text('Continue');
+                    btn.show();
+                    $('#unconfirmed-email').removeClass('hidden').find('#unconfirmed-email').text($('#NewEmail').val());
                 }
             };
             cheroes.dataManager.sendRequest(request);

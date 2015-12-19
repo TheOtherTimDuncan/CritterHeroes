@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account.Models;
@@ -8,6 +9,7 @@ using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Admin.Critters;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Common.ActionExtensions;
+using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Queries;
@@ -75,12 +77,12 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return JsonCommandSuccess();
+                    return StatusCode(HttpStatusCode.NoContent);
                 }
-                AddCommandResultErrorsToModelState(ModelState, commandResult);
+                return JsonCamelCase(JsonError.FromCommandResult(commandResult), HttpStatusCode.BadRequest);
             }
 
-            return JsonCommandError(ModelState);
+            return JsonCamelCase(JsonError.FromModelState(ModelState), HttpStatusCode.BadRequest);
         }
 
         [HttpGet]
@@ -193,12 +195,12 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return JsonCommandSuccess();
+                    return StatusCode(HttpStatusCode.NoContent);
                 }
-                AddCommandResultErrorsToModelState(ModelState, commandResult);
+                return JsonCamelCase(JsonError.FromCommandResult(commandResult), HttpStatusCode.BadRequest);
             }
 
-            return JsonCommandError(ModelState);
+            return JsonCamelCase(JsonError.FromModelState(ModelState), HttpStatusCode.BadRequest);
         }
 
         [HttpGet]
@@ -216,12 +218,12 @@ namespace CritterHeroes.Web.Areas.Account
                 CommandResult commandResult = await CommandDispatcher.DispatchAsync(model);
                 if (commandResult.Succeeded)
                 {
-                    return JsonCommandSuccess();
+                    return StatusCode(HttpStatusCode.NoContent);
                 }
-                AddCommandResultErrorsToModelState(ModelState, commandResult);
+                return JsonCamelCase(JsonError.FromCommandResult(commandResult), HttpStatusCode.BadRequest);
             }
 
-            return JsonCommandError(ModelState);
+            return JsonCamelCase(JsonError.FromModelState(ModelState), HttpStatusCode.BadRequest);
         }
     }
 }
