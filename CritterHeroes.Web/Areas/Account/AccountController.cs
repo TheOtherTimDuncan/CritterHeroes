@@ -57,7 +57,7 @@ namespace CritterHeroes.Web.Areas.Account
         public ActionResult LogOut()
         {
             CommandDispatcher.Dispatch(new LogoutModel());
-            return RedirectToAction(nameof(CrittersController.Index), CrittersController.Route);
+            return RedirectToAction(nameof(CrittersController.Index), CrittersController.Route, AreaName.AdminRouteValue);
         }
 
         [HttpGet]

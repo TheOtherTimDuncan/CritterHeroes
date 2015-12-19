@@ -8,6 +8,7 @@ using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Admin.Critters;
+using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Common.Commands;
 using FluentAssertions;
@@ -99,7 +100,8 @@ namespace CH.Test.ControllerTests
                 .VerifyCommandDispatcher()
                 .ShouldRedirectToRoute()
                 .HavingControllerRoute(CrittersController.Route)
-                .HavingActionRoute(nameof(CrittersController.Index));
+                .HavingActionRoute(nameof(CrittersController.Index))
+                .HavingRouteValues(AreaName.AdminRouteValue);
         }
 
         [TestMethod]
