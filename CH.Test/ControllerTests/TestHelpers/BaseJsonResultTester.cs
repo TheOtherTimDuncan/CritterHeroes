@@ -35,6 +35,14 @@ namespace CH.Test.ControllerTests.TestHelpers
             return (T)this;
         }
 
+        public T HavingModel<ModelType>(Action<ModelType> action) where ModelType : class
+        {
+            ModelType model = _jsonData as ModelType;
+            model.Should().NotBeNull("Json Data could not be converted to " + typeof(ModelType).Name);
+            action(model);
+            return (T)this;
+        }
+
         private ValueType GetValue<ValueType>(string propertyName)
         {
             PropertyInfo propertyInfo = _jsonData.GetType().GetProperty(propertyName);

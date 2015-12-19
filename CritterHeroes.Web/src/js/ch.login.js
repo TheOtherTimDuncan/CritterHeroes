@@ -22,22 +22,24 @@
             var btn = $('#button-container').hide();
             var busy = $('.busy').show();
             var request = {
+
                 url: frm.prop('action'),
                 data: frm.serialize(),
+
+                badRequest: function (data) {
+                    busy.hide();
+                    btn.show();
+                    validator.showErrors({ "ResetPasswordEmail": data.Message });
+                },
+
                 success: function (data) {
-                    if (data.Succeeded) {
-                        $('#message').hide();
-                        $('#success').show();
-                        frm.find('.form-group').hide();
-                        busy.hide();
-                        btn.find('input[type="submit"]').hide();
-                        btn.find('#close').text('Continue');
-                        btn.show();
-                    } else {
-                        busy.hide();
-                        btn.show();
-                        validator.showErrors({ "ResetPasswordEmail": data.Message });
-                    }
+                    $('#message').hide();
+                    $('#success').show();
+                    frm.find('.form-group').hide();
+                    busy.hide();
+                    btn.find('input[type="submit"]').hide();
+                    btn.find('#close').text('Continue');
+                    btn.show();
                 }
             };
             cheroes.dataManager.sendRequest(request);

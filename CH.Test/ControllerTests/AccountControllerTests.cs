@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using CH.Test.ControllerTests.TestHelpers;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Areas.Account.Queries;
 using CritterHeroes.Web.Areas.Admin.Critters;
+using CritterHeroes.Web.Areas.Common.Models;
 using CritterHeroes.Web.Common.Commands;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -161,48 +163,56 @@ namespace CH.Test.ControllerTests
                 .ShouldReturnPartialViewResult();
         }
 
-        //[TestMethod]
-        //public async Task ForgotPasswordPostReturnsJsonWithErrorIfModelStateIsInvalid()
-        //{
-        //    ForgotPasswordModel model = new ForgotPasswordModel();
-        //    string error = "error";
+        [TestMethod]
+        public void ForgotPasswordPostReturnsJsonWithErrorIfModelStateIsInvalid()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
+            string error = "error";
 
-        //    JsonResult result = await TestControllerPostWithInvalidModelStateAsync<AccountController, JsonResult>(error, async (controller) => await controller.ForgotPassword(model));
+            ControllerTester.UsingController<AccountController>()
+                .WithInvalidModelState(error)
+                .WithCallTo(x => x.ForgotPassword(model))
+                .ShouldReturnJsonCamelCase()
+                .HavingStatusCode(HttpStatusCode.BadRequest)
+                .HavingModel<JsonError>((errorModel) =>
+                {
+                    errorModel.Errors.Should().HaveCount(1);
+                    errorModel.Errors.Should().Contain(error);
+                });
+        }
 
-        //    JsonCommandResult resultModel = result.Data as JsonCommandResult;
-        //    resultModel.Should().NotBeNull();
+        [TestMethod]
+        public void ForgotPasswordPostReturnJsonWithErrorIfModelStateIsValidAndCommandHandlerFails()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
+            string error = "error";
 
-        //    resultModel.Succeeded.Should().BeFalse();
-        //    resultModel.Message.Should().Be(error);
-        //}
+            ControllerTester.UsingController<AccountController>()
+                .SetupCommandDispatcherForFailureAsync(model, error)
+                .ShouldHaveValidModelState()
+                .WithCallTo(x => x.ForgotPassword(model))
+                .VerifyCommandDispatcher()
+                .ShouldReturnJsonCamelCase()
+                .HavingStatusCode(HttpStatusCode.BadRequest)
+                .HavingModel<JsonError>((errorModel) =>
+                {
+                    errorModel.Errors.Should().HaveCount(1);
+                    errorModel.Errors.Should().Contain(error);
+                });
+        }
 
-        //[TestMethod]
-        //public async Task ForgotPasswordPostReturnJsonWithErrorIfModelStateIsValidAndCommandHandlerFails()
-        //{
-        //    ForgotPasswordModel model = new ForgotPasswordModel();
+        [TestMethod]
+        public void ForgotPasswordPostReturnsStatusCodeIfModelStateIsValidAndCommandHandlerSucceeds()
+        {
+            ForgotPasswordModel model = new ForgotPasswordModel();
 
-        //    string error = "error";
-
-        //    JsonResult result = await TestControllerPostFailWithValidModelStateAsync<AccountController, JsonResult>(model, error, async (controller) => await controller.ForgotPassword(model));
-
-        //    JsonCommandResult resultModel = result.Data as JsonCommandResult;
-        //    resultModel.Should().NotBeNull();
-
-        //    resultModel.Succeeded.Should().BeFalse();
-        //    resultModel.Message.Should().Be(error);
-        //}
-
-        //[TestMethod]
-        //public async Task ForgotPasswordPostReturnJsonIfModelStateIsValidAndCommandHandlerSucceeds()
-        //{
-        //    ForgotPasswordModel model = new ForgotPasswordModel();
-        //    JsonResult result = await TestControllerPostSuccessWithValidModelStateAsync<AccountController, JsonResult>(model, async (controller) => await controller.ForgotPassword(model));
-
-        //    JsonCommandResult resultModel = result.Data as JsonCommandResult;
-        //    resultModel.Should().NotBeNull();
-
-        //    resultModel.Succeeded.Should().BeTrue();
-        //}
+            ControllerTester.UsingController<AccountController>()
+                .SetupCommandDispatcherForSuccessAsync(model)
+                .ShouldHaveValidModelState()
+                .WithCallTo(x => x.ForgotPassword(model))
+                .VerifyCommandDispatcher()
+                .ShouldReturnStatusCode(HttpStatusCode.NoContent);
+        }
 
         [TestMethod]
         public void ResetPasswordGetReturnsViewWithModel()
