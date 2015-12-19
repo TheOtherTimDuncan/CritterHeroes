@@ -259,6 +259,20 @@ namespace CH.Test.ControllerTests
         }
 
         [TestMethod]
+        public void ResetPasswordPostReturnsViewWithModelIfModelStateIsInvalidAndCommandHandlerSucceeds()
+        {
+            ResetPasswordModel model = new ResetPasswordModel();
+
+            ControllerTester.UsingController<AccountController>()
+                .SetupCommandDispatcherForSuccessAsync(model)
+                .ShouldHaveValidModelState()
+                .WithCallTo(x => x.ResetPassword(model))
+                .VerifyCommandDispatcher()
+                .ShouldReturnViewResult()
+                .HavingModel(model);
+        }
+
+        [TestMethod]
         public void ConfirmEmailGetReturnsViewWithEmptyModelIfEmailIsMissing()
         {
             ControllerTester.UsingController<AccountController>()
@@ -300,6 +314,163 @@ namespace CH.Test.ControllerTests
                     model.Email.Should().Be(email);
                     model.ConfirmationCode.Should().Be(code);
                 });
+        }
+
+        [TestMethod]
+        public void ConfirmEmailPostReturnsViewWithModelIfModelStateIsInvalid()
+        {
+            ConfirmEmailModel model = new ConfirmEmailModel();
+
+            ControllerTester.UsingController<AccountController>()
+                .WithInvalidModelState("error")
+                .WithCallTo(x => x.ConfirmEmail(model))
+                .ShouldReturnViewResult()
+                .HavingModel(model);
+        }
+
+        [TestMethod]
+        public void ConfirmEmailPostReturnsViewWithModelAndErrorsIfModelStateIsValidAndCommandHandlerFails()
+        {
+            ConfirmEmailModel model = new ConfirmEmailModel();
+            string error = "error";
+
+            ControllerTester.UsingController<AccountController>()
+                .SetupCommandDispatcherForFailureAsync(model, error)
+                .ShouldHaveValidModelState()
+                .WithCallTo(x => x.ConfirmEmail(model))
+                .VerifyCommandDispatcher()
+                .ShouldHaveSingleModelError(error)
+                .ShouldReturnViewResult()
+                .HavingModel(model);
+        }
+
+        [TestMethod]
+        public void ConfirmEmailPostReturnsViewWithModelWithNoErrorsIfModelStateIsValidAndCommandHandlerSucceeds()
+        {
+            ConfirmEmailModel model = new ConfirmEmailModel();
+
+            ControllerTester.UsingController<AccountController>()
+                .SetupCommandDispatcherForSuccessAsync(model)
+                .ShouldHaveValidModelState()
+                .WithCallTo(x => x.ConfirmEmail(model))
+                .VerifyCommandDispatcher()
+                .ShouldHaveValidModelState()
+                .ShouldReturnViewResult()
+                .HavingModel(model);
+        }
+
+        [TestMethod]
+        public void EditProfileLoginGetReturnsPartialView()
+        {
+            ControllerTester.UsingController<AccountController>()
+                .WithCallTo(x => x.EditProfileLogin())
+                .ShouldReturnPartialViewResult();
+        }
+
+        [TestMethod]
+        public void EditProfileLoginPostReturnsJsonAndBadRequestStatusIfModelStateIsInvalid()
+        {
+            EditProfileLoginModel model = new EditProfileLoginModel();
+            string error = "error";
+
+            ControllerTester.UsingController<AccountController>()
+                .WithInvalidModelState("error")
+                .WithCallTo(x => x.EditProfileLogin(model))
+                .ShouldReturnJsonCamelCase()
+                .HavingStatusCode(HttpStatusCode.BadRequest)
+                .HavingModel<JsonError>((jsonError) =>
+                {
+                    jsonError.Errors.Should().HaveCount(1);
+                    jsonError.Errors.Should().Contain(error);
+                });
+        }
+
+        [TestMethod]
+        public void EditProfileLoginPostReturnsJsonAndBadRequestIfModelStateIsValidAndCommandHandlerFails()
+        {
+            EditProfileLoginModel model = new EditProfileLoginModel();
+            string error = "error";
+
+            ControllerTester.UsingController<AccountController>()
+                .ShouldHaveValidModelState()
+                .SetupCommandDispatcherForFailureAsync(model, error)
+                .WithCallTo(x => x.EditProfileLogin(model))
+                .ShouldReturnJsonCamelCase()
+                .HavingStatusCode(HttpStatusCode.BadRequest)
+                .HavingModel<JsonError>((jsonError) =>
+                {
+                    jsonError.Errors.Should().HaveCount(1);
+                    jsonError.Errors.Should().Contain(error);
+                });
+        }
+
+        [TestMethod]
+        public void EditProfileLoginPostReturnsStatusCodeIfModelStateIsValidAndCommandHandlerSucceeds()
+        {
+            EditProfileLoginModel model = new EditProfileLoginModel();
+
+            ControllerTester.UsingController<AccountController>()
+                .ShouldHaveValidModelState()
+                .SetupCommandDispatcherForSuccessAsync(model)
+                .WithCallTo(x => x.EditProfileLogin(model))
+                .ShouldReturnStatusCode(HttpStatusCode.NoContent);
+        }
+
+        [TestMethod]
+        public void EditProfileSecureGetReturnsPartialView()
+        {
+            ControllerTester.UsingController<AccountController>()
+                .WithCallTo(x => x.EditProfileSecure())
+                .ShouldReturnPartialViewResult();
+        }
+
+        [TestMethod]
+        public void EditProfileLSecurePostReturnsJsonAndBadRequestStatusIfModelStateIsInvalid()
+        {
+            EditProfileSecureModel model = new EditProfileSecureModel();
+            string error = "error";
+
+            ControllerTester.UsingController<AccountController>()
+                .WithInvalidModelState("error")
+                .WithCallTo(x => x.EditProfileSecure(model))
+                .ShouldReturnJsonCamelCase()
+                .HavingStatusCode(HttpStatusCode.BadRequest)
+                .HavingModel<JsonError>((jsonError) =>
+                {
+                    jsonError.Errors.Should().HaveCount(1);
+                    jsonError.Errors.Should().Contain(error);
+                });
+        }
+
+        [TestMethod]
+        public void EditProfileSecurePostReturnsJsonAndBadRequestIfModelStateIsValidAndCommandHandlerFails()
+        {
+            EditProfileSecureModel model = new EditProfileSecureModel();
+            string error = "error";
+
+            ControllerTester.UsingController<AccountController>()
+                .ShouldHaveValidModelState()
+                .SetupCommandDispatcherForFailureAsync(model, error)
+                .WithCallTo(x => x.EditProfileSecure(model))
+                .ShouldReturnJsonCamelCase()
+                .HavingStatusCode(HttpStatusCode.BadRequest)
+                .HavingModel<JsonError>((jsonError) =>
+                {
+                    jsonError.Errors.Should().HaveCount(1);
+                    jsonError.Errors.Should().Contain(error);
+                });
+        }
+
+        [TestMethod]
+        public void EditProfileSecurePostReturnsStatusCodeIfModelStateIsValidAndCommandHandlerSucceeds()
+        {
+            EditProfileSecureModel model = new EditProfileSecureModel();
+
+            ControllerTester.UsingController<AccountController>()
+                .ShouldHaveValidModelState()
+                .SetupCommandDispatcherForSuccessAsync(model)
+                .WithCallTo(x => x.EditProfileSecure(model))
+                .ShouldReturnStatusCode(HttpStatusCode.NoContent);
         }
     }
 }
