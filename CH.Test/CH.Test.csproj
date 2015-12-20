@@ -256,6 +256,7 @@
     <Compile Include="AccountTests\ResetPasswordCommandHandlerTests.cs" />
     <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\ContactsControllerTest.cs" />
+    <Compile Include="ControllerTests\CritttersControllerTests.cs" />
     <Compile Include="ControllerTests\HomeControllerTests.cs" />
     <Compile Include="ControllerTests\MiscTests.cs" />
     <Compile Include="ControllerTests\TestHelpers\BaseJsonResultTester.cs" />
