@@ -87,6 +87,19 @@ namespace CH.Test.ControllerTests.TestHelpers
             return this;
         }
 
+        public ControllerTester<ControllerType> ShouldNotBeAjaxRequest()
+        {
+            Controller.Request.IsAjaxRequest().Should().BeFalse();
+            return this;
+        }
+
+        public ControllerTester<ControllerType> ShouldBeAjaxRequest()
+        {
+            Controller.Request.Headers.Add("X-Requested-With", "XMLHttpRequest");
+            Controller.Request.IsAjaxRequest().Should().BeTrue();
+            return this;
+        }
+
         public ControllerTester<ControllerType> WithInvalidModelState(string errorMessage)
         {
             Controller.ModelState.AddModelError("", errorMessage);
@@ -246,6 +259,14 @@ namespace CH.Test.ControllerTests.TestHelpers
         {
             HttpStatusCodeResult statusResult = VerifyActionResult<HttpStatusCodeResult>();
             statusResult.StatusCode.Should().Be((int)statusCode);
+            return this;
+        }
+
+        public ControllerTester<ControllerType> ShouldReturnStatusCode(HttpStatusCode statusCode, string statusDescription)
+        {
+            HttpStatusCodeResult statusResult = VerifyActionResult<HttpStatusCodeResult>();
+            statusResult.StatusCode.Should().Be((int)statusCode);
+            statusResult.StatusDescription.Should().Be(statusDescription);
             return this;
         }
 

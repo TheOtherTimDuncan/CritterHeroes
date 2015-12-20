@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
@@ -20,6 +21,7 @@ namespace CH.Test.Mocks
             Mock<HttpRequestBase> mockRequest = new Mock<HttpRequestBase>();
             mockRequest.Setup(x => x.ApplicationPath).Returns(WebAppPath);
             mockRequest.Setup(x => x.Url).Returns(new Uri("http://localhost/debug"));
+            mockRequest.Setup(x => x.Headers).Returns(new NameValueCollection());
 
             Mock<HttpResponseBase> mockResponse = new Mock<HttpResponseBase>();
             mockResponse.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns((string s) => s);

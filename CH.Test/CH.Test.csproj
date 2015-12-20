@@ -259,6 +259,7 @@
     <Compile Include="ControllerTests\CritttersControllerTests.cs" />
     <Compile Include="ControllerTests\HomeControllerTests.cs" />
     <Compile Include="ControllerTests\MiscTests.cs" />
+    <Compile Include="ControllerTests\OrganizationControllerTests.cs" />
     <Compile Include="ControllerTests\TestHelpers\BaseJsonResultTester.cs" />
     <Compile Include="ControllerTests\TestHelpers\ControllerTester.cs" />
     <Compile Include="ControllerTests\TestHelpers\JsonCamelCaseResultTester.cs" />
