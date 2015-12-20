@@ -65,16 +65,9 @@ namespace CH.Test.EntityTests
             Group group1 = new Group("business1");
             Group group2 = new Group("business2");
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
-            {
-                storageContext.Add(group1);
-                storageContext.Add(group2);
-                await storageContext.SaveChangesAsync();
-            }
-
             Business business = new Business();
-            business.AddGroup(group1.ID);
-            business.AddGroup(group2.ID);
+            business.AddGroup(group1);
+            business.AddGroup(group2);
 
             using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
             {

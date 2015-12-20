@@ -67,16 +67,9 @@ namespace CH.Test.EntityTests
             Group group1 = new Group("person1");
             Group group2 = new Group("person2");
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
-            {
-                storageContext.Add(group1);
-                storageContext.Add(group2);
-                await storageContext.SaveChangesAsync();
-            }
-
             Person person = new Person();
-            person.AddGroup(group1.ID);
-            person.AddGroup(group2.ID);
+            person.AddGroup(group1);
+            person.AddGroup(group2);
 
             using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
             {

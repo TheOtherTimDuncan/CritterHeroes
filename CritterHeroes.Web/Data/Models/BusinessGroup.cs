@@ -12,25 +12,27 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         internal BusinessGroup(Business business, int groupID)
+            : this(business)
+        {
+            this.GroupID = groupID;
+            this.Group = null;
+        }
+
+        internal BusinessGroup(Business business, Group group)
+            : this(business)
+        {
+            ThrowIf.Argument.IsNull(group, nameof(group));
+
+            this.GroupID = group.ID;
+            this.Group = group;
+        }
+
+        private BusinessGroup(Business business)
         {
             ThrowIf.Argument.IsNull(business, nameof(business));
 
             this.BusinessID = business.ID;
             this.Business = business;
-
-            this.GroupID = groupID;
-            this.Group = null;
-        }
-
-        internal BusinessGroup(Group group, int businessID)
-        {
-            ThrowIf.Argument.IsNull(group, nameof(group));
-
-            this.BusinessID = businessID;
-            this.Business = null;
-
-            this.GroupID = group.ID;
-            this.Group = group;
         }
 
         public int BusinessID

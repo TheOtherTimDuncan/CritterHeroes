@@ -12,25 +12,27 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         internal PersonGroup(Person person, int groupID)
+            : this(person)
+        {
+            this.GroupID = groupID;
+            this.Group = null;
+        }
+
+        internal PersonGroup(Person person, Group group)
+            : this(person)
+        {
+            ThrowIf.Argument.IsNull(group, nameof(group));
+
+            this.GroupID = group.ID;
+            this.Group = group;
+        }
+
+        private PersonGroup(Person person)
         {
             ThrowIf.Argument.IsNull(person, nameof(person));
 
             this.PersonID = person.ID;
             this.Person = person;
-
-            this.GroupID = groupID;
-            this.Group = null;
-        }
-
-        internal PersonGroup(Group group, int personID)
-        {
-            ThrowIf.Argument.IsNull(group, nameof(group));
-
-            this.PersonID = personID;
-            this.Person = null;
-
-            this.GroupID = group.ID;
-            this.Group = group;
         }
 
         public int PersonID

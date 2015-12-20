@@ -109,6 +109,12 @@ namespace CritterHeroes.Web.Data.Models
             Groups.Add(personGroup);
         }
 
+        public void AddGroup(Group group)
+        {
+            PersonGroup personGroup = new PersonGroup(this, group);
+            Groups.Add(personGroup);
+        }
+
         public PersonPhone AddPhoneNumber(string phoneNumber, string phoneExtension, int phoneTypeID)
         {
             PersonPhone personPhone = new PersonPhone(this, phoneTypeID, phoneNumber, phoneExtension);
