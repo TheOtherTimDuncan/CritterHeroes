@@ -16,6 +16,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CritterHeroes.Web", "Critte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH.DatabaseMigrator", "CH.DatabaseMigrator\CH.DatabaseMigrator.csproj", "{11AE20E4-BAA7-4188-8CE1-A61757403F89}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeCoverage", "CodeCoverage", "{E3D75F9E-720C-4333-820C-7C6C9CE038D5}"
+	ProjectSection(SolutionItems) = preProject
+		TestResults\OpenCover\index.htm = TestResults\OpenCover\index.htm
+		OpenCover.bat = OpenCover.bat
+		ReportGenerator.bat = ReportGenerator.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
