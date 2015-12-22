@@ -29,7 +29,7 @@ namespace CritterHeroes.Web.Areas.Admin.Contacts.QueryHandlers
             ContactsModel model = new ContactsModel();
 
             model.Query = query;
-            model.ShowImports = _httpUser.IsInRole(IdentityRole.MasterAdmin.Name);
+            model.ShowImports = _httpUser.IsInRole(IdentityRole.MasterAdmin);
 
             model.GroupItems = await _groupStorage.Entities.OrderBy(x => x.Name).SelectToListAsync(x => new GroupSelectOptionModel()
             {

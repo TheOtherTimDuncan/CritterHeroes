@@ -40,7 +40,7 @@ namespace CH.Test.AdminContactsTests
             };
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
-            mockHttpUser.Setup(x => x.IsInRole(IdentityRole.MasterAdmin.Name)).Returns(true);
+            mockHttpUser.Setup(x => x.IsInRole(IdentityRole.MasterAdmin)).Returns(true);
 
             MockSqlStorageContext<Group> mockGroupStorage = new MockSqlStorageContext<Group>(group1, group2);
 
@@ -74,7 +74,7 @@ namespace CH.Test.AdminContactsTests
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             MockSqlStorageContext<Group> mockGroupStorage = new MockSqlStorageContext<Group>();
 
-            foreach (string roleName in IdentityRole.All.Where(x => x.Name != IdentityRole.MasterAdmin.Name).Select(x => x.Name))
+            foreach (string roleName in IdentityRole.All.Where(x => x != IdentityRole.MasterAdmin))
             {
                 mockHttpUser.Setup(x => x.IsInRole(roleName)).Returns(true);
 

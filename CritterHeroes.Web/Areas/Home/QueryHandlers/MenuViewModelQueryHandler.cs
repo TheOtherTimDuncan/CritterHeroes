@@ -38,8 +38,8 @@ namespace CritterHeroes.Web.Areas.Home.QueryHandlers
                 UserDisplayName = _userStateManager.GetContext().IfNotNull(x => x.DisplayName),
                 LogoUrl = _logoService.GetLogoUrl(),
                 IsLoggedIn = _httpUser.IsAuthenticated,
-                ShowAdminMenu = (_httpUser.IsInRole(IdentityRole.RoleNames.Admin) || _httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin)),
-                ShowMasterAdminMenu = (_httpUser.IsInRole(IdentityRole.RoleNames.MasterAdmin))
+                ShowAdminMenu = (_httpUser.IsInRole(IdentityRole.Admin) || _httpUser.IsInRole(IdentityRole.MasterAdmin)),
+                ShowMasterAdminMenu = (_httpUser.IsInRole(IdentityRole.MasterAdmin))
             };
 
             return model;
