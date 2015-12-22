@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CH.DatabaseMigrator</RootNamespace>
     <AssemblyName>CH.DatabaseMigrator</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>4b87354f</NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
