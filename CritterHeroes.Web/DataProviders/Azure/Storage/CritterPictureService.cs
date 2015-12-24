@@ -3,43 +3,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Models;
-using CritterHeroes.Web.Models;
-using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
-    public class CritterPictureService : BaseAzureBlobStorage, ICritterPictureService
+    public class CritterPictureService : ICritterPictureService
     {
         private const string _blobName = "critters";
+        private const bool isPrivate = false;
 
-        public CritterPictureService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration)
-            : base(orgStateManager, appConfiguration, azureConfiguration)
+        private IAzureService _azureService;
+
+        public CritterPictureService(IAzureService azureService)
         {
+            this._azureService = azureService;
         }
 
         public string GetPictureUrl(int critterID, string filename)
         {
-            return CreateBlobUrl(GetBlobPath(critterID, filename));
+            return _azureService.CreateBlobUrl(GetBlobPath(critterID, filename));
         }
 
         public async Task GetPictureAsync(int critterID, string filename, Stream outputStream)
         {
-            CloudBlobContainer container = await GetContainer();
-            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobPath(critterID, filename));
-            await blob.DownloadToStreamAsync(outputStream);
+            await _azureService.DownloadBlobAsync(GetBlobPath(critterID, filename), isPrivate, outputStream);
         }
 
         public async Task SavePictureAsync(Stream source, int critterID, string filename, string contentType)
         {
-            CloudBlobContainer container = await GetContainer();
-            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobPath(critterID, filename));
-            blob.Properties.ContentType = contentType;
-            await blob.UploadFromStreamAsync(source);
+            await _azureService.UploadBlobAsync(GetBlobPath(critterID, filename), isPrivate, contentType, source);
         }
 
         private string GetBlobPath(int critterID, string filename)

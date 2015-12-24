@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.DataProviders.Azure.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Moq;
 using TOTD.Utility.Misc;
 
@@ -22,29 +24,25 @@ namespace CH.Test.Azure.StorageTests
         [TestMethod]
         public async Task CanSaveImage()
         {
-            Organization org = new Organization();
-
-            OrganizationContext orgContext = new OrganizationContext()
-            {
-                OrganizationID = org.ID,
-                AzureName = "fflah"
-            };
-
+            int critterID = 99;
             string filename = "3671153_448x336.jpg";
-            string filepath = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "Sample Data", "Pictures", filename);
+            string contentType = "image/jpeg";
+            bool isPrivate = false;
+            MemoryStream memStream = new MemoryStream();
 
-            AppConfiguration appConfiguration = new AppConfiguration();
-            AzureConfiguration azureConfiguration = new AzureConfiguration();
-
-            Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
-            mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
-
-            CritterPictureService service = new CritterPictureService(mockOrgStateManager.Object, appConfiguration, azureConfiguration);
-
-            using (FileStream stream = new FileStream(filepath, FileMode.Open))
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+            mockAzureService.Setup(x => x.UploadBlobAsync(It.IsAny<string>(), isPrivate, contentType, memStream)).Returns((string path, bool callbackIsPrivate, string callbackContentType, Stream stream) =>
             {
-                await service.SavePictureAsync(stream, 0, filename,"image/jpeg");
-            }
+                path.Should().EndWith($"{critterID}/{filename}");
+
+                CloudBlockBlob blob = new CloudBlockBlob(new Uri("http://localhost/container"));
+                return Task.FromResult(blob);
+            });
+
+            CritterPictureService service = new CritterPictureService(mockAzureService.Object);
+            await service.SavePictureAsync(memStream, critterID, filename, contentType);
+
+            mockAzureService.Verify(x => x.UploadBlobAsync(It.IsAny<string>(), isPrivate, contentType, memStream), Times.Once);
         }
     }
 }
