@@ -16,18 +16,29 @@ namespace CritterHeroes.Web.DataProviders.Azure
 {
     public class AzureService : IAzureService
     {
-        private CloudTable _cloudTable = null;
-        private CloudBlobContainer _container;
         private IAzureConfiguration _configuration;
         private IStateManager<OrganizationContext> _orgStateManager;
+        private IAppConfiguration _appConfiguration;
 
-        public AzureService(IAzureConfiguration azureConfiguration, IStateManager<OrganizationContext> orgStateManager)
+        private CloudTable _cloudTable = null;
+        private CloudBlobContainer _container;
+        private string _containerName;
+
+        public AzureService(IAzureConfiguration azureConfiguration, IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration)
         {
             ThrowIf.Argument.IsNull(azureConfiguration, nameof(azureConfiguration));
             ThrowIf.Argument.IsNull(orgStateManager, nameof(orgStateManager));
+            ThrowIf.Argument.IsNull(appConfiguration, nameof(appConfiguration));
 
             this._configuration = azureConfiguration;
             this._orgStateManager = orgStateManager;
+            this._appConfiguration = appConfiguration;
+        }
+
+        public string CreateBlobUrl(string path)
+        {
+            // Blob urls are case sensitive and convention is they should always be lowercase
+            return $"{_appConfiguration.BlobBaseUrl}/{GetContainerName()}/{path}".ToLower();
         }
 
         public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source)
@@ -69,6 +80,18 @@ namespace CritterHeroes.Web.DataProviders.Azure
             target.Position = 0;
         }
 
+        private string GetContainerName()
+        {
+            if (_containerName == null)
+            {
+                OrganizationContext _orgContext = _orgStateManager.GetContext();
+                _containerName = _orgContext.AzureName.ToLower();
+
+            }
+
+            return _containerName;
+        }
+
         private async Task<CloudBlobContainer> GetBlobContainer(bool isPrivate)
         {
             if (_container != null)
@@ -80,7 +103,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             CloudBlobClient client = storageAccount.CreateCloudBlobClient();
 
             OrganizationContext _orgContext = _orgStateManager.GetContext();
-            string containerName = _orgContext.AzureName.ToLower();
+            string containerName = GetContainerName();
             if (isPrivate)
             {
                 containerName += "-private";

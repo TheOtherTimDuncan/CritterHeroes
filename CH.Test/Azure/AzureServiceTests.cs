@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.DataProviders.Azure;
 using FluentAssertions;
@@ -19,6 +20,8 @@ namespace CH.Test.Azure
         private Mock<IStateManager<OrganizationContext>> mockOrganizationStateManger;
         private OrganizationContext orgContext;
 
+        private Mock<IAppConfiguration> mockAppConfiguration;
+
         [TestInitialize]
         public void InitializeTest()
         {
@@ -29,6 +32,8 @@ namespace CH.Test.Azure
 
             mockOrganizationStateManger = new Mock<IStateManager<OrganizationContext>>();
             mockOrganizationStateManger.Setup(x => x.GetContext()).Returns(orgContext);
+
+            mockAppConfiguration = new Mock<IAppConfiguration>();
         }
 
         [TestMethod]
@@ -43,7 +48,7 @@ namespace CH.Test.Azure
             string contentType = "application/txt";
             bool isPrivate = true;
 
-            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object);
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
             CloudBlockBlob blob = await azureService.UploadBlobAsync("stream", isPrivate, contentType, memStream);
             blob.Properties.ContentType.Should().Be(contentType);
 
@@ -64,7 +69,7 @@ namespace CH.Test.Azure
             string data = Faker.Lorem.Paragraph();
             bool isPrivate = true;
 
-            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object);
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
             CloudBlockBlob blob = await azureService.UploadBlobAsync("txt", isPrivate, data);
 
             BlobContainerPermissions permissions = await blob.Container.GetPermissionsAsync();
@@ -86,7 +91,7 @@ namespace CH.Test.Azure
             string contentType = "application/txt";
             bool isPrivate = false;
 
-            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object);
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
             CloudBlockBlob blob = await azureService.UploadBlobAsync("stream", isPrivate, contentType, memStream);
             blob.Properties.ContentType.Should().Be(contentType);
 
@@ -107,7 +112,7 @@ namespace CH.Test.Azure
             string data = Faker.Lorem.Paragraph();
             bool isPrivate = false;
 
-            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object);
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
             CloudBlockBlob blob = await azureService.UploadBlobAsync("txt", isPrivate, data);
 
             BlobContainerPermissions permissions = await blob.Container.GetPermissionsAsync();
@@ -115,6 +120,21 @@ namespace CH.Test.Azure
 
             string result = await azureService.DownloadBlobAsync("txt", isPrivate);
             result.Should().Be(data);
+        }
+
+        [TestMethod]
+        public void CreateBlobUrlReturnsUrlForBlob()
+        {
+            orgContext.AzureName = orgContext.AzureName.ToUpper();
+
+            string path = "PATH";
+            string basePath = "BASE";
+
+            mockAppConfiguration.Setup(x => x.BlobBaseUrl).Returns(basePath);
+
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
+            string url = azureService.CreateBlobUrl(path);
+            url.Should().Be($"{basePath}/{orgContext.AzureName}/{path}".ToLower(), "azure blob urls should be forced to lower case");
         }
     }
 }
