@@ -30,12 +30,12 @@ namespace CritterHeroes.Web.DataProviders.Azure
             this._orgStateManager = orgStateManager;
         }
 
-        public async Task<CloudBlockBlob> UploadBlobAsync(string path, string contentType, Stream source)
+        public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source)
         {
             // Ensure stream is at the beginning
             source.Position = 0;
 
-            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlobContainer container = await GetBlobContainer(isPrivate);
             CloudBlockBlob blob = container.GetBlockBlobReference(path);
             blob.Properties.ContentType = contentType;
             await blob.UploadFromStreamAsync(source);
@@ -43,25 +43,25 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return blob;
         }
 
-        public async Task<CloudBlockBlob> UploadBlobAsync(string path, string content)
+        public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content)
         {
-            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlobContainer container = await GetBlobContainer(isPrivate);
             CloudBlockBlob blob = container.GetBlockBlobReference(path);
             await blob.UploadTextAsync(content);
             return blob;
         }
 
-        public async Task<string> DownloadBlobAsync(string path)
+        public async Task<string> DownloadBlobAsync(string path, bool isPrivate)
         {
-            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlobContainer container = await GetBlobContainer(isPrivate);
             CloudBlockBlob blob = container.GetBlockBlobReference(path);
             string data = await blob.DownloadTextAsync();
             return data;
         }
 
-        public async Task DownloadBlobAsync(string path, Stream target)
+        public async Task DownloadBlobAsync(string path, bool isPrivate, Stream target)
         {
-            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlobContainer container = await GetBlobContainer(isPrivate);
             CloudBlockBlob blob = container.GetBlockBlobReference(path);
             await blob.DownloadToStreamAsync(target);
 
@@ -69,7 +69,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             target.Position = 0;
         }
 
-        private async Task<CloudBlobContainer> GetBlobContainer()
+        private async Task<CloudBlobContainer> GetBlobContainer(bool isPrivate)
         {
             if (_container != null)
             {
@@ -80,8 +80,22 @@ namespace CritterHeroes.Web.DataProviders.Azure
             CloudBlobClient client = storageAccount.CreateCloudBlobClient();
 
             OrganizationContext _orgContext = _orgStateManager.GetContext();
-            _container = client.GetContainerReference(_orgContext.AzureName.ToLower());
+            string containerName = _orgContext.AzureName.ToLower();
+            if (isPrivate)
+            {
+                containerName += "-private";
+            }
+
+            _container = client.GetContainerReference(containerName);
             await _container.CreateIfNotExistsAsync();
+
+            if (!isPrivate)
+            {
+                await _container.SetPermissionsAsync(new BlobContainerPermissions()
+                {
+                    PublicAccess = BlobContainerPublicAccessType.Blob
+                });
+            }
 
             return _container;
         }

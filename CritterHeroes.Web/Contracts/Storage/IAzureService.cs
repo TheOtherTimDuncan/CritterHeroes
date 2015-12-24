@@ -12,9 +12,9 @@ namespace CritterHeroes.Web.Contracts.Storage
     {
         // Blobs
 
-        Task<CloudBlockBlob> UploadBlobAsync(string path,string contentType, Stream source);
-        Task<CloudBlockBlob> UploadBlobAsync(string path, string content);
-        Task<string> DownloadBlobAsync(string path);
-        Task DownloadBlobAsync(string path, Stream target);
+        Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source);
+        Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content);
+        Task<string> DownloadBlobAsync(string path, bool isPrivate);
+        Task DownloadBlobAsync(string path, bool isPrivate, Stream target);
     }
 }
