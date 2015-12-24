@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -9,10 +10,11 @@ namespace CritterHeroes.Web.Contracts.Storage
 {
     public interface IAzureService
     {
-        string GetLoggingKey();
-        string GetLoggingKeyForDate(DateTime logDateUtc);
+        // Blobs
 
-        Task<CloudTable> GetCloudTable(string tableName);
-        Task<CloudBlobContainer> GetBlobContainer();
+        Task<CloudBlockBlob> UploadBlobAsync(string path,string contentType, Stream source);
+        Task<CloudBlockBlob> UploadBlobAsync(string path, string content);
+        Task<string> DownloadBlobAsync(string path);
+        Task DownloadBlobAsync(string path, Stream target);
     }
 }

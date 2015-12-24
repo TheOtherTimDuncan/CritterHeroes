@@ -247,6 +247,7 @@
     <Compile Include="AdminDataMapperTests\SpeciesTests.cs" />
     <Compile Include="AdminOrganizationTests\EditProfileCommandHandlerTests.cs" />
     <Compile Include="AdminOrganizationTests\EditProfileQueryHandlerTests.cs" />
+    <Compile Include="Azure\AzureServiceTests.cs" />
     <Compile Include="Azure\BaseAzureTest.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\StorageTests\CritterPictureServiceTests.cs" />

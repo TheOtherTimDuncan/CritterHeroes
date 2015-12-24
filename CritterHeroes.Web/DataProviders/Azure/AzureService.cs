@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
@@ -29,7 +30,46 @@ namespace CritterHeroes.Web.DataProviders.Azure
             this._orgStateManager = orgStateManager;
         }
 
-        public async Task<CloudBlobContainer> GetBlobContainer()
+        public async Task<CloudBlockBlob> UploadBlobAsync(string path, string contentType, Stream source)
+        {
+            // Ensure stream is at the beginning
+            source.Position = 0;
+
+            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            blob.Properties.ContentType = contentType;
+            await blob.UploadFromStreamAsync(source);
+
+            return blob;
+        }
+
+        public async Task<CloudBlockBlob> UploadBlobAsync(string path, string content)
+        {
+            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            await blob.UploadTextAsync(content);
+            return blob;
+        }
+
+        public async Task<string> DownloadBlobAsync(string path)
+        {
+            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            string data = await blob.DownloadTextAsync();
+            return data;
+        }
+
+        public async Task DownloadBlobAsync(string path, Stream target)
+        {
+            CloudBlobContainer container = await GetBlobContainer();
+            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            await blob.DownloadToStreamAsync(target);
+
+            // Ensure stream is at the beginning
+            target.Position = 0;
+        }
+
+        private async Task<CloudBlobContainer> GetBlobContainer()
         {
             if (_container != null)
             {
@@ -46,7 +86,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return _container;
         }
 
-        public async  Task<CloudTable> GetCloudTable(string tableName)
+        private async Task<CloudTable> GetCloudTable(string tableName)
         {
             if (_cloudTable != null)
             {
@@ -60,12 +100,12 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return _cloudTable;
         }
 
-        public string GetLoggingKey()
+        private string GetLoggingKey()
         {
             return GetLoggingKeyForDate(DateTime.UtcNow);
         }
 
-        public string GetLoggingKeyForDate(DateTime logDateUtc)
+        private string GetLoggingKeyForDate(DateTime logDateUtc)
         {
             return new DateTime(logDateUtc.Year, logDateUtc.Month, logDateUtc.Day, logDateUtc.Hour, logDateUtc.Minute, 0, DateTimeKind.Utc).Ticks.ToString("d19");
         }
