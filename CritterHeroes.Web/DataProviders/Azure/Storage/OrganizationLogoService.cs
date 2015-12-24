@@ -3,56 +3,45 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
-    public class OrganizationLogoService : BaseAzureBlobStorage, IOrganizationLogoService
+    public class OrganizationLogoService : IOrganizationLogoService
     {
         private ISqlStorageContext<Organization> _storageContext;
+        private IStateManager<OrganizationContext> _organizationStateManager;
+        private IAzureService _azureService;
 
-        public OrganizationLogoService(IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration, IAzureConfiguration azureConfiguration, ISqlStorageContext<Organization> storageContext)
-            : base(orgStateManager, appConfiguration, azureConfiguration)
+        private const bool isPrivate = false;
+
+        public OrganizationLogoService(IStateManager<OrganizationContext> organizationStateManager, IAzureService azureService, ISqlStorageContext<Organization> storageContext)
         {
             this._storageContext = storageContext;
+            this._organizationStateManager = organizationStateManager;
+            this._azureService = azureService;
         }
 
         public string GetLogoUrl()
         {
-            return CreateBlobUrl(OrganizationContext.LogoFilename);
+            OrganizationContext orgContext = _organizationStateManager.GetContext();
+            return _azureService.CreateBlobUrl(orgContext.LogoFilename);
         }
 
         public async Task SaveLogo(Stream source, string filename, string contentType)
         {
-            Organization org = await _storageContext.Entities.FindByIDAsync(OrganizationContext.OrganizationID);
-
-            CloudBlobContainer container = await GetContainer();
-
-            // Let's delete the original logo first if there is one
-            if (!org.LogoFilename.IsNullOrEmpty())
-            {
-                CloudBlockBlob oldBlob = container.GetBlockBlobReference(org.LogoFilename.ToLower());
-                if (oldBlob != null)
-                {
-                    await oldBlob.DeleteIfExistsAsync();
-                }
-            }
+            OrganizationContext orgContext = _organizationStateManager.GetContext();
 
             // Update the organization with the filename
+            Organization org = await _storageContext.Entities.FindByIDAsync(orgContext.OrganizationID);
             org.LogoFilename = filename;
             await _storageContext.SaveChangesAsync();
 
             // Upload the new logo
-            CloudBlockBlob blob = container.GetBlockBlobReference(filename.ToLower());
-            blob.Properties.ContentType = contentType;
-            await blob.UploadFromStreamAsync(source);
+            await _azureService.UploadBlobAsync(org.LogoFilename, isPrivate, contentType, source);
         }
     }
 }
