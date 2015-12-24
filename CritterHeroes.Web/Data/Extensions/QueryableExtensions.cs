@@ -16,7 +16,10 @@ namespace CritterHeroes.Web.Data.Extensions
                 throw new ArgumentNullException(nameof(source));
             }
 
-            return source.Skip(((page ?? 1) - 1) * pageSize).Take(pageSize);
+            int skipCount = ((page ?? 1) - 1) * pageSize;
+
+            // Lambda version of Skip/Take will parameterize page values which will improve query plan
+            return source.Skip(() => skipCount).Take(() => pageSize);
         }
 
         public static async Task<IEnumerable<T>> TakePageToListAsync<T>(this IQueryable<T> source, int? page, int pageSize)
