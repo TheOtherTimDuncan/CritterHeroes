@@ -235,6 +235,9 @@
     <Compile Include="ActionResultTests\RedirectToPreviousTests.cs" />
     <Compile Include="AdminContactsTests\ContactsListQueryHandlerTests.cs" />
     <Compile Include="AdminContactsTests\ContactsQueryHandlerTests.cs" />
+    <Compile Include="AdminCrittersTests\CrittersQueryHandlerTests.cs" />
+    <Compile Include="AdminCrittersTests\CritterSummaryQueryHandlerTests.cs" />
+    <Compile Include="AdminCrittersTests\CritttersListQueryHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\UploadCsvCommandHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\UploadJsonFileCommandHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\UploadXmlFileCommandHandlerTests.cs" />
