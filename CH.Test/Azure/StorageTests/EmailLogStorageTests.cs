@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Proxies.Configuration;
-using CritterHeroes.Web.Common.StateManagement;
-using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.Azure;
-using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
-using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Moq;
-using Newtonsoft.Json;
 
 namespace CH.Test.Azure.StorageTests
 {
@@ -30,19 +24,22 @@ namespace CH.Test.Azure.StorageTests
                 Message = "message"
             };
 
+            bool isPrivate = true;
+
             EmailLog emailLog = new EmailLog(testData);
 
             string emailData = null;
 
-            Mock<IEmailStorageService> mockEmailStorage = new Mock<IEmailStorageService>();
-            mockEmailStorage.Setup(x => x.SaveEmailAsync(emailLog.ID, It.IsAny<string>())).Returns((Guid emailID, string saveEmailData) =>
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+            mockAzureService.Setup(x => x.UploadBlobAsync(It.IsAny<string>(), isPrivate, It.IsAny<string>())).Returns((string path, bool callbackIsPrivate, string content) =>
             {
-                emailData = saveEmailData;
-                return Task.FromResult(0);
+                emailData = content;
+                CloudBlockBlob blob = new CloudBlockBlob(new Uri("http://localhost/container"));
+                return Task.FromResult(blob);
             });
-            mockEmailStorage.Setup(x => x.GetEmailAsync(emailLog.ID)).Returns(() => Task.FromResult(emailData));
+            mockAzureService.Setup(x => x.DownloadBlobAsync(It.IsAny<string>(), isPrivate)).Returns(() => Task.FromResult(emailData));
 
-            AzureEmailLogger logger = new AzureEmailLogger(new AzureConfiguration(), mockEmailStorage.Object);
+            AzureEmailLogger logger = new AzureEmailLogger(new AzureConfiguration(), mockAzureService.Object);
             await logger.LogEmailAsync(emailLog);
 
             IEnumerable<EmailLog> results = await logger.GetEmailLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
@@ -53,36 +50,9 @@ namespace CH.Test.Azure.StorageTests
 
             TestEmailData resultData = result.ConvertEmailData<TestEmailData>();
             resultData.Message.Should().Be(testData.Message);
-        }
 
-        [TestMethod]
-        public async Task CanReadAndWriteEmailFromStorage()
-        {
-            Organization org = new Organization();
-
-            OrganizationContext orgContext = new OrganizationContext()
-            {
-                OrganizationID = org.ID,
-                AzureName = "fflah"
-            };
-
-            TestEmailData testData = new TestEmailData()
-            {
-                Message = "message"
-            };
-
-            Guid logID = Guid.NewGuid();
-
-            Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
-            mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
-
-            EmailStorageService service = new EmailStorageService(mockOrgStateManager.Object, new AppConfiguration(), new AzureConfiguration());
-            await service.SaveEmailAsync(logID, JsonConvert.SerializeObject(testData));
-            string emailData = await service.GetEmailAsync(logID);
-            TestEmailData result = JsonConvert.DeserializeObject<TestEmailData>(emailData);
-
-            result.Should().NotBeNull();
-            result.Message.Should().Be(testData.Message);
+            mockAzureService.Verify(x => x.UploadBlobAsync(It.IsAny<string>(), isPrivate, It.IsAny<string>()), Times.Once);
+            mockAzureService.Verify(x => x.DownloadBlobAsync(It.IsAny<string>(), isPrivate), Times.AtLeastOnce);
         }
 
         public class TestEmailData

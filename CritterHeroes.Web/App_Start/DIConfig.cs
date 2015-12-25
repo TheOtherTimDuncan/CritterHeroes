@@ -73,7 +73,6 @@ namespace CritterHeroes.Web
             container.Register<IHttpContext, HttpContextProxy>(Lifestyle.Scoped);
             container.Register<IUrlGenerator, UrlGenerator>(Lifestyle.Scoped);
             container.Register<IHttpClient, HttpClientProxy>(Lifestyle.Scoped);
-            container.Register<IEmailStorageService, EmailStorageService>(Lifestyle.Scoped);
             container.Register<IAzureService, AzureService>(Lifestyle.Scoped);
 
             container.Register<IPageContextService, PageContextService>(Lifestyle.Scoped);

@@ -5,24 +5,23 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.DataProviders.Azure.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Utility;
-using CritterHeroes.Web.Models;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json;
-using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 {
     public class AzureEmailLogger : BaseAzureLoggerStorageContext<EmailLog>, IEmailLogger
     {
-        private IEmailStorageService _emailStorage;
+        private IAzureService _azureService;
 
-        public AzureEmailLogger(IAzureConfiguration azureConfiguration, IEmailStorageService emailStorage)
+        private const string _blobPath = "email";
+        private const bool isPrivate = true;
+
+        public AzureEmailLogger(IAzureConfiguration azureConfiguration, IAzureService azureService)
             : base("emaillog", azureConfiguration)
         {
-            this._emailStorage = emailStorage;
+            this._azureService = azureService;
         }
 
         public async Task<IEnumerable<EmailLog>> GetEmailLogAsync(DateTime dateFrom, DateTime dateTo)
@@ -42,7 +41,9 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
             foreach (DynamicTableEntity tableEntity in entities)
             {
                 EmailLog emailLog = FromStorage(tableEntity);
-                emailLog.EmailData = await _emailStorage.GetEmailAsync(emailLog.ID);
+
+                emailLog.EmailData = await _azureService.DownloadBlobAsync($"{_blobPath}/{emailLog.ID}", isPrivate);
+
                 result.Add(emailLog);
             }
             return result;
@@ -51,7 +52,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         public async Task LogEmailAsync(EmailLog emailLog)
         {
             await SaveAsync(emailLog);
-            await _emailStorage.SaveEmailAsync(emailLog.ID, emailLog.EmailData);
+            await _azureService.UploadBlobAsync($"{_blobPath}/{emailLog.ID}", isPrivate, emailLog.EmailData);
         }
 
         public override EmailLog FromStorage(DynamicTableEntity tableEntity)
