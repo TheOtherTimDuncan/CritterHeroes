@@ -46,7 +46,7 @@
             window.onpopstate = function (event) {
                 handler(event.state);
                 event.preventDefault();
-            }
+            };
         },
 
         copySafeQuery: function (source) {
