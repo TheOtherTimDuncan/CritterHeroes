@@ -17,5 +17,11 @@ namespace CritterHeroes.Web.Contracts.Storage
         Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content);
         Task<string> DownloadBlobAsync(string path, bool isPrivate);
         Task DownloadBlobAsync(string path, bool isPrivate, Stream target);
+
+        // Table Storage
+
+        Task<TableResult> ExecuteTableOperationAsync(string tableName, TableOperation operation);
+        Task ExecuteTableBatchOperationAsync(string tableName, IEnumerable<ITableEntity> tableEntities, Func<ITableEntity, TableOperation> operation);
+        Task<TableQuery<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new();
     }
 }

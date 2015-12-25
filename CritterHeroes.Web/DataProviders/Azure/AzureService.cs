@@ -24,6 +24,8 @@ namespace CritterHeroes.Web.DataProviders.Azure
         private CloudBlobContainer _container;
         private string _containerName;
 
+        private const int batchSize = 100;
+
         public AzureService(IAzureConfiguration azureConfiguration, IStateManager<OrganizationContext> orgStateManager, IAppConfiguration appConfiguration)
         {
             ThrowIf.Argument.IsNull(azureConfiguration, nameof(azureConfiguration));
@@ -78,6 +80,45 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
             // Ensure stream is at the beginning
             target.Position = 0;
+        }
+
+        public async Task<TableResult> ExecuteTableOperationAsync(string tableName, TableOperation operation)
+        {
+            CloudTable table = await GetCloudTable(tableName);
+            TableResult tableResult = await table.ExecuteAsync(operation);
+            return tableResult;
+        }
+
+        public async Task ExecuteTableBatchOperationAsync(string tableName, IEnumerable<ITableEntity> tableEntities, Func<ITableEntity, TableOperation> operationFactory)
+        {
+            CloudTable table = await GetCloudTable(tableName);
+
+            TableBatchOperation batchOperation = new TableBatchOperation();
+            int batchCount = 0;
+            foreach (ITableEntity tableEntity in tableEntities)
+            {
+                batchOperation.Add(operationFactory(tableEntity));
+                batchCount++;
+
+                if (batchCount >= batchSize)
+                {
+                    IEnumerable<TableResult> results = await table.ExecuteBatchAsync(batchOperation);
+                    batchOperation.Clear();
+                    batchCount = 0;
+                }
+            }
+
+            // Don't forget the stragglers
+            if (batchCount > 0)
+            {
+                await table.ExecuteBatchAsync(batchOperation);
+            }
+        }
+
+        public async Task<TableQuery<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new()
+        {
+            CloudTable table = await GetCloudTable(tableName);
+            return table.CreateQuery<TElement>();
         }
 
         private string GetContainerName()

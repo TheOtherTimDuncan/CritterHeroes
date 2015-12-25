@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Configuration;
@@ -10,6 +11,7 @@ using CritterHeroes.Web.DataProviders.Azure;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
 
 namespace CH.Test.Azure
@@ -21,6 +23,8 @@ namespace CH.Test.Azure
         private OrganizationContext orgContext;
 
         private Mock<IAppConfiguration> mockAppConfiguration;
+
+        private const string tableName = "unittest";
 
         [TestInitialize]
         public void InitializeTest()
@@ -135,6 +139,63 @@ namespace CH.Test.Azure
             AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
             string url = azureService.CreateBlobUrl(path);
             url.Should().Be($"{basePath}/{orgContext.AzureName}/{path}".ToLower(), "azure blob urls should be forced to lower case");
+        }
+
+        [TestMethod]
+        public async Task CanReadFromAndWriteToTableStorage()
+        {
+            string partitionKey = "partitionkey";
+            string rowKey = "rowkey";
+
+            DynamicTableEntity entity = new DynamicTableEntity(partitionKey, rowKey);
+            entity.Properties["Test"] = new EntityProperty("value");
+
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
+
+            TableOperation insertOperation = TableOperation.InsertOrReplace(entity);
+            TableResult insertResult = await azureService.ExecuteTableOperationAsync(tableName, insertOperation);
+            insertResult.HttpStatusCode.Should().Be((int)HttpStatusCode.NoContent);
+
+            TableOperation retrieveOperation = TableOperation.Retrieve<DynamicTableEntity>(partitionKey, rowKey);
+            TableResult retrieveResult = await azureService.ExecuteTableOperationAsync(tableName, retrieveOperation);
+            retrieveResult.HttpStatusCode.Should().Be((int)HttpStatusCode.OK);
+
+            DynamicTableEntity resultEntity = retrieveResult.Result as DynamicTableEntity;
+            resultEntity.Should().NotBeNull();
+            resultEntity.Properties["Test"].StringValue.Should().Be(entity.Properties["Test"].StringValue);
+
+            TableOperation deleteOperation = TableOperation.Delete(entity);
+            TableResult deleteResult = await azureService.ExecuteTableOperationAsync(tableName, deleteOperation);
+            deleteResult.HttpStatusCode.Should().Be((int)HttpStatusCode.NoContent);
+        }
+
+        [TestMethod]
+        public async Task CanExecuteTableBatchOperationsAndTableQueries()
+        {
+            string partitionKey = "partitionkey";
+
+            IEnumerable<DynamicTableEntity> entities = Enumerable.Range(1, 200).Select(x =>
+            {
+                DynamicTableEntity entity = new DynamicTableEntity(partitionKey, x.ToString());
+                entity.Properties["Test"] = new EntityProperty(x);
+                return entity;
+            }).ToList();
+
+            AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
+
+            await azureService.ExecuteTableBatchOperationAsync(tableName, entities, (entity) => TableOperation.InsertOrReplace(entity));
+
+            var query =
+                from x in await azureService.CreateTableQuery<DynamicTableEntity>(tableName)
+                where x.PartitionKey == partitionKey
+                select x;
+
+            foreach (DynamicTableEntity resultEntity in query)
+            {
+                resultEntity.RowKey.Should().Be(resultEntity.Properties["Test"].Int32Value.Value.ToString());
+            }
+
+            await azureService.ExecuteTableBatchOperationAsync(tableName, entities, (entity) => TableOperation.Delete(entity));
         }
     }
 }
