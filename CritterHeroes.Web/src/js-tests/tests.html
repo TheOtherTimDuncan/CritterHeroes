@@ -11,13 +11,19 @@
 
     <script src="../lib/jquery.js"></script>
     <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/should/should.js"></script>
 
     <script type="text/javascript">
-        (function () {
-            mocha.setup('bdd');
-            mocha.checkLeaks();
-            mocha.run();
-        }());
+        mocha.setup('bdd');
     </script>
+
+    <script src="../js/bundled/ch.pubsub.js"></script>
+    <script src="ch.pubsub.tests.js"></script>
+
+    <script type="text/javascript">
+        mocha.checkLeaks();
+        mocha.run();
+    </script>
+
 </body>
 </html>

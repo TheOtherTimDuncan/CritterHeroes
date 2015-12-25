@@ -389,6 +389,7 @@
     <None Include="src\lib\jquery.validate.unobtrusive.js" />
     <None Include="src\js\bundled\ch.pubsub.js" />
     <None Include="src\js-tests\tests.html" />
+    <Content Include="src\js-tests\ch.pubsub.tests.js" />
     <Content Include="src\js\ch.contacts-list.js" />
     <None Include="src\lib\bootstrap.js" />
     <None Include="src\lib\bootstrap.min.js">
