@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CritterHeroes.Web.DataProviders.Azure.Utility;
-using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.Storage;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 {
     public abstract class BaseAzureLoggerStorageContext<T> : BaseAzureStorageContext<T> where T : class
     {
-        public BaseAzureLoggerStorageContext(string tableName, IAzureConfiguration azureConfiguration)
-            : base(tableName, azureConfiguration)
+        private IAzureService _azureService;
+
+        public BaseAzureLoggerStorageContext(string tableName, IAzureService azureService)
+            : base(tableName, azureService)
         {
+            this._azureService = azureService;
         }
 
         protected override string GetPartitionKey()
         {
-            return PartitionKeyHelper.GetLoggingKey();
+            return _azureService.GetLoggingKey();
         }
     }
 }

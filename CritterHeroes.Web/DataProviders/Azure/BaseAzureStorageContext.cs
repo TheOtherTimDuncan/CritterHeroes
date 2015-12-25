@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.DataProviders.Azure.Storage;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using TOTD.Utility.ExceptionHelpers;
 
@@ -15,18 +10,17 @@ namespace CritterHeroes.Web.DataProviders.Azure
 {
     public abstract class BaseAzureStorageContext<T> : IAzureStorageContext<T> where T : class
     {
-        private const int batchSize = 100;
-        private CloudTable _cloudTable = null;
-        private IAzureConfiguration _configuration;
+        private IAzureService _azureService;
+
         private string _tableName;
 
-        public BaseAzureStorageContext(string tableName, IAzureConfiguration azureConfiguration)
+        public BaseAzureStorageContext(string tableName, IAzureService azureService)
         {
             ThrowIf.Argument.IsNullOrEmpty(tableName, nameof(tableName));
-            ThrowIf.Argument.IsNull(azureConfiguration, nameof(azureConfiguration));
+            ThrowIf.Argument.IsNull(azureService, nameof(azureService));
 
             this._tableName = tableName;
-            this._configuration = azureConfiguration;
+            this._azureService = azureService;
         }
 
         public abstract T FromStorage(DynamicTableEntity tableEntity);
@@ -50,10 +44,8 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            CloudTable cloudTable = await GetCloudTable();
-
             var query =
-                from entity in cloudTable.CreateQuery<DynamicTableEntity>()
+                from entity in await _azureService.CreateTableQuery<DynamicTableEntity>(_tableName)
                 where entity.PartitionKey == GetPartitionKey()
                 select entity;
 
@@ -68,66 +60,34 @@ namespace CritterHeroes.Web.DataProviders.Azure
         public async Task SaveAsync(T entity)
         {
             DynamicTableEntity tableEntity = ToStorage(entity);
-
-            CloudTable cloudTable = await GetCloudTable();
-
             TableOperation operation = TableOperation.InsertOrReplace(tableEntity);
-            await cloudTable.ExecuteAsync(operation);
+            await _azureService.ExecuteTableOperationAsync(_tableName, operation);
         }
 
         public async Task SaveAsync(IEnumerable<T> entities)
         {
-            List<DynamicTableEntity> tableEntities = new List<DynamicTableEntity>();
-            foreach (T entity in entities)
-            {
-                DynamicTableEntity tableEntity = ToStorage(entity);
-                tableEntities.Add(tableEntity);
-            }
-
-            await ExecuteBatchAsync(tableEntities, (entity) =>
-            {
-                return TableOperation.InsertOrReplace(entity);
-            });
+            IEnumerable<DynamicTableEntity> tableEntities = entities.Select(x => ToStorage(x)).ToList();
+            await _azureService.ExecuteTableBatchOperationAsync(_tableName, tableEntities, (entity) => TableOperation.InsertOrReplace(entity));
         }
 
         public async Task DeleteAsync(T entity)
         {
             DynamicTableEntity tableEntity = await GetAsync(GetPartitionKey(), GetRowKey(entity));
-
             if (tableEntity != null)
             {
-                CloudTable cloudTable = await GetCloudTable();
                 TableOperation deleteOperation = TableOperation.Delete(tableEntity);
-                await cloudTable.ExecuteAsync(deleteOperation);
+                await _azureService.ExecuteTableOperationAsync(_tableName, deleteOperation);
             }
         }
 
         public async Task DeleteAllAsync()
         {
-            CloudTable cloudTable = await GetCloudTable();
             var entities =
-                from entity in cloudTable.CreateQuery<DynamicTableEntity>()
+                from entity in await _azureService.CreateTableQuery<DynamicTableEntity>(_tableName)
                 where entity.PartitionKey == GetPartitionKey()
                 select entity;
 
-            await ExecuteBatchAsync(entities, (entity) =>
-            {
-                return TableOperation.Delete(entity);
-            });
-        }
-
-        protected async Task<CloudTable> GetCloudTable()
-        {
-            if (_cloudTable != null)
-            {
-                return _cloudTable;
-            }
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
-            CloudTableClient client = storageAccount.CreateCloudTableClient();
-            _cloudTable = client.GetTableReference(_tableName);
-            await _cloudTable.CreateIfNotExistsAsync();
-            return _cloudTable;
+            await _azureService.ExecuteTableBatchOperationAsync(_tableName, entities, (entity) => TableOperation.Delete(entity));
         }
 
         protected abstract string GetRowKey(T entity);
@@ -139,41 +99,9 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         private async Task<DynamicTableEntity> GetAsync(string partitionKey, string rowKey)
         {
-            CloudTable table = await GetCloudTable();
             TableOperation operation = TableOperation.Retrieve<DynamicTableEntity>(partitionKey, rowKey);
-            TableResult tableResult = await table.ExecuteAsync(operation);
-
-            if (tableResult.Result == null)
-            {
-                return null;
-            }
-
-            return (DynamicTableEntity)tableResult.Result;
-        }
-
-        public async Task ExecuteBatchAsync(IEnumerable<ITableEntity> tableEntities, Func<ITableEntity, TableOperation> operation)
-        {
-            CloudTable cloudTable = await GetCloudTable();
-
-            TableBatchOperation batchOperation = new TableBatchOperation();
-            int batchCount = 0;
-            foreach (ITableEntity tableEntity in tableEntities)
-            {
-                batchOperation.Add(operation(tableEntity));
-                batchCount++;
-
-                if (batchCount >= batchSize)
-                {
-                    IEnumerable<TableResult> results = await cloudTable.ExecuteBatchAsync(batchOperation);
-                    batchOperation.Clear();
-                    batchCount = 0;
-                }
-            }
-
-            if (batchCount > 0)
-            {
-                await cloudTable.ExecuteBatchAsync(batchOperation);
-            }
+            TableResult tableResult = await _azureService.ExecuteTableOperationAsync(_tableName, operation);
+            return tableResult.Result as DynamicTableEntity;
         }
     }
 }

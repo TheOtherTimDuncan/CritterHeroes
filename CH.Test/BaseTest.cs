@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -37,6 +38,20 @@ namespace CH.Test
             string message = "Failing methods: " + string.Join("\n", methods.Select(x => x.DeclaringType.Name + "." + x.Name));
             Console.WriteLine(message);
             methods.Should().BeNullOrEmpty(assertMessage);
+        }
+
+        public T GetNonPublicPropertyValue<T>(object source, string propertyName)
+        {
+            PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            object propertyValue = propertyInfo.GetValue(source, null);
+            propertyValue.Should().NotBeNull(propertyName + " should exist in " + source.GetType().Name);
+
+            if (propertyValue is IEnumerable)
+            {
+                return (T)propertyValue;
+            }
+
+            return (T)Convert.ChangeType(propertyValue, typeof(T));
         }
     }
 }

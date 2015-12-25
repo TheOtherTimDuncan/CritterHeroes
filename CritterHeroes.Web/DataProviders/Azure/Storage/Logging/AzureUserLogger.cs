@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Utility;
 using CritterHeroes.Web.Models.Logging;
 using Microsoft.Owin;
@@ -16,22 +16,25 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
     public class AzureUserLogger : BaseAzureLoggerStorageContext<UserLog>, IUserLogger
     {
         private IOwinContext _owinContext;
+        private IAzureService _azureService;
 
-        public AzureUserLogger(IAzureConfiguration azureConfiguration, IOwinContext owinContext)
-            : base("userlog", azureConfiguration)
+        private const string _tableName = "userlog";
+
+        public AzureUserLogger(IAzureService azureService, IOwinContext owinContext)
+            : base(_tableName, azureService)
         {
             this._owinContext = owinContext;
+            this._azureService = azureService;
         }
 
         public async Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo)
         {
-            string start = PartitionKeyHelper.GetLoggingKeyForDate(dateFrom);
-            string end = PartitionKeyHelper.GetLoggingKeyForDate(dateTo);
+            string start = _azureService.GetLoggingKey(dateFrom);
+            string end = _azureService.GetLoggingKey(dateTo);
 
-            CloudTable table = await GetCloudTable();
             var entities =
                 (
-                    from e in table.CreateQuery<DynamicTableEntity>()
+                    from e in await _azureService.CreateTableQuery<DynamicTableEntity>(_tableName)
                     where e.PartitionKey.CompareTo(start) >= 0 && e.PartitionKey.CompareTo(end) <= 0
                     select e
                 ).ToList();
