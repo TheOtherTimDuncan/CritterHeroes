@@ -82,6 +82,16 @@ namespace CritterHeroes.Web.DataProviders.Azure
             target.Position = 0;
         }
 
+        public string GetLoggingKey()
+        {
+            return GetLoggingKey(DateTime.UtcNow);
+        }
+
+        public string GetLoggingKey(DateTime logDateUtc)
+        {
+            return new DateTime(logDateUtc.Year, logDateUtc.Month, logDateUtc.Day, logDateUtc.Hour, logDateUtc.Minute, 0, DateTimeKind.Utc).Ticks.ToString("d19");
+        }
+
         public async Task<TableResult> ExecuteTableOperationAsync(string tableName, TableOperation operation)
         {
             CloudTable table = await GetCloudTable(tableName);
@@ -115,7 +125,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             }
         }
 
-        public async Task<TableQuery<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new()
+        public async Task<IQueryable<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new()
         {
             CloudTable table = await GetCloudTable(tableName);
             return table.CreateQuery<TElement>();
@@ -176,16 +186,6 @@ namespace CritterHeroes.Web.DataProviders.Azure
             _cloudTable = client.GetTableReference(tableName);
             await _cloudTable.CreateIfNotExistsAsync();
             return _cloudTable;
-        }
-
-        private string GetLoggingKey()
-        {
-            return GetLoggingKeyForDate(DateTime.UtcNow);
-        }
-
-        private string GetLoggingKeyForDate(DateTime logDateUtc)
-        {
-            return new DateTime(logDateUtc.Year, logDateUtc.Month, logDateUtc.Day, logDateUtc.Hour, logDateUtc.Minute, 0, DateTimeKind.Utc).Ticks.ToString("d19");
-        }
+        }      
     }
 }
