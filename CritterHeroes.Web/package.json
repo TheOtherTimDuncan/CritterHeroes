@@ -33,6 +33,7 @@
     "gulp-wrap": "^0.11.0",
     "less-plugin-autoprefix": "^1.5.1",
     "merge-stream": "^1.0.0",
+    "mocha": "^2.3.4",
     "through2": "^2.0.0"
   }
 }
