@@ -44,8 +44,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public async Task<bool> DeleteBlobAsync(string path, bool isPrivate)
         {
-            CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
             if (blob != null)
             {
                 return await blob.DeleteIfExistsAsync();
@@ -58,8 +57,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             // Ensure stream is at the beginning
             source.Position = 0;
 
-            CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
             blob.Properties.ContentType = contentType;
             await blob.UploadFromStreamAsync(source);
 
@@ -68,24 +66,21 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content)
         {
-            CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
             await blob.UploadTextAsync(content);
             return blob;
         }
 
         public async Task<string> DownloadBlobAsync(string path, bool isPrivate)
         {
-            CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
             string data = await blob.DownloadTextAsync();
             return data;
         }
 
         public async Task DownloadBlobAsync(string path, bool isPrivate, Stream target)
         {
-            CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
             await blob.DownloadToStreamAsync(target);
 
             // Ensure stream is at the beginning
@@ -163,7 +158,6 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return _containerName;
         }
 
-
         private async Task<CloudBlobContainer> GetBlobContainer(bool isPrivate)
         {
             if (_container != null)
@@ -193,6 +187,13 @@ namespace CritterHeroes.Web.DataProviders.Azure
             }
 
             return _container;
+        }
+
+        private async Task<CloudBlockBlob> GetBlockBlobAsync(string path, bool isPrivate)
+        {
+            CloudBlobContainer container = await GetBlobContainer(isPrivate);
+            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            return blob;
         }
 
         private async Task<CloudTable> GetCloudTable(string tableName)
