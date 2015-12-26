@@ -39,8 +39,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public string CreateBlobUrl(string path)
         {
-            // Blob urls are case sensitive and convention is they should always be lowercase
-            return $"{_appConfiguration.BlobBaseUrl}/{GetContainerName()}/{path}".ToLower();
+            return FixCaseForBlobPath($"{_appConfiguration.BlobBaseUrl}/{GetContainerName()}/{path}");
         }
 
         public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source)
@@ -49,7 +48,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             source.Position = 0;
 
             CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
             blob.Properties.ContentType = contentType;
             await blob.UploadFromStreamAsync(source);
 
@@ -59,7 +58,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
         public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content)
         {
             CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
             await blob.UploadTextAsync(content);
             return blob;
         }
@@ -67,7 +66,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
         public async Task<string> DownloadBlobAsync(string path, bool isPrivate)
         {
             CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
             string data = await blob.DownloadTextAsync();
             return data;
         }
@@ -75,7 +74,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
         public async Task DownloadBlobAsync(string path, bool isPrivate, Stream target)
         {
             CloudBlobContainer container = await GetBlobContainer(isPrivate);
-            CloudBlockBlob blob = container.GetBlockBlobReference(path);
+            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
             await blob.DownloadToStreamAsync(target);
 
             // Ensure stream is at the beginning
@@ -131,6 +130,16 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return table.CreateQuery<TElement>();
         }
 
+        /// <summary>
+        /// Blob urls are case sensitive and convention is they should always be lowercase
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string FixCaseForBlobPath(string path)
+        {
+            return path.ToLower();
+        }
+
         private string GetContainerName()
         {
             if (_containerName == null)
@@ -142,6 +151,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
             return _containerName;
         }
+
 
         private async Task<CloudBlobContainer> GetBlobContainer(bool isPrivate)
         {
@@ -186,6 +196,6 @@ namespace CritterHeroes.Web.DataProviders.Azure
             _cloudTable = client.GetTableReference(tableName);
             await _cloudTable.CreateIfNotExistsAsync();
             return _cloudTable;
-        }      
+        }
     }
 }

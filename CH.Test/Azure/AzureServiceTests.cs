@@ -95,15 +95,18 @@ namespace CH.Test.Azure
             string contentType = "application/txt";
             bool isPrivate = false;
 
+            // Upload with uppercase and download with lowercase to make sure case is forced to lower
+            string path = "stream";
+
             AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
-            CloudBlockBlob blob = await azureService.UploadBlobAsync("stream", isPrivate, contentType, memStream);
+            CloudBlockBlob blob = await azureService.UploadBlobAsync(path.ToUpper(), isPrivate, contentType, memStream);
             blob.Properties.ContentType.Should().Be(contentType);
 
             BlobContainerPermissions permissions = await blob.Container.GetPermissionsAsync();
             permissions.PublicAccess.Should().Be(BlobContainerPublicAccessType.Blob);
 
             Stream result = new MemoryStream();
-            await azureService.DownloadBlobAsync("stream", isPrivate, result);
+            await azureService.DownloadBlobAsync(path, isPrivate, result);
 
             StreamReader reader = new StreamReader(result);
             string resultData = reader.ReadLine();
@@ -116,13 +119,16 @@ namespace CH.Test.Azure
             string data = Faker.Lorem.Paragraph();
             bool isPrivate = false;
 
+            // Upload with uppercase and download with lowercase to make sure case is forced to lower
+            string path = "txt";
+
             AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
-            CloudBlockBlob blob = await azureService.UploadBlobAsync("txt", isPrivate, data);
+            CloudBlockBlob blob = await azureService.UploadBlobAsync(path.ToUpper(), isPrivate, data);
 
             BlobContainerPermissions permissions = await blob.Container.GetPermissionsAsync();
             permissions.PublicAccess.Should().Be(BlobContainerPublicAccessType.Blob);
 
-            string result = await azureService.DownloadBlobAsync("txt", isPrivate);
+            string result = await azureService.DownloadBlobAsync(path, isPrivate);
             result.Should().Be(data);
         }
 
