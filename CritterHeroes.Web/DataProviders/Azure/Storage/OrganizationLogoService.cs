@@ -7,6 +7,7 @@ using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
@@ -34,6 +35,12 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
         public async Task SaveLogo(Stream source, string filename, string contentType)
         {
             OrganizationContext orgContext = _organizationStateManager.GetContext();
+
+            // Let's delete the original logo first if there is one
+            if (!orgContext.LogoFilename.IsNullOrEmpty() && !orgContext.LogoFilename.SafeEquals(filename))
+            {
+                await _azureService.DeleteBlobAsync(orgContext.LogoFilename, isPrivate);
+            }
 
             // Update the organization with the filename
             Organization org = await _storageContext.Entities.FindByIDAsync(orgContext.OrganizationID);

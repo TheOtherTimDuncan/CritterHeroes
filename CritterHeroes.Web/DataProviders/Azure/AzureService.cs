@@ -42,6 +42,17 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return FixCaseForBlobPath($"{_appConfiguration.BlobBaseUrl}/{GetContainerName()}/{path}");
         }
 
+        public async Task<bool> DeleteBlobAsync(string path, bool isPrivate)
+        {
+            CloudBlobContainer container = await GetBlobContainer(isPrivate);
+            CloudBlockBlob blob = container.GetBlockBlobReference(FixCaseForBlobPath(path));
+            if (blob != null)
+            {
+                return await blob.DeleteIfExistsAsync();
+            }
+            return true;
+        }
+
         public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source)
         {
             // Ensure stream is at the beginning

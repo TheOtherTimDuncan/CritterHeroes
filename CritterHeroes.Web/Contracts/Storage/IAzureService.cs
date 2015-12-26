@@ -13,6 +13,7 @@ namespace CritterHeroes.Web.Contracts.Storage
         // Blobs
 
         string CreateBlobUrl(string path);
+        Task<bool> DeleteBlobAsync(string path, bool isPrivate);
         Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source);
         Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content);
         Task<string> DownloadBlobAsync(string path, bool isPrivate);
