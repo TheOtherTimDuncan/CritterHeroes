@@ -45,13 +45,28 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('app-css', ['clean-css', 'copy-bootstrap', 'copy-bootswatch'], function () {
+    gulp.task('normalize.css', ['clean-css'], function () {
+
+        return gulp.src(common.bowerBase + '/normalize-css/normalize.css')
+            .pipe(gulp.dest(distCss));
+
+    });
+
+    gulp.task('app-less', ['clean-css', 'copy-bootstrap', 'copy-bootswatch'], function () {
 
         var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
 
-        return gulp.src(srcLess + '/*.less', { base: common.srcPath })
+        return gulp.src(srcLess + '/*.less')
             .pipe(plugins.less({ plugins: [autoprefix] }))
-            .pipe(gulp.dest(common.distPath))
+            .pipe(gulp.dest(distCss));
+
+    });
+
+    gulp.task('version-css', ['clean-css', 'normalize.css', 'app-less'], function () {
+
+        var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
+
+        return gulp.src(distCss + '/*.css', { base: common.distPath })
             .pipe(plugins.sourcemaps.init())
             .pipe(plugins.minifyCss())
             .pipe(plugins.rename({ extname: '.min.css' }))
@@ -63,6 +78,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-css', 'copy-images', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'app-css'];
+    return ['clean-css', 'copy-images', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'normalize.css', 'app-less', 'version-css'];
 
 };
