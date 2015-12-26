@@ -19,12 +19,12 @@
     <link rel="icon" type="image/png" href="@Url.Content("~/favicon-192x192.png")" sizes="192x192">
     <link rel="icon" type="image/png" href="@Url.Content("~/favicon-160x160.png")" sizes="160x160">
     <link rel="icon" type="image/png" href="@Url.Content("~/favicon-96x96.png")" sizes="96x96">
-    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-16x16.png")" sizes=" 16x16">
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-16x16.png")" sizes="16x16">
     <link rel="icon" type="image/png" href="@Url.Content("~/favicon-32x32.png")" sizes="32x32">
 
     <title>@ViewBag.Title - Critter Heroes</title>
 
-    <link type="text/css" rel="stylesheet" href="@Url.Content(VersionedStatics.UrlFor("site.css"))" />
+    <link type="text/css" rel="stylesheet" href="@Url.For("site.css")" />
 
     @RenderSection("css", required: false)
 
@@ -44,29 +44,29 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.cdnFallback.js"))"></script>
+    <script type="text/javascript" src="@Url.For("ch.cdnFallback.js")"></script>
 
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
-        cheroes.cdnFallback.jqueryFallback('@Url.Content(VersionedStatics.UrlFor("jquery.js"))');
+        cheroes.cdnFallback.jqueryFallback('@Url.For("jquery.js")');
     </script>
 
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
     <script type="text/javascript">
-        cheroes.cdnFallback.jqueryValidationFallback('@Url.Content(VersionedStatics.UrlFor("jquery.validate.js"))');
+        cheroes.cdnFallback.jqueryValidationFallback('@Url.For("jquery.validate.js")');
     </script>
 
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
-        cheroes.cdnFallback.unobtrusiveFallback('@Url.Content(VersionedStatics.UrlFor("jquery.validate.unobtrusive.js"))');
+        cheroes.cdnFallback.unobtrusiveFallback('@Url.For("jquery.validate.unobtrusive.js")');
     </script>
 
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        cheroes.cdnFallback.bootstrapFallback('@Url.Content(VersionedStatics.UrlFor("bootstrap.js"))');
+        cheroes.cdnFallback.bootstrapFallback('@Url.For("bootstrap.js")');
     </script>
 
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("cheroes.js"))"></script>
+    <script type="text/javascript" src="@Url.For("cheroes.js")"></script>
 
     @RenderSection("scripts", required: false)
 

@@ -27,9 +27,11 @@ namespace CH.Test
             mockHttpContext.Setup(x => x.IsDebuggingEnabled).Returns(true);
             mockHttpContext.Setup(x => x.ConvertToAbsoluteUrl(It.IsAny<string>())).Returns((string virtualPath) => virtualPath);
 
+            MockUrlHelper mockUrlHelper = new MockUrlHelper(new MockHttpContext());
+
             VersionedStatics.Configure(mockFileSystem.Object, mockHttpContext.Object);
             VersionedStatics.IsDebug = true;
-            VersionedStatics.UrlFor("file1.js").Should().Be("~/dist/js/file1.js");
+            mockUrlHelper.For("file1.js").Should().Be("~/dist/js/file1.js");
         }
 
         [TestMethod]
@@ -46,9 +48,11 @@ namespace CH.Test
             mockHttpContext.Setup(x => x.IsDebuggingEnabled).Returns(true);
             mockHttpContext.Setup(x => x.ConvertToAbsoluteUrl(It.IsAny<string>())).Returns((string virtualPath) => virtualPath);
 
+            MockUrlHelper mockUrlHelper = new MockUrlHelper(new MockHttpContext());
+
             VersionedStatics.Configure(mockFileSystem.Object, mockHttpContext.Object);
             VersionedStatics.IsDebug = false;
-            VersionedStatics.UrlFor("file1.js").Should().Be("~/dist/js/file1-12345.min.js");
+            mockUrlHelper.For("file1.js").Should().Be("~/dist/js/file1-12345.min.js");
         }
 
         public const string LibManifest = "{\"js/file1.min.js\": \"js/file1-12345.min.js\"}";

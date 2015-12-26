@@ -5,8 +5,8 @@
 }
 
 @section scripts{
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("dropzone.js"))"></script>
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.organization-edit-profile.js"))"></script>
+    <script type="text/javascript" src="@Url.For("dropzone.js")"></script>
+    <script type="text/javascript" src="@Url.For("ch.organization-edit-profile.js")"></script>
 }
 
 @using (var container = Html.FluentHtml().BootstrapModalContainer().ID("modal").Begin())

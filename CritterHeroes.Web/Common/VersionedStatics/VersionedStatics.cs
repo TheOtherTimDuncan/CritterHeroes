@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Common.VersionedStatics
             }
         }
 
-        public static string UrlFor(string filename)
+        public static string For(this UrlHelper urlHelper, string filename)
         {
             StaticFile staticFile;
             if (!_tags.TryGetValue(filename, out staticFile))
@@ -54,7 +54,7 @@ namespace CritterHeroes.Web.Common.VersionedStatics
             }
 
             string url = (IsDebug ? staticFile.DebugUrl : staticFile.ProductionUrl);
-            return url;
+            return urlHelper.Content(url);
         }
     }
 }

@@ -29,5 +29,10 @@ namespace CH.Test.Mocks
         {
             return Action(actionName, controllerName, routeValues, RequestContext.HttpContext.Request.Url.Scheme);
         }
+
+        public override string Content(string contentPath)
+        {
+            return contentPath;
+        }
     }
 }

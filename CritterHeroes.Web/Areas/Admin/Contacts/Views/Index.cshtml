@@ -11,9 +11,9 @@
             cheroes.query = @JavascriptConvert.SerializeObject(Model.Query);
         })(this.cheroes = this.cheroes || {});
     </script>
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("handlebars.runtime.js"))"></script>
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.contacts-template.js"))"></script>
-    <script type="text/javascript" src="@Url.Content(VersionedStatics.UrlFor("ch.contacts-list.js"))"></script>
+    <script type="text/javascript" src="@Url.For("handlebars.runtime.js")"></script>
+    <script type="text/javascript" src="@Url.For("ch.contacts-template.js")"></script>
+    <script type="text/javascript" src="@Url.For("ch.contacts-list.js")"></script>
 }
 
 <h2>Contacts</h2>
