@@ -1,46 +1,74 @@
-﻿@import "bootstrap.less";
+﻿@import "variables.less";
+@import "buttons.less";
 
-form {
+input[type="submit"] {
+    .btn;
+    .btn-primary;
+}
 
-    input[type="submit"] {
-        .btn;
-        .btn-primary;
+a.primary {
+    .btn;
+    .btn-primary;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    height: @input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+    padding: @padding-base-vertical @padding-base-horizontal;
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+    color: @input-color;
+    background-color: @input-bg;
+    border: 1px solid @input-border;
+    border-radius: @input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+    &:focus {
+        border-color: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
+    }
+    // Unstyle the caret on `<select>`s in IE10+.
+    &::-ms-expand {
+        border: 0;
+        background-color: transparent;
     }
 
-    a.primary {
-        .btn;
-        .btn-primary;
+    &[disabled],
+    &[readonly],
+    fieldset[disabled] & {
+        background-color: @input-bg-disabled;
+        opacity: 1;
+    }
+
+    &[disabled],
+    fieldset[disabled] & {
+        cursor: @cursor-disabled;
     }
 }
 
-.form-col-offset {
-    .make-md-column(2);
-    .make-sm-column(1);
+form section {
+    margin-bottom: @form-group-margin-bottom;
 }
 
-.form-col {
-    .make-md-column(8);
-    .make-sm-column(9);
-}
-
-.form-col-2 {
-    .make-md-column(6);
-    .make-sm-column(7);
-}
-
-.form-col-3 {
-    .make-md-column(2);
-    .make-sm-column(3);
+form section input [type="text"], form section input[type="password"] {
+    .form-control();
 }
 
 /* Validation */
 
 .field-validation-error {
-    color: @brand-danger;
+    color: @color-danger;
 }
 
 .validation-summary-errors {
-    color: @brand-danger;
+    color: @color-danger;
 }
 
 .validation-summary-errors ul {

@@ -1,0 +1,29 @@
+﻿@import "variables.less";
+
+nav {
+    background: @color-primary;
+}
+
+nav a {
+    color: @body-bg;
+    font-weight: 300;
+    font-size: 13px;
+    padding-left: @padding-base-horizontal;
+    padding-right: @padding-base-horizontal;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        color: @body-bg;
+    }
+}
+
+.navbar-brand {
+    font-size: @font-size-large;
+    line-height: @line-height-computed;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}

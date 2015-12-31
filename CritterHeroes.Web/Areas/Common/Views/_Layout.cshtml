@@ -32,17 +32,19 @@
 </head>
 <body>
 
-    @{Html.RenderHomeMenuAction();}
-    @{Html.RenderHomeHeaderAction();}
+    <header>
+        @{Html.RenderHomeMenuAction();}
+        @{Html.RenderHomeHeaderAction();}
+    </header>
 
-    <main class="body-content">
-        @RenderBody()
+    <main class="flex-row">
+        <div class="flex-cell-s1 flex-cell-o2">@RenderBody()</div>
+        <aside class="flex-cell-o1"></aside>
+        <aside class="flex-cell-o3"></aside>
     </main>
 
-    <footer>
-        <div>
-            <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Critter Heroes</p>
-        </div>
+    <footer class="text-center">
+        <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Critter Heroes</p>
     </footer>
 
     <script type="text/javascript" src="@Url.For("ch.cdnFallback.js")"></script>

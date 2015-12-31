@@ -14,7 +14,7 @@ module.exports = function (gulp, plugins, common) {
     var libBootstrap = srcLess + '/bootstrap';
 
     gulp.task('clean-css', function () {
-        return plugins.del([distCss + '/**', distFonts + '/**', distImages + '/**/' + '!' + common.distPath, libBootstrap, '!' + srcLess, './versioned-css.json']);
+        return plugins.del([distCss + '/**/*', distFonts + '/**/*', distImages + '/**/*', libBootstrap + '/**/*', './versioned-css.json'], { debug: true });
     });
 
     gulp.task('copy-images', ['clean-css'], function () {

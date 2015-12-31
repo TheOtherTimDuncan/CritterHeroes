@@ -296,9 +296,15 @@
     <Content Include="Areas\Home\Views\_Header.cshtml" />
     <Content Include="Areas\Home\Views\_Menu.cshtml" />
     <Content Include="gulp-tasks\handlebars.js" />
+    <Content Include="src\css\cheroes\box-sizing.less" />
+    <Content Include="src\css\cheroes\scaffolding.less" />
+    <Content Include="src\css\cheroes\nav.less" />
+    <Content Include="src\css\cheroes\shared.less" />
+    <Content Include="src\css\cheroes\dropdowns.less" />
+    <Content Include="src\css\cheroes\buttons.less" />
+    <Content Include="src\css\cheroes\typography.less" />
     <None Include="src\templates\ch.contacts-template.hb" />
     <None Include="src\templates\ch.critters-template.hb" />
-    <None Include="src\css\cheroes\bootstrap.less" />
     <None Include="src\css\site.less" />
     <None Include="gulpfile.js" />
     <None Include="gulp-tasks\emails.js" />
@@ -337,9 +343,8 @@
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="src\css\cheroes\defaults.less" />
     <None Include="src\css\cheroes\header.less" />
-    <None Include="src\css\cheroes\shared.less" />
+    <None Include="src\css\cheroes\shared-old.less" />
     <None Include="src\css\cheroes\admin-lists.less" />
     <None Include="src\css\cheroes\forms.less" />
     <Content Include="Areas\Admin\Critters\Views\Summary.cshtml" />
