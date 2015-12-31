@@ -2,19 +2,36 @@
 
 nav {
     background: @color-primary;
-}
 
-nav a {
-    color: @body-bg;
-    font-weight: 300;
-    font-size: 13px;
-    padding-left: @padding-base-horizontal;
-    padding-right: @padding-base-horizontal;
+    ul {
+        list-style: none;
+    }
 
-    &:hover,
-    &:focus {
-        text-decoration: none;
+    a {
         color: @body-bg;
+        font-weight: 300;
+        font-size: 13px;
+        padding-left: @padding-base-horizontal;
+        padding-right: @padding-base-horizontal;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            color: @body-bg;
+            background-color: @nav-link-hover-bg;
+        }
+    }
+
+    &.disabled > a {
+        color: @nav-disabled-link-color;
+
+        &:hover,
+        &:focus {
+            color: @nav-disabled-link-hover-color;
+            text-decoration: none;
+            background-color: transparent;
+            cursor: @cursor-disabled;
+        }
     }
 }
 
