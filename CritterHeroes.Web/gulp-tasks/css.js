@@ -12,9 +12,10 @@ module.exports = function (gulp, plugins, common) {
     var srcImages = common.srcPath + '/images';
 
     var libBootstrap = srcLess + '/bootstrap';
+    var libAwesome = srcLess + '/fontawesome';
 
     gulp.task('clean-css', function () {
-        return plugins.del([distCss + '/**/*', distFonts + '/**/*', distImages + '/**/*', libBootstrap + '/**/*', './versioned-css.json'], { debug: true });
+        return plugins.del([distCss + '/**/*', distFonts + '/**/*', distImages + '/**/*', libBootstrap + '/**/*', libAwesome + '/**/*', './versioned-css.json'], { debug: true });
     });
 
     gulp.task('copy-images', ['clean-css'], function () {
@@ -28,6 +29,20 @@ module.exports = function (gulp, plugins, common) {
 
         return gulp.src(common.bowerBase + '/bootstrap/less/**/*.less')
             .pipe(gulp.dest(libBootstrap));
+
+    });
+
+    gulp.task('copy-fontawesome', ['clean-css'], function () {
+
+        return gulp.src(common.bowerBase + '/font-awesome/less/**/*.less')
+            .pipe(gulp.dest(libAwesome));
+
+    });
+
+    gulp.task('copy-fontawesome-fonts', ['clean-css'], function () {
+
+        return gulp.src(common.bowerBase + '/font-awesome/fonts/**/')
+            .pipe(gulp.dest(distFonts));
 
     });
 
@@ -52,7 +67,7 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('app-less', ['clean-css', 'copy-bootstrap', 'copy-bootswatch'], function () {
+    gulp.task('app-less', ['clean-css', 'copy-bootstrap', 'copy-bootswatch', 'copy-fontawesome'], function () {
 
         var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
 
@@ -78,6 +93,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-css', 'copy-images', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'normalize.css', 'app-less', 'version-css'];
+    return ['clean-css', 'copy-images', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'normalize.css', 'copy-fontawesome', 'copy-fontawesome-fonts', 'app-less', 'version-css'];
 
 };

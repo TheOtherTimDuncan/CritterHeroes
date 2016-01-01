@@ -168,6 +168,7 @@ CritterHeroes.Web/ConnectionStrings.Local.config
 CritterHeroes.Web/dist/
 CritterHeroes.Web/src/lib/
 CritterHeroes.Web/src/css/bootstrap/
+CritterHeroes.Web/src/css/fontawesome/
 CritterHeroes.Web/src/css/staging/
 CritterHeroes.Web/src/staging/
 CritterHeroes.Web/.vscode
