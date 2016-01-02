@@ -408,6 +408,9 @@
     <None Include="src\lib\jquery.validate.unobtrusive.js" />
     <None Include="src\js\bundled\ch.pubsub.js" />
     <None Include="src\js-tests\tests.html" />
+    <None Include="src\css\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </None>
     <Content Include="src\js-tests\ch.data.tests.js" />
     <Content Include="src\js-tests\ch.pubsub.tests.js" />
     <Content Include="src\js\bundled\ch.menu.js" />

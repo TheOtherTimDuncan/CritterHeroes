@@ -169,8 +169,7 @@ CritterHeroes.Web/dist/
 CritterHeroes.Web/src/lib/
 CritterHeroes.Web/src/css/bootstrap/
 CritterHeroes.Web/src/css/fontawesome/
-CritterHeroes.Web/src/css/staging/
-CritterHeroes.Web/src/staging/
+CritterHeroes.Web/src/css/*.css
 CritterHeroes.Web/.vscode
 versioned-js.json
 versioned-css.json
