@@ -19,11 +19,13 @@
                 trigger: trigger
             };
 
-            parent.on('click', eventData, toggle);
+            parent
+                .on('click', eventData, toggle)
+                .on('keydown', eventData, onParentKeyDown);
 
             $(document)
                 .on('click', eventData, onClick)
-                .on('keydown', eventData, onKeyDown);
+                .on('keydown', eventData, onDocKeyDown);
         });
 
     };
@@ -34,19 +36,21 @@
     }
 
     function onClick(event) {
-        if (event.type == 'click' && $.contains(event.data.parent[0], event.target)) {
+        if ($.contains(event.data.parent[0], event.target)) {
             return;
         }
         closeMenu(event.data.parent, event.data.trigger);
     }
 
-    function onKeyDown(event) {
-
+    function onDocKeyDown(event) {
         if (event.which == keyEsc) {
             return closeMenu(event.data.parent, event.data.trigger);
         }
+    }
 
-        if ($.contains(event.data.parent[0], event.target) && (event.which == keyUp || event.which == keyDown)) {
+    function onParentKeyDown(event) {
+
+        if (event.which == keyUp || event.which == keyDown) {
 
             event.preventDefault();
 
