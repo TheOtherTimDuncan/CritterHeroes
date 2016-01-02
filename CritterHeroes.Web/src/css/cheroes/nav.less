@@ -7,30 +7,36 @@ nav {
         list-style: none;
     }
 
-    a {
-        color: @body-bg;
-        font-weight: 300;
-        font-size: 13px;
-        padding-left: @padding-base-horizontal;
-        padding-right: @padding-base-horizontal;
+    li {
+        position: relative;
 
-        &:hover,
-        &:focus {
-            text-decoration: none;
+        > a {
+            position: relative;
+            display: block;
             color: @body-bg;
-            background-color: @nav-link-hover-bg;
+            font-weight: 300;
+            font-size: 13px;
+            padding: @nav-link-padding;
+            line-height: @line-height-computed;
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: @body-bg;
+                background-color: @nav-link-hover-bg;
+            }
         }
-    }
 
-    &.disabled > a {
-        color: @nav-disabled-link-color;
+        &.disabled > a {
+            color: @nav-disabled-link-color;
 
-        &:hover,
-        &:focus {
-            color: @nav-disabled-link-hover-color;
-            text-decoration: none;
-            background-color: transparent;
-            cursor: @cursor-disabled;
+            &:hover,
+            &:focus {
+                color: @nav-disabled-link-hover-color;
+                text-decoration: none;
+                background-color: transparent;
+                cursor: @cursor-disabled;
+            }
         }
     }
 }

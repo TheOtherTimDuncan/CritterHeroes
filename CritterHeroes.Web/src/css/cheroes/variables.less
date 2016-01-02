@@ -71,9 +71,13 @@
 @border-radius-large: 0;
 @border-radius-small: 3px;
 
+@component-active-color: #fff;
+@component-active-bg: @color-primary;
+
 @images-path: "../images/";
 
 // Tables
+
 @table-border-color: #ddd;
 
 // Type
@@ -147,6 +151,22 @@
 // Nav
 
 @nav-link-hover-bg: darken(@color-primary, 10%);
+@nav-link-padding: 12px 15px;
+
 @nav-disabled-link-color: #444;
 @nav-disabled-link-hover-color: @gray-light;
 @navbar-default-toggle-icon-bar-bg: #fff;
+
+// Dropdowns
+
+@dropdown-bg: #fff;
+@dropdown-link-color: #555;
+@dropdown-link-active-bg: @component-active-bg;
+@dropdown-link-active-color: @component-active-color;
+@dropdown-link-disabled-color: @gray-light;
+@dropdown-link-hover-color: darken(@gray-dark, 5%);
+@dropdown-link-hover-bg: #eee;
+@dropdown-border: rgba(0,0,0,.15);
+@dropdown-divider-bg: rgba(0,0,0,.2);
+
+@caret-width-base: 4px;

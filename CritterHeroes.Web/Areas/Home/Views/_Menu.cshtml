@@ -1,6 +1,6 @@
 ﻿@model CritterHeroes.Web.Areas.Home.Models.MenuModel
 
-<nav role="navigation" class="flex-row flex-center">
+<nav role="navigation" class="flex-row flex-row-np flex-center">
     <div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
@@ -10,35 +10,35 @@
         <img src="@Model.LogoUrl" class="logo-small" />
         <a href="@Url.HomeAction()" class="navbar-brand">@Model.OrganizationShortName</a>
     </div>
-    <div class="flex-row flex-cell-s1 navbar-collapse collapse">
-        <ul class="flex-row">
+    <div class="flex-row flex-row-np flex-cell-s1 navbar-collapse collapse">
+        <ul class="flex-row flex-row-np">
             <li><a href="@Url.HomeAction()">Home</a></li>
             @if (Model.ShowAdminMenu)
             {
-            <li class="dropdown-container">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="@Url.AdminContactsHomeAction()">Contacts</a></li>
-                    <li><a href="@Url.OrganizationEditProfileAction()">Organization Profile</a></li>
-                    <li class="divider" role="separator"></li>
-                    <li><a href="@Url.AdminCrittersHomeAction()">Critters</a></li>
-                    <li><a href="@Url.EmailHomeAction()">Emails</a></li>
-                    <li><a href="@Url.ErrorLogHomeAction()">Error Log</a></li>
-                    <li><a href="@Url.ListsHomeAction()">Lists Dashboard</a></li>
-                </ul>
-            </li>
+                <li class="dropdown-container">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.AdminContactsHomeAction()">Contacts</a></li>
+                        <li><a href="@Url.OrganizationEditProfileAction()">Organization Profile</a></li>
+                        <li class="divider" role="separator"></li>
+                        <li><a href="@Url.AdminCrittersHomeAction()">Critters</a></li>
+                        <li><a href="@Url.EmailHomeAction()">Emails</a></li>
+                        <li><a href="@Url.ErrorLogHomeAction()">Error Log</a></li>
+                        <li><a href="@Url.ListsHomeAction()">Lists Dashboard</a></li>
+                    </ul>
+                </li>
             }
         </ul>
-        <ul class="flex-row flex-cell-s1 flex-right">
+        <ul class="flex-row flex-row-np flex-cell-s1 flex-right">
             @if (Model.IsLoggedIn)
             {
-            <li><a href="@Url.AccountEditProfileAction()" class="hidden-xs">Welcome, @Model.UserDisplayName</a></li>
-            <li><a href="@Url.AccountEditProfileAction()" class="visible-xs">Edit Profile</a></li>
-            <li><a href="@Url.AccountLogoutAction()">Logout</a></li>
+                <li><a href="@Url.AccountEditProfileAction()" class="hidden-xs">Welcome, @Model.UserDisplayName</a></li>
+                <li><a href="@Url.AccountEditProfileAction()" class="visible-xs">Edit Profile</a></li>
+                <li><a href="@Url.AccountLogoutAction()">Logout</a></li>
             }
             else
             {
-            <li><a href="@Url.AccountLoginAction()">Login</a></li>
+                <li><a href="@Url.AccountLoginAction()">Login</a></li>
             }
         </ul>
     </div>

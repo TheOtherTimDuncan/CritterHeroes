@@ -410,6 +410,7 @@
     <None Include="src\js-tests\tests.html" />
     <Content Include="src\js-tests\ch.data.tests.js" />
     <Content Include="src\js-tests\ch.pubsub.tests.js" />
+    <Content Include="src\js\bundled\ch.menu.js" />
     <Content Include="src\js\ch.contacts-list.js" />
     <None Include="src\lib\bootstrap.js" />
     <None Include="src\lib\bootstrap.min.js">
@@ -419,6 +420,7 @@
     <None Include="src\lib\handlebars.runtime.min.js">
       <DependentUpon>handlebars.runtime.js</DependentUpon>
     </None>
+    <Content Include="src\js\ch.dropdownify.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

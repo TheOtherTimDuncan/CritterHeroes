@@ -64,11 +64,7 @@
         cheroes.cdnFallback.unobtrusiveFallback('@Url.For("jquery.validate.unobtrusive.js")');
     </script>
 
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        cheroes.cdnFallback.bootstrapFallback('@Url.For("bootstrap.js")');
-    </script>
-
+    <script type="text/javascript" src="@Url.For("ch.dropdownify.js")"></script>
     <script type="text/javascript" src="@Url.For("cheroes.js")"></script>
 
     @RenderSection("scripts", required: false)
