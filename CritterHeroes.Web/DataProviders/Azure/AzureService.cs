@@ -55,7 +55,10 @@ namespace CritterHeroes.Web.DataProviders.Azure
         public async Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string contentType, Stream source)
         {
             // Ensure stream is at the beginning
-            source.Position = 0;
+            if (source.CanSeek)
+            {
+                source.Position = 0;
+            }
 
             CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
             blob.Properties.ContentType = contentType;
