@@ -73,6 +73,7 @@ module.exports = function (gulp, plugins, common) {
 
         return gulp.src(srcLess + '/*.less')
             .pipe(plugins.less({ plugins: [autoprefix] }))
+            .pipe(gulp.dest(srcLess))
             .pipe(gulp.dest(distCss));
 
     });
