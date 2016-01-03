@@ -1,5 +1,6 @@
 ﻿@import "variables.less";
 @import "buttons.less";
+@import "shared.less";
 
 input[type="submit"] {
     .btn;
@@ -14,6 +15,8 @@ a.primary {
 label {
     margin-bottom: 5px;
     font-weight: bold;
+    font-size: @font-size-small;
+    font-weight: normal;
 }
 
 .form-control {
@@ -28,6 +31,7 @@ label {
     border-radius: @input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    box-sizing: border-box;
 
     &:focus {
         border-color: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
@@ -59,6 +63,68 @@ form section {
 
 form section input [type="text"], form section input[type="password"] {
     .form-control();
+}
+
+.input-group {
+    vertical-align: middle;
+    .flex-row();
+    .flex-center();
+
+    > input, > .form-control {
+        .flex-cell-s1();
+
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+
+        &:first-child {
+            .radius-right-none();
+        }
+
+        &:last-child {
+            .radius-left-none();
+        }
+    }
+
+    > button {
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+
+        &:first-child {
+            .radius-right-none();
+        }
+
+        &:last-child {
+            .radius-left-none();
+        }
+    }
+}
+
+.input-group-icon {
+    font-size: @font-size-base;
+    padding-left: @padding-base-horizontal;
+    padding-right: @padding-base-horizontal;
+    color: @input-color;
+    background-color: @input-group-addon-bg;
+    line-height: 1;
+    border: 1px solid @input-group-addon-border-color;
+    border-radius: @input-border-radius;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+
+    &:not(:first-child):not(:last-child) {
+        border-radius: 0;
+    }
+
+    &:first-child {
+        .radius-right-none();
+    }
+
+    &:last-child {
+        .radius-left-none();
+    }
 }
 
 /* Validation */

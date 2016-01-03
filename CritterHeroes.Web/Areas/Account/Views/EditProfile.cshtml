@@ -17,46 +17,46 @@
         {
             @Html.AntiForgeryToken()
 
-            <section class="form-group">
+            <section>
                 @Html.ValidationSummary(true, null)
             </section>
 
-            <section class="form-group">
+            <section>
                 @Html.FluentHtml().Label().For(m => m.Email)
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    <div class="input-group-icon"><span class="icon-email"></span></div>
                     <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
-                    <span class="input-group-btn"><button id="edit-email" type="button" data-url="@Url.AccountEditProfileLoginAction()" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs">&nbsp;Change</span></button></span>
+                    <button id="edit-email" type="button" data-url="@Url.AccountEditProfileLoginAction()" class="btn btn-info"><span class="icon-edit"></span><span class="hide-xs">&nbsp;Change</span></button>
                 </div>
             </section>
 
-            <section id="unconfirmed-email" class="form-group @(Model.UnconfirmedEmail.IsNullOrEmpty() ? "hidden" : "")">
+            <section id="unconfirmed-email" @(Model.UnconfirmedEmail.IsNullOrEmpty() ? "hidden" : "")>
                 @Html.FluentHtml().Label().For(m => m.UnconfirmedEmail)
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    <span class="input-group-icon"><span class="icon-email"></span></span>
                     <span id="unconfirmed-email" class="form-control" readonly="readonly" title="@Model.UnconfirmedEmail">@Model.UnconfirmedEmail</span>
                 </div>
             </section>
 
-            <section class="form-group">
+            <section>
                 @Html.FluentHtml().Label().For(m => m.FirstName)
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <span class="input-group-icon"><span class="icon-user"></span></span>
                     @Html.FluentHtml().Input().For(m => m.FirstName).ForBootstrap()
                 </div>
                 @Html.ValidationMessageFor(m => m.FirstName)
             </section>
 
-            <section class="form-group">
+            <section>
                 @Html.FluentHtml().Label().For(m => m.LastName)
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <span class="input-group-icon"><span class="icon-user"></span></span>
                     @Html.FluentHtml().Input().For(m => m.LastName).ForBootstrap()
                 </div>
                 @Html.ValidationMessageFor(m => m.LastName)
             </section>
 
-            <section class="form-group">
+            <section>
                 <input type="submit" value="Save" />
                 @Html.CancelButton()
             </section>

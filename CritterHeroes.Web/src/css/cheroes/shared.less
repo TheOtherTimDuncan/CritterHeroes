@@ -2,7 +2,7 @@
 
 // Padding
 
-.pad-def{
+.pad-def {
     padding: @padding-base-vertical @padding-base-horizontal;
 }
 
@@ -38,6 +38,10 @@
     align-items: center;
 }
 
+.flex-stretch {
+    align-items: stretch;
+}
+
 .flex-left {
     justify-content: flex-start;
 }
@@ -52,6 +56,10 @@
     text-align: center;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .page-banner {
     background: @color-secondary;
     padding: @padding-base-vertical @padding-base-vertical;
@@ -61,6 +69,16 @@
         padding-top: @padding-large-vertical;
         padding-bottom: @padding-large-vertical;
     }
+}
+
+.radius-right-none {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.radius-left-none {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
 }
 
 // Logos

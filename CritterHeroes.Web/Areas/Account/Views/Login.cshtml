@@ -18,32 +18,30 @@
         {
             @Html.AntiForgeryToken()
 
-            <section class="form-group">
+            <section>
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    <div class="input-group-icon"><span class="icon-email"></span></div>
                     @Html.FluentHtml().Input().For(m => m.Email).ForBootstrap().AutoFocus()
                 </div>
                 @Html.ValidationMessageFor(m => m.Email)
             </section>
 
-            <section class="form-group">
+            <section>
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <div class="input-group-icon"><span class="icon-lock"></span></div>
                     @Html.FluentHtml().Input().For(m => m.Password).ForBootstrap()
-                    <span class="input-group-btn"><button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountForgotPasswordAction()">?</button></span>
+                    <button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountForgotPasswordAction()">?</button>
                 </div>
                 @Html.ValidationMessageFor(m => m.Password)
             </section>
 
-            <section class="form-group">
+            <section>
                 @Html.ValidationSummary(true, null)
             </section>
 
-            <section class="form-group">
+            <section class="flex-row">
                 <input type="submit" value="Login" />
-                <span class="pull-right">
-                    <a href="@Url.AccountConfirmEmailAction()" tabindex="-1">Have confirmation code?</a><br />
-                </span>
+                <a href="@Url.AccountConfirmEmailAction()" class="flex-cell-s1 text-right" tabindex="-1">Have confirmation code?</a><br />
             </section>
         }
     </div>
