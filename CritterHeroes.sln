@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Notes.md = Notes.md
 		CritterHeroes.Web\package-updates.bat = CritterHeroes.Web\package-updates.bat
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH.Test", "CH.Test\CH.Test.csproj", "{FFA1CD79-28D4-4514-8DB4-2EBB73338A6E}"
