@@ -304,6 +304,7 @@
     <Content Include="src\css\cheroes\buttons.less" />
     <Content Include="src\css\cheroes\typography.less" />
     <None Include="src\css\cheroes\fontawesome.less" />
+    <Content Include="src\css\cheroes\responsive.less" />
     <None Include="src\css\fontawesome\animated.less" />
     <None Include="src\css\fontawesome\bordered-pulled.less" />
     <None Include="src\css\fontawesome\core.less" />

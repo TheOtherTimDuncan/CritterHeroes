@@ -1,18 +1,17 @@
 ﻿@model CritterHeroes.Web.Areas.Home.Models.MenuModel
 
-<nav role="navigation" class="flex-row flex-row-np flex-center">
-    <div>
+<nav role="navigation">
+    <div class="flex-row flex-center">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <img src="@Model.LogoUrl" class="logo-small" />
+        <img src="@Model.LogoUrl" class="logo-small hide-md hide-lg" />
         <a href="@Url.HomeAction()" class="navbar-brand">@Model.OrganizationShortName</a>
     </div>
-    <div class="flex-row flex-row-np flex-cell-s1 navbar-collapse collapse">
-        <ul class="flex-row flex-row-np">
-            <li><a href="@Url.HomeAction()">Home</a></li>
+    <div class="navbar-collapse">
+        <ul>
             @if (Model.ShowAdminMenu)
             {
                 <li class="dropdown-container">
@@ -29,11 +28,11 @@
                 </li>
             }
         </ul>
-        <ul class="flex-row flex-row-np flex-cell-s1 flex-right">
+        <ul class="flex-cell-s1 flex-right">
             @if (Model.IsLoggedIn)
             {
-                <li><a href="@Url.AccountEditProfileAction()" class="hidden-xs">Welcome, @Model.UserDisplayName</a></li>
-                <li><a href="@Url.AccountEditProfileAction()" class="visible-xs">Edit Profile</a></li>
+                <li><a href="@Url.AccountEditProfileAction()" class="hide-xs">Welcome, @Model.UserDisplayName</a></li>
+                <li><a href="@Url.AccountEditProfileAction()" class="hide-sm hide-md hide-lg">Edit Profile</a></li>
                 <li><a href="@Url.AccountLogoutAction()">Logout</a></li>
             }
             else

@@ -1,21 +1,21 @@
 ﻿@import "variables.less";
 
+// Padding
+
+.pad-def{
+    padding: @padding-base-vertical @padding-base-horizontal;
+}
+
 // Flex
 
 .flex-column {
     display: flex;
     flex-direction: column;
-    padding: @padding-base-vertical @padding-base-horizontal;
 }
 
 .flex-row {
     display: flex;
     flex-direction: row;
-    padding: @padding-base-vertical @padding-base-horizontal;
-}
-
-.flex-row-np {
-    padding: 0;
 }
 
 .flex-cell-s1 {
@@ -36,6 +36,10 @@
 
 .flex-center {
     align-items: center;
+}
+
+.flex-left {
+    justify-content: flex-start;
 }
 
 .flex-right {
@@ -69,7 +73,5 @@
 .logo-small {
     width: 36px;
     height: 36px;
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 5px;
 }
