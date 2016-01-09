@@ -12,15 +12,11 @@
             if (target.hasClass('open')) {
                 target
                     .attr('aria-expanded', false)
-                    .slideUp(function () {
-                        target.removeClass('open');
-                    });
+                    .removeClass('open');
             } else {
                 target
                     .attr('aria-expanded', true)
-                    .slideDown(function () {
-                        target.addClass('open');
-                    });
+                    .addClass('open');
             }
 
         });
