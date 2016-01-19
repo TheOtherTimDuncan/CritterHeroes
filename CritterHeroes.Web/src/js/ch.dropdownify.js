@@ -3,9 +3,6 @@
     'use strict';
 
     var cssOpen = 'open';
-    var keyEsc = 27;
-    var keyUp = 38;
-    var keyDown = 40;
 
     $.fn.dropdownify = function (options) {
 
@@ -43,25 +40,25 @@
     }
 
     function onDocKeyDown(event) {
-        if (event.which == keyEsc) {
+        if (event.which == cheroes.KEYS.ESC) {
             return closeMenu(event.data.parent, event.data.trigger);
         }
     }
 
     function onParentKeyDown(event) {
 
-        if (event.which == keyUp || event.which == keyDown) {
+        if (event.which == cheroes.KEYS.UP || event.which == cheroes.KEYS.DOWN) {
 
             event.preventDefault();
 
             var items = event.data.parent.find('.dropdown-menu li:not(.disabled):visible a');
             var index = items.index(event.target);
 
-            if (event.which == keyUp && index > 0) {
+            if (event.which == cheroes.KEYS.UP && index > 0) {
                 index--;
             }
 
-            if (event.which == keyDown && (index < items.length - 1)) {
+            if (event.which == cheroes.KEYS.DOWN && (index < items.length - 1)) {
                 index++;
             }
 

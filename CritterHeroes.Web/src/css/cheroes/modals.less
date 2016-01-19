@@ -1,0 +1,74 @@
+﻿@import "variables.less";
+
+// Kill the scroll on the body
+.modal-open {
+    overflow: hidden;
+}
+
+.modal-container {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: calc(~"100% - 100px");
+    max-width: calc(~"100% - 100px");
+    -webkit-overflow-scrolling: touch;
+    z-index: @zindex-modal;
+    background-color: @modal-bg;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+
+.modal-header {
+    padding: @modal-title-padding;
+    border-bottom: 1px solid @modal-header-border-color;
+
+    .close {
+        color: @text-color;
+        margin-top: -2px;
+    }
+}
+
+.modal-title {
+    margin: 0;
+    line-height: @modal-title-line-height;
+}
+
+.modal-body {
+    padding: @modal-inner-padding;
+}
+
+.modal-footer {
+    padding: @modal-inner-padding;
+    text-align: right;
+    border-top: 1px solid @modal-footer-border-color;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: @modal-backdrop-bg;
+    z-index: @zindex-modal-background;
+
+    &.in {
+        opacity: @modal-backdrop-opacity;
+    }
+}
+
+@media (min-width: @screen-sm-min) {
+    .modal-container {
+        width: @modal-md;
+    }
+
+    .modal-sm {
+        width: @modal-sm;
+    }
+}

@@ -305,6 +305,7 @@
     <Content Include="src\css\cheroes\typography.less" />
     <None Include="src\css\cheroes\fontawesome.less" />
     <Content Include="src\css\cheroes\responsive.less" />
+    <Content Include="src\css\cheroes\modals.less" />
     <None Include="src\css\fontawesome\animated.less" />
     <None Include="src\css\fontawesome\bordered-pulled.less" />
     <None Include="src\css\fontawesome\core.less" />
@@ -358,7 +359,6 @@
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="src\css\cheroes\header.less" />
     <None Include="src\css\cheroes\shared-old.less" />
     <None Include="src\css\cheroes\admin-lists.less" />
     <None Include="src\css\cheroes\forms.less" />
@@ -414,7 +414,9 @@
     </None>
     <Content Include="src\js-tests\ch.data.tests.js" />
     <Content Include="src\js-tests\ch.pubsub.tests.js" />
+    <Content Include="src\js\bundled\ch.common.js" />
     <Content Include="src\js\bundled\ch.menu.js" />
+    <Content Include="src\js\bundled\ch.modal.js" />
     <Content Include="src\js\ch.contacts-list.js" />
     <None Include="src\lib\bootstrap.js" />
     <None Include="src\lib\bootstrap.min.js">

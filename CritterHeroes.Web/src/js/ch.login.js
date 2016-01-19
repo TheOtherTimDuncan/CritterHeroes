@@ -2,13 +2,7 @@
 
     'use strict';
 
-    function loadResetPassword(data) {
-        var modalContainer = $('#modal-container')
-            .html(data)
-            .find('div:first').modal({
-                backdrop: false
-            });
-
+    function onForgotPasswordLoaded(modalContainer) {
         var frm = modalContainer
             .find('#reset-password-form')
             .submit(resetPassword);
@@ -16,45 +10,43 @@
     }
 
     function resetPassword(e) {
+        e.preventDefault();
         var frm = $(this);
         var validator = frm.validate();
         if (frm.valid()) {
-            var btn = $('#button-container').hide();
-            var busy = $('.busy').show();
+            var btn = $('#button-container').addClass('hidden');
+            var busy = $('.busy').removeClass('hidden');
             var request = {
 
                 url: frm.prop('action'),
                 data: frm.serialize(),
 
                 badRequest: function (data) {
-                    busy.hide();
-                    btn.show();
+                    busy.addClass('hidden');
+                    btn.removeClass(hidden);
                     validator.showErrors({ "ResetPasswordEmail": data.Message });
                 },
 
                 success: function (data) {
-                    $('#message').hide();
-                    $('#success').show();
-                    frm.find('.form-group').hide();
-                    busy.hide();
-                    btn.find('input[type="submit"]').hide();
+                    $('#message').addClass('hidden');
+                    $('#success').removeClass('hidden');
+                    frm.find('.input-group').addClass('hidden');
+                    busy.addClass('hidden');
+                    btn.find('input[type="submit"]').addClass('hidden');
                     btn.find('#close').text('Continue');
-                    btn.show();
+                    btn.removeClass('hidden');
                 }
             };
             cheroes.dataManager.sendRequest(request);
         }
-        e.preventDefault();
     }
 
     $('#forgot-password').click(function (e) {
-        var request = {
-            url: $(this).data('url'),
-            success: loadResetPassword
-        };
-        cheroes.dataManager.getHtml(request);
-
         e.preventDefault();
+        cheroes.modal({
+            url: $(this).data('url'),
+            onLoad: onForgotPasswordLoaded
+        });
     });
 
 

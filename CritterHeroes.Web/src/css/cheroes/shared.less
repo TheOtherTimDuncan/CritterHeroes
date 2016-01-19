@@ -52,6 +52,16 @@
 
 // Misc
 
+.hidden {
+    display: none !important;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.pull-left {
+    float: left !important;
 }
 
 .page-banner {
@@ -75,6 +85,16 @@
     border-top-left-radius: 0 !important;
 }
 
+.busy {
+    background: url("@{images-path}spinner.gif") no-repeat;
+    min-width: 24px;
+    min-height: 16px;
+    background-position-x: 4px;
+    background-position-y: 2px;
+    padding-left: 22px;
+    margin-right: 4px;
+}
+
 // Logos
 
 .logo-medium {
@@ -86,4 +106,26 @@
     width: 36px;
     height: 36px;
     margin: 5px;
+}
+
+// Animations and effects
+
+.fade {
+    opacity: 0;
+    transition: opacity .15s linear;
+
+    &.in {
+        opacity: 1;
+    }
+}
+
+.slide-down {
+    top: 0;
+    transition: all 0.3s ease-out;
+
+    &.in {
+        visibility: visible;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }

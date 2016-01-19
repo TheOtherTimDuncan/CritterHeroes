@@ -60,11 +60,13 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('app-bundle', ['clean-scripts'], function () {
 
         var sources = [
+            appScripts + '/bundled/ch.common.js',
             appScripts + '/bundled/ch.pubsub.js',
             appScripts + '/bundled/ch.data.js',
             appScripts + '/bundled/ch.history.js',
             appScripts + '/bundled/ch.pagify.js',
             appScripts + '/bundled/ch.menu.js',
+            appScripts + '/bundled/ch.modal.js',
             appScripts + '/bundled/ch.validationextensions.js'
         ];
 
