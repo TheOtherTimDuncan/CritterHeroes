@@ -8,58 +8,52 @@
     <script type="text/javascript" src="@Url.For("ch.edit-profile.js")"></script>
 }
 
-<div id="modal-container"></div>
+<form action="@Url.AccountEditProfileAction()" method="post" class="form-med center-horizontal">
 
-<div class="row">
-    <div class="form-col-offset"></div>
-    <div class="form-col">
-        @using (Html.FluentHtml().Form().Begin())
-        {
-            @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-            <section>
-                @Html.ValidationSummary(true, null)
-            </section>
+    <section>
+        @Html.ValidationSummary(true, null)
+    </section>
 
-            <section>
-                @Html.FluentHtml().Label().For(m => m.Email)
-                <div class="input-group">
-                    <div class="input-group-icon"><span class="icon-email"></span></div>
-                    <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
-                    <button id="edit-email" type="button" data-url="@Url.AccountEditProfileLoginAction()" class="btn btn-info"><span class="icon-edit"></span><span class="hide-xs">&nbsp;Change</span></button>
-                </div>
-            </section>
+    <section>
+        <label>Email</label>
+        <div class="input-group">
+            <div class="input-group-icon"><span class="icon-email"></span></div>
+            <span class="form-control" readonly="readonly" title="@Model.Email">@Model.Email</span>
+            <button id="edit-email" type="button" data-url="@Url.AccountEditProfileLoginAction()" class="btn btn-info"><span class="icon-edit"></span><span class="hide-xs">&nbsp;Change</span></button>
+        </div>
+    </section>
 
-            <section id="unconfirmed-email" @(Model.UnconfirmedEmail.IsNullOrEmpty() ? "hidden" : "")>
-                @Html.FluentHtml().Label().For(m => m.UnconfirmedEmail)
-                <div class="input-group">
-                    <span class="input-group-icon"><span class="icon-email"></span></span>
-                    <span id="unconfirmed-email" class="form-control" readonly="readonly" title="@Model.UnconfirmedEmail">@Model.UnconfirmedEmail</span>
-                </div>
-            </section>
+    <section id="unconfirmed-email" @(Model.UnconfirmedEmail.IsNullOrEmpty() ? "hidden" : "")>
+        <label>Unconfirmed Email</label>
+        <div class="input-group">
+            <span class="input-group-icon"><span class="icon-email"></span></span>
+            <span id="unconfirmed-email" class="form-control" readonly="readonly" title="@Model.UnconfirmedEmail">@Model.UnconfirmedEmail</span>
+        </div>
+    </section>
 
-            <section>
-                @Html.FluentHtml().Label().For(m => m.FirstName)
-                <div class="input-group">
-                    <span class="input-group-icon"><span class="icon-user"></span></span>
-                    @Html.FluentHtml().Input().For(m => m.FirstName).ForBootstrap()
-                </div>
-                @Html.ValidationMessageFor(m => m.FirstName)
-            </section>
+    <section>
+        <label for="@Html.NameFor(x => x.FirstName)">First Name</label>
+        <div class="input-group">
+            <span class="input-group-icon"><span class="icon-user"></span></span>
+            <input type="text" name="@Html.NameFor(x => x.FirstName)" value="@Html.ValueFor(x => x.FirstName)" @Html.ValidationAttributesFor(x => x.FirstName) />
+        </div>
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </section>
 
-            <section>
-                @Html.FluentHtml().Label().For(m => m.LastName)
-                <div class="input-group">
-                    <span class="input-group-icon"><span class="icon-user"></span></span>
-                    @Html.FluentHtml().Input().For(m => m.LastName).ForBootstrap()
-                </div>
-                @Html.ValidationMessageFor(m => m.LastName)
-            </section>
+    <section>
+        <label for="@Html.NameFor(x => x.LastName)">Last Name</label>
+        <div class="input-group">
+            <span class="input-group-icon"><span class="icon-user"></span></span>
+            <input type="text" name="@Html.NameFor(x => x.LastName)" value="@Html.ValueFor(x => x.LastName)" @Html.ValidationAttributesFor(x => x.LastName) />
+        </div>
+        @Html.ValidationMessageFor(m => m.LastName)
+    </section>
 
-            <section>
-                <input type="submit" value="Save" />
-                @Html.CancelButton()
-            </section>
-        }
-    </div>
-</div>
+    <section>
+        <input type="submit" value="Save" />
+        @Html.CancelButton()
+    </section>
+
+</form>
