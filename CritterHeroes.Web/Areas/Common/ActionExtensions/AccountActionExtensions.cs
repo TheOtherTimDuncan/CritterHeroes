@@ -5,15 +5,17 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Contracts;
-using TOTD.Mvc.FluentHtml.Elements;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
     public static class AccountActionExtensions
     {
-        public static string AccountLoginAction(this UrlHelper urlHelper)
+        public static string AccountLoginAction(this UrlHelper urlHelper, string returnUrl = null)
         {
-            return urlHelper.Action(nameof(AccountController.Login), AccountController.Route);
+            return urlHelper.Action(nameof(AccountController.Login), AccountController.Route, new
+            {
+                returnUrl = returnUrl
+            });
         }
 
         public static string AccountEditProfileLoginAction(this UrlHelper urlHelper)
@@ -44,14 +46,6 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
         public static string AccountEditProfileAction(this UrlHelper urlHelper)
         {
             return urlHelper.Action(nameof(AccountController.EditProfile), AccountController.Route);
-        }
-
-        public static FormElement LoginAction(this FormElement formElement, string returnUrl)
-        {
-            return formElement.Action(nameof(AccountController.Login), AccountController.Route, new
-            {
-                returnUrl = returnUrl
-            });
         }
 
         public static string GenerateResetPasswordAbsoluteUrl(this IUrlGenerator urlGenerator, string token)
