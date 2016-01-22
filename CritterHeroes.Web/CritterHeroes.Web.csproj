@@ -371,7 +371,6 @@
     <None Include="src\css\cheroes\variables.less" />
     <None Include="package.json" />
     <None Include="src\_references.js" />
-    <None Include="src\js\bundled\validation.extensions.js" />
     <None Include="src\Emails\ConfirmEmail\Body.html" />
     <None Include="src\Emails\ConfirmEmail\Body.txt" />
     <None Include="src\Emails\ConfirmEmail\Subject.txt" />

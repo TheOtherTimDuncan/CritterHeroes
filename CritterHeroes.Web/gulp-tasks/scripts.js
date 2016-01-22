@@ -66,8 +66,7 @@ module.exports = function (gulp, plugins, common) {
             appScripts + '/bundled/ch.history.js',
             appScripts + '/bundled/ch.pagify.js',
             appScripts + '/bundled/ch.menu.js',
-            appScripts + '/bundled/ch.modal.js',
-            appScripts + '/bundled/ch.validationextensions.js'
+            appScripts + '/bundled/ch.modal.js'
         ];
 
         return gulp.src(sources)
