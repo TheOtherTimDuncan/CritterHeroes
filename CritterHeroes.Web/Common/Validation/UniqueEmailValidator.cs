@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
@@ -30,7 +31,7 @@ namespace CritterHeroes.Web.Common.Validation
             this._httpUser = httpUser;
         }
 
-        protected override async Task<bool> IsValidAsync(PropertyValidatorContext context)
+        protected override async Task<bool> IsValidAsync(PropertyValidatorContext context, CancellationToken cancellation)
         {
             string email = context.PropertyValue as string;
 
