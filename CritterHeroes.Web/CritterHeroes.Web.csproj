@@ -306,6 +306,7 @@
     <None Include="src\css\cheroes\fontawesome.less" />
     <Content Include="src\css\cheroes\responsive.less" />
     <Content Include="src\css\cheroes\modals.less" />
+    <Content Include="src\css\cheroes\progress-bars.less" />
     <None Include="src\css\fontawesome\animated.less" />
     <None Include="src\css\fontawesome\bordered-pulled.less" />
     <None Include="src\css\fontawesome\core.less" />
