@@ -20,8 +20,6 @@ namespace CritterHeroes.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            DefaultHtmlConventions.AddHtmlConventions();
-
             ViewEngineConfig.ConfigureViewEngines(ViewEngines.Engines);
         }
     }
