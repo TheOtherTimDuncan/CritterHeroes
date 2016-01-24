@@ -6,7 +6,7 @@
 
     var template = cheroes.templates.critters;
 
-    var crittersContainer = $('#critters-container tbody');
+    var crittersContainer = $('#critters-container');
     var critterUrl = crittersContainer.data('url');
     var pictureUrl = cheroes.pictureUrl;
 

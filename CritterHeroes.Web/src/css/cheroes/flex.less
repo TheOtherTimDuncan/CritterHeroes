@@ -1,0 +1,84 @@
+﻿@import "variables.less";
+
+// Flex table
+
+.flex-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: @line-height-computed;
+    background-color: @table-bg;
+}
+
+.flex-table-header {
+    border-bottom: 2px solid @table-border-color;
+
+    > .flex-table-cell {
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.flex-table-body .flex-table-row:nth-of-type(even) {
+    background-color: @table-bg-accent;
+}
+
+.flex-table-cell {
+    padding: @table-cell-padding;
+    line-height: @line-height-base;
+    vertical-align: top;
+    border-bottom: 1px solid @table-border-color;
+}
+
+.flex-table-row {
+    display: flex;
+    flex-direction: row;
+}
+
+// Utilities
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-cell-s1 {
+    flex: 1;
+}
+
+.flex-cell-s2 {
+    flex: 2;
+}
+
+.flex-cell-o1 {
+    order: 1;
+}
+
+.flex-cell-o2 {
+    order: 2;
+}
+
+.flex-cell-o3 {
+    order: 3;
+}
+
+.flex-center {
+    align-items: center;
+}
+
+.flex-stretch {
+    align-items: stretch;
+}
+
+.flex-left {
+    justify-content: flex-start;
+}
+
+.flex-right {
+    justify-content: flex-end;
+}

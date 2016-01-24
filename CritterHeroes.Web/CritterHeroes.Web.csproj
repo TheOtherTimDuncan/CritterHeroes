@@ -303,6 +303,7 @@
     <Content Include="src\css\cheroes\dropdowns.less" />
     <Content Include="src\css\cheroes\buttons.less" />
     <Content Include="src\css\cheroes\typography.less" />
+    <Content Include="src\css\cheroes\flex.less" />
     <None Include="src\css\cheroes\fontawesome.less" />
     <Content Include="src\css\cheroes\responsive.less" />
     <Content Include="src\css\cheroes\modals.less" />
