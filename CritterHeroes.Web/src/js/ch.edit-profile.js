@@ -71,7 +71,7 @@
                     frm.find('input[type="submit"]').addClass('hidden');
                     frm.find('#close').text('Continue');
                     btn.removeClass('hidden');
-                    $('#unconfirmed-email').removeClass('hidden').find('#unconfirmed-email').text($('#NewEmail').val());
+                    $('#unconfirmed-email-section').removeClass('hidden').find('#unconfirmed-email').text($('#NewEmail').val());
                 }
             });
         }

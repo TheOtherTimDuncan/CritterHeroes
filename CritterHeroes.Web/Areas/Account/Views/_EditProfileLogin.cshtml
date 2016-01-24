@@ -7,7 +7,7 @@
         <h4 class="modal-title">Edit Email - Login</h4>
     </div>
 
-    <form id="email-login-form" action="@Url.AccountEditProfileLoginAction()" data-next="@Url.AccountEditProfileSecureAction()">
+    <form id="email-login-form" action="@Url.AccountEditProfileLoginAction()" data-next="@Url.AccountEditProfileSecureAction()" autocomplete="off">
 
         @Html.AntiForgeryToken()
 
