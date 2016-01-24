@@ -23,7 +23,7 @@
             dz.options.params[item.name] = item.value;
         });
 
-        $('#modal').modal();
+        cheroes.modal({ selector: '#modal' });
         $('#cancel-upload').click(function () {
             dz.cancelUpload(dz.getAcceptedFiles()[0]);
         });
