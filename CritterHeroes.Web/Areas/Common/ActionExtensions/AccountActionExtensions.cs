@@ -48,6 +48,11 @@ namespace CritterHeroes.Web.Areas.Common.ActionExtensions
             return urlHelper.Action(nameof(AccountController.EditProfile), AccountController.Route);
         }
 
+        public static string AccountResetPasswordAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action(nameof(AccountController.ResetPassword), AccountController.Route);
+        }
+
         public static string GenerateResetPasswordAbsoluteUrl(this IUrlGenerator urlGenerator, string token)
         {
             return urlGenerator.GenerateAbsoluteUrl(nameof(AccountController.ResetPassword), AccountController.Route, new

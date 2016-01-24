@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TOTD.Mvc.FluentHtml.Attributes;
 
 namespace CritterHeroes.Web.Areas.Account.Models
 {
@@ -13,8 +11,6 @@ namespace CritterHeroes.Web.Areas.Account.Models
             set;
         }
 
-        [DataType(DataType.Password)]
-        [Placeholder("Confirm password")]
         public string ConfirmPassword
         {
             get;
