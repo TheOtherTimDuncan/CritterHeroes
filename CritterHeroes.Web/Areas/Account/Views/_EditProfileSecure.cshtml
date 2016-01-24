@@ -1,41 +1,38 @@
 ﻿@model CritterHeroes.Web.Areas.Account.Models.EditProfileSecureModel
 
-@using (var container = Html.FluentHtml().BootstrapModalContainer().Begin())
-{
-    using (var dialog = container.CreateDialog().Begin())
-    {
-        using (var content = dialog.CreateModalContent().Begin())
-        {
-            using (var header = content.CreateHeader().Begin())
-            {
-                @header.CreateCloseButton()
-                @header.CreateTitle("Edit Email")
-            }
-            <form id="edit-email-form" action="@Url.AccountEditProfileSecureAction()">
-                @Html.AntiForgeryToken()
-                @using (var body = content.CreateBody().Begin())
-                {
-                    <div id="success" style="display: none;">
-                        <p>An email has been sent to your new email address to confirm that it is valid. Your original email address will continue to be used until your new email address has been confirmed.</p>
-                    </div>
-                    <section class="form-group">
-                        <p>Please enter your new email address.</p>
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                            @Html.FluentHtml().Input().For(m => m.NewEmail).ForBootstrap().AutoFocus()
-                        </div>
-                        @Html.ValidationMessageFor(m => m.NewEmail)
-                    </section>
-                }
-                @using (var footer = content.CreateFooter().Begin())
-                {
-                    <span class="busy message" style="display: none;">Saving...</span>
-                    <span id="button-container">
-                        <input id="save-email" type="submit" class="btn btn-primary" value="Save" />
-                        <button id="close" type="button" data-dismiss="modal" class="btn btn-primary">Cancel</button>
-                    </span>
-                }
-            </form>
-        }
-    }
-}
+<div class="modal-container fade">
+
+    <div class="modal-header">
+        <button class="close pull-right" type="button" data-modal-close=""><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit Email</h4>
+    </div>
+
+    <form id="edit-email-form" action="@Url.AccountEditProfileSecureAction()">
+
+        @Html.AntiForgeryToken()
+
+        <div class="modal-body">
+            <div id="success" class="hidden">
+                <p>An email has been sent to your new email address to confirm that it is valid. Your original email address will continue to be used until your new email address has been confirmed.</p>
+            </div>
+            <section>
+                <p>Please enter your new email address.</p>
+                <div class="input-group">
+                    <div class="input-group-icon"><span class="icon-email"></span></div>
+                    <input type="email" name="@Html.NameFor(x => x.NewEmail)" value="@Html.ValueFor(x => x.NewEmail)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.NewEmail) />
+                </div>
+                @Html.ValidationMessageFor(m => m.NewEmail)
+            </section>
+        </div>
+
+        <div class="modal-footer">
+            <span class="busy message hidden">Saving...</span>
+            <span id="button-container">
+                <input id="save-email" type="submit" class="btn btn-primary" value="Save" />
+                <button id="close" type="button" data-modal-close="" class="btn btn-primary">Cancel</button>
+            </span>
+        </div>
+
+    </form>
+
+</div>

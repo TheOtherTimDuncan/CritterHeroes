@@ -2,16 +2,7 @@
 
     'use strict';
 
-    function loadEmailLogin(data) {
-        var modalContainer = $('#modal-container')
-            .html(data)
-            .find('div:first')
-            .modal({
-                backdrop: false
-            })
-            .on('shown.bs.modal', function () {
-                $('#Password').focus();
-            });
+    function onEmailLoginLoaded(modalContainer) {
         var frm = modalContainer
             .find('#email-login-form')
             .submit(emailLogin);
@@ -19,11 +10,14 @@
     }
 
     function emailLogin(e) {
+
+        e.preventDefault();
+
         var frm = $(this);
         var validator = frm.validate();
 
         if (frm.valid()) {
-            var request = {
+            cheroes.dataManager.sendRequest({
 
                 url: frm.prop('action'),
                 data: frm.serialize(),
@@ -33,29 +27,16 @@
                 },
 
                 success: function () {
-                    cheroes.dataManager.getHtml({
+                    cheroes.modal({
                         url: frm.data('next'),
-                        success: loadEmailEdit
+                        onLoad: onEmailEditLoaded
                     });
                 }
-            };
-            cheroes.dataManager.sendRequest(request);
+            });
         }
-
-        e.preventDefault();
     }
 
-    function loadEmailEdit(data) {
-        var modalContainer = $('#modal-container')
-            .html(data)
-            .find('div:first')
-            .removeClass('fade')
-            .modal({
-                backdrop: false
-            })
-            .on('shown.bs.modal', function () {
-                $('#NewEmail').focus();
-            });
+    function onEmailEditLoaded(modalContainer) {
         var frm = modalContainer
             .find('#edit-email-form')
             .submit(emailSave);
@@ -63,47 +44,47 @@
     }
 
     function emailSave(e) {
+
+        e.preventDefault();
+
         var frm = $(this);
         var validator = frm.validate();
 
         if (frm.valid()) {
-            var btn = $('#button-container').hide();
-            var busy = $('.busy').show();
-            var request = {
+            var btn = $('#button-container').addClass('hidden');
+            var busy = $('.busy').removeClass('hidden');
+            cheroes.dataManager.sendRequest({
 
                 url: frm.prop('action'),
                 data: frm.serialize(),
 
                 badRequest: function (data) {
-                    busy.hide();
-                    btn.show();
+                    busy.addClass('hidden');
+                    btn.removeClass('hidden');
                     validator.showErrors({ "ResetPasswordEmail": data.Message });
                 },
 
                 success: function (data) {
-                    $('#success').show();
-                    frm.find('.form-group').hide();
-                    busy.hide();
-                    frm.find('input[type="submit"]').hide();
+                    $('#success').removeClass('hidden');
+                    frm.find('section').addClass('hidden');
+                    busy.addClass('hidden');
+                    frm.find('input[type="submit"]').addClass('hidden');
                     frm.find('#close').text('Continue');
-                    btn.show();
+                    btn.removeClass('hidden');
                     $('#unconfirmed-email').removeClass('hidden').find('#unconfirmed-email').text($('#NewEmail').val());
                 }
-            };
-            cheroes.dataManager.sendRequest(request);
+            });
         }
 
-        e.preventDefault();
     }
 
     $('#edit-email').click(function (e) {
-        var request = {
-            url: $(this).data('url'),
-            success: loadEmailLogin
-        };
-        cheroes.dataManager.getHtml(request);
-
         e.preventDefault();
+        cheroes.modal({
+            url: $(this).data('url'),
+            onLoad: onEmailLoginLoaded
+        });
+
     });
 
 }(this.cheroes = this.cheroes || {}, jQuery));
