@@ -6,7 +6,7 @@
 
     var template = cheroes.templates.contacts;
 
-    var contactsContainer = $('#contacts-container tbody');
+    var contactsContainer = $('#contacts-container');
     var contactsUrl = contactsContainer.data('url');
 
     var pager = $('.paging-container').pagify().on(cheroes.events.pagify.CHANGE_PAGE, function (event, page) {

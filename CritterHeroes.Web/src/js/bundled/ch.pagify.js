@@ -68,7 +68,7 @@
     function buildPages(container, data) {
 
         if (!data || data.totalPages <= 1) {
-            element.empty();
+            container.empty();
             return;
         }
 
