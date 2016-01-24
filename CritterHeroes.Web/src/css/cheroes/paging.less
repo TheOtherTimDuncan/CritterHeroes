@@ -1,5 +1,5 @@
 ﻿@import "variables.less";
-@import "bootstrap.less";
+@import "fontawesome.less";
 
 .paging-container {
     list-style: none;
@@ -33,21 +33,21 @@
 }
 
 .paging-container .page-prev {
-    border-top-left-radius: @border-radius;
-    border-bottom-left-radius: @border-radius;
+    border-top-left-radius: @border-radius-small;
+    border-bottom-left-radius: @border-radius-small;
 }
 
 .paging-container .page-prev a, .paging-container .page-prev span {
-    .glyphicon;
-    .glyphicon-chevron-left;
+    .icon-chevron-left;
+    font-size: @font-size-small - 1;
 }
 
 .paging-container .page-next {
-    border-top-right-radius: @border-radius;
-    border-bottom-right-radius: @border-radius;
+    border-top-right-radius: @border-radius-small;
+    border-bottom-right-radius: @border-radius-small;
 }
 
 .paging-container .page-next a, .paging-container .page-next span {
-    .glyphicon;
-    .glyphicon-chevron-right;
+    .icon-chevron-right;
+    font-size: @font-size-small - 1;
 }
