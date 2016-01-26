@@ -13,15 +13,49 @@ header {
 }
 
 main {
-    padding: 0 !important;
+    padding: 0;
+    display: flex;
+
+    @media (min-width: @screen-sm-max) {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    @media (max-width: @screen-sm-max) {
+        flex-direction: column;
+    }
 }
+
 
 main > div {
     padding: @padding-large-vertical @padding-large-horizontal;
+
+    @media (min-width: @screen-sm-max) {
+        flex: 1;
+        order: 2;
+    }
+
+    @media (max-width: @screen-sm-min) {
+        flex: 1;
+        order: 0;
+    }
 }
 
-main > aside {
-    flex: 0 0 180px;
+@media (min-width: @screen-sm-max) {
+
+    main {
+        & > aside {
+            flex: 0 0 180px;
+
+            &:first-child {
+                order: 1;
+            }
+
+            &:last-child {
+                order: 3;
+            }
+        }
+    }
 }
 
 footer {
