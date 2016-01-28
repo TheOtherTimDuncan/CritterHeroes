@@ -11,24 +11,16 @@ module.exports = function (gulp, plugins, common) {
     var srcLess = common.srcPath + '/css';
     var srcImages = common.srcPath + '/images';
 
-    var libBootstrap = srcLess + '/bootstrap';
     var libAwesome = srcLess + '/fontawesome';
 
     gulp.task('clean-css', function () {
-        return plugins.del([distCss + '/**/*', distFonts + '/**/*', distImages + '/**/*', libBootstrap + '/**/*', libAwesome + '/**/*', './versioned-css.json'], { debug: true });
+        return plugins.del([distCss + '/**/*', distFonts + '/**/*', distImages + '/**/*', libAwesome + '/**/*', './versioned-css.json'], { debug: true });
     });
 
     gulp.task('copy-images', ['clean-css'], function () {
 
         return gulp.src(srcImages + '/**/*.*')
             .pipe(gulp.dest(distImages));
-
-    });
-
-    gulp.task('copy-bootstrap', ['clean-css'], function () {
-
-        return gulp.src(common.bowerBase + '/bootstrap/less/**/*.less')
-            .pipe(gulp.dest(libBootstrap));
 
     });
 
@@ -46,20 +38,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('copy-bootswatch', ['clean-css', 'copy-bootstrap'], function () {
-
-        return gulp.src(common.bowerBase + '/bootswatch/yeti/*.less')
-            .pipe(gulp.dest(libBootstrap));
-
-    });
-
-    gulp.task('copy-bootstrap-fonts', ['clean-css'], function () {
-
-        return gulp.src(common.bowerBase + '/bootstrap/dist/fonts/**/')
-            .pipe(gulp.dest(distFonts));
-
-    });
-
     gulp.task('normalize.css', ['clean-css'], function () {
 
         return gulp.src(common.bowerBase + '/normalize-css/normalize.css')
@@ -67,7 +45,7 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('app-less', ['clean-css', 'copy-bootstrap', 'copy-bootswatch', 'copy-fontawesome'], function () {
+    gulp.task('app-less', ['clean-css', 'copy-fontawesome'], function () {
 
         var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
 
@@ -94,6 +72,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-css', 'copy-images', 'copy-bootstrap', 'copy-bootswatch', 'copy-bootstrap-fonts', 'normalize.css', 'copy-fontawesome', 'copy-fontawesome-fonts', 'app-less', 'version-css'];
+    return ['clean-css', 'copy-images', 'normalize.css', 'copy-fontawesome', 'copy-fontawesome-fonts', 'app-less', 'version-css'];
 
 };
