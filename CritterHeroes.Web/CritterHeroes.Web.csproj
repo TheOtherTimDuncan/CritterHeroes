@@ -367,7 +367,6 @@
     <Content Include="Areas\Admin\Critters\Views\Summary.cshtml" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <None Include="bower.json" />
-    <None Include="src\css\cheroes\admin-critters.less" />
     <None Include="src\css\cheroes\paging.less" />
     <None Include="src\css\cheroes\filters.less" />
     <None Include="src\css\cheroes\variables.less" />

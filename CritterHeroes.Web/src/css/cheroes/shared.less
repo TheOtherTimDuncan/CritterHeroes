@@ -20,6 +20,10 @@
     float: left !important;
 }
 
+.margin-left-small {
+    margin-left: 1em;
+}
+
 .center-horizontal {
     margin-left: auto;
     margin-right: auto;
@@ -56,6 +60,15 @@
     margin-right: 4px;
 }
 
+.color-key {
+    vertical-align: middle;
+    padding: @padding-base-vertical @padding-base-horizontal;
+}
+
+[data-active="false"], .flex-table-row[data-active="false"] {
+    background-color: @gray-lighter;
+}
+
 // Logos
 
 .logo-medium {
@@ -89,4 +102,22 @@
         top: 50%;
         transform: translateY(-50%);
     }
+}
+
+// File Upload
+
+.file-upload {
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
 }
