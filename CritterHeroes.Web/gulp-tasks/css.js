@@ -14,7 +14,7 @@ module.exports = function (gulp, plugins, common) {
     var libAwesome = srcLess + '/fontawesome';
 
     gulp.task('clean-css', function () {
-        return plugins.del([distCss + '/**/*', distFonts + '/**/*', distImages + '/**/*', libAwesome + '/**/*', './versioned-css.json'], { debug: true });
+        return plugins.del([distCss + '/*.*', distFonts + '/*.*', distImages + '/*.*', libAwesome + '/*.*', './versioned-css.json', '!site.css']);
     });
 
     gulp.task('copy-images', ['clean-css'], function () {
@@ -26,14 +26,14 @@ module.exports = function (gulp, plugins, common) {
 
     gulp.task('copy-fontawesome', ['clean-css'], function () {
 
-        return gulp.src(common.bowerBase + '/font-awesome/less/**/*.less')
+        return gulp.src(common.bowerBase + '/font-awesome/less/*.less')
             .pipe(gulp.dest(libAwesome));
 
     });
 
     gulp.task('copy-fontawesome-fonts', ['clean-css'], function () {
 
-        return gulp.src(common.bowerBase + '/font-awesome/fonts/**/')
+        return gulp.src(common.bowerBase + '/font-awesome/fonts/*.*')
             .pipe(gulp.dest(distFonts));
 
     });
@@ -45,11 +45,17 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('app-less', ['clean-css', 'copy-fontawesome'], function () {
+    gulp.task('app-less', ['clean-css', 'copy-fontawesome', 'copy-fontawesome-fonts'], function () {
 
         var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
 
         return gulp.src(srcLess + '/*.less')
+            .pipe(plugins.plumber({
+                errorHandler: function (err) {
+                    console.log(err);
+                    this.emit('end');
+                }
+            }))
             .pipe(plugins.less({ plugins: [autoprefix] }))
             .pipe(gulp.dest(srcLess))
             .pipe(gulp.dest(distCss));
@@ -57,8 +63,6 @@ module.exports = function (gulp, plugins, common) {
     });
 
     gulp.task('version-css', ['clean-css', 'normalize.css', 'app-less'], function () {
-
-        var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
 
         return gulp.src(distCss + '/*.css', { base: common.distPath })
             .pipe(plugins.sourcemaps.init())

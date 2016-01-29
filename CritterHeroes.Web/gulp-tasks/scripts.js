@@ -7,7 +7,7 @@ module.exports = function (gulp, plugins, common) {
     var appScripts = common.srcPath + '/js';
 
     gulp.task('clean-scripts', function () {
-        return plugins.del([distScripts + '/**/', common.distPath + '/lib/**/', '!' + common.distPath, libScripts, '!' + common.srcPath, './versioned-js.json']);
+        return plugins.del([distScripts + '/*.*', common.distPath + '/lib/*.*', libScripts + '/*.*', './versioned-js.json']);
     });
 
     gulp.task('copy-scripts-src', ['clean-scripts'], function () {
@@ -70,6 +70,12 @@ module.exports = function (gulp, plugins, common) {
         ];
 
         return gulp.src(sources)
+            .pipe(plugins.plumber({
+                errorHandler: function (err) {
+                    console.log(err);
+                    this.emit('end');
+                }
+            }))
             .pipe(plugins.concat('js/cheroes.js'))
             .pipe(gulp.dest(common.distPath))
             .pipe(plugins.sourcemaps.init())
@@ -87,6 +93,12 @@ module.exports = function (gulp, plugins, common) {
     gulp.task('app-scripts', ['clean-scripts'], function () {
 
         return gulp.src(appScripts + '/*.js', { base: common.srcPath })
+            .pipe(plugins.plumber({
+                errorHandler: function (err) {
+                    console.log(err);
+                    this.emit('end');
+                }
+            }))
             .pipe(gulp.dest(common.distPath))
             .pipe(plugins.sourcemaps.init())
             .pipe(plugins.uglify())
