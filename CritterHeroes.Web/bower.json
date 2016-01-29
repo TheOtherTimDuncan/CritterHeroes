@@ -21,8 +21,6 @@
     "jquery-validation-unobtrusive": "3.2.5",
     "jquery-ajax-unobtrusive": "~3.2.3",
     "dropzone": "~4.2.0",
-    "bootstrap": "3.3.6",
-    "bootswatch": "3.3.6",
     "normalize-css": "normalize.css#~3.0.3",
     "font-awesome": "fontawesome#~4.5.0"
   },
