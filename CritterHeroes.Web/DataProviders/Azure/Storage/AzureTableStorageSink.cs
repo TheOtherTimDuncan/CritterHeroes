@@ -15,9 +15,9 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
 {
     public static class LoggerConfigurationAzureTableStorageExtensions
     {
-        public static LoggerConfiguration AzureTableStorage(this LoggerSinkConfiguration loggerConfiguration, IAzureService azureService, string tableName)
+        public static LoggerConfiguration AzureTableStorage(this LoggerSinkConfiguration loggerConfiguration, IAzureService azureService, string tableName, string category)
         {
-            AzureTableStorageSink sink = new AzureTableStorageSink(azureService, tableName);
+            AzureTableStorageSink sink = new AzureTableStorageSink(azureService, tableName, category);
             return loggerConfiguration.Sink(sink);
         }
     }
@@ -25,12 +25,14 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
     public class AzureTableStorageSink : ILogEventSink
     {
         private IAzureService _azureService;
-        private string _tableName = "log";
+        private string _category;
+        private string _tableName;
 
-        public AzureTableStorageSink(IAzureService azureService, string tableName)
+        public AzureTableStorageSink(IAzureService azureService, string tableName, string category)
         {
             this._azureService = azureService;
             this._tableName = tableName;
+            this._category = category;
         }
 
         public void Emit(LogEvent logEvent)
@@ -38,6 +40,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
             DynamicTableEntity tableEntity = new DynamicTableEntity(_azureService.GetLoggingKey(), Guid.NewGuid().ToString());
             tableEntity.Timestamp = logEvent.Timestamp.ToUniversalTime();
             tableEntity[nameof(LogEvent.Level)] = new EntityProperty(logEvent.Level.ToString());
+            tableEntity["Category"] = new EntityProperty(_category);
 
             string message = logEvent.RenderMessage();
             tableEntity["Message"] = new EntityProperty(message);

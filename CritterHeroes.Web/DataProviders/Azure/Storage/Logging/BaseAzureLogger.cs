@@ -47,8 +47,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         protected virtual LoggerConfiguration ConfigureLogger(LoggerConfiguration loggerConfiguration)
         {
             return loggerConfiguration
-                .WriteTo.AzureTableStorage(_azureService, _tableName)
-                .Enrich.WithProperty("Category", _category);
+                .WriteTo.AzureTableStorage(_azureService, _tableName, _category);
         }
 
         private ILogger CreateLogger()

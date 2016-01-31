@@ -31,7 +31,7 @@ namespace CH.Test.Azure
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo
-                .AzureTableStorage(mockAzureService.Object, "Log")
+                .AzureTableStorage(mockAzureService.Object, "Log", "Category")
                 .MinimumLevel.Debug()
                 .CreateLogger();
 
@@ -40,6 +40,7 @@ namespace CH.Test.Azure
             tableEntity.Should().NotBeNull();
             tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
             tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be("Debug");
+            tableEntity.Properties["Category"].StringValue.Should().Be("Category");
             tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
             tableEntity.Properties["Test"].StringValue.Should().Be("test");
 
@@ -61,7 +62,7 @@ namespace CH.Test.Azure
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo
-                .AzureTableStorage(mockAzureService.Object, "Log")
+                .AzureTableStorage(mockAzureService.Object, "Log", "Category")
                 .MinimumLevel.Debug()
                 .CreateLogger();
 
