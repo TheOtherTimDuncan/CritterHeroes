@@ -258,12 +258,12 @@
     <Compile Include="Azure\AzureServiceTests.cs" />
     <Compile Include="Azure\AzureTableStorageSinkTests.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
-    <Compile Include="Azure\StorageTests\CritterPictureServiceTests.cs" />
-    <Compile Include="Azure\StorageTests\AzureEmailLoggerTests.cs" />
-    <Compile Include="Azure\StorageTests\OrganizationLogoServiceTests.cs" />
+    <Compile Include="Azure\CritterPictureServiceTests.cs" />
+    <Compile Include="Azure\AzureEmailLoggerTests.cs" />
+    <Compile Include="Azure\OrganizationLogoServiceTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
-    <Compile Include="Azure\StorageTests\AzureUserLoggerTests.cs" />
+    <Compile Include="Azure\AzureUserLoggerTests.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="AccountTests\ConfirmEmailCommandHandlerTests.cs" />
     <Compile Include="AccountTests\EditProfileCommandHandlerTests.cs" />

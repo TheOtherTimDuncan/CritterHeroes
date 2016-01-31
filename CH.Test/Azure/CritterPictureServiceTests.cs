@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Moq;
 
-namespace CH.Test.Azure.StorageTests
+namespace CH.Test.Azure
 {
     [TestClass]
     public class CritterPictureServiceTests

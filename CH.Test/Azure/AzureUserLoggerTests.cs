@@ -10,7 +10,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
 using Serilog.Events;
 
-namespace CH.Test.Azure.StorageEntityTests
+namespace CH.Test.Azure
 {
     [TestClass]
     public class AzureUserLoggerTests : BaseTest

@@ -13,7 +13,7 @@ using Moq;
 using Newtonsoft.Json;
 using Serilog.Events;
 
-namespace CH.Test.Azure.StorageTests
+namespace CH.Test.Azure
 {
     [TestClass]
     public class AzureEmailLoggerTests : BaseTest
