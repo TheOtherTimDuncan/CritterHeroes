@@ -102,14 +102,21 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public async Task<TableResult> ExecuteTableOperationAsync(string tableName, TableOperation operation)
         {
-            CloudTable table = await GetCloudTable(tableName);
+            CloudTable table = await GetCloudTableAsync(tableName);
             TableResult tableResult = await table.ExecuteAsync(operation);
+            return tableResult;
+        }
+
+        public TableResult ExecuteTableOperation(string tableName, TableOperation operation)
+        {
+            CloudTable table = GetCloudTable(tableName);
+            TableResult tableResult = table.Execute(operation);
             return tableResult;
         }
 
         public async Task ExecuteTableBatchOperationAsync(string tableName, IEnumerable<ITableEntity> tableEntities, Func<ITableEntity, TableOperation> operationFactory)
         {
-            CloudTable table = await GetCloudTable(tableName);
+            CloudTable table = await GetCloudTableAsync(tableName);
 
             TableBatchOperation batchOperation = new TableBatchOperation();
             int batchCount = 0;
@@ -135,7 +142,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         public async Task<IQueryable<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new()
         {
-            CloudTable table = await GetCloudTable(tableName);
+            CloudTable table = await GetCloudTableAsync(tableName);
             return table.CreateQuery<TElement>();
         }
 
@@ -199,17 +206,36 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return blob;
         }
 
-        private async Task<CloudTable> GetCloudTable(string tableName)
+        private async Task<CloudTable> GetCloudTableAsync(string tableName)
+        {
+            if (_cloudTable != null)
+            {
+                return _cloudTable;
+            }
+            _cloudTable = GetCloudTableReference(tableName);
+            await _cloudTable.CreateIfNotExistsAsync();
+
+            return _cloudTable;
+        }
+
+        private CloudTable GetCloudTable(string tableName)
         {
             if (_cloudTable != null)
             {
                 return _cloudTable;
             }
 
+            _cloudTable = GetCloudTableReference(tableName);
+            _cloudTable.CreateIfNotExists();
+
+            return _cloudTable;
+        }
+
+        private CloudTable GetCloudTableReference(string tableName)
+        {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
             CloudTableClient client = storageAccount.CreateCloudTableClient();
             _cloudTable = client.GetTableReference(tableName);
-            await _cloudTable.CreateIfNotExistsAsync();
             return _cloudTable;
         }
     }

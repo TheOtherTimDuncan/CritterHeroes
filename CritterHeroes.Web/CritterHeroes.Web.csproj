@@ -578,6 +578,7 @@
     <Compile Include="Common\Identity\IdentityRole.cs" />
     <Compile Include="Common\Identity\MachineKeyDataProtector.cs" />
     <Compile Include="Common\Identity\MachineKeyProtectionProvider.cs" />
+    <Compile Include="DataProviders\Azure\Storage\AzureTableStorageSink.cs" />
     <Compile Include="Common\OwinExtensions\OwinContextExtensions.cs" />
     <Compile Include="Common\Proxies\Configuration\AppConfiguration.cs" />
     <Compile Include="Common\Proxies\FileSystemProxy.cs" />

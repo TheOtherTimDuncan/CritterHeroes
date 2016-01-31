@@ -148,6 +148,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.FullNetFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimpleInjector, Version=3.1.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.1.2\lib\net45\SimpleInjector.dll</HintPath>
       <Private>True</Private>
@@ -248,6 +256,7 @@
     <Compile Include="AdminOrganizationTests\EditProfileCommandHandlerTests.cs" />
     <Compile Include="AdminOrganizationTests\EditProfileQueryHandlerTests.cs" />
     <Compile Include="Azure\AzureServiceTests.cs" />
+    <Compile Include="Azure\AzureTableStorageSinkTests.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\StorageTests\CritterPictureServiceTests.cs" />
     <Compile Include="Azure\StorageTests\AzureEmailLoggerTests.cs" />

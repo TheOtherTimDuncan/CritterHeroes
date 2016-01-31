@@ -23,6 +23,7 @@ namespace CritterHeroes.Web.Contracts.Storage
 
         string GetLoggingKey();
         string GetLoggingKey(DateTime logDateUtc);
+        TableResult ExecuteTableOperation(string tableName, TableOperation operation);
         Task<TableResult> ExecuteTableOperationAsync(string tableName, TableOperation operation);
         Task ExecuteTableBatchOperationAsync(string tableName, IEnumerable<ITableEntity> tableEntities, Func<ITableEntity, TableOperation> operation);
         Task<IQueryable<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new();
