@@ -41,7 +41,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public async Task<ActionResult> Summary()
         {
             CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
-            model.Messages = TempData["Messages"] as IEnumerable<string>;
+            model.Messages = TempData["Messages"] as string;
             return View(model);
         }
 

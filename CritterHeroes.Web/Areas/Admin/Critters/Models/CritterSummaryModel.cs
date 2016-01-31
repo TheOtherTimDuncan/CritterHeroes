@@ -22,7 +22,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Models
             }
         }
 
-        public IEnumerable<string> Messages
+        public string Messages
         {
             get;
             set;

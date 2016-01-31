@@ -59,12 +59,7 @@
     </tbody>
 </table>
 
-@if (!Model.Messages.IsNullOrEmpty())
+@if (Model.Messages!=null)
 {
-    <ul>
-        @foreach (string message in Model.Messages)
-        {
-            <li>@message</li>
-        }
-    </ul>
+    <textarea>@Model.Messages</textarea>
 }

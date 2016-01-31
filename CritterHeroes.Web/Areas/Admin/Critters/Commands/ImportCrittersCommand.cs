@@ -5,7 +5,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Commands
 {
     public class ImportCrittersCommand
     {
-        public IEnumerable<string> Messages
+        public string Messages
         {
             get;
             set;
