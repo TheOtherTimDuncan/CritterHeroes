@@ -84,8 +84,9 @@ namespace CritterHeroes.Web
             container.Register<IQueryDispatcher, QueryDispatcher>(Lifestyle.Scoped);
             container.Register<IEmailService, EmailService>();
 
-            container.Register<IUserLogger, AzureUserLogger>();
-            container.Register<IEmailLogger, AzureEmailLogger>();
+            container.Register<IUserLogger, AzureUserLogger>(Lifestyle.Scoped);
+            container.Register<IEmailLogger, AzureEmailLogger>(Lifestyle.Scoped);
+            container.Register<ICritterLogger, AzureCritterLogger>(Lifestyle.Scoped);
 
             container.Register(typeof(IValidator<>), defaultAssemblies);
 
