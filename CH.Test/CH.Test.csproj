@@ -257,6 +257,7 @@
     <Compile Include="AdminOrganizationTests\EditProfileQueryHandlerTests.cs" />
     <Compile Include="Azure\AzureServiceTests.cs" />
     <Compile Include="Azure\AzureTableStorageSinkTests.cs" />
+    <Compile Include="Azure\AzureCritterLoggerTests.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\CritterPictureServiceTests.cs" />
     <Compile Include="Azure\AzureEmailLoggerTests.cs" />

@@ -560,6 +560,8 @@
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
+    <Compile Include="Contracts\Logging\ICritterLogger.cs" />
+    <Compile Include="DataProviders\Azure\Logging\AzureCritterLogger.cs" />
     <Compile Include="Models\BaseEmailData.cs" />
     <Compile Include="Models\BaseTokenEmailData.cs" />
     <Compile Include="Common\Commands\CrittersEmailCommand.cs" />
