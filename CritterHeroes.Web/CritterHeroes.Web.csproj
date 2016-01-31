@@ -651,7 +651,6 @@
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\AzureUserLogger.cs" />
     <Compile Include="DataProviders\Azure\Storage\Logging\BaseAzureLogger.cs" />
-    <Compile Include="DataProviders\Azure\Storage\Logging\BaseAzureLoggerStorageContext.cs" />
     <Compile Include="DataProviders\Azure\Storage\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
