@@ -11,7 +11,6 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models.Logging;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {

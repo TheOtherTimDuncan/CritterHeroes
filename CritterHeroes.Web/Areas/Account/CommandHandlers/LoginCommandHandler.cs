@@ -7,7 +7,6 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers

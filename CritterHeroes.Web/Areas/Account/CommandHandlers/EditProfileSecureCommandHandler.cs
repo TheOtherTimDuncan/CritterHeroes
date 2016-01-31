@@ -13,7 +13,6 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models.Logging;
 using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
