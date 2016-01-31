@@ -7,7 +7,6 @@ using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +37,7 @@ namespace CH.Test.AccountTests
             result.Errors.Should().BeEmpty();
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginSuccess, model.Email), Times.Once);
+            mockUserLogger.Verify(x => x.LogAction(It.IsAny<string>(), model.Email), Times.Once);
         }
 
         [TestMethod]
@@ -50,10 +49,12 @@ namespace CH.Test.AccountTests
                 Password = "password"
             };
 
+            SignInStatus signInStatus = SignInStatus.Failure;
+
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IAppSignInManager> mockSignInManager = new Mock<IAppSignInManager>();
-            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
+            mockSignInManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(signInStatus));
 
             LoginCommandHandler command = new LoginCommandHandler(mockUserLogger.Object, mockSignInManager.Object);
             CommandResult result = await command.ExecuteAsync(model);
@@ -62,7 +63,7 @@ namespace CH.Test.AccountTests
             result.Errors.Single().Should().Be("The username or password that you entered was incorrect. Please try again.");
 
             mockSignInManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.PasswordLoginFailure, model.Email), Times.Once);
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), model.Email, signInStatus), Times.Once);
         }
     }
 }

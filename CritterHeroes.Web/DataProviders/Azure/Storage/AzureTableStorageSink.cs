@@ -47,7 +47,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage
                 foreach (var property in logEvent.Properties)
                 {
                     StringWriter writer = new StringWriter();
-                    property.Value.Render(writer);
+                    property.Value.Render(writer, "l");  // l removes quotes around strings
                     tableEntity[property.Key] = new EntityProperty(writer.ToString());
                 }
             }

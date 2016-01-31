@@ -52,7 +52,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             UserContext userContext = UserContext.FromUser(user);
             _userContextManager.SaveContext(userContext);
 
-            await _userLogger.LogActionAsync(UserActions.EmailChanged, user.Email, "New email: " + command.NewEmail);
+            _userLogger.LogAction("Email changed from {OldEmail} to {NewEmail}", user.Email, command.NewEmail);
 
             ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail);
             emailCommand.EmailData.TokenLifespan = _userManager.TokenLifespan;

@@ -15,7 +15,6 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -71,7 +70,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
 
-            mockLogger.Verify(x => x.LogActionAsync<string>(UserActions.EmailChanged, email, It.IsAny<string>()), Times.Once);
+            mockLogger.Verify(x => x.LogAction(It.IsAny<string>(), email, model.NewEmail), Times.Once);
 
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ConfirmEmailEmailCommand>()), Times.Once);
         }

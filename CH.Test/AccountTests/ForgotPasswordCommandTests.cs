@@ -6,13 +6,11 @@ using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Account;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -43,7 +41,7 @@ namespace CH.Test.AccountTests
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail), Times.Once);
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Never);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Once);
@@ -89,7 +87,7 @@ namespace CH.Test.AccountTests
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email), Times.Once);
+            mockUserLogger.Verify(x => x.LogAction(It.IsAny<string>(), user.Email), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);

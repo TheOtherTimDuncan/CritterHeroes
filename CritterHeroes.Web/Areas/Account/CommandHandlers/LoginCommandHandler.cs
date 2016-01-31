@@ -29,12 +29,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             if (result == SignInStatus.Success)
             {
-                await _userLogger.LogActionAsync(UserActions.PasswordLoginSuccess, command.Email);
+                _userLogger.LogAction("{Email} successfully logged in", command.Email);
                 return CommandResult.Success();
             }
             else
             {
-                await _userLogger.LogActionAsync(UserActions.PasswordLoginFailure, command.Email);
+                _userLogger.LogError("{Email} failed login because {SignInStatus}", command.Email, result);
                 return CommandResult.Failed("The username or password that you entered was incorrect. Please try again.");
             }
         }

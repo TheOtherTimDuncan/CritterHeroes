@@ -10,110 +10,45 @@ using CritterHeroes.Web.Models.Logging;
 using Microsoft.Owin;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
 {
-    public class AzureUserLogger : BaseAzureLoggerStorageContext<UserLog>, IUserLogger
+    public class AzureUserLogger : IUserLogger
     {
         private IOwinContext _owinContext;
         private IAzureService _azureService;
 
-        private const string _tableName = "userlog";
+        private ILogger _logger;
 
         public AzureUserLogger(IAzureService azureService, IOwinContext owinContext)
-            : base(_tableName, azureService)
         {
             this._owinContext = owinContext;
             this._azureService = azureService;
+
+            _logger = Log.Logger = new LoggerConfiguration()
+                .WriteTo
+                .AzureTableStorage(azureService, "userlog")
+                .Enrich.WithProperty("IPAddress", _owinContext.Request.RemoteIpAddress)
+                .MinimumLevel.Information()
+                .CreateLogger();
         }
 
-        public async Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo)
+        public void LogAction(string message, params object[] messageValues)
         {
-            string start = _azureService.GetLoggingKey(dateFrom);
-            string end = _azureService.GetLoggingKey(dateTo);
-
-            var entities =
-                (
-                    from e in await _azureService.CreateTableQuery<DynamicTableEntity>(_tableName)
-                    where e.PartitionKey.CompareTo(start) >= 0 && e.PartitionKey.CompareTo(end) <= 0
-                    select e
-                ).ToList();
-
-            List<UserLog> result = new List<UserLog>();
-            foreach (DynamicTableEntity tableEntity in entities)
-            {
-                result.Add(FromStorage(tableEntity));
-            }
-            return result;
+            _logger.Information(message, messageValues);
         }
 
-        public async Task LogActionAsync(UserActions userAction, string userName)
+        public void LogError(string message, params object[] messageValues)
         {
-            await LogActionAsync(userAction, userName, (object)null);
+            _logger.Error(message, messageValues);
         }
 
-        public async Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData)
+        public void LogError(string message, IEnumerable<string> errors, params object[] messageValues)
         {
-            UserLog userLog = new UserLog(userAction, userName, DateTimeOffset.UtcNow)
-            {
-                ThreadID = Thread.CurrentThread.ManagedThreadId,
-                IPAddress = _owinContext.Request.RemoteIpAddress
-            };
-
-            if (additionalData != null)
-            {
-                userLog.AdditionalData = JsonConvert.SerializeObject(additionalData);
-            }
-
-            await SaveAsync(userLog);
-        }
-
-        public override UserLog FromStorage(DynamicTableEntity tableEntity)
-        {
-            Guid logID;
-            if (!Guid.TryParse(tableEntity.RowKey, out logID))
-            {
-                throw new AzureException("UserLog has invalid ID: " + tableEntity.RowKey);
-            }
-
-            UserActions userAction;
-            string actionValue = tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.Action));
-            if (!Enum.TryParse(actionValue, out userAction))
-            {
-                throw new AzureException("Invalid UserAction " + actionValue + " for UserLog ID " + tableEntity.RowKey);
-            }
-
-            DateTimeOffset? whenOccurred = tableEntity.SafeGetEntityPropertyDateTimeOffsetValue(nameof(UserLog.WhenOccurredUtc));
-            if (whenOccurred == null)
-            {
-                throw new AzureException("Invalid WhenOccurredUtc for UserLog ID " + tableEntity.RowKey);
-            }
-
-            UserLog result = new UserLog(logID, userAction, tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.Username)), whenOccurred.Value);
-            result.AdditionalData = tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.AdditionalData));
-            result.IPAddress = tableEntity.SafeGetEntityPropertyStringValue(nameof(UserLog.IPAddress));
-            result.ThreadID = tableEntity.SafeGetEntityPropertyIntValue(nameof(UserLog.ThreadID));
-
-            return result;
-        }
-
-        public override DynamicTableEntity ToStorage(UserLog entity)
-        {
-            DynamicTableEntity tableEntity = base.ToStorage(entity);
-
-            tableEntity[nameof(UserLog.Action)] = new EntityProperty(entity.Action.ToString());
-            tableEntity[nameof(UserLog.Username)] = new EntityProperty(entity.Username);
-            tableEntity[nameof(UserLog.WhenOccurredUtc)] = new EntityProperty(entity.WhenOccurredUtc);
-            tableEntity[nameof(UserLog.ThreadID)] = new EntityProperty(entity.ThreadID);
-            tableEntity[nameof(UserLog.IPAddress)] = new EntityProperty(entity.IPAddress);
-            tableEntity[nameof(UserLog.AdditionalData)] = new EntityProperty(entity.AdditionalData);
-
-            return tableEntity;
-        }
-
-        protected override string GetRowKey(UserLog entity)
-        {
-            return entity.ID.ToString();
+            _logger
+                .ForContext("Errors", errors)
+                .Error(message, messageValues);
         }
     }
 }

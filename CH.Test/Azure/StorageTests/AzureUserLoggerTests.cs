@@ -11,104 +11,72 @@ using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
+using Serilog.Events;
 
 namespace CH.Test.Azure.StorageEntityTests
 {
     [TestClass]
     public class AzureUserLoggerTests : BaseTest
     {
-        private Mock<IAzureService> mockAzureService;
-
-        [TestInitialize]
-        public void InitializeTest()
+        [TestMethod]
+        public void LogsUserAction()
         {
-            mockAzureService = new Mock<IAzureService>();
+            string ipAddress = "1.1.1.1";
+            string username = "username";
+
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
             mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
-            mockAzureService.Setup(x => x.GetLoggingKey(It.IsAny<DateTime>())).Returns("partitionkey");
-        }
-
-        [TestMethod]
-        public void SuccessfullyMapsEntityToAndFromStorage()
-        {
-            UserLog userLog = new UserLog(UserActions.PasswordLoginSuccess, "username", DateTimeOffset.UtcNow);
-            userLog.IPAddress = "1.1.1.1";
-            userLog.ThreadID = Thread.CurrentThread.ManagedThreadId;
-            userLog.AdditionalData = "data";
-
-            AzureUserLogger source = new AzureUserLogger(mockAzureService.Object, null);
-            AzureUserLogger target = new AzureUserLogger(mockAzureService.Object, null);
-            UserLog result = target.FromStorage(source.ToStorage(userLog));
-
-            result.ID.Should().Be(userLog.ID);
-            result.Action.Should().Be(userLog.Action);
-            result.Username.Should().Be(userLog.Username);
-            result.WhenOccurredUtc.Should().Be(userLog.WhenOccurredUtc);
-            result.IPAddress.Should().Be(userLog.IPAddress);
-            result.ThreadID.Should().HaveValue();
-            result.AdditionalData.Should().Be(userLog.AdditionalData);
-        }
-
-        [TestMethod]
-        public async Task CanSaveAndRetrieveUserLog()
-        {
-            string testUsername = "test.user";
-            UserActions userAction = UserActions.PasswordLoginSuccess;
-
-            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns("1.1.1.1");
 
             DynamicTableEntity tableEntity = null;
-            mockAzureService.Setup(x => x.ExecuteTableOperationAsync(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
             {
                 tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
-                return Task.FromResult(new TableResult());
-            });
-            mockAzureService.Setup(x => x.CreateTableQuery<DynamicTableEntity>(It.IsAny<string>())).Returns((string tableName) =>
-            {
-                return Task.FromResult(new[] { tableEntity }.AsQueryable());
+                return new TableResult();
             });
 
-            AzureUserLogger userLogger = new AzureUserLogger(mockAzureService.Object, mockOwinContext.Object);
-            await userLogger.LogActionAsync(userAction, testUsername);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns(ipAddress);
 
-            IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
-            UserLog log = userLogs.FirstOrDefault(x => x.Username == testUsername);
-            log.Should().NotBeNull();
-            log.Action.Should().Be(userAction);
+            AzureUserLogger logger = new AzureUserLogger(mockAzureService.Object, mockOwinContext.Object);
+            logger.LogAction("{Username} logged in", username);
 
-            mockAzureService.Verify(x => x.ExecuteTableOperationAsync(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
+            tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be(LogEventLevel.Information.ToString());
+            tableEntity.Properties["IPAddress"].StringValue.Should().Be(ipAddress);
+            tableEntity.Properties["Message"].StringValue.Should().Be("\"username\" logged in");
+            tableEntity.Properties["Username"].StringValue.Should().Be(username);
+
+            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }
 
         [TestMethod]
-        public async Task CanSaveAndRetrieveUserLogWithAdditionalData()
+        public void IncludesErrorsInLog()
         {
-            string testUsername = "test.user";
-            UserActions userAction = UserActions.PasswordLoginSuccess;
+            string ipAddress = "1.1.1.1";
+            string username = "username";
+            string error1 = "error1";
+            string error2 = "error2";
+            IEnumerable<string> errors = new[] { error1, error2 };
 
-            string data = "data";
-
-            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
-            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns("1.1.1.1");
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
 
             DynamicTableEntity tableEntity = null;
-            mockAzureService.Setup(x => x.ExecuteTableOperationAsync(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
             {
                 tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
-                return Task.FromResult(new TableResult());
-            });
-            mockAzureService.Setup(x => x.CreateTableQuery<DynamicTableEntity>(It.IsAny<string>())).Returns((string tableName) =>
-            {
-                return Task.FromResult(new[] { tableEntity }.AsQueryable());
+                return new TableResult();
             });
 
-            AzureUserLogger userLogger = new AzureUserLogger(mockAzureService.Object, mockOwinContext.Object);
-            await userLogger.LogActionAsync(userAction, testUsername, data);
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns(ipAddress);
 
-            IEnumerable<UserLog> userLogs = await userLogger.GetUserLogAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow.AddHours(1));
-            UserLog log = userLogs.FirstOrDefault(x => x.Username == testUsername && x.AdditionalData != null);
-            log.Should().NotBeNull();
-            log.Action.Should().Be(userAction);
-            log.AdditionalData = data;
+            AzureUserLogger logger = new AzureUserLogger(mockAzureService.Object, mockOwinContext.Object);
+            logger.LogError("{Username} logged in", errors, username);
+
+            tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be(LogEventLevel.Error.ToString());
+            tableEntity.Properties["Errors"].StringValue.Should().Be("[" + error1 + ", " + error2 + "]");
+
+            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }
     }
 }

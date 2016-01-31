@@ -7,8 +7,8 @@ namespace CritterHeroes.Web.Contracts.Logging
 {
     public interface IUserLogger
     {
-        Task<IEnumerable<UserLog>> GetUserLogAsync(DateTime dateFrom, DateTime dateTo);
-        Task LogActionAsync(UserActions userAction, string userName);
-        Task LogActionAsync<T>(UserActions userAction, string userName, T additionalData);
+        void LogAction(string message, params object[] messageValues);
+        void LogError(string message, params object[] messageValues);
+        void LogError(string message, IEnumerable<string> errors, params object[] messageValues);
     }
 }

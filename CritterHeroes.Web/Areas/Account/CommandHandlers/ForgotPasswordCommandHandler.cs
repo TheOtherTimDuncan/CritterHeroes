@@ -40,7 +40,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 // so if the user isn't found send an email to the entered email address and just return success
                 ResetPasswordAttemptEmailCommand emailAttempt = new ResetPasswordAttemptEmailCommand(command.ResetPasswordEmail);
                 await _emailService.SendEmailAsync(emailAttempt);
-                await _userLogger.LogActionAsync(UserActions.ForgotPasswordFailure, command.ResetPasswordEmail);
+                _userLogger.LogError("{Email} not found for forgot password", command.ResetPasswordEmail);
                 return CommandResult.Success();
             }
 
@@ -51,7 +51,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             emailCommand.EmailData.UrlReset = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.EmailData.Token);
 
             await _emailService.SendEmailAsync(emailCommand);
-            await _userLogger.LogActionAsync(UserActions.ForgotPasswordSuccess, user.Email);
+            _userLogger.LogAction("{Email} found for forgot password", user.Email);
 
             return CommandResult.Success();
         }

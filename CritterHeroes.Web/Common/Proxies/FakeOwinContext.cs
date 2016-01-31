@@ -34,7 +34,7 @@ namespace CritterHeroes.Web.Common.Proxies
         {
             get
             {
-                throw new NotImplementedException();
+                return new OwinRequest();
             }
         }
 

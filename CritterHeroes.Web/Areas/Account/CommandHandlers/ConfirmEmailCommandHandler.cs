@@ -36,7 +36,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 // We don't want to reveal whether or not the email address is valid
                 // so if the user isn't found just return failed with no errors
-                await _userLogger.LogActionAsync(UserActions.ConfirmEmailFailure, command.Email);
+                _userLogger.LogError("Email confirmation failed for {Email} using {Code} - user not found", command.Email, command.ConfirmationCode);
                 return CommandResult.Failed("There was an error confirming your email address. Please try again.");
             }
 
@@ -53,11 +53,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 // Let the view know we succeeded
                 command.IsSuccess = true;
 
-                await _userLogger.LogActionAsync(UserActions.ConfirmEmailSuccess, command.Email);
+                _userLogger.LogAction("Email confirmation succeeded for {Email}", command.Email);
                 return CommandResult.Success();
             }
 
-            await _userLogger.LogActionAsync(UserActions.ConfirmEmailFailure, user.Email, identityResult.Errors);
+            _userLogger.LogError("Email confirmation failed for {Email} using {Code}", identityResult.Errors, command.Email, command.ConfirmationCode);
+
             return CommandResult.Failed("There was an error confirming your email address. Please try again.");
         }
     }

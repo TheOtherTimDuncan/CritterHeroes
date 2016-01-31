@@ -8,7 +8,6 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -38,7 +37,7 @@ namespace CH.Test.AccountTests
             commandResult.Succeeded.Should().BeFalse();
 
             mockUserManager.Verify(x => x.FindByUnconfirmedEmailAsync(command.Email), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ConfirmEmailFailure, command.Email));
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), command.Email, command.ConfirmationCode));
         }
 
         [TestMethod]
@@ -68,7 +67,7 @@ namespace CH.Test.AccountTests
 
             mockUserManager.Verify(x => x.FindByUnconfirmedEmailAsync(command.Email), Times.Once);
             mockUserManager.Verify(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ConfirmEmailFailure, command.Email, identityResult.Errors));
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), identityResult.Errors, command.Email, command.ConfirmationCode));
         }
 
         [TestMethod]
@@ -101,7 +100,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByUnconfirmedEmailAsync(command.Email), Times.Once);
             mockUserManager.Verify(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ConfirmEmailSuccess, command.Email));
+            mockUserLogger.Verify(x => x.LogAction(It.IsAny<string>(), command.Email));
             mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
         }
     }

@@ -2,21 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Admin.Critters;
-using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Models;
-using CritterHeroes.Web.Models.Logging;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -51,7 +43,7 @@ namespace CH.Test.AccountTests
             model.IsSuccess.Should().NotHaveValue();
 
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, model.Email, It.IsAny<string>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), model.Email, model.Code), Times.Once);
         }
 
         [TestMethod]
@@ -66,11 +58,13 @@ namespace CH.Test.AccountTests
 
             AppUser user = new AppUser(model.Email);
 
+            IdentityResult identityResult = IdentityResult.Failed("nope");
+
             Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
 
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
-            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(IdentityResult.Failed("nope")));
+            mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(identityResult));
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockUserLogger.Object, null, mockUserManager.Object, null);
             CommandResult result = await handler.ExecuteAsync(model);
@@ -81,7 +75,7 @@ namespace CH.Test.AccountTests
 
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, user.Email, It.IsAny<string>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), identityResult.Errors, model.Email, model.Code), Times.Once);
         }
 
         [TestMethod]
@@ -115,7 +109,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordFailure, user.Email, It.IsAny<string>()), Times.Once);
+            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), model.Email), Times.Once);
         }
 
         [TestMethod]
@@ -150,7 +144,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockUserLogger.Verify(x => x.LogActionAsync(UserActions.ResetPasswordSuccess, user.Email), Times.Once);
+            mockUserLogger.Verify(x => x.LogAction(It.IsAny<string>(), user.Email), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordNotificationEmailCommand>()), Times.Once);
         }
     }

@@ -45,17 +45,27 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     {
                         ResetPasswordNotificationEmailCommand emailCommand = new ResetPasswordNotificationEmailCommand(identityUser.Email);
                         await _emailService.SendEmailAsync(emailCommand);
-                        await _userLogger.LogActionAsync(UserActions.ResetPasswordSuccess, command.Email);
+                        _userLogger.LogAction("Reset password succeeded for {Email}", command.Email);
 
                         // Let the view know we succeeded
                         command.IsSuccess = true;
 
                         return CommandResult.Success();
                     }
+                    else
+                    {
+                        _userLogger.LogError("Reset password succeeded but login failed for {Email}", command.Email);
+                    }
+                }
+                else
+                {
+                    _userLogger.LogError("Reset password failed for {Email} using code {Code}", identityResult.Errors, command.Email, command.Code);
                 }
             }
-
-            await _userLogger.LogActionAsync(UserActions.ResetPasswordFailure, command.Email, "Code: " + command.Code);
+            else
+            {
+                _userLogger.LogError("Reset password failed for {Email} using code {Code} - user not found", command.Email, command.Code);
+            }
 
             return CommandResult.Failed("There was an error resetting your password. Please try again.");
         }

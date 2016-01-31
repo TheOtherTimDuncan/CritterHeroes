@@ -15,19 +15,12 @@ namespace CH.Test.Azure
     [TestClass]
     public class AzureTableStorageSinkTests : BaseTest
     {
-        private Mock<IAzureService> mockAzureService;
-
-        [TestInitialize]
-        public void InitializeTest()
-        {
-            mockAzureService = new Mock<IAzureService>();
-            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
-            mockAzureService.Setup(x => x.GetLoggingKey(It.IsAny<DateTime>())).Returns("partitionkey");
-        }
-
         [TestMethod]
         public void MapsLogEventToTableEntity()
         {
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
+
             DynamicTableEntity tableEntity = null;
             mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
             {
@@ -47,7 +40,7 @@ namespace CH.Test.Azure
             tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
             tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be("Debug");
             tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
-            tableEntity.Properties["Test"].StringValue.Should().Be("\"test\"");
+            tableEntity.Properties["Test"].StringValue.Should().Be("test");
 
             mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }
