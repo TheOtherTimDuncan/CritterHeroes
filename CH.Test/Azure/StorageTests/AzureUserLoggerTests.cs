@@ -74,7 +74,7 @@ namespace CH.Test.Azure.StorageEntityTests
             logger.LogError("{Username} logged in", errors, username);
 
             tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be(LogEventLevel.Error.ToString());
-            tableEntity.Properties["Errors"].StringValue.Should().Be("[" + error1 + ", " + error2 + "]");
+            tableEntity.Properties["Errors"].StringValue.Should().Be("[\"" + error1 + "\", \"" + error2 + "\"]");
 
             mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }
