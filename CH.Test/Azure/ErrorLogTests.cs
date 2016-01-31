@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
+using CritterHeroes.Web.DataProviders.Azure.Logging;
 using Elmah;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

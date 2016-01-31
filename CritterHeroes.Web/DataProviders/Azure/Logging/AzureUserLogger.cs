@@ -6,7 +6,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using Microsoft.Owin;
 using Serilog;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
+namespace CritterHeroes.Web.DataProviders.Azure.Logging
 {
     public class AzureUserLogger : BaseAzureLogger, IUserLogger
     {

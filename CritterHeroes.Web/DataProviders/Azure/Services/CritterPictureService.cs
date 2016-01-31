@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage
+namespace CritterHeroes.Web.DataProviders.Azure.Services
 {
     public class CritterPictureService : ICritterPictureService
     {

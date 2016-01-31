@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using TOTD.Utility.ExceptionHelpers;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
+namespace CritterHeroes.Web.DataProviders.Azure.Logging
 {
     public class AzureErrorLog : ErrorLog
     {

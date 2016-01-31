@@ -11,7 +11,7 @@ using Serilog.Events;
 using Serilog.Formatting.Json;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage
+namespace CritterHeroes.Web.DataProviders.Azure.Logging
 {
     public static class LoggerConfigurationAzureTableStorageExtensions
     {

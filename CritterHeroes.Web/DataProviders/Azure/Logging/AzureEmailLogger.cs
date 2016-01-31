@@ -7,7 +7,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models;
 using Newtonsoft.Json;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
+namespace CritterHeroes.Web.DataProviders.Azure.Logging
 {
     public class AzureEmailLogger : BaseAzureLogger, IEmailLogger
     {

@@ -9,7 +9,7 @@ using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using TOTD.Utility.StringHelpers;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage
+namespace CritterHeroes.Web.DataProviders.Azure.Services
 {
     public class OrganizationLogoService : IOrganizationLogoService
     {

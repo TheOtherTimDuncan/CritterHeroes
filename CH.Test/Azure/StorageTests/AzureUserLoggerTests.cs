@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.DataProviders.Azure.Storage.Logging;
+using CritterHeroes.Web.DataProviders.Azure.Logging;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -4,7 +4,7 @@ using System.Linq;
 using CritterHeroes.Web.Contracts.Storage;
 using Serilog;
 
-namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
+namespace CritterHeroes.Web.DataProviders.Azure.Logging
 {
     public class LogCategory
     {
