@@ -44,6 +44,7 @@ namespace CH.Test.Azure.StorageEntityTests
             tableEntity.Properties["IPAddress"].StringValue.Should().Be(ipAddress);
             tableEntity.Properties["Message"].StringValue.Should().Be("\"username\" logged in");
             tableEntity.Properties["Username"].StringValue.Should().Be(username);
+            tableEntity.Properties["Category"].StringValue.Should().Be(LogCategory.User);
 
             mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }

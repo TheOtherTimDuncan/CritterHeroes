@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Storage.Logging
         private IOwinContext _owinContext;
 
         public AzureUserLogger(IAzureService azureService, IOwinContext owinContext)
-            : base(azureService)
+            : base(azureService, LogCategory.User)
         {
             this._owinContext = owinContext;
         }
