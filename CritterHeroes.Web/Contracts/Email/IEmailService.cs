@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Commands;
+using CritterHeroes.Web.Models;
 
 namespace CritterHeroes.Web.Contracts.Email
 {

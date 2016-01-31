@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Models;
 
 namespace CritterHeroes.Web.Common.Commands
 {

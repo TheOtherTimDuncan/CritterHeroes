@@ -4,9 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Areas.Admin.Critters;
-using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.StateManagement;
@@ -16,7 +13,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
-using CritterHeroes.Web.Models.Logging;
+using CritterHeroes.Web.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -91,11 +88,11 @@ namespace CH.Test.EmailTests
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
 
-            Mock<IEmailLogger> mockEmailStorage = new Mock<IEmailLogger>();
+            Mock<IEmailLogger> mockEmailLogger = new Mock<IEmailLogger>();
 
             EmailCommand<EmailHandlerTests.TestEmailData> emailCommand = new EmailCommand<EmailHandlerTests.TestEmailData>("emailname", "emailto");
 
-            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailStorage.Object);
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailLogger.Object);
             CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -104,7 +101,7 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.UrlLogo.Should().Be(urlLogo);
             emailCommand.EmailData.UrlHome.Should().NotBeNullOrEmpty();
 
-            mockEmailStorage.Verify(x => x.LogEmailAsync(It.IsAny<EmailLog>()), Times.Once);
+            mockEmailLogger.Verify(x => x.LogEmailAsync(It.IsAny<EmailModel>()), Times.Once);
         }
 
         public class TestEmailData : BaseTokenEmailData

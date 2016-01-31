@@ -12,7 +12,7 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models.Logging;
+using CritterHeroes.Web.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 
@@ -56,14 +56,14 @@ namespace CritterHeroes.Web.Common.Email
             command.EmailData.UrlLogo = _logoService.GetLogoUrl();
             command.EmailData.UrlHome = _urlGenerator.GenerateAbsoluteHomeUrl();
 
-            var email = new
+            EmailModel email = new EmailModel()
             {
                 From = command.EmailFrom ?? _emailConfiguration.DefaultFrom,
                 To = command.EmailTo,
                 SubjectTemplate = _fileSystem.ReadAllText(filenameSubject),
                 HtmlTemplate = _fileSystem.ReadAllText(filenameHtmlBody),
                 TextTemplate = _fileSystem.ReadAllText(filenameTxtBody),
-                Data = command.EmailData
+                EmailData = command.EmailData
 
             };
 
@@ -73,7 +73,7 @@ namespace CritterHeroes.Web.Common.Email
             CloudQueueMessage queueMessage = new CloudQueueMessage(json);
             await queue.AddMessageAsync(queueMessage);
 
-            await _emailLogger.LogEmailAsync (new EmailLog(email));
+            await _emailLogger.LogEmailAsync(email);
 
             return CommandResult.Success();
         }

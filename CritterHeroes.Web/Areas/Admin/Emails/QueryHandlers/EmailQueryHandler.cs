@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Admin.Emails.Models;
 using CritterHeroes.Web.Areas.Admin.Emails.Queries;
 using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
-using CritterHeroes.Web.Models;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
 {
-    public class EmailQueryHandler : IAsyncQueryHandler<EmailQuery, EmailModel>
+    public class EmailQueryHandler : IAsyncQueryHandler<EmailQuery, Models.EmailModel>
     {
         private ISqlStorageContext<Critter> _critterStorage;
         private IEmailService _emailService;
@@ -27,7 +24,7 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
             this._emailService = emailService;
         }
 
-        public async Task<EmailModel> ExecuteAsync(EmailQuery query)
+        public async Task<Models.EmailModel> ExecuteAsync(EmailQuery query)
         {
             var data = await _critterStorage.Entities
                 .OrderBy(x => x.Name)
@@ -108,7 +105,7 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
                 }
             }
 
-            EmailModel model = new EmailModel();
+            Models.EmailModel model = new Models.EmailModel();
             return model;
         }
     }

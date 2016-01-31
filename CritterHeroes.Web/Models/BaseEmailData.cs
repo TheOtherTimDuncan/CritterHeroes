@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CritterHeroes.Web.Common.Commands
+namespace CritterHeroes.Web.Models
 {
     public class BaseEmailData
     {

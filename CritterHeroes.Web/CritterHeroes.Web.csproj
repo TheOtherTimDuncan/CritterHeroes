@@ -560,8 +560,8 @@
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
-    <Compile Include="Common\Commands\BaseEmailData.cs" />
-    <Compile Include="Common\Commands\BaseTokenEmailData.cs" />
+    <Compile Include="Models\BaseEmailData.cs" />
+    <Compile Include="Models\BaseTokenEmailData.cs" />
     <Compile Include="Common\Commands\CrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\FosterCrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
@@ -751,6 +751,7 @@
     <Compile Include="Data\Models\CritterStatus.cs" />
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\Logging\EmailLog.cs" />
     <Compile Include="Data\Models\Organization.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DataItem.cs" />
