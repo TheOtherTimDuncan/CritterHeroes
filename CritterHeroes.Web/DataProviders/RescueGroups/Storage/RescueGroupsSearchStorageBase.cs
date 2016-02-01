@@ -22,13 +22,21 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public override async Task<IEnumerable<T>> GetAllAsync()
         {
             List<T> result = new List<T>();
+            ResultStart = 0;
 
             JObject request = await CreateRequest();
 
             JObject response = await GetDataAsync(request);
-            JObject data = response.Value<JObject>("data");
-            IEnumerable<T> batch = FromStorage(data.Properties());
-            result.AddRange(batch);
+
+            JObject data;
+            IEnumerable<T> batch;
+
+            if (response["data"].HasValues)
+            {
+                data = response.Value<JObject>("data");
+                batch = FromStorage(data.Properties());
+                result.AddRange(batch);
+            }
 
             int foundRows = response.Value<int>("foundRows");
             ResultStart += ResultLimit;
@@ -84,12 +92,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         protected abstract IEnumerable<string> Fields
         {
             get;
-        }
-
-        protected IEnumerable<SearchFilter> Filters
-        {
-            get;
-            set;
         }
 
         protected override async Task<JObject> CreateRequest()

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
@@ -47,15 +48,33 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
+        protected IEnumerable<SearchFilter> Filters
+        {
+            get;
+            set;
+        }
+
         public virtual Task<T> GetAsync(string entityID)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync(params SearchFilter[] searchFilters)
+        {
+            Filters = searchFilters;
+            return await GetAllAsync();
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             JObject request = await CreateRequest();
             JObject response = await GetDataAsync(request);
+
+            if (!response["data"].HasValues)
+            {
+                return Enumerable.Empty<T>();
+            }
+
             JObject data = response.Value<JObject>("data");
             return FromStorage(data.Properties()).ToList();
         }

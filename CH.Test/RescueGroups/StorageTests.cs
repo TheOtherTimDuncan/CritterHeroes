@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CH.Test.Mocks;
 using CritterHeroes.Web.DataProviders.RescueGroups;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,6 +25,15 @@ namespace CH.Test.RescueGroups
                 var result = storage.GetAllAsync().Result;
             };
             action.ShouldThrow<RescueGroupsException>().WithMessage("The action you specified was not found.");
+        }
+
+        [TestMethod]
+        public async Task CanReadResponseWithNoData()
+        {
+            MockHttpClient mockHttpClient = new MockHttpClient("{\"status\":\"ok\",\"messages\":{\"generalMessages\":[],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}");
+            CritterStatusSourceStorage storage = new CritterStatusSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object);
+            IEnumerable<CritterStatusSource> result = await storage.GetAllAsync();
+            result.Should().BeEmpty();
         }
     }
 }

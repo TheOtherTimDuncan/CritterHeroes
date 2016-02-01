@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
+    public class SearchFilterOperation
+    {
+        public const string Equal = "equal";
+    }
+
     public class SearchFilter
     {
         public string FieldName
