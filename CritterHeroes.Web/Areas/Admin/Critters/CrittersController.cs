@@ -79,7 +79,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         {
             await CommandDispatcher.DispatchAsync(command);
             TempData["Messages"] = command.Messages;
-            return RedirectToAction("Index");
+            return RedirectToAction("Summary");
         }
     }
 }
