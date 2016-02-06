@@ -1,4 +1,5 @@
-﻿@import "variables.scss";
+﻿@import "mixins.scss";
+@import "variables.scss";
 
 // Flex table
 
@@ -110,13 +111,11 @@
 // Utilities
 
 .flex-column {
-    display: flex;
-    flex-direction: column;
+    @include flex-row();
 }
 
 .flex-row {
-    display: flex;
-    flex-direction: row;
+    @include flex-column();
 }
 
 .flex-cell-s1 {
@@ -140,17 +139,17 @@
 }
 
 .flex-center {
-    align-items: center;
+    @include flex-center();
 }
 
 .flex-stretch {
-    align-items: stretch;
+    @include flex-stretch();
 }
 
 .flex-left {
-    justify-content: flex-start;
+    @include flex-left();
 }
 
 .flex-right {
-    justify-content: flex-end;
+    @include flex-right();
 }

@@ -1,4 +1,5 @@
 ﻿@import "variables.scss";
+@import "mixins.scss";
 @import "responsive.scss";
 @import "flex.scss";
 
@@ -7,13 +8,13 @@ nav {
     font-weight: 300;
 
     @media (min-width:$nav-float-breakpoint) {
-        @extend .flex-row;
-        @extend flex-center;
+        @include flex-row();
+        @include flex-center();
     }
 
     @media (max-width:$nav-float-breakpoint-max) {
-        @extend .flex-column;
-        @extend .flex-left;
+        @include flex-column();
+        @include flex-left();
     }
 
     ul {
@@ -93,10 +94,10 @@ nav {
     @extend .flex-cell-s1;
 
     @media (min-width:$nav-float-breakpoint) {
-        @extend .flex-row;
+        @include flex-row();
 
         > ul {
-            @extend .flex-row;
+            @include flex-row();
         }
     }
 
@@ -104,7 +105,7 @@ nav {
         display: none;
 
         > ul {
-            @extend .flex-column;
+            @include flex-column();
         }
 
         .open .dropdown-menu {
@@ -126,5 +127,5 @@ nav {
 }
 
 .navbar-collapse.open {
-    @extend .flex-column;
+    @include flex-column();
 }

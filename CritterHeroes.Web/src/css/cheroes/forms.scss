@@ -1,4 +1,5 @@
 ﻿@import "variables.scss";
+@import "mixins.scss";
 @import "buttons.scss";
 @import "shared.scss";
 
@@ -74,8 +75,8 @@ form section input[type="text"], form section input[type="password"], form secti
 
 .input-group {
     vertical-align: middle;
-    @extend .flex-row;
-    @extend .flex-center;
+    @include flex-row();
+    @include flex-center();
 
     > input, > .form-control {
         @extend .flex-cell-s1;

@@ -312,6 +312,7 @@
     <None Include="src\css\cheroes\flex.scss" />
     <None Include="src\css\cheroes\fontawesome.scss" />
     <None Include="src\css\cheroes\forms.scss" />
+    <Content Include="src\css\cheroes\mixins.scss" />
     <None Include="src\css\cheroes\modals.scss" />
     <None Include="src\css\cheroes\nav.scss" />
     <None Include="src\css\cheroes\paging.scss" />
