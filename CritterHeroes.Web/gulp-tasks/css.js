@@ -12,7 +12,11 @@ module.exports = function (gulp, plugins, common) {
     var libAwesome = srcSass + '/fontawesome';
 
     gulp.task('clean-css', function () {
-        return plugins.del([distCss + '/*.*', distFonts + '/*.*', distImages + '/*.*', libAwesome + '/*.*', './versioned-css.json', '!site.css']);
+        return plugins.del([distCss + '/*.*', distImages + '/*.*', './versioned-css.json', '!site.css']);
+    });
+
+    gulp.task('clean-fontawesome', function () {
+        return plugins.del([distFonts + '/*.*', libAwesome + '/*.*']);
     });
 
     gulp.task('copy-images', ['clean-css'], function () {
@@ -22,19 +26,21 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('copy-fontawesome', ['clean-css'], function () {
+    gulp.task('copy-fontawesome', ['clean-fontawesome'], function () {
 
         return gulp.src(common.bowerBase + '/font-awesome/scss/*.scss')
             .pipe(gulp.dest(libAwesome));
 
     });
 
-    gulp.task('copy-fontawesome-fonts', ['clean-css'], function () {
+    gulp.task('copy-fontawesome-fonts', ['clean-fontawesome'], function () {
 
         return gulp.src(common.bowerBase + '/font-awesome/fonts/*.*')
             .pipe(gulp.dest(distFonts));
 
     });
+
+    gulp.task('install-font-awesome', ['clean-fontawesome', 'copy-fontawesome', 'copy-fontawesome-fonts']);
 
     gulp.task('normalize.css', ['clean-css'], function () {
 
@@ -43,7 +49,7 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('app-sass', ['clean-css', 'copy-fontawesome', 'copy-fontawesome-fonts'], function () {
+    gulp.task('app-sass', ['clean-css'], function () {
 
         return gulp.src(srcSass + '/*.scss')
             .pipe(plugins.sass().on('error', plugins.sass.logError))
@@ -67,6 +73,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-css', 'copy-images', 'normalize.css', 'copy-fontawesome', 'copy-fontawesome-fonts', 'app-sass', 'version-css'];
+    return ['clean-css', 'copy-images', 'normalize.css', 'app-sass', 'version-css'];
 
 };
