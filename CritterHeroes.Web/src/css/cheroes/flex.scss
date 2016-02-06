@@ -111,11 +111,11 @@
 // Utilities
 
 .flex-column {
-    @include flex-row();
+    @include flex-column();
 }
 
 .flex-row {
-    @include flex-column();
+    @include flex-row();
 }
 
 .flex-cell-s1 {
