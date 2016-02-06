@@ -1,59 +1,63 @@
 ﻿@import "../fontawesome/_variables.scss";
-@import "../fontawesome/_core.scss";
-@import "../fontawesome/_icons.scss";
+@import "../fontawesome/_path";
+@import "../fontawesome/_mixins.scss";
 @import "../fontawesome/_larger.scss";
 
-@import "../fontawesome/_path.scss";
+@mixin fa-icon-glyph($glyph) {
+    &:before {
+        content: $glyph;
+    }
+}
 
 .icon-email {
-    @extend .fa;
-    @extend .fa-envelope;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-envelope);
 }
 
 .icon-lock {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-lock);
     @extend .fa-lg;
-    @extend .fa-lock;
 }
 
 .icon-edit {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-edit);
     @extend .fa-lg;
-    @extend .fa-edit;
 }
 
 .icon-user {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-user);
     @extend .fa-lg;
-    @extend .fa-user;
 }
 
 .icon-house {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-home);
     @extend .fa-lg;
-    @extend .fa-home;
 }
 
 .icon-plus {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-plus);
     @extend .fa-lg;
-    @extend .fa-plus;
 }
 
 .icon-chevron-left {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-chevron-left);
     @extend .fa-lg;
-    @extend .fa-chevron-left;
 }
 
 .icon-chevron-right {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-chevron-right);
     @extend .fa-lg;
-    @extend .fa-chevron-right;
 }
 
 .icon-person {
-    @extend .fa;
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-user);
     @extend .fa-lg;
-    @extend .fa-user;
 }
