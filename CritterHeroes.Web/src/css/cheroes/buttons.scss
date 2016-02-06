@@ -1,20 +1,20 @@
-﻿@import "variables.less";
+﻿@import "variables.scss";
 
 .btn {
     display: inline-block;
     margin-bottom: 0;
-    font-weight: @btn-font-weight;
+    font-weight: $btn-font-weight;
     text-align: center;
     vertical-align: middle;
     touch-action: manipulation;
     cursor: pointer;
     border: 1px solid transparent;
     white-space: nowrap;
-    padding: @padding-base-vertical @padding-base-horizontal;
-    font-size: @font-size-base;
-    border-radius: @btn-border-radius-small;
+    padding: $padding-base-vertical $padding-base-horizontal;
+    font-size: $font-size-base;
+    border-radius: $btn-border-radius-small;
     user-select: none;
-    line-height: @line-height-base;
+    line-height: $line-height-base;
 
     &,
     &:active,
@@ -30,7 +30,7 @@
     &:hover,
     &:focus,
     &.focus {
-        color: @btn-default-color;
+        color: $btn-default-color;
         text-decoration: none;
     }
 
@@ -44,7 +44,7 @@
     &.disabled,
     &[disabled],
     fieldset[disabled] & {
-        cursor: @cursor-disabled;
+        cursor: $cursor-disabled;
         opacity: .65;
         box-shadow: none;
     }
@@ -58,37 +58,37 @@
 }
 
 .btn-primary {
-    color: @btn-primary-color;
-    background-color: @btn-primary-bg;
-    border-color: @btn-primary-border;
+    color: $btn-primary-color;
+    background-color: $btn-primary-bg;
+    border-color: $btn-primary-border;
 
     &:focus,
     &.focus {
-        color: @btn-primary-color;
-        background-color: darken(@btn-primary-bg, 10%);
-        border-color: darken(@btn-primary-border, 25%);
+        color: $btn-primary-color;
+        background-color: darken($btn-primary-bg, 10%);
+        border-color: darken($btn-primary-border, 25%);
     }
 
     &:hover {
-        color: @btn-primary-color;
-        background-color: darken(@btn-primary-bg, 10%);
-        border-color: darken(@btn-primary-border, 12%);
+        color: $btn-primary-color;
+        background-color: darken($btn-primary-bg, 10%);
+        border-color: darken($btn-primary-border, 12%);
     }
 
     &:active,
     &.active,
     .open > .dropdown-toggle& {
-        color: @btn-primary-color;
-        background-color: darken(@btn-primary-bg, 10%);
-        border-color: darken(@btn-primary-border, 12%);
+        color: $btn-primary-color;
+        background-color: darken($btn-primary-bg, 10%);
+        border-color: darken($btn-primary-border, 12%);
         background-image: none;
 
         &:hover,
         &:focus,
         &.focus {
-            color: @btn-primary-color;
-            background-color: darken(@btn-primary-bg, 17%);
-            border-color: darken(@btn-primary-border, 25%);
+            color: $btn-primary-color;
+            background-color: darken($btn-primary-bg, 17%);
+            border-color: darken($btn-primary-border, 25%);
         }
     }
 
@@ -98,49 +98,49 @@
         &:hover,
         &:focus,
         &.focus {
-            background-color: @btn-primary-bg;
-            border-color: @btn-primary-border;
+            background-color: $btn-primary-bg;
+            border-color: $btn-primary-border;
         }
     }
 
     .badge {
-        color: @btn-primary-bg;
-        background-color: @btn-primary-color;
+        color: $btn-primary-bg;
+        background-color: $btn-primary-color;
     }
 }
 
 .btn-info {
-    color: @btn-info-color;
-    background-color: @btn-info-bg;
-    border-color: @btn-info-border;
+    color: $btn-info-color;
+    background-color: $btn-info-bg;
+    border-color: $btn-info-border;
 
     &:focus,
     &.focus {
-        color: @btn-info-color;
-        background-color: darken(@btn-info-bg, 10%);
-        border-color: darken(@btn-info-border, 25%);
+        color: $btn-info-color;
+        background-color: darken($btn-info-bg, 10%);
+        border-color: darken($btn-info-border, 25%);
     }
 
     &:hover {
-        color: @btn-info-color;
-        background-color: darken(@btn-info-bg, 10%);
-        border-color: darken(@btn-info-border, 12%);
+        color: $btn-info-color;
+        background-color: darken($btn-info-bg, 10%);
+        border-color: darken($btn-info-border, 12%);
     }
 
     &:active,
     &.active,
     .open > .dropdown-toggle& {
-        color: @btn-primary-color;
-        background-color: darken(@btn-info-bg, 10%);
-        border-color: darken(@btn-info-border, 12%);
+        color: $btn-primary-color;
+        background-color: darken($btn-info-bg, 10%);
+        border-color: darken($btn-info-border, 12%);
         background-image: none;
 
         &:hover,
         &:focus,
         &.focus {
-            color: @btn-primary-color;
-            background-color: darken(@btn-info-bg, 17%);
-            border-color: darken(@btn-info-border, 25%);
+            color: $btn-primary-color;
+            background-color: darken($btn-info-bg, 17%);
+            border-color: darken($btn-info-border, 25%);
         }
     }
 
@@ -150,27 +150,27 @@
         &:hover,
         &:focus,
         &.focus {
-            background-color: @btn-info-bg;
-            border-color: @btn-info-border;
+            background-color: $btn-info-bg;
+            border-color: $btn-info-border;
         }
     }
 
     .badge {
-        color: @btn-info-bg;
-        background-color: @btn-info-color;
+        color: $btn-info-bg;
+        background-color: $btn-info-color;
     }
 }
 
 .close {
-    font-size: (@font-size-base * 1.5);
-    font-weight: @close-font-weight;
+    font-size: ($font-size-base * 1.5);
+    font-weight: $close-font-weight;
     line-height: 1;
-    color: @close-color;
+    color: $close-color;
     opacity: .4;
 
     &:hover,
     &:focus {
-        color: @close-color;
+        color: $close-color;
         text-decoration: none;
         cursor: pointer;
         opacity: 1;

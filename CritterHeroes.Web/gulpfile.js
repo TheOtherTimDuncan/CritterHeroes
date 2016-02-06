@@ -28,7 +28,7 @@ gulp.task('build-templates', getTask('handlebars.js'));
 gulp.task('watch', ['build-scripts', 'build-css'], function () {
 
     gulp.watch(common.srcPath + '/js/**/*.js', ['build-scripts']);
-    gulp.watch(common.srcPath + '/css/**/*.less', ['build-css']);
+    gulp.watch(common.srcPath + '/css/**/*.scss', ['build-css']);
     gulp.watch(common.srcPath + '/templates/*.hb', ['build-templates']);
 
 });

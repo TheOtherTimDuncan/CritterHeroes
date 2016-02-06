@@ -1,4 +1,4 @@
-﻿@import "variables.less";
+﻿@import "variables.scss";
 
 // Flex table
 
@@ -6,20 +6,20 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: @line-height-computed;
-    background-color: @table-bg;
+    margin-bottom: $line-height-computed;
+    background-color: $table-bg;
 }
 
 .flex-table-header {
-    border-bottom: 2px solid @table-border-color;
+    border-bottom: 2px solid $table-border-color;
 
-    @media (min-width: @screen-sm-max) {
+    @media (min-width: $screen-sm-max) {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
     }
 
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: $screen-sm-max) {
         display: none;
     }
 
@@ -33,7 +33,7 @@
     font-weight: bold;
     text-align: left;
 
-    @media (min-width: @screen-sm-max) {
+    @media (min-width: $screen-sm-max) {
         display: none;
     }
 }
@@ -44,13 +44,13 @@
 
 .flex-table-cell-pic {
 
-    @media (min-width: @screen-sm-max) {
+    @media (min-width: $screen-sm-max) {
         & img {
             width: 50px;
         }
     }
 
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: $screen-sm-max) {
         position: absolute;
         left: 0;
         top: 0;
@@ -63,27 +63,27 @@
 }
 
 .flex-table-cell-pic-margin {
-    @media (max-width: @screen-sm-max) {
-        margin-left: 75 + @table-cell-padding-xs;
+    @media (max-width: $screen-sm-max) {
+        margin-left: 75 + $table-cell-padding-xs;
     }
 }
 
 .flex-table-body .flex-table-row:nth-of-type(even) {
-    background-color: @table-bg-accent;
+    background-color: $table-bg-accent;
 }
 
 .flex-table-cell {
-    line-height: @line-height-base;
+    line-height: $line-height-base;
     vertical-align: top;
 
-    @media (min-width: @screen-sm-max) {
-        border-bottom: 1px solid @table-border-color;
-        padding: @table-cell-padding;
+    @media (min-width: $screen-sm-max) {
+        border-bottom: 1px solid $table-border-color;
+        padding: $table-cell-padding;
     }
 
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: $screen-sm-max) {
         &:not(.flex-table-cell-pic) {
-            padding: @table-cell-padding-xs;
+            padding: $table-cell-padding-xs;
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
@@ -96,14 +96,14 @@
     display: flex;
     position: relative;
 
-    @media (min-width: @screen-sm-max) {
+    @media (min-width: $screen-sm-max) {
         flex-direction: row;
         flex-wrap: nowrap;
     }
 
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: $screen-sm-max) {
         flex-direction: column;
-        border: 1px solid @table-border-color;
+        border: 1px solid $table-border-color;
     }
 }
 

@@ -1,0 +1,59 @@
+﻿@import "../fontawesome/_variables.scss";
+@import "../fontawesome/_core.scss";
+@import "../fontawesome/_icons.scss";
+@import "../fontawesome/_larger.scss";
+
+@import "../fontawesome/_path.scss";
+
+.icon-email {
+    @extend .fa;
+    @extend .fa-envelope;
+}
+
+.icon-lock {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-lock;
+}
+
+.icon-edit {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-edit;
+}
+
+.icon-user {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-user;
+}
+
+.icon-house {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-home;
+}
+
+.icon-plus {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-plus;
+}
+
+.icon-chevron-left {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-chevron-left;
+}
+
+.icon-chevron-right {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-chevron-right;
+}
+
+.icon-person {
+    @extend .fa;
+    @extend .fa-lg;
+    @extend .fa-user;
+}

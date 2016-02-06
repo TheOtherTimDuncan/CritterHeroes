@@ -1,17 +1,15 @@
 ﻿'use strict';
 
-var lessPluginAutoPrefix = require('less-plugin-autoprefix');
-
 module.exports = function (gulp, plugins, common) {
 
     var distCss = common.distPath + '/css';
     var distFonts = common.distPath + '/fonts';
     var distImages = common.distPath + '/images';
 
-    var srcLess = common.srcPath + '/css';
+    var srcSass = common.srcPath + '/css';
     var srcImages = common.srcPath + '/images';
 
-    var libAwesome = srcLess + '/fontawesome';
+    var libAwesome = srcSass + '/fontawesome';
 
     gulp.task('clean-css', function () {
         return plugins.del([distCss + '/*.*', distFonts + '/*.*', distImages + '/*.*', libAwesome + '/*.*', './versioned-css.json', '!site.css']);
@@ -26,7 +24,7 @@ module.exports = function (gulp, plugins, common) {
 
     gulp.task('copy-fontawesome', ['clean-css'], function () {
 
-        return gulp.src(common.bowerBase + '/font-awesome/less/*.less')
+        return gulp.src(common.bowerBase + '/font-awesome/scss/*.scss')
             .pipe(gulp.dest(libAwesome));
 
     });
@@ -45,24 +43,17 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    gulp.task('app-less', ['clean-css', 'copy-fontawesome', 'copy-fontawesome-fonts'], function () {
+    gulp.task('app-sass', ['clean-css', 'copy-fontawesome', 'copy-fontawesome-fonts'], function () {
 
-        var autoprefix = new lessPluginAutoPrefix({ browsers: ['last 2 versions'] });
-
-        return gulp.src(srcLess + '/*.less')
-            .pipe(plugins.plumber({
-                errorHandler: function (err) {
-                    console.log(err);
-                    this.emit('end');
-                }
-            }))
-            .pipe(plugins.less({ plugins: [autoprefix] }))
-            .pipe(gulp.dest(srcLess))
+        return gulp.src(srcSass + '/*.scss')
+            .pipe(plugins.sass().on('error', plugins.sass.logError))
+            .pipe(plugins.autoprefixer({ browsers: ['last 2 versions'] }))
+            .pipe(gulp.dest(srcSass))
             .pipe(gulp.dest(distCss));
 
     });
 
-    gulp.task('version-css', ['clean-css', 'normalize.css', 'app-less'], function () {
+    gulp.task('version-css', ['clean-css', 'normalize.css', 'app-sass'], function () {
 
         return gulp.src(distCss + '/*.css', { base: common.distPath })
             .pipe(plugins.sourcemaps.init())
@@ -76,6 +67,6 @@ module.exports = function (gulp, plugins, common) {
 
     });
 
-    return ['clean-css', 'copy-images', 'normalize.css', 'copy-fontawesome', 'copy-fontawesome-fonts', 'app-less', 'version-css'];
+    return ['clean-css', 'copy-images', 'normalize.css', 'copy-fontawesome', 'copy-fontawesome-fonts', 'app-sass', 'version-css'];
 
 };

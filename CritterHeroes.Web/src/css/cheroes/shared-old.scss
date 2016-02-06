@@ -1,16 +1,16 @@
-﻿@import "bootstrap.less";
-@import "variables.less";
+﻿$import "bootstrap.scss";
+$import "variables.scss";
 
 .optional-text {
     display: none;
 
-    @media (min-width: @screen-sm-min) {
+    $media (min-width: $screen-sm-min) {
         display: inline-block;
     }
 }
 
 .text-transparent {
-    color: @body-bg;
+    color: $body-bg;
 }
 
 .margin-left-small {
@@ -39,7 +39,7 @@
 }
 
 .busy {
-    background: url("@{images-path}spinner.gif") no-repeat;
+    background: url("${images-path}spinner.gif") no-repeat;
     min-width: 24px;
     min-height: 16px;
     background-position-x: 4px;
@@ -55,11 +55,11 @@
 
 .color-key {
     vertical-align: middle;
-    padding: @padding-base-vertical @padding-base-horizontal;
+    padding: $padding-base-vertical $padding-base-horizontal;
 }
 
 [data-active="false"], .table-striped > tbody > tr[data-active="false"] {
-    background-color: @gray-lighter;
+    background-color: $gray-lighter;
 }
 
 .person {
@@ -92,29 +92,29 @@
 /* Borders */
 
 .border-right {
-    border-right: 1px solid @table-border-color;
+    border-right: 1px solid $table-border-color;
 }
 
 .border-left {
-    border-left: 1px solid @table-border-color;
+    border-left: 1px solid $table-border-color;
 }
 
 .border-left.border-left-xs {
-    @media (max-width: @screen-sm-max) {
+    $media (max-width: $screen-sm-max) {
         border-left-style: none;
     }
 }
 
 .border-bottom {
-    border-bottom: 1px solid @table-border-color;
+    border-bottom: 1px solid $table-border-color;
 }
 
 .border-top {
-    border-top: 1px solid @table-border-color;
+    border-top: 1px solid $table-border-color;
 }
 
 .border-top.border-top-md {
-    @media (min-width: @screen-md-min) {
+    $media (min-width: $screen-md-min) {
         border-top-style: none;
     }
 }
@@ -124,19 +124,19 @@
 }
 
 .border-box {
-    border: 1px solid @table-border-color;
+    border: 1px solid $table-border-color;
 }
 
 /* Badges */
 
 .badge-invalid {
-    color: @label-color;
-    background-color: @brand-danger;
+    color: $label-color;
+    background-color: $brand-danger;
 }
 
 .badge-valid {
-    color: @label-color;
-    background-color: @brand-success;
+    color: $label-color;
+    background-color: $brand-success;
 }
 
 /* File Upload */

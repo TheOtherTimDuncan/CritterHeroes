@@ -1,5 +1,5 @@
-﻿@import "variables.less";
-@import "fontawesome.less";
+﻿@import "variables.scss";
+@import "fontawesome.scss";
 
 .paging-container {
     list-style: none;
@@ -8,24 +8,24 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    font-size: @font-size-small;
+    font-size: $font-size-small;
 }
 
 .paging-container li {
     cursor: pointer;
     width: 3em;
     text-align: center;
-    border: solid 1px @table-border-color;
+    border: solid 1px $table-border-color;
     margin-left: -1px;
 }
 
 .paging-container a {
     text-decoration: none;
-    color: @text-color;
+    color: $text-color;
 }
 
 .paging-container .current {
-    background-color: @gray-light;
+    background-color: $gray-light;
 }
 
 .paging-container .page-chunk-break {
@@ -33,21 +33,21 @@
 }
 
 .paging-container .page-prev {
-    border-top-left-radius: @border-radius-small;
-    border-bottom-left-radius: @border-radius-small;
+    border-top-left-radius: $border-radius-small;
+    border-bottom-left-radius: $border-radius-small;
 }
 
 .paging-container .page-prev a, .paging-container .page-prev span {
-    .icon-chevron-left;
-    font-size: @font-size-small - 1;
+    @extend .icon-chevron-left;
+    font-size: $font-size-small - 1;
 }
 
 .paging-container .page-next {
-    border-top-right-radius: @border-radius-small;
-    border-bottom-right-radius: @border-radius-small;
+    border-top-right-radius: $border-radius-small;
+    border-bottom-right-radius: $border-radius-small;
 }
 
 .paging-container .page-next a, .paging-container .page-next span {
-    .icon-chevron-right;
-    font-size: @font-size-small - 1;
+    @extend .icon-chevron-right;
+    font-size: $font-size-small - 1;
 }

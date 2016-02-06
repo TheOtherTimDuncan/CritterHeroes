@@ -304,34 +304,40 @@
     <Content Include="Areas\Home\Views\_Header.cshtml" />
     <Content Include="Areas\Home\Views\_Menu.cshtml" />
     <Content Include="gulp-tasks\handlebars.js" />
-    <Content Include="src\css\cheroes\box-sizing.less" />
-    <Content Include="src\css\cheroes\scaffolding.less" />
-    <Content Include="src\css\cheroes\nav.less" />
-    <Content Include="src\css\cheroes\shared.less" />
-    <Content Include="src\css\cheroes\dropdowns.less" />
-    <Content Include="src\css\cheroes\buttons.less" />
-    <Content Include="src\css\cheroes\typography.less" />
-    <Content Include="src\css\cheroes\flex.less" />
-    <None Include="src\css\cheroes\fontawesome.less" />
-    <Content Include="src\css\cheroes\responsive.less" />
-    <Content Include="src\css\cheroes\modals.less" />
-    <Content Include="src\css\cheroes\progress-bars.less" />
-    <None Include="src\css\fontawesome\animated.less" />
-    <None Include="src\css\fontawesome\bordered-pulled.less" />
-    <None Include="src\css\fontawesome\core.less" />
-    <None Include="src\css\fontawesome\fixed-width.less" />
-    <None Include="src\css\fontawesome\font-awesome.less" />
-    <None Include="src\css\fontawesome\icons.less" />
-    <None Include="src\css\fontawesome\larger.less" />
-    <None Include="src\css\fontawesome\list.less" />
-    <None Include="src\css\fontawesome\mixins.less" />
-    <None Include="src\css\fontawesome\path.less" />
-    <None Include="src\css\fontawesome\rotated-flipped.less" />
-    <None Include="src\css\fontawesome\stacked.less" />
-    <None Include="src\css\fontawesome\variables.less" />
+    <None Include="src\css\cheroes\admin-lists.scss" />
+    <None Include="src\css\cheroes\box-sizing.scss" />
+    <None Include="src\css\cheroes\buttons.scss" />
+    <None Include="src\css\cheroes\dropdowns.scss" />
+    <None Include="src\css\cheroes\filters.scss" />
+    <None Include="src\css\cheroes\flex.scss" />
+    <None Include="src\css\cheroes\fontawesome.scss" />
+    <None Include="src\css\cheroes\forms.scss" />
+    <None Include="src\css\cheroes\modals.scss" />
+    <None Include="src\css\cheroes\nav.scss" />
+    <None Include="src\css\cheroes\paging.scss" />
+    <None Include="src\css\cheroes\progress-bars.scss" />
+    <None Include="src\css\cheroes\responsive.scss" />
+    <None Include="src\css\cheroes\scaffolding.scss" />
+    <None Include="src\css\cheroes\shared-old.scss" />
+    <None Include="src\css\cheroes\shared.scss" />
+    <None Include="src\css\cheroes\typography.scss" />
+    <None Include="src\css\cheroes\variables.scss" />
+    <None Include="src\css\fontawesome\font-awesome.scss" />
+    <None Include="src\css\fontawesome\_animated.scss" />
+    <None Include="src\css\fontawesome\_bordered-pulled.scss" />
+    <None Include="src\css\fontawesome\_core.scss" />
+    <None Include="src\css\fontawesome\_fixed-width.scss" />
+    <None Include="src\css\fontawesome\_icons.scss" />
+    <None Include="src\css\fontawesome\_larger.scss" />
+    <None Include="src\css\fontawesome\_list.scss" />
+    <None Include="src\css\fontawesome\_mixins.scss" />
+    <None Include="src\css\fontawesome\_path.scss" />
+    <None Include="src\css\fontawesome\_rotated-flipped.scss" />
+    <None Include="src\css\fontawesome\_stacked.scss" />
+    <None Include="src\css\fontawesome\_variables.scss" />
     <None Include="src\templates\ch.contacts-template.hb" />
     <None Include="src\templates\ch.critters-template.hb" />
-    <None Include="src\css\site.less" />
+    <None Include="src\css\site.scss" />
     <None Include="gulpfile.js" />
     <None Include="gulp-tasks\emails.js" />
     <None Include="gulp-tasks\scripts.js" />
@@ -369,15 +375,9 @@
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="src\css\cheroes\shared-old.less" />
-    <None Include="src\css\cheroes\admin-lists.less" />
-    <None Include="src\css\cheroes\forms.less" />
     <Content Include="Areas\Admin\Critters\Views\Summary.cshtml" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <None Include="bower.json" />
-    <None Include="src\css\cheroes\paging.less" />
-    <None Include="src\css\cheroes\filters.less" />
-    <None Include="src\css\cheroes\variables.less" />
     <None Include="package.json" />
     <None Include="src\_references.js" />
     <None Include="src\Emails\ConfirmEmail\Body.html" />
@@ -418,7 +418,7 @@
     <None Include="src\js\bundled\ch.pubsub.js" />
     <None Include="src\js-tests\tests.html" />
     <None Include="src\css\site.css">
-      <DependentUpon>site.less</DependentUpon>
+      <DependentUpon>site.scss</DependentUpon>
     </None>
     <Content Include="src\js-tests\ch.data.tests.js" />
     <Content Include="src\js-tests\ch.pubsub.tests.js" />

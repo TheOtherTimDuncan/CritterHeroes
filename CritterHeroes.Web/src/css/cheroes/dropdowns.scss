@@ -1,4 +1,4 @@
-﻿@import "variables.less";
+﻿@import "variables.scss";
 
 .dropdown-container {
     position: relative;
@@ -11,17 +11,17 @@
     left: 0;
     min-width: 160px;
     padding: 5px 0;
-    font-size: @font-size-base;
-    background-color: @dropdown-bg;
-    border: 1px solid @dropdown-border;
-    border-radius: @border-radius-base;
+    font-size: $font-size-base;
+    background-color: $dropdown-bg;
+    border: 1px solid $dropdown-border;
+    border-radius: $border-radius-base;
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
 
     .divider {
         height: 1px;
-        margin: ((@line-height-computed / 2) - 1) 0;
+        margin: (($line-height-computed / 2) - 1) 0;
         overflow: hidden;
-        background-color: @dropdown-divider-bg;
+        background-color: $dropdown-divider-bg;
     }
 
     > li > a {
@@ -29,8 +29,8 @@
         padding: 12px 15px;
         clear: both;
         font-weight: 300;
-        line-height: @line-height-base;
-        color: @dropdown-link-color;
+        line-height: $line-height-base;
+        color: $dropdown-link-color;
         white-space: nowrap;
     }
 }
@@ -39,8 +39,8 @@
     &:hover,
     &:focus {
         text-decoration: none;
-        color: @dropdown-link-hover-color;
-        background-color: @dropdown-link-hover-bg;
+        color: $dropdown-link-hover-color;
+        background-color: $dropdown-link-hover-bg;
     }
 }
 
@@ -48,10 +48,10 @@
     &,
     &:hover,
     &:focus {
-        color: @dropdown-link-active-color;
+        color: $dropdown-link-active-color;
         text-decoration: none;
         outline: 0;
-        background-color: @dropdown-link-active-bg;
+        background-color: $dropdown-link-active-bg;
     }
 }
 
@@ -59,7 +59,7 @@
     &,
     &:hover,
     &:focus {
-        color: @dropdown-link-disabled-color;
+        color: $dropdown-link-disabled-color;
     }
 
     &:hover,
@@ -67,7 +67,7 @@
         text-decoration: none;
         background-color: transparent;
         background-image: none;
-        cursor: @cursor-disabled;
+        cursor: $cursor-disabled;
     }
 }
 
@@ -87,7 +87,7 @@
     height: 0;
     margin-left: 2px;
     vertical-align: middle;
-    border-top: @caret-width-base dashed;
-    border-right: @caret-width-base solid transparent;
-    border-left: @caret-width-base solid transparent;
+    border-top: $caret-width-base dashed;
+    border-right: $caret-width-base solid transparent;
+    border-left: $caret-width-base solid transparent;
 }

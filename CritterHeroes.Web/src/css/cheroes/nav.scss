@@ -1,0 +1,130 @@
+﻿@import "variables.scss";
+@import "responsive.scss";
+@import "flex.scss";
+
+nav {
+    background: $color-primary;
+    font-weight: 300;
+
+    @media (min-width:$nav-float-breakpoint) {
+        @extend .flex-row;
+        @extend flex-center;
+    }
+
+    @media (max-width:$nav-float-breakpoint-max) {
+        @extend .flex-column;
+        @extend .flex-left;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    li {
+        position: relative;
+
+        > a {
+            position: relative;
+            display: block;
+            color: $body-bg;
+            font-weight: 300;
+            font-size: 13px;
+            padding: $nav-link-padding;
+            line-height: $line-height-computed;
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: $body-bg;
+                background-color: $nav-link-hover-bg;
+            }
+        }
+
+        &.disabled > a {
+            color: $nav-disabled-link-color;
+
+            &:hover,
+            &:focus {
+                color: $nav-disabled-link-hover-color;
+                text-decoration: none;
+                background-color: transparent;
+                cursor: $cursor-disabled;
+            }
+        }
+    }
+}
+
+.navbar-toggle {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: $border-radius-base;
+    @extend .hide-sm;
+    @extend .hide-md;
+    @extend .hide-lg;
+
+    .icon-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 1px;
+        background-color: $navbar-default-toggle-icon-bar-bg;
+    }
+
+    .icon-bar + .icon-bar {
+        margin-top: 4px;
+    }
+}
+
+.navbar-brand {
+    color: $navbar-default-brand-color;
+    font-size: $font-size-large;
+    line-height: $line-height-computed;
+    padding: $padding-base-vertical $padding-base-horizontal;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        color: $body-bg;
+        background-color: $nav-link-hover-bg;
+    }
+}
+
+.navbar-collapse {
+    @extend .flex-cell-s1;
+
+    @media (min-width:$nav-float-breakpoint) {
+        @extend .flex-row;
+
+        > ul {
+            @extend .flex-row;
+        }
+    }
+
+    @media (max-width:$nav-float-breakpoint-max) {
+        display: none;
+
+        > ul {
+            @extend .flex-column;
+        }
+
+        .open .dropdown-menu {
+            position: static;
+            background-color: transparent;
+            box-shadow: none;
+
+            > li > a {
+                color: $navbar-default-link-color;
+
+                &:hover,
+                &:focus {
+                    color: $body-bg;
+                    background-color: $nav-link-hover-bg;
+                }
+            }
+        }
+    }
+}
+
+.navbar-collapse.open {
+    @extend .flex-column;
+}
