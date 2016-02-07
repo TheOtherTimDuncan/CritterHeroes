@@ -48,7 +48,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
-        protected IEnumerable<SearchFilter> Filters
+        public IEnumerable<SearchFilter> Filters
         {
             get;
             set;

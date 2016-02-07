@@ -78,7 +78,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             });
         }
 
-        protected override IEnumerable<SearchField> Fields
+        public override IEnumerable<SearchField> Fields
         {
             get
             {

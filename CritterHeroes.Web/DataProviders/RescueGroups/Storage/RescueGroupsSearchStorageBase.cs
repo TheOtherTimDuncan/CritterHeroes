@@ -89,7 +89,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
-        protected abstract IEnumerable<SearchField> Fields
+        public abstract IEnumerable<SearchField> Fields
         {
             get;
         }
