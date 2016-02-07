@@ -21,6 +21,9 @@ namespace CritterHeroes.Web.Data.Configurations
             Property(x => x.Name).IsRequired().HasMaxLength(50).HasIndex();
             Property(x => x.Sex).IsRequired().HasMaxLength(10);
             Property(x => x.RescueID).HasMaxLength(100).IsUnicode(false);
+            Property(x => x.Description).IsMaxLength();
+            Property(x => x.SpecialNeedsDescription).IsMaxLength();
+            Property(x => x.GeneralAge).IsUnicode(false).HasMaxLength(10);
         }
     }
 }

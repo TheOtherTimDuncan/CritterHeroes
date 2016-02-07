@@ -82,13 +82,13 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public DateTime? RescueGroupsLastUpdated
+        public DateTimeOffset? RescueGroupsLastUpdated
         {
             get;
             set;
         }
 
-        public DateTime? RescueGroupsCreated
+        public DateTimeOffset? RescueGroupsCreated
         {
             get;
             set;
@@ -131,6 +131,48 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public string RescueID
+        {
+            get;
+            set;
+        }
+
+        public DateTimeOffset ReceivedDate
+        {
+            get;
+            set;
+        }
+        
+        public bool IsCourtesy
+        {
+            get;
+            set;
+        }
+
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        public string GeneralAge
+        {
+            get;
+            set;
+        }
+
+        public bool HasSpecialNeeds
+        {
+            get;
+            set;
+        }
+
+        public string SpecialNeedsDescription
+        {
+            get;
+            set;
+        }
+
+        public bool HasSpecialDiet
         {
             get;
             set;

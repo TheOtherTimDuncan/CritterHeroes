@@ -79,14 +79,21 @@ namespace CH.DatabaseMigrator.Migrations
                     OrganizationID = c.Guid(nullable: false),
                     StatusID = c.Int(nullable: false),
                     LocationID = c.Int(),
-                    RescueGroupsLastUpdated = c.DateTime(),
-                    RescueGroupsCreated = c.DateTime(),
+                    RescueGroupsLastUpdated = c.DateTimeOffset(precision: 7),
+                    RescueGroupsCreated = c.DateTimeOffset(precision: 7),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     WhenUpdated = c.DateTimeOffset(nullable: false, precision: 7),
                     Name = c.String(nullable: false, maxLength: 50),
                     BreedID = c.Int(nullable: false),
                     Sex = c.String(nullable: false, maxLength: 10),
                     RescueID = c.String(maxLength: 100, unicode: false),
+                    ReceivedDate = c.DateTimeOffset(nullable: false, precision: 7),
+                    IsCourtesy = c.Boolean(nullable: false),
+                    Description = c.String(),
+                    GeneralAge = c.String(maxLength: 10, unicode: false),
+                    HasSpecialNeeds = c.Boolean(nullable: false),
+                    SpecialNeedsDescription = c.String(),
+                    HasSpecialDiet = c.Boolean(nullable: false),
                     FosterID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
@@ -219,7 +226,7 @@ namespace CH.DatabaseMigrator.Migrations
                     FileSize = c.Long(nullable: false),
                     ContentType = c.String(nullable: false, maxLength: 256, unicode: false),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
-                    RescueGroupsCreated = c.DateTime(),
+                    RescueGroupsCreated = c.DateTimeOffset(precision: 7),
                     RescueGroupsID = c.String(maxLength: 8, unicode: false),
                 })
                 .PrimaryKey(t => t.ID)

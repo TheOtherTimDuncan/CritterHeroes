@@ -75,7 +75,7 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public DateTime? RescueGroupsCreated
+        public DateTimeOffset? RescueGroupsCreated
         {
             get;
             set;

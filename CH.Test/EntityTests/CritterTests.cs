@@ -67,6 +67,13 @@ namespace CH.Test.EntityTests
                 result.RescueID.Should().Be(critter.RescueID);
                 result.RescueGroupsCreated.Should().Be(critter.RescueGroupsCreated);
                 result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated);
+                result.IsCourtesy.Should().Be(critter.IsCourtesy);
+                result.Description.Should().Be(critter.Description);
+                result.GeneralAge.Should().Be(critter.GeneralAge);
+                result.HasSpecialDiet.Should().Be(critter.HasSpecialDiet);
+                result.HasSpecialNeeds.Should().Be(critter.HasSpecialNeeds);
+                result.SpecialNeedsDescription.Should().Be(critter.SpecialNeedsDescription);
+                result.ReceivedDate.Should().Be(critter.ReceivedDate);
 
                 result.OrganizationID.Should().Be(organization.ID);
                 result.Organization.Should().NotBeNull();
