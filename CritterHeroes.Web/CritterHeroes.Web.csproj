@@ -264,6 +264,7 @@
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Contacts\Views\Index.cshtml" />
+    <Content Include="Areas\Admin\Critters\Views\Import.cshtml" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -474,6 +475,7 @@
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\GroupSelectOptionModel.cs" />
+    <Compile Include="Areas\Admin\Critters\Models\ImportModel.cs" />
     <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
     <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
     <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />

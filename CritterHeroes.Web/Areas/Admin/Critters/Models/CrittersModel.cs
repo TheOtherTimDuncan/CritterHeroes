@@ -13,6 +13,12 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Models
             set;
         }
 
+        public bool ShowImport
+        {
+            get;
+            set;
+        }
+
         public IEnumerable<SelectListItem> StatusItems
         {
             get;

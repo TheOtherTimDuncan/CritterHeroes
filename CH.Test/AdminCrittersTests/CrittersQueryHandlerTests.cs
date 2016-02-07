@@ -7,9 +7,12 @@ using CH.Test.Mocks;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Data.Models.Identity;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.AdminCrittersTests
@@ -25,16 +28,19 @@ namespace CH.Test.AdminCrittersTests
 
             MockSqlStorageContext<CritterStatus> mockStatusStorage = new MockSqlStorageContext<CritterStatus>(status1, status2);
 
+            Mock<IHttpUser> mockUser = new Mock<IHttpUser>();
+
             CrittersQuery query = new CrittersQuery()
             {
                 StatusID = status2.ID
             };
 
-            CrittersQueryHandler handler = new CrittersQueryHandler(mockStatusStorage.Object);
+            CrittersQueryHandler handler = new CrittersQueryHandler(mockStatusStorage.Object, mockUser.Object);
             CrittersModel model = await handler.ExecuteAsync(query);
             model.Should().NotBeNull();
 
             model.Query.Should().Be(query);
+            model.ShowImport.Should().BeFalse();
 
             model.StatusItems.Should().HaveCount(2);
 
@@ -47,6 +53,8 @@ namespace CH.Test.AdminCrittersTests
             resultItem2.Should().NotBeNull();
             resultItem2.Text.Should().Be(status2.Name);
             resultItem2.Selected.Should().BeTrue();
+
+            mockUser.Verify(x => x.IsInRole(UserRole.MasterAdmin), Times.Once);
         }
     }
 }

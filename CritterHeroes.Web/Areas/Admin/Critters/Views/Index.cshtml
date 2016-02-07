@@ -30,6 +30,13 @@
             }
         </select>
     </section>
+    <section class="filter-buttons">
+        @if (Model.ShowImport)
+        {
+            <a href="@Url.AdminCrittersImportAction()" class="btn btn-primary">Import</a>
+        }
+        <a href="@Url.AdminCrittersSummaryAction()" class="btn btn-primary">Summary</a>
+    </section>
 </div>
 
 <div id="critters-container" class="flex-table" data-url="@Url.CritterListAction()">

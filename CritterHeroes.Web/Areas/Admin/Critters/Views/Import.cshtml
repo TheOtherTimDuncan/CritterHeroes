@@ -1,0 +1,17 @@
+﻿@model CritterHeroes.Web.Areas.Admin.Critters.Models.ImportModel
+
+@{
+    ViewBag.Title = "Critters Import";
+}
+
+<h2>Critters Import</h2>
+
+<form action="@Url.AdminCrittersImportAction()" method="post" class="margin-left-small">
+    @Html.AntiForgeryToken()
+    <input type="submit" class="btn btn-primary" value="Import" />
+</form>
+
+@if (Model.Messages != null)
+{
+    <textarea>@Model.Messages</textarea>
+}

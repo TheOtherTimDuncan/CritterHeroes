@@ -41,7 +41,6 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public async Task<ActionResult> Summary()
         {
             CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
-            model.Messages = TempData["Messages"] as string;
             return View(model);
         }
 
@@ -70,6 +69,14 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         {
             await CommandDispatcher.DispatchAsync(command);
             return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = UserRole.MasterAdmin)]
+        public ActionResult Import()
+        {
+            ImportModel model = new ImportModel();
+            model.Messages = TempData["Messages"] as string;
+            return View(model);
         }
 
         [HttpPost]

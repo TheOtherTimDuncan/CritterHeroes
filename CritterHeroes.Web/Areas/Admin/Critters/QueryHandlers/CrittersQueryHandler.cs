@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Data.Models.Identity;
 using TOTD.EntityFramework;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
@@ -16,10 +18,12 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
     public class CrittersQueryHandler : IAsyncQueryHandler<CrittersQuery, CrittersModel>
     {
         private ISqlStorageContext<CritterStatus> _statusStorage;
+        private IHttpUser _user;
 
-        public CrittersQueryHandler(ISqlStorageContext<CritterStatus> statusStorage)
+        public CrittersQueryHandler(ISqlStorageContext<CritterStatus> statusStorage, IHttpUser user)
         {
             this._statusStorage = statusStorage;
+            this._user = user;
         }
 
         public async Task<CrittersModel> ExecuteAsync(CrittersQuery query)
@@ -27,6 +31,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
             CrittersModel model = new CrittersModel();
 
             model.Query = query;
+            model.ShowImport = (_user.IsInRole(UserRole.MasterAdmin));
 
             model.StatusItems = await _statusStorage.Entities
                 .OrderBy(x => x.Name)
