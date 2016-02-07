@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using FluentAssertions;
-using TOTD.Mvc.FluentHtml;
+using TOTD.Mvc;
 
 namespace CH.Test.ControllerTests.TestHelpers
 {

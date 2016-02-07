@@ -6,7 +6,7 @@ using System.Web.Routing;
 using CritterHeroes.Web.Areas.Admin.Critters;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Contracts;
-using TOTD.Mvc.FluentHtml;
+using TOTD.Mvc;
 
 namespace CritterHeroes.Web.Areas.Common.ActionExtensions
 {
