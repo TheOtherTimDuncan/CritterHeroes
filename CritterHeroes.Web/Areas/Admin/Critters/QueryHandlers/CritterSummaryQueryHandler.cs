@@ -8,6 +8,7 @@ using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using TOTD.EntityFramework;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
 {

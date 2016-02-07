@@ -9,6 +9,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using TOTD.EntityFramework;
 using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.StringHelpers;
 

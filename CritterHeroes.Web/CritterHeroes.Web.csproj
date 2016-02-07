@@ -687,7 +687,6 @@
     <Compile Include="Data\Contexts\ContactsStorageContext.cs" />
     <Compile Include="Data\Extensions\LocationExtensions.cs" />
     <Compile Include="Data\Extensions\PIctureExtensions.cs" />
-    <Compile Include="Data\Extensions\QueryableExtensions.cs" />
     <Compile Include="Data\Models\BusinessPhone.cs" />
     <Compile Include="Data\Configurations\BusinessConfiguration.cs" />
     <Compile Include="Data\Configurations\CritterStatusConfiguration.cs" />
