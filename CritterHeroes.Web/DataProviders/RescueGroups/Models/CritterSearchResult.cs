@@ -126,7 +126,56 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalPictures")]
-        public  CritterPictureSource[] PictureSources
+        public CritterPictureSource[] PictureSources
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalCourtesy")]
+        public string Courtesy
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalDescription")]
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalGeneralAge")]
+        public string GeneralAge
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalSpecialneeds")]
+        public string SpecialNeeds
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalSpecialneedsDescription")]
+        public string SpecialNeedsDescription
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalSpecialDiet")]
+        public string SpecialDiet
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalReceivedDate")]
+        public DateTime ReceivedDate
         {
             get;
             set;

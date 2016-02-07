@@ -36,7 +36,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 "fosterLastname",
                 "fosterEmail",
                 "animalLocationID",
-                "locationName"
+                "locationName",
+                "animalCourtesy",
+                "animalDescription",
+                "animalGeneralAge",
+                "animalSpecialneeds",
+                "animalSpecialneedsDescription",
+                "animalSpecialDiet",
+                "animalReceivedDate"
             };
         }
 
