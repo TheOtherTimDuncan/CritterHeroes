@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public class BusinessSourceStorage : ContactSourceStorageBase<BusinessSource>
     {
-        private IEnumerable<string> _fields;
+        private IEnumerable<SearchField> _fields;
 
         public BusinessSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)
@@ -26,19 +26,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
             this._fields = new[]
             {
-                "contactID",
-                "contactName",
-                "contactCompany",
-                "contactAddress",
-                "contactCity",
-                "contactState",
-                "contactPostalcode",
-                "contactPlus4",
-                "contactEmail",
-                "contactPhoneWork",
-                "contactPhoneWorkExt",
-                "contactFax",
-                "contactGroups"
+                new SearchField("contactID"),
+                new SearchField("contactName"),
+                new SearchField("contactCompany"),
+                new SearchField("contactAddress"),
+                new SearchField("contactCity"),
+                new SearchField("contactState"),
+                new SearchField("contactPostalcode"),
+                new SearchField("contactPlus4"),
+                new SearchField("contactEmail"),
+                new SearchField("contactPhoneWork"),
+                new SearchField("contactPhoneWorkExt"),
+                new SearchField("contactFax"),
+                new SearchField("contactGroups")
             };
         }
 
@@ -66,7 +66,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             });
         }
 
-        protected override IEnumerable<string> Fields
+        protected override IEnumerable<SearchField> Fields
         {
             get
             {

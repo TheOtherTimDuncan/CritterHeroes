@@ -89,7 +89,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
-        protected abstract IEnumerable<string> Fields
+        protected abstract IEnumerable<SearchField> Fields
         {
             get;
         }
@@ -104,7 +104,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 ResultLimit = ResultLimit,
                 ResultSort = SortField,
                 Filters = Filters,
-                Fields = Fields
+                Fields = Fields.Where(x => x.IsSelected).Select(x => x.Name)
             };
 
             JsonSerializer serializer = new JsonSerializer();

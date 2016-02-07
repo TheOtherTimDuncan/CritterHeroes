@@ -10,40 +10,40 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public class CritterSearchResultStorage : RescueGroupsSearchStorageBase<CritterSearchResult>
     {
-        private IEnumerable<string> _fields;
+        private IEnumerable<SearchField> _fields;
 
         public CritterSearchResultStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)
         {
             this._fields = new[]
             {
-                "animalID",
-                "animalStatusID",
-                "animalStatus",
-                "animalName",
-                "animalSex",
-                "animalPrimaryBreedID",
-                "animalPrimaryBreed",
-                "animalSpecies",
-                "animalFosterID",
-                "animalInternalID",
-                "animalRescueID",
-                "animalCreatedDate",
-                "animalUpdatedDate",
-                "animalGroups",
-                "animalPictures",
-                "fosterFirstname",
-                "fosterLastname",
-                "fosterEmail",
-                "animalLocationID",
-                "locationName",
-                "animalCourtesy",
-                "animalDescription",
-                "animalGeneralAge",
-                "animalSpecialneeds",
-                "animalSpecialneedsDescription",
-                "animalSpecialDiet",
-                "animalReceivedDate"
+                new SearchField("animalID"),
+                new SearchField("animalStatusID"),
+                new SearchField("animalStatus"),
+                new SearchField("animalName"),
+                new SearchField("animalSex"),
+                new SearchField("animalPrimaryBreedID"),
+                new SearchField("animalPrimaryBreed"),
+                new SearchField("animalSpecies"),
+                new SearchField("animalFosterID"),
+                new SearchField("animalInternalID"),
+                new SearchField("animalRescueID"),
+                new SearchField("animalCreatedDate"),
+                new SearchField("animalUpdatedDate"),
+                new SearchField("animalGroups"),
+                new SearchField("animalPictures"),
+                new SearchField("fosterFirstname"),
+                new SearchField("fosterLastname"),
+                new SearchField("fosterEmail"),
+                new SearchField("animalLocationID"),
+                new SearchField("locationName"),
+                new SearchField("animalCourtesy"),
+                new SearchField("animalDescription"),
+                new SearchField("animalGeneralAge"),
+                new SearchField("animalSpecialneeds"),
+                new SearchField("animalSpecialneedsDescription"),
+                new SearchField("animalSpecialDiet"),
+                new SearchField("animalReceivedDate")
             };
         }
 
@@ -63,7 +63,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        protected override IEnumerable<string> Fields
+        protected override IEnumerable<SearchField> Fields
         {
             get
             {

@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public class PersonSourceStorage : ContactSourceStorageBase<PersonSource>
     {
-        private IEnumerable<string> _fields;
+        private IEnumerable<SearchField> _fields;
 
         public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)
@@ -26,29 +26,28 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
             this._fields = new[]
             {
-                "contactID",
-                "contactType",
-                "contactClass",
-                "contactName",
-                "contactCompany",
-                "contactFirstname",
-                "contactLastname",
-                "contactAddress",
-                "contactCity",
-                "contactState",
-                "contactPostalcode",
-                "contactPlus4",
-                "contactEmail",
-                "contactPhoneHome",
-                "contactPhoneWork",
-                "contactPhoneWorkExt",
-                "contactPhoneCell",
-                "contactFax",
-                "contactActive",
-                "contactGroups"
+                new SearchField("contactID"),
+                new SearchField("contactType"),
+                new SearchField("contactClass"),
+                new SearchField("contactName"),
+                new SearchField("contactCompany"),
+                new SearchField("contactFirstname"),
+                new SearchField("contactLastname"),
+                new SearchField("contactAddress"),
+                new SearchField("contactCity"),
+                new SearchField("contactState"),
+                new SearchField("contactPostalcode"),
+                new SearchField("contactPlus4"),
+                new SearchField("contactEmail"),
+                new SearchField("contactPhoneHome"),
+                new SearchField("contactPhoneWork"),
+                new SearchField("contactPhoneWorkExt"),
+                new SearchField("contactPhoneCell"),
+                new SearchField("contactFax"),
+                new SearchField("contactActive"),
+                new SearchField("contactGroups")
             };
         }
-
 
         public override IEnumerable<PersonSource> FromStorage(IEnumerable<JProperty> tokens)
         {
@@ -69,7 +68,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                     PhoneWorkExtension = x.Value.Value<string>("contactPhoneWorkExt"),
                     PhoneCell = CleanupPhone(x.Value.Value<string>("contactPhoneCell")),
                     PhoneFax = CleanupPhone(x.Value.Value<string>("contactFax")),
-                    GroupNames=GetGroupNames(x)
+                    GroupNames = GetGroupNames(x)
                 };
 
                 string active = x.Value.Value<string>("contactActive");
@@ -79,7 +78,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             });
         }
 
-        protected override IEnumerable<string> Fields
+        protected override IEnumerable<SearchField> Fields
         {
             get
             {
