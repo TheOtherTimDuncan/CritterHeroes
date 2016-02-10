@@ -50,7 +50,7 @@ namespace CH.Test.ControllerTests
                 .SetupQueryDispatcherAsync(model)
                 .WithCallTo(x => x.Summary())
                 .VerifyQueryDispatcher()
-                .ShouldReturnViewResult()
+                .ShouldReturnPartialViewResult()
                 .HavingModel(model);
         }
     }

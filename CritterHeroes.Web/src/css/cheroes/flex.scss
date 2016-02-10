@@ -153,3 +153,19 @@
 .flex-right {
     @include flex-right();
 }
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-content-center {
+    @include flex-content-center();
+}
+
+.flex-content-left {
+    @include flex-content-left();
+}
+
+.flex-content-stretch {
+    @include flex-content-stretch();
+}

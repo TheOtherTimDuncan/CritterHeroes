@@ -41,7 +41,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         public async Task<ActionResult> Summary()
         {
             CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
-            return View(model);
+            return PartialView("_Summary", model);
         }
 
         [HttpPost]

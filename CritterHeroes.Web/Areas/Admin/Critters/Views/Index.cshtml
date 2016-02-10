@@ -13,7 +13,7 @@
     </script>
     <script type="text/javascript" src="@Url.For("handlebars.runtime.js")"></script>
     <script type="text/javascript" src="@Url.For("ch.critters-template.js")"></script>
-    <script type="text/javascript" src="@Url.For("ch.critters-list.js")"></script>
+    <script type="text/javascript" src="@Url.For("ch.admin-critters.js")"></script>
 }
 
 <h2>Critters</h2>
@@ -33,9 +33,9 @@
     <section class="filter-buttons">
         @if (Model.ShowImport)
         {
-            <a href="@Url.AdminCrittersImportAction()" class="btn btn-primary">Import</a>
+            <a href="@Url.AdminCrittersImportAction()" title="Import" class="btn btn-primary">Import</a>
         }
-        <a href="@Url.AdminCrittersSummaryAction()" class="btn btn-primary">Summary</a>
+        <button type="button" data-url="@Url.AdminCrittersSummaryAction()" id="summary" title="Summary" class="btn btn-primary">Summary</button>
     </section>
 </div>
 

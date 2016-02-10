@@ -23,3 +23,15 @@
 @mixin flex-right() {
     justify-content: flex-end;
 }
+
+@mixin flex-content-center() {
+    align-content: center;
+}
+
+@mixin flex-content-left() {
+    align-content: flex-start;
+}
+
+@mixin flex-content-stretch() {
+    align-content: stretch;
+}

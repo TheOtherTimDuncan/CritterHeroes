@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.Models
 {
@@ -18,11 +17,18 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Models
             set;
         }
 
-        [DisplayFormat(DataFormatString = "{0:#,#}")]
         public int Count
         {
             get;
             set;
+        }
+
+        public string CountDisplay
+        {
+            get
+            {
+                return Count.ToString("#,#");
+            }
         }
     }
 }

@@ -358,10 +358,9 @@
     <Content Include="mstile-70x70.png">
       <DependentUpon>favicon.ico</DependentUpon>
     </Content>
-    <None Include="src\js\ch.admin-critters.js" />
     <None Include="src\js\ch.busy-indicator.js" />
     <None Include="src\js\ch.cdnFallback.js" />
-    <None Include="src\js\ch.critters-list.js" />
+    <None Include="src\js\ch.admin-critters.js" />
     <None Include="src\js\ch.data-dashboard.js" />
     <None Include="src\js\bundled\ch.data.js" />
     <None Include="src\js\ch.edit-profile.js" />
@@ -377,7 +376,7 @@
       <Link>ConnectionStrings.Local.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Areas\Admin\Critters\Views\Summary.cshtml" />
+    <Content Include="Areas\Admin\Critters\Views\_Summary.cshtml" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <None Include="bower.json" />
     <None Include="package.json" />

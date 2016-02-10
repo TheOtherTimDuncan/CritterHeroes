@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.Models
@@ -13,12 +12,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Models
             set;
         }
 
-        [DisplayFormat(DataFormatString = "{0:#,#}")]
-        public int StatusTotal
+        public string StatusTotal
         {
             get
             {
-                return StatusSummary.Sum(x => x.Count);
+                return StatusSummary.Sum(x => x.Count).ToString("#,#");
             }
         }
     }

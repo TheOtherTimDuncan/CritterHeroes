@@ -1,4 +1,5 @@
 ﻿@import "variables.scss";
+@import "mixins.scss";
 
 // Kill the scroll on the body
 .modal-open {
@@ -6,6 +7,8 @@
 }
 
 .modal-container {
+    @include flex-column();
+
     visibility: hidden;
     position: absolute;
     left: 0;
@@ -47,11 +50,16 @@
 
 .modal-body {
     padding: $modal-inner-padding;
+    overflow: auto;
+    flex: 1;
+    max-height: calc(100% - 50px);
 }
 
 .modal-footer {
+    @include flex-row();
+    @include flex-right();
+    @include flex-center();
     padding: $modal-inner-padding;
-    text-align: right;
     border-top: 1px solid $modal-footer-border-color;
 }
 
