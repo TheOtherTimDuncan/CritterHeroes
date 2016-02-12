@@ -136,7 +136,7 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public DateTimeOffset ReceivedDate
+        public DateTimeOffset? ReceivedDate
         {
             get;
             set;
