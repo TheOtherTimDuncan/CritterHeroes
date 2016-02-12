@@ -564,8 +564,10 @@
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Contracts\Logging\ICritterLogger.cs" />
+    <Compile Include="Contracts\Logging\IRescueGroupsLogger.cs" />
     <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureCritterLogger.cs" />
+    <Compile Include="DataProviders\Azure\Logging\AzureRescueGroupsLogger.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
     <Compile Include="Models\BaseEmailData.cs" />
     <Compile Include="Models\BaseTokenEmailData.cs" />

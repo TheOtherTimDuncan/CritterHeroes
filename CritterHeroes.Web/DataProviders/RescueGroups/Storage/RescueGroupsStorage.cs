@@ -190,12 +190,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
 
+            string content = await response.Content.ReadAsStringAsync();
+
             if (!response.IsSuccessStatusCode)
             {
                 throw new RescueGroupsException("Unsuccesful status code: {0} - {1}; URL: {2}", (int)response.StatusCode, response.StatusCode, _configuration.Url);
             }
 
-            string content = await response.Content.ReadAsStringAsync();
             JObject result = JObject.Parse(content);
             ValidateResponse(result);
 

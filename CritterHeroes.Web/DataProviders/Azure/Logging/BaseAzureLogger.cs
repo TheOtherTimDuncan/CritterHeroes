@@ -11,6 +11,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Logging
         public const string User = "User";
         public const string Email = "Email";
         public const string Critter = "Critter";
+        public const string RescueGroups = "RescueGroups";
     }
 
     public abstract class BaseAzureLogger
