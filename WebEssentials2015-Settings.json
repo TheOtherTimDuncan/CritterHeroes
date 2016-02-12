@@ -33,7 +33,7 @@
     "CustomAngularDirectiveList": null,
     "EnableBootstrapValidation": false,
     "EnableEnterFormat": true,
-    "EnableFoundationValidation": true,
+    "EnableFoundationValidation": false,
     "EnableMicrodataValidation": true,
     "MinifyAngularBindingExpressions": false,
     "MinifyKnockoutBindingExpressions": false,
