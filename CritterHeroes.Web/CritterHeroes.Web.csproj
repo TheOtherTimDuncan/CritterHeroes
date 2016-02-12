@@ -474,7 +474,9 @@
     <Compile Include="Areas\Account\ModelValidators.cs" />
     <Compile Include="Areas\Admin\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Contacts\Models\GroupSelectOptionModel.cs" />
-    <Compile Include="Areas\Admin\Critters\Models\ImportModel.cs" />
+    <Compile Include="Areas\Admin\Critters\Models\CritterImportModel.cs" />
+    <Compile Include="Areas\Admin\Critters\Queries\CritterImportQuery.cs" />
+    <Compile Include="Areas\Admin\Critters\QueryHandlers\CritterImportQueryHandler.cs" />
     <Compile Include="Areas\Admin\Emails\EmailsController.cs" />
     <Compile Include="Areas\Admin\Emails\Models\EmailModel.cs" />
     <Compile Include="Areas\Admin\Emails\Queries\EmailQuery.cs" />
@@ -485,11 +487,10 @@
     <Compile Include="Areas\Admin\Contacts\Queries\BaseContactsQuery.cs" />
     <Compile Include="Areas\Admin\Contacts\Queries\ContactsListQuery.cs" />
     <Compile Include="Areas\Admin\Contacts\Queries\ContactsQuery.cs" />
-    <Compile Include="Areas\Admin\Critters\CommandHandlers\ImportCrittersCommandHandler.cs" />
+    <Compile Include="Areas\Admin\Critters\CommandHandlers\CrittersImportCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadCsvFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadJsonFileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadXmlFileCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Critters\Commands\ImportCrittersCommand.cs" />
     <Compile Include="Areas\Admin\Critters\Commands\UploadCsvFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\Commands\UploadJsonFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\Commands\UploadXmlFileCommand.cs" />
@@ -563,6 +564,7 @@
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Contracts\Logging\ICritterLogger.cs" />
+    <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureCritterLogger.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
     <Compile Include="Models\BaseEmailData.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,7 +12,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public abstract class RescueGroupsSearchStorageBase<T> : RescueGroupsStorage<T> where T : class
+    public abstract class RescueGroupsSearchStorageBase<T> : RescueGroupsStorage<T>, IRescueGroupsSearchStorage<T> where T : class
     {
         public RescueGroupsSearchStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client)
             : base(configuration, client)

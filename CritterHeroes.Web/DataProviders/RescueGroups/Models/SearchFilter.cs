@@ -6,6 +6,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
     public class SearchFilterOperation
     {
         public const string Equal = "equal";
+        public const string NotBlank = "notblank";
     }
 
     public class SearchFilter

@@ -74,19 +74,17 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         [Authorize(Roles = UserRole.MasterAdmin)]
         public ActionResult Import()
         {
-            ImportModel model = new ImportModel();
-            model.Messages = TempData["Messages"] as string;
+            CritterImportModel model = QueryDispatcher.Dispatch(new CritterImportQuery());
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = UserRole.MasterAdmin)]
-        public async Task<ActionResult> Import(ImportCrittersCommand command)
+        public async Task<ActionResult> Import(CritterImportModel model)
         {
-            await CommandDispatcher.DispatchAsync(command);
-            TempData["Messages"] = command.Messages;
-            return RedirectToAction("Summary");
+            await CommandDispatcher.DispatchAsync(model);
+            return JsonCamelCase(model.Messages);
         }
     }
 }

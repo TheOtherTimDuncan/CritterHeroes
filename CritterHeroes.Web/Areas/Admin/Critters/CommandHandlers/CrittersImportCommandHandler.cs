@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Critters.Commands;
+using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
@@ -21,15 +22,15 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 {
-    public class ImportCrittersCommandHandler : IAsyncCommandHandler<ImportCrittersCommand>
+    public class CrittersImportCommandHandler : IAsyncCommandHandler<CritterImportModel>
     {
-        private IRescueGroupsStorageContext<CritterSearchResult> _sourceStorage;
+        private IRescueGroupsSearchStorage<CritterSearchResult> _sourceStorage;
         private ICritterBatchSqlStorageContext _critterStorage;
         private IStateManager<OrganizationContext> _stateManager;
         private ICritterPictureService _pictureService;
         private ICritterLogger _logger;
 
-        public ImportCrittersCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsStorageContext<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, ICritterLogger logger)
+        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsSearchStorage<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, ICritterLogger logger)
         {
             this._critterStorage = critterStorage;
             this._stateManager = stateManager;
@@ -38,7 +39,59 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             this._logger = logger;
         }
 
-        public async Task<CommandResult> ExecuteAsync(ImportCrittersCommand command)
+        public async Task<CommandResult> ExecuteAsync(CritterImportModel command)
+        {
+            if (command.FieldNames.Count() != _sourceStorage.Fields.Count())
+            {
+                await ImportPartial(command);
+            }
+            else
+            {
+                await ImportAll(command);
+            }
+            command.Messages = _logger.Messages;
+
+            return CommandResult.Success();
+        }
+
+        private async Task ImportPartial(CritterImportModel command)
+        {
+            foreach (string field in command.FieldNames)
+            {
+                _sourceStorage.Fields.NullSafeForEach((SearchField searchField) =>
+                {
+                    searchField.IsSelected = (searchField.Name == field || searchField.Name == "animalID");
+                });
+
+                SearchFilter filter = new SearchFilter()
+                {
+                    FieldName = field,
+                    Criteria = SearchFilterOperation.NotBlank
+                };
+
+                _sourceStorage.Filters = new[] { filter };
+
+                IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
+                foreach (CritterSearchResult source in sources)
+                {
+                    Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
+
+                    switch (field)
+                    {
+                        case "animalReceivedDate":
+                            if (!source.ReceivedDate.IsNullOrEmpty())
+                            {
+                                critter.ReceivedDate = DateTimeOffset.Parse(source.ReceivedDate);
+                            }
+                            break;
+                    }
+                }
+
+                await _critterStorage.SaveChangesAsync();
+            }
+        }
+
+        private async Task ImportAll(CritterImportModel command)
         {
             IEnumerable<CritterStatus> statuses = await _critterStorage.CritterStatus.ToListAsync();
 
@@ -173,10 +226,6 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     await _critterStorage.SaveChangesAsync();
                 }
             }
-
-            command.Messages = _logger.Messages;
-
-            return CommandResult.Success();
         }
 
         private async Task<string> ImportPicture(string urlFrom, int critterID, string filename)

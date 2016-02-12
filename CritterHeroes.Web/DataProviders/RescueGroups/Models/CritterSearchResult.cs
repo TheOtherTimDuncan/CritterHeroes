@@ -175,7 +175,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalReceivedDate")]
-        public DateTime? ReceivedDate
+        public string ReceivedDate
         {
             get;
             set;

@@ -1,17 +1,74 @@
-﻿@model CritterHeroes.Web.Areas.Admin.Critters.Models.ImportModel
+﻿@model CritterHeroes.Web.Areas.Admin.Critters.Models.CritterImportModel
 
 @{
     ViewBag.Title = "Critters Import";
 }
 
+@section scripts
+{
+    <script type="text/javascript">
+
+        (function (cheroes, $) {
+
+            'use strict';
+
+            $('#selectall').click(function () {
+                $('[name="FieldNames"]').prop('checked', true);
+            });
+
+
+            $('#unselectall').click(function () {
+                $('[name="FieldNames"]').prop('checked', false);
+            });
+
+            $('#import').on('submit', function (e) {
+
+                e.preventDefault();
+
+                var frm = $(this);
+                cheroes.dataManager.sendRequest({
+
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+
+                    success: function (data) {
+                        $('#messages').text(data).focus();
+                    }
+
+                });
+
+            });
+
+        }(this.cheroes = this.cheroes || {}, jQuery));
+
+    </script>
+}
+
 <h2>Critters Import</h2>
 
-<form action="@Url.AdminCrittersImportAction()" method="post" class="margin-left-small">
+<form action="@Url.AdminCrittersImportAction()" id="import" method="post" class="margin-left-small">
+
     @Html.AntiForgeryToken()
-    <input type="submit" class="btn btn-primary" value="Import" />
+
+    <section>
+        <input type="submit" class="btn btn-primary" value="Import" />
+    </section>
+
+    <section>
+        <button type="button" id="selectall" class="btn btn-info">All</button>
+        <button type="button" id="unselectall" class="btn btn-info">None</button>
+    </section>
+
+    <section class="flex-column flex-wrap flex-stretch" style="max-height: 300px;">
+        @foreach (string fieldName in Model.FieldNames)
+        {
+            <div class="flex-row pad-def">
+                <input type="checkbox" id="FieldName_@fieldName" name="FieldNames" value="@fieldName" checked="checked" />
+                <label for="FieldName_@fieldName" class="flex-cell-s1 margin-left-xs">@fieldName</label>
+            </div>
+        }
+    </section>
+
 </form>
 
-@if (Model.Messages != null)
-{
-    <textarea>@Model.Messages</textarea>
-}
+<textarea id="messages"></textarea>
