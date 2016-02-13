@@ -563,6 +563,7 @@
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
+    <Compile Include="Common\ListSink.cs" />
     <Compile Include="Contracts\Logging\ICritterLogger.cs" />
     <Compile Include="Contracts\Logging\IRescueGroupsLogger.cs" />
     <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
