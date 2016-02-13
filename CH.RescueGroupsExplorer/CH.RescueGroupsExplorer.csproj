@@ -64,7 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpClientProxy.cs" />
     <Compile Include="RescueGroupsExplorer.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CritterHeroes.Web.Common.Proxies;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
@@ -19,12 +20,14 @@ namespace CH.RescueGroupsExplorer
     public partial class RescueGroupsExplorer : Form
     {
         private CritterSearchResultStorage _critterStorage;
+        private RescueGroupsExplorerLogger _logger;
 
         public RescueGroupsExplorer()
         {
             InitializeComponent();
 
-            _critterStorage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp), null);
+            _logger = new RescueGroupsExplorerLogger(txtHttp);
+            _critterStorage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
         }
 
         private async void btnExecute_Click(object sender, EventArgs e)
@@ -43,19 +46,21 @@ namespace CH.RescueGroupsExplorer
                 }
                 else if (cmbType.Text == "contacts" && cmbAction.Text == "search")
                 {
-                    PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp), null);
+                    PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
                     var searchResults = await storage.GetAllAsync();
                 }
                 else if (cmbType.Text == "business")
                 {
-                    BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp), null);
+                    BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
                     var searchResults = await storage.GetAllAsync();
                 }
                 else
                 {
-                    RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(txtHttp));
+                    RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(), _logger);
                     result = await storage.GetAllAsync(cmbType.Text, cmbAction.Text, cbPrivate.Checked);
                 }
+
+                _logger.Flush();
             }
             catch (Exception ex)
             {
@@ -66,7 +71,9 @@ namespace CH.RescueGroupsExplorer
             if (result != null)
             {
                 txtLog.AppendText(Environment.NewLine);
-                txtLog.AppendText(result.ToString());
+
+                JObject json = new JObject(result);
+                txtLog.AppendText(json.ToString(Formatting.Indented));
 
                 tree.Nodes.Clear();
                 AddObjectNodes(result, "JSON", tree.Nodes);
