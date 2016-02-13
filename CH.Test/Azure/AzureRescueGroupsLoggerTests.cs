@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
 using FluentAssertions;
@@ -20,7 +21,7 @@ namespace CH.Test.Azure
             string url = "url";
             string request = "request";
             string response = "response";
-            int statusCode = 200;
+            HttpStatusCode statusCode = HttpStatusCode.OK;
 
             Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
             mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
@@ -37,11 +38,11 @@ namespace CH.Test.Azure
 
             tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be(LogEventLevel.Information.ToString());
             tableEntity.Properties["Category"].StringValue.Should().Be(LogCategory.RescueGroups);
-            tableEntity.Properties["Message"].StringValue.Should().Be("Sent \"request\" to \"url\" and received status code 200 with \"response\"");
+            tableEntity.Properties["Message"].StringValue.Should().Be("Sent \"request\" to \"url\" and received status code OK with \"response\"");
             tableEntity.Properties["Request"].StringValue.Should().Be(request);
             tableEntity.Properties["Response"].StringValue.Should().Be(response);
             tableEntity.Properties["Url"].StringValue.Should().Be(url);
-            tableEntity.Properties["StatusCode"].Int32Value.Should().Be(statusCode);
+            tableEntity.Properties["StatusCode"].StringValue.Should().Be(statusCode.ToString());
 
             mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }

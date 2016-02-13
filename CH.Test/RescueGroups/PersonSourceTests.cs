@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json.Linq;
 
 namespace CH.Test.RescueGroups
@@ -18,7 +20,7 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new PersonSourceStorage(new RescueGroupsConfiguration(), null).ObjectType.Should().Be("contacts");
+            new PersonSourceStorage(new RescueGroupsConfiguration(), null, null).ObjectType.Should().Be("contacts");
         }
 
         [TestMethod]
@@ -76,7 +78,9 @@ namespace CH.Test.RescueGroups
 
             MockHttpClient mockHttpClient = new MockHttpClient(element1, element2);
 
-            PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object);
+            Mock<IRescueGroupsLogger> mockLogger = new Mock<IRescueGroupsLogger>();
+
+            PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object, mockLogger.Object);
             IEnumerable<PersonSource> results = await storage.GetAllAsync();
             results.Should().HaveCount(2);
 

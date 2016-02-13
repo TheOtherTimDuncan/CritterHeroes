@@ -24,7 +24,7 @@ namespace CH.RescueGroupsExplorer
         {
             InitializeComponent();
 
-            _critterStorage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
+            _critterStorage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp), null);
         }
 
         private async void btnExecute_Click(object sender, EventArgs e)
@@ -43,12 +43,12 @@ namespace CH.RescueGroupsExplorer
                 }
                 else if (cmbType.Text == "contacts" && cmbAction.Text == "search")
                 {
-                    PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
+                    PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp), null);
                     var searchResults = await storage.GetAllAsync();
                 }
                 else if (cmbType.Text == "business")
                 {
-                    BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp));
+                    BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(txtHttp), null);
                     var searchResults = await storage.GetAllAsync();
                 }
                 else

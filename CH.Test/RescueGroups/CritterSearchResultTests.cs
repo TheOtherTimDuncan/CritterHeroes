@@ -16,7 +16,7 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new CritterSearchResultStorage(new RescueGroupsConfiguration(), null).ObjectType.Should().Be("animals");
+            new CritterSearchResultStorage(new RescueGroupsConfiguration(), null, null).ObjectType.Should().Be("animals");
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace CH.Test.RescueGroups
 
             JObject data = new JObject(property1, property2);
 
-            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null).FromStorage(data.Properties());
+            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
             critters.Should().HaveCount(2);
 
             CritterSearchResult result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
@@ -210,7 +210,7 @@ namespace CH.Test.RescueGroups
 
             JObject data = new JObject(property1);
 
-            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null).FromStorage(data.Properties());
+            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
 
             CritterSearchResult result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
             result1.Should().NotBeNull();

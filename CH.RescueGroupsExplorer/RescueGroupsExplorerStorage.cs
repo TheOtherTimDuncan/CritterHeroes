@@ -16,7 +16,7 @@ namespace CH.RescueGroupsExplorer
         private string _objectAction;
 
         public RescueGroupsExplorerStorage(HttpClientProxy httpClient)
-            : base(new RescueGroupsConfiguration(), httpClient)
+            : base(new RescueGroupsConfiguration(), httpClient, null)
         {
         }
 

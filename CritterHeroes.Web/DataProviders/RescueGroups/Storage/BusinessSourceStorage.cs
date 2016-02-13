@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.StringHelpers;
@@ -13,8 +14,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     {
         private IEnumerable<SearchField> _fields;
 
-        public BusinessSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
-            : base(configuration, client)
+        public BusinessSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+            : base(configuration, client, logger)
         {
             SearchFilter filter = new SearchFilter()
             {

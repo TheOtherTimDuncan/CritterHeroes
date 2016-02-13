@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Newtonsoft.Json.Linq;
@@ -18,16 +19,18 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     {
         private IRescueGroupsConfiguration _configuration;
         private IHttpClient _client;
+        private IRescueGroupsLogger _logger;
 
         private string _token;
         private string _tokenHash;
 
-        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client)
+        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
         {
             ThrowIf.Argument.IsNull(configuration, nameof(configuration));
 
             this._configuration = configuration;
             this._client = client;
+            this._logger = logger;
         }
 
         public abstract string ObjectType
@@ -188,9 +191,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         protected async Task<JObject> GetDataAsync(JObject request)
         {
-            HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(request.ToString(), Encoding.UTF8, "application/json"));
+            string jsonRequest = request.ToString();
+            HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(jsonRequest, Encoding.UTF8, "application/json"));
 
             string content = await response.Content.ReadAsStringAsync();
+
+            if (request["password"] != null)
+            {
+                _logger.LogRequest(_configuration.Url, "Login", content, response.StatusCode);
+            }
+            else
+            {
+                _logger.LogRequest(_configuration.Url, jsonRequest, content, response.StatusCode);
+            }
 
             if (!response.IsSuccessStatusCode)
             {
