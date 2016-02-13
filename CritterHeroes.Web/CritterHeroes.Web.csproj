@@ -566,6 +566,7 @@
     <Compile Include="Common\ListSink.cs" />
     <Compile Include="Contracts\Logging\ICritterLogger.cs" />
     <Compile Include="Contracts\Logging\IRescueGroupsLogger.cs" />
+    <Compile Include="Contracts\Storage\IPreserveHistory.cs" />
     <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureCritterLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureRescueGroupsLogger.cs" />

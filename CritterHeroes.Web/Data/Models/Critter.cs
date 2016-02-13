@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Contracts.Storage;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Data.Models
 {
-    public class Critter
+    public class Critter : IPreserveHistory
     {
         protected Critter()
         {
@@ -141,7 +142,7 @@ namespace CritterHeroes.Web.Data.Models
             get;
             set;
         }
-        
+
         public bool IsCourtesy
         {
             get;
@@ -194,6 +195,14 @@ namespace CritterHeroes.Web.Data.Models
         {
             get;
             private set;
+        }
+
+        object IPreserveHistory.ID
+        {
+            get
+            {
+                return this.ID;
+            }
         }
 
         public void ChangeBreed(int breedID)
