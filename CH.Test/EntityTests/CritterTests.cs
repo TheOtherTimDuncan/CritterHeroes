@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
@@ -40,20 +42,20 @@ namespace CH.Test.EntityTests
             critter.WhenCreated.Should().BeCloseTo(DateTimeOffset.UtcNow);
             critter.WhenUpdated.Should().Be(critter.WhenCreated);
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 storageContext.Add(organization);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 storageContext.FillWithTestData(critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "FosterID");
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 Critter result = await storageContext.Entities.FindByIDAsync(critter.ID);
                 result.Should().NotBeNull();
@@ -116,19 +118,19 @@ namespace CH.Test.EntityTests
             };
             CritterPicture critterPicture = critter.AddPicture(picture);
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 storageContext.Add(organization);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 Critter result = await storageContext.Entities.FindByIDAsync(critter.ID);
                 result.Should().NotBeNull();
@@ -172,19 +174,19 @@ namespace CH.Test.EntityTests
             };
             critter.ChangeFoster(person);
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 storageContext.Add(organization);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 storageContext.Add(critter);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Critter> storageContext = new SqlStorageContext<Critter>())
+            using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 Critter result = await storageContext.Entities.FindByIDAsync(critter.ID);
                 result.Should().NotBeNull();

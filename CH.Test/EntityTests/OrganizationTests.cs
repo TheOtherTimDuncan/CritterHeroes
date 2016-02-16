@@ -21,14 +21,14 @@ namespace CH.Test.EntityTests
 
             Organization organization = new Organization();
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, organization, "ID");
+                storageContext.FillWithTestData(organization, "ID");
                 storageContext.Add(organization);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 Organization result = await storageContext.Entities.FindByIDAsync(organization.ID);
                 result.Should().NotBeNull();
@@ -66,13 +66,13 @@ namespace CH.Test.EntityTests
             organization.AddSupportedCritter(species1);
             organization.AddSupportedCritter(species2);
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 storageContext.Add(organization);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 Organization result = await storageContext.Entities.FindByIDAsync(organization.ID);
                 result.Should().NotBeNull();

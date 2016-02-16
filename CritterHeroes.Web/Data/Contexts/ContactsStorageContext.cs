@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 
@@ -9,6 +10,11 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class ContactsStorageContext : BaseDbContext<ContactsStorageContext>, IContactsStorageContext
     {
+        public ContactsStorageContext(IHistoryLogger logger)
+            : base(logger)
+        {
+        }
+
         public virtual IDbSet<Business> _Businesses
         {
             get;

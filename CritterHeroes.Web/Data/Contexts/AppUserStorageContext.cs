@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 
@@ -10,6 +11,11 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class AppUserStorageContext : BaseDbContext<AppUserStorageContext>, ISqlStorageContext<AppUser>
     {
+        public AppUserStorageContext(IHistoryLogger logger)
+            : base(logger)
+        {
+        }
+
         public IQueryable<AppUser> Entities
         {
             get

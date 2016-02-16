@@ -21,14 +21,14 @@ namespace CH.Test.EntityTests
 
             Picture picture = new Picture("filename", 0, 0, 0, "contenttype");
 
-            using (SqlStorageContext<Picture> storageContext = new SqlStorageContext<Picture>())
+            using (TestSqlStorageContext<Picture> storageContext = new TestSqlStorageContext<Picture>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, picture, "ID");
+                storageContext.FillWithTestData(picture, "ID");
                 storageContext.Add(picture);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Picture> storageContext = new SqlStorageContext<Picture>())
+            using (TestSqlStorageContext<Picture> storageContext = new TestSqlStorageContext<Picture>())
             {
                 Picture result = await storageContext.Entities.FindByIDAsync(picture.ID);
                 result.Should().NotBeNull();
@@ -57,16 +57,16 @@ namespace CH.Test.EntityTests
             PictureChild child1 = picture.AddChildPicture(0, 0, 0);
             PictureChild child2 = picture.AddChildPicture(0, 0, 0);
 
-            using (SqlStorageContext<Picture> storageContext = new SqlStorageContext<Picture>())
+            using (TestSqlStorageContext<Picture> storageContext = new TestSqlStorageContext<Picture>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, child1, "ID", "ParentID");
-                EntityTestHelper.FillWithTestData(storageContext, child2, "ID", "ParentID");
+                storageContext.FillWithTestData(child1, "ParentID");
+                storageContext.FillWithTestData(child2, "ParentID");
 
                 storageContext.Add(picture);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Picture> storageContext = new SqlStorageContext<Picture>())
+            using (TestSqlStorageContext<Picture> storageContext = new TestSqlStorageContext<Picture>())
             {
                 Picture result = await storageContext.Entities.FindByIDAsync(picture.ID);
                 result.Should().NotBeNull();

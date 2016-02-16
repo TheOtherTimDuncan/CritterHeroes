@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
@@ -21,7 +23,7 @@ namespace CH.Test.EntityTests
             // Use a separate context for saving vs retrieving to prevent any caching
 
             State state = new State("BS", "BusinessState");
-            using (SqlStorageContext<State> storageContext = new SqlStorageContext<State>())
+            using (TestSqlStorageContext<State> storageContext = new TestSqlStorageContext<State>())
             {
                 storageContext.Add(state);
                 await storageContext.SaveChangesAsync();
@@ -32,14 +34,14 @@ namespace CH.Test.EntityTests
                 State = state.Abbreviation
             };
 
-            using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
+            using (TestSqlStorageContext<Business> storageContext = new TestSqlStorageContext<Business>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, business, "ID", "State");
+                storageContext.FillWithTestData(business, "ID", "State");
                 storageContext.Add(business);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
+            using (TestSqlStorageContext<Business> storageContext = new TestSqlStorageContext<Business>())
             {
                 Business result = await storageContext.Entities.FindByIDAsync(business.ID);
                 result.Should().NotBeNull();
@@ -69,13 +71,13 @@ namespace CH.Test.EntityTests
             business.AddGroup(group1);
             business.AddGroup(group2);
 
-            using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
+            using (TestSqlStorageContext<Business> storageContext = new TestSqlStorageContext<Business>())
             {
                 storageContext.Add(business);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
+            using (TestSqlStorageContext<Business> storageContext = new TestSqlStorageContext<Business>())
             {
                 Business result = await storageContext.Entities.FindByIDAsync(business.ID);
                 result.Should().NotBeNull();
@@ -106,7 +108,7 @@ namespace CH.Test.EntityTests
                 storageContext.Entities.MatchingID(business.ID).SingleOrDefault().Should().BeNull();
             }
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
+            using (TestSqlStorageContext<Group> storageContext = new TestSqlStorageContext<Group>())
             {
                 Group result1 = await storageContext.Entities.SingleOrDefaultAsync(x => x.ID == group1.ID);
                 result1.Should().NotBeNull("group should still exist after business linked to group is deleted");
@@ -118,7 +120,8 @@ namespace CH.Test.EntityTests
         public async Task CanReadWriteAndDeleteBusinessPhone()
         {
             PhoneType phoneType = new PhoneType("bstest");
-            using (SqlStorageContext<PhoneType> storageContext = new SqlStorageContext<PhoneType>())
+
+            using (TestSqlStorageContext<PhoneType> storageContext = new TestSqlStorageContext<PhoneType>())
             {
                 storageContext.Add(phoneType);
                 await storageContext.SaveChangesAsync();
@@ -128,13 +131,13 @@ namespace CH.Test.EntityTests
             BusinessPhone businessPhone1 = business.AddPhoneNumber("1234567890", "123456", phoneType);
             BusinessPhone businessPhone2 = business.AddPhoneNumber("9876543210", null, phoneType);
 
-            using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
+            using (TestSqlStorageContext<Business> storageContext = new TestSqlStorageContext<Business>())
             {
                 storageContext.Add(business);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Business> storageContext = new SqlStorageContext<Business>())
+            using (TestSqlStorageContext<Business> storageContext = new TestSqlStorageContext<Business>())
             {
                 Business result = await storageContext.Entities.FindByIDAsync(business.ID);
                 result.Should().NotBeNull();

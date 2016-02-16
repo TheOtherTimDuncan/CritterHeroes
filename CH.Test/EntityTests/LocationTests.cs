@@ -21,14 +21,14 @@ namespace CH.Test.EntityTests
 
             Location location = new Location("test");
 
-            using (SqlStorageContext<Location> storageContext = new SqlStorageContext<Location>())
+            using (TestSqlStorageContext<Location> storageContext = new TestSqlStorageContext<Location>())
             {
                 storageContext.FillWithTestData(location);
                 storageContext.Add(location);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Location> storageContext = new SqlStorageContext<Location>())
+            using (TestSqlStorageContext<Location> storageContext = new TestSqlStorageContext<Location>())
             {
                 Location result = await storageContext.Entities.FindByIDAsync(location.ID);
                 result.Should().NotBeNull();

@@ -62,8 +62,8 @@ namespace CH.Test.Azure
 
             tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be(LogEventLevel.Information.ToString());
             tableEntity.Properties["From"].StringValue.Should().Be(email.From);
-            tableEntity.Properties["To"].StringValue.Should().Be("[\"" + email1 + "\", \"" + email2 + "\"]");
-            tableEntity.Properties["Message"].StringValue.Should().Be("Sent email from \"" + email.From + "\" to [\"" + email1 + "\", \"" + email2 + "\"]");
+            tableEntity.Properties["To"].StringValue.Should().Be($"[\"{email1}\", \"{email2}\"]");
+            tableEntity.Properties["Message"].StringValue.Should().Be($"Sent email from \"{email.From}\" to [\"{email1}\", \"{email2}\"]");
             tableEntity.Properties["Category"].StringValue.Should().Be(LogCategory.Email);
 
             TestEmailData resultData = JsonConvert.DeserializeObject<TestEmailData>(emailData);

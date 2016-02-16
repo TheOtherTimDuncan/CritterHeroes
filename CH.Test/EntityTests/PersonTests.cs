@@ -21,7 +21,7 @@ namespace CH.Test.EntityTests
             // Use a separate context for saving vs retrieving to prevent any caching
 
             State state = new State("OH", "Ohio");
-            using (SqlStorageContext<State> storageContext = new SqlStorageContext<State>())
+            using (TestSqlStorageContext<State> storageContext = new TestSqlStorageContext<State>())
             {
                 storageContext.Add(state);
                 await storageContext.SaveChangesAsync();
@@ -32,14 +32,14 @@ namespace CH.Test.EntityTests
                 State = state.Abbreviation
             };
 
-            using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
+            using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, person, "ID", "State");
+                storageContext.FillWithTestData(person, "ID", "State");
                 storageContext.Add(person);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
+            using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
                 Person result = await storageContext.Entities.FindByIDAsync(person.ID);
                 result.Should().NotBeNull();
@@ -71,13 +71,13 @@ namespace CH.Test.EntityTests
             person.AddGroup(group1);
             person.AddGroup(group2);
 
-            using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
+            using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
                 storageContext.Add(person);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
+            using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
                 Person result = await storageContext.Entities.FindByIDAsync(person.ID);
                 result.Should().NotBeNull();
@@ -108,7 +108,7 @@ namespace CH.Test.EntityTests
                 storageContext.Entities.MatchingID(person.ID).SingleOrDefault().Should().BeNull();
             }
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
+            using (TestSqlStorageContext<Group> storageContext = new TestSqlStorageContext<Group>())
             {
                 Group result1 = await storageContext.Entities.SingleOrDefaultAsync(x => x.ID == group1.ID);
                 result1.Should().NotBeNull("group should still exist after person linked to group is deleted");
@@ -120,7 +120,7 @@ namespace CH.Test.EntityTests
         public async Task CanReadWriteAndDeletePersonPhone()
         {
             PhoneType phoneType = new PhoneType("persontest");
-            using (SqlStorageContext<PhoneType> storageContext = new SqlStorageContext<PhoneType>())
+            using (TestSqlStorageContext<PhoneType> storageContext = new TestSqlStorageContext<PhoneType>())
             {
                 storageContext.Add(phoneType);
                 await storageContext.SaveChangesAsync();
@@ -130,13 +130,13 @@ namespace CH.Test.EntityTests
             PersonPhone personPhone1 = person.AddPhoneNumber("1234567890", "123456", phoneType);
             PersonPhone personPhone2 = person.AddPhoneNumber("9876543210", null, phoneType);
 
-            using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
+            using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
                 storageContext.Add(person);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Person> storageContext = new SqlStorageContext<Person>())
+            using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
                 Person result = await storageContext.Entities.FindByIDAsync(person.ID);
                 result.Should().NotBeNull();

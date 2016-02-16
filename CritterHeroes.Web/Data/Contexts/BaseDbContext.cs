@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Configurations;
 using CritterHeroes.Web.Data.Models.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -16,9 +17,13 @@ namespace CritterHeroes.Web.Data.Contexts
     public class BaseDbContext<T> : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
         where T : DbContext
     {
-        public BaseDbContext()
+        private IHistoryLogger _logger;
+
+        public BaseDbContext(IHistoryLogger logger)
             : base("name=CritterHeroes")
         {
+            this._logger = logger;
+
             Database.SetInitializer<T>(null);
 
 #if DEBUG

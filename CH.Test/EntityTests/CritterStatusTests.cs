@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
@@ -21,14 +23,14 @@ namespace CH.Test.EntityTests
 
             CritterStatus critterStatus = new CritterStatus("name", "description");
 
-            using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
+            using (TestSqlStorageContext<CritterStatus> storageContext = new TestSqlStorageContext<CritterStatus>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, critterStatus, "ID");
+                storageContext.FillWithTestData(critterStatus, "ID");
                 storageContext.Add(critterStatus);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<CritterStatus> storageContext = new SqlStorageContext<CritterStatus>())
+            using (TestSqlStorageContext<CritterStatus> storageContext = new TestSqlStorageContext<CritterStatus>())
             {
                 CritterStatus result = await storageContext.Entities.FindByIDAsync(critterStatus.ID);
                 result.Should().NotBeNull();

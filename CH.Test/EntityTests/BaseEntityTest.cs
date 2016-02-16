@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace CH.Test.EntityTests
 {
@@ -13,7 +15,9 @@ namespace CH.Test.EntityTests
         [TestInitialize]
         public void CleanDatabase()
         {
-            using (AppUserStorageContext dbContext = new AppUserStorageContext())
+            Mock<IHistoryLogger> mockLogger = new Mock<IHistoryLogger>();
+
+            using (AppUserStorageContext dbContext = new AppUserStorageContext(mockLogger.Object))
             {
                 Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AppUserStorageContext>());
                 dbContext.Database.Initialize(force: true);

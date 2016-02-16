@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models.Identity;
@@ -10,6 +11,7 @@ using CritterHeroes.Web.Data.Storage;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
@@ -25,9 +27,11 @@ namespace CH.Test.EntityTests
             AppUser appUser = new AppUser("email@email.com");
             string password = "Password1!";
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext())
+            Mock<IHistoryLogger> mockLogger = new Mock<IHistoryLogger>();
+
+            using (AppUserStorageContext userContext = new AppUserStorageContext(mockLogger.Object))
             {
-                EntityTestHelper.FillWithTestData(userContext, appUser, "Id", "PasswordHash", "Email", "UserName");
+                userContext.FillWithTestData(appUser, "Id", "PasswordHash", "Email", "UserName");
 
                 userContext.Users.Add(appUser);
                 await userContext.SaveChangesAsync();
@@ -38,7 +42,7 @@ namespace CH.Test.EntityTests
                 resetResult.Succeeded.Should().BeTrue(string.Join(", ", resetResult.Errors));
             }
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext())
+            using (AppUserStorageContext userContext = new AppUserStorageContext(mockLogger.Object))
             {
                 AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
                 result.Should().NotBeNull();
@@ -73,13 +77,15 @@ namespace CH.Test.EntityTests
             appUser.Person.FirstName = "FirstName";
             appUser.Person.LastName = "LastName";
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext())
+            Mock<IHistoryLogger> mockLogger = new Mock<IHistoryLogger>();
+
+            using (AppUserStorageContext userContext = new AppUserStorageContext(mockLogger.Object))
             {
                 userContext.Users.Add(appUser);
                 await userContext.SaveChangesAsync();
             }
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext())
+            using (AppUserStorageContext userContext = new AppUserStorageContext(mockLogger.Object))
             {
                 AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
                 result.Should().NotBeNull();

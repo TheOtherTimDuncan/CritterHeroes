@@ -89,6 +89,7 @@ namespace CritterHeroes.Web
             container.Register<IEmailLogger, AzureEmailLogger>(Lifestyle.Scoped);
             container.Register<ICritterLogger, AzureCritterLogger>(Lifestyle.Scoped);
             container.Register<IRescueGroupsLogger, AzureRescueGroupsLogger>(Lifestyle.Scoped);
+            container.Register<IHistoryLogger, AzureHistoryLogger>(Lifestyle.Scoped);
 
             container.Register(typeof(IValidator<>), defaultAssemblies);
 
@@ -110,7 +111,7 @@ namespace CritterHeroes.Web
         public static void RegisterIdentityInterfaces(Container container)
         {
             container.Register<IAppSignInManager, AppSignInManager>(Lifestyle.Scoped);
-            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(), Lifestyle.Scoped);
+            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(container.GetInstance<IHistoryLogger>()), Lifestyle.Scoped);
             container.Register<IAppUserStore, AppUserStore>(Lifestyle.Scoped);
             container.Register<IAppUserManager, AppUserManager>(Lifestyle.Scoped);
         }

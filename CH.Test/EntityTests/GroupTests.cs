@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
@@ -21,14 +23,14 @@ namespace CH.Test.EntityTests
 
             Group group = new Group("test");
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
+            using (TestSqlStorageContext<Group> storageContext = new TestSqlStorageContext<Group>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, group, "ID");
+                storageContext.FillWithTestData(group, "ID");
                 storageContext.Add(group);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Group> storageContext = new SqlStorageContext<Group>())
+            using (TestSqlStorageContext<Group> storageContext = new TestSqlStorageContext<Group>())
             {
                 Group result = await storageContext.Entities.SingleOrDefaultAsync(x => x.ID == group.ID);
                 result.Should().NotBeNull();

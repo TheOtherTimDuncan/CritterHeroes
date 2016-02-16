@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
@@ -23,14 +25,14 @@ namespace CH.Test.EntityTests
 
             Breed breed = new Breed(species, "breed");
 
-            using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
+            using (TestSqlStorageContext<Breed> storageContext = new TestSqlStorageContext<Breed>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, breed, "ID", "SpeciesID");
+                storageContext.FillWithTestData(breed, "ID", "SpeciesID");
                 storageContext.Add(breed);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Breed> storageContext = new SqlStorageContext<Breed>())
+            using (TestSqlStorageContext<Breed> storageContext = new TestSqlStorageContext<Breed>())
             {
                 Breed result = await storageContext.Entities.FindByIDAsync(breed.ID);
                 result.Should().NotBeNull();

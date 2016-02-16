@@ -4,13 +4,15 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
     public class SqlStorageContext<T> : BaseDbContext<SqlStorageContext<T>>, ISqlStorageContext<T> where T : class
     {
-        public SqlStorageContext()
+        public SqlStorageContext(IHistoryLogger logger)
+            : base(logger)
         {
             Database.SetInitializer<SqlStorageContext<T>>(null);
         }

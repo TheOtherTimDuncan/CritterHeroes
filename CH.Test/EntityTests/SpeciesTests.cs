@@ -22,14 +22,14 @@ namespace CH.Test.EntityTests
 
             Species species = new Species("name", "singular", "plural", "youngsingular", "youngplural");
 
-            using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
+            using (TestSqlStorageContext<Species> storageContext = new TestSqlStorageContext<Species>())
             {
-                EntityTestHelper.FillWithTestData(storageContext, species, "ID");
+                storageContext.FillWithTestData(species, "ID");
                 storageContext.Add(species);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
+            using (TestSqlStorageContext<Species> storageContext = new TestSqlStorageContext<Species>())
             {
                 Species result = await storageContext.Entities.FindByNameAsync(species.Name);
                 result.Should().NotBeNull();
@@ -63,13 +63,13 @@ namespace CH.Test.EntityTests
             organization.AddSupportedCritter(species1);
             organization.AddSupportedCritter(species2);
 
-            using (SqlStorageContext<Organization> storageContext = new SqlStorageContext<Organization>())
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
             {
                 storageContext.Add(organization);
                 await storageContext.SaveChangesAsync();
             }
 
-            using (SqlStorageContext<Species> storageContext = new SqlStorageContext<Species>())
+            using (TestSqlStorageContext<Species> storageContext = new TestSqlStorageContext<Species>())
             {
                 Species result1 = await storageContext.Entities.FindByNameAsync(species1.Name);
                 result1.OrganizationSupportedCritters.Should().HaveCount(1);
