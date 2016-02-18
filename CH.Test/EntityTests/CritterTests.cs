@@ -101,6 +101,30 @@ namespace CH.Test.EntityTests
         }
 
         [TestMethod]
+        public async Task RevisionHistoryForCritterIsMaintained()
+        {
+            Organization organization = new Organization()
+            {
+                FullName = "full",
+                AzureName = "azure",
+                EmailAddress = "email@emailcom"
+            };
+
+            using (TestSqlStorageContext<Organization> storageContext = new TestSqlStorageContext<Organization>())
+            {
+                storageContext.Add(organization);
+                await storageContext.SaveChangesAsync();
+            }
+
+            Critter critter = new Critter("name", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural"), "breed"), organization.ID)
+            {
+                Sex = "Male"
+            };
+
+            await VerifyRevisionHistoryIsMaintained(critter, "ID", "FosterID", "StatusID", "LocationID", "BreedID");
+        }
+
+        [TestMethod]
         public async Task CanCreateReadAndDeleteCritterPicture()
         {
             Picture picture = new Picture("picture", 1, 2, 3, "contentType");

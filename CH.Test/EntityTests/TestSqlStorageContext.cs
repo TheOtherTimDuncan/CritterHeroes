@@ -6,17 +6,39 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
 using Moq;
+using Serilog;
 using TOTD.EntityFramework;
+using CritterHeroes.Web.Common;
+using Newtonsoft.Json;
 
 namespace CH.Test.EntityTests
 {
     public class TestSqlStorageContext<T> : ISqlStorageContext<T> where T : class
     {
         private SqlStorageContext<T> _storageContext;
+        private ILogger _logger;
 
         public TestSqlStorageContext()
         {
+            LogMessages = new List<string>();
+
+            _logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.List(LogMessages)
+                .CreateLogger();
+
             this.MockLogger = new Mock<IHistoryLogger>();
+            this.MockLogger.Setup(x => x.LogHistory(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, object>>())).Callback((object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after) =>
+            {
+                HistoryBefore = JsonConvert.SerializeObject(before);
+                HistoryAfter = JsonConvert.SerializeObject(after);
+
+                _logger
+                    .ForContext("Before", HistoryBefore)
+                    .ForContext("After", HistoryAfter)
+                    .Information("Changed entity {ID} - {Name}", entityID, entityName);
+            });
+
             this._storageContext = new SqlStorageContext<T>(this.MockLogger.Object);
         }
 
@@ -29,6 +51,24 @@ namespace CH.Test.EntityTests
         }
 
         public Mock<IHistoryLogger> MockLogger
+        {
+            get;
+            private set;
+        }
+
+        public string HistoryBefore
+        {
+            get;
+            set;
+        }
+
+        public string HistoryAfter
+        {
+            get;
+            set;
+        }
+
+        public List<string> LogMessages
         {
             get;
             private set;

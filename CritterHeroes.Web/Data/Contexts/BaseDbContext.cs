@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Configurations;
 using CritterHeroes.Web.Data.Models.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -55,7 +58,14 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             try
             {
+                // What is changed needs preserved since the entity states and values will be changed after the save
+                IEnumerable<EntityHistory> entityHistories = GetEntityHistories();
+
                 int result = base.SaveChanges();
+
+                // History can't be logged until after save since entity IDs for new entries won't be populated until after save
+                LogEntityHistory(entityHistories);
+
                 return result;
             }
             catch (DbEntityValidationException ex)
@@ -68,12 +78,100 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             try
             {
+                // What is changed needs preserved since the entity states and values will be changed after the save
+                IEnumerable<EntityHistory> entityHistories = GetEntityHistories();
+
                 int result = await base.SaveChangesAsync();
+
+                // History can't be logged until after save since entity IDs for new entries won't be populated until after save
+                LogEntityHistory(entityHistories);
+
                 return result;
             }
             catch (DbEntityValidationException ex)
             {
                 throw new DbEntityValidationDetailException(ex);
+            }
+        }
+
+        private void LogEntityHistory(IEnumerable<EntityHistory> entityHistories)
+        {
+            foreach (EntityHistory entityHistory in entityHistories)
+            {
+                _logger.LogHistory(entityHistory.Entity.ID, entityHistory.Entity.GetType().Name, entityHistory.Before, entityHistory.After);
+            }
+        }
+
+        private IEnumerable<EntityHistory> GetEntityHistories()
+        {
+            List<EntityHistory> histories = new List<EntityHistory>();
+
+            IEnumerable<DbEntityEntry> changedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
+            foreach (DbEntityEntry entry in changedEntries)
+            {
+                IPreserveHistory historyEntity = entry.Entity as IPreserveHistory;
+                if (historyEntity != null)
+                {
+                    Dictionary<string, object> before;
+                    if (entry.State == EntityState.Added)
+                    {
+                        before = new Dictionary<string, object>();
+                    }
+                    else
+                    {
+                        before = GetPropertyValues(entry.OriginalValues);
+                    }
+
+                    Dictionary<string, object> after = GetPropertyValues(entry.CurrentValues);
+
+                    histories.Add(new EntityHistory()
+                    {
+                        Entity = historyEntity,
+                        Before = before,
+                        After = after
+                    });
+                }
+            }
+
+            return histories;
+        }
+
+        private Dictionary<string, object> GetPropertyValues(DbPropertyValues propertyValues)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            foreach (string propertyName in propertyValues.PropertyNames)
+            {
+                object value = propertyValues[propertyName];
+
+                // Complex property values will be of type DbPropertyValues and don't need preserved
+                if (!(value is DbPropertyValues))
+                {
+                    result.Add(propertyName, value);
+                }
+            }
+
+            return result;
+        }
+
+        private class EntityHistory
+        {
+            public IPreserveHistory Entity
+            {
+                get;
+                set;
+            }
+
+            public Dictionary<string, object> Before
+            {
+                get;
+                set;
+            }
+
+            public Dictionary<string, object> After
+            {
+                get;
+                set;
             }
         }
     }
