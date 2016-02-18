@@ -106,31 +106,27 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             List<EntityHistory> histories = new List<EntityHistory>();
 
-            IEnumerable<DbEntityEntry> changedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
-            foreach (DbEntityEntry entry in changedEntries)
+            IEnumerable<DbEntityEntry<IPreserveHistory>> changedEntries = ChangeTracker.Entries<IPreserveHistory>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
+            foreach (DbEntityEntry<IPreserveHistory> entry in changedEntries)
             {
-                IPreserveHistory historyEntity = entry.Entity as IPreserveHistory;
-                if (historyEntity != null)
+                Dictionary<string, object> before;
+                if (entry.State == EntityState.Added)
                 {
-                    Dictionary<string, object> before;
-                    if (entry.State == EntityState.Added)
-                    {
-                        before = new Dictionary<string, object>();
-                    }
-                    else
-                    {
-                        before = GetPropertyValues(entry.OriginalValues);
-                    }
-
-                    Dictionary<string, object> after = GetPropertyValues(entry.CurrentValues);
-
-                    histories.Add(new EntityHistory()
-                    {
-                        Entity = historyEntity,
-                        Before = before,
-                        After = after
-                    });
+                    before = new Dictionary<string, object>();
                 }
+                else
+                {
+                    before = GetPropertyValues(entry.OriginalValues);
+                }
+
+                Dictionary<string, object> after = GetPropertyValues(entry.CurrentValues);
+
+                histories.Add(new EntityHistory()
+                {
+                    Entity = entry.Entity,
+                    Before = before,
+                    After = after
+                });
             }
 
             return histories;
