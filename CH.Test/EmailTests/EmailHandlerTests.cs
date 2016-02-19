@@ -13,7 +13,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Models.Emails;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

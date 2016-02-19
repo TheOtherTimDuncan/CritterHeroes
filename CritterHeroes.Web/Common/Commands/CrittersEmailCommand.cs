@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Models.Emails;
 
 namespace CritterHeroes.Web.Common.Commands
 {

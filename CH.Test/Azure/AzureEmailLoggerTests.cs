@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Models.Emails;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;

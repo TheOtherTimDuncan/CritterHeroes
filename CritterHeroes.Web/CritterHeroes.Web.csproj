@@ -573,8 +573,8 @@
     <Compile Include="DataProviders\Azure\Logging\AzureHistoryLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureRescueGroupsLogger.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
-    <Compile Include="Models\BaseEmailData.cs" />
-    <Compile Include="Models\BaseTokenEmailData.cs" />
+    <Compile Include="Models\Emails\BaseEmailData.cs" />
+    <Compile Include="Models\Emails\BaseTokenEmailData.cs" />
     <Compile Include="Common\Commands\CrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\FosterCrittersEmailCommand.cs" />
     <Compile Include="Common\Commands\ResetPasswordAttemptEmailCommand.cs" />
@@ -761,7 +761,7 @@
     <Compile Include="Data\Models\CritterStatus.cs" />
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
-    <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\Emails\EmailModel.cs" />
     <Compile Include="Data\Models\Organization.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DataItem.cs" />
     <Compile Include="Areas\Admin\Lists\Models\StorageItem.cs" />

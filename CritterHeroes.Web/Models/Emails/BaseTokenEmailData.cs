@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace CritterHeroes.Web.Models
+namespace CritterHeroes.Web.Models.Emails
 {
     public class BaseTokenEmailData : BaseEmailData
     {

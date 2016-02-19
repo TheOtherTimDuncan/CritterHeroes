@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Models;
+using CritterHeroes.Web.Models.Emails;
 
 namespace CritterHeroes.Web.Common.Commands
 {
