@@ -767,7 +767,9 @@
     <Compile Include="Data\Models\Organization.cs" />
     <Compile Include="Areas\Admin\Lists\Models\DataItem.cs" />
     <Compile Include="Areas\Admin\Lists\Models\StorageItem.cs" />
+    <Compile Include="Models\LogEvents\CritterLogEvent.cs" />
     <Compile Include="Models\LogEvents\LogEvent.cs" />
+    <Compile Include="Models\LogEvents\RescueGroupsLogEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataProviders\RescueGroups\Configuration\RescueGroupsConfiguration.cs" />
     <Compile Include="DataProviders\RescueGroups\Configuration\RescueGroupsConfigurationSection.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
 using CritterHeroes.Web.Models.LogEvents;
@@ -42,9 +43,55 @@ namespace CH.Test
             tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
             tableEntity.Properties["Test"].StringValue.Should().Be(test);
 
-            logger.Messages.Should().Equals(new[] { "This is a \"test\"" });
+            logger.Messages.Should().Equal(new[] { "This is a \"test\"" });
 
             mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void RescueGroupsLogEventLogsRescueGroupsRequest()
+        {
+            string url = "url";
+            string request = "request";
+            string response = "response";
+            HttpStatusCode statusCode = HttpStatusCode.OK;
+
+            RescueGroupsLogEvent logEvent = RescueGroupsLogEvent.LogRequest(url, request, response, statusCode);
+
+            logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
+            logEvent.Category.Should().Be(LogEventCategory.RescueGroups);
+            logEvent.MessageValues.Should().Contain(url);
+            logEvent.MessageValues.Should().Contain(request);
+            logEvent.MessageValues.Should().Contain(response);
+            logEvent.MessageValues.Should().Contain(statusCode);
+        }
+
+        [TestMethod]
+        public void CritterLogEventLogsCritterAction()
+        {
+            string oldValue = "old";
+            string newValue = "new";
+
+            CritterLogEvent logEvent = CritterLogEvent.LogAction("Changed critter name from {From} to {To}", oldValue, newValue);
+
+            logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
+            logEvent.Category.Should().Be(LogEventCategory.Critter);
+            logEvent.MessageValues.Should().Contain(oldValue);
+            logEvent.MessageValues.Should().Contain(newValue);
+        }
+
+        [TestMethod]
+        public void CritterLogEventLogsCritterError()
+        {
+            string oldValue = "old";
+            string newValue = "new";
+
+            CritterLogEvent logEvent = CritterLogEvent.LogError("Changed critter name from {From} to {To}", oldValue, newValue);
+
+            logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Error);
+            logEvent.Category.Should().Be(LogEventCategory.Critter);
+            logEvent.MessageValues.Should().Contain(oldValue);
+            logEvent.MessageValues.Should().Contain(newValue);
         }
     }
 }
