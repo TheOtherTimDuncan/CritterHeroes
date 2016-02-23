@@ -305,6 +305,7 @@
     <Compile Include="EntityTests\TestSqlStorageContext.cs" />
     <Compile Include="HomeTests\MenuViewModelQueryHandlerTests.cs" />
     <Compile Include="ListSinkTests.cs" />
+    <Compile Include="LoggingTests.cs" />
     <Compile Include="MiddlewareTests\ImageMiddlewareTests.cs" />
     <Compile Include="MiddlewareTests\TestEndMiddleware.cs" />
     <Compile Include="MiscTests.cs" />
