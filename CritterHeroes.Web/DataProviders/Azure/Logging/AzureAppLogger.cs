@@ -28,7 +28,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Logging
             _messages = new List<string>();
 
             _logger = new LoggerConfiguration()
-                .WriteTo.AzureTableStorage(azureService, "logs", null)
+                .WriteTo.AzureTableStorage(azureService, "logs")
                 .WriteTo.List(_messages)
                 .MinimumLevel.Information()
                 .CreateLogger();

@@ -6,15 +6,6 @@ using Serilog;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Logging
 {
-    public class LogCategory
-    {
-        public const string User = "User";
-        public const string Email = "Email";
-        public const string Critter = "Critter";
-        public const string RescueGroups = "RescueGroups";
-        public const string History = "History";
-    }
-
     public abstract class BaseAzureLogger
     {
         private readonly IAzureService _azureService;
@@ -50,7 +41,8 @@ namespace CritterHeroes.Web.DataProviders.Azure.Logging
         protected virtual LoggerConfiguration ConfigureLogger(LoggerConfiguration loggerConfiguration)
         {
             return loggerConfiguration
-                .WriteTo.AzureTableStorage(_azureService, _tableName, _category);
+                .Enrich.WithProperty("Category", _category)
+                .WriteTo.AzureTableStorage(_azureService, _tableName);
         }
 
         private ILogger CreateLogger()
