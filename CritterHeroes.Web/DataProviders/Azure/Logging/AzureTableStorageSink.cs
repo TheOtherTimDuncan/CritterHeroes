@@ -47,11 +47,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Logging
             {
                 foreach (var property in logEvent.Properties)
                 {
-                    EntityProperty entityProperty = CreateEntityProperty(property.Value);
-                    if (entityProperty != null)
-                    {
-                        tableEntity[property.Key] = entityProperty;
-                    }
+                    AddEntityProperties(tableEntity, property.Key, property.Value);
                 }
             }
 
@@ -66,33 +62,38 @@ namespace CritterHeroes.Web.DataProviders.Azure.Logging
 
         // https://github.com/serilog/serilog-sinks-azuretablestorage/blob/master/src/Serilog.Sinks.AzureTableStorage/Sinks/AzureTableStorageWithProperties/AzurePropertyFormatter.cs
 
-        public EntityProperty CreateEntityProperty(LogEventPropertyValue value)
+        public void AddEntityProperties(DynamicTableEntity tableEntity, string propertyName, LogEventPropertyValue value)
         {
             ScalarValue scalar = value as ScalarValue;
             if (scalar != null)
             {
-                return SimplifyScalar(scalar.Value);
+                tableEntity[propertyName] = SimplifyScalar(scalar.Value);
+                return;
             }
 
             DictionaryValue dict = value as DictionaryValue;
             if (dict != null)
             {
-                return new EntityProperty(dict.ToString());
+                tableEntity[propertyName] = new EntityProperty(dict.ToString());
+                return;
             }
 
             SequenceValue seq = value as SequenceValue;
             if (seq != null)
             {
-                return new EntityProperty(seq.ToString());
+                tableEntity[propertyName] = new EntityProperty(seq.ToString());
+                return;
             }
 
             StructureValue str = value as StructureValue;
             if (str != null)
             {
-                return new EntityProperty(str.ToString());
+                foreach (var property in str.Properties)
+                {
+                    AddEntityProperties(tableEntity, property.Name, property.Value);
+                }
+                return;
             }
-
-            return null;
         }
 
         private EntityProperty SimplifyScalar(object value)

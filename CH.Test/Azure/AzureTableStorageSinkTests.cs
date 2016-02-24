@@ -75,5 +75,41 @@ namespace CH.Test.Azure
 
             mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
         }
+
+        [TestMethod]
+        public void CanLogDestructuredContexts()
+        {
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
+
+            DynamicTableEntity tableEntity = null;
+            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+            {
+                tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
+                return new TableResult();
+            });
+
+            var context = new
+            {
+                Test1 = "Test1",
+                Test2 = "Test2"
+            };
+
+            Log.Logger = new LoggerConfiguration()
+                 .WriteTo
+                 .AzureTableStorage(mockAzureService.Object, "Log")
+                 .MinimumLevel.Debug()
+                 .CreateLogger();
+
+            Log
+                .ForContext("Context", context, destructureObjects: true)
+                .Debug("This is a {Test}", "test");
+
+            tableEntity.Should().NotBeNull();
+            tableEntity.Properties[nameof(context.Test1)].StringValue.Should().Be(context.Test1);
+            tableEntity.Properties[nameof(context.Test2)].StringValue.Should().Be(context.Test2);
+
+            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
+        }
     }
 }
