@@ -135,6 +135,20 @@ namespace CH.Test
         }
 
         [TestMethod]
+        public void UserLogEventLogsUserAction()
+        {
+            string ipAddress = "1.1.1.1";
+            string username = "username";
+
+            UserLogEvent logEvent = UserLogEvent.LogAction("{Username} logged in", username);
+
+            logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
+            logEvent.Category.Should().Be(LogEventCategory.User);
+         //   logEvent.MessageValues.Should().Contain(ipAddress);
+            logEvent.MessageValues.Should().Contain(username);
+        }
+
+        [TestMethod]
         public void HistoryLogEventLogsEntityHistory()
         {
             int entityID = 99;

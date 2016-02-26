@@ -49,7 +49,7 @@ namespace CritterHeroes.Web.Models.LogEvents
         }
     }
 
-    public class LogEvent<ContextType> : LogEvent where ContextType : class, new()
+    public class LogEvent<ContextType> : LogEvent where ContextType : class
     {
         public LogEvent(ContextType context, string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
             : base(category, level, messageTemplate, messageValues)

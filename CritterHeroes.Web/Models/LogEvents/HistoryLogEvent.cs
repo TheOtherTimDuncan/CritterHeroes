@@ -10,11 +10,7 @@ namespace CritterHeroes.Web.Models.LogEvents
     {
         public static HistoryLogEvent LogHistory(object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after)
         {
-            HistoryContext context = new HistoryContext()
-            {
-                Before = JsonConvert.SerializeObject(before),
-                After = JsonConvert.SerializeObject(after)
-            };
+            HistoryContext context = new HistoryContext(JsonConvert.SerializeObject(before), JsonConvert.SerializeObject(after));
 
             return new HistoryLogEvent(context, "Changed entity {ID} - {Name}", entityID, entityName);
         }
@@ -26,16 +22,22 @@ namespace CritterHeroes.Web.Models.LogEvents
 
         public class HistoryContext
         {
+            public HistoryContext(string before, string after)
+            {
+                this.Before = before;
+                this.After = after;
+            }
+
             public string Before
             {
                 get;
-                set;
+                private set;
             }
 
             public string After
             {
                 get;
-                set;
+                private set;
             }
         }
     }
