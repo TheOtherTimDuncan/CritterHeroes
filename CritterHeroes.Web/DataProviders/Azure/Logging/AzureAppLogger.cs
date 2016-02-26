@@ -44,9 +44,19 @@ namespace CritterHeroes.Web.DataProviders.Azure.Logging
 
         public void LogEvent(LogEvent logEvent)
         {
-            _logger
-                .ForContext("Category", logEvent.Category)
+            GetLogger(logEvent).Write(logEvent.Level, logEvent.MessageTemplate, logEvent.MessageValues);
+        }
+
+        public void LogEvent<ContextType>(LogEvent<ContextType> logEvent) where ContextType : class, new()
+        {
+            GetLogger(logEvent)
+                .ForContext("Context", logEvent.Context, destructureObjects: true)
                 .Write(logEvent.Level, logEvent.MessageTemplate, logEvent.MessageValues);
+        }
+
+        private ILogger GetLogger(LogEvent logEvent)
+        {
+            return _logger.ForContext("Category", logEvent.Category);
         }
     }
 }

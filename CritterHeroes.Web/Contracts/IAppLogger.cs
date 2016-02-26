@@ -12,5 +12,6 @@ namespace CritterHeroes.Web.Contracts
         }
 
         void LogEvent(LogEvent logEvent);
+        void LogEvent<ContextType>(LogEvent<ContextType> logEvent) where ContextType : class, new();
     }
 }
