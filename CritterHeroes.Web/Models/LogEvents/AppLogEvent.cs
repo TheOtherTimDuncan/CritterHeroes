@@ -15,9 +15,9 @@ namespace CritterHeroes.Web.Models.LogEvents
         public const string History = "History";
     }
 
-    public class LogEvent
+    public class AppLogEvent
     {
-        public LogEvent(string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
+        public AppLogEvent(string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
         {
             ThrowIf.Argument.IsNullOrEmpty(category, nameof(category));
             ThrowIf.Argument.IsNullOrEmpty(messageTemplate, nameof(messageTemplate));
@@ -49,9 +49,9 @@ namespace CritterHeroes.Web.Models.LogEvents
         }
     }
 
-    public class LogEvent<ContextType> : LogEvent where ContextType : class
+    public class AppLogEvent<ContextType> : AppLogEvent where ContextType : class
     {
-        public LogEvent(ContextType context, string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
+        public AppLogEvent(ContextType context, string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
             : base(category, level, messageTemplate, messageValues)
         {
             ThrowIf.Argument.IsNull(context, nameof(context));

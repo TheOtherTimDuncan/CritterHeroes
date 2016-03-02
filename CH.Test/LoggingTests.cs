@@ -32,14 +32,14 @@ namespace CH.Test
             string test = "test";
             string category = "category";
 
-            LogEvent logEvent = new LogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+            AppLogEvent logEvent = new AppLogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
 
             AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object);
             logger.LogEvent(logEvent);
 
             tableEntity.Should().NotBeNull();
             tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
-            tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be("Information");
+            tableEntity.Properties[nameof(AppLogEvent.Level)].StringValue.Should().Be("Information");
             tableEntity.Properties["Category"].StringValue.Should().Be(category);
             tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
             tableEntity.Properties["Test"].StringValue.Should().Be(test);
@@ -70,14 +70,14 @@ namespace CH.Test
                 TestValue = 99
             };
 
-            LogEvent<TestContext> logEvent = new LogEvent<TestContext>(testContext, category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+            AppLogEvent<TestContext> logEvent = new AppLogEvent<TestContext>(testContext, category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
 
             AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object);
             logger.LogEvent(logEvent);
 
             tableEntity.Should().NotBeNull();
             tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
-            tableEntity.Properties[nameof(LogEvent.Level)].StringValue.Should().Be("Information");
+            tableEntity.Properties[nameof(AppLogEvent.Level)].StringValue.Should().Be("Information");
             tableEntity.Properties["Category"].StringValue.Should().Be(category);
             tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
             tableEntity.Properties["Test"].StringValue.Should().Be(test);

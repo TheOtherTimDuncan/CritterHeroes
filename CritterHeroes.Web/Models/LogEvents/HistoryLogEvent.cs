@@ -6,7 +6,7 @@ using Serilog.Events;
 
 namespace CritterHeroes.Web.Models.LogEvents
 {
-    public class HistoryLogEvent : LogEvent<HistoryLogEvent.HistoryContext>
+    public class HistoryLogEvent : AppLogEvent<HistoryLogEvent.HistoryContext>
     {
         public static HistoryLogEvent LogHistory(object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after)
         {

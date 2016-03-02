@@ -5,7 +5,7 @@ using Serilog.Events;
 
 namespace CritterHeroes.Web.Models.LogEvents
 {
-    public class UserLogEvent : LogEvent
+    public class UserLogEvent : AppLogEvent
     {
         public static UserLogEvent LogAction(string message, params object[] messageValues)
         {

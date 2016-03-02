@@ -6,7 +6,7 @@ using Serilog.Events;
 
 namespace CritterHeroes.Web.Models.LogEvents
 {
-    public class RescueGroupsLogEvent : LogEvent
+    public class RescueGroupsLogEvent : AppLogEvent
     {
         public static RescueGroupsLogEvent LogRequest(string url, string request, string response, HttpStatusCode statusCode)
         {
