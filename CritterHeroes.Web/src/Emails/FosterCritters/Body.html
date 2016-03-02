@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -7,14 +7,14 @@
     <link href="../styles.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
-<body itemscope itemtype="http://schema.org/EmailMessage">
+<body itemscope="itemscope" itemtype="http://schema.org/EmailMessage">
 
     <table class="body-wrap">
         <tr>
             <td></td>
             <td class="container" width="600">
                 <div class="content">
-                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/InformAction">
+                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope="itemscope" itemtype="http://schema.org/InformAction">
                         <tr>
                             <td class="content-wrap">
                                 <meta itemprop="name" content="Reset Password Attempt" />
@@ -38,7 +38,7 @@
                                                 </tr>
                                                 {{#each critters}}
                                                 <tr>
-                                                    <td>{{#if urlThumbnail}}<img height="50" src="{{urlThumbnail}}"/>{{else}}&nbsp;{{/if}}</td>
+                                                    <td>{{#if urlThumbnail}}<img height="50" src="{{urlThumbnail}}" />{{else}}&nbsp;{{/if}}</td>
                                                     <td>{{name}}</td>
                                                     <td>{{status}}</td>
                                                     <td>{{sex}}</td>
@@ -52,8 +52,8 @@
                                     <tr>
                                         <td class="content-block">
                                             Thanks,
-                                            <br/> {{organizationFullName}}
-                                            <br/>
+                                            <br /> {{organizationFullName}}
+                                            <br />
                                             <a href="http://www.fflah.org/">http://www.fflah.org/</a>
                                         </td>
                                     </tr>

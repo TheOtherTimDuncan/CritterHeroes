@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -7,21 +7,21 @@
     <link href="../styles.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
-<body itemscope itemtype="http://schema.org/EmailMessage">
+<body itemscope="itemscope" itemtype="http://schema.org/EmailMessage">
 
     <table class="body-wrap">
         <tr>
             <td></td>
             <td class="container">
                 <div class="content">
-                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/InformAction">
+                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope="itemscope" itemtype="http://schema.org/InformAction">
                         <tr>
                             <td class="content-wrap">
                                 <meta itemprop="name" content="Reset Password Attempt" />
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td class="content-block">
-                                          The following are the critters in the status Available, Not Available or Sponsorship status.
+                                            The following are the critters in the status Available, Not Available or Sponsorship status.
                                         </td>
                                     </tr>
                                     <tr>
@@ -46,12 +46,12 @@
                                                     <td>{{rescueID}}</td>
                                                     <td>
                                                         {{#if location}}
-                                                            {{location}}
+                                                        {{location}}
                                                         {{else}}
-                                                            {{fosterName}}
-                                                            {{#if fosterEmail}}
-                                                            <br/>{{fosterEmail}}
-                                                            {{/if}}
+                                                        {{fosterName}}
+                                                        {{#if fosterEmail}}
+                                                        <br />{{fosterEmail}}
+                                                        {{/if}}
                                                         {{/if}}
                                                     </td>
                                                     <td><a href="http://www.fflah.org/animals/detail?AnimalID={{rescueGroupsID}}">View</a></td>
@@ -64,25 +64,25 @@
                                     <tr>
                                         <td class="content-block">
                                             Thanks,
-                                            <br/> {{organizationFullName}}
-                                            <br/>
+                                            <br /> {{organizationFullName}}
+                                            <br />
                                             <a href="http://www.fflah.org/">http://www.fflah.org/</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="content-block">
-                                                        <img src="https://fflah.blob.core.windows.net/fflah/logo.svg" alt="Logo" />
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="content-block">
+                                            <img src="https://fflah.blob.core.windows.net/fflah/logo.svg" alt="Logo" />
                                         </td>
                                     </tr>
                                 </table>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                </td>
-                <td></td>
-                </tr>
-                </table>
+            </td>
+            <td></td>
+        </tr>
+    </table>
 </body>
 
 </html>
