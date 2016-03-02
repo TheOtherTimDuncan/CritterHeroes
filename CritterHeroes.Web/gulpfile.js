@@ -25,10 +25,11 @@ gulp.task('build-scripts', getTask('scripts.js'));
 gulp.task('build-css', getTask('css.js'));
 gulp.task('build-templates', getTask('handlebars.js'));
 
-gulp.task('watch', ['build-scripts', 'build-css'], function () {
+gulp.task('watch', ['build-scripts', 'build-css', 'build-emails'], function () {
 
     gulp.watch(common.srcPath + '/js/**/*.js', ['build-scripts']);
     gulp.watch(common.srcPath + '/css/**/*.scss', ['build-css']);
     gulp.watch(common.srcPath + '/templates/*.hb', ['build-templates']);
+    gulp.watch(common.srcPath + '/emails/**/*.*', ['build-emails']);
 
 });
