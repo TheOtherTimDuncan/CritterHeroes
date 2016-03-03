@@ -565,6 +565,7 @@
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\ListSink.cs" />
     <Compile Include="Common\Logging\AppLogEventEnricherFactory.cs" />
+    <Compile Include="Common\Logging\UserLogEventEnricher.cs" />
     <Compile Include="Contracts\Logging\IAppLogEventEnricher.cs" />
     <Compile Include="Contracts\Logging\IAppLogEventEnricherFactory.cs" />
     <Compile Include="Contracts\Logging\IAppLogger.cs" />

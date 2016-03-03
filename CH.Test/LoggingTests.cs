@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using CritterHeroes.Web.Common.Logging;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
 using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
+using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
@@ -222,6 +224,24 @@ namespace CH.Test
             HistoryLogEvent.HistoryContext context = logEvent.Context as HistoryLogEvent.HistoryContext;
             context.Before.Should().Be(jsonBefore);
             context.After.Should().Be(jsonAfter);
+        }
+
+        [TestMethod]
+        public void UserLogEventEnricherEnrichesUserLogEvent()
+        {
+            string ipAddress = "1.1.1.1";
+
+            Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
+            mockOwinContext.Setup(x => x.Request.RemoteIpAddress).Returns(ipAddress);
+
+            Mock<ILogger> mockLogger = new Mock<ILogger>();
+
+            UserLogEvent logEvent = UserLogEvent.LogAction("{Username} logged in", "username");
+
+            UserLogEventEnricher enricher = new UserLogEventEnricher(mockOwinContext.Object);
+            ILogger logger = enricher.Enrich(mockLogger.Object, logEvent);
+
+            mockLogger.Verify(x => x.ForContext("IPAddress", ipAddress, false), Times.Once);
         }
 
         private class TestContext
