@@ -564,7 +564,10 @@
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\ListSink.cs" />
-    <Compile Include="Contracts\IAppLogger.cs" />
+    <Compile Include="Common\Logging\AppLogEventEnricherFactory.cs" />
+    <Compile Include="Contracts\Logging\IAppLogEventEnricher.cs" />
+    <Compile Include="Contracts\Logging\IAppLogEventEnricherFactory.cs" />
+    <Compile Include="Contracts\Logging\IAppLogger.cs" />
     <Compile Include="Contracts\Logging\ICritterLogger.cs" />
     <Compile Include="Contracts\Logging\IHistoryLogger.cs" />
     <Compile Include="Contracts\Logging\IRescueGroupsLogger.cs" />

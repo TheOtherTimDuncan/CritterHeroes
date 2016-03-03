@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CritterHeroes.Web.Models.LogEvents;
 
-namespace CritterHeroes.Web.Contracts
+namespace CritterHeroes.Web.Contracts.Logging
 {
     public interface IAppLogger
     {
@@ -11,7 +11,6 @@ namespace CritterHeroes.Web.Contracts
             get;
         }
 
-        void LogEvent(AppLogEvent logEvent);
-        void LogEvent<ContextType>(AppLogEvent<ContextType> logEvent) where ContextType : class, new();
+        void LogEvent<LogEventType>(LogEventType logEvent) where LogEventType : AppLogEvent;
     }
 }

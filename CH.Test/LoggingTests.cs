@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
 using CritterHeroes.Web.Models.LogEvents;
@@ -10,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace CH.Test
 {
@@ -29,12 +31,14 @@ namespace CH.Test
                 return new TableResult();
             });
 
+            Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
+
             string test = "test";
             string category = "category";
 
             AppLogEvent logEvent = new AppLogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
 
-            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object);
+            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object, mockEnricherFactory.Object);
             logger.LogEvent(logEvent);
 
             tableEntity.Should().NotBeNull();
@@ -62,6 +66,8 @@ namespace CH.Test
                 return new TableResult();
             });
 
+            Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
+
             string test = "test";
             string category = "category";
 
@@ -70,9 +76,9 @@ namespace CH.Test
                 TestValue = 99
             };
 
-            AppLogEvent<TestContext> logEvent = new AppLogEvent<TestContext>(testContext, category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+            AppLogEvent logEvent = new AppLogEvent(testContext, category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
 
-            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object);
+            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object, mockEnricherFactory.Object);
             logger.LogEvent(logEvent);
 
             tableEntity.Should().NotBeNull();
@@ -81,7 +87,51 @@ namespace CH.Test
             tableEntity.Properties["Category"].StringValue.Should().Be(category);
             tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
             tableEntity.Properties["Test"].StringValue.Should().Be(test);
-            tableEntity.Properties["TestValue"].Int32Value.Should().Be(testContext.TestValue);
+            tableEntity.Properties[nameof(TestContext.TestValue)].Int32Value.Should().Be(testContext.TestValue);
+
+            logger.Messages.Should().Equal(new[] { "This is a \"test\"" });
+
+            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void LogEventWritesEventAndEWithEnrichmentToLogger()
+        {
+            string test = "test";
+            string category = "category";
+            string enrichment = "enrichment";
+
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
+
+            DynamicTableEntity tableEntity = null;
+            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+            {
+                tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
+                return new TableResult();
+            });
+
+            Mock<IAppLogEventEnricher<AppLogEvent>> mockEnricher = new Mock<IAppLogEventEnricher<AppLogEvent>>();
+            mockEnricher.Setup(x => x.Enrich(It.IsAny<ILogger>(), It.IsAny<AppLogEvent>())).Returns((ILogger enrichLogger, AppLogEvent enrichLogEvent) =>
+            {
+                return enrichLogger.ForContext(nameof(enrichment), enrichment);
+            });
+
+            Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
+            mockEnricherFactory.Setup(x => x.GetEnricher(It.IsAny<AppLogEvent>())).Returns(mockEnricher.Object);
+
+            AppLogEvent logEvent = new AppLogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+
+            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object, mockEnricherFactory.Object);
+            logger.LogEvent(logEvent);
+
+            tableEntity.Should().NotBeNull();
+            tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
+            tableEntity.Properties[nameof(AppLogEvent.Level)].StringValue.Should().Be("Information");
+            tableEntity.Properties["Category"].StringValue.Should().Be(category);
+            tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
+            tableEntity.Properties["Test"].StringValue.Should().Be(test);
+            tableEntity.Properties[nameof(enrichment)].StringValue.Should().Be(enrichment);
 
             logger.Messages.Should().Equal(new[] { "This is a \"test\"" });
 
@@ -137,14 +187,12 @@ namespace CH.Test
         [TestMethod]
         public void UserLogEventLogsUserAction()
         {
-            string ipAddress = "1.1.1.1";
             string username = "username";
 
             UserLogEvent logEvent = UserLogEvent.LogAction("{Username} logged in", username);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.User);
-         //   logEvent.MessageValues.Should().Contain(ipAddress);
             logEvent.MessageValues.Should().Contain(username);
         }
 
@@ -170,8 +218,10 @@ namespace CH.Test
             logEvent.MessageValues.Should().Contain(entityID);
             logEvent.MessageValues.Should().Contain(entityName);
 
-            logEvent.Context.Before.Should().Be(jsonBefore);
-            logEvent.Context.After.Should().Be(jsonAfter);
+            logEvent.Context.Should().BeOfType<HistoryLogEvent.HistoryContext>();
+            HistoryLogEvent.HistoryContext context = logEvent.Context as HistoryLogEvent.HistoryContext;
+            context.Before.Should().Be(jsonBefore);
+            context.After.Should().Be(jsonAfter);
         }
 
         private class TestContext

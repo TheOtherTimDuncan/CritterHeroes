@@ -28,6 +28,14 @@ namespace CritterHeroes.Web.Models.LogEvents
             this.MessageValues = messageValues;
         }
 
+        public AppLogEvent(object context, string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
+           : this(category, level, messageTemplate, messageValues)
+        {
+            ThrowIf.Argument.IsNull(context, nameof(context));
+
+            this.Context = context;
+        }
+
         public string Category
         {
             get;
@@ -47,19 +55,8 @@ namespace CritterHeroes.Web.Models.LogEvents
         {
             get;
         }
-    }
 
-    public class AppLogEvent<ContextType> : AppLogEvent where ContextType : class
-    {
-        public AppLogEvent(ContextType context, string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
-            : base(category, level, messageTemplate, messageValues)
-        {
-            ThrowIf.Argument.IsNull(context, nameof(context));
-
-            this.Context = context;
-        }
-
-        public ContextType Context
+        public object Context
         {
             get;
         }

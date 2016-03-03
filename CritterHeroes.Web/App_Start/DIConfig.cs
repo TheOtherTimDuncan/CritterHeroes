@@ -8,6 +8,7 @@ using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Email;
 using CritterHeroes.Web.Common.Identity;
+using CritterHeroes.Web.Common.Logging;
 using CritterHeroes.Web.Common.Proxies;
 using CritterHeroes.Web.Common.Proxies.Configuration;
 using CritterHeroes.Web.Common.StateManagement;
@@ -84,7 +85,10 @@ namespace CritterHeroes.Web
             container.Register<ICommandDispatcher, CommandDispatcher>(Lifestyle.Scoped);
             container.Register<IQueryDispatcher, QueryDispatcher>(Lifestyle.Scoped);
             container.Register<IEmailService, EmailService>();
+
             container.Register<IAppLogger, AzureAppLogger>(Lifestyle.Scoped);
+            container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container), Lifestyle.Scoped);
+            container.Register(typeof(IAppLogEventEnricher<>), defaultAssemblies);
 
             container.Register<IUserLogger, AzureUserLogger>(Lifestyle.Scoped);
             container.Register<IEmailLogger, AzureEmailLogger>(Lifestyle.Scoped);
