@@ -30,6 +30,6 @@ namespace CritterHeroes.Web.Contracts.Storage
 
         // Queues
 
-        Task AddQueueMessage(string queueName, string message);
+        Task AddQueueMessageAsync(string queueName, string message);
     }
 }

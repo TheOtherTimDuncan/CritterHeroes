@@ -60,10 +60,10 @@ namespace CH.Test.EmailTests
         }
 
         [TestMethod]
-        public async Task EmailServiceAddsEmailToQueue()
+        public async Task EmailServiceAddsEmailToQueueAndSavesEmailToBlobStorage()
         {
             string urlLogo = "logo";
-
+            bool isPrivate = true;
             string pathRoot = "root";
 
             OrganizationContext organizationContext = new OrganizationContext()
@@ -90,9 +90,11 @@ namespace CH.Test.EmailTests
 
             Mock<IEmailLogger> mockEmailLogger = new Mock<IEmailLogger>();
 
+            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+
             EmailCommand<EmailHandlerTests.TestEmailData> emailCommand = new EmailCommand<EmailHandlerTests.TestEmailData>("emailname", "emailto");
 
-            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, new AzureConfiguration(), mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailLogger.Object);
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, mockAzureService.Object, mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailLogger.Object);
             CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -102,6 +104,8 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.UrlHome.Should().NotBeNullOrEmpty();
 
             mockEmailLogger.Verify(x => x.LogEmailAsync(It.IsAny<EmailModel>()), Times.Once);
+            mockAzureService.Verify(x => x.AddQueueMessageAsync("email", It.IsAny<string>()), Times.Once);
+            mockAzureService.Verify(x => x.UploadBlobAsync(It.IsAny<string>(), isPrivate, It.IsAny<string>()), Times.Once);
         }
 
         public class TestEmailData : BaseTokenEmailData

@@ -148,7 +148,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return table.CreateQuery<TElement>();
         }
 
-        public async Task AddQueueMessage(string queueName, string message)
+        public async Task AddQueueMessageAsync(string queueName, string message)
         {
             CloudQueue queue = await GetCloudQueue(queueName);
             CloudQueueMessage queueMessage = new CloudQueueMessage(message);
