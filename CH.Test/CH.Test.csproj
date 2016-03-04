@@ -262,7 +262,6 @@
     <Compile Include="Azure\AzureCritterLoggerTests.cs" />
     <Compile Include="Azure\DynamicTableEntityExtensionTests.cs" />
     <Compile Include="Azure\CritterPictureServiceTests.cs" />
-    <Compile Include="Azure\AzureEmailLoggerTests.cs" />
     <Compile Include="Azure\OrganizationLogoServiceTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />

@@ -12,8 +12,8 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.DataProviders.Azure;
 using CritterHeroes.Web.Models.Emails;
+using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -88,13 +88,13 @@ namespace CH.Test.EmailTests
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
 
-            Mock<IEmailLogger> mockEmailLogger = new Mock<IEmailLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
 
             Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
 
             EmailCommand<EmailHandlerTests.TestEmailData> emailCommand = new EmailCommand<EmailHandlerTests.TestEmailData>("emailname", "emailto");
 
-            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, mockAzureService.Object, mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailLogger.Object);
+            EmailService emailService = new EmailService(mockFileSystem.Object, mockConfiguration.Object, mockAzureService.Object, mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockLogger.Object);
             CommandResult commandResult = await emailService.SendEmailAsync(emailCommand);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -103,7 +103,7 @@ namespace CH.Test.EmailTests
             emailCommand.EmailData.UrlLogo.Should().Be(urlLogo);
             emailCommand.EmailData.UrlHome.Should().NotBeNullOrEmpty();
 
-            mockEmailLogger.Verify(x => x.LogEmailAsync(It.IsAny<EmailModel>()), Times.Once);
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<EmailLogEvent>()), Times.Once);
             mockAzureService.Verify(x => x.AddQueueMessageAsync("email", It.IsAny<string>()), Times.Once);
             mockAzureService.Verify(x => x.UploadBlobAsync(It.IsAny<string>(), isPrivate, It.IsAny<string>()), Times.Once);
         }

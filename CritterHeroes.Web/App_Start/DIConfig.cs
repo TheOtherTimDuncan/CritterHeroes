@@ -91,7 +91,6 @@ namespace CritterHeroes.Web
             container.Register(typeof(IAppLogEventEnricher<>), defaultAssemblies);
 
             container.Register<IUserLogger, AzureUserLogger>(Lifestyle.Scoped);
-            container.Register<IEmailLogger, AzureEmailLogger>(Lifestyle.Scoped);
             container.Register<ICritterLogger, AzureCritterLogger>(Lifestyle.Scoped);
             container.Register<IRescueGroupsLogger, AzureRescueGroupsLogger>(Lifestyle.Scoped);
             container.Register<IHistoryLogger, AzureHistoryLogger>(Lifestyle.Scoped);

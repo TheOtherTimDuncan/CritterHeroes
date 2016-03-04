@@ -655,7 +655,6 @@
     <Compile Include="Contracts\StateManagement\IStateManager.cs" />
     <Compile Include="Contracts\StateManagement\IStateSerializer.cs" />
     <Compile Include="Contracts\IUrlGenerator.cs" />
-    <Compile Include="Contracts\Logging\IEmailLogger.cs" />
     <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
@@ -665,7 +664,6 @@
     <Compile Include="DataProviders\Azure\AzureException.cs" />
     <Compile Include="DataProviders\Azure\AzureService.cs" />
     <Compile Include="DataProviders\Azure\Services\CritterPictureService.cs" />
-    <Compile Include="DataProviders\Azure\Logging\AzureEmailLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureErrorLog.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureUserLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\BaseAzureLogger.cs" />

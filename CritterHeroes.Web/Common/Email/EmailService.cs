@@ -12,6 +12,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Emails;
+using CritterHeroes.Web.Models.LogEvents;
 
 namespace CritterHeroes.Web.Common.Email
 {
@@ -23,13 +24,13 @@ namespace CritterHeroes.Web.Common.Email
         private IAzureService _azureService;
         private IOrganizationLogoService _logoService;
         private IStateManager<OrganizationContext> _stateManager;
-        private IEmailLogger _emailLogger;
+        private IAppLogger _logger;
 
         private const string _blobPath = "email";
         private const string _queueName = "email";
         private const bool _isPrivate = true;
 
-        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureService azureService, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailLogger emailLogger)
+        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureService azureService, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IAppLogger logger)
         {
             this._fileSystem = fileSystem;
             this._emailConfiguration = emailConfiguration;
@@ -37,7 +38,7 @@ namespace CritterHeroes.Web.Common.Email
             this._azureService = azureService;
             this._stateManager = stateManager;
             this._logoService = logoService;
-            this._emailLogger = emailLogger;
+            this._logger = logger;
         }
 
         public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
@@ -72,7 +73,8 @@ namespace CritterHeroes.Web.Common.Email
             Guid blobID = Guid.NewGuid();
             await _azureService.UploadBlobAsync($"{_blobPath}/{blobID}", _isPrivate, json);
 
-            await _emailLogger.LogEmailAsync(email);
+            EmailLogEvent logEvent = EmailLogEvent.LogEmail(blobID, email);
+            _logger.LogEvent(logEvent);
 
             return CommandResult.Success();
         }
