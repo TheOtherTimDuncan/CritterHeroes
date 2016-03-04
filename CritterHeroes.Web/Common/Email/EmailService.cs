@@ -7,14 +7,11 @@ using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
+using CritterHeroes.Web.Models.Emails;
 
 namespace CritterHeroes.Web.Common.Email
 {
@@ -23,19 +20,21 @@ namespace CritterHeroes.Web.Common.Email
         private IFileSystem _fileSystem;
         private IEmailConfiguration _emailConfiguration;
         private IUrlGenerator _urlGenerator;
-        private IAzureConfiguration _azureConfiguration;
+        private IAzureService _azureService;
         private IOrganizationLogoService _logoService;
         private IStateManager<OrganizationContext> _stateManager;
         private IEmailLogger _emailLogger;
 
-        private CloudQueue _cloudQueue = null;
+        private const string _blobPath = "email";
+        private const string _queueName = "email";
+        private const bool _isPrivate = true;
 
-        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureConfiguration azureConfiguration, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailLogger emailLogger)
+        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureService azureService, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailLogger emailLogger)
         {
             this._fileSystem = fileSystem;
             this._emailConfiguration = emailConfiguration;
             this._urlGenerator = urlGenerator;
-            this._azureConfiguration = azureConfiguration;
+            this._azureService = azureService;
             this._stateManager = stateManager;
             this._logoService = logoService;
             this._emailLogger = emailLogger;
@@ -54,6 +53,7 @@ namespace CritterHeroes.Web.Common.Email
             command.EmailData.OrganizationShortName = organizationContext.ShortName;
 
             command.EmailData.UrlLogo = _logoService.GetLogoUrl();
+
             command.EmailData.UrlHome = _urlGenerator.GenerateAbsoluteHomeUrl();
 
             EmailModel email = new EmailModel()
@@ -64,32 +64,17 @@ namespace CritterHeroes.Web.Common.Email
                 HtmlTemplate = _fileSystem.ReadAllText(filenameHtmlBody),
                 TextTemplate = _fileSystem.ReadAllText(filenameTxtBody),
                 EmailData = command.EmailData
-
             };
 
             string json = JavascriptConvert.SerializeObject(email).ToString();
+            await _azureService.AddQueueMessageAsync(_queueName, json);
 
-            CloudQueue queue = await GetCloudQueue();
-            CloudQueueMessage queueMessage = new CloudQueueMessage(json);
-            await queue.AddMessageAsync(queueMessage);
+            Guid blobID = Guid.NewGuid();
+            await _azureService.UploadBlobAsync($"{_blobPath}/{blobID}", _isPrivate, json);
 
             await _emailLogger.LogEmailAsync(email);
 
             return CommandResult.Success();
-        }
-
-        protected async Task<CloudQueue> GetCloudQueue()
-        {
-            if (_cloudQueue != null)
-            {
-                return _cloudQueue;
-            }
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_azureConfiguration.ConnectionString);
-            CloudQueueClient client = storageAccount.CreateCloudQueueClient();
-            _cloudQueue = client.GetQueueReference("email");
-            await _cloudQueue.CreateIfNotExistsAsync();
-            return _cloudQueue;
         }
     }
 }
