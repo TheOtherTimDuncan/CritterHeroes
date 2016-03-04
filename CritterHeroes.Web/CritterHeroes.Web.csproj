@@ -772,6 +772,7 @@
     <Compile Include="Areas\Admin\Lists\Models\DataItem.cs" />
     <Compile Include="Areas\Admin\Lists\Models\StorageItem.cs" />
     <Compile Include="Models\LogEvents\CritterLogEvent.cs" />
+    <Compile Include="Models\LogEvents\EmailLogEvent.cs" />
     <Compile Include="Models\LogEvents\HistoryLogEvent.cs" />
     <Compile Include="Models\LogEvents\AppLogEvent.cs" />
     <Compile Include="Models\LogEvents\RescueGroupsLogEvent.cs" />

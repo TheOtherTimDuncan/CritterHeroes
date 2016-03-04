@@ -6,6 +6,7 @@ using CritterHeroes.Web.Common.Logging;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
+using CritterHeroes.Web.Models.Emails;
 using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.Owin;
@@ -242,6 +243,31 @@ namespace CH.Test
             ILogger logger = enricher.Enrich(mockLogger.Object, logEvent);
 
             mockLogger.Verify(x => x.ForContext("IPAddress", ipAddress, false), Times.Once);
+        }
+
+        [TestMethod]
+        public void EmailLogEventLogsEmail()
+        {
+            Guid emailID = Guid.NewGuid();
+
+            string[] emailTo = new[] { "to@to.com" };
+
+            EmailModel email = new EmailModel()
+            {
+                To = emailTo,
+                From = "from@from.com"
+            };
+
+            EmailLogEvent logEvent = EmailLogEvent.LogEmail(emailID, email);
+
+            logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
+            logEvent.Category.Should().Be(LogEventCategory.Email);
+            logEvent.MessageValues.Any(x => emailTo.Equals(x)).Should().BeTrue();
+            logEvent.MessageValues.Should().Contain(email.From);
+
+            logEvent.Context.Should().BeOfType<EmailLogEvent.EmailContext>();
+            EmailLogEvent.EmailContext context = logEvent.Context as EmailLogEvent.EmailContext;
+            context.EmailID.Should().Be(emailID);
         }
 
         private class TestContext
