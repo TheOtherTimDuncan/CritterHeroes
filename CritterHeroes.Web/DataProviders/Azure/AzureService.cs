@@ -9,6 +9,7 @@ using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using TOTD.Utility.ExceptionHelpers;
 
@@ -20,7 +21,8 @@ namespace CritterHeroes.Web.DataProviders.Azure
         private IStateManager<OrganizationContext> _orgStateManager;
         private IAppConfiguration _appConfiguration;
 
-        private CloudTable _cloudTable = null;
+        private CloudTable _cloudTable;
+        private CloudQueue _cloudQueue;
         private CloudBlobContainer _container;
         private string _containerName;
 
@@ -146,6 +148,13 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return table.CreateQuery<TElement>();
         }
 
+        public async Task AddQueueMessage(string queueName, string message)
+        {
+            CloudQueue queue = await GetCloudQueue(queueName);
+            CloudQueueMessage queueMessage = new CloudQueueMessage(message);
+            await queue.AddMessageAsync(queueMessage);
+        }
+
         /// <summary>
         /// Blob urls are case sensitive and convention is they should always be lowercase
         /// </summary>
@@ -175,8 +184,7 @@ namespace CritterHeroes.Web.DataProviders.Azure
                 return _container;
             }
 
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
-            CloudBlobClient client = storageAccount.CreateCloudBlobClient();
+            CloudBlobClient client = GetStorageAccount().CreateCloudBlobClient();
 
             OrganizationContext _orgContext = _orgStateManager.GetContext();
             string containerName = GetContainerName();
@@ -233,10 +241,27 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
         private CloudTable GetCloudTableReference(string tableName)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(_configuration.ConnectionString);
-            CloudTableClient client = storageAccount.CreateCloudTableClient();
+            CloudTableClient client = GetStorageAccount().CreateCloudTableClient();
             _cloudTable = client.GetTableReference(tableName);
             return _cloudTable;
+        }
+
+        protected async Task<CloudQueue> GetCloudQueue(string queueName)
+        {
+            if (_cloudQueue != null)
+            {
+                return _cloudQueue;
+            }
+
+            CloudQueueClient client = GetStorageAccount().CreateCloudQueueClient();
+            _cloudQueue = client.GetQueueReference(queueName);
+            await _cloudQueue.CreateIfNotExistsAsync();
+            return _cloudQueue;
+        }
+
+        private CloudStorageAccount GetStorageAccount()
+        {
+            return CloudStorageAccount.Parse(_configuration.ConnectionString);
         }
     }
 }

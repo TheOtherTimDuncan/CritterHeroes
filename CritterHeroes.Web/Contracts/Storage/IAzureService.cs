@@ -27,5 +27,9 @@ namespace CritterHeroes.Web.Contracts.Storage
         Task<TableResult> ExecuteTableOperationAsync(string tableName, TableOperation operation);
         Task ExecuteTableBatchOperationAsync(string tableName, IEnumerable<ITableEntity> tableEntities, Func<ITableEntity, TableOperation> operation);
         Task<IQueryable<TElement>> CreateTableQuery<TElement>(string tableName) where TElement : ITableEntity, new();
+
+        // Queues
+
+        Task AddQueueMessage(string queueName, string message);
     }
 }
