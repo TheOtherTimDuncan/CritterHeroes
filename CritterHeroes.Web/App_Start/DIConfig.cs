@@ -119,7 +119,7 @@ namespace CritterHeroes.Web
         public static void RegisterIdentityInterfaces(Container container)
         {
             container.Register<IAppSignInManager, AppSignInManager>(Lifestyle.Scoped);
-            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(container.GetInstance<IAppLogger>()), Lifestyle.Scoped);
+            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(container.GetInstance<IAppEventPublisher>()), Lifestyle.Scoped);
             container.Register<IAppUserStore, AppUserStore>(Lifestyle.Scoped);
             container.Register<IAppUserManager, AppUserManager>(Lifestyle.Scoped);
         }

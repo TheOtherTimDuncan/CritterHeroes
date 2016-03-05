@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 
@@ -10,8 +10,8 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class ContactsStorageContext : BaseDbContext<ContactsStorageContext>, IContactsStorageContext
     {
-        public ContactsStorageContext(IAppLogger logger)
-            : base(logger)
+        public ContactsStorageContext(IAppEventPublisher publisher)
+            : base(publisher)
         {
         }
 

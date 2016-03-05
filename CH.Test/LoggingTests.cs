@@ -263,7 +263,7 @@ namespace CH.Test
             string jsonBefore = JsonConvert.SerializeObject(before);
             string jsonAfter = JsonConvert.SerializeObject(after);
 
-            HistoryLogEvent logEvent = HistoryLogEvent.LogHistory(entityID, entityName, before, after);
+            HistoryLogEvent logEvent = HistoryLogEvent.Create(entityID, entityName, before, after);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.History);
@@ -288,7 +288,7 @@ namespace CH.Test
             Dictionary<string, object> after = new Dictionary<string, object>();
             after["test2"] = 1;
 
-            HistoryLogEvent logEvent = HistoryLogEvent.LogHistory(entityID, entityName, before, after);
+            HistoryLogEvent logEvent = HistoryLogEvent.Create(entityID, entityName, before, after);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.MessageValues.Should().Contain("entity");

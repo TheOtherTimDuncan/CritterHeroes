@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 
@@ -11,8 +10,8 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class CritterBatchStorageContext : BaseDbContext<CritterBatchStorageContext>, ICritterBatchSqlStorageContext
     {
-        public CritterBatchStorageContext(IAppLogger logger)
-            : base(logger)
+        public CritterBatchStorageContext(IAppEventPublisher publisher)
+            : base(publisher)
         {
         }
 

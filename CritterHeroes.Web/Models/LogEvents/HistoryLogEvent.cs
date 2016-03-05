@@ -8,7 +8,7 @@ namespace CritterHeroes.Web.Models.LogEvents
 {
     public class HistoryLogEvent : AppLogEvent
     {
-        public static HistoryLogEvent LogHistory(object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after)
+        public static HistoryLogEvent Create(object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after)
         {
             int breakPos = entityName.IndexOf('_');
             if (breakPos > 0)

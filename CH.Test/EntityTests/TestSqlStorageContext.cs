@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Common;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
+using CritterHeroes.Web.Models.LogEvents;
 using Moq;
+using Newtonsoft.Json;
 using Serilog;
 using TOTD.EntityFramework;
-using CritterHeroes.Web.Common;
-using Newtonsoft.Json;
-using CritterHeroes.Web.Models.LogEvents;
 
 namespace CH.Test.EntityTests
 {
@@ -28,8 +28,8 @@ namespace CH.Test.EntityTests
                 .WriteTo.List(LogMessages)
                 .CreateLogger();
 
-            this.MockLogger = new Mock<IAppLogger>();
-            this.MockLogger.Setup(x => x.LogEvent(It.IsAny<HistoryLogEvent>())).Callback((HistoryLogEvent logEvent) =>
+            this.MockPublisher = new Mock<IAppEventPublisher>();
+            this.MockPublisher.Setup(x => x.Publish(It.IsAny<HistoryLogEvent>())).Callback((HistoryLogEvent logEvent) =>
             {
                 HistoryLogEvent.HistoryContext context = (HistoryLogEvent.HistoryContext)logEvent.Context;
 
@@ -41,7 +41,7 @@ namespace CH.Test.EntityTests
                     .Write(logEvent.Level, logEvent.MessageTemplate, logEvent.MessageValues);
             });
 
-            this._storageContext = new SqlStorageContext<T>(this.MockLogger.Object);
+            this._storageContext = new SqlStorageContext<T>(this.MockPublisher.Object);
         }
 
         public IQueryable<T> Entities
@@ -52,7 +52,7 @@ namespace CH.Test.EntityTests
             }
         }
 
-        public Mock<IAppLogger> MockLogger
+        public Mock<IAppEventPublisher> MockPublisher
         {
             get;
             private set;

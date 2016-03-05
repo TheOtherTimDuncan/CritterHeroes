@@ -7,6 +7,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Configurations;
@@ -21,12 +22,12 @@ namespace CritterHeroes.Web.Data.Contexts
     public class BaseDbContext<T> : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
         where T : DbContext
     {
-        private IAppLogger _logger;
+        private IAppEventPublisher _publisher;
 
-        public BaseDbContext(IAppLogger logger)
+        public BaseDbContext(IAppEventPublisher publisher)
             : base("name=CritterHeroes")
         {
-            this._logger = logger;
+            this._publisher = publisher;
 
             Database.SetInitializer<T>(null);
 
@@ -99,7 +100,7 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             foreach (EntityHistory entityHistory in entityHistories)
             {
-                _logger.LogEvent(HistoryLogEvent.LogHistory(entityHistory.Entity.ID, entityHistory.Entity.GetType().Name, entityHistory.Before, entityHistory.After));
+                _publisher.Publish(HistoryLogEvent.Create(entityHistory.Entity.ID, entityHistory.Entity.GetType().Name, entityHistory.Before, entityHistory.After));
             }
         }
 

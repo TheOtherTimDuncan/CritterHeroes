@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 
@@ -11,8 +11,8 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class AppUserStorageContext : BaseDbContext<AppUserStorageContext>, ISqlStorageContext<AppUser>
     {
-        public AppUserStorageContext(IAppLogger logger)
-            : base(logger)
+        public AppUserStorageContext(IAppEventPublisher publisher)
+            : base(publisher)
         {
         }
 
