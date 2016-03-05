@@ -563,9 +563,13 @@
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
+    <Compile Include="Common\Events\AppEventPublisher.cs" />
     <Compile Include="Common\ListSink.cs" />
     <Compile Include="Common\Logging\AppLogEventEnricherFactory.cs" />
     <Compile Include="Common\Logging\UserLogEventEnricher.cs" />
+    <Compile Include="Contracts\Events\IAppEvent.cs" />
+    <Compile Include="Contracts\Events\IAppEventPublisher.cs" />
+    <Compile Include="Contracts\Events\IAppEventHandler.cs" />
     <Compile Include="Contracts\Logging\IAppLogEventEnricher.cs" />
     <Compile Include="Contracts\Logging\IAppLogEventEnricherFactory.cs" />
     <Compile Include="Contracts\Logging\IAppLogger.cs" />

@@ -7,6 +7,7 @@ using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Email;
+using CritterHeroes.Web.Common.Events;
 using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Common.Logging;
 using CritterHeroes.Web.Common.Proxies;
@@ -17,6 +18,7 @@ using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Queries;
@@ -85,6 +87,7 @@ namespace CritterHeroes.Web
             container.Register<ICommandDispatcher, CommandDispatcher>(Lifestyle.Scoped);
             container.Register<IQueryDispatcher, QueryDispatcher>(Lifestyle.Scoped);
             container.Register<IEmailService, EmailService>();
+            container.Register<IAppEventPublisher, AppEventPublisher>(Lifestyle.Scoped);
 
             container.Register<IAppLogger, AzureAppLogger>(Lifestyle.Scoped);
             container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container), Lifestyle.Scoped);
@@ -122,6 +125,8 @@ namespace CritterHeroes.Web
 
             container.Register(typeof(ICommandHandler<>), defaultAssemblies);
             container.Register(typeof(IAsyncCommandHandler<>), defaultAssemblies);
+
+            container.RegisterCollection(typeof(IAppEventHandler<>), defaultAssemblies);
         }
 
         public static void RegisterContextSensitiveInterfaces(Container container)
