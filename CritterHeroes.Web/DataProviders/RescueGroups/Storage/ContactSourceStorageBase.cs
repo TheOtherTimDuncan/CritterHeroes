@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.StringHelpers;
 
@@ -12,8 +12,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public abstract class ContactSourceStorageBase<T> : RescueGroupsSearchStorageBase<T> where T : class
     {
-        public ContactSourceStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
-            : base(configuration, client, logger)
+        public ContactSourceStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
+            : base(configuration, client, publisher)
         {
         }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Newtonsoft.Json;
@@ -15,8 +15,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public abstract class RescueGroupsSearchStorageBase<T> : RescueGroupsStorage<T>, IRescueGroupsSearchStorage<T> where T : class
     {
-        public RescueGroupsSearchStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
-            : base(configuration, client, logger)
+        public RescueGroupsSearchStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
+            : base(configuration, client, publisher)
         {
             ResultLimit = 100;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
@@ -78,9 +78,9 @@ namespace CH.Test.RescueGroups
 
             MockHttpClient mockHttpClient = new MockHttpClient(element1, element2);
 
-            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object, mockLogger.Object);
+            PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object, mockPublisher.Object);
             IEnumerable<PersonSource> results = await storage.GetAllAsync();
             results.Should().HaveCount(2);
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.Models.LogEvents;
@@ -20,18 +20,18 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     {
         private IRescueGroupsConfiguration _configuration;
         private IHttpClient _client;
-        private IAppLogger _logger;
+        private IAppEventPublisher _publisher;
 
         private string _token;
         private string _tokenHash;
 
-        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
+        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
         {
             ThrowIf.Argument.IsNull(configuration, nameof(configuration));
 
             this._configuration = configuration;
             this._client = client;
-            this._logger = logger;
+            this._publisher = publisher;
         }
 
         public abstract string ObjectType
@@ -200,13 +200,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             RescueGroupsLogEvent logEvent;
             if (request["password"] != null)
             {
-                logEvent = RescueGroupsLogEvent.LogRequest(_configuration.Url, "Login", content, response.StatusCode);
+                logEvent = RescueGroupsLogEvent.Create(_configuration.Url, "Login", content, response.StatusCode);
             }
             else
             {
-                logEvent = RescueGroupsLogEvent.LogRequest(_configuration.Url, jsonRequest, content, response.StatusCode);
+                logEvent = RescueGroupsLogEvent.Create(_configuration.Url, jsonRequest, content, response.StatusCode);
             }
-            _logger.LogEvent(logEvent);
+            _publisher.Publish(logEvent);
 
             if (!response.IsSuccessStatusCode)
             {

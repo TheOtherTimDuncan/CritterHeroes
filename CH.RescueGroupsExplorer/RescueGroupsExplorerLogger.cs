@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Models.LogEvents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,7 +11,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CH.RescueGroupsExplorer
 {
-    public class RescueGroupsExplorerLogger : IAppLogger
+    public class RescueGroupsExplorerLogger : IAppEventPublisher
     {
         private TextBox _txtBox;
         private List<LogEntry> _entries;
@@ -34,10 +34,11 @@ namespace CH.RescueGroupsExplorer
             this._syncRoot = new object();
         }
 
-        public void LogEvent<LogEventType>(LogEventType logEvent) where LogEventType : AppLogEvent
+        public void Publish<TAppEvent>(TAppEvent appEvent) where TAppEvent : IAppEvent
         {
             lock (_syncRoot)
             {
+                RescueGroupsLogEvent logEvent = appEvent as RescueGroupsLogEvent;
                 RescueGroupsLogEvent.RescueGroupsContext context = (RescueGroupsLogEvent.RescueGroupsContext)logEvent.Context;
                 LogEntry entry = new LogEntry()
                 {

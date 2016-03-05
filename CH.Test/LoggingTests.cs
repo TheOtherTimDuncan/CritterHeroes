@@ -194,7 +194,7 @@ namespace CH.Test
             string response = "response";
             HttpStatusCode statusCode = HttpStatusCode.OK;
 
-            RescueGroupsLogEvent logEvent = RescueGroupsLogEvent.LogRequest(url, request, response, statusCode);
+            RescueGroupsLogEvent logEvent = RescueGroupsLogEvent.Create(url, request, response, statusCode);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.RescueGroups);

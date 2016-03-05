@@ -8,7 +8,7 @@ namespace CritterHeroes.Web.Models.LogEvents
 {
     public class RescueGroupsLogEvent : AppLogEvent
     {
-        public static RescueGroupsLogEvent LogRequest(string url, string request, string response, HttpStatusCode statusCode)
+        public static RescueGroupsLogEvent Create(string url, string request, string response, HttpStatusCode statusCode)
         {
             RescueGroupsContext context = new RescueGroupsContext(url, request, response, statusCode);
             return new RescueGroupsLogEvent(context, "Sent request and received status code {StatusCode}", statusCode);

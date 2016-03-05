@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Newtonsoft.Json.Linq;
 
@@ -11,8 +11,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public class SpeciesSourceStorage : RescueGroupsStorage<SpeciesSource>
     {
-        public SpeciesSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
-            : base(configuration, client, logger)
+        public SpeciesSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
+            : base(configuration, client, publisher)
         {
         }
 
