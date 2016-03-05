@@ -9,8 +9,8 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.LogEvents;
@@ -21,16 +21,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
     {
         private IAppUserManager _userManager;
-        private IAppLogger _logger;
+        private IAppEventPublisher _publisher;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
         private IEmailService _emailService;
 
-        public EditProfileSecureCommandHandler(IAppUserManager userManager, IAppLogger logger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
+        public EditProfileSecureCommandHandler(IAppUserManager userManager, IAppEventPublisher publisher, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
         {
             this._userManager = userManager;
-            this._logger = logger;
+            this._publisher = publisher;
             this._httpUser = httpUser;
             this._userContextManager = userContextManager;
             this._urlGenerator = urlGenerator;
@@ -52,7 +52,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             UserContext userContext = UserContext.FromUser(user);
             _userContextManager.SaveContext(userContext);
 
-            _logger.LogEvent(UserLogEvent.LogAction("Email changed from {OldEmail} to {NewEmail}", user.Email, command.NewEmail));
+            _publisher.Publish(UserLogEvent.Action("Email changed from {OldEmail} to {NewEmail}", user.Email, command.NewEmail));
 
             ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail);
             emailCommand.EmailData.TokenLifespan = _userManager.TokenLifespan;

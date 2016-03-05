@@ -7,12 +7,12 @@ namespace CritterHeroes.Web.Models.LogEvents
 {
     public class UserLogEvent : AppLogEvent
     {
-        public static UserLogEvent LogAction(string message, params object[] messageValues)
+        public static UserLogEvent Action(string message, params object[] messageValues)
         {
             return new UserLogEvent(LogEventLevel.Information, message, messageValues);
         }
 
-        public static UserLogEvent LogError(string message, params object[] messageValues)
+        public static UserLogEvent Error(string message, params object[] messageValues)
         {
             return new UserLogEvent(LogEventLevel.Error, message, messageValues);
         }

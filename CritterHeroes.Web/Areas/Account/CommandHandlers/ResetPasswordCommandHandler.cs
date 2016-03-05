@@ -6,8 +6,8 @@ using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.LogEvents;
 using Microsoft.AspNet.Identity;
@@ -19,14 +19,14 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     {
         private IAppUserManager _userManager;
         private IAppSignInManager _signinManager;
-        private IAppLogger _logger;
+        private IAppEventPublisher _publisher;
         private IEmailService _emailService;
 
-        public ResetPasswordCommandHandler(IAppLogger logger, IAppSignInManager signinManager, IAppUserManager userManager, IEmailService emailService)
+        public ResetPasswordCommandHandler(IAppEventPublisher publisher, IAppSignInManager signinManager, IAppUserManager userManager, IEmailService emailService)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;
-            this._logger = logger;
+            this._publisher = publisher;
             this._emailService = emailService;
         }
 
@@ -43,7 +43,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     {
                         ResetPasswordNotificationEmailCommand emailCommand = new ResetPasswordNotificationEmailCommand(identityUser.Email);
                         await _emailService.SendEmailAsync(emailCommand);
-                        _logger.LogEvent(UserLogEvent.LogAction("Reset password succeeded for {Email}", command.Email));
+                        _publisher.Publish(UserLogEvent.Action("Reset password succeeded for {Email}", command.Email));
 
                         // Let the view know we succeeded
                         command.IsSuccess = true;
@@ -52,17 +52,17 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                     }
                     else
                     {
-                        _logger.LogEvent(UserLogEvent.LogError("Reset password succeeded but login failed for {Email}", command.Email));
+                        _publisher.Publish(UserLogEvent.Error("Reset password succeeded but login failed for {Email}", command.Email));
                     }
                 }
                 else
                 {
-                    _logger.LogEvent(UserLogEvent.LogError("Reset password failed for {Email} using code {Code}", identityResult.Errors, command.Email, command.Code));
+                    _publisher.Publish(UserLogEvent.Error("Reset password failed for {Email} using code {Code}", identityResult.Errors, command.Email, command.Code));
                 }
             }
             else
             {
-                _logger.LogEvent(UserLogEvent.LogError("Reset password failed for {Email} using code {Code} - user not found", command.Email, command.Code));
+                _publisher.Publish(UserLogEvent.Error("Reset password failed for {Email} using code {Code} - user not found", command.Email, command.Code));
             }
 
             return CommandResult.Failed("There was an error resetting your password. Please try again.");

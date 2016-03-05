@@ -11,8 +11,8 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.LogEvents;
@@ -43,8 +43,8 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));
 
-            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
-            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+            mockPublisher.Setup(x => x.Publish(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
             {
                 logEvent.MessageValues.Should().Contain(user.Email);
                 logEvent.MessageValues.Should().Contain(model.NewEmail);
@@ -65,7 +65,7 @@ namespace CH.Test.AccountTests
                 return Task.FromResult(CommandResult.Success());
             });
 
-            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockLogger.Object, mockHttpUser.Object, mockUserContextManager.Object, mockUrlGenerator.Object, mockEmailService.Object);
+            EditProfileSecureCommandHandler command = new EditProfileSecureCommandHandler(mockUserManager.Object, mockPublisher.Object, mockHttpUser.Object, mockUserContextManager.Object, mockUrlGenerator.Object, mockEmailService.Object);
             CommandResult commandResult = await command.ExecuteAsync(model);
             commandResult.Succeeded.Should().BeTrue();
 
@@ -76,7 +76,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
 
-            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()));
+            mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()));
 
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ConfirmEmailEmailCommand>()), Times.Once);
         }

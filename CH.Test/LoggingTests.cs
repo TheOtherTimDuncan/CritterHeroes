@@ -56,7 +56,7 @@ namespace CH.Test
                 CritterLogEvent critterEvent = CritterLogEvent.LogAction("critter");
                 publisher.Publish(critterEvent);
 
-                UserLogEvent userEvent = UserLogEvent.LogAction("user");
+                UserLogEvent userEvent = UserLogEvent.Action("user");
                 publisher.Publish(userEvent);
 
                 entities.Should().HaveCount(2);
@@ -241,7 +241,7 @@ namespace CH.Test
         {
             string username = "username";
 
-            UserLogEvent logEvent = UserLogEvent.LogAction("{Username} logged in", username);
+            UserLogEvent logEvent = UserLogEvent.Action("{Username} logged in", username);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.User);
@@ -304,7 +304,7 @@ namespace CH.Test
 
             Mock<ILogger> mockLogger = new Mock<ILogger>();
 
-            UserLogEvent logEvent = UserLogEvent.LogAction("{Username} logged in", "username");
+            UserLogEvent logEvent = UserLogEvent.Action("{Username} logged in", "username");
 
             UserLogEventEnricher enricher = new UserLogEventEnricher(mockOwinContext.Object);
             ILogger logger = enricher.Enrich(mockLogger.Object, logEvent);

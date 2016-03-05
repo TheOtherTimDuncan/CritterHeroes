@@ -6,8 +6,8 @@ using CritterHeroes.Web.Areas.Account.CommandHandlers;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
@@ -30,8 +30,8 @@ namespace CH.Test.AccountTests
                 Code = "code"
             };
 
-            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
-            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+            mockPublisher.Setup(x => x.Publish(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
             {
                 logEvent.MessageValues.Should().Contain(model.Email);
                 logEvent.MessageValues.Should().Contain(model.Code);
@@ -41,7 +41,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult((AppUser)null));
 
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockLogger.Object, null, mockUserManager.Object, null);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockPublisher.Object, null, mockUserManager.Object, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Single().Should().Be("There was an error resetting your password. Please try again.");
@@ -49,7 +49,7 @@ namespace CH.Test.AccountTests
             model.IsSuccess.Should().NotHaveValue();
 
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
-            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
+            mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()), Times.Once);
         }
 
         [TestMethod]
@@ -66,8 +66,8 @@ namespace CH.Test.AccountTests
 
             IdentityResult identityResult = IdentityResult.Failed("nope");
 
-            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
-            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+            mockPublisher.Setup(x => x.Publish(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
             {
                 logEvent.MessageValues.Should().Contain(model.Email);
                 logEvent.MessageValues.Should().Contain(model.Code);
@@ -78,7 +78,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.FindByEmailAsync(model.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password)).Returns(Task.FromResult(identityResult));
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockLogger.Object, null, mockUserManager.Object, null);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockPublisher.Object, null, mockUserManager.Object, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Single().Should().Be("There was an error resetting your password. Please try again.");
@@ -87,7 +87,7 @@ namespace CH.Test.AccountTests
 
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
-            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
+            mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()), Times.Once);
         }
 
         [TestMethod]
@@ -102,8 +102,8 @@ namespace CH.Test.AccountTests
 
             AppUser user = new AppUser(model.Email);
 
-            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
-            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+            mockPublisher.Setup(x => x.Publish(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
             {
                 logEvent.MessageValues.Should().Contain(model.Email);
             });
@@ -115,7 +115,7 @@ namespace CH.Test.AccountTests
             Mock<IAppSignInManager> mockSigninManager = new Mock<IAppSignInManager>();
             mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Failure));
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockLogger.Object, mockSigninManager.Object, mockUserManager.Object, null);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockPublisher.Object, mockSigninManager.Object, mockUserManager.Object, null);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeFalse();
             result.Errors.Single().Should().Be("There was an error resetting your password. Please try again.");
@@ -125,7 +125,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
+            mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()), Times.Once);
         }
 
         [TestMethod]
@@ -140,8 +140,8 @@ namespace CH.Test.AccountTests
 
             AppUser user = new AppUser(model.Email);
 
-            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
-            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+            mockPublisher.Setup(x => x.Publish(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
             {
                 logEvent.MessageValues.Should().Contain(model.Email);
             });
@@ -155,7 +155,7 @@ namespace CH.Test.AccountTests
 
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
 
-            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockLogger.Object, mockSigninManager.Object, mockUserManager.Object, mockEmailService.Object);
+            ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockPublisher.Object, mockSigninManager.Object, mockUserManager.Object, mockEmailService.Object);
             CommandResult result = await handler.ExecuteAsync(model);
             result.Succeeded.Should().BeTrue();
 
@@ -164,7 +164,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByEmailAsync(model.Email), Times.Once);
             mockUserManager.Verify(x => x.ResetPasswordAsync(user.Id, model.Code, model.Password), Times.Once);
             mockSigninManager.Verify(x => x.PasswordSignInAsync(model.Email, model.Password), Times.Once);
-            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
+            mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordNotificationEmailCommand>()), Times.Once);
         }
     }
