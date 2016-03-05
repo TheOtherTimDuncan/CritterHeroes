@@ -10,7 +10,7 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class ContactsStorageContext : BaseDbContext<ContactsStorageContext>, IContactsStorageContext
     {
-        public ContactsStorageContext(IHistoryLogger logger)
+        public ContactsStorageContext(IAppLogger logger)
             : base(logger)
         {
         }

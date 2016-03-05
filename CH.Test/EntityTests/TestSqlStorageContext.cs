@@ -10,6 +10,7 @@ using Serilog;
 using TOTD.EntityFramework;
 using CritterHeroes.Web.Common;
 using Newtonsoft.Json;
+using CritterHeroes.Web.Models.LogEvents;
 
 namespace CH.Test.EntityTests
 {
@@ -27,16 +28,17 @@ namespace CH.Test.EntityTests
                 .WriteTo.List(LogMessages)
                 .CreateLogger();
 
-            this.MockLogger = new Mock<IHistoryLogger>();
-            this.MockLogger.Setup(x => x.LogHistory(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, object>>())).Callback((object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after) =>
+            this.MockLogger = new Mock<IAppLogger>();
+            this.MockLogger.Setup(x => x.LogEvent(It.IsAny<HistoryLogEvent>())).Callback((HistoryLogEvent logEvent) =>
             {
-                HistoryBefore = JsonConvert.SerializeObject(before);
-                HistoryAfter = JsonConvert.SerializeObject(after);
+                HistoryLogEvent.HistoryContext context = (HistoryLogEvent.HistoryContext)logEvent.Context;
+
+                HistoryBefore = context.Before;
+                HistoryAfter = context.After;
 
                 _logger
-                    .ForContext("Before", HistoryBefore)
-                    .ForContext("After", HistoryAfter)
-                    .Information("Changed entity {ID} - {Name}", entityID, entityName);
+                    .ForContext("Context", logEvent.Context, destructureObjects: true)
+                    .Write(logEvent.Level, logEvent.MessageTemplate, logEvent.MessageValues);
             });
 
             this._storageContext = new SqlStorageContext<T>(this.MockLogger.Object);
@@ -50,7 +52,7 @@ namespace CH.Test.EntityTests
             }
         }
 
-        public Mock<IHistoryLogger> MockLogger
+        public Mock<IAppLogger> MockLogger
         {
             get;
             private set;

@@ -11,6 +11,7 @@ using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Configurations;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 using Microsoft.AspNet.Identity.EntityFramework;
 using TOTD.EntityFramework;
 
@@ -20,9 +21,9 @@ namespace CritterHeroes.Web.Data.Contexts
     public class BaseDbContext<T> : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>
         where T : DbContext
     {
-        private IHistoryLogger _logger;
+        private IAppLogger _logger;
 
-        public BaseDbContext(IHistoryLogger logger)
+        public BaseDbContext(IAppLogger logger)
             : base("name=CritterHeroes")
         {
             this._logger = logger;
@@ -98,7 +99,7 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             foreach (EntityHistory entityHistory in entityHistories)
             {
-                _logger.LogHistory(entityHistory.Entity.ID, entityHistory.Entity.GetType().Name, entityHistory.Before, entityHistory.After);
+                _logger.LogEvent(HistoryLogEvent.LogHistory(entityHistory.Entity.ID, entityHistory.Entity.GetType().Name, entityHistory.Before, entityHistory.After));
             }
         }
 

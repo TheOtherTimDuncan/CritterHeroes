@@ -90,8 +90,6 @@ namespace CritterHeroes.Web
             container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container), Lifestyle.Scoped);
             container.Register(typeof(IAppLogEventEnricher<>), defaultAssemblies);
 
-            container.Register<IHistoryLogger, AzureHistoryLogger>(Lifestyle.Scoped);
-
             container.Register(typeof(IValidator<>), defaultAssemblies);
 
             container.RegisterSingleton<IDataMapperFactory>(new DataMapperFactory() {
@@ -112,7 +110,7 @@ namespace CritterHeroes.Web
         public static void RegisterIdentityInterfaces(Container container)
         {
             container.Register<IAppSignInManager, AppSignInManager>(Lifestyle.Scoped);
-            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(container.GetInstance<IHistoryLogger>()), Lifestyle.Scoped);
+            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(container.GetInstance<IAppLogger>()), Lifestyle.Scoped);
             container.Register<IAppUserStore, AppUserStore>(Lifestyle.Scoped);
             container.Register<IAppUserManager, AppUserManager>(Lifestyle.Scoped);
         }

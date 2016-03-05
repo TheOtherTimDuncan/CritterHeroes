@@ -27,7 +27,7 @@ namespace CH.Test.EntityTests
             AppUser appUser = new AppUser("email@email.com");
             string password = "Password1!";
 
-            Mock<IHistoryLogger> mockLogger = new Mock<IHistoryLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
 
             using (AppUserStorageContext userContext = new AppUserStorageContext(mockLogger.Object))
             {
@@ -77,7 +77,7 @@ namespace CH.Test.EntityTests
             appUser.Person.FirstName = "FirstName";
             appUser.Person.LastName = "LastName";
 
-            Mock<IHistoryLogger> mockLogger = new Mock<IHistoryLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
 
             using (AppUserStorageContext userContext = new AppUserStorageContext(mockLogger.Object))
             {

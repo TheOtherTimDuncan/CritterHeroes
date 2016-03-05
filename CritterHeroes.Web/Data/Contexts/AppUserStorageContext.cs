@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class AppUserStorageContext : BaseDbContext<AppUserStorageContext>, ISqlStorageContext<AppUser>
     {
-        public AppUserStorageContext(IHistoryLogger logger)
+        public AppUserStorageContext(IAppLogger logger)
             : base(logger)
         {
         }

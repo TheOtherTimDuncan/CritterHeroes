@@ -11,7 +11,6 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using TOTD.Utility.ReflectionHelpers;
 
 namespace CH.Test.EntityTests
 {
@@ -21,7 +20,7 @@ namespace CH.Test.EntityTests
         [TestInitialize]
         public void CleanDatabase()
         {
-            Mock<IHistoryLogger> mockLogger = new Mock<IHistoryLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
 
             using (AppUserStorageContext dbContext = new AppUserStorageContext(mockLogger.Object))
             {

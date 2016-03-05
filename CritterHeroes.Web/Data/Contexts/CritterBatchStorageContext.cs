@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class CritterBatchStorageContext : BaseDbContext<CritterBatchStorageContext>, ICritterBatchSqlStorageContext
     {
-        public CritterBatchStorageContext(IHistoryLogger logger)
+        public CritterBatchStorageContext(IAppLogger logger)
             : base(logger)
         {
         }

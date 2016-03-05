@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Data.Contexts
 {
     public class SqlStorageContext<T> : BaseDbContext<SqlStorageContext<T>>, ISqlStorageContext<T> where T : class
     {
-        public SqlStorageContext(IHistoryLogger logger)
+        public SqlStorageContext(IAppLogger logger)
             : base(logger)
         {
             Database.SetInitializer<SqlStorageContext<T>>(null);
