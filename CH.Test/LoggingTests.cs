@@ -325,7 +325,7 @@ namespace CH.Test
                 From = "from@from.com"
             };
 
-            EmailLogEvent logEvent = EmailLogEvent.LogEmail(emailID, email);
+            EmailLogEvent logEvent = EmailLogEvent.Create(emailID, email);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.Email);

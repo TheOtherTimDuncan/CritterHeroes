@@ -8,7 +8,7 @@ namespace CritterHeroes.Web.Models.LogEvents
 {
     public class EmailLogEvent : AppLogEvent
     {
-        public static EmailLogEvent LogEmail(Guid emailID, EmailModel email)
+        public static EmailLogEvent Create(Guid emailID, EmailModel email)
         {
             EmailContext context = new EmailContext(emailID);
             return new EmailLogEvent(context, "Sent email from {From} to {To}", email.From, email.To);

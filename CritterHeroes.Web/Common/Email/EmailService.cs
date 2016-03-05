@@ -8,7 +8,7 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Emails;
@@ -24,13 +24,13 @@ namespace CritterHeroes.Web.Common.Email
         private IAzureService _azureService;
         private IOrganizationLogoService _logoService;
         private IStateManager<OrganizationContext> _stateManager;
-        private IAppLogger _logger;
+        private IAppEventPublisher _publisher;
 
         private const string _blobPath = "email";
         private const string _queueName = "email";
         private const bool _isPrivate = true;
 
-        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureService azureService, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IAppLogger logger)
+        public EmailService(IFileSystem fileSystem, IEmailConfiguration emailConfiguration, IAzureService azureService, IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IAppEventPublisher publisher)
         {
             this._fileSystem = fileSystem;
             this._emailConfiguration = emailConfiguration;
@@ -38,7 +38,7 @@ namespace CritterHeroes.Web.Common.Email
             this._azureService = azureService;
             this._stateManager = stateManager;
             this._logoService = logoService;
-            this._logger = logger;
+            this._publisher = publisher;
         }
 
         public async Task<CommandResult> SendEmailAsync<EmailDataType>(EmailCommand<EmailDataType> command) where EmailDataType : BaseEmailData, new()
@@ -73,8 +73,8 @@ namespace CritterHeroes.Web.Common.Email
             Guid blobID = Guid.NewGuid();
             await _azureService.UploadBlobAsync($"{_blobPath}/{blobID}", _isPrivate, json);
 
-            EmailLogEvent logEvent = EmailLogEvent.LogEmail(blobID, email);
-            _logger.LogEvent(logEvent);
+            EmailLogEvent logEvent = EmailLogEvent.Create(blobID, email);
+            _publisher.Publish(logEvent);
 
             return CommandResult.Success();
         }
