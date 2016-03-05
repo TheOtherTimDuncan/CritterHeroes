@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Contracts.Events;
 using Serilog.Events;
 using TOTD.Utility.ExceptionHelpers;
 
@@ -15,7 +16,7 @@ namespace CritterHeroes.Web.Models.LogEvents
         public const string History = "History";
     }
 
-    public class AppLogEvent
+    public class AppLogEvent : IAppEvent
     {
         public AppLogEvent(string category, LogEventLevel level, string messageTemplate, params object[] messageValues)
         {

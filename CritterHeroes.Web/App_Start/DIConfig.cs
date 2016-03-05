@@ -33,6 +33,7 @@ using CritterHeroes.Web.DataProviders.Azure.Services;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using FluentValidation;
 using Microsoft.Owin;
+using Serilog;
 using SimpleInjector;
 using SimpleInjector.Advanced;
 using SimpleInjector.Integration.Web;
@@ -46,6 +47,11 @@ namespace CritterHeroes.Web
         {
             Container container = new Container();
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
+
+            ILogger logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .CreateLogger();
+            container.RegisterSingleton<ILogger>(logger);
 
             List<Assembly> defaultAssemblies = new List<Assembly>();
             defaultAssemblies.Add(typeof(DIConfig).Assembly);

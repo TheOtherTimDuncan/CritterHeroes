@@ -564,6 +564,7 @@
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
     <Compile Include="Common\Events\AppEventPublisher.cs" />
+    <Compile Include="Common\Events\AppLogEventHandler.cs" />
     <Compile Include="Common\ListSink.cs" />
     <Compile Include="Common\Logging\AppLogEventEnricherFactory.cs" />
     <Compile Include="Common\Logging\UserLogEventEnricher.cs" />
@@ -662,7 +663,6 @@
     <Compile Include="DataProviders\Azure\AzureService.cs" />
     <Compile Include="DataProviders\Azure\Services\CritterPictureService.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureErrorLog.cs" />
-    <Compile Include="DataProviders\Azure\Logging\BaseAzureLogger.cs" />
     <Compile Include="DataProviders\Azure\Services\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />

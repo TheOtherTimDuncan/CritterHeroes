@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using CritterHeroes.Web.Common.Events;
 using CritterHeroes.Web.Common.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.Azure.Logging;
@@ -15,12 +17,55 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
 using Newtonsoft.Json;
 using Serilog;
+using SimpleInjector;
 
 namespace CH.Test
 {
     [TestClass]
     public class LoggingTests : BaseTest
     {
+        [TestMethod]
+        public void AppLogEventHandlerLogsAllLogEvents()
+        {
+            using (Container container = new Container())
+            {
+
+                ILogger logger = new LoggerConfiguration()
+                      .MinimumLevel.Information()
+                      .CreateLogger();
+                container.RegisterSingleton<ILogger>(logger);
+
+                container.RegisterCollection(typeof(IAppEventHandler<>), new[] { typeof(AppLogEventHandler<>) });
+
+                Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
+                container.Register<IAppLogEventEnricherFactory>(() => mockEnricherFactory.Object);
+
+                Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+                mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
+                container.Register<IAzureService>(() => mockAzureService.Object);
+
+                List<DynamicTableEntity> entities = new List<DynamicTableEntity>();
+                mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+                {
+                    entities.Add(GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity"));
+                    return new TableResult();
+                });
+
+                AppEventPublisher publisher = new AppEventPublisher(container);
+
+                CritterLogEvent critterEvent = CritterLogEvent.LogAction("critter");
+                publisher.Publish(critterEvent);
+
+                UserLogEvent userEvent = UserLogEvent.LogAction("user");
+                publisher.Publish(userEvent);
+
+                entities.Should().HaveCount(2);
+
+               entities.Any(x => x.Properties["Category"].StringValue == critterEvent.Category).Should().BeTrue();
+               entities.Any(x => x.Properties["Category"].StringValue == userEvent.Category).Should().BeTrue();
+            }
+        }
+
         [TestMethod]
         public void LogEventWritesEventToLogger()
         {
