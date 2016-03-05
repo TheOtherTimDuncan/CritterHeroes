@@ -25,6 +25,8 @@
 
                 e.preventDefault();
 
+                var importing = $('#importing').text('Importing...');
+
                 var frm = $(this);
                 cheroes.dataManager.sendRequest({
 
@@ -32,7 +34,15 @@
                     data: frm.serialize(),
 
                     success: function (data) {
-                        $('#messages').text(data).focus();
+                        var msgs = $('#messages').empty();
+                        for (var m = 0; m < data.length; m++) {
+                            msgs.append($('<li>').text(data[m]));
+                        }
+                        importing.text('');
+                    },
+
+                    error: function (jqXhr, textStatus, errorThrown) {
+
                     }
 
                 });
@@ -52,6 +62,7 @@
 
     <section>
         <input type="submit" class="btn btn-primary" value="Import" />
+        <span id="importing"></span>
     </section>
 
     <section>
@@ -71,4 +82,4 @@
 
 </form>
 
-<textarea id="messages"></textarea>
+<ul id="messages"></ul>

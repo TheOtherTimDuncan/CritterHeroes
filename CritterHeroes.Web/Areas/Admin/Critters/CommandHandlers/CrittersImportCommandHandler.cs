@@ -84,11 +84,35 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                                 critter.ReceivedDate = DateTimeOffset.Parse(source.ReceivedDate);
                             }
                             break;
+
+                        case "animalSpecialDiet":
+                            critter.HasSpecialDiet = source.SpecialDiet.SafeEquals("YES");
+                            break;
+
+                        case "animalSpecialneeds":
+                            critter.HasSpecialNeeds = source.SpecialNeeds.SafeEquals("YES");
+                            break;
+
+                        case "animalSpecialneedsDescription":
+                            critter.SpecialNeedsDescription = source.SpecialNeedsDescription;
+                            break;
+
+                        case "animalGeneralAge":
+                            critter.GeneralAge = source.GeneralAge;
+                            break;
+
+                        case "animalDescription":
+                            critter.Description = source.Description;
+                            break;
+
+                        case "animalCourtesy":
+                            critter.IsCourtesy = source.Courtesy.SafeEquals("YES");
+                            break;
                     }
                 }
-
-                await _critterStorage.SaveChangesAsync();
             }
+
+            await _critterStorage.SaveChangesAsync();
         }
 
         private async Task ImportAll(CritterImportModel command)
