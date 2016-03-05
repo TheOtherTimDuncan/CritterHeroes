@@ -10,6 +10,13 @@ namespace CritterHeroes.Web.Models.LogEvents
     {
         public static HistoryLogEvent LogHistory(object entityID, string entityName, Dictionary<string, object> before, Dictionary<string, object> after)
         {
+            int breakPos = entityName.IndexOf('_');
+            if (breakPos > 0)
+            {
+                // EF proxies follow type name with '_' and a random ID which we don't need
+                entityName = entityName.Substring(0, breakPos);
+            }
+
             HistoryContext context = new HistoryContext(JsonConvert.SerializeObject(before), JsonConvert.SerializeObject(after));
 
             return new HistoryLogEvent(context, "Changed entity {ID} - {Name}", entityID, entityName);

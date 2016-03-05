@@ -232,6 +232,24 @@ namespace CH.Test
         }
 
         [TestMethod]
+        public void HistoryLogEventRemovesEntityNameAfterUnderscore()
+        {
+            int entityID = 99;
+            string entityName = "entity_test";
+
+            Dictionary<string, object> before = new Dictionary<string, object>();
+            before["test1"] = 1;
+
+            Dictionary<string, object> after = new Dictionary<string, object>();
+            after["test2"] = 1;
+
+            HistoryLogEvent logEvent = HistoryLogEvent.LogHistory(entityID, entityName, before, after);
+
+            logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
+            logEvent.MessageValues.Should().Contain("entity");
+        }
+
+        [TestMethod]
         public void UserLogEventEnricherEnrichesUserLogEvent()
         {
             string ipAddress = "1.1.1.1";
