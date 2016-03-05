@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -12,13 +14,13 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ConfirmEmailCommandHandler : IAsyncCommandHandler<ConfirmEmailModel>
     {
-        private IUserLogger _userLogger;
+        private IAppLogger _logger;
         private IAppUserManager _appUserManager;
         private IAuthenticationManager _authenticationManager;
 
-        public ConfirmEmailCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IAuthenticationManager authenticationManager)
+        public ConfirmEmailCommandHandler(IAppLogger logger, IAppUserManager userManager, IAuthenticationManager authenticationManager)
         {
-            this._userLogger = userLogger;
+            this._logger = logger;
             this._appUserManager = userManager;
             this._authenticationManager = authenticationManager;
         }
@@ -31,7 +33,9 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             {
                 // We don't want to reveal whether or not the email address is valid
                 // so if the user isn't found just return failed with no errors
-                _userLogger.LogError("Email confirmation failed for {Email} using {Code} - user not found", command.Email, command.ConfirmationCode);
+
+                _logger.LogEvent(UserLogEvent.LogError("Email confirmation failed for {Email} using {Code} - user not found", command.Email, command.ConfirmationCode));
+
                 return CommandResult.Failed("There was an error confirming your email address. Please try again.");
             }
 
@@ -48,11 +52,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 // Let the view know we succeeded
                 command.IsSuccess = true;
 
-                _userLogger.LogAction("Email confirmation succeeded for {Email}", command.Email);
+                _logger.LogEvent(UserLogEvent.LogAction("Email confirmation succeeded for {Email}", command.Email));
+
                 return CommandResult.Success();
             }
 
-            _userLogger.LogError("Email confirmation failed for {Email} using {Code}", identityResult.Errors, command.Email, command.ConfirmationCode);
+            _logger.LogEvent(UserLogEvent.LogError("Email confirmation failed for {Email} using {Code}", identityResult.Errors, command.Email, command.ConfirmationCode));
 
             return CommandResult.Failed("There was an error confirming your email address. Please try again.");
         }

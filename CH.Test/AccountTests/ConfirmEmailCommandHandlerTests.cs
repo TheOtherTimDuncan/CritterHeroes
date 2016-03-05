@@ -8,6 +8,7 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -30,14 +31,19 @@ namespace CH.Test.AccountTests
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByUnconfirmedEmailAsync(command.Email)).Returns(Task.FromResult<AppUser>(null));
 
-            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            {
+                logEvent.MessageValues.Should().Contain(command.Email);
+                logEvent.MessageValues.Should().Contain(command.ConfirmationCode);
+            });
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockLogger.Object, mockUserManager.Object, null);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
             mockUserManager.Verify(x => x.FindByUnconfirmedEmailAsync(command.Email), Times.Once);
-            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), command.Email, command.ConfirmationCode));
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
         }
 
         [TestMethod]
@@ -57,9 +63,15 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.FindByUnconfirmedEmailAsync(command.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode)).Returns(Task.FromResult(identityResult));
 
-            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            {
+                logEvent.MessageValues.Should().Contain(command.Email);
+                logEvent.MessageValues.Should().Contain(command.ConfirmationCode);
+                logEvent.MessageValues.Should().Contain(x => (x is IEnumerable<string>) && ((IEnumerable<string>)x == identityResult.Errors));
+            });
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, null);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockLogger.Object, mockUserManager.Object, null);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeFalse();
 
@@ -67,7 +79,7 @@ namespace CH.Test.AccountTests
 
             mockUserManager.Verify(x => x.FindByUnconfirmedEmailAsync(command.Email), Times.Once);
             mockUserManager.Verify(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode), Times.Once);
-            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), identityResult.Errors, command.Email, command.ConfirmationCode));
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
         }
 
         [TestMethod]
@@ -86,11 +98,15 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.FindByUnconfirmedEmailAsync(command.Email)).Returns(Task.FromResult(user));
             mockUserManager.Setup(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode)).Returns(Task.FromResult(IdentityResult.Success));
 
-            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            {
+                logEvent.MessageValues.Should().Contain(command.Email);
+            });
 
             Mock<IAuthenticationManager> mockAuthenticationManager = new Mock<IAuthenticationManager>();
 
-            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockAuthenticationManager.Object);
+            ConfirmEmailCommandHandler handler = new ConfirmEmailCommandHandler(mockLogger.Object, mockUserManager.Object, mockAuthenticationManager.Object);
             CommandResult commandResult = await handler.ExecuteAsync(command);
             commandResult.Succeeded.Should().BeTrue();
             command.IsSuccess.Should().BeTrue();
@@ -100,7 +116,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByUnconfirmedEmailAsync(command.Email), Times.Once);
             mockUserManager.Verify(x => x.ConfirmEmailAsync(user.Id, command.ConfirmationCode), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
-            mockUserLogger.Verify(x => x.LogAction(It.IsAny<string>(), command.Email));
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()));
             mockAuthenticationManager.Verify(x => x.SignOut(), Times.Once);
         }
     }

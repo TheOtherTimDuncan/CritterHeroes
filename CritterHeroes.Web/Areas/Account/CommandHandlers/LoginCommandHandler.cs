@@ -7,6 +7,7 @@ using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Models.LogEvents;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
@@ -14,12 +15,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class LoginCommandHandler : IAsyncCommandHandler<LoginModel>
     {
         private IAppSignInManager _signinManager;
-        private IUserLogger _userLogger;
+        private IAppLogger _logger;
 
-        public LoginCommandHandler(IUserLogger userLogger, IAppSignInManager signinManager)
+        public LoginCommandHandler(IAppLogger logger, IAppSignInManager signinManager)
         {
             this._signinManager = signinManager;
-            this._userLogger = userLogger;
+            this._logger = logger;
         }
 
         public async Task<CommandResult> ExecuteAsync(LoginModel command)
@@ -28,12 +29,12 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 
             if (result == SignInStatus.Success)
             {
-                _userLogger.LogAction("{Email} successfully logged in", command.Email);
+                _logger.LogEvent(UserLogEvent.LogAction("{Email} successfully logged in", command.Email));
                 return CommandResult.Success();
             }
             else
             {
-                _userLogger.LogError("{Email} failed login because {SignInStatus}", command.Email, result);
+                _logger.LogEvent(UserLogEvent.LogError("{Email} failed login because {SignInStatus}", command.Email, result));
                 return CommandResult.Failed("The username or password that you entered was incorrect. Please try again.");
             }
         }

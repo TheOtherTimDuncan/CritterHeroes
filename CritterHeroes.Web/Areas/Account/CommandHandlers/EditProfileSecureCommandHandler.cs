@@ -13,6 +13,7 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
@@ -20,16 +21,16 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
     public class EditProfileSecureCommandHandler : IAsyncCommandHandler<EditProfileSecureModel>
     {
         private IAppUserManager _userManager;
-        private IUserLogger _userLogger;
+        private IAppLogger _logger;
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
         private IEmailService _emailService;
 
-        public EditProfileSecureCommandHandler(IAppUserManager userManager, IUserLogger userLogger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
+        public EditProfileSecureCommandHandler(IAppUserManager userManager, IAppLogger logger, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
         {
             this._userManager = userManager;
-            this._userLogger = userLogger;
+            this._logger = logger;
             this._httpUser = httpUser;
             this._userContextManager = userContextManager;
             this._urlGenerator = urlGenerator;
@@ -51,7 +52,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             UserContext userContext = UserContext.FromUser(user);
             _userContextManager.SaveContext(userContext);
 
-            _userLogger.LogAction("Email changed from {OldEmail} to {NewEmail}", user.Email, command.NewEmail);
+            _logger.LogEvent(UserLogEvent.LogAction("Email changed from {OldEmail} to {NewEmail}", user.Email, command.NewEmail));
 
             ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail);
             emailCommand.EmailData.TokenLifespan = _userManager.TokenLifespan;

@@ -11,19 +11,20 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 
 namespace CritterHeroes.Web.Areas.Account.CommandHandlers
 {
     public class ForgotPasswordCommandHandler : IAsyncCommandHandler<ForgotPasswordModel>
     {
-        private IUserLogger _userLogger;
+        private IAppLogger _logger;
         private IAppUserManager _appUserManager;
         private IEmailService _emailService;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(IUserLogger userLogger, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IAppLogger logger, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
         {
-            this._userLogger = userLogger;
+            this._logger = logger;
             this._appUserManager = userManager;
             this._emailService = emailService;
             this._urlGenerator = urlGenerator;
@@ -39,7 +40,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
                 // so if the user isn't found send an email to the entered email address and just return success
                 ResetPasswordAttemptEmailCommand emailAttempt = new ResetPasswordAttemptEmailCommand(command.ResetPasswordEmail);
                 await _emailService.SendEmailAsync(emailAttempt);
-                _userLogger.LogError("{Email} not found for forgot password", command.ResetPasswordEmail);
+                _logger.LogEvent(UserLogEvent.LogError("{Email} not found for forgot password", command.ResetPasswordEmail));
                 return CommandResult.Success();
             }
 
@@ -50,7 +51,7 @@ namespace CritterHeroes.Web.Areas.Account.CommandHandlers
             emailCommand.EmailData.UrlReset = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.EmailData.Token);
 
             await _emailService.SendEmailAsync(emailCommand);
-            _userLogger.LogAction("{Email} found for forgot password", user.Email);
+            _logger.LogEvent(UserLogEvent.LogAction("{Email} found for forgot password", user.Email));
 
             return CommandResult.Success();
         }

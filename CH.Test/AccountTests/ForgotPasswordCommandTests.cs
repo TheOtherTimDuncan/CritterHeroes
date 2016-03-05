@@ -11,6 +11,7 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -30,18 +31,23 @@ namespace CH.Test.AccountTests
                 ResetPasswordEmail = email
             };
 
-            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            {
+                logEvent.MessageValues.Should().Contain(command.ResetPasswordEmail);
+            });
+
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
             Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
-            mockUserLogger.Verify(x => x.LogError(It.IsAny<string>(), command.ResetPasswordEmail), Times.Once);
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Never);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Once);
@@ -62,7 +68,11 @@ namespace CH.Test.AccountTests
 
             string code = "code";
 
-            Mock<IUserLogger> mockUserLogger = new Mock<IUserLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            {
+                logEvent.MessageValues.Should().Contain(user.Email);
+            });
 
             Mock<IAppUserManager> mockUserManager = new Mock<IAppUserManager>();
             mockUserManager.Setup(x => x.FindByEmailAsync(command.ResetPasswordEmail)).Returns(Task.FromResult(user));
@@ -83,11 +93,11 @@ namespace CH.Test.AccountTests
                 return Task.FromResult(CommandResult.Success());
             });
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockUserLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockLogger.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
-            mockUserLogger.Verify(x => x.LogAction(It.IsAny<string>(), user.Email), Times.Once);
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);

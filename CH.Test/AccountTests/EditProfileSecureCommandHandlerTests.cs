@@ -15,6 +15,7 @@ using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -42,7 +43,12 @@ namespace CH.Test.AccountTests
             mockUserManager.Setup(x => x.UpdateAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
             mockUserManager.Setup(x => x.CreateIdentityAsync(user)).Returns(Task.FromResult(new ClaimsIdentity()));
 
-            Mock<IUserLogger> mockLogger = new Mock<IUserLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
+            mockLogger.Setup(x => x.LogEvent(It.IsAny<UserLogEvent>())).Callback((UserLogEvent logEvent) =>
+            {
+                logEvent.MessageValues.Should().Contain(user.Email);
+                logEvent.MessageValues.Should().Contain(model.NewEmail);
+            });
 
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns(user.Email);
@@ -70,7 +76,7 @@ namespace CH.Test.AccountTests
             mockUserManager.Verify(x => x.FindByNameAsync(user.UserName), Times.Once);
             mockUserManager.Verify(x => x.UpdateAsync(user), Times.Once);
 
-            mockLogger.Verify(x => x.LogAction(It.IsAny<string>(), email, model.NewEmail), Times.Once);
+            mockLogger.Verify(x => x.LogEvent(It.IsAny<UserLogEvent>()));
 
             mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ConfirmEmailEmailCommand>()), Times.Once);
         }

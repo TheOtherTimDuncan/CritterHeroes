@@ -264,7 +264,6 @@
     <Compile Include="Azure\OrganizationLogoServiceTests.cs" />
     <Compile Include="Azure\ConfigurationTests.cs" />
     <Compile Include="Azure\ErrorLogTests.cs" />
-    <Compile Include="Azure\AzureUserLoggerTests.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="AccountTests\ConfirmEmailCommandHandlerTests.cs" />
     <Compile Include="AccountTests\EditProfileCommandHandlerTests.cs" />

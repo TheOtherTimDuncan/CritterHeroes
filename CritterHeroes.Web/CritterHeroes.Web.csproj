@@ -653,7 +653,6 @@
     <Compile Include="Contracts\StateManagement\IStateManager.cs" />
     <Compile Include="Contracts\StateManagement\IStateSerializer.cs" />
     <Compile Include="Contracts\IUrlGenerator.cs" />
-    <Compile Include="Contracts\Logging\IUserLogger.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
     <Compile Include="Contracts\Storage\IAzureStorageContext.cs" />
@@ -663,7 +662,6 @@
     <Compile Include="DataProviders\Azure\AzureService.cs" />
     <Compile Include="DataProviders\Azure\Services\CritterPictureService.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureErrorLog.cs" />
-    <Compile Include="DataProviders\Azure\Logging\AzureUserLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\BaseAzureLogger.cs" />
     <Compile Include="DataProviders\Azure\Services\OrganizationLogoService.cs" />
     <Compile Include="DataProviders\Azure\Utility\DynamicTableEntityExtensions.cs" />
