@@ -90,7 +90,6 @@ namespace CritterHeroes.Web
             container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container), Lifestyle.Scoped);
             container.Register(typeof(IAppLogEventEnricher<>), defaultAssemblies);
 
-            container.Register<ICritterLogger, AzureCritterLogger>(Lifestyle.Scoped);
             container.Register<IHistoryLogger, AzureHistoryLogger>(Lifestyle.Scoped);
 
             container.Register(typeof(IValidator<>), defaultAssemblies);

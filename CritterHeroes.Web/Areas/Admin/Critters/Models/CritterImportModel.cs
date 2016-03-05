@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.Models
             set;
         }
 
-        public string Messages
+        public IEnumerable<string> Messages
         {
             get;
             set;

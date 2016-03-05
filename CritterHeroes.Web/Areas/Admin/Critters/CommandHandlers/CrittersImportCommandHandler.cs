@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
@@ -16,6 +15,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using CritterHeroes.Web.Models.LogEvents;
 using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.Misc;
 using TOTD.Utility.StringHelpers;
@@ -28,9 +28,9 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
         private ICritterBatchSqlStorageContext _critterStorage;
         private IStateManager<OrganizationContext> _stateManager;
         private ICritterPictureService _pictureService;
-        private ICritterLogger _logger;
+        private IAppLogger _logger;
 
-        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsSearchStorage<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, ICritterLogger logger)
+        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsSearchStorage<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, IAppLogger logger)
         {
             this._critterStorage = critterStorage;
             this._stateManager = stateManager;
@@ -118,7 +118,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     {
                         critter = new Critter(source.Name, critterStatus, breed, orgContext.OrganizationID, source.ID);
                         _critterStorage.AddCritter(critter);
-                        _logger.LogAction("Added {CritterID} - {CritterName}", source.ID, source.Name);
+                        _logger.LogEvent(CritterLogEvent.LogAction("Added {CritterID} - {CritterName}", source.ID, source.Name));
                     }
                     else
                     {
@@ -126,13 +126,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.BreedID != breed.ID)
                         {
-                            _logger.LogAction("Changed breed from {OldBreed} to {NewBreed} for {CrittterID} - {CritterName}", critter.Breed.IfNotNull(x => x.BreedName, "not set"), breed.BreedName, source.ID, source.Name);
+                            _logger.LogEvent(CritterLogEvent.LogAction("Changed breed from {OldBreed} to {NewBreed} for {CrittterID} - {CritterName}", critter.Breed.IfNotNull(x => x.BreedName, "not set"), breed.BreedName, source.ID, source.Name));
                             critter.ChangeBreed(breed);
                         }
 
                         if (critter.StatusID != critterStatus.ID)
                         {
-                            _logger.LogAction("Changed status from {OldStatus} to {NewStatus} for {CrittterID} - {CritterName}", critter.Status.IfNotNull(x => x.Name, "not set"), critterStatus.Name, source.ID, source.Name);
+                            _logger.LogEvent(CritterLogEvent.LogAction("Changed status from {OldStatus} to {NewStatus} for {CrittterID} - {CritterName}", critter.Status.IfNotNull(x => x.Name, "not set"), critterStatus.Name, source.ID, source.Name));
                             critter.ChangeStatus(critterStatus);
                         }
                     }
@@ -147,13 +147,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.FosterID != person.ID)
                         {
-                            _logger.LogAction("Changed foster from {OldFoster} to {NewFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), person.FirstName, source.ID, source.Name);
+                            _logger.LogEvent(CritterLogEvent.LogAction("Changed foster from {OldFoster} to {NewFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), person.FirstName, source.ID, source.Name));
                             critter.ChangeFoster(person);
                         }
                     }
                     else if (critter.FosterID != null)
                     {
-                        _logger.LogAction("Removed foster {OldFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), source.ID, source.Name);
+                        _logger.LogEvent(CritterLogEvent.LogAction("Removed foster {OldFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), source.ID, source.Name));
                         critter.RemoveFoster();
                     }
 
@@ -163,13 +163,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.LocationID != location.ID)
                         {
-                            _logger.LogAction("Changed location from {OldLocation} to {NewLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), location.Name, source.ID, source.Name);
+                            _logger.LogEvent(CritterLogEvent.LogAction("Changed location from {OldLocation} to {NewLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), location.Name, source.ID, source.Name));
                             critter.ChangeLocation(location);
                         }
                     }
                     else if (critter.LocationID != null)
                     {
-                        _logger.LogAction("Removed location {OldLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), source.ID, source.Name);
+                        _logger.LogEvent(CritterLogEvent.LogAction("Removed location {OldLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), source.ID, source.Name));
                         critter.RemoveLocation();
                     }
 
@@ -218,7 +218,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                                 }
 
                                 CritterPicture critterPicture = critter.AddPicture(picture);
-                                _logger.LogAction("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name);
+                                _logger.LogEvent(CritterLogEvent.LogAction("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name));
                             }
                         }
                     }
