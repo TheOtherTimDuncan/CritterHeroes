@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
-using CritterHeroes.Web.Common;
 using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Models.LogEvents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.StringHelpers;
 
 namespace CH.RescueGroupsExplorer
 {
-    public class RescueGroupsExplorerLogger : IRescueGroupsLogger
+    public class RescueGroupsExplorerLogger : IAppLogger
     {
         private TextBox _txtBox;
         private List<LogEntry> _entries;
 
         private readonly object _syncRoot;
 
+        public IEnumerable<string> Messages
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public RescueGroupsExplorerLogger(TextBox textBox)
         {
@@ -28,16 +34,17 @@ namespace CH.RescueGroupsExplorer
             this._syncRoot = new object();
         }
 
-        public void LogRequest(string url, string request, string response, HttpStatusCode statusCode)
+        public void LogEvent<LogEventType>(LogEventType logEvent) where LogEventType : AppLogEvent
         {
             lock (_syncRoot)
             {
+                RescueGroupsLogEvent.RescueGroupsContext context = (RescueGroupsLogEvent.RescueGroupsContext)logEvent.Context;
                 LogEntry entry = new LogEntry()
                 {
-                    Url = url,
-                    Request = request,
-                    Response = response,
-                    StatusCode = statusCode
+                    Url = context.Url,
+                    Request = context.Request,
+                    Response = context.Response,
+                    StatusCode = context.StatusCode
                 };
                 _entries.Add(entry);
             }

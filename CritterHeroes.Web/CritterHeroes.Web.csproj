@@ -571,13 +571,11 @@
     <Compile Include="Contracts\Logging\IAppLogger.cs" />
     <Compile Include="Contracts\Logging\ICritterLogger.cs" />
     <Compile Include="Contracts\Logging\IHistoryLogger.cs" />
-    <Compile Include="Contracts\Logging\IRescueGroupsLogger.cs" />
     <Compile Include="Contracts\Storage\IPreserveHistory.cs" />
     <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureAppLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureCritterLogger.cs" />
     <Compile Include="DataProviders\Azure\Logging\AzureHistoryLogger.cs" />
-    <Compile Include="DataProviders\Azure\Logging\AzureRescueGroupsLogger.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
     <Compile Include="Models\Emails\BaseEmailData.cs" />
     <Compile Include="Models\Emails\BaseTokenEmailData.cs" />

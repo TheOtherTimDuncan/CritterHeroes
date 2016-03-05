@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public class SpeciesSourceStorage : RescueGroupsStorage<SpeciesSource>
     {
-        public SpeciesSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+        public SpeciesSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
             : base(configuration, client, logger)
         {
         }

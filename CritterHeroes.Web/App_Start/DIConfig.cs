@@ -92,7 +92,6 @@ namespace CritterHeroes.Web
 
             container.Register<IUserLogger, AzureUserLogger>(Lifestyle.Scoped);
             container.Register<ICritterLogger, AzureCritterLogger>(Lifestyle.Scoped);
-            container.Register<IRescueGroupsLogger, AzureRescueGroupsLogger>(Lifestyle.Scoped);
             container.Register<IHistoryLogger, AzureHistoryLogger>(Lifestyle.Scoped);
 
             container.Register(typeof(IValidator<>), defaultAssemblies);

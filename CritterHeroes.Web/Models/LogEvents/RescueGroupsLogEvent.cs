@@ -10,12 +10,44 @@ namespace CritterHeroes.Web.Models.LogEvents
     {
         public static RescueGroupsLogEvent LogRequest(string url, string request, string response, HttpStatusCode statusCode)
         {
-            return new RescueGroupsLogEvent("Sent {Request} to {Url} and received status code {StatusCode} with {Response}", request, url, statusCode, response);
+            RescueGroupsContext context = new RescueGroupsContext(url, request, response, statusCode);
+            return new RescueGroupsLogEvent(context, "Sent request and received status code {StatusCode}", statusCode);
         }
 
-        private RescueGroupsLogEvent(string messageTemplate, params object[] messageValues)
-            : base(LogEventCategory.RescueGroups, LogEventLevel.Information, messageTemplate, messageValues)
+        private RescueGroupsLogEvent(RescueGroupsContext context, string messageTemplate, params object[] messageValues)
+            : base(context, LogEventCategory.RescueGroups, LogEventLevel.Information, messageTemplate, messageValues)
         {
+        }
+
+        public class RescueGroupsContext
+        {
+            public RescueGroupsContext(string url, string request, string response, HttpStatusCode statusCode)
+            {
+                this.Url = url;
+                this.Request = request;
+                this.Response = response;
+                this.StatusCode = statusCode;
+            }
+
+            public string Url
+            {
+                get;
+            }
+
+            public string Request
+            {
+                get;
+            }
+
+            public string Response
+            {
+                get;
+            }
+
+            public HttpStatusCode StatusCode
+            {
+                get;
+            }
         }
     }
 }

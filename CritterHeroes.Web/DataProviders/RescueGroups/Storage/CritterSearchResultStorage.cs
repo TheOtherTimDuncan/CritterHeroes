@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     {
         private IEnumerable<SearchField> _fields;
 
-        public CritterSearchResultStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+        public CritterSearchResultStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
             : base(configuration, client, logger)
         {
             this._fields = new[]

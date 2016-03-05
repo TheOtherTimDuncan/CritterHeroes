@@ -12,7 +12,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public abstract class ContactSourceStorageBase<T> : RescueGroupsSearchStorageBase<T> where T : class
     {
-        public ContactSourceStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+        public ContactSourceStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
             : base(configuration, client, logger)
         {
         }

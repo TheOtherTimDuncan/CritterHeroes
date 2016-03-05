@@ -9,6 +9,7 @@ using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using CritterHeroes.Web.Models.LogEvents;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
@@ -19,12 +20,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     {
         private IRescueGroupsConfiguration _configuration;
         private IHttpClient _client;
-        private IRescueGroupsLogger _logger;
+        private IAppLogger _logger;
 
         private string _token;
         private string _tokenHash;
 
-        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+        public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
         {
             ThrowIf.Argument.IsNull(configuration, nameof(configuration));
 
@@ -196,14 +197,16 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
             string content = await response.Content.ReadAsStringAsync();
 
+            RescueGroupsLogEvent logEvent;
             if (request["password"] != null)
             {
-                _logger.LogRequest(_configuration.Url, "Login", content, response.StatusCode);
+                logEvent = RescueGroupsLogEvent.LogRequest(_configuration.Url, "Login", content, response.StatusCode);
             }
             else
             {
-                _logger.LogRequest(_configuration.Url, jsonRequest, content, response.StatusCode);
+                logEvent = RescueGroupsLogEvent.LogRequest(_configuration.Url, jsonRequest, content, response.StatusCode);
             }
+            _logger.LogEvent(logEvent);
 
             if (!response.IsSuccessStatusCode)
             {

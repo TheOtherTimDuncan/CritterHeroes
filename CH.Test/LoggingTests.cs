@@ -153,10 +153,14 @@ namespace CH.Test
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.RescueGroups);
-            logEvent.MessageValues.Should().Contain(url);
-            logEvent.MessageValues.Should().Contain(request);
-            logEvent.MessageValues.Should().Contain(response);
             logEvent.MessageValues.Should().Contain(statusCode);
+
+            logEvent.Context.Should().BeOfType<RescueGroupsLogEvent.RescueGroupsContext>();
+            RescueGroupsLogEvent.RescueGroupsContext context = logEvent.Context as RescueGroupsLogEvent.RescueGroupsContext;
+            context.Url.Should().Be(url);
+            context.Request.Should().Be(request);
+            context.Response.Should().Be(response);
+            context.StatusCode.Should().Be(statusCode);
         }
 
         [TestMethod]

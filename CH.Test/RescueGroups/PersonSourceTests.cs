@@ -78,7 +78,7 @@ namespace CH.Test.RescueGroups
 
             MockHttpClient mockHttpClient = new MockHttpClient(element1, element2);
 
-            Mock<IRescueGroupsLogger> mockLogger = new Mock<IRescueGroupsLogger>();
+            Mock<IAppLogger> mockLogger = new Mock<IAppLogger>();
 
             PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object, mockLogger.Object);
             IEnumerable<PersonSource> results = await storage.GetAllAsync();

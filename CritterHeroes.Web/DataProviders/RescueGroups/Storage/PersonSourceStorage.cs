@@ -14,7 +14,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
     {
         private IEnumerable<SearchField> _fields;
 
-        public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+        public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
             : base(configuration, client, logger)
         {
             SearchFilter filter = new SearchFilter()

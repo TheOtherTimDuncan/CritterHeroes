@@ -15,7 +15,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public abstract class RescueGroupsSearchStorageBase<T> : RescueGroupsStorage<T>, IRescueGroupsSearchStorage<T> where T : class
     {
-        public RescueGroupsSearchStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IRescueGroupsLogger logger)
+        public RescueGroupsSearchStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppLogger logger)
             : base(configuration, client, logger)
         {
             ResultLimit = 100;
