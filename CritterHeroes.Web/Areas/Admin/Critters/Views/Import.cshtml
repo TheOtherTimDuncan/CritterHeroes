@@ -26,6 +26,7 @@
                 e.preventDefault();
 
                 var importing = $('#importing').text('Importing...');
+                var msg = $('#messages');
 
                 var frm = $(this);
                 cheroes.dataManager.sendRequest({
@@ -34,15 +35,15 @@
                     data: frm.serialize(),
 
                     success: function (data) {
-                        var msgs = $('#messages').empty();
+                        msg.empty();
                         for (var m = 0; m < data.length; m++) {
-                            msgs.append($('<li>').text(data[m]));
+                            msg.append($('<li>').html(data[m]));
                         }
                         importing.text('');
                     },
 
                     error: function (jqXhr, textStatus, errorThrown) {
-
+                        msg.empty().append($('<li>').text(jqXhr.responseText));
                     }
 
                 });

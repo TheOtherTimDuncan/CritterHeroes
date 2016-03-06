@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Common.Commands;
@@ -16,6 +17,7 @@ using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.Models.LogEvents;
+using Newtonsoft.Json.Linq;
 using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.Misc;
 using TOTD.Utility.StringHelpers;
@@ -41,6 +43,9 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             this._publisher = publisher;
 
             this._messages = new List<string>();
+
+            _publisher.Subscribe<CritterLogEvent>(HandleCritterLogEvent);
+            _publisher.Subscribe<HistoryLogEvent>(HandleHistoryLogEvent);
         }
 
         public async Task<CommandResult> ExecuteAsync(CritterImportModel command)
@@ -53,9 +58,92 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             {
                 await ImportAll(command);
             }
+
             command.Messages = _messages;
 
             return CommandResult.Success();
+        }
+
+        public void HandleCritterLogEvent(CritterLogEvent appEvent)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append("\"");
+            builder.Append(appEvent.MessageTemplate);
+            builder.Append("\"");
+
+            foreach (var value in appEvent.MessageValues)
+            {
+                builder.Append(", ");
+                builder.Append(value);
+            }
+
+            _messages.Add(builder.ToString());
+        }
+
+        public void HandleHistoryLogEvent(HistoryLogEvent appEvent)
+        {
+            var context = (HistoryLogEvent.HistoryContext)appEvent.Context;
+
+            Dictionary<string, HistoryValue> values = new Dictionary<string, HistoryValue>();
+
+            JObject before = JObject.Parse(context.Before);
+            foreach (JProperty property in before.Properties())
+            {
+                values.Add(property.Name, new HistoryValue()
+                {
+                    Before = property.Value.Value<object>()
+                });
+            }
+
+            JObject after = JObject.Parse(context.After);
+            foreach (JProperty property in after.Properties())
+            {
+                HistoryValue historyValue;
+                if (!values.TryGetValue(property.Name, out historyValue))
+                {
+                    historyValue = new HistoryValue();
+                    values.Add(property.Name, historyValue);
+                }
+                historyValue.After = property.Value.Value<object>();
+            }
+
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append("\"");
+            builder.Append(appEvent.MessageTemplate);
+            builder.Append("\"");
+
+            foreach (var value in appEvent.MessageValues)
+            {
+                builder.Append(", ");
+                builder.Append(value);
+            }
+
+            builder.Append("<table>");
+
+            foreach (var keyValue in values)
+            {
+                builder.Append("<tr>");
+
+                builder.Append("<td>");
+                builder.Append(keyValue.Key);
+                builder.Append("</td>");
+
+                builder.Append("<td>");
+                builder.Append(keyValue.Value.Before);
+                builder.Append("</td>");
+
+                builder.Append("<td>");
+                builder.Append(keyValue.Value.After);
+                builder.Append("</td>");
+
+                builder.Append("</tr>");
+            }
+
+            builder.Append("</table>");
+
+            _messages.Add(builder.ToString());
         }
 
         private async Task ImportPartial(CritterImportModel command)
@@ -326,6 +414,21 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             }
 
             return location;
+        }
+
+        private class HistoryValue
+        {
+            public object Before
+            {
+                get;
+                set;
+            }
+
+            public object After
+            {
+                get;
+                set;
+            }
         }
     }
 }
