@@ -25,6 +25,14 @@ namespace CritterHeroes.Web.Common.Events
                 .CreateLogger();
         }
 
+        public int? Order
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
         public void Handle(TAppLogEvent appEvent)
         {
             ILogger logger = _logger.ForContext("Category", appEvent.Category);

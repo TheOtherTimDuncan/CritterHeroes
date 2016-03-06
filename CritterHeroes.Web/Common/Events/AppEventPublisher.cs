@@ -21,7 +21,7 @@ namespace CritterHeroes.Web.Common.Events
         public void Publish<TAppEvent>(TAppEvent appEvent) where TAppEvent : IAppEvent
         {
             IEnumerable<IAppEventHandler<TAppEvent>> handlers = _container.GetAllInstances<IAppEventHandler<TAppEvent>>();
-            handlers.NullSafeForEach((IAppEventHandler<TAppEvent> handler) =>
+            handlers.NullSafeOrderBy(x => x.Order ?? 999).NullSafeForEach((IAppEventHandler<TAppEvent> handler) =>
             {
                 handler.Handle(appEvent);
             });
