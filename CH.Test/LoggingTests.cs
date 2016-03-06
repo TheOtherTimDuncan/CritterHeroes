@@ -7,7 +7,6 @@ using CritterHeroes.Web.Common.Logging;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.DataProviders.Azure.Logging;
 using CritterHeroes.Web.Models.Emails;
 using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
@@ -36,9 +35,7 @@ namespace CH.Test
                 container.RegisterSingleton<ILogger>(logger);
 
                 container.RegisterCollection(typeof(IAppEventHandler<>), new[] { typeof(AppLogEventHandler<>) });
-
-                Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
-                container.Register<IAppLogEventEnricherFactory>(() => mockEnricherFactory.Object);
+                container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container));
 
                 Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
                 mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
@@ -61,129 +58,97 @@ namespace CH.Test
 
                 entities.Should().HaveCount(2);
 
-               entities.Any(x => x.Properties["Category"].StringValue == critterEvent.Category).Should().BeTrue();
-               entities.Any(x => x.Properties["Category"].StringValue == userEvent.Category).Should().BeTrue();
+                entities.Any(x => x.Properties["Category"].StringValue == critterEvent.Category).Should().BeTrue();
+                entities.Any(x => x.Properties["Category"].StringValue == userEvent.Category).Should().BeTrue();
             }
         }
 
         [TestMethod]
-        public void LogEventWritesEventToLogger()
+        public void AppLogEventHandlerIncludesEventContextWhenLogging()
         {
-            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
-            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
-
-            DynamicTableEntity tableEntity = null;
-            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
-            {
-                tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
-                return new TableResult();
-            });
-
-            Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
-
-            string test = "test";
             string category = "category";
-
-            AppLogEvent logEvent = new AppLogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
-
-            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object, mockEnricherFactory.Object);
-            logger.LogEvent(logEvent);
-
-            tableEntity.Should().NotBeNull();
-            tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
-            tableEntity.Properties[nameof(AppLogEvent.Level)].StringValue.Should().Be("Information");
-            tableEntity.Properties["Category"].StringValue.Should().Be(category);
-            tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
-            tableEntity.Properties["Test"].StringValue.Should().Be(test);
-
-            logger.Messages.Should().Equal(new[] { "This is a \"test\"" });
-
-            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
-        }
-
-        [TestMethod]
-        public void LogEventWritesEventAndEventContextToLogger()
-        {
-            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
-            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
-
-            DynamicTableEntity tableEntity = null;
-            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
-            {
-                tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
-                return new TableResult();
-            });
-
-            Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
-
             string test = "test";
-            string category = "category";
 
             TestContext testContext = new TestContext()
             {
                 TestValue = 99
             };
 
-            AppLogEvent logEvent = new AppLogEvent(testContext, category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+            using (Container container = new Container())
+            {
+                ILogger logger = new LoggerConfiguration()
+                    .MinimumLevel.Information()
+                    .CreateLogger();
+                container.RegisterSingleton<ILogger>(logger);
 
-            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object, mockEnricherFactory.Object);
-            logger.LogEvent(logEvent);
+                container.RegisterCollection(typeof(IAppEventHandler<>), new[] { typeof(AppLogEventHandler<>) });
+                container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container));
 
-            tableEntity.Should().NotBeNull();
-            tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
-            tableEntity.Properties[nameof(AppLogEvent.Level)].StringValue.Should().Be("Information");
-            tableEntity.Properties["Category"].StringValue.Should().Be(category);
-            tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
-            tableEntity.Properties["Test"].StringValue.Should().Be(test);
-            tableEntity.Properties[nameof(TestContext.TestValue)].Int32Value.Should().Be(testContext.TestValue);
+                Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+                mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
+                container.Register<IAzureService>(() => mockAzureService.Object);
 
-            logger.Messages.Should().Equal(new[] { "This is a \"test\"" });
+                DynamicTableEntity entity = null;
+                mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+                {
+                    entity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
+                    return new TableResult();
+                });
 
-            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
+                AppEventPublisher publisher = new AppEventPublisher(container);
+
+                AppLogEvent logEvent = new AppLogEvent(testContext, category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+                publisher.Publish(logEvent);
+
+                entity.Should().NotBeNull();
+                entity.Properties[nameof(TestContext.TestValue)].Int32Value.Should().Be(testContext.TestValue);
+            }
         }
 
         [TestMethod]
-        public void LogEventWritesEventAndEWithEnrichmentToLogger()
+        public void AppLogEventHandlerIncludesEnrichmentWhenLogging()
         {
             string test = "test";
             string category = "category";
             string enrichment = "enrichment";
 
-            Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
-            mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
 
-            DynamicTableEntity tableEntity = null;
-            mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+            using (Container container = new Container())
             {
-                tableEntity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
-                return new TableResult();
-            });
+                ILogger logger = new LoggerConfiguration()
+                    .MinimumLevel.Information()
+                    .CreateLogger();
+                container.RegisterSingleton<ILogger>(logger);
 
-            Mock<IAppLogEventEnricher<AppLogEvent>> mockEnricher = new Mock<IAppLogEventEnricher<AppLogEvent>>();
-            mockEnricher.Setup(x => x.Enrich(It.IsAny<ILogger>(), It.IsAny<AppLogEvent>())).Returns((ILogger enrichLogger, AppLogEvent enrichLogEvent) =>
-            {
-                return enrichLogger.ForContext(nameof(enrichment), enrichment);
-            });
+                container.RegisterCollection(typeof(IAppEventHandler<>), new[] { typeof(AppLogEventHandler<>) });
+                container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container));
 
-            Mock<IAppLogEventEnricherFactory> mockEnricherFactory = new Mock<IAppLogEventEnricherFactory>();
-            mockEnricherFactory.Setup(x => x.GetEnricher(It.IsAny<AppLogEvent>())).Returns(mockEnricher.Object);
+                Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
+                mockAzureService.Setup(x => x.GetLoggingKey()).Returns("partitionkey");
+                container.Register<IAzureService>(() => mockAzureService.Object);
 
-            AppLogEvent logEvent = new AppLogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+                DynamicTableEntity entity = null;
+                mockAzureService.Setup(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>())).Returns((string tableName, TableOperation tableOperation) =>
+                {
+                    entity = GetNonPublicPropertyValue<DynamicTableEntity>(tableOperation, "Entity");
+                    return new TableResult();
+                });
 
-            AzureAppLogger logger = new AzureAppLogger(mockAzureService.Object, mockEnricherFactory.Object);
-            logger.LogEvent(logEvent);
+                Mock<IAppLogEventEnricher<AppLogEvent>> mockEnricher = new Mock<IAppLogEventEnricher<AppLogEvent>>();
+                mockEnricher.Setup(x => x.Enrich(It.IsAny<ILogger>(), It.IsAny<AppLogEvent>())).Returns((ILogger enrichLogger, AppLogEvent enrichLogEvent) =>
+                {
+                    return enrichLogger.ForContext(nameof(enrichment), enrichment);
+                });
+                container.Register(() => mockEnricher.Object);
 
-            tableEntity.Should().NotBeNull();
-            tableEntity.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: 100);
-            tableEntity.Properties[nameof(AppLogEvent.Level)].StringValue.Should().Be("Information");
-            tableEntity.Properties["Category"].StringValue.Should().Be(category);
-            tableEntity.Properties["Message"].StringValue.Should().Be("This is a \"test\"");
-            tableEntity.Properties["Test"].StringValue.Should().Be(test);
-            tableEntity.Properties[nameof(enrichment)].StringValue.Should().Be(enrichment);
+                AppEventPublisher publisher = new AppEventPublisher(container);
 
-            logger.Messages.Should().Equal(new[] { "This is a \"test\"" });
+                AppLogEvent logEvent = new AppLogEvent(category, Serilog.Events.LogEventLevel.Information, "This is a {Test}", test);
+                publisher.Publish(logEvent);
 
-            mockAzureService.Verify(x => x.ExecuteTableOperation(It.IsAny<string>(), It.IsAny<TableOperation>()), Times.Once);
+                entity.Should().NotBeNull();
+                entity.Properties[nameof(enrichment)].StringValue.Should().Be(enrichment);
+            }
         }
 
         [TestMethod]

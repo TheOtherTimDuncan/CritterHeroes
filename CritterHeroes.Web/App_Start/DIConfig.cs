@@ -28,7 +28,6 @@ using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Data.Storage;
 using CritterHeroes.Web.DataProviders.Azure;
-using CritterHeroes.Web.DataProviders.Azure.Logging;
 using CritterHeroes.Web.DataProviders.Azure.Services;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using FluentValidation;
@@ -95,7 +94,6 @@ namespace CritterHeroes.Web
             container.Register<IEmailService, EmailService>();
             container.Register<IAppEventPublisher, AppEventPublisher>(Lifestyle.Scoped);
 
-            container.Register<IAppLogger, AzureAppLogger>(Lifestyle.Scoped);
             container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container), Lifestyle.Scoped);
             container.Register(typeof(IAppLogEventEnricher<>), defaultAssemblies);
 
