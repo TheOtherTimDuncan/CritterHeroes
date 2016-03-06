@@ -9,7 +9,7 @@ using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
@@ -28,15 +28,19 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
         private ICritterBatchSqlStorageContext _critterStorage;
         private IStateManager<OrganizationContext> _stateManager;
         private ICritterPictureService _pictureService;
-        private IAppLogger _logger;
+        private IAppEventPublisher _publisher;
 
-        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsSearchStorage<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, IAppLogger logger)
+        private List<string> _messages;
+
+        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsSearchStorage<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, IAppEventPublisher publisher)
         {
             this._critterStorage = critterStorage;
             this._stateManager = stateManager;
             this._sourceStorage = sourceStorage;
             this._pictureService = pictureService;
-            this._logger = logger;
+            this._publisher = publisher;
+
+            this._messages = new List<string>();
         }
 
         public async Task<CommandResult> ExecuteAsync(CritterImportModel command)
@@ -49,7 +53,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             {
                 await ImportAll(command);
             }
-            command.Messages = _logger.Messages;
+            command.Messages = _messages;
 
             return CommandResult.Success();
         }
@@ -142,7 +146,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     {
                         critter = new Critter(source.Name, critterStatus, breed, orgContext.OrganizationID, source.ID);
                         _critterStorage.AddCritter(critter);
-                        _logger.LogEvent(CritterLogEvent.LogAction("Added {CritterID} - {CritterName}", source.ID, source.Name));
+                        _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
                     }
                     else
                     {
@@ -150,13 +154,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.BreedID != breed.ID)
                         {
-                            _logger.LogEvent(CritterLogEvent.LogAction("Changed breed from {OldBreed} to {NewBreed} for {CrittterID} - {CritterName}", critter.Breed.IfNotNull(x => x.BreedName, "not set"), breed.BreedName, source.ID, source.Name));
+                            _publisher.Publish(CritterLogEvent.Action("Changed breed from {OldBreed} to {NewBreed} for {CrittterID} - {CritterName}", critter.Breed.IfNotNull(x => x.BreedName, "not set"), breed.BreedName, source.ID, source.Name));
                             critter.ChangeBreed(breed);
                         }
 
                         if (critter.StatusID != critterStatus.ID)
                         {
-                            _logger.LogEvent(CritterLogEvent.LogAction("Changed status from {OldStatus} to {NewStatus} for {CrittterID} - {CritterName}", critter.Status.IfNotNull(x => x.Name, "not set"), critterStatus.Name, source.ID, source.Name));
+                            _publisher.Publish(CritterLogEvent.Action("Changed status from {OldStatus} to {NewStatus} for {CrittterID} - {CritterName}", critter.Status.IfNotNull(x => x.Name, "not set"), critterStatus.Name, source.ID, source.Name));
                             critter.ChangeStatus(critterStatus);
                         }
                     }
@@ -171,13 +175,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.FosterID != person.ID)
                         {
-                            _logger.LogEvent(CritterLogEvent.LogAction("Changed foster from {OldFoster} to {NewFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), person.FirstName, source.ID, source.Name));
+                            _publisher.Publish(CritterLogEvent.Action("Changed foster from {OldFoster} to {NewFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), person.FirstName, source.ID, source.Name));
                             critter.ChangeFoster(person);
                         }
                     }
                     else if (critter.FosterID != null)
                     {
-                        _logger.LogEvent(CritterLogEvent.LogAction("Removed foster {OldFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), source.ID, source.Name));
+                        _publisher.Publish(CritterLogEvent.Action("Removed foster {OldFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), source.ID, source.Name));
                         critter.RemoveFoster();
                     }
 
@@ -187,13 +191,13 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                         if (critter.LocationID != location.ID)
                         {
-                            _logger.LogEvent(CritterLogEvent.LogAction("Changed location from {OldLocation} to {NewLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), location.Name, source.ID, source.Name));
+                            _publisher.Publish(CritterLogEvent.Action("Changed location from {OldLocation} to {NewLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), location.Name, source.ID, source.Name));
                             critter.ChangeLocation(location);
                         }
                     }
                     else if (critter.LocationID != null)
                     {
-                        _logger.LogEvent(CritterLogEvent.LogAction("Removed location {OldLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), source.ID, source.Name));
+                        _publisher.Publish(CritterLogEvent.Action("Removed location {OldLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), source.ID, source.Name));
                         critter.RemoveLocation();
                     }
 
@@ -242,7 +246,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                                 }
 
                                 CritterPicture critterPicture = critter.AddPicture(picture);
-                                _logger.LogEvent(CritterLogEvent.LogAction("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name));
+                                _publisher.Publish(CritterLogEvent.Action("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name));
                             }
                         }
                     }

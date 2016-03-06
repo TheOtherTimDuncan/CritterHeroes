@@ -53,7 +53,7 @@ namespace CH.Test
 
                 AppEventPublisher publisher = new AppEventPublisher(container);
 
-                CritterLogEvent critterEvent = CritterLogEvent.LogAction("critter");
+                CritterLogEvent critterEvent = CritterLogEvent.Action("critter");
                 publisher.Publish(critterEvent);
 
                 UserLogEvent userEvent = UserLogEvent.Action("user");
@@ -214,7 +214,7 @@ namespace CH.Test
             string oldValue = "old";
             string newValue = "new";
 
-            CritterLogEvent logEvent = CritterLogEvent.LogAction("Changed critter name from {From} to {To}", oldValue, newValue);
+            CritterLogEvent logEvent = CritterLogEvent.Action("Changed critter name from {From} to {To}", oldValue, newValue);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.Critter);
@@ -228,7 +228,7 @@ namespace CH.Test
             string oldValue = "old";
             string newValue = "new";
 
-            CritterLogEvent logEvent = CritterLogEvent.LogError("Changed critter name from {From} to {To}", oldValue, newValue);
+            CritterLogEvent logEvent = CritterLogEvent.Error("Changed critter name from {From} to {To}", oldValue, newValue);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Error);
             logEvent.Category.Should().Be(LogEventCategory.Critter);
