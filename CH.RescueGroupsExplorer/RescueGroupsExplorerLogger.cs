@@ -91,6 +91,11 @@ namespace CH.RescueGroupsExplorer
             _entries.Clear();
         }
 
+        public void Subscribe<TEventType>(Action<TEventType> handler) where TEventType : IAppEvent
+        {
+            throw new NotImplementedException();
+        }
+
         private class LogEntry
         {
             public string Url

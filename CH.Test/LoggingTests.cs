@@ -152,6 +152,39 @@ namespace CH.Test
         }
 
         [TestMethod]
+        public void CanSubscribeToPublishedEvents()
+        {
+            using (Container container = new Container())
+            {
+                Mock<IAppEventHandler<CritterLogEvent>> mockCritterLogEventHandler = new Mock<IAppEventHandler<CritterLogEvent>>();
+                Registration registration1 = Lifestyle.Transient.CreateRegistration(typeof(IAppEventHandler<CritterLogEvent>), () => mockCritterLogEventHandler.Object, container);
+
+                Mock<IAppEventHandler<UserLogEvent>> mockUserLogEventHandler = new Mock<IAppEventHandler<UserLogEvent>>();
+                Registration registration2 = Lifestyle.Transient.CreateRegistration(typeof(IAppEventHandler<UserLogEvent>), () => mockUserLogEventHandler.Object, container);
+
+                container.RegisterCollection(typeof(IAppEventHandler<>), new[] { registration1, registration2 });
+
+                CritterLogEvent critterEvent = CritterLogEvent.Action("critter");
+
+                UserLogEvent userEvent = UserLogEvent.Action("user");
+
+                AppEventPublisher publisher = new AppEventPublisher(container);
+
+                bool isCritterPublished = false;
+                bool isUserPublished = true;
+
+                publisher.Subscribe((CritterLogEvent logEvent) => isCritterPublished = true);
+                publisher.Subscribe((UserLogEvent logEvent) => isUserPublished = true);
+
+                publisher.Publish(userEvent);
+                publisher.Publish(critterEvent);
+
+                isCritterPublished.Should().BeTrue();
+                isUserPublished.Should().BeTrue();
+            }
+        }
+
+        [TestMethod]
         public void RescueGroupsLogEventLogsRescueGroupsRequest()
         {
             string url = "url";
