@@ -575,7 +575,10 @@
     <Compile Include="Contracts\Logging\IAppLogEventEnricherFactory.cs" />
     <Compile Include="Contracts\Storage\IPreserveHistory.cs" />
     <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
+    <Compile Include="DataProviders\RescueGroups\Importers\CritterImportContext.cs" />
+    <Compile Include="DataProviders\RescueGroups\Importers\CritterImporter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
+    <Compile Include="DataProviders\RescueGroups\RescueGroupsHelper.cs" />
     <Compile Include="Models\Emails\BaseEmailData.cs" />
     <Compile Include="Models\Emails\BaseTokenEmailData.cs" />
     <Compile Include="Common\Commands\CrittersEmailCommand.cs" />

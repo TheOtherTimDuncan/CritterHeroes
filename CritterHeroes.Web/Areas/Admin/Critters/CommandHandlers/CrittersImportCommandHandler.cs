@@ -15,6 +15,7 @@ using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.DataProviders.RescueGroups.Importers;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.Models.LogEvents;
 using Newtonsoft.Json.Linq;
@@ -148,60 +149,35 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task ImportPartial(CritterImportModel command)
         {
-            foreach (string field in command.FieldNames)
+            _sourceStorage.Filters = _sourceStorage.Fields.NullSafeSelect(x =>
             {
-                _sourceStorage.Fields.NullSafeForEach((SearchField searchField) =>
+                x.IsSelected = (x.Name == "animalID" || command.FieldNames.Contains(x.Name));
+                return new SearchFilter()
                 {
-                    searchField.IsSelected = (searchField.Name == field || searchField.Name == "animalID");
-                });
-
-                SearchFilter filter = new SearchFilter()
-                {
-                    FieldName = field,
+                    FieldName = x.Name,
                     Criteria = SearchFilterOperation.NotBlank
                 };
+            });
 
-                _sourceStorage.Filters = new[] { filter };
+            _sourceStorage.FilterProcessing = string.Join(" or ", _sourceStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
 
-                IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
-                foreach (CritterSearchResult source in sources)
+            CritterImporter importer = new CritterImporter();
+
+            IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync();
+            foreach (CritterSearchResult source in sources)
+            {
+                Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
+                critter.WhenUpdated = DateTimeOffset.UtcNow;
+
+                CritterImportContext context = new CritterImportContext(source, critter, _publisher)
                 {
-                    Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
+                    Status = await GetCritterStatusAsync(source.StatusID, source.Status),
+                    Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
+                    Location = await GetLocationAsync(source.LocationID, source.LocationName),
+                    Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail)
+                };
 
-                    switch (field)
-                    {
-                        case "animalReceivedDate":
-                            if (!source.ReceivedDate.IsNullOrEmpty())
-                            {
-                                critter.ReceivedDate = DateTimeOffset.Parse(source.ReceivedDate);
-                            }
-                            break;
-
-                        case "animalSpecialDiet":
-                            critter.HasSpecialDiet = source.SpecialDiet.SafeEquals("YES");
-                            break;
-
-                        case "animalSpecialneeds":
-                            critter.HasSpecialNeeds = source.SpecialNeeds.SafeEquals("YES");
-                            break;
-
-                        case "animalSpecialneedsDescription":
-                            critter.SpecialNeedsDescription = source.SpecialNeedsDescription;
-                            break;
-
-                        case "animalGeneralAge":
-                            critter.GeneralAge = source.GeneralAge;
-                            break;
-
-                        case "animalDescription":
-                            critter.Description = source.Description;
-                            break;
-
-                        case "animalCourtesy":
-                            critter.IsCourtesy = source.Courtesy.SafeEquals("YES");
-                            break;
-                    }
-                }
+                importer.Import(context, command.FieldNames.ToArray());
             }
 
             await _critterStorage.SaveChangesAsync();
@@ -220,84 +196,35 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     Criteria = status.RescueGroupsID
                 };
 
-                IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
+                CritterImporter importer = new CritterImporter();
 
                 OrganizationContext orgContext = _stateManager.GetContext();
 
+                IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
                 foreach (CritterSearchResult source in sources)
                 {
-                    CritterStatus critterStatus = await GetCritterStatusAsync(source.StatusID, source.Status);
-                    Breed breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species);
-
                     Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
+
+                    CritterImportContext context = new CritterImportContext(source, critter, _publisher)
+                    {
+                        Status = await GetCritterStatusAsync(source.StatusID, source.Status),
+                        Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
+                        Location = await GetLocationAsync(source.LocationID, source.LocationName),
+                        Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail)
+                    };
+
                     if (critter == null)
                     {
-                        critter = new Critter(source.Name, critterStatus, breed, orgContext.OrganizationID, source.ID);
+                        critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
                         _critterStorage.AddCritter(critter);
                         _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
                     }
                     else
                     {
-                        critter.Name = source.Name;
-
-                        if (critter.BreedID != breed.ID)
-                        {
-                            _publisher.Publish(CritterLogEvent.Action("Changed breed from {OldBreed} to {NewBreed} for {CrittterID} - {CritterName}", critter.Breed.IfNotNull(x => x.BreedName, "not set"), breed.BreedName, source.ID, source.Name));
-                            critter.ChangeBreed(breed);
-                        }
-
-                        if (critter.StatusID != critterStatus.ID)
-                        {
-                            _publisher.Publish(CritterLogEvent.Action("Changed status from {OldStatus} to {NewStatus} for {CrittterID} - {CritterName}", critter.Status.IfNotNull(x => x.Name, "not set"), critterStatus.Name, source.ID, source.Name));
-                            critter.ChangeStatus(critterStatus);
-                        }
+                        critter.WhenUpdated = DateTimeOffset.UtcNow;
                     }
 
-                    critter.Sex = source.Sex;
-                    critter.WhenUpdated = DateTimeOffset.UtcNow;
-                    critter.RescueID = source.RescueID;
-
-                    if (!source.FosterContactID.IsNullOrEmpty())
-                    {
-                        Person person = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail);
-
-                        if (critter.FosterID != person.ID)
-                        {
-                            _publisher.Publish(CritterLogEvent.Action("Changed foster from {OldFoster} to {NewFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), person.FirstName, source.ID, source.Name));
-                            critter.ChangeFoster(person);
-                        }
-                    }
-                    else if (critter.FosterID != null)
-                    {
-                        _publisher.Publish(CritterLogEvent.Action("Removed foster {OldFoster} for {CrittterID} - {CritterName}", critter.Foster.IfNotNull(x => x.FirstName, "not set"), source.ID, source.Name));
-                        critter.RemoveFoster();
-                    }
-
-                    if (!source.LocationID.IsNullOrEmpty())
-                    {
-                        Location location = await GetLocationAsync(source.LocationID, source.LocationName);
-
-                        if (critter.LocationID != location.ID)
-                        {
-                            _publisher.Publish(CritterLogEvent.Action("Changed location from {OldLocation} to {NewLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), location.Name, source.ID, source.Name));
-                            critter.ChangeLocation(location);
-                        }
-                    }
-                    else if (critter.LocationID != null)
-                    {
-                        _publisher.Publish(CritterLogEvent.Action("Removed location {OldLocation} for {CrittterID} - {CritterName}", critter.Location.IfNotNull(x => x.Name, "not set"), source.ID, source.Name));
-                        critter.RemoveLocation();
-                    }
-
-                    if (!source.LastUpdated.IsNullOrEmpty())
-                    {
-                        critter.RescueGroupsLastUpdated = DateTime.Parse(source.LastUpdated);
-                    }
-
-                    if (!source.Created.IsNullOrEmpty())
-                    {
-                        critter.RescueGroupsCreated = DateTime.Parse(source.Created);
-                    }
+                    importer.Import(context);
 
                     // Save changes before transferring pictures since we'll need Critter.ID 
                     await _critterStorage.SaveChangesAsync();
@@ -359,6 +286,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<CritterStatus> GetCritterStatusAsync(string statusID, string status)
         {
+            if (statusID.IsNullOrEmpty())
+            {
+                return null;
+            }
+
             CritterStatus critterStatus = await _critterStorage.CritterStatus.FindByRescueGroupsIDAsync(statusID);
             if (critterStatus == null)
             {
@@ -369,6 +301,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<Breed> GetBreedAsync(string breedID, string breedName, string speciesName)
         {
+            if (breedID.IsNullOrEmpty())
+            {
+                return null;
+            }
+
             Breed breed = await _critterStorage.Breeds.FindByRescueGroupsIDAsync(breedID);
             if (breed == null)
             {
@@ -385,6 +322,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<Person> GetFosterAsync(string fosterID, string firstName, string lastName, string email)
         {
+            if (fosterID.IsNullOrEmpty())
+            {
+                return null;
+            }
+
             Person person = await _critterStorage.People.FindByRescueGroupsIDAsync(fosterID);
 
             if (person == null)
@@ -403,6 +345,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task<Location> GetLocationAsync(string locationID, string locationName)
         {
+            if (locationID.IsNullOrEmpty())
+            {
+                return null;
+            }
+
             Location location = await _critterStorage.Locations.FindByRescueGroupsIDAsync(locationID);
 
             if (location == null)

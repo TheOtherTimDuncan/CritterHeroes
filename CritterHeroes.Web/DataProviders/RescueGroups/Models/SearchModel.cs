@@ -51,5 +51,11 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             get;
             set;
         }
+
+        public string FilterProcessing
+        {
+            get;
+            set;
+        }
     }
 }

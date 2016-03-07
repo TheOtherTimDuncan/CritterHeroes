@@ -17,5 +17,11 @@ namespace CritterHeroes.Web.Contracts.Storage
             get;
             set;
         }
+
+        string FilterProcessing
+        {
+            get;
+            set;
+        }
     }
 }

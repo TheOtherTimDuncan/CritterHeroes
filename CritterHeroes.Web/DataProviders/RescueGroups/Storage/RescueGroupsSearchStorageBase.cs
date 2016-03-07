@@ -96,6 +96,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
+        public string FilterProcessing
+        {
+            get;
+            set;
+        }
+
         protected override async Task<JObject> CreateRequest()
         {
             JObject request = await base.CreateRequest();
@@ -106,6 +112,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 ResultLimit = ResultLimit,
                 ResultSort = SortField,
                 Filters = Filters,
+                FilterProcessing = FilterProcessing,
                 Fields = Fields.Where(x => x.IsSelected).Select(x => x.Name)
             };
 
