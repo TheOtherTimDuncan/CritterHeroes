@@ -1,30 +1,30 @@
 {
-    "organizationFullName": "Friends For Life Animal Haven",
-    "organizationShortName": "FFLAH",
-    "urlHome": "https://localhost:44301/debug/",
-    "urlLogo": "http://127.0.0.1:10000/devstoreaccount1/fflah/logo.svg",
-    "critters": [
-        {
-            "urlThumbnail": "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/6840/6840893/20250025_340x238.jpg",
-            "name": "name 1",
-            "status": "status 1",
-            "rescueID": "rescueID 1",
-            "sex": "sex 1",
-            "location": "location",
-            "fosterName": null,
-            "fosterEmail": null,
-            "rescueGroupsID": "rescueGroupsID 1"
-        },
-        {
-            "urlThumbnail": "",
-            "name": "name 2",
-            "status": "status 2",
-            "rescueID": "rescueID 2",
-            "sex": "sex 2",
-            "location": null,
-            "fosterName": "Foster Name",
-            "fosterEmail": "email@email.com",
-            "rescueGroupsID": "rescueGroupsID 2"
-        }
-    ]
+  "organizationFullName": "Friends For Life Animal Haven",
+  "organizationShortName": "FFLAH",
+  "urlHome": "https://localhost:44301/debug/",
+  "urlLogo": "http://127.0.0.1:10000/devstoreaccount1/fflah/logo - optimized.svg",
+  "critters": [
+    {
+      "urlThumbnail": "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/6840/6840893/20250025_340x238.jpg",
+      "name": "name 1",
+      "status": "status 1",
+      "rescueID": "rescueID 1",
+      "sex": "sex 1",
+      "location": "location",
+      "fosterName": null,
+      "fosterEmail": null,
+      "rescueGroupsID": "rescueGroupsID 1"
+    },
+    {
+      "urlThumbnail": "",
+      "name": "name 2",
+      "status": "status 2",
+      "rescueID": "rescueID 2",
+      "sex": "sex 2",
+      "location": null,
+      "fosterName": "Foster Name",
+      "fosterEmail": "email@email.com",
+      "rescueGroupsID": "rescueGroupsID 2"
+    }
+  ]
 }

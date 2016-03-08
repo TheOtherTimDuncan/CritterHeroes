@@ -12,7 +12,7 @@
     <table class="body-wrap">
         <tr>
             <td></td>
-            <td class="container">
+            <td class="container" width="600">
                 <div class="content">
                     <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope="itemscope" itemtype="http://schema.org/InformAction">
                         <tr>
@@ -20,42 +20,22 @@
                                 <meta itemprop="name" content="Reset Password Attempt" />
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td class="content-block">
-                                            The following are the critters in the status Available, Not Available or Sponsorship status.
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td>
                                             <table class="critters-list">
                                                 <tr>
-                                                    <th>&nbsp;</th>
                                                     <th>Name</th>
-                                                    <th>Status</th>
-                                                    <th>Sex</th>
-                                                    <th>ID</th>
-                                                    <th>Foster or Location</th>
-                                                    <th>&nbsp;</th>
-                                                    <th>&nbsp;</th>
+                                                    <th>Baby</th>
+                                                    <th>Young</th>
+                                                    <th>Adult</th>
+                                                    <th>Senior</th>
                                                 </tr>
                                                 {{#each critters}}
                                                 <tr>
-                                                    <td>{{#if urlThumbnail}}<img height="50" src="{{urlThumbnail}}" />{{else}}&nbsp;{{/if}}</td>
                                                     <td>{{name}}</td>
-                                                    <td>{{status}}</td>
-                                                    <td>{{sex}}</td>
-                                                    <td>{{rescueID}}</td>
-                                                    <td>
-                                                        {{#if location}}
-                                                        {{location}}
-                                                        {{else}}
-                                                        {{fosterName}}
-                                                        {{#if fosterEmail}}
-                                                        <br />{{fosterEmail}}
-                                                        {{/if}}
-                                                        {{/if}}
-                                                    </td>
-                                                    <td><a href="http://www.fflah.org/animals/detail?AnimalID={{rescueGroupsID}}">View</a></td>
-                                                    <td><a href="https://manage.rescuegroups.org/animal?animalID={{rescueGroupsID}}">Edit</a></td>
+                                                    <td>{{baby}}</td>
+                                                    <td>{{young}}</td>
+                                                    <td>{{adult}}</td>
+                                                    <td>{{senior}}</td>
                                                 </tr>
                                                 {{/each}}
                                             </table>

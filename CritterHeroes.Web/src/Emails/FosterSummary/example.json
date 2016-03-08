@@ -1,0 +1,22 @@
+{
+  "organizationFullName": "Friends For Life Animal Haven",
+  "organizationShortName": "FFLAH",
+  "urlHome": "https://localhost:44301/debug/",
+  "urlLogo": "http://127.0.0.1:10000/devstoreaccount1/fflah/logo - optimized.svg",
+  "critters": [
+    {
+      "name": "name 1",
+      "baby": "1",
+      "young": "11",
+      "adult": "111",
+      "senior": "1111"
+    },
+    {
+      "name": "name 2",
+      "baby": "2",
+      "young": "22",
+      "adult": "222",
+      "senior": "222"
+    }
+  ]
+}

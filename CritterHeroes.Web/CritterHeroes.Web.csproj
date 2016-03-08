@@ -337,6 +337,7 @@
     <None Include="src\css\fontawesome\_rotated-flipped.scss" />
     <None Include="src\css\fontawesome\_stacked.scss" />
     <None Include="src\css\fontawesome\_variables.scss" />
+    <Content Include="src\Emails\FosterSummary\example.json" />
     <None Include="src\templates\ch.contacts-template.hb" />
     <None Include="src\templates\ch.critters-template.hb" />
     <None Include="src\css\site.scss" />
@@ -421,6 +422,9 @@
     <None Include="src\css\site.css">
       <DependentUpon>site.scss</DependentUpon>
     </None>
+    <Content Include="src\Emails\FosterSummary\Body.html" />
+    <Content Include="src\Emails\FosterSummary\Body.txt" />
+    <Content Include="src\Emails\FosterSummary\Subject.txt" />
     <Content Include="src\js-tests\ch.data.tests.js" />
     <Content Include="src\js-tests\ch.pubsub.tests.js" />
     <Content Include="src\js\bundled\ch.common.js" />
