@@ -567,6 +567,7 @@
     <Compile Include="Common\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Common\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Common\BaseException.cs" />
+    <Compile Include="Common\Commands\FosterSummaryEmailCommand.cs" />
     <Compile Include="Common\Events\AppEventPublisher.cs" />
     <Compile Include="Common\Events\AppLogEventHandler.cs" />
     <Compile Include="Common\ListSink.cs" />

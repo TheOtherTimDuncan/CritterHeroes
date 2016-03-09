@@ -41,6 +41,7 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
                     Foster = x.Foster.FirstName + " " + x.Foster.LastName,
                     FosterEmail = x.Foster.Email,
                     LocationName = x.Location.Name,
+                    GeneralAge = x.GeneralAge,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 });
 
@@ -76,6 +77,32 @@ namespace CritterHeroes.Web.Areas.Admin.Emails.QueryHandlers
                 });
 
                 await _emailService.SendEmailAsync(emailCommandCritters);
+
+                FosterSummaryEmailCommand emailSummary = new FosterSummaryEmailCommand("tduncan72@gmail.com");
+                emailSummary.AddTo("catmamadiane@yahoo.co");
+
+                emailSummary.EmailData.Critters = data
+                    .Select(x => new
+                    {
+                        Foster = x.Foster,
+                        Baby = (x.GeneralAge.SafeEquals("Baby") ? 1 : 0),
+                        Young = (x.GeneralAge.SafeEquals("Young") ? 1 : 0),
+                        Adult = (x.GeneralAge.SafeEquals("Adult") ? 1 : 0),
+                        Senior = (x.GeneralAge.SafeEquals("Senior") ? 1 : 0)
+                    })
+                    .OrderBy(x => x.Foster)
+                    .GroupBy(x => x.Foster)
+                    .Select(g => new
+                    {
+                        Name = g.Key,
+                        Baby = g.Sum(x => x.Baby),
+                        Young = g.Sum(x => x.Young),
+                        Adult = g.Sum(x => x.Adult),
+                        Senior = g.Sum(x => x.Senior)
+                    })
+                    .ToList();
+
+                await _emailService.SendEmailAsync(emailSummary);
 
                 IEnumerable<string> fosterEmails = data.Where(x => !x.FosterEmail.IsNullOrEmpty()).Select(x => x.FosterEmail).Distinct();
                 foreach (string email in fosterEmails)
