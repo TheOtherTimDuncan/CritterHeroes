@@ -185,84 +185,81 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private async Task ImportAll(CritterImportModel command)
         {
-            IEnumerable<CritterStatus> statuses = await _critterStorage.CritterStatus.ToListAsync();
+            DateTimeOffset lastUpdated = _critterStorage.Critters.Max(x => x.RescueGroupsLastUpdated) ?? DateTimeOffset.MinValue;
 
-            foreach (CritterStatus status in statuses)
+            SearchFilter filter = new SearchFilter()
             {
-                SearchFilter filter = new SearchFilter()
+                FieldName = "animalUpdatedDate",
+                Operation = SearchFilterOperation.GreaterThanOrEqual,
+                Criteria = lastUpdated.ToString("MM/dd/yyyy")
+            };
+
+            CritterImporter importer = new CritterImporter();
+
+            OrganizationContext orgContext = _stateManager.GetContext();
+
+            IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
+            foreach (CritterSearchResult source in sources)
+            {
+                Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
+
+                CritterImportContext context = new CritterImportContext(source, critter, _publisher)
                 {
-                    FieldName = "animalStatusID",
-                    Operation = SearchFilterOperation.Equal,
-                    Criteria = status.RescueGroupsID
+                    Status = await GetCritterStatusAsync(source.StatusID, source.Status),
+                    Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
+                    Location = await GetLocationAsync(source.LocationID, source.LocationName),
+                    Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail)
                 };
 
-                CritterImporter importer = new CritterImporter();
-
-                OrganizationContext orgContext = _stateManager.GetContext();
-
-                IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
-                foreach (CritterSearchResult source in sources)
+                if (critter == null)
                 {
-                    Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
+                    critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
+                    _critterStorage.AddCritter(critter);
+                    _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
+                }
+                else
+                {
+                    critter.WhenUpdated = DateTimeOffset.UtcNow;
+                }
 
-                    CritterImportContext context = new CritterImportContext(source, critter, _publisher)
+                importer.Import(context);
+
+                // Save changes before transferring pictures since we'll need Critter.ID 
+                await _critterStorage.SaveChangesAsync();
+
+                if (!source.PictureSources.IsNullOrEmpty())
+                {
+                    foreach (CritterPictureSource pictureSource in source.PictureSources)
                     {
-                        Status = await GetCritterStatusAsync(source.StatusID, source.Status),
-                        Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
-                        Location = await GetLocationAsync(source.LocationID, source.LocationName),
-                        Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail)
-                    };
-
-                    if (critter == null)
-                    {
-                        critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
-                        _critterStorage.AddCritter(critter);
-                        _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
-                    }
-                    else
-                    {
-                        critter.WhenUpdated = DateTimeOffset.UtcNow;
-                    }
-
-                    importer.Import(context);
-
-                    // Save changes before transferring pictures since we'll need Critter.ID 
-                    await _critterStorage.SaveChangesAsync();
-
-                    if (!source.PictureSources.IsNullOrEmpty())
-                    {
-                        foreach (CritterPictureSource pictureSource in source.PictureSources)
+                        if (!critter.Pictures.Any(x => x.Picture.Filename == pictureSource.Filename))
                         {
-                            if (!critter.Pictures.Any(x => x.Picture.Filename == pictureSource.Filename))
+                            string contentType = await ImportPicture(pictureSource.Url, critter.ID, pictureSource.Filename);
+                            Picture picture = new Picture(pictureSource.Filename, pictureSource.Width, pictureSource.Height, pictureSource.FileSize, contentType)
                             {
-                                string contentType = await ImportPicture(pictureSource.Url, critter.ID, pictureSource.Filename);
-                                Picture picture = new Picture(pictureSource.Filename, pictureSource.Width, pictureSource.Height, pictureSource.FileSize, contentType)
-                                {
-                                    RescueGroupsID = pictureSource.ID,
-                                    RescueGroupsCreated = DateTime.Parse(pictureSource.LastUpdated),
-                                    DisplayOrder = pictureSource.DisplayOrder
-                                };
+                                RescueGroupsID = pictureSource.ID,
+                                RescueGroupsCreated = DateTime.Parse(pictureSource.LastUpdated),
+                                DisplayOrder = pictureSource.DisplayOrder
+                            };
 
-                                if (
-                                    pictureSource.LargePicture != null
-                                    && pictureSource.LargePicture.Width != pictureSource.Width
-                                    && pictureSource.LargePicture.Height != pictureSource.Height
-                                    && !critter.Pictures.Any(x => x.Picture.Width == pictureSource.LargePicture.Width && x.Picture.Height == pictureSource.LargePicture.Height)
-                                )
-                                {
-                                    await ImportPicture(pictureSource.LargePicture.Url, critter.ID, pictureSource.LargePicture.Filename);
-                                    picture.AddChildPicture(pictureSource.LargePicture.Width, pictureSource.LargePicture.Height, pictureSource.LargePicture.FileSize, pictureSource.LargePicture.Filename);
-                                }
-
-                                if (!critter.Pictures.Any(x => x.Picture.Width == pictureSource.SmallPicture.Width && x.Picture.Height == pictureSource.SmallPicture.Height))
-                                {
-                                    await ImportPicture(pictureSource.SmallPicture.Url, critter.ID, pictureSource.SmallPicture.Filename);
-                                    PictureChild pictureChild = picture.AddChildPicture(pictureSource.SmallPicture.Width, pictureSource.SmallPicture.Height, pictureSource.SmallPicture.FileSize, pictureSource.SmallPicture.Filename);
-                                }
-
-                                CritterPicture critterPicture = critter.AddPicture(picture);
-                                _publisher.Publish(CritterLogEvent.Action("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name));
+                            if (
+                                pictureSource.LargePicture != null
+                                && pictureSource.LargePicture.Width != pictureSource.Width
+                                && pictureSource.LargePicture.Height != pictureSource.Height
+                                && !critter.Pictures.Any(x => x.Picture.Width == pictureSource.LargePicture.Width && x.Picture.Height == pictureSource.LargePicture.Height)
+                            )
+                            {
+                                await ImportPicture(pictureSource.LargePicture.Url, critter.ID, pictureSource.LargePicture.Filename);
+                                picture.AddChildPicture(pictureSource.LargePicture.Width, pictureSource.LargePicture.Height, pictureSource.LargePicture.FileSize, pictureSource.LargePicture.Filename);
                             }
+
+                            if (!critter.Pictures.Any(x => x.Picture.Width == pictureSource.SmallPicture.Width && x.Picture.Height == pictureSource.SmallPicture.Height))
+                            {
+                                await ImportPicture(pictureSource.SmallPicture.Url, critter.ID, pictureSource.SmallPicture.Filename);
+                                PictureChild pictureChild = picture.AddChildPicture(pictureSource.SmallPicture.Width, pictureSource.SmallPicture.Height, pictureSource.SmallPicture.FileSize, pictureSource.SmallPicture.Filename);
+                            }
+
+                            CritterPicture critterPicture = critter.AddPicture(picture);
+                            _publisher.Publish(CritterLogEvent.Action("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name));
                         }
                     }
 
