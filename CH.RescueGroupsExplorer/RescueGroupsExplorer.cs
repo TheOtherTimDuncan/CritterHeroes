@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CritterHeroes.Web.Common.Proxies;
@@ -14,6 +11,7 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TOTD.Utility.EnumerableHelpers;
 
 namespace CH.RescueGroupsExplorer
 {
@@ -37,10 +35,19 @@ namespace CH.RescueGroupsExplorer
             {
                 if (cmbType.Text == "animals" && cmbAction.Text == "search")
                 {
-                    foreach (SearchField field in _critterStorage.Fields)
-                    {
-                        field.IsSelected = (clbFields.CheckedItems.Contains(field.Name));
-                    }
+                    _critterStorage.Fields.ForEach(x => x.IsSelected = false);
+
+                    _critterStorage.Filters = _critterStorage.Fields.Where(x => clbFields.CheckedItems.Contains(x.Name)).Select(x =>
+                      {
+                          x.IsSelected = true;
+                          return new SearchFilter()
+                          {
+                              FieldName = x.Name,
+                              Criteria = SearchFilterOperation.NotBlank
+                          };
+                      });
+
+                    _critterStorage.FilterProcessing = string.Join(" or ", _critterStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
 
                     var searchResults = await _critterStorage.GetAllAsync();
                 }
