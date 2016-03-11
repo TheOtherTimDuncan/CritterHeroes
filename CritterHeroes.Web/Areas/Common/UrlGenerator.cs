@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using CritterHeroes.Web.Contracts;
-using TOTD.Mvc.Actions;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Areas.Common
@@ -33,11 +32,6 @@ namespace CritterHeroes.Web.Areas.Common
         public string GenerateAbsoluteUrl(string actionName, string controllerName, object routeValues)
         {
             return Url.Action(actionName, controllerName, routeValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
-        }
-
-        private string GenerateAbsoluteUrl(ActionHelperResult actionHelperResult)
-        {
-            return Url.Action(actionHelperResult.ActionName, actionHelperResult.ControllerName, actionHelperResult.RouteValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
         }
 
         public string GenerateSiteUrl(string actionName, string controllerName)

@@ -207,16 +207,16 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TOTD.EntityFramework, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.EntityFramework.3.1.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
+    <Reference Include="TOTD.EntityFramework, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.EntityFramework.4.0.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Mvc, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Mvc.3.1.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
+    <Reference Include="TOTD.Mvc, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mvc.4.0.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Utility, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Utility.3.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+    <Reference Include="TOTD.Utility, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Utility.4.0.0.0\lib\net451\TOTD.Utility.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

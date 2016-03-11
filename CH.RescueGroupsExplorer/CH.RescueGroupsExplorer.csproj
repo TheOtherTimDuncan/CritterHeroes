@@ -58,8 +58,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TOTD.Utility, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Utility.3.1.0.0\lib\net451\TOTD.Utility.dll</HintPath>
+    <Reference Include="TOTD.Utility, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Utility.4.0.0.0\lib\net451\TOTD.Utility.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
