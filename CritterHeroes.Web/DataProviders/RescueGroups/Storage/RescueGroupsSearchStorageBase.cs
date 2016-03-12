@@ -113,7 +113,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 ResultSort = SortField,
                 Filters = Filters,
                 FilterProcessing = FilterProcessing,
-                Fields = Fields.Where(x => x.IsSelected).Select(x => x.Name)
+                Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
             };
 
             JsonSerializer serializer = new JsonSerializer();

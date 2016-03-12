@@ -20,20 +20,18 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             {
                 new SearchField("animalID"),
 
-                new SearchField("animalBirthdate"),
-                new SearchField("animalBirthdateExact"),
+                new SearchField("animalBirthdate","animalBirthdateExact"),
                 new SearchField("animalCourtesy"),
                 new SearchField("animalCreatedDate"),
                 new SearchField("animalDescription"),
-                new SearchField("animalFosterID"),
+                new SearchField("animalFosterID","fosterEmail","fosterFirstname","fosterLastname"),
                 new SearchField("animalGeneralAge"),
                 new SearchField("animalGroups"),
                 new SearchField("animalInternalID"),
-                new SearchField("animalLocationID"),
+                new SearchField("animalLocationID","locationName"),
                 new SearchField("animalName"),
                 new SearchField("animalPictures"),
-                new SearchField("animalPrimaryBreed"),
-                new SearchField("animalPrimaryBreedID"),
+                new SearchField("animalPrimaryBreedID","animalPrimaryBreed"),
                 new SearchField("animalReceivedDate"),
                 new SearchField("animalRescueID"),
                 new SearchField("animalSex"),
@@ -41,13 +39,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalSpecialneeds"),
                 new SearchField("animalSpecialneedsDescription"),
                 new SearchField("animalSpecies"),
-                new SearchField("animalStatus"),
-                new SearchField("animalStatusID"),
+                new SearchField("animalStatusID","animalStatus"),
                 new SearchField("animalUpdatedDate"),
-                new SearchField("fosterEmail"),
-                new SearchField("fosterFirstname"),
-                new SearchField("fosterLastname"),
-                new SearchField("locationName")
             };
         }
 
