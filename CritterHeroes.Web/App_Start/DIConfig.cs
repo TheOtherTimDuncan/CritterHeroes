@@ -131,6 +131,7 @@ namespace CritterHeroes.Web
             container.Register(typeof(IAsyncCommandHandler<>), defaultAssemblies);
 
             container.RegisterCollection(typeof(IAppEventHandler<>), defaultAssemblies);
+            container.AppendToCollection(typeof(IAppEventHandler<>), typeof(AppLogEventHandler<>));
         }
 
         public static void RegisterContextSensitiveInterfaces(Container container)
