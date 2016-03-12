@@ -582,8 +582,10 @@
     <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImportContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImporter.cs" />
+    <Compile Include="DataProviders\RescueGroups\JsonConverters\DateTimeConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyToNullStringConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
-    <Compile Include="DataProviders\RescueGroups\RescueGroupsHelper.cs" />
     <Compile Include="Models\Emails\BaseEmailData.cs" />
     <Compile Include="Models\Emails\BaseTokenEmailData.cs" />
     <Compile Include="Common\Commands\CrittersEmailCommand.cs" />

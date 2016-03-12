@@ -46,17 +46,17 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
 
         public void ImportReceivedDate(CritterImportContext context)
         {
-            context.Target.ReceivedDate = RescueGroupsHelper.GetDateTimeOffset(context.Source.ReceivedDate);
+            context.Target.ReceivedDate = context.Source.ReceivedDate;
         }
 
         public void ImportSpecialDiet(CritterImportContext context)
         {
-            context.Target.HasSpecialDiet = RescueGroupsHelper.YesNoToBoolean(context.Source.SpecialDiet);
+            context.Target.HasSpecialDiet = context.Source.HasSpecialDiet;
         }
 
         public void ImportSpecialNeeds(CritterImportContext context)
         {
-            context.Target.HasSpecialNeeds = RescueGroupsHelper.YesNoToBoolean(context.Source.SpecialNeeds);
+            context.Target.HasSpecialNeeds = context.Source.HasSpecialNeeds ?? false;
         }
 
         public void ImportSpecialNeedsDescription(CritterImportContext context)
@@ -76,7 +76,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
 
         public void ImportCourtesy(CritterImportContext context)
         {
-            context.Target.IsCourtesy = RescueGroupsHelper.YesNoToBoolean(context.Source.Courtesy);
+            context.Target.IsCourtesy = context.Source.IsCourtesy ?? false;
         }
 
         public void ImportName(CritterImportContext context)
@@ -148,20 +148,20 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
 
         public void ImportLastUpdated(CritterImportContext context)
         {
-            context.Target.RescueGroupsLastUpdated = RescueGroupsHelper.GetDateTimeOffset(context.Source.LastUpdated);
+            context.Target.RescueGroupsLastUpdated = context.Source.LastUpdated;
         }
 
         public void ImportCreated(CritterImportContext context)
         {
-            context.Target.RescueGroupsCreated = RescueGroupsHelper.GetDateTimeOffset(context.Source.Created);
+            context.Target.RescueGroupsCreated = context.Source.Created;
         }
 
         public void ImportBirthDate(CritterImportContext context)
         {
-            if (!context.Source.BirthDate.IsNullOrEmpty())
+            if (context.Source.BirthDate != null)
             {
-                context.Target.BirthDate = RescueGroupsHelper.GetDateTime(context.Source.BirthDate);
-                context.Target.IsBirthDateExact = RescueGroupsHelper.YesNoToBoolean(context.Source.BirthDateExact);
+                context.Target.BirthDate = context.Source.BirthDate;
+                context.Target.IsBirthDateExact = context.Source.IsBirthDateExact;
             }
         }
     }

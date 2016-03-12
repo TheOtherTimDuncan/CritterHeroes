@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.DataProviders.RescueGroups.JsonConverters;
 using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
@@ -14,6 +15,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalName")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string Name
         {
             get;
@@ -21,6 +23,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalStatusID")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string StatusID
         {
             get;
@@ -28,6 +31,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalStatus")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string Status
         {
             get;
@@ -35,6 +39,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalSpecies")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string Species
         {
             get;
@@ -63,6 +68,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalRescueID")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string RescueID
         {
             get;
@@ -70,14 +76,16 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalUpdatedDate")]
-        public string LastUpdated
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime? LastUpdated
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "animalCreatedDate")]
-        public string Created
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime? Created
         {
             get;
             set;
@@ -91,6 +99,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "fosterFirstname")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string FosterFirstName
         {
             get;
@@ -98,6 +107,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "fosterLastname")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string FosterLastName
         {
             get;
@@ -105,6 +115,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "fosterEmail")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string FosterEmail
         {
             get;
@@ -119,6 +130,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "locationName")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string LocationName
         {
             get;
@@ -133,13 +145,15 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalCourtesy")]
-        public string Courtesy
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? IsCourtesy
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "animalDescription")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string Description
         {
             get;
@@ -147,6 +161,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalGeneralAge")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string GeneralAge
         {
             get;
@@ -154,13 +169,15 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalSpecialneeds")]
-        public string SpecialNeeds
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? HasSpecialNeeds
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "animalSpecialneedsDescription")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string SpecialNeedsDescription
         {
             get;
@@ -168,28 +185,32 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalSpecialDiet")]
-        public string SpecialDiet
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool HasSpecialDiet
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "animalReceivedDate")]
-        public string ReceivedDate
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime? ReceivedDate
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "animalBirthdate")]
-        public string BirthDate
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime? BirthDate
         {
             get;
             set;
         }
 
         [JsonProperty(PropertyName = "animalBirthdateExact")]
-        public string BirthDateExact
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? IsBirthDateExact
         {
             get;
             set;
