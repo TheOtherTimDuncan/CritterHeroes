@@ -24,6 +24,7 @@ namespace CritterHeroes.Web.Data.Configurations
             Property(x => x.Description).IsMaxLength();
             Property(x => x.SpecialNeedsDescription).IsMaxLength();
             Property(x => x.GeneralAge).IsUnicode(false).HasMaxLength(10);
+            Property(x => x.BirthDate).IsDateOnly();
         }
     }
 }

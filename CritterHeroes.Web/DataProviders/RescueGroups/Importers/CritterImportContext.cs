@@ -24,6 +24,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
         public Critter Target
         {
             get;
+            set;
         }
 
         public IAppEventPublisher Publisher

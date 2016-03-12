@@ -191,6 +191,18 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public DateTime? BirthDate
+        {
+            get;
+            set;
+        }
+
+        public bool? IsBirthDateExact
+        {
+            get;
+            set;
+        }
+
         public virtual ICollection<CritterPicture> Pictures
         {
             get;

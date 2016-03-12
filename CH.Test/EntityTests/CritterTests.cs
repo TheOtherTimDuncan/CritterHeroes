@@ -76,6 +76,8 @@ namespace CH.Test.EntityTests
                 result.HasSpecialNeeds.Should().Be(critter.HasSpecialNeeds);
                 result.SpecialNeedsDescription.Should().Be(critter.SpecialNeedsDescription);
                 result.ReceivedDate.Should().Be(critter.ReceivedDate);
+                result.BirthDate.Should().Be(critter.BirthDate.Value.Date);
+                result.IsBirthDateExact.Should().Be(critter.IsBirthDateExact);
 
                 result.OrganizationID.Should().Be(organization.ID);
                 result.Organization.Should().NotBeNull();

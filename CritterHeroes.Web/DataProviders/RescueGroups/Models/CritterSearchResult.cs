@@ -180,5 +180,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             get;
             set;
         }
+
+        [JsonProperty(PropertyName = "animalBirthdate")]
+        public string BirthDate
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalBirthdateExact")]
+        public string BirthDateExact
+        {
+            get;
+            set;
+        }
     }
 }

@@ -87,7 +87,7 @@ namespace CH.DatabaseMigrator.Migrations
                     BreedID = c.Int(nullable: false),
                     Sex = c.String(nullable: false, maxLength: 10),
                     RescueID = c.String(maxLength: 100, unicode: false),
-                    ReceivedDate = c.DateTimeOffset(nullable: false, precision: 7),
+                    ReceivedDate = c.DateTimeOffset(precision: 7),
                     IsCourtesy = c.Boolean(nullable: false),
                     Description = c.String(),
                     GeneralAge = c.String(maxLength: 10, unicode: false),
@@ -95,6 +95,8 @@ namespace CH.DatabaseMigrator.Migrations
                     SpecialNeedsDescription = c.String(),
                     HasSpecialDiet = c.Boolean(nullable: false),
                     FosterID = c.Int(),
+                    BirthDate = c.DateTime(storeType: "date"),
+                    IsBirthDateExact = c.Boolean(),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)

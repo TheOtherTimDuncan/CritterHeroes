@@ -215,6 +215,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 {
                     critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
                     _critterStorage.AddCritter(critter);
+                    context.Target = critter;
                     _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
                 }
                 else
