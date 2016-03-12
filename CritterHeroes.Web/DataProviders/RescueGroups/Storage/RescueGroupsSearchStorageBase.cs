@@ -80,7 +80,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             set;
         }
 
-        protected int ResultLimit
+        public int ResultLimit
         {
             get;
             set;

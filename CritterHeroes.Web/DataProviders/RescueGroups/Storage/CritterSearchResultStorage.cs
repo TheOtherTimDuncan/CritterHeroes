@@ -16,6 +16,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public CritterSearchResultStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
             : base(configuration, client, publisher)
         {
+            ResultLimit = 25;
+
             this._fields = new[]
             {
                 new SearchField("animalID"),

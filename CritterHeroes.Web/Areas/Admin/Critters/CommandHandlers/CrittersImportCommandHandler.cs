@@ -53,11 +53,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
         {
             if (command.FieldNames.Count() != _sourceStorage.Fields.Count())
             {
-                await ImportPartial(command);
+                await ImportPartial(command.FieldNames);
             }
             else
             {
-                await ImportAll(command);
+                await ImportAll();
             }
 
             command.Messages = _messages;
@@ -147,11 +147,11 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             _messages.Add(builder.ToString());
         }
 
-        private async Task ImportPartial(CritterImportModel command)
+        private async Task ImportPartial(IEnumerable<string> fieldNames)
         {
             _sourceStorage.Filters = _sourceStorage.Fields.NullSafeSelect(x =>
             {
-                x.IsSelected = (x.Name == "animalID" || command.FieldNames.Contains(x.Name));
+                x.IsSelected = (x.Name == "animalID" || fieldNames.Contains(x.Name));
                 return new SearchFilter()
                 {
                     FieldName = x.Name,
@@ -160,6 +160,15 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             });
 
             _sourceStorage.FilterProcessing = string.Join(" or ", _sourceStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
+
+            if (_sourceStorage.Fields.Any(x => x.IsSelected && x.Name == "animalDescription"))
+            {
+                _sourceStorage.ResultLimit = 10;
+            }
+            else if (_sourceStorage.Fields.Any(x => x.IsSelected && x.Name == "animalPictures"))
+            {
+                _sourceStorage.ResultLimit = 5;
+            }
 
             CritterImporter importer = new CritterImporter();
 
@@ -191,7 +200,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
                 }
 
-                importer.Import(context, command.FieldNames.ToArray());
+                importer.Import(context, fieldNames.ToArray());
 
                 // Save changes before transferring pictures since we'll need Critter.ID 
                 await _critterStorage.SaveChangesAsync();
@@ -200,7 +209,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             }
         }
 
-        private async Task ImportAll(CritterImportModel command)
+        private async Task ImportAll()
         {
             DateTimeOffset lastUpdated = _critterStorage.Critters.Max(x => x.RescueGroupsLastUpdated) ?? DateTimeOffset.MinValue;
 
@@ -210,6 +219,10 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 Operation = SearchFilterOperation.GreaterThanOrEqual,
                 Criteria = lastUpdated.ToString("MM/dd/yyyy")
             };
+
+            // Exclude pictures and descriptions since they'll max out the size of the request for logging
+            _sourceStorage.Fields.Single(x => x.Name == "animalPictures").IsSelected = false;
+            _sourceStorage.Fields.Single(x => x.Name == "animalDescription").IsSelected = false;
 
             CritterImporter importer = new CritterImporter();
 
@@ -243,11 +256,14 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
                 importer.Import(context);
 
-                // Save changes before transferring pictures since we'll need Critter.ID 
                 await _critterStorage.SaveChangesAsync();
-
-                await ImportPictures(context);
             }
+
+            // Import descriptions
+            await ImportPartial(new[] { "animalDescription" });
+
+            // Import pictures
+            await ImportPartial(new[] { "animalPictures" });
         }
 
         private async Task ImportPictures(CritterImportContext context)
