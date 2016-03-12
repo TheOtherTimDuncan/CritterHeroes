@@ -51,6 +51,12 @@ namespace CritterHeroes.Web.Data.Contexts
             set;
         }
 
+        public virtual IDbSet<CritterColor> _Colors
+        {
+            get;
+            set;
+        }
+
         public IQueryable<Breed> Breeds => _Breeds;
 
         public IQueryable<Critter> Critters => _Critters;
@@ -62,6 +68,8 @@ namespace CritterHeroes.Web.Data.Contexts
         public IQueryable<Person> People => _Persons;
 
         public IQueryable<Location> Locations => _Locations;
+
+        public IQueryable<CritterColor> Colors => _Colors;
 
         public void AddCritter(Critter critter)
         {

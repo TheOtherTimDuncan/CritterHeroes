@@ -33,6 +33,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
                 { "animalUpdatedDate",                  ImportLastUpdated },
                 { "animalCreatedDate",                  ImportCreated },
                 { "animalBirthdate",                    ImportBirthDate },
+                { "animalColorID",                      ImportColor },
             };
         }
 
@@ -51,7 +52,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
 
         public void ImportSpecialDiet(CritterImportContext context)
         {
-            context.Target.HasSpecialDiet = context.Source.HasSpecialDiet;
+            context.Target.HasSpecialDiet = context.Source.HasSpecialDiet ?? false;
         }
 
         public void ImportSpecialNeeds(CritterImportContext context)
@@ -162,6 +163,23 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
             {
                 context.Target.BirthDate = context.Source.BirthDate;
                 context.Target.IsBirthDateExact = context.Source.IsBirthDateExact;
+            }
+        }
+
+        public void ImportColor(CritterImportContext context)
+        {
+            if (!context.Source.ColorID.IsNullOrEmpty())
+            {
+                if (context.Target.ColorID != context.Color.ID)
+                {
+                    context.Publisher.Publish(CritterLogEvent.Action("Changed color from {OldColor} to {NewColor} for {CritterID} - {CritterName}", context.Target.Color.IfNotNull(x => x.Description, "not set"), context.Color.Description, context.Source.ID, context.Source.Name));
+                    context.Target.ChangeColor(context.Color);
+                }
+            }
+            else if (context.Target.Color != null)
+            {
+                context.Publisher.Publish(CritterLogEvent.Action("Removed color {OldColor} for {CritterID} - {CritterName}", context.Target.Color.IfNotNull(x => x.Description, "not set"), context.Source.ID, context.Source.Name));
+                context.Target.RemoveColor();
             }
         }
     }

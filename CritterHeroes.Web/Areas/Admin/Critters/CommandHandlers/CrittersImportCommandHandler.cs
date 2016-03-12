@@ -167,20 +167,37 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             foreach (CritterSearchResult source in sources)
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
-                critter.WhenUpdated = DateTimeOffset.UtcNow;
 
                 CritterImportContext context = new CritterImportContext(source, critter, _publisher)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
                     Location = await GetLocationAsync(source.LocationID, source.LocationName),
-                    Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail)
+                    Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail),
+                    Color = await GetColorAsync(source.ColorID, source.Color)
                 };
 
-                importer.Import(context, command.FieldNames.ToArray());
-            }
+                OrganizationContext orgContext = _stateManager.GetContext();
 
-            await _critterStorage.SaveChangesAsync();
+                if (critter == null)
+                {
+                    critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
+                    _critterStorage.AddCritter(critter);
+                    context.Target = critter;
+                    _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
+                }
+                else
+                {
+                    critter.WhenUpdated = DateTimeOffset.UtcNow;
+                }
+
+                importer.Import(context, command.FieldNames.ToArray());
+
+                // Save changes before transferring pictures since we'll need Critter.ID 
+                await _critterStorage.SaveChangesAsync();
+
+                await ImportPictures(context);
+            }
         }
 
         private async Task ImportAll(CritterImportModel command)
@@ -208,7 +225,8 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
                     Location = await GetLocationAsync(source.LocationID, source.LocationName),
-                    Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail)
+                    Foster = await GetFosterAsync(source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail),
+                    Color = await GetColorAsync(source.ColorID, source.Color)
                 };
 
                 if (critter == null)
@@ -228,44 +246,49 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 // Save changes before transferring pictures since we'll need Critter.ID 
                 await _critterStorage.SaveChangesAsync();
 
-                if (!source.PictureSources.IsNullOrEmpty())
+                await ImportPictures(context);
+            }
+        }
+
+        private async Task ImportPictures(CritterImportContext context)
+        {
+            if (!context.Source.PictureSources.IsNullOrEmpty())
+            {
+                foreach (CritterPictureSource pictureSource in context.Source.PictureSources)
                 {
-                    foreach (CritterPictureSource pictureSource in source.PictureSources)
+                    if (!context.Target.Pictures.Any(x => x.Picture.Filename == pictureSource.Filename))
                     {
-                        if (!critter.Pictures.Any(x => x.Picture.Filename == pictureSource.Filename))
+                        string contentType = await ImportPicture(pictureSource.Url, context.Target.ID, pictureSource.Filename);
+                        Picture picture = new Picture(pictureSource.Filename, pictureSource.Width, pictureSource.Height, pictureSource.FileSize, contentType)
                         {
-                            string contentType = await ImportPicture(pictureSource.Url, critter.ID, pictureSource.Filename);
-                            Picture picture = new Picture(pictureSource.Filename, pictureSource.Width, pictureSource.Height, pictureSource.FileSize, contentType)
-                            {
-                                RescueGroupsID = pictureSource.ID,
-                                RescueGroupsCreated = DateTime.Parse(pictureSource.LastUpdated),
-                                DisplayOrder = pictureSource.DisplayOrder
-                            };
+                            RescueGroupsID = pictureSource.ID,
+                            RescueGroupsCreated = DateTime.Parse(pictureSource.LastUpdated),
+                            DisplayOrder = pictureSource.DisplayOrder
+                        };
 
-                            if (
-                                pictureSource.LargePicture != null
-                                && pictureSource.LargePicture.Width != pictureSource.Width
-                                && pictureSource.LargePicture.Height != pictureSource.Height
-                                && !critter.Pictures.Any(x => x.Picture.Width == pictureSource.LargePicture.Width && x.Picture.Height == pictureSource.LargePicture.Height)
-                            )
-                            {
-                                await ImportPicture(pictureSource.LargePicture.Url, critter.ID, pictureSource.LargePicture.Filename);
-                                picture.AddChildPicture(pictureSource.LargePicture.Width, pictureSource.LargePicture.Height, pictureSource.LargePicture.FileSize, pictureSource.LargePicture.Filename);
-                            }
-
-                            if (!critter.Pictures.Any(x => x.Picture.Width == pictureSource.SmallPicture.Width && x.Picture.Height == pictureSource.SmallPicture.Height))
-                            {
-                                await ImportPicture(pictureSource.SmallPicture.Url, critter.ID, pictureSource.SmallPicture.Filename);
-                                PictureChild pictureChild = picture.AddChildPicture(pictureSource.SmallPicture.Width, pictureSource.SmallPicture.Height, pictureSource.SmallPicture.FileSize, pictureSource.SmallPicture.Filename);
-                            }
-
-                            CritterPicture critterPicture = critter.AddPicture(picture);
-                            _publisher.Publish(CritterLogEvent.Action("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, source.ID, source.Name));
+                        if (
+                            pictureSource.LargePicture != null
+                            && pictureSource.LargePicture.Width != pictureSource.Width
+                            && pictureSource.LargePicture.Height != pictureSource.Height
+                            && !context.Target.Pictures.Any(x => x.Picture.Width == pictureSource.LargePicture.Width && x.Picture.Height == pictureSource.LargePicture.Height)
+                        )
+                        {
+                            await ImportPicture(pictureSource.LargePicture.Url, context.Target.ID, pictureSource.LargePicture.Filename);
+                            picture.AddChildPicture(pictureSource.LargePicture.Width, pictureSource.LargePicture.Height, pictureSource.LargePicture.FileSize, pictureSource.LargePicture.Filename);
                         }
-                    }
 
-                    await _critterStorage.SaveChangesAsync();
+                        if (!context.Target.Pictures.Any(x => x.Picture.Width == pictureSource.SmallPicture.Width && x.Picture.Height == pictureSource.SmallPicture.Height))
+                        {
+                            await ImportPicture(pictureSource.SmallPicture.Url, context.Target.ID, pictureSource.SmallPicture.Filename);
+                            PictureChild pictureChild = picture.AddChildPicture(pictureSource.SmallPicture.Width, pictureSource.SmallPicture.Height, pictureSource.SmallPicture.FileSize, pictureSource.SmallPicture.Filename);
+                        }
+
+                        CritterPicture critterPicture = context.Target.AddPicture(picture);
+                        _publisher.Publish(CritterLogEvent.Action("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, context.Source.ID, context.Source.Name));
+                    }
                 }
+
+                await _critterStorage.SaveChangesAsync();
             }
         }
 
@@ -359,6 +382,26 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             }
 
             return location;
+        }
+
+        private async Task<CritterColor> GetColorAsync(string colorID, string colorDescription)
+        {
+            if (colorID.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            CritterColor color = await _critterStorage.Colors.FindByRescueGroupsIDAsync(colorID);
+
+            if (color == null)
+            {
+                color = new CritterColor(colorDescription)
+                {
+                    RescueGroupsID = colorID
+                };
+            }
+
+            return color;
         }
 
         private class HistoryValue

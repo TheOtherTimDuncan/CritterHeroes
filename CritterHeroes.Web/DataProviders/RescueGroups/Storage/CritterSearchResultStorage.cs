@@ -41,6 +41,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalSpecies"),
                 new SearchField("animalStatusID","animalStatus"),
                 new SearchField("animalUpdatedDate"),
+                new SearchField("animalColorID", "animalColor")
             };
         }
 

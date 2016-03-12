@@ -55,5 +55,11 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
             get;
             set;
         }
+
+        public CritterColor Color
+        {
+            get;
+            set;
+        }
     }
 }

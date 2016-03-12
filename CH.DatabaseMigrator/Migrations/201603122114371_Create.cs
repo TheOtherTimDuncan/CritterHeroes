@@ -97,9 +97,11 @@ namespace CH.DatabaseMigrator.Migrations
                     FosterID = c.Int(),
                     BirthDate = c.DateTime(storeType: "date"),
                     IsBirthDateExact = c.Boolean(),
+                    ColorID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)
+                .ForeignKey("dbo.CritterColor", t => t.ColorID)
                 .ForeignKey("dbo.Person", t => t.FosterID)
                 .ForeignKey("dbo.Location", t => t.LocationID)
                 .ForeignKey("dbo.Organization", t => t.OrganizationID)
@@ -109,7 +111,19 @@ namespace CH.DatabaseMigrator.Migrations
                 .Index(t => t.LocationID)
                 .Index(t => t.Name)
                 .Index(t => t.BreedID)
-                .Index(t => t.FosterID);
+                .Index(t => t.FosterID)
+                .Index(t => t.ColorID);
+
+            CreateTable(
+                "dbo.CritterColor",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                    Description = c.String(nullable: false, maxLength: 100),
+                })
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.RescueGroupsID);
 
             CreateTable(
                 "dbo.Person",
@@ -436,6 +450,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropForeignKey("dbo.PersonGroup", "PersonID", "dbo.Person");
             DropForeignKey("dbo.PersonGroup", "GroupID", "dbo.Group");
             DropForeignKey("dbo.Critter", "FosterID", "dbo.Person");
+            DropForeignKey("dbo.Critter", "ColorID", "dbo.CritterColor");
             DropForeignKey("dbo.Critter", "BreedID", "dbo.Breed");
             DropIndex("dbo.BusinessPhone", new[] { "PhoneTypeID" });
             DropIndex("dbo.BusinessPhone", new[] { "BusinessID" });
@@ -461,6 +476,8 @@ namespace CH.DatabaseMigrator.Migrations
             DropIndex("dbo.PersonGroup", new[] { "GroupID" });
             DropIndex("dbo.PersonGroup", new[] { "PersonID" });
             DropIndex("dbo.Person", new[] { "RescueGroupsID" });
+            DropIndex("dbo.CritterColor", new[] { "RescueGroupsID" });
+            DropIndex("dbo.Critter", new[] { "ColorID" });
             DropIndex("dbo.Critter", new[] { "FosterID" });
             DropIndex("dbo.Critter", new[] { "BreedID" });
             DropIndex("dbo.Critter", new[] { "Name" });
@@ -490,6 +507,7 @@ namespace CH.DatabaseMigrator.Migrations
             DropTable("dbo.Group");
             DropTable("dbo.PersonGroup");
             DropTable("dbo.Person");
+            DropTable("dbo.CritterColor");
             DropTable("dbo.Critter");
             DropTable("dbo.Breed");
             DropTable("dbo.Species");

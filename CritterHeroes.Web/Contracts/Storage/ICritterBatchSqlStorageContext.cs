@@ -15,7 +15,7 @@ namespace CritterHeroes.Web.Contracts.Storage
 
         IQueryable<Breed> Breeds
         {
-            get; 
+            get;
         }
 
         IQueryable<Species> Species
@@ -34,6 +34,11 @@ namespace CritterHeroes.Web.Contracts.Storage
         }
 
         IQueryable<Location> Locations
+        {
+            get;
+        }
+
+        IQueryable<CritterColor> Colors
         {
             get;
         }

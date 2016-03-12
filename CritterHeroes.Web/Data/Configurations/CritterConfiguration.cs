@@ -12,10 +12,11 @@ namespace CritterHeroes.Web.Data.Configurations
         {
             HasKey(x => x.ID);
 
-            HasRequired(x => x.Breed).WithMany(x => x.Critters).WillCascadeOnDelete(false);
-            HasRequired(x => x.Status).WithMany(x => x.Critters).WillCascadeOnDelete(false);
-            HasRequired(x => x.Organization).WithMany().WillCascadeOnDelete(false);
-            HasOptional(x => x.Location).WithMany().WillCascadeOnDelete(false);
+            HasRequired(x => x.Breed).WithMany(x => x.Critters).HasForeignKey(x => x.BreedID).WillCascadeOnDelete(false);
+            HasRequired(x => x.Status).WithMany(x => x.Critters).HasForeignKey(x => x.StatusID).WillCascadeOnDelete(false);
+            HasRequired(x => x.Organization).WithMany().HasForeignKey(x => x.OrganizationID).WillCascadeOnDelete(false);
+            HasOptional(x => x.Location).WithMany().HasForeignKey(x => x.LocationID).WillCascadeOnDelete(false);
+            HasOptional(x => x.Color).WithMany().HasForeignKey(x => x.ColorID).WillCascadeOnDelete(false);
 
             Property(x => x.ID).IsRequired().IsIdentity();
             Property(x => x.Name).IsRequired().HasMaxLength(50).HasIndex();

@@ -203,6 +203,18 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public int? ColorID
+        {
+            get;
+            private set;
+        }
+
+        public virtual CritterColor Color
+        {
+            get;
+            private set;
+        }
+
         public virtual ICollection<CritterPicture> Pictures
         {
             get;
@@ -281,6 +293,26 @@ namespace CritterHeroes.Web.Data.Models
         {
             this.Location = null;
             this.LocationID = null;
+        }
+
+        public void ChangeColor(int colorID)
+        {
+            this.ColorID = colorID;
+            this.Color = null;
+        }
+
+        public void ChangeColor(CritterColor color)
+        {
+            ThrowIf.Argument.IsNull(color, nameof(color));
+
+            this.ColorID = color.ID;
+            this.Color = color;
+        }
+
+        public void RemoveColor()
+        {
+            ColorID = null;
+            Color = null;
         }
     }
 }

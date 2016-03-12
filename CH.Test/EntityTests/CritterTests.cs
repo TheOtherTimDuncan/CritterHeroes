@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
@@ -38,6 +36,9 @@ namespace CH.Test.EntityTests
 
             Critter critter = new Critter("critter", status, breed, organization.ID);
             critter.ChangeLocation(location);
+
+            CritterColor color = new CritterColor("color");
+            critter.ChangeColor(color);
 
             critter.WhenCreated.Should().BeCloseTo(DateTimeOffset.UtcNow);
             critter.WhenUpdated.Should().Be(critter.WhenCreated);
@@ -95,6 +96,10 @@ namespace CH.Test.EntityTests
                 result.Location.Should().NotBeNull();
                 result.Location.ID.Should().Be(location.ID);
 
+                result.ColorID.Should().Be(color.ID);
+                result.Color.Should().NotBeNull();
+                result.Color.ID.Should().Be(color.ID);
+
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();
 
@@ -123,7 +128,7 @@ namespace CH.Test.EntityTests
                 Sex = "Male"
             };
 
-            await VerifyRevisionHistoryIsMaintained(critter, "ID", "FosterID", "StatusID", "LocationID", "BreedID");
+            await VerifyRevisionHistoryIsMaintained(critter, "ID", "FosterID", "StatusID", "LocationID", "BreedID", "ColorID");
         }
 
         [TestMethod]

@@ -186,7 +186,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 
         [JsonProperty(PropertyName = "animalSpecialDiet")]
         [JsonConverter(typeof(YesNoConverter))]
-        public bool HasSpecialDiet
+        public bool? HasSpecialDiet
         {
             get;
             set;
@@ -211,6 +211,22 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         [JsonProperty(PropertyName = "animalBirthdateExact")]
         [JsonConverter(typeof(YesNoConverter))]
         public bool? IsBirthDateExact
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalColorID")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string ColorID
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalColor")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string Color
         {
             get;
             set;

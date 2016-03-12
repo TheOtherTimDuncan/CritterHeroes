@@ -285,6 +285,7 @@
     <Compile Include="DependencyTests.cs" />
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="EntityTests\BusinessTests.cs" />
+    <Compile Include="EntityTests\CritterColorTests.cs" />
     <Compile Include="EntityTests\CritterStatusTests.cs" />
     <Compile Include="EntityTests\AppUserTests.cs" />
     <Compile Include="EntityTests\BaseEntityTest.cs" />
