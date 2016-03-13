@@ -16,6 +16,11 @@ namespace CritterHeroes.Web.Data.Contexts
         {
         }
 
+        public AppUserStorageContext(string connectionStringName, IAppEventPublisher publisher)
+            : base(connectionStringName, publisher)
+        {
+        }
+
         public IQueryable<AppUser> Entities
         {
             get

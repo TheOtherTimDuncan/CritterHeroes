@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configura
 		Configurations\AppSettings.Migrations.config = Configurations\AppSettings.Migrations.config
 		Configurations\ConnectionStrings.Dev.config = Configurations\ConnectionStrings.Dev.config
 		Configurations\ConnectionStrings.Migrator.config = Configurations\ConnectionStrings.Migrator.config
+		Configurations\ConnectionStrings.Test.config = Configurations\ConnectionStrings.Test.config
 		Configurations\CopyConfigurations.bat = Configurations\CopyConfigurations.bat
 		Configurations\CopyConnectionStrings.bat = Configurations\CopyConnectionStrings.bat
 		Configurations\RescueGroups.config = Configurations\RescueGroups.config

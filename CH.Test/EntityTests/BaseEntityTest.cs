@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations.Infrastructure;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Events;
+using CH.DatabaseMigrator.Migrations;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
 using FluentAssertions;
@@ -20,12 +21,17 @@ namespace CH.Test.EntityTests
         [TestInitialize]
         public void CleanDatabase()
         {
-            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
-
-            using (AppUserStorageContext dbContext = new AppUserStorageContext(mockPublisher.Object))
+            using (MigrationsDataContext dbContext = new MigrationsDataContext())
             {
-                Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AppUserStorageContext>());
+                Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MigrationsDataContext>());
                 dbContext.Database.Initialize(force: true);
+
+                Configuration configuration = new Configuration()
+                {
+                    Logger = new TestMigrationsLogger()
+                };
+                configuration.SeedDatabaseOptions(dbContext);
+                configuration.SeedDatabaseUser(dbContext);
 
                 IEnumerable<string> queries = new[]
                 {
@@ -123,6 +129,24 @@ namespace CH.Test.EntityTests
                 {
                     property.SetValue(entity, value);
                 }
+            }
+        }
+
+        private class TestMigrationsLogger : MigrationsLogger
+        {
+            public override void Info(string message)
+            {
+                Console.WriteLine(message);
+            }
+
+            public override void Verbose(string message)
+            {
+                Console.WriteLine(message);
+            }
+
+            public override void Warning(string message)
+            {
+                Console.WriteLine(message);
             }
         }
     }

@@ -21,6 +21,8 @@ namespace CH.DatabaseMigrator.Migrations
 
         protected override void Seed(MigrationsDataContext context)
         {
+            SeedDatabaseOptions(context);
+            SeedDatabaseUser(context);
             SeedStates(context);
             SeedPhoneTypes(context);
 
@@ -113,6 +115,22 @@ namespace CH.DatabaseMigrator.Migrations
             }
         }
 
+        public void SeedDatabaseOptions(MigrationsDataContext context)
+        {
+            ExecuteSql(context.Database, $"ALTER DATABASE {context.Database.Connection.Database} SET COMPATIBILITY_LEVEL=120, ANSI_NULLS ON, ANSI_PADDING ON, ARITHABORT ON, CONCAT_NULL_YIELDS_NULL ON", TransactionalBehavior.DoNotEnsureTransaction);
+        }
+
+        public void SeedDatabaseUser(MigrationsDataContext context)
+        {
+            string username = ConfigurationManager.AppSettings["DatabaseUser"];
+            string password = ConfigurationManager.AppSettings["DatabasePassword"];
+
+            ExecuteSql(context.Database, $"IF NOT EXISTS (SELECT name FROM master.sys.server_principals WHERE name='{username}') BEGIN CREATE LOGIN [{username}] WITH PASSWORD=N'{password}'; END");
+            ExecuteSql(context.Database, $"USE {context.Database.Connection.Database}; IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name='{username}') BEGIN CREATE USER [{username}] FOR LOGIN [{username}]; END");
+            ExecuteSql(context.Database, $"EXEC sp_addrolemember 'db_datareader', '{username}'");
+            ExecuteSql(context.Database, $"EXEC sp_addrolemember 'db_datawriter', '{username}'");
+        }
+
         private void SeedStates(MigrationsDataContext context)
         {
             string[,] states = {
@@ -198,6 +216,12 @@ namespace CH.DatabaseMigrator.Migrations
                     Logger.Verbose("Added phone type " + seed);
                 }
             }
+        }
+
+        private void ExecuteSql(Database database, string sql, TransactionalBehavior transactionBehavior = TransactionalBehavior.EnsureTransaction)
+        {
+            int rowsAffected = database.ExecuteSqlCommand(transactionBehavior, sql);
+            Logger.Verbose("Executed " + Environment.NewLine + sql + Environment.NewLine + "Rows affected: " + rowsAffected.ToString());
         }
     }
 }

@@ -25,7 +25,12 @@ namespace CritterHeroes.Web.Data.Contexts
         private IAppEventPublisher _publisher;
 
         public BaseDbContext(IAppEventPublisher publisher)
-            : base("name=CritterHeroes")
+            : this("CritterHeroes", publisher)
+        {
+        }
+
+        public BaseDbContext(string connectionStringName, IAppEventPublisher publisher)
+            : base($"name={connectionStringName}")
         {
             this._publisher = publisher;
 
@@ -34,12 +39,12 @@ namespace CritterHeroes.Web.Data.Contexts
 #if DEBUG
             if (Debugger.IsAttached)
             {
-                Debug.WriteLine(Database.Connection.ConnectionString);
+                Debug.WriteLine($"Connection String {connectionStringName}: {Database.Connection.ConnectionString}");
                 Database.Log = (string value) => Debug.WriteLine(value);
             }
             else
             {
-                Console.WriteLine(Database.Connection.ConnectionString);
+                Console.WriteLine($"Connection String {connectionStringName}: {Database.Connection.ConnectionString}");
                 Database.Log = Console.WriteLine;
             }
 #endif

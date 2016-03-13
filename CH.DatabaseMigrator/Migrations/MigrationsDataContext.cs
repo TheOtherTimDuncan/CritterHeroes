@@ -10,7 +10,7 @@ namespace CH.DatabaseMigrator.Migrations
     public class MigrationsDataContext : AppUserStorageContext
     {
         public MigrationsDataContext()
-          : base(null)
+          : base("CritterHeroesMigrations", null)
         {
         }
 
