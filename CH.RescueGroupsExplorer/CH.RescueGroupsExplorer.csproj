@@ -87,10 +87,6 @@
     <EmbeddedResource Include="RescueGroupsExplorer.resx">
       <DependentUpon>RescueGroupsExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="..\.vs\Configurations\RescueGroups.config">
-      <Link>RescueGroups.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -103,6 +99,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="RescueGroups.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

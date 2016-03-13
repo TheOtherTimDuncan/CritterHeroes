@@ -257,6 +257,7 @@
     </Content>
     <Content Include="Areas\Admin\Contacts\Views\Index.cshtml" />
     <Content Include="Areas\Admin\Critters\Views\Import.cshtml" />
+    <None Include="ConnectionStrings.config" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -275,12 +276,6 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="..\.vs\Configurations\AppSettings.config">
-      <Link>AppSettings.config</Link>
-    </Content>
-    <Content Include="..\.vs\Configurations\RescueGroups.config">
-      <Link>RescueGroups.config</Link>
-    </Content>
     <Content Include="Areas\_ViewStart.cshtml" />
     <Content Include="Areas\Web.config">
       <SubType>Designer</SubType>
@@ -297,6 +292,7 @@
     <Content Include="Areas\Home\Views\_Header.cshtml" />
     <Content Include="Areas\Home\Views\_Menu.cshtml" />
     <Content Include="gulp-tasks\handlebars.js" />
+    <None Include="RescueGroups.config" />
     <None Include="src\css\cheroes\admin-lists.scss" />
     <None Include="src\css\cheroes\box-sizing.scss" />
     <None Include="src\css\cheroes\buttons.scss" />
@@ -365,10 +361,6 @@
     <None Include="src\js\ch.login.js" />
     <None Include="src\js\ch.organization-edit-profile.js" />
     <None Include="src\js\bundled\ch.pagify.js" />
-    <Content Include="..\.vs\Configurations\ConnectionStrings.Local.config">
-      <Link>ConnectionStrings.Local.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Areas\Admin\Critters\Views\_Summary.cshtml" />
     <Content Include="Areas\Admin\Critters\Views\Index.cshtml" />
     <None Include="bower.json" />

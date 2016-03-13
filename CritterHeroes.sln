@@ -26,6 +26,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeCoverage", "CodeCoverag
 		ReportGenerator.bat = ReportGenerator.bat
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{9F2A7669-0E2B-4F11-92A2-24AF542B0A24}"
+	ProjectSection(SolutionItems) = preProject
+		Configurations\AppSettings.config = Configurations\AppSettings.config
+		Configurations\AppSettings.Migrations.config = Configurations\AppSettings.Migrations.config
+		Configurations\ConnectionStrings.Dev.config = Configurations\ConnectionStrings.Dev.config
+		Configurations\ConnectionStrings.Migrator.config = Configurations\ConnectionStrings.Migrator.config
+		Configurations\CopyConfigurations.bat = Configurations\CopyConfigurations.bat
+		Configurations\CopyConnectionStrings.bat = Configurations\CopyConnectionStrings.bat
+		Configurations\RescueGroups.config = Configurations\RescueGroups.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

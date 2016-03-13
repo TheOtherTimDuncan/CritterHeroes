@@ -90,13 +90,10 @@
     <Compile Include="Migrations\MigrationsDataContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="..\.vs\Configurations\ConnectionStrings.Migrations.config">
-      <Link>ConnectionStrings.Migrations.config</Link>
+    <None Include="AppSettings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </None>
-    <None Include="..\.vs\Configurations\MigrationAppSettings.config">
-      <Link>MigrationAppSettings.config</Link>
+    <None Include="ConnectionStrings.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config">

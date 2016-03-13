@@ -350,18 +350,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.vs\Configurations\AppSettings.config">
-      <Link>AppSettings.config</Link>
-    </None>
-    <None Include="..\.vs\Configurations\RescueGroups.config">
-      <Link>RescueGroups.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="AppSettings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConnectionStrings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="RescueGroups.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup />
