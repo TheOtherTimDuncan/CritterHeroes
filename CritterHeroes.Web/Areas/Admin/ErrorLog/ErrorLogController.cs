@@ -22,5 +22,13 @@ namespace CritterHeroes.Web.Areas.Admin.ErrorLog
         {
             return View();
         }
+
+#if DEBUG
+        [AllowAnonymous]
+        public ActionResult Test()
+        {
+            throw new ArgumentNullException("test");
+        }
+#endif
     }
 }
