@@ -79,6 +79,8 @@ namespace CH.Test.EntityTests
                 result.ReceivedDate.Should().Be(critter.ReceivedDate);
                 result.BirthDate.Should().Be(critter.BirthDate.Value.Date);
                 result.IsBirthDateExact.Should().Be(critter.IsBirthDateExact);
+                result.EuthanasiaDate.Should().Be(critter.EuthanasiaDate.Value.Date);
+                result.EuthanasiaReason.Should().Be(critter.EuthanasiaReason);
 
                 result.OrganizationID.Should().Be(organization.ID);
                 result.Organization.Should().NotBeNull();

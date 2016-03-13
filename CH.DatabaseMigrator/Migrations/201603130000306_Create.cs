@@ -97,6 +97,8 @@ namespace CH.DatabaseMigrator.Migrations
                     FosterID = c.Int(),
                     BirthDate = c.DateTime(storeType: "date"),
                     IsBirthDateExact = c.Boolean(),
+                    EuthanasiaDate = c.DateTime(storeType: "date"),
+                    EuthanasiaReason = c.String(maxLength: 15),
                     ColorID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)

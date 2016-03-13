@@ -203,6 +203,18 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public DateTime? EuthanasiaDate
+        {
+            get;
+            set;
+        }
+
+        public string EuthanasiaReason
+        {
+            get;
+            set;
+        }
+
         public int? ColorID
         {
             get;

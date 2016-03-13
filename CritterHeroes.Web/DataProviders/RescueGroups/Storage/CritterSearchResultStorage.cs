@@ -23,6 +23,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalID"),
 
                 new SearchField("animalBirthdate","animalBirthdateExact"),
+                new SearchField("animalColorID", "animalColor"),
                 new SearchField("animalCourtesy"),
                 new SearchField("animalCreatedDate"),
                 new SearchField("animalDescription"),
@@ -30,6 +31,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalGeneralAge"),
                 new SearchField("animalGroups"),
                 new SearchField("animalInternalID"),
+                new SearchField("animalKillDate"),
+                new SearchField("animalKillReason"),
                 new SearchField("animalLocationID","locationName"),
                 new SearchField("animalName"),
                 new SearchField("animalPictures"),
@@ -42,8 +45,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalSpecialneedsDescription"),
                 new SearchField("animalSpecies"),
                 new SearchField("animalStatusID","animalStatus"),
-                new SearchField("animalUpdatedDate"),
-                new SearchField("animalColorID", "animalColor")
+                new SearchField("animalUpdatedDate")
             };
         }
 

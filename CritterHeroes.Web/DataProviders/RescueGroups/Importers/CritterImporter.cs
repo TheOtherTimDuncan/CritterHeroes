@@ -16,24 +16,26 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
         {
             this._importers = new Dictionary<string, Action<CritterImportContext>>()
             {
+                { "animalBirthdate",                    ImportBirthDate },
+                { "animalColorID",                      ImportColor },
+                { "animalCourtesy",                     ImportCourtesy },
+                { "animalCreatedDate",                  ImportCreated },
+                { "animalDescription",                  ImportDescription },
+                { "animalKillDate",                     ImportEuthanasiaDate },
+                { "animalKillReason",                   ImportEuthanasiaReason },
+                { "animalFosterID",                     ImportFoster },
+                { "animalGeneralAge",                   ImportGeneralAge },
+                { "animalLocationID",                   ImportLocation },
+                { "animalName",                         ImportName },
+                { "animalPrimaryBreedID",               ImportBreed },
                 { "animalReceivedDate",                 ImportReceivedDate },
+                { "animalRescueID",                     ImportRescueID },
+                { "animalSex",                          ImportSex },
                 { "animalSpecialDiet",                  ImportSpecialDiet },
                 { "animalSpecialneeds",                 ImportSpecialNeeds },
                 { "animalSpecialneedsDescription",      ImportSpecialNeedsDescription },
-                { "animalGeneralAge",                   ImportGeneralAge },
-                { "animalDescription",                  ImportDescription },
-                { "animalCourtesy",                     ImportCourtesy },
-                { "animalName",                         ImportName },
-                { "animalPrimaryBreedID",               ImportBreed },
                 { "animalStatusID",                     ImportStatus },
-                { "animalSex",                          ImportSex },
-                { "animalRescueID",                     ImportRescueID },
-                { "animalFosterID",                     ImportFoster },
-                { "animalLocationID",                   ImportLocation },
-                { "animalUpdatedDate",                  ImportLastUpdated },
-                { "animalCreatedDate",                  ImportCreated },
-                { "animalBirthdate",                    ImportBirthDate },
-                { "animalColorID",                      ImportColor },
+                { "animalUpdatedDate",                  ImportLastUpdated }
             };
         }
 
@@ -181,6 +183,16 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
                 context.Publisher.Publish(CritterLogEvent.Action("Removed color {OldColor} for {CritterID} - {CritterName}", context.Target.Color.IfNotNull(x => x.Description, "not set"), context.Source.ID, context.Source.Name));
                 context.Target.RemoveColor();
             }
+        }
+
+        public void ImportEuthanasiaDate(CritterImportContext context)
+        {
+            context.Target.EuthanasiaDate = context.Source.EuthanasiaDate;
+        }
+
+        public void ImportEuthanasiaReason(CritterImportContext context)
+        {
+            context.Target.EuthanasiaReason = context.Source.EuthanasiaReason;
         }
     }
 }

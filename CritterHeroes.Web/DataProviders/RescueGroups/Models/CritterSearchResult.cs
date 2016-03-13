@@ -231,5 +231,21 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             get;
             set;
         }
+
+        [JsonProperty(PropertyName = "animalKillDate")]
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime? EuthanasiaDate
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "animalKillReason")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string EuthanasiaReason
+        {
+            get;
+            set;
+        }
     }
 }
