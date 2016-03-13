@@ -81,6 +81,12 @@ namespace CH.Test.EntityTests
                 result.IsBirthDateExact.Should().Be(critter.IsBirthDateExact);
                 result.EuthanasiaDate.Should().Be(critter.EuthanasiaDate.Value.Date);
                 result.EuthanasiaReason.Should().Be(critter.EuthanasiaReason);
+                result.IsMicrochipped.Should().Be(critter.IsMicrochipped);
+                result.IsOkWithCats.Should().Be(critter.IsOkWithCats);
+                result.IsOkWithDogs.Should().Be(critter.IsOkWithDogs);
+                result.IsOkWithKids.Should().Be(critter.IsOkWithKids);
+                result.OlderKidsOnly.Should().Be(critter.OlderKidsOnly);
+                result.Notes.Should().Be(critter.Notes);
 
                 result.OrganizationID.Should().Be(organization.ID);
                 result.Organization.Should().NotBeNull();

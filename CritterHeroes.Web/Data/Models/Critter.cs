@@ -227,6 +227,42 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public bool? IsMicrochipped
+        {
+            get;
+            set;
+        }
+
+        public bool? IsOkWithDogs
+        {
+            get;
+            set;
+        }
+
+        public bool? IsOkWithKids
+        {
+            get;
+            set;
+        }
+
+        public bool? IsOkWithCats
+        {
+            get;
+            set;
+        }
+
+        public bool? OlderKidsOnly
+        {
+            get;
+            set;
+        }
+
+        public string Notes
+        {
+            get;
+            set;
+        }
+
         public virtual ICollection<CritterPicture> Pictures
         {
             get;

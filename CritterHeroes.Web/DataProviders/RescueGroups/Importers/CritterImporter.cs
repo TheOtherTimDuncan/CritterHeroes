@@ -21,12 +21,18 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
                 { "animalCourtesy",                     ImportCourtesy },
                 { "animalCreatedDate",                  ImportCreated },
                 { "animalDescription",                  ImportDescription },
-                { "animalKillDate",                     ImportEuthanasiaDate },
-                { "animalKillReason",                   ImportEuthanasiaReason },
                 { "animalFosterID",                     ImportFoster },
                 { "animalGeneralAge",                   ImportGeneralAge },
+                { "animalKillDate",                     ImportEuthanasiaDate },
+                { "animalKillReason",                   ImportEuthanasiaReason },
                 { "animalLocationID",                   ImportLocation },
+                { "animalMicrochipped",                 ImportIsMicrochipped },
                 { "animalName",                         ImportName },
+                { "animalNotes",                        ImportNotes },
+                { "animalOKWithCats",                   ImportIsOkWithCats },
+                { "animalOKWithDogs",                   ImportIsOkWithDogs },
+                { "animalOKWithKids",                   ImportIsOkWithKids },
+                { "animalOlderKidsOnly",                ImportOlderKidsOnly },
                 { "animalPrimaryBreedID",               ImportBreed },
                 { "animalReceivedDate",                 ImportReceivedDate },
                 { "animalRescueID",                     ImportRescueID },
@@ -193,6 +199,36 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
         public void ImportEuthanasiaReason(CritterImportContext context)
         {
             context.Target.EuthanasiaReason = context.Source.EuthanasiaReason;
+        }
+
+        public void ImportNotes(CritterImportContext context)
+        {
+            context.Target.Notes = context.Source.Notes;
+        }
+
+        public void ImportIsMicrochipped(CritterImportContext context)
+        {
+            context.Target.IsMicrochipped = context.Source.IsMicrochipped;
+        }
+
+        public void ImportIsOkWithDogs(CritterImportContext context)
+        {
+            context.Target.IsOkWithDogs = context.Source.IsOkWithDogs;
+        }
+
+        public void ImportIsOkWithCats(CritterImportContext context)
+        {
+            context.Target.IsOkWithCats = context.Source.IsOkWithCats;
+        }
+
+        public void ImportIsOkWithKids(CritterImportContext context)
+        {
+            context.Target.IsOkWithKids = context.Source.IsOkWithKids;
+        }
+
+        public void ImportOlderKidsOnly(CritterImportContext context)
+        {
+            context.Target.OlderKidsOnly = context.Source.OlderKidsOnly;
         }
     }
 }

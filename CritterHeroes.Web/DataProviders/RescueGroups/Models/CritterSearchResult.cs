@@ -247,5 +247,58 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             get;
             set;
         }
+
+        [JsonProperty(PropertyName = "animalNotes")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string Notes
+        {
+            get;
+            set;
+        }
+
+
+        [JsonProperty(PropertyName = "animalMicrochipped")]
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? IsMicrochipped
+        {
+            get;
+            set;
+        }
+
+
+        [JsonProperty(PropertyName = "animalOKWithDogs")]
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? IsOkWithDogs
+        {
+            get;
+            set;
+        }
+
+
+        [JsonProperty(PropertyName = "animalOkWithKids")]
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? IsOkWithKids
+        {
+            get;
+            set;
+        }
+
+
+        [JsonProperty(PropertyName = "animalOKWithCats")]
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? IsOkWithCats
+        {
+            get;
+            set;
+        }
+
+
+        [JsonProperty(PropertyName = "animalOlderKidsOnly")]
+        [JsonConverter(typeof(YesNoConverter))]
+        public bool? OlderKidsOnly
+        {
+            get;
+            set;
+        }
     }
 }

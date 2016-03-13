@@ -100,6 +100,12 @@ namespace CH.DatabaseMigrator.Migrations
                     EuthanasiaDate = c.DateTime(storeType: "date"),
                     EuthanasiaReason = c.String(maxLength: 15),
                     ColorID = c.Int(),
+                    IsMicrochipped = c.Boolean(),
+                    IsOkWithDogs = c.Boolean(),
+                    IsOkWithKids = c.Boolean(),
+                    IsOkWithCats = c.Boolean(),
+                    OlderKidsOnly = c.Boolean(),
+                    Notes = c.String(),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Breed", t => t.BreedID)

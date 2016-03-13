@@ -82,9 +82,9 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Migrations\201603130000306_Create.cs" />
-    <Compile Include="Migrations\201603130000306_Create.Designer.cs">
-      <DependentUpon>201603130000306_Create.cs</DependentUpon>
+    <Compile Include="Migrations\201603131347304_Create.cs" />
+    <Compile Include="Migrations\201603131347304_Create.Designer.cs">
+      <DependentUpon>201603131347304_Create.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MigrationsDataContext.cs" />
@@ -115,8 +115,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603130000306_Create.resx">
-      <DependentUpon>201603130000306_Create.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201603131347304_Create.resx">
+      <DependentUpon>201603131347304_Create.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

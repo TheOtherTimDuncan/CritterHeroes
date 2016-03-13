@@ -21,7 +21,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             this._fields = new[]
             {
                 new SearchField("animalID"),
-
                 new SearchField("animalBirthdate","animalBirthdateExact"),
                 new SearchField("animalColorID", "animalColor"),
                 new SearchField("animalCourtesy"),
@@ -34,7 +33,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalKillDate"),
                 new SearchField("animalKillReason"),
                 new SearchField("animalLocationID","locationName"),
+                new SearchField("animalMicrochipped"),
                 new SearchField("animalName"),
+                new SearchField("animalNotes"),
+                new SearchField("animalOKWithCats"),
+                new SearchField("animalOKWithDogs"),
+                new SearchField("animalOKWithKids"),
+                new SearchField("animalOlderKidsOnly"),
                 new SearchField("animalPictures"),
                 new SearchField("animalPrimaryBreedID","animalPrimaryBreed"),
                 new SearchField("animalReceivedDate"),
