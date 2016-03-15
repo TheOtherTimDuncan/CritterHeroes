@@ -424,6 +424,7 @@
       <DependentUpon>handlebars.runtime.js</DependentUpon>
     </None>
     <Content Include="src\js\ch.dropdownify.js" />
+    <Content Include="src\js\totd.dom.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
