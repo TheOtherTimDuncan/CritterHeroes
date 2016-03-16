@@ -116,7 +116,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
         {
             if (context.Target.StatusID != context.Status.ID)
             {
-                context.Publisher.Publish(CritterLogEvent.Action("Changed status from {OldStatus} to {NewStatus} for {CritterID} - {CritterName}", context.Status.IfNotNull(x => x.Name, "not set"), context.Status.Name, context.Source.ID, context.Source.Name));
+                context.Publisher.Publish(CritterLogEvent.Action("Changed status from {OldStatus} to {NewStatus} for {CritterID} - {CritterName}", context.Target.Status.IfNotNull(x => x.Name, "not set"), context.Status.Name, context.Source.ID, context.Source.Name));
                 context.Target.ChangeStatus(context.Status);
             }
         }
