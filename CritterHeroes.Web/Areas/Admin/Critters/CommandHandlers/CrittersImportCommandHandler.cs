@@ -213,6 +213,8 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
         {
             DateTimeOffset lastUpdated = _critterStorage.Critters.Max(x => x.RescueGroupsLastUpdated) ?? DateTimeOffset.MinValue;
 
+            _messages.Add($"Importing updated since {lastUpdated}...");
+
             SearchFilter filter = new SearchFilter()
             {
                 FieldName = "animalUpdatedDate",
