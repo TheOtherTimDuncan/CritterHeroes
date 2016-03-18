@@ -415,10 +415,6 @@
     <Content Include="src\js\bundled\ch.menu.js" />
     <Content Include="src\js\bundled\ch.modal.js" />
     <Content Include="src\js\ch.contacts-list.js" />
-    <None Include="src\lib\bootstrap.js" />
-    <None Include="src\lib\bootstrap.min.js">
-      <DependentUpon>bootstrap.js</DependentUpon>
-    </None>
     <None Include="src\lib\handlebars.runtime.js" />
     <None Include="src\lib\handlebars.runtime.min.js">
       <DependentUpon>handlebars.runtime.js</DependentUpon>
