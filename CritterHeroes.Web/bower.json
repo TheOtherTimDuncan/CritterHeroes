@@ -17,7 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.2.0",
+    "jquery": "2.2.2",
     "jquery-validation-unobtrusive": "3.2.5",
     "jquery-ajax-unobtrusive": "~3.2.3",
     "dropzone": "~4.2.0",
