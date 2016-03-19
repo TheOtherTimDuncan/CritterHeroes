@@ -14,6 +14,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public SpeciesSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
             : base(configuration, client, publisher)
         {
+            this.Fields = new[]
+                {
+                new SearchField("name"),
+                new SearchField("speciesSingular"),
+                new SearchField("speciesPlural"),
+                new SearchField("speciesSingularYoung"),
+                new SearchField("speciesPluralYoung")
+            };
         }
 
         public override string ObjectType
@@ -24,11 +32,24 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
+        public override IEnumerable<SearchField> Fields
+        {
+            get;
+        }
+
         public override bool IsPrivate
         {
             get
             {
                 return true;
+            }
+        }
+
+        protected override string SortField
+        {
+            get
+            {
+                return "name";
             }
         }
 

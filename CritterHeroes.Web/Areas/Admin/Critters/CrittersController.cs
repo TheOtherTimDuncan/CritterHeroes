@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Admin.Critters.Commands;
 using CritterHeroes.Web.Areas.Admin.Critters.Models;
 using CritterHeroes.Web.Areas.Admin.Critters.Queries;
 using CritterHeroes.Web.Areas.Common;
@@ -42,33 +41,6 @@ namespace CritterHeroes.Web.Areas.Admin.Critters
         {
             CritterSummaryModel model = await QueryDispatcher.DispatchAsync(new CritterSummaryQuery());
             return PartialView("_Summary", model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = UserRole.MasterAdmin)]
-        public async Task<ActionResult> UploadJson(UploadJsonFileCommand command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = UserRole.MasterAdmin)]
-        public async Task<ActionResult> UploadCsv(UploadCsvFileCommand command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = UserRole.MasterAdmin)]
-        public async Task<ActionResult> UploadXml(UploadXmlFileCommand command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = UserRole.MasterAdmin)]

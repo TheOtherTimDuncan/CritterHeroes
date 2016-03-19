@@ -11,18 +11,18 @@ using Newtonsoft.Json.Linq;
 namespace CH.Test.RescueGroups
 {
     [TestClass]
-    public class CritterSearchResultTests
+    public class CritterSourceTests
     {
         [TestMethod]
         public void ObjectTypeIsCorrect()
         {
-            new CritterSearchResultStorage(new RescueGroupsConfiguration(), null, null).ObjectType.Should().Be("animals");
+            new CritterSourceStorage(new RescueGroupsConfiguration(), null, null).ObjectType.Should().Be("animals");
         }
 
         [TestMethod]
         public void ConvertsCritterJsonResultToModel()
         {
-            CritterSearchResult critterSource1 = new CritterSearchResult()
+            CritterSource critterSource1 = new CritterSource()
             {
                 ID = 1,
                 Name = "Name1",
@@ -43,7 +43,7 @@ namespace CH.Test.RescueGroups
                 LocationName = "LocationName1"
             };
 
-            CritterSearchResult critterSource2 = new CritterSearchResult()
+            CritterSource critterSource2 = new CritterSource()
             {
                 ID = 2,
                 Name = "Name2",
@@ -106,10 +106,10 @@ namespace CH.Test.RescueGroups
 
             JObject data = new JObject(property1, property2);
 
-            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
+            IEnumerable<CritterSource> critters = new CritterSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
             critters.Should().HaveCount(2);
 
-            CritterSearchResult result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
+            CritterSource result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
             result1.Should().NotBeNull();
 
             result1.Name.Should().Be(critterSource1.Name);
@@ -129,7 +129,7 @@ namespace CH.Test.RescueGroups
             result1.LocationID.Should().Be(critterSource1.LocationID);
             result1.LocationName.Should().Be(critterSource1.LocationName);
 
-            CritterSearchResult result2 = critters.SingleOrDefault(x => x.ID == critterSource2.ID);
+            CritterSource result2 = critters.SingleOrDefault(x => x.ID == critterSource2.ID);
             result2.Should().NotBeNull();
 
             result2.Name.Should().Be(critterSource2.Name);
@@ -153,7 +153,7 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void ConvertsCritterPictureJsonResultToModel()
         {
-            CritterSearchResult critterSource1 = new CritterSearchResult()
+            CritterSource critterSource1 = new CritterSource()
             {
                 ID = 1,
                 Name = "Name1"
@@ -210,9 +210,9 @@ namespace CH.Test.RescueGroups
 
             JObject data = new JObject(property1);
 
-            IEnumerable<CritterSearchResult> critters = new CritterSearchResultStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
+            IEnumerable<CritterSource> critters = new CritterSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
 
-            CritterSearchResult result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
+            CritterSource result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
             result1.Should().NotBeNull();
 
             result1.PictureSources.Should().HaveCount(1);

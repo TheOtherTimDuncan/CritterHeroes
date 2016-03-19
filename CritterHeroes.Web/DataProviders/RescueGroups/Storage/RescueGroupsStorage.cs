@@ -10,7 +10,10 @@ using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.Models.LogEvents;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
+using TOTD.Utility.EnumerableHelpers;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;
 
@@ -41,10 +44,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public virtual string ObjectAction
         {
-            get
-            {
-                return "list";
-            }
+            get;
+            protected set;
         }
 
         public abstract bool IsPrivate
@@ -52,7 +53,36 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
+
+        public abstract IEnumerable<SearchField> Fields
+        {
+            get;
+        }
+
+        protected abstract string SortField
+        {
+            get;
+        }
+
         public IEnumerable<SearchFilter> Filters
+        {
+            get;
+            set;
+        }
+
+        protected int ResultStart
+        {
+            get;
+            set;
+        }
+
+        public int ResultLimit
+        {
+            get;
+            set;
+        }
+
+        public string FilterProcessing
         {
             get;
             set;
@@ -71,16 +101,48 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            JObject request = await CreateRequest();
-            JObject response = await GetDataAsync(request);
-
-            if (!response["data"].HasValues)
+            if (Filters.IsNullOrEmpty())
             {
-                return Enumerable.Empty<T>();
+                ObjectAction = ObjectActions.List;
+            }
+            else
+            {
+                ObjectAction = ObjectActions.Search;
             }
 
-            JObject data = response.Value<JObject>("data");
-            return FromStorage(data.Properties()).ToList();
+            List<T> result = new List<T>();
+            ResultStart = 0;
+
+            JObject request = await CreateRequest();
+
+            JObject response = await GetDataAsync(request);
+
+            JObject data;
+            IEnumerable<T> batch;
+
+            if (response["data"].HasValues)
+            {
+                data = response.Value<JObject>("data");
+                batch = FromStorage(data.Properties());
+                result.AddRange(batch);
+            }
+
+            int foundRows = response.Value<int>("foundRows");
+            ResultStart += ResultLimit;
+            while (ResultStart < foundRows)
+            {
+                ResultStart += ResultLimit;
+                request = await CreateRequest();
+                response = await GetDataAsync(request);
+                if (response["data"].HasValues)
+                {
+                    data = response.Value<JObject>("data");
+                    batch = FromStorage(data.Properties());
+                    result.AddRange(batch);
+                }
+            }
+
+            return result;
         }
 
         public virtual Task SaveAsync(T entity)
@@ -109,7 +171,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             JObject request = new JObject();
 
-            if (IsPrivate)
+            if (IsPrivate || ObjectAction == ObjectActions.Search)
             {
                 IEnumerable<JProperty> loginResult = await LoginAsync();
                 foreach (JProperty property in loginResult)
@@ -123,8 +185,29 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 request.Add(new JProperty("apikey", _configuration.APIKey));
             }
 
+            ThrowIf.Argument.IsNullOrEmpty(ObjectAction, nameof(ObjectAction));
+
             request.Add(new JProperty("objectType", ObjectType));
             request.Add(new JProperty("objectAction", ObjectAction));
+
+            if (ObjectAction == ObjectActions.Search)
+            {
+                SearchModel search = new SearchModel()
+                {
+                    ResultStart = ResultStart,
+                    ResultLimit = ResultLimit,
+                    ResultSort = SortField,
+                    Filters = Filters,
+                    FilterProcessing = FilterProcessing,
+                    Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
+                };
+
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                JProperty searchProperty = new JProperty("search", JToken.FromObject(search, serializer));
+                request.Add(searchProperty);
+            }
 
             return request;
         }

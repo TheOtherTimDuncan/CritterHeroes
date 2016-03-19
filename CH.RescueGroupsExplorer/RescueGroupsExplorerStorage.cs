@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Common.Proxies;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
+using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json.Linq;
 
@@ -43,6 +44,16 @@ namespace CH.RescueGroupsExplorer
             {
                 return _isPrivate;
             }
+        }
+
+        protected override string SortField
+        {
+            get;
+        }
+
+        public override IEnumerable<SearchField> Fields
+        {
+            get;
         }
 
         public async Task<IEnumerable<JProperty>> GetAllAsync(string objectType, string objectAction, bool isPrivate)

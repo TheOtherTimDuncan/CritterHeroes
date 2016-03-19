@@ -10,7 +10,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public abstract class ContactSourceStorageBase<T> : RescueGroupsSearchStorageBase<T> where T : class
+    public abstract class ContactSourceStorageBase<T> : RescueGroupsStorage<T> where T : class
     {
         public ContactSourceStorageBase(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
             : base(configuration, client, publisher)
@@ -30,6 +30,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get
             {
                 return "contactID";
+            }
+        }
+
+        public override bool IsPrivate
+        {
+            get
+            {
+                return true;
             }
         }
 

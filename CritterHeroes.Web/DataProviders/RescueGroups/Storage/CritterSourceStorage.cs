@@ -9,16 +9,14 @@ using Newtonsoft.Json.Linq;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public class CritterSearchResultStorage : RescueGroupsSearchStorageBase<CritterSearchResult>
+    public class CritterSourceStorage : RescueGroupsStorage<CritterSource>
     {
-        private IEnumerable<SearchField> _fields;
-
-        public CritterSearchResultStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
+        public CritterSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
             : base(configuration, client, publisher)
         {
             ResultLimit = 25;
 
-            this._fields = new[]
+            this.Fields = new[]
             {
                 new SearchField("animalID"),
                 new SearchField("animalBirthdate","animalBirthdateExact"),
@@ -72,15 +70,20 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public override IEnumerable<SearchField> Fields
         {
+            get;
+        }
+
+        public override bool IsPrivate
+        {
             get
             {
-                return _fields;
+                return true;
             }
         }
 
-        public override IEnumerable<CritterSearchResult> FromStorage(IEnumerable<JProperty> tokens)
+        public override IEnumerable<CritterSource> FromStorage(IEnumerable<JProperty> tokens)
         {
-            return tokens.Select(x => x.Value.ToObject<CritterSearchResult>());
+            return tokens.Select(x => x.Value.ToObject<CritterSource>());
         }
     }
 }

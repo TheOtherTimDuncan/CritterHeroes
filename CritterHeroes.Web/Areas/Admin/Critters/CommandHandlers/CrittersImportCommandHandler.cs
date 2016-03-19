@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 {
     public class CrittersImportCommandHandler : IAsyncCommandHandler<CritterImportModel>
     {
-        private IRescueGroupsSearchStorage<CritterSearchResult> _sourceStorage;
+        private IRescueGroupsStorageContext<CritterSource> _sourceStorage;
         private ICritterBatchSqlStorageContext _critterStorage;
         private IStateManager<OrganizationContext> _stateManager;
         private ICritterPictureService _pictureService;
@@ -35,7 +35,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
         private List<string> _messages;
 
-        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsSearchStorage<CritterSearchResult> sourceStorage, ICritterPictureService pictureService, IAppEventPublisher publisher)
+        public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsStorageContext<CritterSource> sourceStorage, ICritterPictureService pictureService, IAppEventPublisher publisher)
         {
             this._critterStorage = critterStorage;
             this._stateManager = stateManager;
@@ -147,9 +147,16 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             _messages.Add(builder.ToString());
         }
 
-        private async Task ImportPartial(IEnumerable<string> fieldNames)
+        private async Task ImportPartial(IEnumerable<string> fieldNames, SearchFilter additionalFilter = null)
         {
-            _sourceStorage.Filters = _sourceStorage.Fields.NullSafeSelect(x =>
+            List<SearchFilter> filters = new List<SearchFilter>();
+
+            if (additionalFilter != null)
+            {
+                filters.Add(additionalFilter);
+            }
+
+            filters.AddRange(_sourceStorage.Fields.NullSafeSelect(x =>
             {
                 x.IsSelected = (x.Name == "animalID" || fieldNames.Contains(x.Name));
                 return new SearchFilter()
@@ -157,9 +164,16 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     FieldName = x.Name,
                     Criteria = SearchFilterOperation.NotBlank
                 };
-            });
+            }));
 
-            _sourceStorage.FilterProcessing = string.Join(" or ", _sourceStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
+            if (additionalFilter != null)
+            {
+                _sourceStorage.FilterProcessing = "0 and (" + string.Join(" or ", filters.Select((SearchFilter filter, int i) => i + 2)) + ")";
+            }
+            else
+            {
+                _sourceStorage.FilterProcessing = string.Join(" or ", filters.Select((SearchFilter filter, int i) => i + 1));
+            }
 
             if (_sourceStorage.Fields.Any(x => x.IsSelected && x.Name == "animalDescription"))
             {
@@ -172,8 +186,10 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
             CritterImporter importer = new CritterImporter();
 
-            IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync();
-            foreach (CritterSearchResult source in sources)
+            IEnumerable<CritterSource> sources = await _sourceStorage.GetAllAsync(filters.ToArray());
+            _messages.Add($"Found {sources.Count()}");
+
+            foreach (CritterSource source in sources)
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
@@ -230,8 +246,10 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
 
             OrganizationContext orgContext = _stateManager.GetContext();
 
-            IEnumerable<CritterSearchResult> sources = await _sourceStorage.GetAllAsync(filter);
-            foreach (CritterSearchResult source in sources)
+            IEnumerable<CritterSource> sources = await _sourceStorage.GetAllAsync(filter);
+            _messages.Add($"Found {sources.Count()}");
+
+            foreach (CritterSource source in sources)
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
@@ -256,16 +274,16 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
                 }
 
-                importer.Import(context);
+                importer.Import(context, _sourceStorage.Fields.Where(x => x.IsSelected).Select(x => x.Name).ToArray());
 
                 await _critterStorage.SaveChangesAsync();
             }
 
             // Import descriptions
-            await ImportPartial(new[] { "animalDescription" });
+            await ImportPartial(new[] { "animalDescription" }, filter);
 
             // Import pictures
-            await ImportPartial(new[] { "animalPictures" });
+            await ImportPartial(new[] { "animalPictures" }, filter);
         }
 
         private async Task ImportPictures(CritterImportContext context)

@@ -9,14 +9,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Importers
 {
     public class CritterImportContext
     {
-        public CritterImportContext(CritterSearchResult source, Critter target, IAppEventPublisher publisher)
+        public CritterImportContext(CritterSource source, Critter target, IAppEventPublisher publisher)
         {
             this.Source = source;
             this.Target = target;
             this.Publisher = publisher;
         }
 
-        public CritterSearchResult Source
+        public CritterSource Source
         {
             get;
         }

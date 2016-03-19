@@ -11,9 +11,9 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.QueryHandlers
 {
     public class CritterImportQueryHandler : IQueryHandler<CritterImportQuery, CritterImportModel>
     {
-        private IRescueGroupsSearchStorage<CritterSearchResult> _critterStorage;
+        private IRescueGroupsStorageContext<CritterSource> _critterStorage;
 
-        public CritterImportQueryHandler(IRescueGroupsSearchStorage<CritterSearchResult> critterStorage)
+        public CritterImportQueryHandler(IRescueGroupsStorageContext<CritterSource> critterStorage)
         {
             _critterStorage = critterStorage;
         }

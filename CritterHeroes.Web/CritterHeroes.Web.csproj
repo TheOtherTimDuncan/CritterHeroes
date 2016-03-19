@@ -472,12 +472,6 @@
     <Compile Include="Areas\Admin\Contacts\Queries\ContactsListQuery.cs" />
     <Compile Include="Areas\Admin\Contacts\Queries\ContactsQuery.cs" />
     <Compile Include="Areas\Admin\Critters\CommandHandlers\CrittersImportCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadCsvFileCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadJsonFileCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Critters\CommandHandlers\UploadXmlFileCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Critters\Commands\UploadCsvFileCommand.cs" />
-    <Compile Include="Areas\Admin\Critters\Commands\UploadJsonFileCommand.cs" />
-    <Compile Include="Areas\Admin\Critters\Commands\UploadXmlFileCommand.cs" />
     <Compile Include="Areas\Admin\Critters\CrittersController.cs" />
     <Compile Include="Areas\Admin\Critters\Models\CritterSummaryModel.cs" />
     <Compile Include="Areas\Admin\Critters\Models\StatusModel.cs" />
@@ -559,12 +553,12 @@
     <Compile Include="Contracts\Logging\IAppLogEventEnricher.cs" />
     <Compile Include="Contracts\Logging\IAppLogEventEnricherFactory.cs" />
     <Compile Include="Contracts\Storage\IPreserveHistory.cs" />
-    <Compile Include="Contracts\Storage\IRescueGroupsSearchStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImportContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImporter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\DateTimeConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyToNullStringConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\ObjectActions.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
     <Compile Include="Data\Configurations\CritterColorConfiguration.cs" />
     <Compile Include="Data\Extensions\CritterColorExtensions.cs" />
@@ -662,7 +656,6 @@
     <Compile Include="DataProviders\RescueGroups\Models\ContactExport.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterExport.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterPictureSource.cs" />
-    <Compile Include="DataProviders\RescueGroups\Models\CritterSearchResult.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\PersonSource.cs" />
@@ -673,10 +666,9 @@
     <Compile Include="DataProviders\RescueGroups\Storage\BreedSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\BusinessSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\ContactSourceStorageBase.cs" />
-    <Compile Include="DataProviders\RescueGroups\Storage\CritterSearchResultStorage.cs" />
+    <Compile Include="DataProviders\RescueGroups\Storage\CritterSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\CritterStatusSourceStorage.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\PersonSourceStorage.cs" />
-    <Compile Include="DataProviders\RescueGroups\Storage\RescueGroupsSearchStorageBase.cs" />
     <Compile Include="DataProviders\RescueGroups\Storage\SpeciesSourceStorage.cs" />
     <Compile Include="Data\Configurations\BusinessGroupConfiguration.cs" />
     <Compile Include="Data\Configurations\BusinessPhoneConfiguration.cs" />

@@ -17,7 +17,7 @@ namespace CH.RescueGroupsExplorer
 {
     public partial class RescueGroupsExplorer : Form
     {
-        private CritterSearchResultStorage _critterStorage;
+        private CritterSourceStorage _critterStorage;
         private RescueGroupsExplorerLogger _logger;
 
         public RescueGroupsExplorer()
@@ -25,7 +25,7 @@ namespace CH.RescueGroupsExplorer
             InitializeComponent();
 
             _logger = new RescueGroupsExplorerLogger(txtHttp);
-            _critterStorage = new CritterSearchResultStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
+            _critterStorage = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
         }
 
         private async void btnExecute_Click(object sender, EventArgs e)

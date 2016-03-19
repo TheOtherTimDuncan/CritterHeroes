@@ -14,6 +14,11 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public BreedSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
             : base(configuration, client, publisher)
         {
+            this.Fields = new[]
+            {
+                new SearchField("species"),
+                new SearchField("name")
+            };
         }
 
         public override string ObjectType
@@ -24,11 +29,24 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
+        public override IEnumerable<SearchField> Fields
+        {
+            get;
+        }
+
         public override bool IsPrivate
         {
             get
             {
                 return true;
+            }
+        }
+
+        protected override string SortField
+        {
+            get
+            {
+                return "name";
             }
         }
 
