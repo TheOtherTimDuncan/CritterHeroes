@@ -12,8 +12,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
     public class PersonSourceStorage : ContactSourceStorageBase<PersonSource>
     {
-        private IEnumerable<SearchField> _fields;
-
         public PersonSourceStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
             : base(configuration, client, publisher)
         {
@@ -25,7 +23,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             };
             this.Filters = new[] { filter };
 
-            this._fields = new[]
+            this.Fields = new[]
             {
                 new SearchField("contactID"),
                 new SearchField("contactType"),
@@ -81,9 +79,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public override IEnumerable<SearchField> Fields
         {
+            get;
+        }
+
+        protected override string KeyField
+        {
             get
             {
-                return _fields;
+                return "contactID";
             }
         }
     }

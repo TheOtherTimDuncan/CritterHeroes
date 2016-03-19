@@ -28,6 +28,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         private string _token;
         private string _tokenHash;
 
+        private List<T> _entityTracker;
+
         public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
         {
             ThrowIf.Argument.IsNull(configuration, nameof(configuration));
@@ -35,6 +37,10 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             this._configuration = configuration;
             this._client = client;
             this._publisher = publisher;
+
+            this.ResultLimit = 100;
+
+            this._entityTracker = new List<T>();
         }
 
         public abstract string ObjectType
@@ -64,6 +70,11 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
+        protected abstract string KeyField
+        {
+            get;
+        }
+
         public IEnumerable<SearchFilter> Filters
         {
             get;
@@ -88,26 +99,31 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             set;
         }
 
-        public virtual Task<T> GetAsync(string entityID)
+        public virtual async Task<T> GetAsync(string entityID)
         {
-            throw new NotImplementedException();
+            SearchFilter filter = new SearchFilter()
+            {
+                FieldName = KeyField,
+                Operation = SearchFilterOperation.Equal,
+                Criteria = entityID
+            };
+
+            IEnumerable<T> result = await GetAllAsync(filter);
+            return result.SingleOrDefault();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             Filters = searchFilters;
+            ObjectAction = ObjectActions.Search;
             return await GetAllAsync();
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            if (Filters.IsNullOrEmpty())
+            if (ObjectAction.IsNullOrEmpty())
             {
                 ObjectAction = ObjectActions.List;
-            }
-            else
-            {
-                ObjectAction = ObjectActions.Search;
             }
 
             List<T> result = new List<T>();
@@ -141,6 +157,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                     result.AddRange(batch);
                 }
             }
+
+            _entityTracker.AddRange(result);
 
             return result;
         }

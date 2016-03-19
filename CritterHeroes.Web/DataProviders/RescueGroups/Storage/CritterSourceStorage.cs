@@ -85,5 +85,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             return tokens.Select(x => x.Value.ToObject<CritterSource>());
         }
+
+        protected override string KeyField
+        {
+            get
+            {
+                return "animalID";
+            }
+        }
     }
 }

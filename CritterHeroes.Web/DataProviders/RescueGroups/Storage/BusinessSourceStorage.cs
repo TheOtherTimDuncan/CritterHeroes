@@ -69,5 +69,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get;
         }
+
+        protected override string KeyField
+        {
+            get
+            {
+                return "contactID";
+            }
+        }
     }
 }

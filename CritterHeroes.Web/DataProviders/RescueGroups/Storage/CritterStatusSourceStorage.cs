@@ -50,6 +50,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
+        protected override string KeyField
+        {
+            get
+            {
+                return "id";
+            }
+        }
+
         public override IEnumerable<CritterStatusSource> FromStorage(IEnumerable<JProperty> tokens)
         {
             return tokens.Select(x => new CritterStatusSource(x.Name, x.Value.Value<string>("name"), x.Value.Value<string>("description")));

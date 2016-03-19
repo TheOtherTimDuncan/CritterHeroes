@@ -44,6 +44,10 @@
             this.clbFields = new System.Windows.Forms.CheckedListBox();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.btnUncheckAll = new System.Windows.Forms.Button();
+            this.cmbKeyField = new System.Windows.Forms.ComboBox();
+            this.lblKeyField = new System.Windows.Forms.Label();
+            this.lblKeyValue = new System.Windows.Forms.Label();
+            this.txtKeyValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -54,18 +58,18 @@
             // 
             this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtLog.Location = new System.Drawing.Point(24, 321);
-            this.txtLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLog.Location = new System.Drawing.Point(24, 400);
+            this.txtLog.Margin = new System.Windows.Forms.Padding(4);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(383, 453);
+            this.txtLog.Size = new System.Drawing.Size(383, 374);
             this.txtLog.TabIndex = 0;
             // 
             // btnExecute
             // 
             this.btnExecute.Location = new System.Drawing.Point(28, 108);
-            this.btnExecute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnExecute.Margin = new System.Windows.Forms.Padding(4);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(100, 28);
             this.btnExecute.TabIndex = 1;
@@ -103,7 +107,7 @@
             "animalStatuses",
             "contacts"});
             this.cmbType.Location = new System.Drawing.Point(119, 15);
-            this.cmbType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbType.Margin = new System.Windows.Forms.Padding(4);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(160, 24);
             this.cmbType.TabIndex = 5;
@@ -114,9 +118,10 @@
             this.cmbAction.Items.AddRange(new object[] {
             "define",
             "list",
-            "search"});
+            "search",
+            "get"});
             this.cmbAction.Location = new System.Drawing.Point(119, 49);
-            this.cmbAction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbAction.Margin = new System.Windows.Forms.Padding(4);
             this.cmbAction.Name = "cmbAction";
             this.cmbAction.Size = new System.Drawing.Size(160, 24);
             this.cmbAction.TabIndex = 6;
@@ -126,7 +131,7 @@
             // 
             this.cbPrivate.AutoSize = true;
             this.cbPrivate.Location = new System.Drawing.Point(119, 84);
-            this.cbPrivate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbPrivate.Margin = new System.Windows.Forms.Padding(4);
             this.cbPrivate.Name = "cbPrivate";
             this.cbPrivate.Size = new System.Drawing.Size(18, 17);
             this.cbPrivate.TabIndex = 7;
@@ -145,7 +150,7 @@
             // btnClear
             // 
             this.btnClear.Location = new System.Drawing.Point(308, 108);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(4);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(100, 28);
             this.btnClear.TabIndex = 9;
@@ -156,7 +161,7 @@
             // btnLoadJson
             // 
             this.btnLoadJson.Location = new System.Drawing.Point(308, 18);
-            this.btnLoadJson.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadJson.Margin = new System.Windows.Forms.Padding(4);
             this.btnLoadJson.Name = "btnLoadJson";
             this.btnLoadJson.Size = new System.Drawing.Size(100, 28);
             this.btnLoadJson.TabIndex = 10;
@@ -170,7 +175,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(428, 15);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -190,7 +195,7 @@
             // 
             this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree.Location = new System.Drawing.Point(0, 0);
-            this.tree.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tree.Margin = new System.Windows.Forms.Padding(4);
             this.tree.Name = "tree";
             this.tree.Size = new System.Drawing.Size(1015, 380);
             this.tree.TabIndex = 4;
@@ -199,7 +204,7 @@
             // 
             this.txtHttp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtHttp.Location = new System.Drawing.Point(0, 0);
-            this.txtHttp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtHttp.Margin = new System.Windows.Forms.Padding(4);
             this.txtHttp.Multiline = true;
             this.txtHttp.Name = "txtHttp";
             this.txtHttp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -235,11 +240,51 @@
             this.btnUncheckAll.UseVisualStyleBackColor = true;
             this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
             // 
+            // cmbKeyField
+            // 
+            this.cmbKeyField.FormattingEnabled = true;
+            this.cmbKeyField.Location = new System.Drawing.Point(103, 335);
+            this.cmbKeyField.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbKeyField.Name = "cmbKeyField";
+            this.cmbKeyField.Size = new System.Drawing.Size(187, 24);
+            this.cmbKeyField.TabIndex = 16;
+            // 
+            // lblKeyField
+            // 
+            this.lblKeyField.AutoSize = true;
+            this.lblKeyField.Location = new System.Drawing.Point(25, 339);
+            this.lblKeyField.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblKeyField.Name = "lblKeyField";
+            this.lblKeyField.Size = new System.Drawing.Size(70, 17);
+            this.lblKeyField.TabIndex = 15;
+            this.lblKeyField.Text = "Key Field:";
+            // 
+            // lblKeyValue
+            // 
+            this.lblKeyValue.AutoSize = true;
+            this.lblKeyValue.Location = new System.Drawing.Point(25, 369);
+            this.lblKeyValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblKeyValue.Name = "lblKeyValue";
+            this.lblKeyValue.Size = new System.Drawing.Size(76, 17);
+            this.lblKeyValue.TabIndex = 17;
+            this.lblKeyValue.Text = "Key Value:";
+            // 
+            // txtKeyValue
+            // 
+            this.txtKeyValue.Location = new System.Drawing.Point(103, 366);
+            this.txtKeyValue.Name = "txtKeyValue";
+            this.txtKeyValue.Size = new System.Drawing.Size(187, 22);
+            this.txtKeyValue.TabIndex = 18;
+            // 
             // RescueGroupsExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1453, 790);
+            this.Controls.Add(this.txtKeyValue);
+            this.Controls.Add(this.lblKeyValue);
+            this.Controls.Add(this.cmbKeyField);
+            this.Controls.Add(this.lblKeyField);
             this.Controls.Add(this.btnUncheckAll);
             this.Controls.Add(this.btnCheckAll);
             this.Controls.Add(this.clbFields);
@@ -254,7 +299,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.txtLog);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RescueGroupsExplorer";
             this.Text = "Rescue Groups Explorer";
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -285,6 +330,10 @@
         private System.Windows.Forms.CheckedListBox clbFields;
         private System.Windows.Forms.Button btnCheckAll;
         private System.Windows.Forms.Button btnUncheckAll;
+        private System.Windows.Forms.ComboBox cmbKeyField;
+        private System.Windows.Forms.Label lblKeyField;
+        private System.Windows.Forms.Label lblKeyValue;
+        private System.Windows.Forms.TextBox txtKeyValue;
     }
 }
 

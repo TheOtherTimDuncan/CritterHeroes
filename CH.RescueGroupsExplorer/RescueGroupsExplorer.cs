@@ -33,23 +33,30 @@ namespace CH.RescueGroupsExplorer
             IEnumerable<JProperty> result = null;
             try
             {
-                if (cmbType.Text == "animals" && cmbAction.Text == "search")
+                if (cmbType.Text == "animals")
                 {
-                    _critterStorage.Fields.ForEach(x => x.IsSelected = false);
+                    if (cmbAction.Text == ObjectActions.Search)
+                    {
+                        _critterStorage.Fields.ForEach(x => x.IsSelected = false);
 
-                    _critterStorage.Filters = _critterStorage.Fields.Where(x => clbFields.CheckedItems.Contains(x.Name)).Select(x =>
-                      {
-                          x.IsSelected = true;
-                          return new SearchFilter()
+                        _critterStorage.Filters = _critterStorage.Fields.Where(x => clbFields.CheckedItems.Contains(x.Name)).Select(x =>
                           {
-                              FieldName = x.Name,
-                              Criteria = SearchFilterOperation.NotBlank
-                          };
-                      });
+                              x.IsSelected = true;
+                              return new SearchFilter()
+                              {
+                                  FieldName = x.Name,
+                                  Criteria = SearchFilterOperation.NotBlank
+                              };
+                          });
 
-                    _critterStorage.FilterProcessing = string.Join(" or ", _critterStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
+                        _critterStorage.FilterProcessing = string.Join(" or ", _critterStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
 
-                    var searchResults = await _critterStorage.GetAllAsync();
+                        var searchResults = await _critterStorage.GetAllAsync();
+                    }
+                    else if (cmbAction.Text == "get")
+                    {
+                        CritterSource source = await _critterStorage.GetAsync(txtKeyValue.Text);
+                    }
                 }
                 else if (cmbType.Text == "contacts" && cmbAction.Text == "search")
                 {
@@ -152,15 +159,26 @@ namespace CH.RescueGroupsExplorer
         {
             clbFields.Items.Clear();
 
-            if (cmbType.Text == "animals" && cmbAction.Text == "search")
+            if (cmbType.Text == "animals")
             {
-                clbFields.Enabled = true;
-                clbFields.Items.AddRange(_critterStorage.Fields.Select(x => x.Name).ToArray());
-                btnCheckAll_Click(sender, e);
+                if (cmbAction.Text == ObjectActions.Search)
+                {
+                    clbFields.Enabled = true;
+                    clbFields.Items.AddRange(_critterStorage.Fields.Select(x => x.Name).ToArray());
+                    btnCheckAll_Click(sender, e);
+                }
+                else if (cmbAction.Text == "get")
+                {
+                    lblKeyField.Enabled = true;
+                    txtKeyValue.Enabled = true;
+                    cmbKeyField.Items.AddRange(_critterStorage.Fields.Select(x => x.Name).ToArray());
+                }
             }
             else
             {
                 clbFields.Enabled = false;
+                lblKeyField.Enabled = false;
+                txtKeyValue.Enabled = false;
             }
 
         }

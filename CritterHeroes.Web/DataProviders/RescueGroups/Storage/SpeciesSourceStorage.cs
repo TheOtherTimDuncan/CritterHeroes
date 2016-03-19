@@ -53,6 +53,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
+        protected override string KeyField
+        {
+            get
+            {
+                return "speciesID";
+            }
+        }
+
         public override IEnumerable<SpeciesSource> FromStorage(IEnumerable<JProperty> tokens)
         {
             return tokens.Select(x => new SpeciesSource(

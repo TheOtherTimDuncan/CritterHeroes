@@ -6,5 +6,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
     {
         public const string List = "list";
         public const string Search = "search";
+        public const string Add = "Add";
+        public const string Edit = "Edit";
     }
 }

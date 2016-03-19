@@ -17,6 +17,9 @@ namespace CH.RescueGroupsExplorer
         private bool _isPrivate;
         private string _objectAction;
 
+        private string _sortField;
+        private string _keyField;
+
         public RescueGroupsExplorerStorage(HttpClientProxy httpClient, IAppEventPublisher publisher)
             : base(new RescueGroupsConfiguration(), httpClient, publisher)
         {
@@ -48,12 +51,31 @@ namespace CH.RescueGroupsExplorer
 
         protected override string SortField
         {
-            get;
+            get
+            {
+                return _sortField;
+            }
+        }
+
+        protected override string KeyField
+        {
+            get
+            {
+                return _keyField;
+            }
         }
 
         public override IEnumerable<SearchField> Fields
         {
             get;
+        }
+
+        public async Task<JProperty> Get(string objectType, string keyField, string keyValue)
+        {
+            this._objectType = objectType;
+            this._keyField = keyField;
+            this._sortField = keyField;
+            return await GetAsync(keyValue);
         }
 
         public async Task<IEnumerable<JProperty>> GetAllAsync(string objectType, string objectAction, bool isPrivate)
