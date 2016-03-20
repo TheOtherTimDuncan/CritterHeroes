@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
@@ -19,30 +20,35 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             this.YoungSingular = youngSingular;
         }
 
+        [JsonProperty(PropertyName = "speciesID")]
         public string Name
         {
             get;
             private set;
         }
 
+        [JsonProperty(PropertyName = "speciesSingular")]
         public string Singular
         {
             get;
             private set;
         }
 
+        [JsonProperty(PropertyName = "speciesPlural")]
         public string Plural
         {
             get;
             private set;
         }
 
+        [JsonProperty(PropertyName = "speciesSingularYoung")]
         public string YoungSingular
         {
             get;
             private set;
         }
 
+        [JsonProperty(PropertyName = "speciesPluralYoung")]
         public string YoungPlural
         {
             get;

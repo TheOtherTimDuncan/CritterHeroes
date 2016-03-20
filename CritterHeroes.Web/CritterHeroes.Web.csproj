@@ -560,6 +560,7 @@
     <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ObjectActions.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\RequestData.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\DataListResponseModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\DataResponseModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\BaseResponseModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
@@ -16,18 +17,21 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             this.BreedName = breedName;
         }
 
+        [JsonProperty(PropertyName = "breedID")]
         public string ID
         {
             get;
             private set;
         }
 
+        [JsonProperty(PropertyName = "breedSpecies")]
         public string Species
         {
             get;
             private set;
         }
 
+        [JsonProperty(PropertyName = "breedName")]
         public string BreedName
         {
             get;

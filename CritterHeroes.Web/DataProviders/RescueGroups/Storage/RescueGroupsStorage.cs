@@ -20,7 +20,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public abstract class RescueGroupsStorage<T> : IRescueGroupsStorageContext<T> where T : class
+    public abstract class RescueGroupsStorage<TEntity> : IRescueGroupsStorageContext<TEntity> where TEntity : class
     {
         private IRescueGroupsConfiguration _configuration;
         private IHttpClient _client;
@@ -30,7 +30,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         private string _tokenHash;
 
         private JsonSerializer _serializer;
-        private List<T> _entityTracker;
+        private List<TEntity> _entityTracker;
 
         public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
         {
@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             this._serializer = new JsonSerializer();
             this._serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-            this._entityTracker = new List<T>();
+            this._entityTracker = new List<TEntity>();
         }
 
         public abstract string ObjectType
@@ -85,12 +85,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             set;
         }
 
-        protected int ResultStart
-        {
-            get;
-            set;
-        }
-
         public int ResultLimit
         {
             get;
@@ -103,7 +97,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             set;
         }
 
-        public virtual async Task<T> GetAsync(string entityID)
+        public virtual async Task<TEntity> GetAsync(string entityID)
         {
             SearchFilter filter = new SearchFilter()
             {
@@ -112,18 +106,18 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 Criteria = entityID
             };
 
-            IEnumerable<T> result = await GetAllAsync(filter);
+            IEnumerable<TEntity> result = await GetAllAsync(filter);
             return result.SingleOrDefault();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(params SearchFilter[] searchFilters)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             Filters = searchFilters;
             ObjectAction = ObjectActions.Search;
 
             SearchModel search = new SearchModel()
             {
-                ResultStart = ResultStart,
+                ResultStart = 0,
                 ResultLimit = ResultLimit,
                 ResultSort = SortField,
                 Filters = Filters,
@@ -133,26 +127,31 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
             RequestData requestData = new RequestData("search", search);
 
-            return await GetEntitiesAsync(requestData);
+            return await GetEntitiesAsync(search);
         }
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             ObjectAction = ObjectActions.List;
             return await GetEntitiesAsync();
         }
 
-        protected virtual async Task<IEnumerable<T>> GetEntitiesAsync(RequestData requestData = null)
+        protected virtual async Task<IEnumerable<TEntity>> GetEntitiesAsync(SearchModel searchModel = null)
         {
-            List<T> result = new List<T>();
-            ResultStart = 0;
+            List<TEntity> result = new List<TEntity>();
+
+            RequestData requestData = null;
+            if (searchModel != null)
+            {
+                requestData = new RequestData("search", searchModel);
+            }
 
             JObject request = await CreateRequest(requestData);
 
             JObject response = await SendRequestAsync<JObject>(request);
 
             JObject data;
-            IEnumerable<T> batch;
+            IEnumerable<TEntity> batch;
 
             if (response["data"].HasValues)
             {
@@ -161,18 +160,21 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 result.AddRange(batch);
             }
 
-            int foundRows = response.Value<int>("foundRows");
-            ResultStart += ResultLimit;
-            while (ResultStart < foundRows)
+            if (searchModel != null)
             {
-                ResultStart += ResultLimit;
-                request = await CreateRequest(requestData);
-                response = await SendRequestAsync<JObject>(request);
-                if (response["data"].HasValues)
+                int foundRows = response.Value<int>("foundRows");
+                searchModel.ResultStart += ResultLimit;
+                while (searchModel.ResultStart < foundRows)
                 {
-                    data = response.Value<JObject>("data");
-                    batch = FromStorage(data.Properties());
-                    result.AddRange(batch);
+                    searchModel.ResultStart += ResultLimit;
+                    request = await CreateRequest(requestData);
+                    response = await SendRequestAsync<JObject>(request);
+                    if (response["data"].HasValues)
+                    {
+                        data = response.Value<JObject>("data");
+                        batch = FromStorage(data.Properties());
+                        result.AddRange(batch);
+                    }
                 }
             }
 
@@ -181,17 +183,17 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             return result;
         }
 
-        public virtual Task SaveAsync(T entity)
+        public virtual Task SaveAsync(TEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task SaveAsync(IEnumerable<T> entities)
+        public virtual Task SaveAsync(IEnumerable<TEntity> entities)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task DeleteAsync(T entity)
+        public virtual Task DeleteAsync(TEntity entity)
         {
             throw new NotImplementedException();
         }
@@ -201,7 +203,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             throw new NotImplementedException();
         }
 
-        public abstract IEnumerable<T> FromStorage(IEnumerable<JProperty> tokens);
+        public abstract IEnumerable<TEntity> FromStorage(IEnumerable<JProperty> tokens);
 
         protected virtual async Task<JObject> CreateRequest(RequestData requestData = null)
         {

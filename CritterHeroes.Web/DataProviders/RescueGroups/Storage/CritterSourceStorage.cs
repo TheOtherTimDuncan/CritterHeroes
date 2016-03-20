@@ -81,17 +81,17 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        public override IEnumerable<CritterSource> FromStorage(IEnumerable<JProperty> tokens)
-        {
-            return tokens.Select(x => x.Value.ToObject<CritterSource>());
-        }
-
         protected override string KeyField
         {
             get
             {
                 return "animalID";
             }
+        }
+
+        public override IEnumerable<CritterSource> FromStorage(IEnumerable<JProperty> tokens)
+        {
+            return tokens.Select(x => x.Value.ToObject<CritterSource>());
         }
     }
 }

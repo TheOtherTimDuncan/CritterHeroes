@@ -25,14 +25,21 @@ namespace CH.Test.RescueGroups.MappingTests
             BreedSource breedSource1 = new BreedSource("1", "Species 1", "Breed 1");
             BreedSource breedSource2 = new BreedSource("2", "Species 2", "Breed 2");
 
-            JProperty element1 = new JProperty("1", new JObject(new JProperty("species", breedSource1.Species), new JProperty("name", breedSource1.BreedName)));
-            JProperty element2 = new JProperty("2", new JObject(new JProperty("species", breedSource2.Species), new JProperty("name", breedSource2.BreedName)));
+            JObject json = JObject.Parse(@"
+{
+    ""1"": {
+        ""breedID"": ""1"",
+        ""breedName"": ""Breed 1"",
+        ""breedSpecies"": ""Species 1""
+    },
+    ""2"": {
+        ""breedID"": ""2"",
+        ""breedName"": ""Breed 2"",
+        ""breedSpecies"": ""Species 2""
+    }}
+");
 
-            JObject data = new JObject();
-            data.Add(element1);
-            data.Add(element2);
-
-            IEnumerable<BreedSource> animalBreeds = new BreedSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
+            IEnumerable<BreedSource> animalBreeds = new BreedSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
             animalBreeds.Should().HaveCount(2);
 
             BreedSource result1 = animalBreeds.FirstOrDefault(x => x.ID == breedSource1.ID);

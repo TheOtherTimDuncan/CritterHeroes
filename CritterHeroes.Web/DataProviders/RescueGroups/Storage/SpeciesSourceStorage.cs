@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
@@ -16,7 +17,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             this.Fields = new[]
                 {
-                new SearchField("name"),
+                new SearchField("speciesID"),
                 new SearchField("speciesSingular"),
                 new SearchField("speciesPlural"),
                 new SearchField("speciesSingularYoung"),
@@ -49,7 +50,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get
             {
-                return "name";
+                return "speciesID";
             }
         }
 
@@ -61,15 +62,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
+        public override Task<IEnumerable<SpeciesSource>> GetAllAsync()
+        {
+            SearchFilter filter = new SearchFilter()
+            {
+                FieldName = KeyField,
+                Operation = SearchFilterOperation.NotBlank
+            };
+            return base.GetAllAsync(filter);
+        }
+
         public override IEnumerable<SpeciesSource> FromStorage(IEnumerable<JProperty> tokens)
         {
-            return tokens.Select(x => new SpeciesSource(
-                x.Name,
-                x.Value.Value<string>("speciesSingular"),
-                x.Value.Value<string>("speciesPlural"),
-                x.Value.Value<string>("speciesSingularYoung"),
-                x.Value.Value<string>("speciesPluralYoung"))
-            );
+            return tokens.Select(x => x.Value.ToObject<SpeciesSource>());
         }
     }
 }

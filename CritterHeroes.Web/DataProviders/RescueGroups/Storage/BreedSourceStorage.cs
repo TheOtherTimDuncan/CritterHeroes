@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
@@ -16,8 +17,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             this.Fields = new[]
             {
-                new SearchField("species"),
-                new SearchField("name")
+                new SearchField("breedID"),
+                new SearchField("breedName"),
+                new SearchField("breedSpecies")
             };
         }
 
@@ -46,7 +48,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get
             {
-                return "name";
+                return "breedID";
             }
         }
 
@@ -58,9 +60,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
+        public override Task<IEnumerable<BreedSource>> GetAllAsync()
+        {
+            SearchFilter filter = new SearchFilter()
+            {
+                FieldName = KeyField,
+                Operation = SearchFilterOperation.NotBlank
+            };
+            return base.GetAllAsync(filter);
+        }
+
         public override IEnumerable<BreedSource> FromStorage(IEnumerable<JProperty> tokens)
         {
-            return tokens.Select(x => new BreedSource(x.Name, x.Value.Value<string>("species"), x.Value.Value<string>("name")));
+            return tokens.Select(x => x.Value.ToObject<BreedSource>());
         }
     }
 }
