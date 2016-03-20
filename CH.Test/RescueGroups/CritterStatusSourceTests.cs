@@ -25,14 +25,21 @@ namespace CH.Test.RescueGroups
             CritterStatusSource critterStatus1 = new CritterStatusSource("1", "Name 1", "Description 1");
             CritterStatusSource critterStatus2 = new CritterStatusSource("2", "Name 2", "Description 2");
 
-            JProperty element1 = new JProperty("1", new JObject(new JProperty("name", critterStatus1.Name), new JProperty("description", critterStatus1.Description)));
-            JProperty element2 = new JProperty("2", new JObject(new JProperty("name", critterStatus2.Name), new JProperty("description", critterStatus2.Description)));
+            JObject json = JObject.Parse(@"
+{
+    ""1"": {
+        ""statusID"": ""1"",
+        ""statusName"": ""Name 1"",
+        ""statusDescription"": ""Description 1""
+    },
+    ""2"": {
+        ""statusID"": ""2"",
+        ""statusName"": ""Name 2"",
+        ""statusDescription"": ""Description 2""
+    }}
+");
 
-            JObject data = new JObject();
-            data.Add(element1);
-            data.Add(element2);
-
-            IEnumerable<CritterStatusSource> critterStatuses = new CritterStatusSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(data.Properties());
+            IEnumerable<CritterStatusSource> critterStatuses = new CritterStatusSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
             critterStatuses.Should().HaveCount(2);
 
             CritterStatusSource result1 = critterStatuses.FirstOrDefault(x => x.ID == critterStatus1.ID);
