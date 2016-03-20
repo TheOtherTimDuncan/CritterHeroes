@@ -559,7 +559,13 @@
     <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyToNullStringConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ObjectActions.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\RequestData.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\DataResponseModel.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\BaseResponseModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\LoginResponseData.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\MessagesModel.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\RecordMessageModel.cs" />
     <Compile Include="Data\Configurations\CritterColorConfiguration.cs" />
     <Compile Include="Data\Extensions\CritterColorExtensions.cs" />
     <Compile Include="Data\Models\CritterColor.cs" />

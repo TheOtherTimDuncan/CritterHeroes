@@ -9,6 +9,7 @@ using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using CritterHeroes.Web.DataProviders.RescueGroups.Responses;
 using CritterHeroes.Web.Models.LogEvents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -28,6 +29,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         private string _token;
         private string _tokenHash;
 
+        private JsonSerializer _serializer;
         private List<T> _entityTracker;
 
         public RescueGroupsStorage(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher)
@@ -39,6 +41,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             this._publisher = publisher;
 
             this.ResultLimit = 100;
+
+            this._serializer = new JsonSerializer();
+            this._serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             this._entityTracker = new List<T>();
         }
@@ -58,7 +63,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             get;
         }
-
 
         public abstract IEnumerable<SearchField> Fields
         {
@@ -116,22 +120,36 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             Filters = searchFilters;
             ObjectAction = ObjectActions.Search;
-            return await GetAllAsync();
+
+            SearchModel search = new SearchModel()
+            {
+                ResultStart = ResultStart,
+                ResultLimit = ResultLimit,
+                ResultSort = SortField,
+                Filters = Filters,
+                FilterProcessing = FilterProcessing,
+                Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
+            };
+
+            RequestData requestData = new RequestData("search", search);
+
+            return await GetEntitiesAsync(requestData);
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            if (ObjectAction.IsNullOrEmpty())
-            {
-                ObjectAction = ObjectActions.List;
-            }
+            ObjectAction = ObjectActions.List;
+            return await GetEntitiesAsync();
+        }
 
+        protected virtual async Task<IEnumerable<T>> GetEntitiesAsync(RequestData requestData = null)
+        {
             List<T> result = new List<T>();
             ResultStart = 0;
 
-            JObject request = await CreateRequest();
+            JObject request = await CreateRequest(requestData);
 
-            JObject response = await GetDataAsync(request);
+            JObject response = await SendRequestAsync<JObject>(request);
 
             JObject data;
             IEnumerable<T> batch;
@@ -148,8 +166,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             while (ResultStart < foundRows)
             {
                 ResultStart += ResultLimit;
-                request = await CreateRequest();
-                response = await GetDataAsync(request);
+                request = await CreateRequest(requestData);
+                response = await SendRequestAsync<JObject>(request);
                 if (response["data"].HasValues)
                 {
                     data = response.Value<JObject>("data");
@@ -185,7 +203,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
         public abstract IEnumerable<T> FromStorage(IEnumerable<JProperty> tokens);
 
-        protected virtual async Task<JObject> CreateRequest()
+        protected virtual async Task<JObject> CreateRequest(RequestData requestData = null)
         {
             JObject request = new JObject();
 
@@ -208,23 +226,10 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             request.Add(new JProperty("objectType", ObjectType));
             request.Add(new JProperty("objectAction", ObjectAction));
 
-            if (ObjectAction == ObjectActions.Search)
+            if (requestData != null)
             {
-                SearchModel search = new SearchModel()
-                {
-                    ResultStart = ResultStart,
-                    ResultLimit = ResultLimit,
-                    ResultSort = SortField,
-                    Filters = Filters,
-                    FilterProcessing = FilterProcessing,
-                    Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
-                };
-
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-                JProperty searchProperty = new JProperty("search", JToken.FromObject(search, serializer));
-                request.Add(searchProperty);
+                JProperty dataProperty = new JProperty(requestData.Key, JToken.FromObject(requestData.Data, _serializer));
+                request.Add(dataProperty);
             }
 
             return request;
@@ -238,38 +243,28 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                     new JProperty("username", _configuration.Username),
                     new JProperty("password", _configuration.Password),
                     new JProperty("accountNumber", _configuration.AccountNumber),
-                    new JProperty("action", "login")
+                    new JProperty("action", ObjectActions.Login)
                 );
 
-                JObject response;
+                DataResponseModel<LoginResponseData> response;
                 try
                 {
-                    response = await GetDataAsync(request);
+                    response = await SendRequestAsync<DataResponseModel<LoginResponseData>>(request);
                 }
                 catch (RescueGroupsException ex)
                 {
                     throw new RescueGroupsException("Login", ex);
                 }
 
-                JObject data = response.Value<JObject>("data");
-
-                _token = data.Property("token").Value.Value<string>();
-                _tokenHash = data.Property("tokenHash").Value.Value<string>();
-
-                return new JProperty[]
-                {
-                    data.Property("token"),
-                    data.Property("tokenHash")
-                };
+                _token = response.Data.Token;
+                _tokenHash = response.Data.TokenHash;
             }
-            else
+
+            return new JProperty[]
             {
-                return new JProperty[]
-                {
-                    new JProperty("token", _token),
-                    new JProperty("tokenHash", _tokenHash)
-                };
-            }
+                new JProperty("token", _token),
+                new JProperty("tokenHash", _tokenHash)
+            };
         }
 
         protected void ValidateResponse(JObject response)
@@ -291,7 +286,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        protected async Task<JObject> GetDataAsync(JObject request)
+        protected async Task<TResponse> SendRequestAsync<TResponse>(JObject request) where TResponse : class
         {
             string jsonRequest = request.ToString();
             HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(jsonRequest, Encoding.UTF8, "application/json"));
@@ -317,7 +312,15 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             JObject result = JObject.Parse(content);
             ValidateResponse(result);
 
-            return result;
+            if (typeof(TResponse) == typeof(JObject))
+            {
+                return result as TResponse;
+            }
+            else
+            {
+                TResponse responseModel = JsonConvert.DeserializeObject<TResponse>(content);
+                return responseModel;
+            }
         }
     }
 }

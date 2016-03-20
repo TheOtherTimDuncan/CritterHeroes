@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,33 +14,80 @@ namespace CH.Test.Mocks
 {
     public class MockHttpClient : Mock<IHttpClient>
     {
-        public MockHttpClient(string json)
+        private Dictionary<string, object> _responses;
+        private Dictionary<string, Action<string>> _callbacks;
+
+        public MockHttpClient()
         {
-            SetupMock(json);
+            _responses = new Dictionary<string, object>();
+            _callbacks = new Dictionary<string, Action<string>>();
+            SetupMock();
         }
 
-        public MockHttpClient(params JProperty[] jsonProperties)
+        public MockHttpClient SetupLoginResponse()
+        {
+            SetupResponseForAction(ObjectActions.Login, "{ \"status\":\"ok\", data: { \"token\": \"token\", \"tokenHash\": \"tokenHash\" } }");
+            return this;
+        }
+
+        public MockHttpClient SetupListResponse(params JProperty[] jsonProperties)
         {
             JObject jobect = new JObject(new JProperty("data", new JObject(jsonProperties)));
             jobect.Add(new JProperty("status", "ok"));
             string json = jobect.ToString(Formatting.Indented);
-            SetupMock(json);
+            return SetupListResponse(json);
         }
 
-        private void SetupMock(string json)
+        public MockHttpClient SetupListResponse(string json)
+        {
+            _responses.Add(ObjectActions.List, json);
+            return this;
+        }
+
+        public MockHttpClient SetupResponseForAction(string action, object response)
+        {
+            _responses.Add(action, response);
+            return this;
+        }
+
+        public MockHttpClient Callback(string action, Action<string> callback)
+        {
+            this._callbacks.Add(action, callback);
+            return this;
+        }
+
+        private void SetupMock()
         {
             this.Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<HttpContent>())).Returns((string requestUri, HttpContent content) =>
             {
                 HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
 
                 string requestContent = content.ReadAsStringAsync().Result;
-                if (requestContent.Contains("\"action\": \"login\""))
+                JObject requestJson = JObject.Parse(requestContent);
+
+                JProperty actionProperty = requestJson.Property("action");
+                if (actionProperty == null)
                 {
-                    response.Content = new StringContent("{ \"status\":\"ok\", data: { \"token\": \"token\", \"tokenHash\": \"tokenHash\" } }");
+                    actionProperty = requestJson.Property("objectAction");
+                }
+                string action = actionProperty.Value.Value<string>();
+
+                Action<string> callback;
+                if (_callbacks.TryGetValue(action, out callback))
+                {
+                    callback(requestContent);
+                }
+
+                object responseData = _responses[action];
+
+                if (responseData is string)
+                {
+                    response.Content = new StringContent((string)responseData);
                 }
                 else
                 {
-                    response.Content = new StringContent(json);
+                    string responseJson = JsonConvert.SerializeObject(responseData);
+                    response.Content = new StringContent((string)responseJson);
                 }
 
                 return Task.FromResult(response);

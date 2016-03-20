@@ -76,7 +76,9 @@ namespace CH.Test.RescueGroups
                 new JProperty("contactGroups", "Group1,Group2")
             ));
 
-            MockHttpClient mockHttpClient = new MockHttpClient(element1, element2);
+            MockHttpClient mockHttpClient = new MockHttpClient()
+                .SetupLoginResponse()
+                .SetupListResponse(element1, element2);
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
