@@ -660,8 +660,6 @@
     <Compile Include="DataProviders\Azure\Utility\PartitionKeyHelper.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\BreedSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\BusinessSource.cs" />
-    <Compile Include="DataProviders\RescueGroups\Models\ContactExport.cs" />
-    <Compile Include="DataProviders\RescueGroups\Models\CritterExport.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterPictureSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\CritterStatusSource.cs" />
