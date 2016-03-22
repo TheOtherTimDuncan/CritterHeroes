@@ -62,14 +62,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             }
         }
 
-        public override Task<IEnumerable<SpeciesSource>> GetAllAsync()
+        public override async Task<IEnumerable<SpeciesSource>> GetAllAsync()
         {
             SearchFilter filter = new SearchFilter()
             {
                 FieldName = KeyField,
                 Operation = SearchFilterOperation.NotBlank
             };
-            return base.GetAllAsync(filter);
+            return await base.GetAllAsync(filter);
         }
 
         public override IEnumerable<SpeciesSource> FromStorage(IEnumerable<JProperty> tokens)

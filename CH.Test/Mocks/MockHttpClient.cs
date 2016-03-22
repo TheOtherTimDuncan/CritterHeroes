@@ -30,14 +30,6 @@ namespace CH.Test.Mocks
             return this;
         }
 
-        public MockHttpClient SetupListResponse(params JProperty[] jsonProperties)
-        {
-            JObject jobect = new JObject(new JProperty("data", new JObject(jsonProperties)));
-            jobect.Add(new JProperty("status", "ok"));
-            string json = jobect.ToString(Formatting.Indented);
-            return SetupListResponse(json);
-        }
-
         public MockHttpClient SetupListResponse(string json)
         {
             _responses.Add(ObjectActions.List, json);

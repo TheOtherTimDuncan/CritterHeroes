@@ -557,7 +557,9 @@
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImporter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\DateTimeConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyToNullStringConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\JsonConverters\PhoneConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\BaseContactSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ObjectActions.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\RequestData.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\DataListResponseModel.cs" />

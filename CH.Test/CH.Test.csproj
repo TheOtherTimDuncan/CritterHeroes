@@ -322,6 +322,7 @@
     <Compile Include="MiddlewareTests\OrganizationContextMiddlewareTests.cs" />
     <Compile Include="MiddlewareTests\UserContextMiddlewareTests.cs" />
     <Compile Include="RescueGroups\BreedSourceTests.cs" />
+    <Compile Include="RescueGroups\BusinessSourceTests.cs" />
     <Compile Include="RescueGroups\CritterSourceTests.cs" />
     <Compile Include="RescueGroups\CritterStatusSourceTests.cs" />
     <Compile Include="RescueGroups\PersonSourceTests.cs" />
