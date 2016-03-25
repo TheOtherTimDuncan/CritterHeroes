@@ -105,12 +105,14 @@
             "animalBreeds",
             "animalSpecies",
             "animalStatuses",
-            "contacts"});
+            "businesses",
+            "people"});
             this.cmbType.Location = new System.Drawing.Point(119, 15);
             this.cmbType.Margin = new System.Windows.Forms.Padding(4);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(160, 24);
             this.cmbType.TabIndex = 5;
+            this.cmbType.SelectedIndexChanged += new System.EventHandler(this.cmbType_SelectedIndexChanged);
             // 
             // cmbAction
             // 

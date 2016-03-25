@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CritterHeroes.Web.Common.Proxies;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
@@ -17,80 +17,57 @@ namespace CH.RescueGroupsExplorer
 {
     public partial class RescueGroupsExplorer : Form
     {
-        private CritterSourceStorage _critterStorage;
         private RescueGroupsExplorerLogger _logger;
+        private HttpClientProxy _client;
+        private RescueGroupsConfiguration _configuration;
 
         public RescueGroupsExplorer()
         {
             InitializeComponent();
 
             _logger = new RescueGroupsExplorerLogger(txtHttp);
-            _critterStorage = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
+            _client = new HttpClientProxy();
+            _configuration = new RescueGroupsConfiguration();
         }
 
         private async void btnExecute_Click(object sender, EventArgs e)
         {
-            IEnumerable<JProperty> result = null;
-            try
+            if (cmbAction.Text == ObjectActions.Search || cmbAction.Text == ObjectActions.List || cmbAction.Text == "get")
             {
-                if (cmbType.Text == "animals")
+                switch (cmbType.Text)
                 {
-                    if (cmbAction.Text == ObjectActions.Search)
-                    {
-                        _critterStorage.Fields.ForEach(x => x.IsSelected = false);
+                    case "animals":
+                        await ExecuteObjectActionAsync(new CritterSourceStorage(_configuration, _client, _logger));
+                        break;
 
-                        _critterStorage.Filters = _critterStorage.Fields.Where(x => clbFields.CheckedItems.Contains(x.Name)).Select(x =>
-                          {
-                              x.IsSelected = true;
-                              return new SearchFilter()
-                              {
-                                  FieldName = x.Name,
-                                  Criteria = SearchFilterOperation.NotBlank
-                              };
-                          });
+                    case "animalBreeds":
+                        await ExecuteObjectActionAsync(new BreedSourceStorage(_configuration, _client, _logger));
+                        break;
 
-                        _critterStorage.FilterProcessing = string.Join(" or ", _critterStorage.Filters.Select((SearchFilter filter, int i) => i + 1));
+                    case "animalSpecies":
+                        await ExecuteObjectActionAsync(new SpeciesSourceStorage(_configuration, _client, _logger));
+                        break;
 
-                        var searchResults = await _critterStorage.GetAllAsync();
-                    }
-                    else if (cmbAction.Text == "get")
-                    {
-                        CritterSource source = await _critterStorage.GetAsync(txtKeyValue.Text);
-                    }
-                }
-                else if (cmbType.Text == "contacts" && cmbAction.Text == "search")
-                {
-                    PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
-                    var searchResults = await storage.GetAllAsync();
-                }
-                else if (cmbType.Text == "business")
-                {
-                    BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(), _logger);
-                    var searchResults = await storage.GetAllAsync();
-                }
-                else
-                {
-                    RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(new HttpClientProxy(), _logger);
-                    result = await storage.GetAllAsync(cmbType.Text, cmbAction.Text, cbPrivate.Checked);
-                }
+                    case "animalStatuses":
+                        await ExecuteObjectActionAsync(new CritterStatusSourceStorage(_configuration, _client, _logger));
+                        break;
 
-                _logger.Flush();
+                    case "businesses":
+                        await ExecuteObjectActionAsync(new BusinessSourceStorage(_configuration, _client, _logger));
+                        break;
+
+                    case "people":
+                        await ExecuteObjectActionAsync(new PersonSourceStorage(_configuration, _client, _logger));
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException("Object Type", cmbType.Text);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                txtLog.AppendText(Environment.NewLine);
-                txtLog.AppendText(ex.ToString());
-            }
-
-            if (result != null)
-            {
-                txtLog.AppendText(Environment.NewLine);
-
-                JObject json = new JObject(result);
-                txtLog.AppendText(json.ToString(Formatting.Indented));
-
-                tree.Nodes.Clear();
-                AddObjectNodes(result, "JSON", tree.Nodes);
+                RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(_client, _logger, cmbType.Text, cmbAction.Text, cbPrivate.Checked);
+                await ExecuteObjectActionAsync(storage);
             }
         }
 
@@ -132,6 +109,68 @@ namespace CH.RescueGroupsExplorer
             }
         }
 
+        private async Task ExecuteObjectActionAsync<TEntity>(IRescueGroupsStorageContext<TEntity> storageContext) where TEntity : class
+        {
+            IEnumerable<TEntity> result = null;
+
+            try
+            {
+                switch (cmbAction.Text)
+                {
+                    case ObjectActions.Search:
+                        IEnumerable<SearchFilter> filters = null;
+                        if (cmbAction.Text == ObjectActions.Search)
+                        {
+                            storageContext.Fields.ForEach(x => x.IsSelected = false);
+
+                            filters = storageContext.Fields.Where(x => clbFields.CheckedItems.Contains(x.Name)).Select(x =>
+                            {
+                                x.IsSelected = true;
+                                return new SearchFilter()
+                                {
+                                    FieldName = x.Name,
+                                    Criteria = SearchFilterOperation.NotBlank
+                                };
+                            });
+
+                            storageContext.FilterProcessing = string.Join(" or ", filters.Select((SearchFilter filter, int i) => i + 1));
+
+                        }
+                        result = await storageContext.GetAllAsync(filters.ToArray());
+                        break;
+
+                    case "get":
+                        await storageContext.GetAsync(txtKeyValue.Text);
+                        break;
+
+                    default:
+                        result = await storageContext.GetAllAsync();
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                txtLog.AppendText(Environment.NewLine);
+                txtLog.AppendText(ex.ToString());
+            }
+
+            _logger.Flush();
+
+            if (result != null && typeof(TEntity) == typeof(ExplorerSource))
+            {
+                txtLog.AppendText(Environment.NewLine);
+
+                IEnumerable<ExplorerSource> sources = (IEnumerable<ExplorerSource>)result;
+
+                JObject json = new JObject(sources.Select(x => x.Json));
+                txtLog.AppendText(json.ToString(Formatting.Indented));
+
+                tree.Nodes.Clear();
+                AddObjectNodes(json.Properties(), "JSON", tree.Nodes);
+            }
+        }
+
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtLog.Text = "";
@@ -159,19 +198,51 @@ namespace CH.RescueGroupsExplorer
         {
             clbFields.Items.Clear();
 
-            if (cmbType.Text == "animals")
+            if (cmbAction.Text == ObjectActions.Search || cmbAction.Text == "get")
             {
+                IEnumerable<SearchField> searchFields;
+
+                switch (cmbType.Text)
+                {
+                    case "animals":
+                        searchFields = new CritterSourceStorage(_configuration, _client, _logger).Fields;
+                        break;
+
+                    case "animalBreeds":
+                        searchFields = new BreedSourceStorage(_configuration, _client, _logger).Fields;
+                        break;
+
+                    case "animalSpecies":
+                        searchFields = new SpeciesSourceStorage(_configuration, _client, _logger).Fields;
+                        break;
+
+                    case "animalStatuses":
+                        searchFields = new CritterStatusSourceStorage(_configuration, _client, _logger).Fields;
+                        break;
+
+                    case "businesses":
+                        searchFields = new BusinessSourceStorage(_configuration, _client, _logger).Fields;
+                        break;
+
+                    case "people":
+                        searchFields = new PersonSourceStorage(_configuration, _client, _logger).Fields;
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException("Object Type", cmbType.Text);
+                }
+
                 if (cmbAction.Text == ObjectActions.Search)
                 {
                     clbFields.Enabled = true;
-                    clbFields.Items.AddRange(_critterStorage.Fields.Select(x => x.Name).ToArray());
+                    clbFields.Items.AddRange(searchFields.Select(x => x.Name).ToArray());
                     btnCheckAll_Click(sender, e);
                 }
                 else if (cmbAction.Text == "get")
                 {
                     lblKeyField.Enabled = true;
                     txtKeyValue.Enabled = true;
-                    cmbKeyField.Items.AddRange(_critterStorage.Fields.Select(x => x.Name).ToArray());
+                    cmbKeyField.Items.AddRange(searchFields.Select(x => x.Name).ToArray());
                 }
             }
             else
@@ -197,6 +268,11 @@ namespace CH.RescueGroupsExplorer
             {
                 clbFields.SetItemCheckState(i, CheckState.Checked);
             }
+        }
+
+        private void cmbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmbAction_SelectedIndexChanged(sender, e);
         }
     }
 }

@@ -11,18 +11,29 @@ using Newtonsoft.Json.Linq;
 
 namespace CH.RescueGroupsExplorer
 {
-    public class RescueGroupsExplorerStorage : RescueGroupsStorage<JProperty>
+    public class RescueGroupsExplorerStorage : RescueGroupsStorage<ExplorerSource>
     {
         private string _objectType;
         private bool _isPrivate;
-        private string _objectAction;
 
         private string _sortField;
         private string _keyField;
 
-        public RescueGroupsExplorerStorage(HttpClientProxy httpClient, IAppEventPublisher publisher)
+        public RescueGroupsExplorerStorage(HttpClientProxy httpClient, IAppEventPublisher publisher, string objectType, string objectAction, bool isPrivate)
             : base(new RescueGroupsConfiguration(), httpClient, publisher)
         {
+            this._isPrivate = isPrivate;
+
+            if (objectType == "people" || objectType == "businesses")
+            {
+                this._objectType = "contacts";
+            }
+            else
+            {
+                this._objectType = objectType;
+            }
+
+            this.ObjectAction = objectAction;
         }
 
         public override string ObjectType
@@ -30,14 +41,6 @@ namespace CH.RescueGroupsExplorer
             get
             {
                 return _objectType;
-            }
-        }
-
-        public override string ObjectAction
-        {
-            get
-            {
-                return _objectAction;
             }
         }
 
@@ -70,7 +73,26 @@ namespace CH.RescueGroupsExplorer
             get;
         }
 
-        public async Task<JProperty> Get(string objectType, string keyField, string keyValue)
+        public async Task Add(string objectType)
+        {
+            //this.ObjectType = objectType;
+            //this.ObjectAction = ObjectActions.Add;
+            //this.isPrivate = true;
+            var data = new
+            {
+                AnimalName = "Test",
+                AnimalSpeciesID = "Cat",
+                AnimalPrimaryBreedID = 63,
+                AnimalStatusID = 6,
+                AnimalDescription = "test"
+            };
+            RequestData requestData = new RequestData("values", new object[] { data });
+            JObject request = await CreateRequest(requestData);
+
+            JObject response = await SendRequestAsync<JObject>(request);
+        }
+
+        public async Task<ExplorerSource> Get(string objectType, string keyField, string keyValue)
         {
             this._objectType = objectType;
             this._keyField = keyField;
@@ -78,18 +100,22 @@ namespace CH.RescueGroupsExplorer
             return await GetAsync(keyValue);
         }
 
-        public async Task<IEnumerable<JProperty>> GetAllAsync(string objectType, string objectAction, bool isPrivate)
+        public override async Task<IEnumerable<ExplorerSource>> GetAllAsync()
         {
-            this._objectType = objectType;
-            this._objectAction = objectAction;
-            this._isPrivate = isPrivate;
-
-            return await GetAllAsync();
+            return await GetEntitiesAsync();
         }
 
-        public override IEnumerable<JProperty> FromStorage(IEnumerable<JProperty> tokens)
+        public override async Task<IEnumerable<ExplorerSource>> GetAllAsync(params SearchFilter[] searchFilters)
         {
-            return tokens;
+            return await GetEntitiesAsync();
+        }
+
+        public override IEnumerable<ExplorerSource> FromStorage(IEnumerable<JProperty> tokens)
+        {
+            return tokens.Select(x => new ExplorerSource()
+            {
+                Json = x
+            });
         }
     }
 }

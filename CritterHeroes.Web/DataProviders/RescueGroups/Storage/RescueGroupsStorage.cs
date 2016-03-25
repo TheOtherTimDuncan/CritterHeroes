@@ -110,7 +110,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             return result.SingleOrDefault();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(params SearchFilter[] searchFilters)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             Filters = searchFilters;
             ObjectAction = ObjectActions.Search;
