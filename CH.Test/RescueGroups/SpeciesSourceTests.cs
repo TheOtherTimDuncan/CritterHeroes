@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CH.Test.Mocks;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
+using Moq;
 
 namespace CH.Test.RescueGroups
 {
@@ -20,12 +23,12 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
-        public void ConvertsJsonResultToModel()
+        public async Task ConvertsJsonResultToModel()
         {
             SpeciesSource species1 = new SpeciesSource("1", "singular-1", "plural-1", "singular-young-1", "plural-young-1");
             SpeciesSource species2 = new SpeciesSource("2", "singular-2", "plural-2", "singular-young-2", "plural-young-2");
 
-            JObject json = JObject.Parse(@"
+            string json = @"
 {
     ""1"": {
         ""speciesID"": ""1"",
@@ -41,9 +44,17 @@ namespace CH.Test.RescueGroups
         ""speciesSingularYoung"": ""singular-young-2"",
         ""speciesPluralYoung"": ""plural-young-2""
     }}
-");
+";
 
-            IEnumerable<SpeciesSource> species = new SpeciesSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
+            MockHttpClient mockClient = new MockHttpClient()
+             .SetupLoginResponse()
+             .SetupSearchResponse(json);
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            SpeciesSourceStorage storage = new SpeciesSourceStorage(new RescueGroupsConfiguration(), mockClient.Object, mockPublisher.Object);
+
+            IEnumerable<SpeciesSource> species = await storage.GetAllAsync();
             species.Should().HaveCount(2);
 
             SpeciesSource result1 = species.FirstOrDefault(x => x.Name == species1.Name);

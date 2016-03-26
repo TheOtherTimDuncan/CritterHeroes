@@ -23,6 +23,7 @@ namespace CH.RescueGroupsExplorer
             : base(new RescueGroupsConfiguration(), httpClient, publisher)
         {
             this._isPrivate = isPrivate;
+            this.ObjectAction = objectAction;
 
             if (objectType == "people" || objectType == "businesses")
             {
@@ -33,7 +34,6 @@ namespace CH.RescueGroupsExplorer
                 this._objectType = objectType;
             }
 
-            this.ObjectAction = objectAction;
         }
 
         public override string ObjectType
@@ -89,7 +89,7 @@ namespace CH.RescueGroupsExplorer
             RequestData requestData = new RequestData("values", new object[] { data });
             JObject request = await CreateRequest(requestData);
 
-            JObject response = await SendRequestAsync<JObject>(request);
+            //JObject response = await SendRequestAsync<JObject>(request);
         }
 
         public async Task<ExplorerSource> Get(string objectType, string keyField, string keyValue)
@@ -108,14 +108,6 @@ namespace CH.RescueGroupsExplorer
         public override async Task<IEnumerable<ExplorerSource>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             return await GetEntitiesAsync();
-        }
-
-        public override IEnumerable<ExplorerSource> FromStorage(IEnumerable<JProperty> tokens)
-        {
-            return tokens.Select(x => new ExplorerSource()
-            {
-                Json = x
-            });
         }
     }
 }

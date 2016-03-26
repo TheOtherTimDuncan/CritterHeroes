@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Responses
 {
-    public class MessagesModel
+    public class GeneralMessageModel
     {
-        public IEnumerable<GeneralMessageModel> GeneralMessages
+        public string MessageID
         {
             get;
             set;
         }
 
-        public IEnumerable<RecordMessageModel> RecordMessages
+        public string MessageCriticality
+        {
+            get;
+            set;
+        }
+
+        public string MessageText
         {
             get;
             set;

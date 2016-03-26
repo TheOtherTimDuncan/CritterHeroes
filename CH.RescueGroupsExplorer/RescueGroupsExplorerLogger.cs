@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows.Forms;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Models.LogEvents;
@@ -14,24 +13,20 @@ namespace CH.RescueGroupsExplorer
     public class RescueGroupsExplorerLogger : IAppEventPublisher
     {
         private TextBox _txtBox;
-        private List<LogEntry> _entries;
 
         private readonly object _syncRoot;
-
-        public IEnumerable<string> Messages
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         public RescueGroupsExplorerLogger(TextBox textBox)
         {
             this._txtBox = textBox;
-            this._entries = new List<LogEntry>();
+            this.Entries = new List<LogEntry>();
 
             this._syncRoot = new object();
+        }
+
+        public List<LogEntry> Entries
+        {
+            get;
         }
 
         public void Publish<TAppEvent>(TAppEvent appEvent) where TAppEvent : IAppEvent
@@ -47,13 +42,13 @@ namespace CH.RescueGroupsExplorer
                     Response = context.Response,
                     StatusCode = context.StatusCode
                 };
-                _entries.Add(entry);
+                Entries.Add(entry);
             }
         }
 
         public void Flush()
         {
-            foreach (LogEntry entry in _entries)
+            foreach (LogEntry entry in Entries)
             {
                 _txtBox.AppendText("Url: ");
                 _txtBox.AppendText(entry.Url);
@@ -88,39 +83,12 @@ namespace CH.RescueGroupsExplorer
                 _txtBox.AppendText(Environment.NewLine);
             }
 
-            _entries.Clear();
+            Entries.Clear();
         }
 
         public void Subscribe<TEventType>(Action<TEventType> handler) where TEventType : IAppEvent
         {
             throw new NotImplementedException();
-        }
-
-        private class LogEntry
-        {
-            public string Url
-            {
-                get;
-                set;
-            }
-
-            public string Request
-            {
-                get;
-                set;
-            }
-
-            public string Response
-            {
-                get;
-                set;
-            }
-
-            public HttpStatusCode StatusCode
-            {
-                get;
-                set;
-            }
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CH.Test.Mocks;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
+using Moq;
 
 namespace CH.Test.RescueGroups
 {
@@ -20,7 +23,7 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
-        public void ConvertsCritterJsonResultToModel()
+        public async Task ConvertsCritterJsonResultToModel()
         {
             CritterSource critterSource1 = new CritterSource()
             {
@@ -103,7 +106,7 @@ namespace CH.Test.RescueGroups
                 LastUpdated = new DateTime(2002, 5, 5, 5, 5, 5)
             };
 
-            JObject json = JObject.Parse(@"
+            string json = @"
 {
     ""1"": {
         ""animalID"": ""1"",
@@ -181,9 +184,17 @@ namespace CH.Test.RescueGroups
         ""animalStatus"": ""Status2"",
         ""animalUpdatedDate"": ""05/05/2002 5:05:05 AM""
     }}
-");
+";
 
-            IEnumerable<CritterSource> critters = new CritterSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
+            MockHttpClient mockClient = new MockHttpClient()
+             .SetupLoginResponse()
+             .SetupListResponse(json);
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            CritterSourceStorage storage = new CritterSourceStorage(new RescueGroupsConfiguration(), mockClient.Object, mockPublisher.Object);
+
+            IEnumerable<CritterSource> critters = await storage.GetAllAsync();
             critters.Should().HaveCount(2);
 
             CritterSource result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
@@ -266,7 +277,7 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
-        public void ConvertsCritterPictureJsonResultToModel()
+        public async Task ConvertsCritterPictureJsonResultToModel()
         {
             CritterSource critterSource1 = new CritterSource()
             {
@@ -302,7 +313,7 @@ namespace CH.Test.RescueGroups
                 }
             };
 
-            JObject json = JObject.Parse(@"
+            string json = @"
 {
     ""1"": {
         ""animalID"": ""1"",
@@ -333,10 +344,17 @@ namespace CH.Test.RescueGroups
         ]
     }
 }
-");
+";
 
-            IEnumerable<CritterSource> critters = new CritterSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
+            MockHttpClient mockClient = new MockHttpClient()
+             .SetupLoginResponse()
+             .SetupListResponse(json);
 
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            CritterSourceStorage storage = new CritterSourceStorage(new RescueGroupsConfiguration(), mockClient.Object, mockPublisher.Object);
+
+            IEnumerable<CritterSource> critters = await storage.GetAllAsync();
             CritterSource result1 = critters.SingleOrDefault(x => x.ID == critterSource1.ID);
             result1.Should().NotBeNull();
 

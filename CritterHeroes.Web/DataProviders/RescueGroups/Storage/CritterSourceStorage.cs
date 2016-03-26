@@ -5,7 +5,6 @@ using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
-using Newtonsoft.Json.Linq;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
@@ -86,11 +85,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             {
                 return "animalID";
             }
-        }
-
-        public override IEnumerable<CritterSource> FromStorage(IEnumerable<JProperty> tokens)
-        {
-            return tokens.Select(x => x.Value.ToObject<CritterSource>());
         }
     }
 }

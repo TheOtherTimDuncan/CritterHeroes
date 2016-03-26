@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.DataProviders.RescueGroups.JsonConverters;
+using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Responses
 {
-    public class DataListResponseModel<TEntity> where TEntity :class
+    public class DataListResponseModel<TEntity> : BaseResponseModel where TEntity : class
     {
         public int FoundRows
         {
@@ -12,7 +14,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Responses
             set;
         }
 
-        public IEnumerable<TEntity> Data
+        [JsonConverter(typeof(EmptyDictionaryConverter))]
+        public Dictionary<string, TEntity> Data
         {
             get;
             set;

@@ -155,19 +155,24 @@ namespace CH.RescueGroupsExplorer
                 txtLog.AppendText(ex.ToString());
             }
 
+            IEnumerable<string> responses = _logger.Entries.Select(x => x.Response).ToList();
+
             _logger.Flush();
 
-            if (result != null && typeof(TEntity) == typeof(ExplorerSource))
+            if (!responses.IsNullOrEmpty())
             {
-                txtLog.AppendText(Environment.NewLine);
-
-                IEnumerable<ExplorerSource> sources = (IEnumerable<ExplorerSource>)result;
-
-                JObject json = new JObject(sources.Select(x => x.Json));
-                txtLog.AppendText(json.ToString(Formatting.Indented));
-
                 tree.Nodes.Clear();
-                AddObjectNodes(json.Properties(), "JSON", tree.Nodes);
+                int c = 1;
+                foreach (string response in responses)
+                {
+                    JObject json = JObject.Parse(response);
+
+                    txtLog.AppendText(Environment.NewLine);
+                    txtLog.AppendText(json.ToString(Formatting.Indented));
+
+                    AddObjectNodes(json.Properties(), c.ToString(), tree.Nodes);
+                    c++;
+                }
             }
         }
 

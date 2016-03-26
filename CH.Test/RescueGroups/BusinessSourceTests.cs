@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CH.Test.Mocks;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
+using Moq;
 
 namespace CH.Test.RescueGroups
 {
@@ -20,7 +23,7 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
-        public void ConvertsJsonToModel()
+        public async Task ConvertsJsonToModel()
         {
             BusinessSource source1 = new BusinessSource()
             {
@@ -55,7 +58,7 @@ namespace CH.Test.RescueGroups
                 PostalPlus4 = "5678"
             };
 
-            JObject json = JObject.Parse(@"
+            string json = @"
 {
     ""1"": {
         ""contactID"": ""1"",
@@ -89,9 +92,17 @@ namespace CH.Test.RescueGroups
         ""contactFax"": """",
         ""contactGroups"": """"
     }}
-");
+";
 
-            IEnumerable<BusinessSource> results = new BusinessSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
+            MockHttpClient mockClient = new MockHttpClient()
+             .SetupLoginResponse()
+             .SetupSearchResponse(json);
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            BusinessSourceStorage storage = new BusinessSourceStorage(new RescueGroupsConfiguration(), mockClient.Object, mockPublisher.Object);
+
+            IEnumerable<BusinessSource> results = await storage.GetAllAsync();
             results.Should().HaveCount(2);
 
             BusinessSource result1 = results.SingleOrDefault(x => x.ID == source1.ID);

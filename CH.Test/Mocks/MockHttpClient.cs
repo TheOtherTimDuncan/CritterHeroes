@@ -32,7 +32,13 @@ namespace CH.Test.Mocks
 
         public MockHttpClient SetupListResponse(string json)
         {
-            _responses.Add(ObjectActions.List, json);
+            _responses.Add(ObjectActions.List, CreateJsonDataResponse(json));
+            return this;
+        }
+
+        public MockHttpClient SetupSearchResponse(string json)
+        {
+            _responses.Add(ObjectActions.Search, CreateJsonDataResponse(json));
             return this;
         }
 
@@ -84,6 +90,24 @@ namespace CH.Test.Mocks
 
                 return Task.FromResult(response);
             });
+        }
+
+        private string CreateJsonDataResponse(string jsonData)
+        {
+            string json = $@"
+{{
+    ""status"": ""ok"",
+    ""messages"": {{
+        ""generalMessages"": [],
+        ""recordMessages"": []
+    }},
+    ""foundRows"": ""0"",
+    ""data"": 
+        {jsonData}
+}}
+";
+            Console.WriteLine(json);
+            return json;
         }
     }
 }

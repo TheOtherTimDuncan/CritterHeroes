@@ -148,32 +148,25 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 
             JObject request = await CreateRequest(requestData);
 
-            JObject response = await SendRequestAsync<JObject>(request);
+            DataListResponseModel<TEntity> response = await SendRequestAsync<DataListResponseModel<TEntity>>(request);
 
-            JObject data;
-            IEnumerable<TEntity> batch;
-
-            if (response["data"].HasValues)
+            if (!response.Data.IsNullOrEmpty())
             {
-                data = response.Value<JObject>("data");
-                batch = FromStorage(data.Properties());
-                result.AddRange(batch);
+                result.AddRange(response.Data.Select(x => x.Value));
             }
 
             if (searchModel != null)
             {
-                int foundRows = response.Value<int>("foundRows");
+                int foundRows = response.FoundRows;
                 searchModel.ResultStart += ResultLimit;
                 while (searchModel.ResultStart < foundRows)
                 {
                     searchModel.ResultStart += ResultLimit;
                     request = await CreateRequest(requestData);
-                    response = await SendRequestAsync<JObject>(request);
-                    if (response["data"].HasValues)
+                    response = await SendRequestAsync<DataListResponseModel<TEntity>>(request);
+                    if (!response.Data.IsNullOrEmpty())
                     {
-                        data = response.Value<JObject>("data");
-                        batch = FromStorage(data.Properties());
-                        result.AddRange(batch);
+                        result.AddRange(response.Data.Select(x => x.Value));
                     }
                 }
             }
@@ -202,8 +195,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         {
             throw new NotImplementedException();
         }
-
-        public abstract IEnumerable<TEntity> FromStorage(IEnumerable<JProperty> tokens);
 
         protected virtual async Task<JObject> CreateRequest(RequestData requestData = null)
         {
@@ -269,26 +260,26 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             };
         }
 
-        protected void ValidateResponse(JObject response)
+        protected void ValidateResponse(BaseResponseModel response)
         {
-            string status = response.Value<string>("status");
-            if (!status.SafeEquals("ok"))
+            if (!response.Status.SafeEquals("ok"))
             {
-                JToken property = response["messages"]["generalMessages"];
                 string errorMessage;
-                if (property != null && property.HasValues)
+
+                if (response.Messages == null || response.Messages.GeneralMessages.IsNullOrEmpty())
                 {
-                    errorMessage = property[0]["messageText"].Value<string>();
+                    errorMessage = "Error response not found";
                 }
                 else
                 {
-                    errorMessage = "Unable to parse error response";
+                    errorMessage = String.Join(", ", response.Messages.GeneralMessages.Select(x => x.MessageText));
                 }
+
                 throw new RescueGroupsException(errorMessage);
             }
         }
 
-        protected async Task<TResponse> SendRequestAsync<TResponse>(JObject request) where TResponse : class
+        protected async Task<TResponse> SendRequestAsync<TResponse>(JObject request) where TResponse : BaseResponseModel
         {
             string jsonRequest = request.ToString();
             HttpResponseMessage response = await _client.PostAsync(_configuration.Url, new StringContent(jsonRequest, Encoding.UTF8, "application/json"));
@@ -311,18 +302,10 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 throw new RescueGroupsException("Unsuccesful status code: {0} - {1}; URL: {2}", (int)response.StatusCode, response.StatusCode, _configuration.Url);
             }
 
-            JObject result = JObject.Parse(content);
-            ValidateResponse(result);
+            TResponse responseModel = JsonConvert.DeserializeObject<TResponse>(content);
+            ValidateResponse(responseModel);
 
-            if (typeof(TResponse) == typeof(JObject))
-            {
-                return result as TResponse;
-            }
-            else
-            {
-                TResponse responseModel = JsonConvert.DeserializeObject<TResponse>(content);
-                return responseModel;
-            }
+            return responseModel;
         }
     }
 }

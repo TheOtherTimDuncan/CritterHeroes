@@ -6,7 +6,6 @@ using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
-using Newtonsoft.Json.Linq;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
@@ -70,11 +69,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 Operation = SearchFilterOperation.NotBlank
             };
             return await base.GetAllAsync(filter);
-        }
-
-        public override IEnumerable<SpeciesSource> FromStorage(IEnumerable<JProperty> tokens)
-        {
-            return tokens.Select(x => x.Value.ToObject<SpeciesSource>());
         }
     }
 }

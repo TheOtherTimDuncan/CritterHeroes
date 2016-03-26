@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExplorerSource.cs" />
+    <Compile Include="LogEntry.cs" />
     <Compile Include="RescueGroupsExplorer.cs">
       <SubType>Form</SubType>
     </Compile>

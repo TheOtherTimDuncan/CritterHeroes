@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
+using Moq;
 
 namespace CH.Test.RescueGroups
 {
@@ -21,7 +23,7 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
-        public void ConvertsJsonToModel()
+        public async Task ConvertsJsonToModel()
         {
             PersonSource source1 = new PersonSource()
             {
@@ -60,7 +62,7 @@ namespace CH.Test.RescueGroups
                 IsActive = false
             };
 
-            JObject json = JObject.Parse(@"
+            string json = @"
 {
     ""1"": {
         ""contactID"": ""1"",
@@ -100,9 +102,17 @@ namespace CH.Test.RescueGroups
         ""contactActive"": ""No"",
         ""contactGroups"": """"
     }}
-");
+";
 
-            IEnumerable<PersonSource> results = new PersonSourceStorage(new RescueGroupsConfiguration(), null, null).FromStorage(json.Properties());
+            MockHttpClient mockClient = new MockHttpClient()
+             .SetupLoginResponse()
+             .SetupSearchResponse(json);
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            PersonSourceStorage storage = new PersonSourceStorage(new RescueGroupsConfiguration(), mockClient.Object, mockPublisher.Object);
+
+            IEnumerable<PersonSource> results = await storage.GetAllAsync();
             results.Should().HaveCount(2);
 
             PersonSource result1 = results.SingleOrDefault(x => x.ID == source1.ID);

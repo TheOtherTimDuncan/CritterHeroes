@@ -24,8 +24,22 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public void CanReadErrorResponse()
         {
+            string json = @"
+{
+    ""status"": ""error"",
+    ""messages"":{
+        ""generalMessages"":[
+            {
+                ""messageID"": ""1001"",
+                ""messageCriticality"": ""error"",
+                ""messageText"": ""The action you specified was not found.""
+            }
+        ],
+        ""recordMessages"": []
+    }
+}";
             MockHttpClient mockHttpClient = new MockHttpClient()
-                .SetupListResponse("{\"status\":\"error\",\"messages\":{\"generalMessages\":[{\"messageID\":\"1001\",\"messageCriticality\":\"error\",\"messageText\":\"The action you specified was not found.\"}],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}");
+                .SetupResponseForAction(ObjectActions.List, json);
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
@@ -45,8 +59,19 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public async Task CanReadResponseWithNoData()
         {
+            string json = @"
+{
+    ""status"": ""ok"",
+    ""messages"":{
+        ""generalMessages"":[],
+        ""recordMessages"": []
+    },
+    ""foundRows"": 0,
+    ""data"": []
+}
+";
             MockHttpClient mockHttpClient = new MockHttpClient()
-                .SetupListResponse("{\"status\":\"ok\",\"messages\":{\"generalMessages\":[],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}");
+                .SetupResponseForAction(ObjectActions.List, json);
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
@@ -65,9 +90,36 @@ namespace CH.Test.RescueGroups
             string token = "validtoken";
             string tokenHash = "validtokenhash";
 
+            string jsonLogin = $@"
+{{
+    ""status"": ""ok"",
+    ""messages"":{{
+        ""generalMessages"":[],
+        ""recordMessages"": []
+    }},
+    ""foundRows"": 0,
+    ""data"": {{
+        ""token"": ""{token}"",
+        ""tokenHash"": ""{tokenHash}""
+    }}
+}}
+";
+
+            string jsonResponse = $@"
+{{
+    ""status"": ""ok"",
+    ""messages"":{{
+        ""generalMessages"":[],
+        ""recordMessages"": []
+    }},
+    ""foundRows"": 0,
+    ""data"": []
+}}
+";
+
             MockHttpClient mockHttpClient = new MockHttpClient()
-                .SetupResponseForAction(ObjectActions.Login, $"{{\"status\":\"ok\", data: {{ \"token\": \"{token}\", \"tokenHash\": \"{tokenHash}\" }} }}")
-                .SetupListResponse("{\"status\":\"ok\",\"messages\":{\"generalMessages\":[],\"recordMessages\":[]},\"foundRows\":0,\"data\":[]}")
+                .SetupResponseForAction(ObjectActions.Login, jsonLogin)
+                .SetupListResponse("[]")
                 .Callback(ObjectActions.List, (string json) =>
                  {
                      json.Should().Contain(token);
@@ -142,11 +194,6 @@ namespace CH.Test.RescueGroups
                 {
                     return _sortField;
                 }
-            }
-
-            public override IEnumerable<TestSource> FromStorage(IEnumerable<JProperty> tokens)
-            {
-                return tokens.Select(x => x.Value.ToObject<TestSource>());
             }
         }
     }
