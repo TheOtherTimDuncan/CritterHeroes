@@ -37,7 +37,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             get;
         }
 
-        public override async Task<IEnumerable<BusinessSource>> GetAllAsync()
+        public override async Task<IEnumerable<BusinessSource>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             SearchFilter filter = new SearchFilter()
             {

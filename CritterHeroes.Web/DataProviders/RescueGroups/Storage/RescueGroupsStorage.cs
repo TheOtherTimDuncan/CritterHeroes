@@ -113,27 +113,30 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             Filters = searchFilters;
-            ObjectAction = ObjectActions.Search;
+            SearchModel search = null;
 
-            SearchModel search = new SearchModel()
+            if (searchFilters.IsNullOrEmpty())
             {
-                ResultStart = 0,
-                ResultLimit = ResultLimit,
-                ResultSort = SortField,
-                Filters = Filters,
-                FilterProcessing = FilterProcessing,
-                Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
-            };
+                ObjectAction = ObjectActions.List;
+            }
+            else
+            {
+                ObjectAction = ObjectActions.Search;
+
+                search = new SearchModel()
+                {
+                    ResultStart = 0,
+                    ResultLimit = ResultLimit,
+                    ResultSort = SortField,
+                    Filters = Filters,
+                    FilterProcessing = FilterProcessing,
+                    Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
+                };
+            }
 
             RequestData requestData = new RequestData("search", search);
 
             return await GetEntitiesAsync(search);
-        }
-
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            ObjectAction = ObjectActions.List;
-            return await GetEntitiesAsync();
         }
 
         protected virtual async Task<IEnumerable<TEntity>> GetEntitiesAsync(SearchModel searchModel = null)

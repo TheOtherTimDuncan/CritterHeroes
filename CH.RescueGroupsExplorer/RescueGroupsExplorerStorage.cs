@@ -100,11 +100,6 @@ namespace CH.RescueGroupsExplorer
             return await GetAsync(keyValue);
         }
 
-        public override async Task<IEnumerable<ExplorerSource>> GetAllAsync()
-        {
-            return await GetEntitiesAsync();
-        }
-
         public override async Task<IEnumerable<ExplorerSource>> GetAllAsync(params SearchFilter[] searchFilters)
         {
             return await GetEntitiesAsync();
