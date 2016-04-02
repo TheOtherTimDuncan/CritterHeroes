@@ -257,6 +257,7 @@
     </Content>
     <Content Include="Areas\Admin\Contacts\Views\Index.cshtml" />
     <Content Include="Areas\Admin\Critters\Views\Import.cshtml" />
+    <None Include="AppSettings.config" />
     <None Include="ConnectionStrings.config" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
@@ -556,6 +557,7 @@
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImportContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Importers\CritterImporter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\DateTimeConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyDictionaryConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyToNullStringConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\PhoneConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
@@ -566,6 +568,7 @@
     <Compile Include="DataProviders\RescueGroups\Responses\DataResponseModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\BaseResponseModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\SearchField.cs" />
+    <Compile Include="DataProviders\RescueGroups\Responses\GeneralMessageModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\LoginResponseData.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\MessagesModel.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\RecordMessageModel.cs" />
