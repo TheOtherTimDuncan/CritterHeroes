@@ -32,13 +32,11 @@ namespace CH.Test.Mocks
             AddEntities(new[] { entity });
 
             this.Setup(x => x.GetAsync(entityID)).ReturnsAsync(entity);
-            this.As<IStorageContext<T>>().Setup(x => x.GetAsync(entityID)).ReturnsAsync(entity);
         }
 
         public void AddEntities(IEnumerable<T> entities)
         {
             this.Setup(x => x.GetAllAsync()).ReturnsAsync(entities);
-            this.As<IStorageContext<T>>().Setup(x => x.GetAllAsync()).ReturnsAsync(entities);
         }
     }
 }

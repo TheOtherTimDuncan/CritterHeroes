@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using CritterHeroes.Web.Areas.Admin.Lists.DataMappers;
 using CritterHeroes.Web.Areas.Common;
 using CritterHeroes.Web.Common.Dispatchers;
 using CritterHeroes.Web.Common.Email;
@@ -16,7 +15,6 @@ using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Dashboard;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
@@ -60,7 +58,6 @@ namespace CritterHeroes.Web
             }
 
             container.Register(typeof(IStateManager<>), defaultAssemblies, Lifestyle.Scoped);
-            container.Register(typeof(IAzureStorageContext<>), defaultAssemblies);
             container.Register(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
             container.Register<IFileSystem, FileSystemProxy>(Lifestyle.Scoped);
 
@@ -97,12 +94,6 @@ namespace CritterHeroes.Web
             container.Register(typeof(IAppLogEventEnricher<>), defaultAssemblies);
 
             container.Register(typeof(IValidator<>), defaultAssemblies);
-
-            container.RegisterSingleton<IDataMapperFactory>(new DataMapperFactory() {
-                { DataSources.Breed, () => container.GetInstance<BreedDataMapper>() },
-                { DataSources.CritterStatus, () => container.GetInstance<CritterStatusMapper>() },
-                { DataSources.Species, () => container.GetInstance<SpeciesMapper>() }
-            });
 
             RegisterIdentityInterfaces(container);
             RegisterHandlers(container, defaultAssemblies);

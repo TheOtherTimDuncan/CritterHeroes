@@ -287,7 +287,6 @@
     <Content Include="Areas\Account\Views\EditProfile.cshtml" />
     <Content Include="Areas\Account\Views\Login.cshtml" />
     <Content Include="Areas\Account\Views\ResetPassword.cshtml" />
-    <Content Include="Areas\Admin\Lists\Views\Index.cshtml" />
     <Content Include="Areas\Admin\ErrorLog\Views\Index.cshtml" />
     <Content Include="Areas\Home\Views\Index.cshtml" />
     <Content Include="Areas\Home\Views\_Header.cshtml" />
@@ -478,19 +477,6 @@
     <Compile Include="Areas\Admin\Critters\Models\StatusModel.cs" />
     <Compile Include="Areas\Admin\Critters\Queries\CritterSummaryQuery.cs" />
     <Compile Include="Areas\Admin\Critters\QueryHandlers\CritterSummaryQueryHandler.cs" />
-    <Compile Include="Areas\Admin\Lists\CommandHandlers\SyncListItemCommandHandler.cs" />
-    <Compile Include="Areas\Admin\Lists\Commands\SyncListItemCommand.cs" />
-    <Compile Include="Areas\Admin\Lists\DataMappers\BaseDataMapper.cs" />
-    <Compile Include="Areas\Admin\Lists\DataMappers\BreedDataMapper.cs" />
-    <Compile Include="Areas\Admin\Lists\DataMappers\CritterStatusMapper.cs" />
-    <Compile Include="Areas\Admin\Lists\DataMappers\DataMapperFactory.cs" />
-    <Compile Include="Areas\Admin\Lists\DataMappers\DataSources.cs" />
-    <Compile Include="Areas\Admin\Lists\DataMappers\SpeciesMapper.cs" />
-    <Compile Include="Areas\Admin\Lists\ListsController.cs" />
-    <Compile Include="Areas\Admin\Lists\Models\DashboardItemStatus.cs" />
-    <Compile Include="Areas\Admin\Lists\Models\DashboardModel.cs" />
-    <Compile Include="Areas\Admin\Lists\Queries\ListItemQuery.cs" />
-    <Compile Include="Areas\Admin\Lists\QueryHandlers\ListItemQueryHandler.cs" />
     <Compile Include="Areas\Admin\ErrorLog\ErrorLogController.cs" />
     <Compile Include="Areas\Admin\Organizations\CommandHandlers\EditProfileCommandHandler.cs" />
     <Compile Include="Areas\Admin\Organizations\Models\EditProfileModel.cs" />
@@ -509,7 +495,6 @@
     <Compile Include="Areas\Common\ActionExtensions\EmailActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\HomeActionExtensions.cs" />
-    <Compile Include="Areas\Common\ActionExtensions\ListsActionExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\MiscExtensions.cs" />
     <Compile Include="Areas\Common\ActionExtensions\OrganizationActionExtensions.cs" />
     <Compile Include="Areas\Common\AreaName.cs" />
@@ -608,8 +593,6 @@
     <Compile Include="Common\Validation\ValidationFactory.cs" />
     <Compile Include="Common\VersionedStatics\StaticFile.cs" />
     <Compile Include="Common\VersionedStatics\VersionedStatics.cs" />
-    <Compile Include="Contracts\Dashboard\IDataMapper.cs" />
-    <Compile Include="Contracts\Dashboard\IDataMapperFactory.cs" />
     <Compile Include="Contracts\Email\IEmailService.cs" />
     <Compile Include="Contracts\Identity\IAppUserManager.cs" />
     <Compile Include="Contracts\Identity\IAppUserStore.cs" />
@@ -653,9 +636,7 @@
     <Compile Include="Contracts\IUrlGenerator.cs" />
     <Compile Include="Contracts\Queries\IQueryDispatcher.cs" />
     <Compile Include="Contracts\Queries\IQueryHandler.cs" />
-    <Compile Include="Contracts\Storage\IAzureStorageContext.cs" />
     <Compile Include="Contracts\Storage\IRescueGroupsStorageContext.cs" />
-    <Compile Include="Contracts\Storage\IStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureException.cs" />
     <Compile Include="DataProviders\Azure\AzureService.cs" />
     <Compile Include="DataProviders\Azure\Services\CritterPictureService.cs" />
@@ -756,8 +737,6 @@
     <Compile Include="Data\Models\Species.cs" />
     <Compile Include="Models\Emails\EmailModel.cs" />
     <Compile Include="Data\Models\Organization.cs" />
-    <Compile Include="Areas\Admin\Lists\Models\DataItem.cs" />
-    <Compile Include="Areas\Admin\Lists\Models\StorageItem.cs" />
     <Compile Include="Models\LogEvents\CritterLogEvent.cs" />
     <Compile Include="Models\LogEvents\EmailLogEvent.cs" />
     <Compile Include="Models\LogEvents\HistoryLogEvent.cs" />

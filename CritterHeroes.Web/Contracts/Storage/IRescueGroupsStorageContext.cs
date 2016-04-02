@@ -5,7 +5,7 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 
 namespace CritterHeroes.Web.Contracts.Storage
 {
-    public interface IRescueGroupsStorageContext<T> : IStorageContext<T> where T : class
+    public interface IRescueGroupsStorageContext<T> where T : class
     {
         int ResultLimit
         {
@@ -24,6 +24,7 @@ namespace CritterHeroes.Web.Contracts.Storage
             set;
         }
 
+        Task<T> GetAsync(string entityID);
         Task<IEnumerable<T>> GetAllAsync(params SearchFilter[] searchFilters);
     }
 }

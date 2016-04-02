@@ -55,7 +55,6 @@ namespace CritterHeroes.Web.Middleware
                         if (pageContext == null)
                         {
                             // If it's not there let's create it
-                            IStorageContext<PageContext> storageContext = _dependencyResolver.GetService<IStorageContext<PageContext>>();
                             pageContext = new PageContext
                             {
                                 PreviousPath = uriReferrer.LocalPath

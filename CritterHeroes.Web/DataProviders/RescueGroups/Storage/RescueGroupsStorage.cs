@@ -176,26 +176,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             return result;
         }
 
-        public virtual Task SaveAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Task SaveAsync(IEnumerable<TEntity> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Task DeleteAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Task DeleteAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         protected virtual async Task<JObject> CreateRequest(RequestData requestData = null)
         {
             JObject request = new JObject();
