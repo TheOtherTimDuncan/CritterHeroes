@@ -539,13 +539,15 @@
     <Compile Include="Contracts\Logging\IAppLogEventEnricher.cs" />
     <Compile Include="Contracts\Logging\IAppLogEventEnricherFactory.cs" />
     <Compile Include="Contracts\Storage\IPreserveHistory.cs" />
-    <Compile Include="DataProviders\RescueGroups\Importers\CritterImportContext.cs" />
-    <Compile Include="DataProviders\RescueGroups\Importers\CritterImporter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\DateTimeConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyDictionaryConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\EmptyToNullStringConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\PhoneConverter.cs" />
     <Compile Include="DataProviders\RescueGroups\JsonConverters\YesNoConverter.cs" />
+    <Compile Include="DataProviders\RescueGroups\Mappers\CritterMapper.cs" />
+    <Compile Include="DataProviders\RescueGroups\Mappers\Mapper.cs" />
+    <Compile Include="DataProviders\RescueGroups\Mappers\MapperConfiguration.cs" />
+    <Compile Include="DataProviders\RescueGroups\Mappers\MapperContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\BaseContactSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ObjectActions.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\RequestData.cs" />

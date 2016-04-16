@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,12 +14,11 @@ using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
-using CritterHeroes.Web.DataProviders.RescueGroups.Importers;
+using CritterHeroes.Web.DataProviders.RescueGroups.Mappers;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.Models.LogEvents;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.EnumerableHelpers;
-using TOTD.Utility.Misc;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
@@ -184,7 +182,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                 _sourceStorage.ResultLimit = 5;
             }
 
-            CritterImporter importer = new CritterImporter();
+            CritterMapper mapper = new CritterMapper();
 
             IEnumerable<CritterSource> sources = await _sourceStorage.GetAllAsync(filters.ToArray());
             _messages.Add($"Found {sources.Count()}");
@@ -193,7 +191,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
-                CritterImportContext context = new CritterImportContext(source, critter, _publisher)
+                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
@@ -216,7 +214,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
                 }
 
-                importer.Import(context, fieldNames.ToArray());
+                mapper.MapTo(context, fieldNames.ToArray());
 
                 // Save changes before transferring pictures since we'll need Critter.ID 
                 await _critterStorage.SaveChangesAsync();
@@ -242,7 +240,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             _sourceStorage.Fields.Single(x => x.Name == "animalPictures").IsSelected = false;
             _sourceStorage.Fields.Single(x => x.Name == "animalDescription").IsSelected = false;
 
-            CritterImporter importer = new CritterImporter();
+            CritterMapper mapper = new CritterMapper();
 
             OrganizationContext orgContext = _stateManager.GetContext();
 
@@ -253,7 +251,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
-                CritterImportContext context = new CritterImportContext(source, critter, _publisher)
+                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
@@ -274,7 +272,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
                 }
 
-                importer.Import(context, _sourceStorage.Fields.Where(x => x.IsSelected).Select(x => x.Name).ToArray());
+                mapper.MapTo(context, _sourceStorage.Fields.Where(x => x.IsSelected).Select(x => x.Name).ToArray());
 
                 await _critterStorage.SaveChangesAsync();
             }
@@ -286,7 +284,7 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             await ImportPartial(new[] { "animalPictures" }, filter);
         }
 
-        private async Task ImportPictures(CritterImportContext context)
+        private async Task ImportPictures(CritterMapperContext context)
         {
             if (!context.Source.PictureSources.IsNullOrEmpty())
             {
