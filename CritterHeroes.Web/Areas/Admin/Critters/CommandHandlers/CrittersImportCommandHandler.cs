@@ -339,29 +339,29 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             }
         }
 
-        private async Task<CritterStatus> GetCritterStatusAsync(string statusID, string status)
+        private async Task<CritterStatus> GetCritterStatusAsync(int? statusID, string status)
         {
-            if (statusID.IsNullOrEmpty())
+            if (statusID == null)
             {
                 return null;
             }
 
-            CritterStatus critterStatus = await _critterStorage.CritterStatus.FindByRescueGroupsIDAsync(statusID);
+            CritterStatus critterStatus = await _critterStorage.CritterStatus.FindByRescueGroupsIDAsync(statusID.Value);
             if (critterStatus == null)
             {
-                critterStatus = new CritterStatus(status, status, statusID);
+                critterStatus = new CritterStatus(status, status, statusID.Value);
             }
             return critterStatus;
         }
 
-        private async Task<Breed> GetBreedAsync(string breedID, string breedName, string speciesName)
+        private async Task<Breed> GetBreedAsync(int? breedID, string breedName, string speciesName)
         {
-            if (breedID.IsNullOrEmpty())
+            if (breedID == null)
             {
                 return null;
             }
 
-            Breed breed = await _critterStorage.Breeds.FindByRescueGroupsIDAsync(breedID);
+            Breed breed = await _critterStorage.Breeds.FindByRescueGroupsIDAsync(breedID.Value);
             if (breed == null)
             {
                 Species species = await _critterStorage.Species.FindByNameAsync(speciesName);
@@ -375,14 +375,14 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             return breed;
         }
 
-        private async Task<Person> GetFosterAsync(string fosterID, string firstName, string lastName, string email)
+        private async Task<Person> GetFosterAsync(int? fosterID, string firstName, string lastName, string email)
         {
-            if (fosterID.IsNullOrEmpty())
+            if (fosterID == null)
             {
                 return null;
             }
 
-            Person person = await _critterStorage.People.FindByRescueGroupsIDAsync(fosterID);
+            Person person = await _critterStorage.People.FindByRescueGroupsIDAsync(fosterID.Value);
 
             if (person == null)
             {
@@ -398,14 +398,14 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             return person;
         }
 
-        private async Task<Location> GetLocationAsync(string locationID, string locationName)
+        private async Task<Location> GetLocationAsync(int? locationID, string locationName)
         {
-            if (locationID.IsNullOrEmpty())
+            if (locationID == null)
             {
                 return null;
             }
 
-            Location location = await _critterStorage.Locations.FindByRescueGroupsIDAsync(locationID);
+            Location location = await _critterStorage.Locations.FindByRescueGroupsIDAsync(locationID.Value);
 
             if (location == null)
             {
@@ -418,14 +418,14 @@ namespace CritterHeroes.Web.Areas.Admin.Critters.CommandHandlers
             return location;
         }
 
-        private async Task<CritterColor> GetColorAsync(string colorID, string colorDescription)
+        private async Task<CritterColor> GetColorAsync(int? colorID, string colorDescription)
         {
-            if (colorID.IsNullOrEmpty())
+            if (colorID == null)
             {
                 return null;
             }
 
-            CritterColor color = await _critterStorage.Colors.FindByRescueGroupsIDAsync(colorID);
+            CritterColor color = await _critterStorage.Colors.FindByRescueGroupsIDAsync(colorID.Value);
 
             if (color == null)
             {

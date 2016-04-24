@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public string RescueGroupsID
+        public int? RescueGroupsID
         {
             get;
             set;

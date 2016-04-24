@@ -25,7 +25,7 @@ namespace CritterHeroes.Web.Data.Configurations
             Property(x => x.NewEmail).HasMaxLength(256);
             Property(x => x.Address).HasMaxLength(100);
             Property(x => x.Zip).HasMaxLength(10).IsUnicode(false);
-            Property(x => x.RescueGroupsID).HasMaxLength(8).IsUnicode(false).HasIndex();
+            Property(x => x.RescueGroupsID).HasIndex();
         }
     }
 }

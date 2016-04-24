@@ -10,7 +10,7 @@ namespace CritterHeroes.Web.Data.Models
         {
         }
 
-        public CritterStatus(string name, string description, string rescueGroupsID)
+        public CritterStatus(string name, string description, int rescueGroupsID)
             : this(name, description)
         {
             this.RescueGroupsID = rescueGroupsID;
@@ -42,7 +42,7 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public string RescueGroupsID
+        public int? RescueGroupsID
         {
             get;
             set;

@@ -25,8 +25,8 @@ namespace CH.Test.RescueGroups
         [TestMethod]
         public async Task ConvertsJsonResultToModel()
         {
-            CritterStatusSource critterStatus1 = new CritterStatusSource("1", "Name 1", "Description 1");
-            CritterStatusSource critterStatus2 = new CritterStatusSource("2", "Name 2", "Description 2");
+            CritterStatusSource critterStatus1 = new CritterStatusSource(1, "Name 1", "Description 1");
+            CritterStatusSource critterStatus2 = new CritterStatusSource(2, "Name 2", "Description 2");
 
             string json = @"
 {

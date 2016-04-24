@@ -7,9 +7,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
     public class CritterStatusSource
     {
-        public CritterStatusSource(string id, string name, string description)
+        public CritterStatusSource(int id, string name, string description)
         {
-            ThrowIf.Argument.IsNullOrEmpty(id, nameof(id));
             ThrowIf.Argument.IsNullOrEmpty(name, nameof(name));
 
             this.ID = id;
@@ -18,7 +17,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "statusID")]
-        public string ID
+        public int ID
         {
             get;
             private set;

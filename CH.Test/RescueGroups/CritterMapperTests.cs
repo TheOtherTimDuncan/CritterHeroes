@@ -27,17 +27,17 @@ namespace CH.Test.RescueGroups
 
             CritterColor color = new CritterColor("color")
             {
-                RescueGroupsID = "colorid"
+                RescueGroupsID = 1234
             };
 
             Person foster = new Person()
             {
-                RescueGroupsID = "personid"
+                RescueGroupsID = 5678
             };
 
             Location location = new Location("location")
             {
-                RescueGroupsID = "locationid"
+                RescueGroupsID = 90123
             };
 
             Critter target = new Critter("critter", status, breed, organizationID);
@@ -69,7 +69,7 @@ namespace CH.Test.RescueGroups
                 HasSpecialDiet = false,
                 HasSpecialNeeds = true,
                 SpecialNeedsDescription = "specialneeds",
-                Status = status.RescueGroupsID,
+                StatusID = status.RescueGroupsID,
                 LastUpdated = new DateTime(2001, 5, 5)
             };
 

@@ -59,7 +59,7 @@ namespace CH.DatabaseMigrator.Migrations
                     ID = c.Int(nullable: false, identity: true),
                     SpeciesID = c.Int(nullable: false),
                     BreedName = c.String(nullable: false, maxLength: 100),
-                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                    RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Species", t => t.SpeciesID, cascadeDelete: true)
@@ -127,7 +127,7 @@ namespace CH.DatabaseMigrator.Migrations
                 c => new
                 {
                     ID = c.Int(nullable: false, identity: true),
-                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                    RescueGroupsID = c.Int(),
                     Description = c.String(nullable: false, maxLength: 100),
                 })
                 .PrimaryKey(t => t.ID)
@@ -147,7 +147,7 @@ namespace CH.DatabaseMigrator.Migrations
                     City = c.String(maxLength: 100),
                     State = c.String(maxLength: 2, unicode: false),
                     Zip = c.String(maxLength: 10, unicode: false),
-                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                    RescueGroupsID = c.Int(),
                     IsActive = c.Boolean(nullable: false),
                 })
                 .PrimaryKey(t => t.ID)
@@ -216,7 +216,7 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     ID = c.Int(nullable: false, identity: true),
                     Name = c.String(maxLength: 50),
-                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                    RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
@@ -251,7 +251,7 @@ namespace CH.DatabaseMigrator.Migrations
                     ContentType = c.String(nullable: false, maxLength: 256, unicode: false),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     RescueGroupsCreated = c.DateTimeOffset(precision: 7),
-                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                    RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
@@ -283,7 +283,7 @@ namespace CH.DatabaseMigrator.Migrations
                     ID = c.Int(nullable: false, identity: true),
                     Name = c.String(maxLength: 25),
                     Description = c.String(maxLength: 100),
-                    RescueGroupsID = c.String(maxLength: 6, unicode: false),
+                    RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Name, unique: true)
@@ -406,7 +406,7 @@ namespace CH.DatabaseMigrator.Migrations
                     State = c.String(maxLength: 2, unicode: false),
                     Zip = c.String(maxLength: 10, unicode: false),
                     Email = c.String(maxLength: 256),
-                    RescueGroupsID = c.String(maxLength: 8, unicode: false),
+                    RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);

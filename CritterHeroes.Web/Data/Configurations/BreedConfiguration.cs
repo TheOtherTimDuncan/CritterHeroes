@@ -15,7 +15,7 @@ namespace CritterHeroes.Web.Data.Configurations
             Property(x => x.ID).IsRequired().IsIdentity();
             Property(x => x.SpeciesID).IsRequired().HasIndex("SpeciesBreed", 1);
             Property(x => x.BreedName).IsRequired().HasMaxLength(100).HasIndex("SpeciesBreed", 2); // BreedName is not unique
-            Property(x => x.RescueGroupsID).HasMaxLength(6).IsUnicode(false).HasIndex();
+            Property(x => x.RescueGroupsID).HasIndex();
         }
     }
 }

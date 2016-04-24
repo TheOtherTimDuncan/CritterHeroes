@@ -25,8 +25,8 @@ namespace CH.Test.RescueGroups.MappingTests
         [TestMethod]
         public async Task ConvertsJsonResultToModel()
         {
-            BreedSource breedSource1 = new BreedSource("1", "Species 1", "Breed 1");
-            BreedSource breedSource2 = new BreedSource("2", "Species 2", "Breed 2");
+            BreedSource breedSource1 = new BreedSource(1, "Species 1", "Breed 1");
+            BreedSource breedSource2 = new BreedSource(2, "Species 2", "Breed 2");
 
             string json = @"
 {

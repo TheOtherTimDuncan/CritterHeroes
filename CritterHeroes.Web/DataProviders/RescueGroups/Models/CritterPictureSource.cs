@@ -8,7 +8,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
     public class CritterPictureSource
     {
         [JsonProperty(PropertyName = "mediaID")]
-        public string ID
+        public int ID
         {
             get;
             set;

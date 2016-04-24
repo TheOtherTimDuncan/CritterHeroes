@@ -14,7 +14,7 @@ namespace CritterHeroes.Web.Data.Extensions
             return source.Where(x => x.ID == locationID);
         }
 
-        public static IQueryable<Location> MatchingRescueGroupsID(this IQueryable<Location> source, string rescueGroupsID)
+        public static IQueryable<Location> MatchingRescueGroupsID(this IQueryable<Location> source, int rescueGroupsID)
         {
             return source.Where(x => x.RescueGroupsID == rescueGroupsID);
         }
@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Data.Extensions
             return await source.MatchingID(locationID).SingleOrDefaultAsync();
         }
 
-        public async static Task<Location> FindByRescueGroupsIDAsync(this IQueryable<Location> source, string rescueGroupsID)
+        public async static Task<Location> FindByRescueGroupsIDAsync(this IQueryable<Location> source, int rescueGroupsID)
         {
             return await source.MatchingRescueGroupsID(rescueGroupsID).SingleOrDefaultAsync();
         }

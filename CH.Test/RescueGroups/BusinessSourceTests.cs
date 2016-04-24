@@ -27,7 +27,7 @@ namespace CH.Test.RescueGroups
         {
             BusinessSource source1 = new BusinessSource()
             {
-                ID = "1",
+                ID = 1,
                 Name = "Name1",
                 Company = "Company1",
                 Email = "email1@email1.com",
@@ -47,7 +47,7 @@ namespace CH.Test.RescueGroups
 
             BusinessSource source2 = new BusinessSource()
             {
-                ID = "2",
+                ID = 2,
                 Name = "Name2",
                 Company = "Company2",
                 Email = "email2@email2.com",

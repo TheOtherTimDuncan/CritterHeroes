@@ -189,7 +189,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                     fieldName: "animalFosterID",
                     toAction: (CritterMapperContext context) =>
                     {
-                        if (!context.Source.FosterContactID.IsNullOrEmpty())
+                        if (context.Source.FosterContactID != null)
                         {
                             if (context.Target.FosterID != context.Foster.ID)
                             {
@@ -243,7 +243,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                     toAction: (CritterMapperContext context) =>
                     {
 
-                        if (!context.Source.LocationID.IsNullOrEmpty())
+                        if (context.Source.LocationID != null)
                         {
                             if (context.Target.LocationID != context.Location.ID)
                             {
@@ -266,7 +266,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                     fieldName: "`ColorID",
                     toAction: (CritterMapperContext context) =>
                     {
-                        if (!context.Source.ColorID.IsNullOrEmpty())
+                        if (context.Source.ColorID != null)
                         {
                             if (context.Target.ColorID != context.Color.ID)
                             {

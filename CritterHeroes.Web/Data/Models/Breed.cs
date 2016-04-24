@@ -16,7 +16,7 @@ namespace CritterHeroes.Web.Data.Models
 
         }
 
-        public Breed(Species species, string breedName, string rescueGroupsID)
+        public Breed(Species species, string breedName, int? rescueGroupsID)
             : this(breedName, rescueGroupsID)
         {
             ThrowIf.Argument.IsNull(species, nameof(species));
@@ -26,13 +26,13 @@ namespace CritterHeroes.Web.Data.Models
 
         }
 
-        public Breed(int speciesID, string breedName, string rescueGroupsID)
+        public Breed(int speciesID, string breedName, int? rescueGroupsID)
             : this(breedName, rescueGroupsID)
         {
             this.SpeciesID = speciesID;
         }
 
-        protected Breed(string breedName, string rescueGroupsID)
+        protected Breed(string breedName, int? rescueGroupsID)
         {
 
             this.BreedName = breedName;
@@ -63,7 +63,7 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public string RescueGroupsID
+        public int? RescueGroupsID
         {
             get;
             set;

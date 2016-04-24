@@ -27,7 +27,7 @@ namespace CH.Test.RescueGroups
         {
             PersonSource source1 = new PersonSource()
             {
-                ID = "1",
+                ID = 1,
                 FirstName = "First1",
                 LastName = "Last1",
                 Email = "email1@email1.com",
@@ -50,7 +50,7 @@ namespace CH.Test.RescueGroups
 
             PersonSource source2 = new PersonSource()
             {
-                ID = "2",
+                ID = 2,
                 FirstName = "First2",
                 LastName = "Last2",
                 Email = "email2@email2.com",

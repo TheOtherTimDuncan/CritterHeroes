@@ -23,8 +23,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalStatusID")]
-        [JsonConverter(typeof(EmptyToNullStringConverter))]
-        public string StatusID
+        public int? StatusID
         {
             get;
             set;
@@ -47,7 +46,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalPrimaryBreedID")]
-        public string PrimaryBreedID
+        public int? PrimaryBreedID
         {
             get;
             set;
@@ -92,7 +91,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalFosterID")]
-        public string FosterContactID
+        public int? FosterContactID
         {
             get;
             set;
@@ -123,7 +122,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalLocationID")]
-        public string LocationID
+        public int? LocationID
         {
             get;
             set;
@@ -217,8 +216,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "animalColorID")]
-        [JsonConverter(typeof(EmptyToNullStringConverter))]
-        public string ColorID
+        public int? ColorID
         {
             get;
             set;

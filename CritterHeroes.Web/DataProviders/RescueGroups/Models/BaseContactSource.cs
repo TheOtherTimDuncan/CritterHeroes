@@ -10,7 +10,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
     public class BaseContactSource
     {
         [JsonProperty(PropertyName = "contactID")]
-        public string ID
+        public int ID
         {
             get;
             set;

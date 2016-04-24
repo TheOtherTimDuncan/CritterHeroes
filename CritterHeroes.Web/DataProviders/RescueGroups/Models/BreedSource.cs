@@ -7,9 +7,8 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
     public class BreedSource
     {
-        public BreedSource(string id, string species, string breedName)
+        public BreedSource(int id, string species, string breedName)
         {
-            ThrowIf.Argument.IsNullOrEmpty(id, nameof(id));
             ThrowIf.Argument.IsNullOrEmpty(species, nameof(species));
 
             this.ID = id;
@@ -18,7 +17,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "breedID")]
-        public string ID
+        public int ID
         {
             get;
             private set;
