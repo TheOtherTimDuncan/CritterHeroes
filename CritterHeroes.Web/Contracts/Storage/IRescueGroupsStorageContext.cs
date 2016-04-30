@@ -24,6 +24,7 @@ namespace CritterHeroes.Web.Contracts.Storage
             set;
         }
 
+        Task AddAsync(TEntity entity);
         Task<TEntity> GetAsync(string entityID);
         Task<IEnumerable<TEntity>> GetAllAsync(params SearchFilter[] searchFilters);
     }

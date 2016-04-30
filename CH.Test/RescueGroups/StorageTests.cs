@@ -137,6 +137,41 @@ namespace CH.Test.RescueGroups
             mockPublisher.Verify(x => x.Publish(It.IsAny<RescueGroupsLogEvent>()), Times.Exactly(2));
         }
 
+        [TestMethod]
+        public async Task CanReadResponseWithRecordMessages()
+        {
+            string json = @"
+{
+    ""status"": ""ok"",
+    ""messages"":{
+        ""generalMessages"":[],
+        ""recordMessages"": [
+            {
+                ""status"": ""ok"",
+                ""ID"": ""123456"",
+                ""messageID"": ""1003"",
+                ""messageCriticality"": ""info"",
+                ""messageText"": ""Successfully saved the record.""
+            }
+        ]
+    }
+}";
+
+            MockHttpClient mockHttpClient = new MockHttpClient()
+                .SetupResponseForAction(ObjectActions.Add, json);
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            TestSourceStorage storage = new TestSourceStorage(new RescueGroupsConfiguration(), mockHttpClient.Object, mockPublisher.Object);
+            storage._isPrivate = false;
+
+            TestSource source = new TestSource();
+            await storage.AddAsync(source);
+            source.ID.Should().Be(123456);
+
+            mockPublisher.Verify(x => x.Publish(It.IsAny<RescueGroupsLogEvent>()), Times.Exactly(1));
+        }
+
         private class TestSource : BaseSource
         {
             public override int ID

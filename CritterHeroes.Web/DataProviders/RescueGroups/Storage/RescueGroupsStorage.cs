@@ -97,6 +97,16 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             set;
         }
 
+        public virtual async Task AddAsync(TEntity entity)
+        {
+            ObjectAction = ObjectActions.Add;
+            RequestData requestData = new RequestData("values", new[] { entity });
+            JObject request = await CreateRequest(requestData);
+            BaseResponseModel response = await SendRequestAsync<BaseResponseModel>(request);
+            RecordMessageModel recordMessage = response.Messages.RecordMessages.First();
+            entity.ID = recordMessage.ID;
+        }
+
         public virtual async Task<TEntity> GetAsync(string entityID)
         {
             SearchFilter filter = new SearchFilter()
