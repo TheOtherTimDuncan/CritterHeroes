@@ -19,6 +19,11 @@ namespace CritterHeroes.Web.DataProviders.Azure.Services
             this._azureService = azureService;
         }
 
+        public async Task<bool> PictureExistsAsync(int critterID, string filename)
+        {
+            return await _azureService.BlobExistsAsync(GetBlobPath(critterID, filename), isPrivate);
+        }
+
         public string GetPictureUrl(int critterID, string filename)
         {
             return _azureService.CreateBlobUrl(GetBlobPath(critterID, filename));
