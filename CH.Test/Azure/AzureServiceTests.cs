@@ -51,20 +51,33 @@ namespace CH.Test.Azure
 
             string contentType = "application/txt";
             bool isPrivate = true;
+            string blobPath = "stream";
 
             AzureService azureService = new AzureService(new AzureConfiguration(), mockOrganizationStateManger.Object, mockAppConfiguration.Object);
-            CloudBlockBlob blob = await azureService.UploadBlobAsync("stream", isPrivate, contentType, memStream);
+
+            bool blobExists = await azureService.BlobExistsAsync(blobPath, isPrivate);
+            blobExists.Should().BeFalse();
+
+            CloudBlockBlob blob = await azureService.UploadBlobAsync(blobPath, isPrivate, contentType, memStream);
             blob.Properties.ContentType.Should().Be(contentType);
+
+            blobExists = await azureService.BlobExistsAsync(blobPath, isPrivate);
+            blobExists.Should().BeTrue();
 
             BlobContainerPermissions permissions = await blob.Container.GetPermissionsAsync();
             permissions.PublicAccess.Should().Be(BlobContainerPublicAccessType.Off);
 
             Stream result = new MemoryStream();
-            await azureService.DownloadBlobAsync("stream", isPrivate, result);
+            await azureService.DownloadBlobAsync(blobPath, isPrivate, result);
 
             StreamReader reader = new StreamReader(result);
             string resultData = reader.ReadLine();
             resultData.Should().Be(data);
+
+            await azureService.DeleteBlobAsync(blobPath, isPrivate);
+
+            blobExists = await azureService.BlobExistsAsync(blobPath, isPrivate);
+            blobExists.Should().BeFalse();
         }
 
         [TestMethod]

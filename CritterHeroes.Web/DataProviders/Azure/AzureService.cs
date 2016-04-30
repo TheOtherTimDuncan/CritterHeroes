@@ -92,6 +92,12 @@ namespace CritterHeroes.Web.DataProviders.Azure
             target.Position = 0;
         }
 
+        public async Task<bool> BlobExistsAsync(string path, bool isPrivate)
+        {
+            CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);
+            return await blob.ExistsAsync();
+        }
+
         public string GetLoggingKey()
         {
             return GetLoggingKey(DateTime.UtcNow);

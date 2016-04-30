@@ -18,6 +18,7 @@ namespace CritterHeroes.Web.Contracts.Storage
         Task<CloudBlockBlob> UploadBlobAsync(string path, bool isPrivate, string content);
         Task<string> DownloadBlobAsync(string path, bool isPrivate);
         Task DownloadBlobAsync(string path, bool isPrivate, Stream target);
+        Task<bool> BlobExistsAsync(string path, bool isPrivate);
 
         // Table Storage
 
