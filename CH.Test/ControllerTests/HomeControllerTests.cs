@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CH.Test.ControllerTests.TestHelpers;
-using CritterHeroes.Web.Areas.Home;
-using CritterHeroes.Web.Areas.Home.Models;
+using CritterHeroes.Web.Features.Home;
+using CritterHeroes.Web.Features.Home.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

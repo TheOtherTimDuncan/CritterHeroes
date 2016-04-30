@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Features.Admin.Organizations;
+using FluentAssertions;
 using FluentValidation.TestHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FluentAssertions;
-using CritterHeroes.Web.Areas.Admin.Organizations;
 
 namespace CH.Test.ValidationTests
 {

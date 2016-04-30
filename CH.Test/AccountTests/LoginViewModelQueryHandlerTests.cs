@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Areas.Account.Models;
-using CritterHeroes.Web.Areas.Account.Queries;
-using CritterHeroes.Web.Areas.Account.QueryHandlers;
+using CritterHeroes.Web.Features.Account.Models;
+using CritterHeroes.Web.Features.Account.Queries;
+using CritterHeroes.Web.Features.Account.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CH.Test.ControllerTests.TestHelpers;
-using CritterHeroes.Web.Areas.Admin.Contacts;
-using CritterHeroes.Web.Areas.Admin.Contacts.Models;
-using CritterHeroes.Web.Areas.Admin.Contacts.Queries;
+using CritterHeroes.Web.Features.Admin.Contacts;
+using CritterHeroes.Web.Features.Admin.Contacts.Models;
+using CritterHeroes.Web.Features.Admin.Contacts.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

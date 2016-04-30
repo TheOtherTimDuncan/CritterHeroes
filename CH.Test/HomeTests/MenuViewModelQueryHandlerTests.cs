@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Areas.Home.Models;
-using CritterHeroes.Web.Areas.Home.Queries;
-using CritterHeroes.Web.Areas.Home.QueryHandlers;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Features.Home.Models;
+using CritterHeroes.Web.Features.Home.Queries;
+using CritterHeroes.Web.Features.Home.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

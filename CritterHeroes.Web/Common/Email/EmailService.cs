@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Areas.Common;
-using CritterHeroes.Web.Areas.Common.ActionExtensions;
 using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
@@ -11,6 +9,8 @@ using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Features.Common;
+using CritterHeroes.Web.Features.Common.ActionExtensions;
 using CritterHeroes.Web.Models.Emails;
 using CritterHeroes.Web.Models.LogEvents;
 

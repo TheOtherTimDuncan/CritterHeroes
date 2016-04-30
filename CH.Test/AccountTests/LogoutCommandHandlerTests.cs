@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Areas.Account.CommandHandlers;
-using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Features.Account.CommandHandlers;
+using CritterHeroes.Web.Features.Account.Models;
 using FluentAssertions;
 using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

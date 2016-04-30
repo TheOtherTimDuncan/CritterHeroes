@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using CH.Test.ControllerTests.TestHelpers;
-using CritterHeroes.Web.Areas.Admin.Organizations;
-using CritterHeroes.Web.Areas.Admin.Organizations.Models;
+using CritterHeroes.Web.Features.Admin.Organizations;
+using CritterHeroes.Web.Features.Admin.Organizations.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

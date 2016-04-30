@@ -1,7 +1,7 @@
 ﻿using System;
-using CritterHeroes.Web.Areas.Account.Models;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Features.Account.Models;
 
 namespace CritterHeroes.Web.Common.Queries
 {

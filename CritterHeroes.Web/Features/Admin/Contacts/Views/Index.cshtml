@@ -1,0 +1,73 @@
+﻿@model CritterHeroes.Web.Features.Admin.Contacts.Models.ContactsModel
+@using CritterHeroes.Web.Features.Admin.Contacts.Queries
+
+@{
+    ViewBag.Title = "Contacts";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        (function (cheroes) {
+            cheroes.query = @JavascriptConvert.SerializeObject(Model.Query);
+        })(this.cheroes = this.cheroes || {});
+    </script>
+    <script type="text/javascript" src="@Url.For("handlebars.runtime.js")"></script>
+    <script type="text/javascript" src="@Url.For("ch.contacts-template.js")"></script>
+    <script type="text/javascript" src="@Url.For("ch.contacts-list.js")"></script>
+}
+
+<h2>Contacts</h2>
+
+<div class="filters-container">
+    <section>Filters</section>
+    <section>
+        <label for="status">Status</label>
+        <select id="status" data-filter="status">
+            <option value="@ContactsQuery.StatusKeys.Any" selected="@(Model.Query.Status==ContactsQuery.StatusKeys.Any)">Any status</option>
+            <option value="@ContactsQuery.StatusKeys.Active" selected="@(Model.Query.Status.IsNullOrEmpty() || Model.Query.Status==ContactsQuery.StatusKeys.Active)">Active</option>
+            <option value="@ContactsQuery.StatusKeys.Inactive" selected="@(Model.Query.Status==ContactsQuery.StatusKeys.Inactive)">Inactive</option>
+        </select>
+    </section>
+    <section>
+        <label for="show">Show</label>
+        <select id="show" data-filter="show">
+            <option value="@ContactsQuery.ShowKeys.All" selected="@(Model.Query.Show==ContactsQuery.ShowKeys.All)">All</option>
+            <option value="@ContactsQuery.ShowKeys.Businesses" selected="@(Model.Query.Show==ContactsQuery.ShowKeys.Businesses)">Businesses</option>
+            <option value="@ContactsQuery.ShowKeys.People" selected="@(Model.Query.Show==ContactsQuery.ShowKeys.People)">People</option>
+        </select>
+    </section>
+    <section>
+        <label for="group">Group</label>
+        <select id="group" data-filter="groupid">
+            <option>Any</option>
+            @foreach (var item in Model.GroupItems)
+            {
+                <option value="@item.Value" selected="@(item.IsSelected)">@item.Text</option>
+            }
+        </select>
+    </section>
+    <section>
+        <span data-active="false" class="color-key">Inactive</span>
+    </section>
+</div>
+
+@if (Model.ShowImports)
+{
+    <div>
+        <form action="@Url.AdminPeopleImportAction()" method="post" class="pull-right">
+            @Html.AntiForgeryToken()
+            <input type="submit" class="btn btn-primary" value="Import People" />
+        </form>
+
+        <form action="@Url.AdminBusinessImportAction()" method="post" class="pull-right">
+            @Html.AntiForgeryToken()
+            <input type="submit" class="btn btn-primary" value="Import Businesses" />
+        </form>
+
+    </div>
+}
+
+<div id="contacts-container" class="flex-table" data-url="@Url.AdminContactsListAction()">
+</div>
+
+<ul class="paging-container"></ul>

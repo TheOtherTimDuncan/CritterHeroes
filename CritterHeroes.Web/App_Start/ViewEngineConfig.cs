@@ -15,16 +15,16 @@ namespace CritterHeroes
 
             string[] locations = new string[] 
             { 
-                "~/Areas/{1}/Views/{0}.cshtml", 
-                "~/Areas/{1}s/Views/{0}.cshtml", 
-                "~/Areas/Common/Views/{0}.cshtml" 
+                "~/Features/{1}/Views/{0}.cshtml",
+                "~/Features/{1}s/Views/{0}.cshtml",
+                "~/Features/Common/Views/{0}.cshtml"
             };
 
             string[] areaLocations = new string[] 
-            { 
-                "~/Areas/{2}/{1}/Views/{0}.cshtml", 
-                "~/Areas/{2}/{1}s/Views/{0}.cshtml", 
-                "~/Areas/{2}/Views/{0}.cshtml" 
+            {
+                "~/Features/{2}/{1}/Views/{0}.cshtml",
+                "~/Features/{2}/{1}s/Views/{0}.cshtml",
+                "~/Features/{2}/Views/{0}.cshtml"
             };
 
             viewEngines.Clear();

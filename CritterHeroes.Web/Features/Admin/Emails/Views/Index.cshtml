@@ -1,0 +1,23 @@
+﻿@model CritterHeroes.Web.Features.Admin.Emails.Models.EmailModel
+
+@{
+    ViewBag.Title = "Email";
+}
+
+@section scripts{
+    <script id="email-template" type="text/template">
+        @Html.Raw(Model.HtmlBody)
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var innerDoc = document.getElementById('email').contentWindow.document;
+            innerDoc.write($('#email-template').html());
+            innerDoc.close();
+        });
+    </script>
+}
+
+<h2>Email</h2>
+
+<a href="@Url.Action(null, new { SendEmail=true })" class="btn btn-primary">Send Email</a>
+<iframe id="email" style="width:100%; height: 500px;"></iframe>

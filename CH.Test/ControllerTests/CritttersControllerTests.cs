@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CH.Test.ControllerTests.TestHelpers;
-using CritterHeroes.Web.Areas.Admin.Critters;
-using CritterHeroes.Web.Areas.Admin.Critters.Models;
-using CritterHeroes.Web.Areas.Admin.Critters.Queries;
+using CritterHeroes.Web.Features.Admin.Critters;
+using CritterHeroes.Web.Features.Admin.Critters.Models;
+using CritterHeroes.Web.Features.Admin.Critters.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

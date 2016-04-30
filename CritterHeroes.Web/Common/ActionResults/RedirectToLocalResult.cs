@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using CritterHeroes.Web.Areas.Common.ActionExtensions;
+using CritterHeroes.Web.Features.Common.ActionExtensions;
 
 namespace CritterHeroes.Web.Common.ActionResults
 {
