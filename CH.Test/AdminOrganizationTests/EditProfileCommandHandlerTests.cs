@@ -9,7 +9,7 @@ using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
-using CritterHeroes.Web.Features.Admin.Organizations.CommandHandlers;
+using CritterHeroes.Web.Features.Admin.Organizations.Commands;
 using CritterHeroes.Web.Features.Admin.Organizations.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

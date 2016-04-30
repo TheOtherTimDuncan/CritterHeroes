@@ -8,7 +8,6 @@ using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
-using CritterHeroes.Web.Features.Admin.Contacts.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

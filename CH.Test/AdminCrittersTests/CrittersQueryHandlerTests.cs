@@ -9,7 +9,6 @@ using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
 using CritterHeroes.Web.Features.Admin.Critters.Queries;
-using CritterHeroes.Web.Features.Admin.Critters.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

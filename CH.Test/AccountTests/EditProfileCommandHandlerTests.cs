@@ -8,7 +8,7 @@ using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Features.Account.CommandHandlers;
+using CritterHeroes.Web.Features.Account.Commands;
 using CritterHeroes.Web.Features.Account.Models;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;

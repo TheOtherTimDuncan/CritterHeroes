@@ -4,7 +4,6 @@ using System.Linq;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Features.Home.Models;
 using CritterHeroes.Web.Features.Home.Queries;
-using CritterHeroes.Web.Features.Home.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -20,7 +19,7 @@ namespace CH.Test.HomeTests
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns("http://root/azure/logo.svg");
 
-            HeaderViewModelQueryHandler handler = new HeaderViewModelQueryHandler(mockLogoService.Object);
+            HeaderQueryHandler handler = new HeaderQueryHandler(mockLogoService.Object);
             HeaderModel model = handler.Execute(new HeaderQuery()); 
 
             model.Should().NotBeNull();

@@ -8,7 +8,6 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Home.Models;
 using CritterHeroes.Web.Features.Home.Queries;
-using CritterHeroes.Web.Features.Home.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -45,7 +44,7 @@ namespace CH.Test.HomeTests
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.IsAuthenticated).Returns(true);
 
-            MenuViewModelQueryHandler handler = new MenuViewModelQueryHandler(mockLogoService.Object, mockHttpUser.Object, mockOrgStateManager.Object, mockUserStateManager.Object);
+            MenuQueryHandler handler = new MenuQueryHandler(mockLogoService.Object, mockHttpUser.Object, mockOrgStateManager.Object, mockUserStateManager.Object);
             MenuModel model = handler.Execute(new MenuQuery());
 
             model.OrganizationShortName.Should().Be(orgContext.ShortName);
@@ -72,7 +71,7 @@ namespace CH.Test.HomeTests
             mockHttpUser.Setup(x => x.IsAuthenticated).Returns(true);
             mockHttpUser.Setup(x => x.IsInRole(UserRole.Admin)).Returns(true);
 
-            MenuViewModelQueryHandler handler = new MenuViewModelQueryHandler(mockLogoService.Object, mockHttpUser.Object, mockOrgStateManager.Object, mockUserStateManager.Object);
+            MenuQueryHandler handler = new MenuQueryHandler(mockLogoService.Object, mockHttpUser.Object, mockOrgStateManager.Object, mockUserStateManager.Object);
             MenuModel model = handler.Execute(new MenuQuery());
 
             model.IsLoggedIn.Should().BeTrue();
@@ -96,7 +95,7 @@ namespace CH.Test.HomeTests
             mockHttpUser.Setup(x => x.IsAuthenticated).Returns(true);
             mockHttpUser.Setup(x => x.IsInRole(UserRole.MasterAdmin)).Returns(true);
 
-            MenuViewModelQueryHandler handler = new MenuViewModelQueryHandler(mockLogoService.Object, mockHttpUser.Object, mockOrgStateManager.Object, mockUserStateManager.Object);
+            MenuQueryHandler handler = new MenuQueryHandler(mockLogoService.Object, mockHttpUser.Object, mockOrgStateManager.Object, mockUserStateManager.Object);
             MenuModel model = handler.Execute(new MenuQuery());
 
             model.IsLoggedIn.Should().BeTrue();

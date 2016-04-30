@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Features.Account.Queries;
-using CritterHeroes.Web.Features.Account.QueryHandlers;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,7 +18,7 @@ namespace CH.Test.AccountTests
             {
                 ReturnUrl = "url"
             };
-            LoginViewModelQueryHandler handler = new LoginViewModelQueryHandler();
+            LoginQueryHandler handler = new LoginQueryHandler();
             LoginModel model = handler.Execute(query);
             model.Should().NotBeNull();
             model.ReturnUrl.Should().Be(query.ReturnUrl);

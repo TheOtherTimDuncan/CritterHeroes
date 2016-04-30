@@ -7,7 +7,7 @@ using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Account.Models;
-using CritterHeroes.Web.Features.Account.QueryHandlers;
+using CritterHeroes.Web.Features.Account.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -29,7 +29,7 @@ namespace CH.Test.AccountTests
 
             MockSqlStorageContext<AppUser> mockUserStorageContext = new MockSqlStorageContext<AppUser>(user);
 
-            EditProfileViewModelQueryHandler handler = new EditProfileViewModelQueryHandler(mockHttpUser.Object, mockUserStorageContext.Object);
+            EditProfileQueryHandler handler = new EditProfileQueryHandler(mockHttpUser.Object, mockUserStorageContext.Object);
             EditProfileModel model = await handler.ExecuteAsync(new UserIDQuery());
 
             model.Should().NotBeNull();

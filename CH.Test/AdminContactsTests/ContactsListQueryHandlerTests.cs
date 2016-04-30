@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CH.Test.Mocks;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
-using CritterHeroes.Web.Features.Admin.Contacts.QueryHandlers;
 using EntityFramework.Testing;
 using Faker;
 using FluentAssertions;
