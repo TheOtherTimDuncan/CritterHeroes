@@ -7,10 +7,10 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
-    public class BaseContactSource
+    public class BaseContactSource : BaseSource
     {
         [JsonProperty(PropertyName = "contactID")]
-        public int ID
+        public override int ID
         {
             get;
             set;

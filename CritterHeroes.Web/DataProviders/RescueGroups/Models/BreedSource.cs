@@ -5,7 +5,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
-    public class BreedSource
+    public class BreedSource : BaseSource
     {
         public BreedSource(int id, string species, string breedName)
         {
@@ -17,10 +17,10 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
         [JsonProperty(PropertyName = "breedID")]
-        public int ID
+        public override int ID
         {
             get;
-            private set;
+            set;
         }
 
         [JsonProperty(PropertyName = "breedSpecies")]

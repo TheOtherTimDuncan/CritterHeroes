@@ -5,7 +5,7 @@ using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
-    public class SpeciesSource
+    public class SpeciesSource : BaseSource
     {
         public SpeciesSource(string name, string singular, string plural, string youngSingular, string youngPlural)
         {
@@ -18,6 +18,19 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             this.Plural = plural;
             this.YoungPlural = youngPlural;
             this.YoungSingular = youngSingular;
+        }
+
+        public override int ID
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [JsonProperty(PropertyName = "speciesID")]

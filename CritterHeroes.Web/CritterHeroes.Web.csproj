@@ -549,6 +549,7 @@
     <Compile Include="DataProviders\RescueGroups\Mappers\MapperConfiguration.cs" />
     <Compile Include="DataProviders\RescueGroups\Mappers\MapperContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\BaseContactSource.cs" />
+    <Compile Include="DataProviders\RescueGroups\Models\BaseSource.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\ObjectActions.cs" />
     <Compile Include="DataProviders\RescueGroups\Models\RequestData.cs" />
     <Compile Include="DataProviders\RescueGroups\Responses\DataListResponseModel.cs" />

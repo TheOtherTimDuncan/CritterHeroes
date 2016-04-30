@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
-    public class CritterSource
+    public class CritterSource : BaseSource
     {
         [JsonProperty(PropertyName = "animalID")]
-        public int ID
+        public override int ID
         {
             get;
             set;

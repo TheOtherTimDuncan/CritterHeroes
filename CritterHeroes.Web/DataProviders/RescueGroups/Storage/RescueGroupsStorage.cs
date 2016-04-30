@@ -20,7 +20,7 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
 {
-    public abstract class RescueGroupsStorage<TEntity> : IRescueGroupsStorageContext<TEntity> where TEntity : class
+    public abstract class RescueGroupsStorage<TEntity> : IRescueGroupsStorageContext<TEntity> where TEntity : BaseSource
     {
         private IRescueGroupsConfiguration _configuration;
         private IHttpClient _client;
@@ -133,8 +133,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                     Fields = Fields.Where(x => x.IsSelected).SelectMany(x => x.FieldNames)
                 };
             }
-
-            RequestData requestData = new RequestData("search", search);
 
             return await GetEntitiesAsync(search);
         }

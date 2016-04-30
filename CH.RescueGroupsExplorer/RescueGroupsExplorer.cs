@@ -109,7 +109,7 @@ namespace CH.RescueGroupsExplorer
             }
         }
 
-        private async Task ExecuteObjectActionAsync<TEntity>(IRescueGroupsStorageContext<TEntity> storageContext) where TEntity : class
+        private async Task ExecuteObjectActionAsync<TEntity>(IRescueGroupsStorageContext<TEntity> storageContext) where TEntity : BaseSource
         {
             IEnumerable<TEntity> result = null;
 

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using Moq;
 
 namespace CH.Test.Mocks
 {
-    public class MockRescueGroupsStorageContext<T> : Mock<IRescueGroupsStorageContext<T>> where T : class
+    public class MockRescueGroupsStorageContext<T> : Mock<IRescueGroupsStorageContext<T>> where T : BaseSource
     {
         public MockRescueGroupsStorageContext(T entity, string entityID)
             : base()

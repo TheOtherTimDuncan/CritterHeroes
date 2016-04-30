@@ -137,8 +137,13 @@ namespace CH.Test.RescueGroups
             mockPublisher.Verify(x => x.Publish(It.IsAny<RescueGroupsLogEvent>()), Times.Exactly(2));
         }
 
-        private class TestSource
+        private class TestSource : BaseSource
         {
+            public override int ID
+            {
+                get;
+                set;
+            }
         }
 
         private class TestSourceStorage : RescueGroupsStorage<TestSource>
