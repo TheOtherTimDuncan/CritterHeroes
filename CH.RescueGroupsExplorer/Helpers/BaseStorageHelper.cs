@@ -51,7 +51,7 @@ namespace CH.RescueGroupsExplorer.Helpers
             await StorageContext.GetAllAsync();
         }
 
-        public async Task GetAsync(string entityID)
+        public async Task GetAsync(int entityID)
         {
             await StorageContext.GetAsync(entityID);
         }

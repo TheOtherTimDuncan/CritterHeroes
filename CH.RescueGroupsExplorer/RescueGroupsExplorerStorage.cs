@@ -95,7 +95,7 @@ namespace CH.RescueGroupsExplorer
             //JObject response = await SendRequestAsync<JObject>(request);
         }
 
-        public async Task<ExplorerSource> Get(string objectType, string keyField, string keyValue)
+        public async Task<ExplorerSource> Get(string objectType, string keyField, int keyValue)
         {
             this._objectType = objectType;
             this._keyField = keyField;

@@ -120,7 +120,7 @@ namespace CH.RescueGroupsExplorer
                         break;
 
                     case "get":
-                        await storageHelper.GetAsync(txtKeyValue.Text);
+                        await storageHelper.GetAsync(int.Parse(txtKeyValue.Text));
                         break;
 
                     default:

@@ -107,13 +107,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             entity.ID = recordMessage.ID;
         }
 
-        public virtual async Task<TEntity> GetAsync(string entityID)
+        public virtual async Task<TEntity> GetAsync(int entityID)
         {
             SearchFilter filter = new SearchFilter()
             {
                 FieldName = KeyField,
                 Operation = SearchFilterOperation.Equal,
-                Criteria = entityID
+                Criteria = entityID.ToString()
             };
 
             IEnumerable<TEntity> result = await GetAllAsync(filter);

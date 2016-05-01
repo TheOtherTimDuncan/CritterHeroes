@@ -10,7 +10,7 @@ namespace CH.Test.Mocks
 {
     public class MockRescueGroupsStorageContext<T> : Mock<IRescueGroupsStorageContext<T>> where T : BaseSource
     {
-        public MockRescueGroupsStorageContext(T entity, string entityID)
+        public MockRescueGroupsStorageContext(T entity, int entityID)
             : base()
         {
             AddEntity(entity, entityID);
@@ -28,7 +28,7 @@ namespace CH.Test.Mocks
             AddEntities(entities);
         }
 
-        public void AddEntity(T entity, string entityID)
+        public void AddEntity(T entity, int entityID)
         {
             AddEntities(new[] { entity });
 
