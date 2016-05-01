@@ -141,7 +141,7 @@ namespace CH.Test.RescueGroups
         ""animalSpecialDiet"": ""No"",
         ""animalSpecialneeds"": ""Yes"",
         ""animalSpecialneedsDescription"": ""SpecialNeedsDescription1"",
-        ""animalSpecies"": ""Species1"",
+        ""animalSpeciesID"": ""Species1"",
         ""animalStatusID"": ""16"",
         ""animalStatus"": ""Status1"",
         ""animalUpdatedDate"": ""05/05/2001 5:05:05 AM""
@@ -179,7 +179,7 @@ namespace CH.Test.RescueGroups
         ""animalSpecialDiet"": ""No"",
         ""animalSpecialneeds"": ""Yes"",
         ""animalSpecialneedsDescription"": ""SpecialNeedsDescription2"",
-        ""animalSpecies"": ""Species2"",
+        ""animalSpeciesID"": ""Species2"",
         ""animalStatusID"": ""26"",
         ""animalStatus"": ""Status2"",
         ""animalUpdatedDate"": ""05/05/2002 5:05:05 AM""

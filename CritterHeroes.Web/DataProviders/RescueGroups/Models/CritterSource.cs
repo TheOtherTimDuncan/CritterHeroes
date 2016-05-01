@@ -37,7 +37,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
-        [JsonProperty(PropertyName = "animalSpecies")]
+        [JsonProperty(PropertyName = "animalSpeciesID")]
         [JsonConverter(typeof(EmptyToNullStringConverter))]
         public string Species
         {
@@ -273,7 +273,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
         }
 
 
-        [JsonProperty(PropertyName = "animalOkWithKids")]
+        [JsonProperty(PropertyName = "animalOKWithKids")]
         [JsonConverter(typeof(YesNoConverter))]
         public bool? IsOkWithKids
         {
