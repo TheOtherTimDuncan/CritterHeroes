@@ -32,32 +32,32 @@ namespace CH.RescueGroupsExplorer
 
         private async void btnExecute_Click(object sender, EventArgs e)
         {
-            if (new[] { ObjectActions.Search, ObjectActions.List, "get" }.Contains(cmbAction.Text))
+            if (new[] { ObjectActions.Search, ObjectActions.List, ObjectActions.Add, "get" }.Contains(cmbAction.Text))
             {
                 switch (cmbType.Text)
                 {
                     case "animals":
-                        await ExecuteObjectActionAsync(new CrittersStorageHelper(_configuration, _client, _logger));
+                        await HandleObjectActionAsync(new CrittersStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "animalBreeds":
-                        await ExecuteObjectActionAsync(new BreedStorageHelper(_configuration, _client, _logger));
+                        await HandleObjectActionAsync(new BreedStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "animalSpecies":
-                        await ExecuteObjectActionAsync(new SpeciesStorageHelper(_configuration, _client, _logger));
+                        await HandleObjectActionAsync(new SpeciesStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "animalStatuses":
-                        await ExecuteObjectActionAsync(new StatusStorageHelper(_configuration, _client, _logger));
+                        await HandleObjectActionAsync(new StatusStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "businesses":
-                        await ExecuteObjectActionAsync(new BusinessSourceStorageHelper(_configuration, _client, _logger));
+                        await HandleObjectActionAsync(new BusinessSourceStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "people":
-                        await ExecuteObjectActionAsync(new PersonStorageHelper(_configuration, _client, _logger));
+                        await HandleObjectActionAsync(new PersonStorageHelper(_configuration, _client, _logger));
                         break;
 
                     default:
@@ -67,7 +67,7 @@ namespace CH.RescueGroupsExplorer
             else
             {
                 RescueGroupsExplorerStorageHelper storage = new RescueGroupsExplorerStorageHelper(_configuration, _client, _logger, cmbType.Text, cmbAction.Text, cbPrivate.Checked);
-                await ExecuteObjectActionAsync(storage);
+                await HandleObjectActionAsync(storage);
             }
         }
 
@@ -109,7 +109,7 @@ namespace CH.RescueGroupsExplorer
             }
         }
 
-        private async Task ExecuteObjectActionAsync<TEntity>(BaseStorageHelper<TEntity> storageHelper) where TEntity : BaseSource
+        private async Task HandleObjectActionAsync<TEntity>(BaseStorageHelper<TEntity> storageHelper) where TEntity : BaseSource
         {
             try
             {
@@ -117,6 +117,12 @@ namespace CH.RescueGroupsExplorer
                 {
                     case ObjectActions.Search:
                         await storageHelper.SearchAsync(clbFields.CheckedItems);
+                        break;
+
+                    case ObjectActions.Add:
+                        TEntity entity = storageHelper.CreateEntity();
+                        txtHttp.AppendText(JsonConvert.SerializeObject(entity, Formatting.Indented));
+                        await storageHelper.StorageContext.AddAsync(entity);
                         break;
 
                     case "get":

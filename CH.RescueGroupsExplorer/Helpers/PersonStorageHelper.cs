@@ -21,5 +21,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             return new PersonSourceStorage(configuration, client, publisher);
         }
+
+        public override PersonSource CreateEntity()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

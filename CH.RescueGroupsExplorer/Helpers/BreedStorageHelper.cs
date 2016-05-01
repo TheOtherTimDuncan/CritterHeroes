@@ -21,5 +21,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             return new BreedSourceStorage(configuration, client, publisher);
         }
+
+        public override BreedSource CreateEntity()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

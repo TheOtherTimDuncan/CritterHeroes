@@ -21,5 +21,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             return new BusinessSourceStorage(configuration, client, publisher);
         }
+
+        public override BusinessSource CreateEntity()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

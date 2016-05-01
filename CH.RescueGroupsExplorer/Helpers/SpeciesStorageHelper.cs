@@ -21,5 +21,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             return new SpeciesSourceStorage(configuration, client, publisher);
         }
+
+        public override SpeciesSource CreateEntity()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

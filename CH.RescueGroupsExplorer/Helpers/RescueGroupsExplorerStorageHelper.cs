@@ -23,5 +23,10 @@ namespace CH.RescueGroupsExplorer.Helpers
             _storage = new RescueGroupsExplorerStorage(configuration, client, publisher);
             return _storage;
         }
+
+        public override ExplorerSource CreateEntity()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

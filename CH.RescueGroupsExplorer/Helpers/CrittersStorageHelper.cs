@@ -21,5 +21,16 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             return new CritterSourceStorage(configuration, client, publisher);
         }
+
+        public override CritterSource CreateEntity()
+        {
+            return new CritterSource()
+            {
+                StatusID = 6, // Not Available
+                PrimaryBreedID = 35,
+                Species = "Cat",
+                Name = "Test"
+            };
+        }
     }
 }

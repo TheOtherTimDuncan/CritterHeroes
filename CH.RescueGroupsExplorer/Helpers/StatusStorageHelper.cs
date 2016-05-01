@@ -21,5 +21,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             return new CritterStatusSourceStorage(configuration, client, publisher);
         }
+
+        public override CritterStatusSource CreateEntity()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

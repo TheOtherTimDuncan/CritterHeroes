@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using  System.Windows.Forms;
+using System.Windows.Forms;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
@@ -25,6 +25,8 @@ namespace CH.RescueGroupsExplorer.Helpers
         }
 
         protected abstract IRescueGroupsStorageContext<TEntity> CreateStorageContext(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher);
+
+        public abstract TEntity CreateEntity();
 
         public async Task SearchAsync(CheckedListBox.CheckedItemCollection checkedItems)
         {
