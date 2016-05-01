@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CH.RescueGroupsExplorer.Helpers;
 using CritterHeroes.Web.Common.Proxies;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
@@ -32,32 +32,32 @@ namespace CH.RescueGroupsExplorer
 
         private async void btnExecute_Click(object sender, EventArgs e)
         {
-            if (cmbAction.Text == ObjectActions.Search || cmbAction.Text == ObjectActions.List || cmbAction.Text == "get")
+            if (new[] { ObjectActions.Search, ObjectActions.List, "get" }.Contains(cmbAction.Text))
             {
                 switch (cmbType.Text)
                 {
                     case "animals":
-                        await ExecuteObjectActionAsync(new CritterSourceStorage(_configuration, _client, _logger));
+                        await ExecuteObjectActionAsync(new CrittersStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "animalBreeds":
-                        await ExecuteObjectActionAsync(new BreedSourceStorage(_configuration, _client, _logger));
+                        await ExecuteObjectActionAsync(new BreedStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "animalSpecies":
-                        await ExecuteObjectActionAsync(new SpeciesSourceStorage(_configuration, _client, _logger));
+                        await ExecuteObjectActionAsync(new SpeciesStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "animalStatuses":
-                        await ExecuteObjectActionAsync(new CritterStatusSourceStorage(_configuration, _client, _logger));
+                        await ExecuteObjectActionAsync(new StatusStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "businesses":
-                        await ExecuteObjectActionAsync(new BusinessSourceStorage(_configuration, _client, _logger));
+                        await ExecuteObjectActionAsync(new BusinessSourceStorageHelper(_configuration, _client, _logger));
                         break;
 
                     case "people":
-                        await ExecuteObjectActionAsync(new PersonSourceStorage(_configuration, _client, _logger));
+                        await ExecuteObjectActionAsync(new PersonStorageHelper(_configuration, _client, _logger));
                         break;
 
                     default:
@@ -66,7 +66,7 @@ namespace CH.RescueGroupsExplorer
             }
             else
             {
-                RescueGroupsExplorerStorage storage = new RescueGroupsExplorerStorage(_client, _logger, cmbType.Text, cmbAction.Text, cbPrivate.Checked);
+                RescueGroupsExplorerStorageHelper storage = new RescueGroupsExplorerStorageHelper(_configuration, _client, _logger, cmbType.Text, cmbAction.Text, cbPrivate.Checked);
                 await ExecuteObjectActionAsync(storage);
             }
         }
@@ -109,42 +109,22 @@ namespace CH.RescueGroupsExplorer
             }
         }
 
-        private async Task ExecuteObjectActionAsync<TEntity>(IRescueGroupsStorageContext<TEntity> storageContext) where TEntity : BaseSource
+        private async Task ExecuteObjectActionAsync<TEntity>(BaseStorageHelper<TEntity> storageHelper) where TEntity : BaseSource
         {
-            IEnumerable<TEntity> result = null;
-
             try
             {
                 switch (cmbAction.Text)
                 {
                     case ObjectActions.Search:
-                        IEnumerable<SearchFilter> filters = null;
-                        if (cmbAction.Text == ObjectActions.Search)
-                        {
-                            storageContext.Fields.ForEach(x => x.IsSelected = false);
-
-                            filters = storageContext.Fields.Where(x => clbFields.CheckedItems.Contains(x.Name)).Select(x =>
-                            {
-                                x.IsSelected = true;
-                                return new SearchFilter()
-                                {
-                                    FieldName = x.Name,
-                                    Criteria = SearchFilterOperation.NotBlank
-                                };
-                            });
-
-                            storageContext.FilterProcessing = string.Join(" or ", filters.Select((SearchFilter filter, int i) => i + 1));
-
-                        }
-                        result = await storageContext.GetAllAsync(filters.ToArray());
+                        await storageHelper.SearchAsync(clbFields.CheckedItems);
                         break;
 
                     case "get":
-                        await storageContext.GetAsync(txtKeyValue.Text);
+                        await storageHelper.GetAsync(txtKeyValue.Text);
                         break;
 
                     default:
-                        result = await storageContext.GetAllAsync();
+                        await storageHelper.ListAsync();
                         break;
                 }
 

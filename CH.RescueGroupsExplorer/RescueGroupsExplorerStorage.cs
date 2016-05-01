@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Proxies;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
-using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json.Linq;
@@ -19,21 +19,9 @@ namespace CH.RescueGroupsExplorer
         private string _sortField;
         private string _keyField;
 
-        public RescueGroupsExplorerStorage(HttpClientProxy httpClient, IAppEventPublisher publisher, string objectType, string objectAction, bool isPrivate)
-            : base(new RescueGroupsConfiguration(), httpClient, publisher)
+        public RescueGroupsExplorerStorage(IRescueGroupsConfiguration configuration, IHttpClient httpClient, IAppEventPublisher publisher)
+            : base(configuration, httpClient, publisher)
         {
-            this._isPrivate = isPrivate;
-            this.ObjectAction = objectAction;
-
-            if (objectType == "people" || objectType == "businesses")
-            {
-                this._objectType = "contacts";
-            }
-            else
-            {
-                this._objectType = objectType;
-            }
-
         }
 
         public override string ObjectType
@@ -71,6 +59,21 @@ namespace CH.RescueGroupsExplorer
         public override IEnumerable<SearchField> Fields
         {
             get;
+        }
+
+        public void SetObjectTypeAndAction(string objectType, string objectAction, bool isPrivate)
+        {
+            this._isPrivate = isPrivate;
+            this.ObjectAction = objectAction;
+
+            if (objectType == "people" || objectType == "businesses")
+            {
+                this._objectType = "contacts";
+            }
+            else
+            {
+                this._objectType = objectType;
+            }
         }
 
         public async Task Add(string objectType)

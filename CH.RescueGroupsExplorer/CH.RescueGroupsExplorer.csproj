@@ -65,6 +65,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExplorerSource.cs" />
+    <Compile Include="Helpers\BaseStorageHelper.cs" />
+    <Compile Include="Helpers\BreedStorageHelper.cs" />
+    <Compile Include="Helpers\BusinessSourceStorageHelper.cs" />
+    <Compile Include="Helpers\CrittersStorageHelper.cs" />
+    <Compile Include="Helpers\PersonStorageHelper.cs" />
+    <Compile Include="Helpers\RescueGroupsExplorerStorageHelper.cs" />
+    <Compile Include="Helpers\SpeciesStorageHelper.cs" />
+    <Compile Include="Helpers\StatusStorageHelper.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="RescueGroupsExplorer.cs">
       <SubType>Form</SubType>
