@@ -32,7 +32,7 @@ namespace CH.RescueGroupsExplorer
 
         private async void btnExecute_Click(object sender, EventArgs e)
         {
-            if (new[] { ObjectActions.Search, ObjectActions.List, ObjectActions.Add, "get" }.Contains(cmbAction.Text))
+            if (new[] { ObjectActions.Search, ObjectActions.List, "add/update", "get" }.Contains(cmbAction.Text))
             {
                 switch (cmbType.Text)
                 {
@@ -119,10 +119,12 @@ namespace CH.RescueGroupsExplorer
                         await storageHelper.SearchAsync(clbFields.CheckedItems);
                         break;
 
-                    case ObjectActions.Add:
+                    case "add/update":
                         TEntity entity = storageHelper.CreateEntity();
                         txtHttp.AppendText(JsonConvert.SerializeObject(entity, Formatting.Indented));
                         await storageHelper.StorageContext.AddAsync(entity);
+                        storageHelper.UpdateEntity(entity);
+                        await storageHelper.StorageContext.UpdateAsync(entity);
                         break;
 
                     case "get":

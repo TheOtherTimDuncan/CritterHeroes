@@ -107,6 +107,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             entity.ID = recordMessage.ID;
         }
 
+        public virtual async Task UpdateAsync(TEntity entity)
+        {
+            ObjectAction = ObjectActions.Edit;
+            RequestData requestData = new RequestData("values", new[] { entity });
+            JObject request = await CreateRequest(requestData);
+            BaseResponseModel response = await SendRequestAsync<BaseResponseModel>(request);
+        }
+
         public virtual async Task<TEntity> GetAsync(int entityID)
         {
             SearchFilter filter = new SearchFilter()

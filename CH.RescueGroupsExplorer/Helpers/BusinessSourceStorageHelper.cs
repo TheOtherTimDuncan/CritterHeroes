@@ -26,5 +26,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             throw new NotImplementedException();
         }
+
+        public override void UpdateEntity(BusinessSource entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

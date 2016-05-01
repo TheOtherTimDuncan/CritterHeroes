@@ -27,6 +27,7 @@ namespace CH.RescueGroupsExplorer.Helpers
         protected abstract IRescueGroupsStorageContext<TEntity> CreateStorageContext(IRescueGroupsConfiguration configuration, IHttpClient client, IAppEventPublisher publisher);
 
         public abstract TEntity CreateEntity();
+        public abstract void UpdateEntity(TEntity entity);
 
         public async Task SearchAsync(CheckedListBox.CheckedItemCollection checkedItems)
         {

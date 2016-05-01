@@ -122,7 +122,7 @@
             "list",
             "search",
             "get",
-            "add"});
+            "add/update"});
             this.cmbAction.Location = new System.Drawing.Point(119, 49);
             this.cmbAction.Margin = new System.Windows.Forms.Padding(4);
             this.cmbAction.Name = "cmbAction";

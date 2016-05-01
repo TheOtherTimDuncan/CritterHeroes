@@ -32,5 +32,10 @@ namespace CH.RescueGroupsExplorer.Helpers
                 Name = "Test"
             };
         }
+
+        public override void UpdateEntity(CritterSource entity)
+        {
+            entity.Description = "test description";
+        }
     }
 }

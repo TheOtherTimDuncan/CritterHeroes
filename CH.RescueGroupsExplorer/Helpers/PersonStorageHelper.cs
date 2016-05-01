@@ -26,5 +26,10 @@ namespace CH.RescueGroupsExplorer.Helpers
         {
             throw new NotImplementedException();
         }
+
+        public override void UpdateEntity(PersonSource entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
