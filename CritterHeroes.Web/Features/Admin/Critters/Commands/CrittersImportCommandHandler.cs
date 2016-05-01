@@ -290,7 +290,8 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
             {
                 foreach (CritterPictureSource pictureSource in context.Source.PictureSources)
                 {
-                    if (!context.Target.Pictures.Any(x => x.Picture.Filename == pictureSource.Filename))
+                    CritterPicture critterPicture = context.Target.Pictures.SingleOrDefault(x => x.Picture.Filename == pictureSource.Filename);
+                    if (critterPicture == null)
                     {
                         string contentType = await ImportPicture(pictureSource.Url, context.Target.ID, pictureSource.Filename);
                         Picture picture = new Picture(pictureSource.Filename, pictureSource.Width, pictureSource.Height, pictureSource.FileSize, contentType)
@@ -317,8 +318,40 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
                             PictureChild pictureChild = picture.AddChildPicture(pictureSource.SmallPicture.Width, pictureSource.SmallPicture.Height, pictureSource.SmallPicture.FileSize, pictureSource.SmallPicture.Filename);
                         }
 
-                        CritterPicture critterPicture = context.Target.AddPicture(picture);
+                        critterPicture = context.Target.AddPicture(picture);
                         _publisher.Publish(CritterLogEvent.Action("Added picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, context.Source.ID, context.Source.Name));
+                    }
+                    else
+                    {
+                        bool pictureExists = await _pictureService.PictureExistsAsync(context.Target.ID, critterPicture.Picture.Filename);
+                        if (!pictureExists)
+                        {
+                            await ImportPicture(pictureSource.Url, context.Target.ID, critterPicture.Picture.Filename);
+                            _publisher.Publish(CritterLogEvent.Action("Replaced lost picture {Filename} for {CritterID} - {CritterName}", pictureSource.Filename, context.Source.ID, context.Source.Name));
+                        }
+
+                        foreach (PictureChild childPicture in critterPicture.Picture.ChildPictures)
+                        {
+                            pictureExists = await _pictureService.PictureExistsAsync(context.Target.ID, childPicture.Filename);
+                            if (!pictureExists)
+                            {
+                                if (pictureSource.LargePicture.Width == childPicture.Width && pictureSource.LargePicture.Height == childPicture.Height)
+                                {
+                                    await ImportPicture(pictureSource.LargePicture.Url, context.Target.ID, childPicture.Filename);
+                                    _publisher.Publish(CritterLogEvent.Action("Replaced lost picture {Filename} for {Width}x{Height} for {CritterID} - {CritterName} not in target or source", pictureSource.Filename, childPicture.Width, childPicture.Height, context.Source.ID, context.Source.Name));
+                                }
+                                else if (pictureSource.SmallPicture.Width == childPicture.Width && pictureSource.SmallPicture.Height == childPicture.Height)
+                                {
+                                    await ImportPicture(pictureSource.SmallPicture.Url, context.Target.ID, childPicture.Filename);
+                                    _publisher.Publish(CritterLogEvent.Action("Replaced lost picture {Filename} for {Width}x{Height} for {CritterID} - {CritterName} not in target or source", pictureSource.Filename, childPicture.Width, childPicture.Height, context.Source.ID, context.Source.Name));
+                                }
+                                else
+                                {
+                                    _publisher.Publish(CritterLogEvent.Action("Picture {Filename} for {Width}x{Height} for {CritterID} - {CritterName} not in target or source", pictureSource.Filename, childPicture.Width, childPicture.Height, context.Source.ID, context.Source.Name));
+                                }
+                            }
+                        }
+
                     }
                 }
 
