@@ -39,6 +39,7 @@ namespace CH.Test.EntityTests
                 result.AzureName.Should().Be(organization.AzureName);
                 result.LogoFilename.Should().Be(organization.LogoFilename);
                 result.EmailAddress.Should().Be(organization.EmailAddress);
+                result.TimeZoneID.Should().Be(organization.TimeZoneID);
 
                 storageContext.Delete(result);
                 await storageContext.SaveChangesAsync();

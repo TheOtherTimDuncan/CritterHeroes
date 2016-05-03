@@ -18,6 +18,7 @@ namespace CH.DatabaseMigrator.Migrations
                     AzureName = c.String(nullable: false, maxLength: 25, unicode: false),
                     LogoFilename = c.String(maxLength: 255, unicode: false),
                     EmailAddress = c.String(nullable: false, maxLength: 255),
+                    TimeZoneID = c.String(maxLength: 50, unicode: false),
                 })
                 .PrimaryKey(t => t.ID);
 
