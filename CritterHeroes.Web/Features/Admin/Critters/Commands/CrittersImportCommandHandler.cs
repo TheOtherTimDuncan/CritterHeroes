@@ -214,7 +214,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
                 }
 
-                mapper.MapTo(context, fieldNames.ToArray());
+                mapper.MapSourceToTarget(context, fieldNames.ToArray());
 
                 // Save changes before transferring pictures since we'll need Critter.ID 
                 await _critterStorage.SaveChangesAsync();
@@ -272,7 +272,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
                     critter.WhenUpdated = DateTimeOffset.UtcNow;
                 }
 
-                mapper.MapTo(context, _sourceStorage.Fields.Where(x => x.IsSelected).Select(x => x.Name).ToArray());
+                mapper.MapSourceToTarget(context, _sourceStorage.Fields.Where(x => x.IsSelected).Select(x => x.Name).ToArray());
 
                 await _critterStorage.SaveChangesAsync();
             }

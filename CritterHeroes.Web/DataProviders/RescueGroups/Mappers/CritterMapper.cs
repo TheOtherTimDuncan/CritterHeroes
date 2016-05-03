@@ -55,8 +55,16 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
             configuration
                 .ForField
                 (
+                    fieldName: "animalID",
+                    fromAction: context =>
+                    {
+                        context.Source.ID = context.Target.RescueGroupsID.Value;
+                    }
+                )
+                .ForField
+                (
                     fieldName: "animalBirthdate",
-                    toAction: (CritterMapperContext context) =>
+                    toAction: context =>
                     {
                         if (context.Source.BirthDate != null)
                         {
@@ -64,130 +72,141 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                             context.Target.IsBirthDateExact = context.Source.IsBirthDateExact;
                         }
                     },
-                    fromAction: (CritterMapperContext context) =>
+                    fromAction: context =>
                     {
+                        if (context.Target.BirthDate != null)
+                        {
+                            context.Source.BirthDate = context.Target.BirthDate;
+                            context.Source.IsBirthDateExact = context.Target.IsBirthDateExact;
+                        }
+                        else
+                        {
+                            context.Source.BirthDate = null;
+                            context.Source.IsBirthDateExact = null;
+                        }
                     }
                 )
                 .ForField
                 (
                     fieldName: "animalCourtesy",
-                    toAction: (CritterMapperContext context) => context.Target.IsCourtesy = context.Source.IsCourtesy ?? false,
-                    fromAction: (CritterMapperContext context) => context.Source.IsCourtesy = context.Target.IsCourtesy
+                    toAction: context => context.Target.IsCourtesy = context.Source.IsCourtesy ?? false,
+                    fromAction: context => context.Source.IsCourtesy = context.Target.IsCourtesy
                 )
                 .ForField
                 (
                     fieldName: "animalDescription",
-                    toAction: (CritterMapperContext context) => context.Target.Description = context.Source.Description,
-                    fromAction: (CritterMapperContext context) => context.Source.Description = context.Target.Description
+                    toAction: context => context.Target.Description = context.Source.Description,
+                    fromAction: context => context.Source.Description = context.Target.Description
                 )
                 .ForField
                 (
                     fieldName: "animalKillDate",
-                    toAction: (CritterMapperContext context) => context.Target.EuthanasiaDate = context.Source.EuthanasiaDate,
-                    fromAction: (CritterMapperContext context) => context.Source.EuthanasiaDate = context.Target.EuthanasiaDate
+                    toAction: context => context.Target.EuthanasiaDate = context.Source.EuthanasiaDate,
+                    fromAction: context => context.Source.EuthanasiaDate = context.Target.EuthanasiaDate
                 )
                 .ForField
                 (
                     fieldName: "animalKillReason",
-                    toAction: (CritterMapperContext context) => context.Target.EuthanasiaReason = context.Source.EuthanasiaReason,
-                    fromAction: (CritterMapperContext context) => context.Source.EuthanasiaReason = context.Target.EuthanasiaReason
+                    toAction: context => context.Target.EuthanasiaReason = context.Source.EuthanasiaReason,
+                    fromAction: context => context.Source.EuthanasiaReason = context.Target.EuthanasiaReason
                 )
                 .ForField
                 (
                     fieldName: "animalMicrochipped",
-                    toAction: (CritterMapperContext context) => context.Target.IsMicrochipped = context.Source.IsMicrochipped,
-                    fromAction: (CritterMapperContext context) => context.Source.IsMicrochipped = context.Target.IsMicrochipped
+                    toAction: context => context.Target.IsMicrochipped = context.Source.IsMicrochipped,
+                    fromAction: context => context.Source.IsMicrochipped = context.Target.IsMicrochipped
                 )
                 .ForField
                 (
                     fieldName: "animalName",
-                    toAction: (CritterMapperContext context) => context.Target.Name = context.Source.Name,
-                    fromAction: (CritterMapperContext context) => context.Source.Name = context.Target.Name
+                    toAction: context => context.Target.Name = context.Source.Name,
+                    fromAction: context => context.Source.Name = context.Target.Name
                 )
                 .ForField
                 (
                     fieldName: "animalOKWithCats",
-                    toAction: (CritterMapperContext context) => context.Target.IsOkWithCats = context.Source.IsOkWithCats,
-                    fromAction: (CritterMapperContext context) => context.Source.IsOkWithCats = context.Target.IsOkWithCats
+                    toAction: context => context.Target.IsOkWithCats = context.Source.IsOkWithCats,
+                    fromAction: context => context.Source.IsOkWithCats = context.Target.IsOkWithCats
                 )
                 .ForField
                 (
                     fieldName: "animalOKWithDogs",
-                    toAction: (CritterMapperContext context) => context.Target.IsOkWithDogs = context.Source.IsOkWithDogs,
-                    fromAction: (CritterMapperContext context) => context.Source.IsOkWithDogs = context.Target.IsOkWithDogs
+                    toAction: context => context.Target.IsOkWithDogs = context.Source.IsOkWithDogs,
+                    fromAction: context => context.Source.IsOkWithDogs = context.Target.IsOkWithDogs
                 )
                 .ForField
                 (
                     fieldName: "animalOKWithKids",
-                    toAction: (CritterMapperContext context) => context.Target.IsOkWithKids = context.Source.IsOkWithKids,
-                    fromAction: (CritterMapperContext context) => context.Source.IsOkWithKids = context.Target.IsOkWithKids
+                    toAction: context => context.Target.IsOkWithKids = context.Source.IsOkWithKids,
+                    fromAction: context => context.Source.IsOkWithKids = context.Target.IsOkWithKids
                 )
                 .ForField
                 (
                     fieldName: "animalOlderKidsOnly",
-                    toAction: (CritterMapperContext context) => context.Target.OlderKidsOnly = context.Source.OlderKidsOnly,
-                    fromAction: (CritterMapperContext context) => context.Source.OlderKidsOnly = context.Target.OlderKidsOnly
+                    toAction: context => context.Target.OlderKidsOnly = context.Source.OlderKidsOnly,
+                    fromAction: context => context.Source.OlderKidsOnly = context.Target.OlderKidsOnly
                 )
                 .ForField
                 (
                     fieldName: "animalNotes",
-                    toAction: (CritterMapperContext context) => context.Target.Notes = context.Source.Notes,
-                    fromAction: (CritterMapperContext context) => context.Source.Notes = context.Target.Notes
+                    toAction: context => context.Target.Notes = context.Source.Notes,
+                    fromAction: context => context.Source.Notes = context.Target.Notes
                 )
                 .ForField
                 (
                     fieldName: "animalSex",
-                    toAction: (CritterMapperContext context) => context.Target.Sex = context.Source.Sex,
-                    fromAction: (CritterMapperContext context) => context.Source.Sex = context.Target.Sex
+                    toAction: context => context.Target.Sex = context.Source.Sex,
+                    fromAction: context => context.Source.Sex = context.Target.Sex
                 )
                 .ForField
                 (
                     fieldName: "animalSpecialDiet",
-                    toAction: (CritterMapperContext context) => context.Target.HasSpecialDiet = context.Source.HasSpecialDiet ?? false,
-                    fromAction: (CritterMapperContext context) => context.Source.HasSpecialDiet = context.Target.HasSpecialDiet
+                    toAction: context => context.Target.HasSpecialDiet = context.Source.HasSpecialDiet ?? false,
+                    fromAction: context => context.Source.HasSpecialDiet = context.Target.HasSpecialDiet
                 )
                 .ForField
                 (
                     fieldName: "animalSpecialneeds",
-                    toAction: (CritterMapperContext context) => context.Target.HasSpecialNeeds = context.Source.HasSpecialNeeds ?? false,
-                    fromAction: (CritterMapperContext context) => context.Source.HasSpecialNeeds = context.Target.HasSpecialNeeds
+                    toAction: context => context.Target.HasSpecialNeeds = context.Source.HasSpecialNeeds ?? false,
+                    fromAction: context => context.Source.HasSpecialNeeds = context.Target.HasSpecialNeeds
                 )
                 .ForField
                 (
                     fieldName: "animalSpecialneedsDescription",
-                    toAction: (CritterMapperContext context) => context.Target.SpecialNeedsDescription = context.Source.SpecialNeedsDescription,
-                    fromAction: (CritterMapperContext context) => context.Source.SpecialNeedsDescription = context.Target.SpecialNeedsDescription
+                    toAction: context => context.Target.SpecialNeedsDescription = context.Source.SpecialNeedsDescription,
+                    fromAction: context => context.Source.SpecialNeedsDescription = context.Target.SpecialNeedsDescription
                 )
                 .ForField
                 (
                     fieldName: "animalRescueID",
-                    toAction: (CritterMapperContext context) => context.Target.RescueID = context.Source.RescueID,
-                    fromAction: (CritterMapperContext context) => context.Source.RescueID = context.Target.RescueID
+                    toAction: context => context.Target.RescueID = context.Source.RescueID,
+                    fromAction: context => context.Source.RescueID = context.Target.RescueID
                 )
                 .ForField
                 (
                     fieldName: "animalUpdatedDate",
-                    toAction: (CritterMapperContext context) => context.Target.RescueGroupsLastUpdated = context.Source.LastUpdated
+                    toAction: context => context.Target.RescueGroupsLastUpdated = context.Source.LastUpdated
                 )
                 .ForField
                 (
                     fieldName: "animalReceivedDate",
-                    toAction: (CritterMapperContext context) => context.Target.ReceivedDate = context.Source.ReceivedDate
+                    toAction: context => context.Target.ReceivedDate = context.Source.ReceivedDate
                 )
                 .ForField
                 (
                     fieldName: "animalCreatedDate",
-                    toAction: (CritterMapperContext context) => context.Target.RescueGroupsCreated = context.Source.Created
+                    toAction: context => context.Target.RescueGroupsCreated = context.Source.Created
                 )
                 .ForField
                 (
                     fieldName: "animalGeneralAge",
-                    toAction: (CritterMapperContext context) => context.Target.GeneralAge = context.Source.GeneralAge
+                    toAction: context => context.Target.GeneralAge = context.Source.GeneralAge,
+                    fromAction: context => context.Source.GeneralAge = context.Target.GeneralAge
                 )
                 .ForField
                 (
                     fieldName: "animalFosterID",
-                    toAction: (CritterMapperContext context) =>
+                    toAction: context =>
                     {
                         if (context.Source.FosterContactID != null)
                         {
@@ -203,14 +222,30 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                             context.Target.RemoveFoster();
                         }
                     },
-                    fromAction: (CritterMapperContext context) =>
+                    fromAction: context =>
                     {
+                        if (context.Target.FosterID != null)
+                        {
+                            context.Source.FosterContactID = context.Target.Foster.RescueGroupsID;
+                        }
+                        else
+                        {
+                            context.Source.FosterContactID = null;
+                        }
+                    }
+                )
+                .ForField
+                (
+                    fieldName: "animalSpeciesID",
+                    fromAction: context =>
+                    {
+                        context.Source.Species = context.Target.Breed.Species.Name;
                     }
                 )
                 .ForField
                 (
                     fieldName: "animalPrimaryBreedID",
-                    toAction: (CritterMapperContext context) =>
+                    toAction: context =>
                     {
                         if (context.Target.BreedID != context.Breed.ID)
                         {
@@ -218,14 +253,31 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                             context.Target.ChangeBreed(context.Breed);
                         }
                     },
-                    fromAction: (CritterMapperContext context) =>
+                    fromAction: context =>
                     {
+                        context.Source.PrimaryBreedID = context.Target.Breed.RescueGroupsID;
+                    }
+                )
+                .ForField
+                (
+                    fieldName: "animalColorID",
+                    toAction: context =>
+                    {
+                        if (context.Target.ColorID != context.Color.ID)
+                        {
+                            context.Publisher.Publish(CritterLogEvent.Action("Changed color from {OldColor} to {NewColor} for {CritterID} - {CritterName}", context.Target.Color.IfNotNull(x => x.Description, "not set"), context.Color.Description, context.Source.ID, context.Source.Name));
+                            context.Target.ChangeBreed(context.Breed);
+                        }
+                    },
+                    fromAction: context =>
+                    {
+                        context.Source.ColorID = context.Target.Color.RescueGroupsID;
                     }
                 )
                 .ForField
                 (
                     fieldName: "animalStatusID",
-                    toAction: (CritterMapperContext context) =>
+                    toAction: context =>
                     {
                         if (context.Target.StatusID != context.Status.ID)
                         {
@@ -233,14 +285,15 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                             context.Target.ChangeStatus(context.Status);
                         }
                     },
-                    fromAction: (CritterMapperContext context) =>
+                    fromAction: context =>
                     {
+                        context.Source.StatusID = context.Target.Status.RescueGroupsID;
                     }
                 )
                 .ForField
                 (
                     fieldName: "animalLocationID",
-                    toAction: (CritterMapperContext context) =>
+                    toAction: context =>
                     {
 
                         if (context.Source.LocationID != null)
@@ -257,14 +310,22 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                             context.Target.RemoveLocation();
                         }
                     },
-                    fromAction: (CritterMapperContext context) =>
+                    fromAction: context =>
                     {
+                        if (context.Target.LocationID != null)
+                        {
+                            context.Source.LocationID = context.Target.Location.RescueGroupsID;
+                        }
+                        else
+                        {
+                            context.Source.LocationID = null;
+                        }
                     }
                 )
                 .ForField
                 (
                     fieldName: "`ColorID",
-                    toAction: (CritterMapperContext context) =>
+                    toAction: context =>
                     {
                         if (context.Source.ColorID != null)
                         {
@@ -280,7 +341,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                             context.Target.RemoveColor();
                         }
                     },
-                    fromAction: (CritterMapperContext context) =>
+                    fromAction: context =>
                     {
                     }
                 );

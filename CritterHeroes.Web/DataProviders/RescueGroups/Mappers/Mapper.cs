@@ -19,12 +19,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
 
         protected abstract void CreateConfiguration(MapperConfiguration<TSource, TTarget, TContext> configuration);
 
-        public void MapFrom(TContext context, IEnumerable<string> fieldNames = null)
+        public void MapTargetToSource(TContext context, IEnumerable<string> fieldNames = null)
         {
             _mapperConfiguration.MapFrom(context, fieldNames);
         }
 
-        public void MapTo(TContext context, IEnumerable<string> fieldNames = null)
+        public void MapSourceToTarget(TContext context, IEnumerable<string> fieldNames = null)
         {
             _mapperConfiguration.MapTo(context, fieldNames);
         }
