@@ -7,11 +7,10 @@ using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
 using EntityFramework.Testing;
-using Faker;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TOTD.EntityFramework;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test.AdminContactsTests
 {

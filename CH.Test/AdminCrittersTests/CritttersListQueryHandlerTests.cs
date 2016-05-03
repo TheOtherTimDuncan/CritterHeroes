@@ -9,7 +9,7 @@ using CritterHeroes.Web.Features.Admin.Critters.Models;
 using CritterHeroes.Web.Features.Admin.Critters.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TOTD.EntityFramework;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test.AdminCrittersTests
 {

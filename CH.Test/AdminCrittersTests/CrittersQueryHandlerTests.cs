@@ -12,7 +12,7 @@ using CritterHeroes.Web.Features.Admin.Critters.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TOTD.EntityFramework;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test.AdminCrittersTests
 {

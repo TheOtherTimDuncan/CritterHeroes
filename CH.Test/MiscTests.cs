@@ -4,7 +4,7 @@ using System.Linq;
 using CritterHeroes.Web;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TOTD.Utility.Misc;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test
 {

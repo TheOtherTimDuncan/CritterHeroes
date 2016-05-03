@@ -11,7 +11,7 @@ using CritterHeroes.Web.Features.Admin.Contacts.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TOTD.EntityFramework;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test.AdminContactsTests
 {

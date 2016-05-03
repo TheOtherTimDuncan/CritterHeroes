@@ -17,7 +17,7 @@ using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TOTD.Utility.Misc;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test.EmailTests
 {
