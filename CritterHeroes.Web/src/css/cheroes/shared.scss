@@ -34,10 +34,6 @@
     float: left !important;
 }
 
-.margin-left-small {
-    margin-left: 1em;
-}
-
 .center-horizontal {
     margin-left: auto;
     margin-right: auto;
@@ -65,7 +61,7 @@
 }
 
 .busy {
-    background: url("${images-path}spinner.gif") no-repeat;
+    background: url("#{$images-path}spinner.gif") no-repeat;
     min-width: 24px;
     min-height: 16px;
     background-position-x: 4px;
