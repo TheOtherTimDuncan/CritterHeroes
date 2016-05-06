@@ -24,6 +24,18 @@ namespace CritterHeroes.Web.Features.Admin.Organizations.Models
             set;
         }
 
+        public string TimeZoneID
+        {
+            get;
+            set;
+        }
+
+        public IEnumerable<TimeZoneOption> TimeZoneOptions
+        {
+            get;
+            set;
+        }
+
         public string LogoUrl
         {
             get;

@@ -61,7 +61,7 @@ form section {
     margin-bottom: $form-group-margin-bottom;
 }
 
-form section input[type="text"], form section input[type="password"], form section input[type="email"] {
+form section input[type="text"], form section input[type="password"], form section input[type="email"], form section select {
     @extend .form-control;
 
     &.input-validation-error {

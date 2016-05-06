@@ -61,3 +61,9 @@
     @include fa-icon-glyph($fa-var-user);
     @extend .fa-lg;
 }
+
+.icon-globe {
+    @include fa-icon();
+    @include fa-icon-glyph($fa-var-globe);
+    @extend .fa-lg;
+}

@@ -5,6 +5,7 @@ using System.Net;
 using CH.Test.ControllerTests.TestHelpers;
 using CritterHeroes.Web.Features.Admin.Organizations;
 using CritterHeroes.Web.Features.Admin.Organizations.Models;
+using CritterHeroes.Web.Features.Admin.Organizations.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,9 +19,11 @@ namespace CH.Test.ControllerTests
         {
             EditProfileModel model = new EditProfileModel();
 
+            EditProfileQuery query = new EditProfileQuery();
+
             ControllerTester.UsingController<OrganizationController>()
-                .SetupQueryDispatcherAsync(model)
-                .WithCallTo(x => x.EditProfile())
+                .SetupQueryDispatcherAsync(model, query)
+                .WithCallTo(x => x.EditProfile(query))
                 .VerifyQueryDispatcher()
                 .ShouldReturnViewResult()
                 .HavingModel(model);

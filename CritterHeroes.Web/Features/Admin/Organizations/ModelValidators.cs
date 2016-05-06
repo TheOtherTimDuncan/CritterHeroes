@@ -21,6 +21,9 @@ namespace CritterHeroes.Web.Features.Admin.Organizations
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Please enter an email address.")
                 .EmailAddress().WithMessage("Please enter a valid email address.");
+
+            RuleFor(x => x.TimeZoneID)
+                .NotEmpty().WithMessage("Please select a time zone.");
         }
     }
 }

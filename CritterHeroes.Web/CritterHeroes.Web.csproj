@@ -474,6 +474,7 @@
     <Compile Include="Features\Admin\ErrorLog\ErrorLogController.cs" />
     <Compile Include="Features\Admin\Organizations\Commands\EditProfileCommandHandler.cs" />
     <Compile Include="Features\Admin\Organizations\Models\EditProfileModel.cs" />
+    <Compile Include="Features\Admin\Organizations\Models\TimeZoneOption.cs" />
     <Compile Include="Features\Admin\Organizations\ModelValidators.cs" />
     <Compile Include="Features\Admin\Organizations\OrganizationController.cs" />
     <Compile Include="Features\Admin\Organizations\Queries\EditProfileQueryHandler.cs" />
@@ -493,6 +494,7 @@
     <Compile Include="Features\Common\BaseController.cs" />
     <Compile Include="Features\Common\HtmlHelperExtensions.cs" />
     <Compile Include="Features\Common\JavascriptConvert.cs" />
+    <Compile Include="Features\Common\Models\BaseSelectOptionModel.cs" />
     <Compile Include="Features\Common\Models\PagingModel.cs" />
     <Compile Include="Features\Common\Models\SelectOptionModel.cs" />
     <Compile Include="Features\Common\Queries\PagingQuery.cs" />

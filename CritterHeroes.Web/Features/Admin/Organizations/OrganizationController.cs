@@ -22,9 +22,9 @@ namespace CritterHeroes.Web.Features.Admin.Organizations
         {
         }
 
-        public async Task<ActionResult> EditProfile()
+        public async Task<ActionResult> EditProfile(EditProfileQuery query)
         {
-            EditProfileModel model = await QueryDispatcher.DispatchAsync(new EditProfileQuery());
+            EditProfileModel model = await QueryDispatcher.DispatchAsync(query);
             return View(model);
         }
 
