@@ -83,7 +83,7 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
-        public DateTimeOffset? RescueGroupsLastUpdated
+        public DateTime? RescueGroupsLastUpdated
         {
             get;
             set;
@@ -137,7 +137,7 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public DateTimeOffset? ReceivedDate
+        public DateTime? ReceivedDate
         {
             get;
             set;

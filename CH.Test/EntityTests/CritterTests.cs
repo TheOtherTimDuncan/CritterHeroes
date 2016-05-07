@@ -52,7 +52,9 @@ namespace CH.Test.EntityTests
             using (TestSqlStorageContext<Critter> storageContext = new TestSqlStorageContext<Critter>())
             {
                 storageContext.FillWithTestData(critter, "StatusID", "WhenCreated", "WhenUpdated", "BreedID", "OrganizationID", "FosterID");
+
                 storageContext.Add(critter);
+
                 await storageContext.SaveChangesAsync();
             }
 
@@ -66,17 +68,16 @@ namespace CH.Test.EntityTests
                 result.WhenUpdated.Should().Be(critter.WhenUpdated);
                 result.Name.Should().Be(critter.Name);
                 result.Sex.Should().Be(critter.Sex);
-                result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated);
+                result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated.Value.Date);
                 result.RescueID.Should().Be(critter.RescueID);
                 result.RescueGroupsCreated.Should().Be(critter.RescueGroupsCreated);
-                result.RescueGroupsLastUpdated.Should().Be(critter.RescueGroupsLastUpdated);
                 result.IsCourtesy.Should().Be(critter.IsCourtesy);
                 result.Description.Should().Be(critter.Description);
                 result.GeneralAge.Should().Be(critter.GeneralAge);
                 result.HasSpecialDiet.Should().Be(critter.HasSpecialDiet);
                 result.HasSpecialNeeds.Should().Be(critter.HasSpecialNeeds);
                 result.SpecialNeedsDescription.Should().Be(critter.SpecialNeedsDescription);
-                result.ReceivedDate.Should().Be(critter.ReceivedDate);
+                result.ReceivedDate.Should().Be(critter.ReceivedDate.Value.Date);
                 result.BirthDate.Should().Be(critter.BirthDate.Value.Date);
                 result.IsBirthDateExact.Should().Be(critter.IsBirthDateExact);
                 result.EuthanasiaDate.Should().Be(critter.EuthanasiaDate.Value.Date);
