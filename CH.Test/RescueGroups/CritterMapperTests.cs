@@ -20,6 +20,8 @@ namespace CH.Test.RescueGroups
         {
             Guid organizationID = Guid.NewGuid();
 
+            string timeZoneID = "Eastern Standard Time";
+
             Species species = new Species("species", "singular", "plural");
 
             Breed breed = new Breed(species, "breed");
@@ -52,7 +54,7 @@ namespace CH.Test.RescueGroups
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object)
+            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object, timeZoneID)
             {
                 Color = color,
                 Foster = foster,
@@ -99,6 +101,8 @@ namespace CH.Test.RescueGroups
         {
             Guid organizationID = Guid.NewGuid();
 
+            string timeZoneID = "Eastern Standard Time";
+
             Species species = new Species("species", "singular", "plural");
 
             Breed breed = new Breed(species, "breed")
@@ -136,7 +140,7 @@ namespace CH.Test.RescueGroups
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object)
+            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object, timeZoneID)
             {
                 Color = color,
                 Foster = foster,

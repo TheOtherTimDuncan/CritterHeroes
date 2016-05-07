@@ -12,9 +12,10 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
 {
     public class CritterMapperContext : MapperContext<CritterSource, Critter>
     {
-        public CritterMapperContext(CritterSource source, Critter target, IAppEventPublisher publisher)
+        public CritterMapperContext(CritterSource source, Critter target, IAppEventPublisher publisher, string timeZoneID)
             : base(source, target, publisher)
         {
+            this.TimeZoneID = timeZoneID;
         }
 
         public Breed Breed
@@ -42,6 +43,12 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
         }
 
         public CritterColor Color
+        {
+            get;
+            set;
+        }
+
+        public string TimeZoneID
         {
             get;
             set;

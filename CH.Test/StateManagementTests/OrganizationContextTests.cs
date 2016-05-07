@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Data.Models;
-using CritterHeroes.Web.Models;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -90,7 +89,8 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                EmailAddress = "email@email.com"
+                EmailAddress = "email@email.com",
+                TimeZoneID = "timezone"
             };
             AddTestSupportedCrittersToOrganization(organization);
 
@@ -103,6 +103,7 @@ namespace CH.Test.StateManagementTests
             context.AzureName.Should().Be(organization.AzureName);
             context.LogoFilename.Should().Be(organization.LogoFilename);
             context.EmailAddress.Should().Be(organization.EmailAddress);
+            context.TimeZoneID.Should().Be(organization.TimeZoneID);
             context.SupportedCritters.Should().HaveCount(organization.SupportedCritters.Count());
         }
 

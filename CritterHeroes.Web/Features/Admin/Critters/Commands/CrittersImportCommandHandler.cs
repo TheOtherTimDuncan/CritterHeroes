@@ -32,6 +32,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
         private IAppEventPublisher _publisher;
 
         private List<string> _messages;
+        private OrganizationContext _orgContext;
 
         public CrittersImportCommandHandler(ICritterBatchSqlStorageContext critterStorage, IStateManager<OrganizationContext> stateManager, IRescueGroupsStorageContext<CritterSource> sourceStorage, ICritterPictureService pictureService, IAppEventPublisher publisher)
         {
@@ -49,6 +50,8 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
 
         public async Task<CommandResult> ExecuteAsync(CritterImportModel command)
         {
+            _orgContext = _stateManager.GetContext();
+
             if (command.FieldNames.Count() != _sourceStorage.Fields.Count())
             {
                 await ImportPartial(command.FieldNames);
@@ -191,7 +194,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
-                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher)
+                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher, _orgContext.TimeZoneID)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
@@ -200,11 +203,9 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
                     Color = await GetColorAsync(source.ColorID, source.Color)
                 };
 
-                OrganizationContext orgContext = _stateManager.GetContext();
-
                 if (critter == null)
                 {
-                    critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
+                    critter = new Critter(source.Name, context.Status, context.Breed, _orgContext.OrganizationID, source.ID);
                     _critterStorage.AddCritter(critter);
                     context.Target = critter;
                     _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));
@@ -242,8 +243,6 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
 
             CritterMapper mapper = new CritterMapper();
 
-            OrganizationContext orgContext = _stateManager.GetContext();
-
             IEnumerable<CritterSource> sources = await _sourceStorage.GetAllAsync(filter);
             _messages.Add($"Found {sources.Count()}");
 
@@ -251,7 +250,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
-                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher)
+                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher, _orgContext.TimeZoneID)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
@@ -262,7 +261,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
 
                 if (critter == null)
                 {
-                    critter = new Critter(source.Name, context.Status, context.Breed, orgContext.OrganizationID, source.ID);
+                    critter = new Critter(source.Name, context.Status, context.Breed, _orgContext.OrganizationID, source.ID);
                     _critterStorage.AddCritter(critter);
                     context.Target = critter;
                     _publisher.Publish(CritterLogEvent.Action("Added {CritterID} - {CritterName}", source.ID, source.Name));

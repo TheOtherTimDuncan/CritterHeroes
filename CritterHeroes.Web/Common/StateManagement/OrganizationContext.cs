@@ -19,6 +19,7 @@ namespace CritterHeroes.Web.Common.StateManagement
                 AzureName = organization.AzureName,
                 LogoFilename = organization.LogoFilename,
                 EmailAddress = organization.EmailAddress,
+                TimeZoneID = organization.TimeZoneID,
                 SupportedCritters = organization.SupportedCritters.Select(x => SpeciesContext.FromSpecies(x.Species)).ToList()
             };
         }
@@ -60,6 +61,12 @@ namespace CritterHeroes.Web.Common.StateManagement
         }
 
         public string EmailAddress
+        {
+            get;
+            set;
+        }
+
+        public string TimeZoneID
         {
             get;
             set;

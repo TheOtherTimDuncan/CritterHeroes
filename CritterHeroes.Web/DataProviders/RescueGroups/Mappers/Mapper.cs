@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
 {
@@ -27,6 +28,21 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
         public void MapSourceToTarget(TContext context, IEnumerable<string> fieldNames = null)
         {
             _mapperConfiguration.MapTo(context, fieldNames);
+        }
+
+        protected DateTime? ConvertTimeToOrganizationTime(DateTimeOffset? source, string timeZoneID)
+        {
+            if (source == null )
+            {
+                return null;
+            }
+
+            if (timeZoneID.IsNullOrEmpty())
+            {
+                return source.Value.DateTime;
+            }
+
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(source.Value, timeZoneID).DateTime;
         }
     }
 }
