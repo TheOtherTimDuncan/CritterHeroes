@@ -60,12 +60,6 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
-        public string TimeZoneID
-        {
-            get;
-            set;
-        }
-
         public virtual ICollection<OrganizationSupportedCritter> SupportedCritters
         {
             get;

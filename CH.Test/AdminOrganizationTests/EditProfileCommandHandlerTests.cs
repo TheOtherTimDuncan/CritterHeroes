@@ -29,8 +29,7 @@ namespace CH.Test.AdminOrganizationTests
             {
                 Name = "New Name",
                 ShortName = "New Short Name",
-                Email = "new@new.com",
-                TimeZoneID = "timezone"
+                Email = "new@new.com"
             };
 
             Mock<IAppConfiguration> mockAppConfiguration = new Mock<IAppConfiguration>();
@@ -48,7 +47,6 @@ namespace CH.Test.AdminOrganizationTests
             org.FullName.Should().Be(model.Name);
             org.ShortName.Should().Be(model.ShortName);
             org.EmailAddress.Should().Be(model.Email);
-            org.TimeZoneID.Should().Be(model.TimeZoneID);
 
             mockStorageContext.Verify(x => x.SaveChangesAsync(), Times.Once);
         }

@@ -57,21 +57,6 @@
                 @Html.ValidationMessageFor(m => m.Email)
             </section>
 
-            <section>
-                <label for="@Html.IdFor(x => x.TimeZoneID)">Time Zone</label>
-                <div class="input-group">
-                    <div class="input-group-icon"><span class="icon-globe"></span></div>
-                    <select id="@Html.IdFor(x => x.TimeZoneID)" name="@Html.NameFor(x => x.TimeZoneID)" @Html.ValidationAttributesFor(x => x.TimeZoneID)>
-                        <option value="">-- Please select a time zone --</option>
-                        @foreach (var option in Model.TimeZoneOptions)
-                        {
-                            <option value="@option.Value" selected="@option.IsSelected">@option.Text</option>
-                        }
-                    </select>
-                </div>
-                @Html.ValidationMessageFor(m => m.TimeZoneID)
-            </section>
-
         </div>
         <div class="pad-def">
 

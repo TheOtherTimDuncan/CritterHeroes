@@ -35,7 +35,6 @@ namespace CritterHeroes.Web.Features.Admin.Organizations.Commands
             org.FullName = command.Name;
             org.ShortName = command.ShortName;
             org.EmailAddress = command.Email;
-            org.TimeZoneID = command.TimeZoneID;
 
             await _storageContext.SaveChangesAsync();
 

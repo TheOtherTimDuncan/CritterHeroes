@@ -8,17 +8,11 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Organizations.Models;
-using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Features.Admin.Organizations.Queries
 {
     public class EditProfileQuery : IAsyncQuery<EditProfileModel>
     {
-        public string JsTime
-        {
-            get;
-            set;
-        }
     }
 
     public class EditProfileQueryHandler : IAsyncQueryHandler<EditProfileQuery, EditProfileModel>
@@ -38,30 +32,12 @@ namespace CritterHeroes.Web.Features.Admin.Organizations.Queries
         {
             Organization org = await _storageContext.Entities.FindByIDAsync(_appConfiguration.OrganizationID);
 
-            string timeZone = org.TimeZoneID;
-            if (timeZone.IsNullOrEmpty() && !query.JsTime.IsNullOrEmpty())
-            {
-                // Only need the time zone in parentheses at the end
-                // Also need to convert daylight savings to standards
-                int start = query.JsTime.IndexOf('(') + 1;
-                timeZone = query.JsTime
-                    .Substring(start, query.JsTime.Length - start - 1)
-                    .Replace("Daylight", "Standard");
-            }
-
             return new EditProfileModel()
             {
                 Name = org.FullName,
                 ShortName = org.ShortName,
                 Email = org.EmailAddress,
-                LogoUrl = _logoService.GetLogoUrl(),
-                TimeZoneID = timeZone,
-                TimeZoneOptions = TimeZoneInfo.GetSystemTimeZones().Select(x => new TimeZoneOption()
-                {
-                    Value = x.Id,
-                    Text = x.DisplayName,
-                    IsSelected = (x.Id == timeZone)
-                }).ToList()
+                LogoUrl = _logoService.GetLogoUrl()
             };
         }
     }

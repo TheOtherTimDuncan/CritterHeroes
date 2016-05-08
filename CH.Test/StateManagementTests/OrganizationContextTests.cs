@@ -89,8 +89,7 @@ namespace CH.Test.StateManagementTests
                 ShortName = "Short",
                 AzureName = "Azure",
                 LogoFilename = "Logo",
-                EmailAddress = "email@email.com",
-                TimeZoneID = "timezone"
+                EmailAddress = "email@email.com"
             };
             AddTestSupportedCrittersToOrganization(organization);
 
@@ -103,7 +102,6 @@ namespace CH.Test.StateManagementTests
             context.AzureName.Should().Be(organization.AzureName);
             context.LogoFilename.Should().Be(organization.LogoFilename);
             context.EmailAddress.Should().Be(organization.EmailAddress);
-            context.TimeZoneID.Should().Be(organization.TimeZoneID);
             context.SupportedCritters.Should().HaveCount(organization.SupportedCritters.Count());
         }
 
