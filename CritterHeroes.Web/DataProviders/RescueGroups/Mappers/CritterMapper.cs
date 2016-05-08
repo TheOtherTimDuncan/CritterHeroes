@@ -12,10 +12,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
 {
     public class CritterMapperContext : MapperContext<CritterSource, Critter>
     {
-        public CritterMapperContext(CritterSource source, Critter target, IAppEventPublisher publisher, string timeZoneID)
+        public CritterMapperContext(CritterSource source, Critter target, IAppEventPublisher publisher)
             : base(source, target, publisher)
         {
-            this.TimeZoneID = timeZoneID;
         }
 
         public Breed Breed
@@ -43,12 +42,6 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
         }
 
         public CritterColor Color
-        {
-            get;
-            set;
-        }
-
-        public string TimeZoneID
         {
             get;
             set;
@@ -192,7 +185,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                 .ForField
                 (
                     fieldName: "animalUpdatedDate",
-                    toAction: context => context.Target.RescueGroupsLastUpdated = context.Source.LastUpdated
+                    toAction: context => context.Target.RescueGroupsLastUpdated = DateTimeToDateTimeOffset(context.Source.LastUpdated)
                 )
                 .ForField
                 (
@@ -202,7 +195,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                 .ForField
                 (
                     fieldName: "animalCreatedDate",
-                    toAction: context => context.Target.RescueGroupsCreated = context.Source.Created
+                    toAction: context => context.Target.RescueGroupsCreated = DateTimeToDateTimeOffset(context.Source.Created)
                 )
                 .ForField
                 (

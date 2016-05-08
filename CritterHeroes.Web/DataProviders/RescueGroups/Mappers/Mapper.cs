@@ -30,19 +30,38 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
             _mapperConfiguration.MapTo(context, fieldNames);
         }
 
-        protected DateTime? ConvertTimeToOrganizationTime(DateTimeOffset? source, string timeZoneID)
+        /// <summary>
+        /// All Rescue Groups dates are in Eastern
+        /// </summary>
+        protected DateTime? DateTimeOffsetToDate(DateTimeOffset? source)
         {
-            if (source == null )
+            if (source == null)
             {
                 return null;
             }
 
-            if (timeZoneID.IsNullOrEmpty())
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(source.Value, "Eastern Standard Time").DateTime;
+        }
+
+        /// <summary>
+        /// All Rescue Groups dates are in Eastern
+        /// </summary>
+        protected DateTimeOffset? DateTimeToDateTimeOffset(DateTime? source)
+        {
+            if (source == null)
             {
-                return source.Value.DateTime;
+                return null;
             }
 
-            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(source.Value, timeZoneID).DateTime;
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            TimeSpan offset = timeZone.BaseUtcOffset;
+
+            if (timeZone.IsDaylightSavingTime(source.Value))
+            {
+                offset = offset.Add(TimeSpan.FromHours(1));
+            }
+
+            return new DateTimeOffset(source.Value, offset).ToUniversalTime();
         }
     }
 }

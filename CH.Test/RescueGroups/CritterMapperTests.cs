@@ -20,8 +20,6 @@ namespace CH.Test.RescueGroups
         {
             Guid organizationID = Guid.NewGuid();
 
-            string timeZoneID = "Eastern Standard Time";
-
             Species species = new Species("species", "singular", "plural");
 
             Breed breed = new Breed(species, "breed");
@@ -54,7 +52,7 @@ namespace CH.Test.RescueGroups
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object, timeZoneID)
+            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object)
             {
                 Color = color,
                 Foster = foster,
@@ -101,8 +99,6 @@ namespace CH.Test.RescueGroups
         {
             Guid organizationID = Guid.NewGuid();
 
-            string timeZoneID = "Eastern Standard Time";
-
             Species species = new Species("species", "singular", "plural");
 
             Breed breed = new Breed(species, "breed")
@@ -140,7 +136,7 @@ namespace CH.Test.RescueGroups
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object, timeZoneID)
+            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object)
             {
                 Color = color,
                 Foster = foster,
@@ -178,6 +174,72 @@ namespace CH.Test.RescueGroups
             source.IsOkWithDogs.Should().Be(target.IsOkWithDogs);
             source.IsOkWithKids.Should().Be(target.IsOkWithKids);
             source.OlderKidsOnly.Should().Be(target.OlderKidsOnly);
+        }
+
+        [TestMethod]
+        public void ConvertsCritterSourceDateTimeToUTC()
+        {
+            Species species = new Species("species", "singular", "plural");
+
+            Breed breed = new Breed(species, "breed");
+
+            CritterStatus status = new CritterStatus("status", "description");
+
+            Critter target = new Critter("critter", status, breed, Guid.NewGuid());
+
+            CritterSource source = new CritterSource()
+            {
+                LastUpdated = new DateTime(2001, 1, 15, 13, 0, 0),
+                Created = new DateTime(2001, 1, 15, 14, 0, 0)
+            };
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object)
+            {
+                Color = new CritterColor("color"),
+                Breed = breed,
+                Status = status
+            };
+
+            CritterMapper mapper = new CritterMapper();
+            mapper.MapSourceToTarget(context);
+
+            target.RescueGroupsLastUpdated.Value.DateTime.Should().Be(source.LastUpdated.Value.AddHours(5), "converted from Eastern to UTC");
+            target.RescueGroupsCreated.Value.DateTime.Should().Be(source.Created.Value.AddHours(5), "converted from Eastern to UTC");
+        }
+
+        [TestMethod]
+        public void ConvertsCritterSourceDateTimeToUTCForDaylightSavings()
+        {
+            Species species = new Species("species", "singular", "plural");
+
+            Breed breed = new Breed(species, "breed");
+
+            CritterStatus status = new CritterStatus("status", "description");
+
+            Critter target = new Critter("critter", status, breed, Guid.NewGuid());
+
+            CritterSource source = new CritterSource()
+            {
+                LastUpdated = new DateTime(2001, 6, 4, 13, 0, 0),
+                Created = new DateTime(2001, 6, 4, 14, 0, 0)
+            };
+
+            Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
+
+            CritterMapperContext context = new CritterMapperContext(source, target, mockPublisher.Object)
+            {
+                Color = new CritterColor("color"),
+                Breed = breed,
+                Status = status
+            };
+
+            CritterMapper mapper = new CritterMapper();
+            mapper.MapSourceToTarget(context);
+
+            target.RescueGroupsLastUpdated.Value.DateTime.Should().Be(source.LastUpdated.Value.AddHours(4), "converted from Eastern to UTC with Daylight Savings");
+            target.RescueGroupsCreated.Value.DateTime.Should().Be(source.Created.Value.AddHours(4), "converted from Eastern to UTC with Daylight Savings");
         }
     }
 }

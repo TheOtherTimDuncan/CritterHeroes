@@ -194,7 +194,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
-                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher, _orgContext.TimeZoneID)
+                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
@@ -250,7 +250,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
             {
                 Critter critter = await _critterStorage.Critters.FindByRescueGroupsIDAsync(source.ID);
 
-                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher, _orgContext.TimeZoneID)
+                CritterMapperContext context = new CritterMapperContext(source, critter, _publisher)
                 {
                     Status = await GetCritterStatusAsync(source.StatusID, source.Status),
                     Breed = await GetBreedAsync(source.PrimaryBreedID, source.PrimaryBreed, source.Species),
