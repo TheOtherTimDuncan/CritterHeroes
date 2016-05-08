@@ -80,7 +80,7 @@ namespace CH.DatabaseMigrator.Migrations
                     OrganizationID = c.Guid(nullable: false),
                     StatusID = c.Int(nullable: false),
                     LocationID = c.Int(),
-                    RescueGroupsLastUpdated = c.DateTime(storeType: "date"),
+                    RescueGroupsLastUpdated = c.DateTimeOffset(precision: 7),
                     RescueGroupsCreated = c.DateTimeOffset(precision: 7),
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     WhenUpdated = c.DateTimeOffset(nullable: false, precision: 7),

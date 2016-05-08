@@ -27,7 +27,6 @@ namespace CritterHeroes.Web.Data.Configurations
             Property(x => x.GeneralAge).IsUnicode(false).HasMaxLength(10);
             Property(x => x.BirthDate).IsDateOnly();
             Property(x => x.ReceivedDate).IsDateOnly();
-            Property(x => x.RescueGroupsLastUpdated).IsDateOnly();
             Property(x => x.EuthanasiaDate).IsDateOnly();
             Property(x => x.EuthanasiaReason).HasMaxLength(15);
             Property(x => x.Notes).IsMaxLength();
