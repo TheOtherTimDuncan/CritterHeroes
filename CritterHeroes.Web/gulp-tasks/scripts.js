@@ -63,6 +63,7 @@ module.exports = function (gulp, plugins, common) {
             appScripts + '/bundled/ch.common.js',
             appScripts + '/bundled/ch.pubsub.js',
             appScripts + '/bundled/ch.cookie.js',
+            appScripts + '/bundled/ch.timezone.js',
             appScripts + '/bundled/ch.data.js',
             appScripts + '/bundled/ch.history.js',
             appScripts + '/bundled/ch.pagify.js',
