@@ -8,7 +8,7 @@
     <script id="email-template" type="text/template">
         @Html.Raw(Model.HtmlBody)
     </script>
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             var innerDoc = document.getElementById('email').contentWindow.document;
             innerDoc.write($('#email-template').html());

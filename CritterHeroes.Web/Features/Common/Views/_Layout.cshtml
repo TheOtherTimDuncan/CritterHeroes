@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Thanks to http://realfavicongenerator.net/ -->
@@ -24,8 +24,8 @@
 
     <title>@ViewBag.Title - Critter Heroes</title>
 
-    <link type="text/css" rel="stylesheet" href="@Url.For("normalize.css")" />
-    <link type="text/css" rel="stylesheet" href="@Url.For("site.css")" />
+    <link rel="stylesheet" href="@Url.For("normalize.css")">
+    <link rel="stylesheet" href="@Url.For("site.css")">
 
     @RenderSection("css", required: false)
 
@@ -47,25 +47,25 @@
         <p>&copy; @DateTime.Now.Year - The Other Tim Duncan - Critter Heroes</p>
     </footer>
 
-    <script type="text/javascript" src="@Url.For("ch.cdnFallback.js")"></script>
+    <script src="@Url.For("ch.cdnFallback.js")"></script>
 
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.1.min.js"></script>
-    <script type="text/javascript">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.1.min.js"></script>
+    <script>
         cheroes.cdnFallback.jqueryFallback('@Url.For("jquery.js")');
     </script>
 
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
-    <script type="text/javascript">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+    <script>
         cheroes.cdnFallback.jqueryValidationFallback('@Url.For("jquery.validate.js")');
     </script>
 
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
-    <script type="text/javascript">
+    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+    <script>
         cheroes.cdnFallback.unobtrusiveFallback('@Url.For("jquery.validate.unobtrusive.js")');
     </script>
 
-    <script type="text/javascript" src="@Url.For("ch.dropdownify.js")"></script>
-    <script type="text/javascript" src="@Url.For("cheroes.js")"></script>
+    <script src="@Url.For("ch.dropdownify.js")"></script>
+    <script src="@Url.For("cheroes.js")"></script>
 
     @RenderSection("scripts", required: false)
 

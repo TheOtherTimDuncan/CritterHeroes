@@ -6,7 +6,7 @@
 
 @section scripts
 {
-    <script type="text/javascript">
+    <script>
 
         (function (cheroes, $) {
 
@@ -62,7 +62,7 @@
     @Html.AntiForgeryToken()
 
     <section>
-        <input type="submit" class="btn btn-primary" value="Import" />
+        <input type="submit" class="btn btn-primary" value="Import">
         <span id="importing"></span>
     </section>
 
@@ -75,7 +75,7 @@
         @foreach (string fieldName in Model.FieldNames)
         {
             <div class="flex-row pad-def">
-                <input type="checkbox" id="FieldName_@fieldName" name="FieldNames" value="@fieldName" checked="checked" />
+                <input type="checkbox" id="FieldName_@fieldName" name="FieldNames" value="@fieldName" checked="checked">
                 <label for="FieldName_@fieldName" class="flex-cell-s1 margin-left-xs">@fieldName</label>
             </div>
         }

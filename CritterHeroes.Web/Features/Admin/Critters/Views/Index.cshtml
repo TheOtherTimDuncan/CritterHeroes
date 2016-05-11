@@ -5,15 +5,15 @@
 }
 
 @section scripts{
-    <script type="text/javascript">
+    <script>
         (function (cheroes) {
             cheroes.query = @JavascriptConvert.SerializeObject(Model.Query);
             cheroes.pictureUrl='@Url.Picture()';
         })(this.cheroes = this.cheroes || {});
     </script>
-    <script type="text/javascript" src="@Url.For("handlebars.runtime.js")"></script>
-    <script type="text/javascript" src="@Url.For("ch.critters-template.js")"></script>
-    <script type="text/javascript" src="@Url.For("ch.admin-critters.js")"></script>
+    <script src="@Url.For("handlebars.runtime.js")"></script>
+    <script src="@Url.For("ch.critters-template.js")"></script>
+    <script src="@Url.For("ch.admin-critters.js")"></script>
 }
 
 <h2>Critters</h2>

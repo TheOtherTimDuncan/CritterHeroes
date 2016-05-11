@@ -19,7 +19,7 @@
                 <p>Please enter your new email address.</p>
                 <div class="input-group">
                     <div class="input-group-icon"><span class="icon-email"></span></div>
-                    <input type="email" id="@Html.IdFor(x => x.NewEmail)" name="@Html.NameFor(x => x.NewEmail)" value="@Html.ValueFor(x => x.NewEmail)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.NewEmail) />
+                    <input type="email" id="@Html.IdFor(x => x.NewEmail)" name="@Html.NameFor(x => x.NewEmail)" value="@Html.ValueFor(x => x.NewEmail)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.NewEmail)>
                 </div>
                 @Html.ValidationMessageFor(m => m.NewEmail)
             </section>
@@ -28,7 +28,7 @@
         <div class="modal-footer">
             <span class="busy message hidden">Saving...</span>
             <span id="button-container">
-                <input id="save-email" type="submit" class="btn btn-primary" value="Save" />
+                <input id="save-email" type="submit" class="btn btn-primary" value="Save">
                 <button id="close" type="button" data-modal-close="" class="btn btn-primary">Cancel</button>
             </span>
         </div>

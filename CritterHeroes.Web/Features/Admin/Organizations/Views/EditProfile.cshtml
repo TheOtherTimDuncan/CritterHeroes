@@ -5,8 +5,8 @@
 }
 
 @section scripts{
-    <script type="text/javascript" src="@Url.For("dropzone.js")"></script>
-    <script type="text/javascript" src="@Url.For("ch.organization-edit-profile.js")"></script>
+    <script src="@Url.For("dropzone.js")"></script>
+    <script src="@Url.For("ch.organization-edit-profile.js")"></script>
 }
 
 <div id="modal" class="modal-container fade slide-down">
@@ -34,7 +34,7 @@
                 <label for="@Html.IdFor(x => x.Name)">Name</label>
                 <div class="input-group">
                     <div class="input-group-icon"><span class="icon-house"></span></div>
-                    <input type="text" id="@Html.IdFor(x => x.Name)" name="@Html.NameFor(x => x.Name)" value="@Html.ValueFor(x => x.Name)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.Name) />
+                    <input type="text" id="@Html.IdFor(x => x.Name)" name="@Html.NameFor(x => x.Name)" value="@Html.ValueFor(x => x.Name)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.Name)>
                 </div>
                 @Html.ValidationMessageFor(m => m.Name)
             </section>
@@ -43,7 +43,7 @@
                 <label for="@Html.IdFor(x => x.ShortName)">Abbreviated Name</label>
                 <div class="input-group">
                     <div class="input-group-icon"><span class="icon-house"></span></div>
-                    <input type="text" id="@Html.IdFor(x => x.ShortName)" name="@Html.NameFor(x => x.ShortName)" value="@Html.ValueFor(x => x.ShortName)" @Html.ValidationAttributesFor(x => x.ShortName) />
+                    <input type="text" id="@Html.IdFor(x => x.ShortName)" name="@Html.NameFor(x => x.ShortName)" value="@Html.ValueFor(x => x.ShortName)" @Html.ValidationAttributesFor(x => x.ShortName)>
                 </div>
                 @Html.ValidationMessageFor(m => m.ShortName)
             </section>
@@ -52,7 +52,7 @@
                 <label for="@Html.IdFor(x => x.Email)">Email</label>
                 <div class="input-group">
                     <div class="input-group-icon"><span class="icon-email"></span></div>
-                    <input type="email" id="@Html.IdFor(x => x.Email)" name="@Html.NameFor(x => x.Email)" value="@Html.ValueFor(x => x.Email)" @Html.ValidationAttributesFor(x => x.Email) />
+                    <input type="email" id="@Html.IdFor(x => x.Email)" name="@Html.NameFor(x => x.Email)" value="@Html.ValueFor(x => x.Email)" @Html.ValidationAttributesFor(x => x.Email)>
                 </div>
                 @Html.ValidationMessageFor(m => m.Email)
             </section>
@@ -79,7 +79,7 @@
         </section>
 
         <section>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save">
             @Html.CancelButton()
         </section>
 
