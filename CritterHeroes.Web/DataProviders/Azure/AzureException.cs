@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CritterHeroes.Web.Common;
+using CritterHeroes.Web.Shared;
 
 namespace CritterHeroes.Web.DataProviders.Azure
 {

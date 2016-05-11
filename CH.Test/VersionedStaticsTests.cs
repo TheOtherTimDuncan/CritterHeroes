@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Common.VersionedStatics;
 using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Shared.VersionedStatics;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

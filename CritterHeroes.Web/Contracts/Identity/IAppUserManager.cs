@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Identity;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Shared.Identity;
 using Microsoft.AspNet.Identity;
 
 namespace CritterHeroes.Web.Contracts.Identity

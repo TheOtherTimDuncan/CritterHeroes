@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Features.Common.Models;
-using CritterHeroes.Web.Features.Common.Queries;
+using CritterHeroes.Web.Features.Shared.Models;
+using CritterHeroes.Web.Features.Shared.Queries;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

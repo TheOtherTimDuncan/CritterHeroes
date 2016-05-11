@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Account.Models;
+using CritterHeroes.Web.Shared.Queries;
 
 namespace CritterHeroes.Web.Features.Account.Queries
 {

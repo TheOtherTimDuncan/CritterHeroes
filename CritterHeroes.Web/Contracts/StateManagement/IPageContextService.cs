@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Common.StateManagement;
+using CritterHeroes.Web.Shared.StateManagement;
 
 namespace CritterHeroes.Web.Contracts.StateManagement
 {

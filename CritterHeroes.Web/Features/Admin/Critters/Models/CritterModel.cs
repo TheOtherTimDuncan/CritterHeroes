@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Common;
+using CritterHeroes.Web.Shared;
 
 namespace CritterHeroes.Web.Features.Admin.Critters.Models
 {

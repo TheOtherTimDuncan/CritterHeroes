@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using CritterHeroes.Web.Common.Events;
-using CritterHeroes.Web.Common.Logging;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Models.Emails;
 using CritterHeroes.Web.Models.LogEvents;
+using CritterHeroes.Web.Shared.Events;
+using CritterHeroes.Web.Shared.Logging;
 using FluentAssertions;
 using Microsoft.Owin;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Common.ActionResults;
+using CritterHeroes.Web.Shared.ActionResults;
 using FluentAssertions;
 
 namespace CH.Test.ControllerTests.TestHelpers

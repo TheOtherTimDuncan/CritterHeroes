@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Features.Home.Models;
+using CritterHeroes.Web.Shared.Identity;
+using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Utility.Misc;
 
 namespace CritterHeroes.Web.Features.Home.Queries

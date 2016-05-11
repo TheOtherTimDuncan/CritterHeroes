@@ -1,5 +1,5 @@
 ﻿using System;
-using CritterHeroes.Web.Common;
+using CritterHeroes.Web.Shared;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups
 {

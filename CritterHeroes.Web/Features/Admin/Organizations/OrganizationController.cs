@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Features.Admin.Organizations.Models;
 using CritterHeroes.Web.Features.Admin.Organizations.Queries;
+using CritterHeroes.Web.Shared.Commands;
 
 namespace CritterHeroes.Web.Features.Admin.Organizations
 {

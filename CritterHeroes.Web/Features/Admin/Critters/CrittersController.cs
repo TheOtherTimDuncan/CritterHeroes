@@ -8,7 +8,7 @@ using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
 using CritterHeroes.Web.Features.Admin.Critters.Queries;
-using CritterHeroes.Web.Features.Common;
+using CritterHeroes.Web.Features.Shared;
 
 namespace CritterHeroes.Web.Features.Admin.Critters
 {

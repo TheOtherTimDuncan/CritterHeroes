@@ -1,5 +1,5 @@
 ﻿using System;
-using CritterHeroes.Web.Common.Validation;
+using CritterHeroes.Web.Shared.Validation;
 using FluentValidation.Mvc;
 
 namespace CritterHeroes.Web

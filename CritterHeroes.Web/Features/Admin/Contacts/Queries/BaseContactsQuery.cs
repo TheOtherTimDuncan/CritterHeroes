@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Features.Common.Queries;
+using CritterHeroes.Web.Features.Shared.Queries;
 
 namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
 {

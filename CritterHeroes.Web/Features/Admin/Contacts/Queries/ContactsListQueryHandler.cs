@@ -6,7 +6,7 @@ using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
-using CritterHeroes.Web.Features.Common.Models;
+using CritterHeroes.Web.Features.Shared.Models;
 using TOTD.EntityFramework;
 using TOTD.Utility.StringHelpers;
 

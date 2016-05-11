@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Models.LogEvents;
+using CritterHeroes.Web.Shared;
 using Moq;
-using Newtonsoft.Json;
 using Serilog;
 using TOTD.EntityFramework;
 

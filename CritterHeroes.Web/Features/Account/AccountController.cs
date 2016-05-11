@@ -4,16 +4,16 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Common.Commands;
-using CritterHeroes.Web.Common.Identity;
-using CritterHeroes.Web.Common.Queries;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Features.Account.Queries;
 using CritterHeroes.Web.Features.Admin.Critters;
-using CritterHeroes.Web.Features.Common;
-using CritterHeroes.Web.Features.Common.Models;
+using CritterHeroes.Web.Features.Shared;
+using CritterHeroes.Web.Features.Shared.Models;
+using CritterHeroes.Web.Shared.Commands;
+using CritterHeroes.Web.Shared.Identity;
+using CritterHeroes.Web.Shared.Queries;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Features.Account

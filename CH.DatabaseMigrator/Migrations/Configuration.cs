@@ -6,10 +6,10 @@ namespace CH.DatabaseMigrator.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Threading.Tasks;
-    using CritterHeroes.Web.Common.Identity;
     using CritterHeroes.Web.Data.Models;
     using CritterHeroes.Web.Data.Models.Identity;
     using CritterHeroes.Web.Data.Storage;
+    using CritterHeroes.Web.Shared.Identity;
     using EntityFramework.DatabaseMigrator.Migrations;
 
     public sealed class Configuration : BaseMigrationConfiguration<CH.DatabaseMigrator.Migrations.MigrationsDataContext>

@@ -17,14 +17,14 @@ namespace CritterHeroes
             { 
                 "~/Features/{1}/Views/{0}.cshtml",
                 "~/Features/{1}s/Views/{0}.cshtml",
-                "~/Features/Common/Views/{0}.cshtml"
+                "~/Features/Shared/Views/{0}.cshtml"
             };
 
             string[] areaLocations = new string[] 
             {
                 "~/Features/{2}/{1}/Views/{0}.cshtml",
                 "~/Features/{2}/{1}s/Views/{0}.cshtml",
-                "~/Features/{2}/Views/{0}.cshtml"
+                "~/Features/{2}/Shared/{0}.cshtml"
             };
 
             viewEngines.Clear();

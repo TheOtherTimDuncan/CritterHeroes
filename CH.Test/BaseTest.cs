@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using CritterHeroes.Web.Common.StateManagement;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Shared.StateManagement;
 using FluentAssertions;
-using TOTD.Utility.EnumerableHelpers;
-using TOTD.Utility.Misc;
 
 namespace CH.Test
 {

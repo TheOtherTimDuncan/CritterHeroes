@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Features.Common;
+using CritterHeroes.Web.Features.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TOTD.Mvc;
 

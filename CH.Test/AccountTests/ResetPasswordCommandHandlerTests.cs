@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
@@ -10,6 +9,7 @@ using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Account.Commands;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Models.LogEvents;
+using CritterHeroes.Web.Shared.Commands;
 using FluentAssertions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;

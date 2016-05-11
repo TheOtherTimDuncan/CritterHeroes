@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Common.Commands;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Models.LogEvents;
+using CritterHeroes.Web.Shared.Commands;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace CritterHeroes.Web.Features.Account.Commands
