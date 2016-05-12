@@ -259,6 +259,7 @@
     <Content Include="Features\Admin\Critters\Views\Import.cshtml" />
     <None Include="AppSettings.config" />
     <None Include="ConnectionStrings.config" />
+    <Content Include="Features\Components\Views\CancelButton.cshtml" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -484,9 +485,13 @@
     <Compile Include="Features\Admin\Contacts\Commands\ImportBusinessCommandHandler.cs" />
     <Compile Include="Features\Admin\Contacts\Commands\ImportPeopleCommandHandler.cs" />
     <Compile Include="Features\Admin\Contacts\ContactsController.cs" />
+    <Compile Include="Features\Components\ComponentsController.cs" />
+    <Compile Include="Features\Components\Models\CancelButtonModel.cs" />
+    <Compile Include="Features\Components\Queries\CancelButtonQueryHandler.cs" />
     <Compile Include="Features\Shared\ActionExtensions\AccountActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\AdminCritterActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\AdminContactsActionExtensions.cs" />
+    <Compile Include="Features\Shared\ActionExtensions\ComponentActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\EmailActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\ErrorLogActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\HomeActionExtensions.cs" />

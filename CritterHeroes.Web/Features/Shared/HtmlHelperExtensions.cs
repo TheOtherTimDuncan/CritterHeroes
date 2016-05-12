@@ -4,32 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Features.Shared.ActionExtensions;
-using CritterHeroes.Web.Shared.StateManagement;
-using TOTD.Utility.Misc;
 
 namespace CritterHeroes.Web.Features.Shared
 {
     public static class HtmlHelperExtensions
     {
-        public static MvcHtmlString CancelButton(this HtmlHelper htmlHelper)
-        {
-            TagBuilder builder = new TagBuilder("a");
-            builder.AddCssClass("btn btn-info");
-            builder.SetInnerText("Cancel");
-            builder.MergeAttribute("title", "Cancel");
-
-            IPageContextService pageContextService = DependencyResolver.Current.GetService<IPageContextService>();
-            PageContext pageContext = pageContextService.GetPageContext();
-
-            UrlHelper urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
-            string previousUrl = urlHelper.Local(pageContext.IfNotNull(x => x.PreviousPath));
-            builder.MergeAttribute("href", previousUrl);
-
-            return new MvcHtmlString(builder.ToString());
-        }
-
         public static string ModelStateClassFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
