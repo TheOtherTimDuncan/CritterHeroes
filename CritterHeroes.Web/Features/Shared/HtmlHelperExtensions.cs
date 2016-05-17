@@ -4,29 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace CritterHeroes.Web.Features.Shared
 {
     public static class HtmlHelperExtensions
     {
-        public static string ModelStateClassFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
-        {
-            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            string name = ExpressionHelper.GetExpressionText(expression);
-            string fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
-
-            ModelState modelState;
-            if (htmlHelper.ViewData.ModelState.TryGetValue(fullName, out modelState))
-            {
-                if (modelState.Errors.Count > 0)
-                {
-                    return HtmlHelper.ValidationInputCssClassName;
-                }
-            }
-
-            return null;
-        }
-
         public static MvcHtmlString ValidationAttributesFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);

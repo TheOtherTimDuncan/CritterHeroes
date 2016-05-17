@@ -43,21 +43,27 @@
     </section>
 
     <section>
-        <label for="@Html.IdFor(x => x.Email)">Email</label>
-        <div class="input-group">
-            <div class="input-group-icon"><span class="icon-email"></span></div>
-            <input type="email" id="@Html.IdFor(x => x.Email)" name="@Html.NameFor(x => x.Email)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.Email)>
-        </div>
-        @Html.ValidationMessageFor(m => m.Email)
+        @using (var property = Html.BeginProperty(x => x.Email))
+        {
+            <label for="@property.ID">Email</label>
+            <div class="input-group">
+                <div class="input-group-icon"><span class="icon-email"></span></div>
+                <input type="email" id="@property.ID" name="@property.Name" autofocus @property.ValidationAttributes>
+            </div>
+            @property.ValidationMessage
+        }
     </section>
 
     <section>
-        <label for="@Html.IdFor(x => x.ConfirmationCode)">Confirmation code</label>
-        <div class="input-group">
-            <div class="input-group-icon"><span class="icon-lock"></span></div>
-            <input type="text" id="@Html.IdFor(x => x.ConfirmationCode)" name="@Html.NameFor(x => x.ConfirmationCode)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.ConfirmationCode)>
-        </div>
-        @Html.ValidationMessageFor(m => m.ConfirmationCode)
+        @using (var property = Html.BeginProperty(x => x.ConfirmationCode))
+        {
+            <label for="@property.ID">Confirmation code</label>
+            <div class="input-group">
+                <div class="input-group-icon"><span class="icon-lock"></span></div>
+                <input type="text" id="@property.ID" name="@property.Name" autofocus @property.ValidationAttributes>
+            </div>
+            @property.ValidationMessage
+        }
     </section>
 
     <section>

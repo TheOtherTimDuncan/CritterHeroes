@@ -14,26 +14,32 @@
     @Html.AntiForgeryToken()
 
     <section>
-        <label for="@Html.IdFor(x => x.Email)">Email</label>
-        <div class="input-group">
-            <div class="input-group-icon"><span class="icon-email"></span></div>
-            <input type="email" id="@Html.IdFor(x => x.Email)" name="@Html.NameFor(x => x.Email)" autofocus="autofocus" @Html.ValidationAttributesFor(x => x.Email)>
-        </div>
-        @Html.ValidationMessageFor(m => m.Email)
+        @using (var property = Html.BeginProperty(x => x.Email))
+        {
+            <label for="@property.ID">Email</label>
+            <div class="input-group">
+                <div class="input-group-icon"><span class="icon-email"></span></div>
+                <input type="email" id="@property.ID" name="@property.Name" autofocus @property.ValidationAttributes>
+            </div>
+            @property.ValidationMessage
+        }
     </section>
 
     <section>
-        <label for="@Html.IdFor(x => x.Password)">Password</label>
-        <div class="input-group">
-            <div class="input-group-icon"><span class="icon-lock"></span></div>
-            <input type="password" id="@Html.IdFor(x => x.Password)" name="@Html.NameFor(x => x.Password)" @Html.ValidationAttributesFor(x => x.Password)>
-            <button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountForgotPasswordAction()">?</button>
-        </div>
-        @Html.ValidationMessageFor(m => m.Password)
+        @using (var property = Html.BeginProperty(x => x.Password))
+        {
+            <label for="@property.ID">Password</label>
+            <div class="input-group">
+                <div class="input-group-icon"><span class="icon-lock"></span></div>
+                <input type="password" id="@property.ID" name="@property.Name" @property.ValidationAttributes>
+                <button type="button" id="forgot-password" title="Forgot password?" class="btn btn-info" tabindex="-1" data-url="@Url.AccountForgotPasswordAction()">?</button>
+            </div>
+            @property.ValidationMessage
+        }
     </section>
 
     <section>
-        @Html.ValidationSummary(true, null)
+        @Html.ValidationSummary(true)
     </section>
 
     <section class="flex-row">

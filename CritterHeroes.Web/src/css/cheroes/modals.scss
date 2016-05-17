@@ -61,6 +61,10 @@
     @include flex-center();
     padding: $modal-inner-padding;
     border-top: 1px solid $modal-footer-border-color;
+
+    > button, > input{
+        margin-left: $padding-xs-vertical;
+    }
 }
 
 .modal-backdrop {

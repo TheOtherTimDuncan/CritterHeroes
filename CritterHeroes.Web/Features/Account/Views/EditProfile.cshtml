@@ -13,7 +13,7 @@
     @Html.AntiForgeryToken()
 
     <section>
-        @Html.ValidationSummary(true, null)
+        @Html.ValidationSummary(true)
     </section>
 
     <section>
@@ -34,21 +34,27 @@
     </section>
 
     <section>
-        <label for="@Html.IdFor(x => x.FirstName)">First Name</label>
-        <div class="input-group">
-            <span class="input-group-icon"><span class="icon-user"></span></span>
-            <input type="text" id="@Html.IdFor(x => x.FirstName)" name="@Html.NameFor(x => x.FirstName)" value="@Html.ValueFor(x => x.FirstName)" @Html.ValidationAttributesFor(x => x.FirstName)>
-        </div>
-        @Html.ValidationMessageFor(m => m.FirstName)
+        @using (var property = Html.BeginProperty(x => x.FirstName))
+        {
+            <label for="@property.ID">First Name</label>
+            <div class="input-group">
+                <span class="input-group-icon"><span class="icon-user"></span></span>
+                <input type="text" id="@property.ID" name="@property.Name" value="@Model.FirstName" @property.ValidationAttributes>
+            </div>
+            @property.ValidationMessage
+        }
     </section>
 
     <section>
-        <label for="@Html.IdFor(x => x.LastName)">Last Name</label>
-        <div class="input-group">
-            <span class="input-group-icon"><span class="icon-user"></span></span>
-            <input type="text" id="@Html.IdFor(x => x.LastName)" name="@Html.NameFor(x => x.LastName)" value="@Html.ValueFor(x => x.LastName)" @Html.ValidationAttributesFor(x => x.LastName)>
-        </div>
-        @Html.ValidationMessageFor(m => m.LastName)
+        @using (var property = Html.BeginProperty(x => x.LastName))
+        {
+            <label for="@property.ID">Last Name</label>
+            <div class="input-group">
+                <span class="input-group-icon"><span class="icon-user"></span></span>
+                <input type="text" id="@property.ID" name="@property.Name" value="@Model.LastName" @property.ValidationAttributes>
+            </div>
+            @property.ValidationMessage
+        }
     </section>
 
     <section>

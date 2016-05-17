@@ -501,6 +501,7 @@
     <Compile Include="Features\Shared\AuthorizeRolesAttribute.cs" />
     <Compile Include="Features\Shared\BaseController.cs" />
     <Compile Include="Features\Shared\HtmlHelperExtensions.cs" />
+    <Compile Include="Features\Shared\HtmlPropertyHelper.cs" />
     <Compile Include="Features\Shared\JavascriptConvert.cs" />
     <Compile Include="Features\Shared\Models\BaseSelectOptionModel.cs" />
     <Compile Include="Features\Shared\Models\PagingModel.cs" />
