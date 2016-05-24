@@ -44,6 +44,11 @@ namespace CritterHeroes.Web.DataProviders.Azure
             return FixCaseForBlobPath($"{_appConfiguration.BlobBaseUrl}/{GetContainerName()}/{path}");
         }
 
+        public string GetNotFoundUrl()
+        {
+            return CreateBlobUrl("image-not-found.svg");
+        }
+
         public async Task<bool> DeleteBlobAsync(string path, bool isPrivate)
         {
             CloudBlockBlob blob = await GetBlockBlobAsync(path, isPrivate);

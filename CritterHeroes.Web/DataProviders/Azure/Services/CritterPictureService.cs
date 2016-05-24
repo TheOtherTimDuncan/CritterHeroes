@@ -31,7 +31,7 @@ namespace CritterHeroes.Web.DataProviders.Azure.Services
 
         public string GetNotFoundUrl()
         {
-            return _azureService.CreateBlobUrl("image-not-found.svg");
+            return _azureService.GetNotFoundUrl();
         }
 
         public async Task GetPictureAsync(int critterID, string filename, Stream outputStream)

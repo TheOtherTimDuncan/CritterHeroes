@@ -27,5 +27,12 @@ namespace CritterHeroes.Web.Features.Components
             CancelButtonModel model = QueryDispatcher.Dispatch(new CancelButtonQuery());
             return PartialView(model);
         }
+
+        [AllowAnonymous]
+        public ActionResult ImageNotFound()
+        {
+            string url = QueryDispatcher.Dispatch(new ImageNotFoundQuery());
+            return Redirect(url);
+        }
     }
 }

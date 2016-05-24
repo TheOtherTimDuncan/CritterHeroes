@@ -13,5 +13,10 @@ namespace CritterHeroes.Web.Features.Shared.ActionExtensions
         {
             return htmlHelper.Action(nameof(ComponentsController.CancelButton), ComponentsController.Route, AreaName.NoAreaRouteValue);
         }
+
+        public static string ComponentImageNotFoundAction(this UrlHelper urlHelper)
+        {
+            return urlHelper.Action("ImageNotFound", ComponentsController.Route);
+        }
     }
 }

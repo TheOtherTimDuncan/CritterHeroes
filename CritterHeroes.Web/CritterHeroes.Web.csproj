@@ -488,6 +488,7 @@
     <Compile Include="Features\Components\ComponentsController.cs" />
     <Compile Include="Features\Components\Models\CancelButtonModel.cs" />
     <Compile Include="Features\Components\Queries\CancelButtonQueryHandler.cs" />
+    <Compile Include="Features\Components\Queries\ImageNotFoundQueryHandler.cs" />
     <Compile Include="Features\Shared\ActionExtensions\AccountActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\AdminCritterActionExtensions.cs" />
     <Compile Include="Features\Shared\ActionExtensions\AdminContactsActionExtensions.cs" />
