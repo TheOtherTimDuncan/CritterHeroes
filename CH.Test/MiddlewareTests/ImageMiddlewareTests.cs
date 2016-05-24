@@ -20,17 +20,22 @@ namespace CH.Test.MiddlewareTests
     public class ImageMiddlewareTests
     {
         [TestMethod]
-        public async Task ReturnsBadRequestIfCritterIDNotInCorrectSegment()
+        public async Task ReturnsNotFoundImageIfCritterIDNotInCorrectSegment()
         {
+            string notFound = "notfound";
+
+            Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
+            mockPictureService.Setup(x => x.GetNotFoundUrl()).Returns(notFound);
+
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
+            mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request.Path).Returns(new PathString($"{ImageMiddleware.Route}/zz/test.jpg"));
             mockOwinContext.Setup(x => x.Request.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
-            mockResponse.SetupProperty(x => x.StatusCode);
             mockOwinContext.Setup(x => x.Response).Returns(mockResponse.Object);
 
             TestEndMiddleware testMiddleware = new TestEndMiddleware();
@@ -39,14 +44,16 @@ namespace CH.Test.MiddlewareTests
             ImageMiddleware middleware = new ImageMiddleware(testMiddleware, mockResolver.Object);
             await middleware.Invoke(mockOwinContext.Object);
 
-            mockResponse.Object.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+            mockResponse.Verify(x => x.Redirect(notFound), Times.Once);
 
             testMiddleware.isInvoked.Should().BeFalse();
         }
 
         [TestMethod]
-        public async Task ReturnsNotFoundIfCritterIDDoesNotMatchExistingCritter()
+        public async Task ReturnsNotFoundImageIfCritterIDDoesNotMatchExistingCritter()
         {
+            string notFound = "notfound";
+
             Dictionary<string, string[]> queryValues = new Dictionary<string, string[]>();
             queryValues["width"] = new string[] { "100" };
 
@@ -55,6 +62,7 @@ namespace CH.Test.MiddlewareTests
             MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>();
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
+            mockPictureService.Setup(x => x.GetNotFoundUrl()).Returns(notFound);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
@@ -67,7 +75,6 @@ namespace CH.Test.MiddlewareTests
             mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/1/test.jpg"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
-            mockResponse.SetupProperty(x => x.StatusCode);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request).Returns(mockRequest.Object);
@@ -79,7 +86,7 @@ namespace CH.Test.MiddlewareTests
             ImageMiddleware middleware = new ImageMiddleware(testMiddleware, mockResolver.Object);
             await middleware.Invoke(mockOwinContext.Object);
 
-            mockResponse.Object.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            mockResponse.Verify(x => x.Redirect(notFound), Times.Once);
 
             testMiddleware.isInvoked.Should().BeFalse();
         }
@@ -123,9 +130,10 @@ namespace CH.Test.MiddlewareTests
         }
 
         [TestMethod]
-        public async Task ReturnsNotFoundIfCritterDoesNotHavePictureWithMatchingFilename()
+        public async Task ReturnsNotFoundImageIfCritterDoesNotHavePictureWithMatchingFilename()
         {
             string filename = "test.jpg";
+            string notFound = "notfound";
 
             Critter critter = new Critter("critter", new CritterStatus("status", "status"), new Breed(new Species("species", "singular", "plural"), "breed"), Guid.NewGuid(), rescueGroupsID: 99).SetEntityID(x => x.ID);
 
@@ -137,6 +145,7 @@ namespace CH.Test.MiddlewareTests
             MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>(critter);
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
+            mockPictureService.Setup(x => x.GetNotFoundUrl()).Returns(notFound);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
@@ -149,7 +158,6 @@ namespace CH.Test.MiddlewareTests
             mockRequest.Setup(x => x.Uri).Returns(new Uri($"http://localhost{ImageMiddleware.Route}/{critter.ID}/{filename}"));
 
             Mock<IOwinResponse> mockResponse = new Mock<IOwinResponse>();
-            mockResponse.SetupProperty(x => x.StatusCode);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
             mockOwinContext.Setup(x => x.Request).Returns(mockRequest.Object);
@@ -161,7 +169,7 @@ namespace CH.Test.MiddlewareTests
             ImageMiddleware middleware = new ImageMiddleware(testMiddleware, mockResolver.Object);
             await middleware.Invoke(mockOwinContext.Object);
 
-            mockResponse.Object.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            mockResponse.Verify(x => x.Redirect(notFound), Times.Once);
 
             testMiddleware.isInvoked.Should().BeFalse();
         }

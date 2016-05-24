@@ -39,6 +39,8 @@ namespace CritterHeroes.Web.Middleware
 
         public override async Task Invoke(IOwinContext context)
         {
+            ICritterPictureService pictureService = _dependencyResolver.GetService<ICritterPictureService>();
+
             int segmentCount = context.Request.Uri.Segments.Length;
 
             // Critter ID should be an integer and in the url segment before the filename
@@ -49,12 +51,11 @@ namespace CritterHeroes.Web.Middleware
             int critterID;
             if (!int.TryParse(critterIDSegment, out critterID))
             {
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.Redirect(pictureService.GetNotFoundUrl());
                 return;
             }
 
             string filename = context.Request.Uri.Segments[segmentCount - 1];
-            ICritterPictureService pictureService = _dependencyResolver.GetService<ICritterPictureService>();
 
             if (context.Request.Query.IsNullOrEmpty())
             {
@@ -69,14 +70,14 @@ namespace CritterHeroes.Web.Middleware
             Critter critter = await critterStorage.Entities.FindByIDAsync(critterID);
             if (critter == null)
             {
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                context.Response.Redirect(pictureService.GetNotFoundUrl());
                 return;
             }
 
             CritterPicture critterPicture = critter.Pictures.SingleOrDefault(x => x.Picture.Filename == filename);
             if (critterPicture == null)
             {
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                context.Response.Redirect(pictureService.GetNotFoundUrl());
                 return;
             }
 
