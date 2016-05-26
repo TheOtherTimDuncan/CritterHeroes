@@ -67,6 +67,19 @@
     <script src="@Url.For("ch.dropdownify.js")"></script>
     <script src="@Url.For("cheroes.js")"></script>
 
+    <script>
+        (function (cheroes, $) {
+
+            'use strict';
+
+            cheroes.settings = {
+                imageNotFound: '@Url.ComponentImageNotFoundAction()',
+            };
+
+        }(this.cheroes = this.cheroes || {}));
+
+    </script>
+
     @RenderSection("scripts", required: false)
 
 </body>

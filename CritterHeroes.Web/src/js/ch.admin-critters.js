@@ -75,6 +75,7 @@
                 data.pictureUrl = pictureUrl;
                 var html = template(data);
                 crittersContainer.html(html);
+                cheroes.fixBrokenImages();
             }
 
         });

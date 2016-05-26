@@ -16,7 +16,7 @@ namespace CritterHeroes.Web.Features.Shared.ActionExtensions
 
         public static string ComponentImageNotFoundAction(this UrlHelper urlHelper)
         {
-            return urlHelper.Action("ImageNotFound", ComponentsController.Route);
+            return urlHelper.Action("ImageNotFound", ComponentsController.Route, AreaName.NoAreaRouteValue);
         }
     }
 }
