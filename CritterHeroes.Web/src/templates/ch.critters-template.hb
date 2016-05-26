@@ -23,7 +23,7 @@
         <div class="flex-table-cell flex-cell-s2 flex-table-cell-pic-margin"><span class="flex-table-cell-header flex-table-cell-header-md">Breed</span><span>{{breed}}</span></div>
         <div class="flex-table-cell flex-cell-s2 flex-table-cell-pic-margin"><span class="flex-table-cell-header flex-table-cell-header-md">Foster</span><span>{{fosterName}}</span></div>
         <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin">
-            <a href="http://www.fflah.org/animals/detail?AnimalID={{siteID}}" target="_blank">View</a>
+            <a href="http://www.fflah.org/animals/detail?AnimalID={{siteID}}" target="_blank">View on site</a>
         </div>
     </div>
     {{else}}
