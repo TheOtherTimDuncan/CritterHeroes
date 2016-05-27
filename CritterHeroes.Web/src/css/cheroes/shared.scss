@@ -79,6 +79,11 @@
     background-color: $gray-lighter;
 }
 
+.row-select:hover{
+    cursor: pointer;
+    background-color: $gray-light !important;
+}
+
 // Logos
 
 .logo-medium {

@@ -294,7 +294,6 @@
     <Content Include="Features\Home\Views\_Menu.cshtml" />
     <Content Include="gulp-tasks\handlebars.js" />
     <None Include="RescueGroups.config" />
-    <None Include="src\css\cheroes\admin-lists.scss" />
     <None Include="src\css\cheroes\box-sizing.scss" />
     <None Include="src\css\cheroes\buttons.scss" />
     <None Include="src\css\cheroes\dropdowns.scss" />
@@ -328,7 +327,9 @@
     <None Include="src\css\fontawesome\_variables.scss" />
     <Content Include="src\Emails\FosterSummary\example.json" />
     <None Include="src\templates\ch.contacts-template.hb" />
-    <None Include="src\templates\ch.critters-template.hb" />
+    <None Include="src\templates\ch.critters-template.hb">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="src\css\site.scss" />
     <None Include="gulpfile.js" />
     <None Include="gulp-tasks\emails.js" />

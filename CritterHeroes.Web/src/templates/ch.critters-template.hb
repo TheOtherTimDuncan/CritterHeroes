@@ -9,7 +9,7 @@
 </div>
 <div class="flex-table-body">
     {{#each critters}}
-    <div class="flex-table-row">
+    <div class="flex-table-row row-select">
         <div class="flex-table-cell flex-table-cell-pic flex-cell-s1">
             {{#if pictureFilename}}
             <img src="{{../pictureUrl}}/{{id}}/{{pictureFilename}}" />
