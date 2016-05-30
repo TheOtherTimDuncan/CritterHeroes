@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using CritterHeroes.Web.Contracts;
 using TOTD.Utility.ExceptionHelpers;
 
@@ -34,12 +35,22 @@ namespace CritterHeroes.Web.Features.Shared
             return Url.Action(actionName, controllerName, routeValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
         }
 
+        public string GenerateAbsoluteUrl(string actionName, string controllerName, RouteValueDictionary routeValues)
+        {
+            return Url.Action(actionName, controllerName, routeValues, _urlHelper.RequestContext.HttpContext.Request.Url.Scheme);
+        }
+
         public string GenerateSiteUrl(string actionName, string controllerName)
         {
             return GenerateSiteUrl(actionName, controllerName, null);
         }
 
         public string GenerateSiteUrl(string actionName, string controllerName, object routeValues)
+        {
+            return Url.Action(actionName, controllerName, routeValues);
+        }
+
+        public string GenerateSiteUrl(string actionName, string controllerName, RouteValueDictionary routeValues)
         {
             return Url.Action(actionName, controllerName, routeValues);
         }
