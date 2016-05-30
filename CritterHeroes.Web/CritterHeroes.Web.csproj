@@ -260,6 +260,7 @@
     <None Include="AppSettings.config" />
     <None Include="ConnectionStrings.config" />
     <Content Include="Features\Components\Views\CancelButton.cshtml" />
+    <Content Include="Features\Admin\Critters\Views\Edit.cshtml" />
     <None Include="gulp-tasks\css.js" />
     <Content Include="favicon-160x160.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -462,7 +463,9 @@
     <Compile Include="Features\Account\ModelValidators.cs" />
     <Compile Include="Features\Admin\BaseAdminController.cs" />
     <Compile Include="Features\Admin\Contacts\Models\GroupSelectOptionModel.cs" />
+    <Compile Include="Features\Admin\Critters\Models\CritterEditModel.cs" />
     <Compile Include="Features\Admin\Critters\Models\CritterImportModel.cs" />
+    <Compile Include="Features\Admin\Critters\Queries\CritterEditQueryHandler.cs" />
     <Compile Include="Features\Admin\Critters\Queries\CritterImportQueryHandler.cs" />
     <Compile Include="Features\Admin\Emails\EmailsController.cs" />
     <Compile Include="Features\Admin\Emails\Models\EmailModel.cs" />

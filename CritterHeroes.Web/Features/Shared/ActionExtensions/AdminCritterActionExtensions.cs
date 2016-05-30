@@ -68,5 +68,18 @@ namespace CritterHeroes.Web.Features.Shared.ActionExtensions
         {
             return urlHelper.Action(nameof(CrittersController.Import), CrittersController.Route, AreaName.AdminRouteValue);
         }
+
+        public static string GenerateAdminCrittersEditAction(this IUrlGenerator urlGenerator, int critterID)
+        {
+            CritterEditQuery query = new CritterEditQuery()
+            {
+                CritterID = critterID
+            };
+
+            RouteValueDictionary routeValues = new RouteValueDictionary(query);
+            routeValues[RouteValueKeys.Area] = AreaName.Admin;
+
+            return urlGenerator.GenerateSiteUrl(nameof(CrittersController.Edit), CrittersController.Route, routeValues);
+        }
     }
 }

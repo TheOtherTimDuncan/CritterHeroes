@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
+using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Features.Shared.Models;
 using TOTD.EntityFramework;
+using TOTD.Utility.EnumerableHelpers;
 
 namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 {
@@ -19,10 +22,12 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
     public class CrittersListQueryHandler : IAsyncQueryHandler<CrittersListQuery, CrittersListModel>
     {
         private ISqlStorageContext<Critter> _critterStorage;
+        private IUrlGenerator _urlGenerator;
 
-        public CrittersListQueryHandler(ISqlStorageContext<Critter> critterStorage)
+        public CrittersListQueryHandler(ISqlStorageContext<Critter> critterStorage, IUrlGenerator urlGenerator)
         {
             this._critterStorage = critterStorage;
+            this._urlGenerator = urlGenerator;
         }
 
         public async Task<CrittersListModel> ExecuteAsync(CrittersListQuery query)
@@ -55,6 +60,11 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 }
             ).TakePageToListAsync(query.Page, model.Paging.PageSize);
+
+            model.Critters.NullSafeForEach(x =>
+            {
+                x.EditUrl = _urlGenerator.GenerateAdminCrittersEditAction(x.ID);
+            });
 
             return model;
         }

@@ -58,5 +58,14 @@ namespace CritterHeroes.Web.Features.Admin.Critters
             await CommandDispatcher.DispatchAsync(model);
             return JsonCamelCase(model.Messages);
         }
+
+        [HttpGet]
+        [Route("critter/{CritterID}")]
+        [AuthorizeRoles(UserRole.Admin, UserRole.MasterAdmin)]
+        public async Task<ActionResult> Edit(CritterEditQuery query)
+        {
+            CritterEditModel model = await QueryDispatcher.DispatchAsync(query);
+            return View(model);
+        }
     }
 }

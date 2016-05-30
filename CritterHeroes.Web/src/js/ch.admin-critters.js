@@ -10,6 +10,8 @@
     var critterUrl = crittersContainer.data('url');
     var pictureUrl = cheroes.pictureUrl;
 
+    crittersContainer.rowSelectify();
+
     var pager = $('.paging-container').pagify().on(cheroes.events.pagify.CHANGE_PAGE, function (event, page) {
         query.page = page;
         getData();

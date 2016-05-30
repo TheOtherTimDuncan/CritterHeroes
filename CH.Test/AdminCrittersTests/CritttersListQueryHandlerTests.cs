@@ -6,6 +6,7 @@ using CH.Test.Mocks;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
 using CritterHeroes.Web.Features.Admin.Critters.Queries;
+using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -43,7 +44,9 @@ namespace CH.Test.AdminCrittersTests
 
             MockSqlStorageContext<Critter> mockCritterStorage = new MockSqlStorageContext<Critter>(critter);
 
-            CrittersListQueryHandler handler = new CrittersListQueryHandler(mockCritterStorage.Object);
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
+            CrittersListQueryHandler handler = new CrittersListQueryHandler(mockCritterStorage.Object, mockUrlGenerator.Object);
             CrittersListModel model = await handler.ExecuteAsync(query);
             model.Should().NotBeNull();
 
@@ -61,6 +64,7 @@ namespace CH.Test.AdminCrittersTests
             critterModel.SiteID.Should().Be(critter.RescueGroupsID.ToString());
             critterModel.FosterName.Should().Be(critter.Foster.FirstName + " " + critter.Foster.LastName);
             critterModel.PictureFilename.Should().Be(critterPicture.Picture.Filename);
+            critterModel.EditUrl.Should().Be(mockUrlGenerator.Object.GenerateAdminCrittersEditAction(critterModel.ID));
         }
 
         [TestMethod]
@@ -93,7 +97,9 @@ namespace CH.Test.AdminCrittersTests
 
             MockSqlStorageContext<Critter> mockCritterStorage = new MockSqlStorageContext<Critter>(critter1);
 
-            CrittersListQueryHandler handler = new CrittersListQueryHandler(mockCritterStorage.Object);
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
+            CrittersListQueryHandler handler = new CrittersListQueryHandler(mockCritterStorage.Object, mockUrlGenerator.Object);
             CrittersListModel model = await handler.ExecuteAsync(query);
             model.Should().NotBeNull();
 

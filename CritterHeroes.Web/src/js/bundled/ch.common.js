@@ -12,10 +12,18 @@
         });
     };
 
+    $.fn.rowSelectify = function () {
+
+        return this.on('click', '.row-select [data-row-url]', function () {
+            window.location = $(this).data('row-url');
+        });
+
+    };
+
     cheroes.KEYS = {
         ESC: 27,
         UP: 38,
         DOWN: 40
     };
-    
+
 }(this.cheroes = this.cheroes || {}, jQuery));
