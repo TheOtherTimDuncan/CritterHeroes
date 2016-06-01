@@ -189,6 +189,14 @@ $nav-disabled-link-color: #444;
 $nav-disabled-link-hover-color: $gray-light;
 $navbar-default-toggle-icon-bar-bg: #fff;
 
+// Tabs
+
+$nav-tabs-border-color: $table-border-color;
+$nav-tabs-link-hover-border-color: $gray-lighter;
+$nav-tabs-active-link-hover-bg: $body-bg;
+$nav-tabs-active-link-hover-color: $gray;
+$nav-tabs-active-link-hover-border-color: $table-border-color;
+
 // Dropdowns
 
 $dropdown-bg: #fff;

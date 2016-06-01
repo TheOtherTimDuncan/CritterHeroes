@@ -1,3 +1,26 @@
 ﻿@model CritterHeroes.Web.Features.Admin.Critters.Models.CritterEditModel
 
+@section scripts{
+<script src="@Url.For("ch.tabify.js")"></script>
+    <script src="@Url.For("ch.admin-critter-edit.js")"></script>
+}
+
 <h2>Editing @Model.Name</h2>
+
+<ul class="nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab">General</a></li>
+    <li role="presentation"><a href="#personality" aria-controls="personality" role="tab">Personality</a></li>
+    <li role="presentation"><a href="#admin" aria-controls="admin" role="tab">Administrative</a></li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="general">
+        General
+    </div>
+    <div role="tabpanel" class="tab-pane" id="personality">
+        Personality
+    </div>
+    <div role="tabpanel" class="tab-pane" id="admin">
+        Admin
+    </div>
+</div>
