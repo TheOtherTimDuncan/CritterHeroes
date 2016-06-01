@@ -263,7 +263,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                     fieldName: "animalColorID",
                     toAction: context =>
                     {
-                        if (context.Target.ColorID != context.Color.ID)
+                        if (context.Color != null && context.Target.ColorID != context.Color.ID)
                         {
                             context.Publisher.Publish(CritterLogEvent.Action("Changed color from {OldColor} to {NewColor} for {CritterID} - {CritterName}", context.Target.Color.IfNotNull(x => x.Description, "not set"), context.Color.Description, context.Source.ID, context.Source.Name));
                             context.Target.ChangeBreed(context.Breed);
@@ -271,7 +271,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                     },
                     fromAction: context =>
                     {
-                        context.Source.ColorID = context.Target.Color.RescueGroupsID;
+                        context.Source.ColorID = context.Target.Color.IfNotNull(x => x.RescueGroupsID);
                     }
                 )
                 .ForField
