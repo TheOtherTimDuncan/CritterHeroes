@@ -9,7 +9,7 @@
 </div>
 <div class="flex-table-body">
   {{#each critters}}
-  <div class="flex-table-row row-select">
+  <div class="flex-table-row">
     <div class="flex-table-cell flex-table-cell-pic flex-cell-s1">
       {{#if pictureFilename}}
       <img src="{{../pictureUrl}}/{{id}}/{{pictureFilename}}" />
@@ -17,28 +17,29 @@
       &nbsp;
       {{/if}}
     </div>
-    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin" data-row-url="{{editUrl}}">
+    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin">
       <span class="flex-table-cell-header flex-table-cell-header-md">Name</span>
       <span>{{name}}</span>
     </div>
-    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin" data-row-url="{{editUrl}}">
+    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin">
       <span class="flex-table-cell-header flex-table-cell-header-md">Sex</span>
       <span>{{sexName}}</span>
     </div>
-    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin" data-row-url="{{editUrl}}">
+    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin">
       <span class="flex-table-cell-header flex-table-cell-header-md">Status</span>
       <span>{{status}}</span>
     </div>
-    <div class="flex-table-cell flex-cell-s2 flex-table-cell-pic-margin" data-row-url="{{editUrl}}">
+    <div class="flex-table-cell flex-cell-s2 flex-table-cell-pic-margin">
       <span class="flex-table-cell-header flex-table-cell-header-md">Breed</span>
       <span>{{breed}}</span>
     </div>
-    <div class="flex-table-cell flex-cell-s2 flex-table-cell-pic-margin" data-row-url="{{editUrl}}">
+    <div class="flex-table-cell flex-cell-s2 flex-table-cell-pic-margin">
       <span class="flex-table-cell-header flex-table-cell-header-md">Foster</span>
       <span>{{fosterName}}</span>
     </div>
-    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin">
-      <a href="http://www.fflah.org/animals/detail?AnimalID={{siteID}}" target="_blank">View on site</a>
+    <div class="flex-table-cell flex-cell-s1 flex-table-cell-pic-margin flex-column text-center">
+      <a href="http://www.fflah.org/animals/detail?AnimalID={{siteID}}" title="View {{name}} on site" target="_blank">View on site</a>
+      <a href="{{editUrl}}" title="Edit {{name}}">Edit {{name}}</a>
     </div>
   </div>
   {{else}}
