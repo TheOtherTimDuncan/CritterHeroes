@@ -161,16 +161,10 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 
-CH.DatabaseMigrator/ConnectionStrings.config
-CH.DatabaseMigrator/AppSettings.config
-CH.RescueGroupsExplorer/RescueGroups.config
-CH.Test/ConnectionStrings.config
-CH.Test/RescueGroups.config
-CH.Test/AppSettings.config
+ConnectionStrings.config
+AppSettings.config
+RescueGroups.config
 CritterHeroes.Web/Azure.config
-CritterHeroes.Web/RescueGroups.config
-CritterHeroes.Web/AppSettings.config
-CritterHeroes.Web/ConnectionStrings.config
 CritterHeroes.Web/dist/
 CritterHeroes.Web/src/lib/
 CritterHeroes.Web/src/css/fontawesome/
