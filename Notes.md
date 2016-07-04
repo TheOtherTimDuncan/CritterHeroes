@@ -19,3 +19,5 @@
 6. Make sure the node_modules folder is hidden to keep Visual Studio from trying to scan the folder on build and choking on max path length.
 
 http://action.humanesociety.org/site/MessageViewer?em_id=109942.0&dlv_id=113327
+
+https://www.microsoft.com/cognitive-services/en-us/computer-vision-api
