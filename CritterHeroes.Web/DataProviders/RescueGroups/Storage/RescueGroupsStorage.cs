@@ -177,10 +177,9 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
             if (searchModel != null)
             {
                 int foundRows = response.FoundRows;
-                searchModel.ResultStart += ResultLimit;
                 while (searchModel.ResultStart < foundRows)
                 {
-                    searchModel.ResultStart += ResultLimit;
+                    searchModel.ResultStart += searchModel.ResultLimit;
                     request = await CreateRequest(requestData);
                     response = await SendRequestAsync<DataListResponseModel<TEntity>>(request);
                     if (!response.Data.IsNullOrEmpty())
