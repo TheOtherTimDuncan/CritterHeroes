@@ -531,6 +531,7 @@
     <Compile Include="Features\Shared\Models\JsonError.cs" />
     <Compile Include="Shared\ActionResults\RedirectToLocalResult.cs" />
     <Compile Include="Shared\ActionResults\RedirectToPreviousResult.cs" />
+    <Compile Include="Shared\AgeHelper.cs" />
     <Compile Include="Shared\BaseException.cs" />
     <Compile Include="Shared\Commands\FosterSummaryEmailCommand.cs" />
     <Compile Include="Shared\Events\AppEventPublisher.cs" />
