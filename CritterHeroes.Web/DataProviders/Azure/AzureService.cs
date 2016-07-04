@@ -197,7 +197,6 @@ namespace CritterHeroes.Web.DataProviders.Azure
 
             CloudBlobClient client = GetStorageAccount().CreateCloudBlobClient();
 
-            OrganizationContext _orgContext = _orgStateManager.GetContext();
             string containerName = GetContainerName();
             if (isPrivate)
             {
