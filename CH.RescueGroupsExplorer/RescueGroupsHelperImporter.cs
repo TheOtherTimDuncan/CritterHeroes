@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
@@ -17,25 +16,11 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using CritterHeroes.Web.Shared.Proxies.Configuration;
 using Newtonsoft.Json;
 using TOTD.Utility.EnumerableHelpers;
-using TOTD.Utility.UnitTestHelpers;
 
-namespace CH.RescueGroupsImporter
+namespace CH.RescueGroupsExplorer
 {
-    public partial class RescueGroupsImporter : Form
+    public partial class RescueGroupsExplorer
     {
-        private string _path;
-        private string _filePath;
-        private Writer _writer;
-
-        public RescueGroupsImporter()
-        {
-            InitializeComponent();
-
-            _path = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "Critters");
-            _filePath = Path.Combine(_path, "critters.json");
-            _writer = new Writer(txtLog);
-        }
-
         private async void btnImportWeb_Click(object sender, EventArgs e)
         {
             NullEventPublisher publisher = new NullEventPublisher();
@@ -46,10 +31,10 @@ namespace CH.RescueGroupsImporter
                 lastUpdated = critterStorage.Critters.Max(x => x.RescueGroupsLastUpdated) ?? DateTimeOffset.MinValue;
             }
 
-            _writer.WriteLine($"Last updated: {lastUpdated}");
-            _writer.WriteLine();
+            _importerWriter.WriteLine($"Last updated: {lastUpdated}");
+            _importerWriter.WriteLine();
 
-            HttpClientProxy client = new HttpClientProxy(_writer);
+            HttpClientProxy client = new HttpClientProxy(_importerWriter);
             CritterSourceStorage source = new CritterSourceStorage(new RescueGroupsConfiguration(), client, publisher);
 
             SearchFilter filter = new SearchFilter()
@@ -61,8 +46,8 @@ namespace CH.RescueGroupsImporter
 
             IEnumerable<CritterSource> sources = await source.GetAllAsync(filter);
 
-            File.WriteAllText(_filePath, JsonConvert.SerializeObject(sources, Formatting.Indented));
-            await ImportData(sources);
+            //File.WriteAllText(_filePath, JsonConvert.SerializeObject(sources, Formatting.Indented));
+            //await ImportData(sources);
         }
 
         private async void btnImportFile_Click(object sender, EventArgs e)
@@ -75,7 +60,7 @@ namespace CH.RescueGroupsImporter
 
         private async Task ImportData(IEnumerable<CritterSource> sources)
         {
-            _writer.WriteLine($"Importing {sources.Count()}");
+            _importerWriter.WriteLine($"Importing {sources.Count()}");
 
             NullEventPublisher publisher = new NullEventPublisher();
             CritterMapper mapper = new CritterMapper();
@@ -83,7 +68,7 @@ namespace CH.RescueGroupsImporter
 
             Guid organizationID = new Guid("71A22C0B-23FB-4FC0-96A8-792474C80953");
 
-            IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_writer), new NullEventPublisher()).Fields.Select(x => x.Name);
+            IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_importerWriter), new NullEventPublisher()).Fields.Select(x => x.Name);
 
             using (CritterBatchStorageContext critterStorage = new CritterBatchStorageContext(publisher))
             {
@@ -105,11 +90,11 @@ namespace CH.RescueGroupsImporter
                         critter = new Critter(source.Name, context.Status, context.Breed, organizationID, source.ID);
                         critterStorage.AddCritter(critter);
                         context.Target = critter;
-                        _writer.WriteLine($"Added {source.ID} - {source.Name}");
+                        _importerWriter.WriteLine($"Added {source.ID} - {source.Name}");
                     }
                     else
                     {
-                        _writer.WriteLine($"Updating {source.ID} - {source.Name}");
+                        _importerWriter.WriteLine($"Updating {source.ID} - {source.Name}");
                         critter.WhenUpdated = DateTimeOffset.UtcNow;
                     }
 
@@ -121,7 +106,7 @@ namespace CH.RescueGroupsImporter
                 }
             }
 
-            _writer.WriteLine("Import complete.");
+            _importerWriter.WriteLine("Import complete.");
         }
 
         private async Task ImportPicturesAsync(CritterBatchStorageContext critterStorage, CritterPictureService pictureService, CritterMapperContext context)
@@ -159,7 +144,7 @@ namespace CH.RescueGroupsImporter
                         }
 
                         critterPicture = context.Target.AddPicture(picture);
-                        _writer.WriteLine($"Added picture {pictureSource.Filename} for {context.Source.ID} - {context.Source.Name}");
+                        _importerWriter.WriteLine($"Added picture {pictureSource.Filename} for {context.Source.ID} - {context.Source.Name}");
                     }
                     else
                     {
@@ -167,7 +152,7 @@ namespace CH.RescueGroupsImporter
                         if (!pictureExists)
                         {
                             await ImportPictureAsync(pictureService, pictureSource.Url, context.Target.ID, critterPicture.Picture.Filename);
-                            _writer.WriteLine($"Replaced lost picture {pictureSource.Filename} for {context.Source.ID} - {context.Source.Name}");
+                            _importerWriter.WriteLine($"Replaced lost picture {pictureSource.Filename} for {context.Source.ID} - {context.Source.Name}");
                         }
 
                         foreach (PictureChild childPicture in critterPicture.Picture.ChildPictures)
@@ -178,16 +163,16 @@ namespace CH.RescueGroupsImporter
                                 if (pictureSource.LargePicture.Width == childPicture.Width && pictureSource.LargePicture.Height == childPicture.Height)
                                 {
                                     await ImportPictureAsync(pictureService, pictureSource.LargePicture.Url, context.Target.ID, childPicture.Filename);
-                                    _writer.WriteLine($"Replaced lost picture {pictureSource.Filename} for {childPicture.Width}x{childPicture.Height} for {context.Source.ID} - {context.Source.Name} not in target or source");
+                                    _importerWriter.WriteLine($"Replaced lost picture {pictureSource.Filename} for {childPicture.Width}x{childPicture.Height} for {context.Source.ID} - {context.Source.Name} not in target or source");
                                 }
                                 else if (pictureSource.SmallPicture.Width == childPicture.Width && pictureSource.SmallPicture.Height == childPicture.Height)
                                 {
                                     await ImportPictureAsync(pictureService, pictureSource.SmallPicture.Url, context.Target.ID, childPicture.Filename);
-                                    _writer.WriteLine($"Replaced lost picture {pictureSource.Filename} for {childPicture.Width}x{childPicture.Height} for {context.Source.ID} - {context.Source.Name} not in target or source");
+                                    _importerWriter.WriteLine($"Replaced lost picture {pictureSource.Filename} for {childPicture.Width}x{childPicture.Height} for {context.Source.ID} - {context.Source.Name} not in target or source");
                                 }
                                 else
                                 {
-                                    _writer.WriteLine($"Picture {pictureSource.Filename} for {childPicture.Width}x{childPicture.Height} for {context.Source.ID} - {context.Source.Name} not in target or source");
+                                    _importerWriter.WriteLine($"Picture {pictureSource.Filename} for {childPicture.Width}x{childPicture.Height} for {context.Source.ID} - {context.Source.Name} not in target or source");
                                 }
                             }
                         }
@@ -237,7 +222,7 @@ namespace CH.RescueGroupsImporter
             CritterStatus critterStatus = await critterStorage.CritterStatus.FindByRescueGroupsIDAsync(statusID.Value);
             if (critterStatus == null)
             {
-                _writer.WriteLine($"Added status {status}");
+                _importerWriter.WriteLine($"Added status {status}");
                 critterStatus = new CritterStatus(status, status, statusID.Value);
             }
             return critterStatus;
@@ -256,11 +241,11 @@ namespace CH.RescueGroupsImporter
                 Species species = await critterStorage.Species.FindByNameAsync(speciesName);
                 if (species == null)
                 {
-                    _writer.WriteLine($"Added species {speciesName}");
+                    _importerWriter.WriteLine($"Added species {speciesName}");
                     species = new Species(speciesName, speciesName, speciesName, null, null);
                 }
 
-                _writer.WriteLine($"Added breed {speciesName} - {breedName}");
+                _importerWriter.WriteLine($"Added breed {speciesName} - {breedName}");
                 breed = new Breed(species.ID, breedName, breedID);
             }
             return breed;
@@ -277,7 +262,7 @@ namespace CH.RescueGroupsImporter
 
             if (person == null)
             {
-                _writer.WriteLine($"Added person {firstName} {lastName}");
+                _importerWriter.WriteLine($"Added person {firstName} {lastName}");
                 person = new Person()
                 {
                     RescueGroupsID = fosterID,
@@ -301,7 +286,7 @@ namespace CH.RescueGroupsImporter
 
             if (location == null)
             {
-                _writer.WriteLine($"Added location {locationName}");
+                _importerWriter.WriteLine($"Added location {locationName}");
                 location = new Location(locationName)
                 {
                     RescueGroupsID = locationID
@@ -322,7 +307,7 @@ namespace CH.RescueGroupsImporter
 
             if (color == null)
             {
-                _writer.WriteLine($"Added color {colorDescription}");
+                _importerWriter.WriteLine($"Added color {colorDescription}");
                 color = new CritterColor(colorDescription)
                 {
                     RescueGroupsID = colorID

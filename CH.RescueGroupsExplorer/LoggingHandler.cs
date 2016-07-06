@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CH.RescueGroupsImporter
+namespace CH.RescueGroupsExplorer
 {
     public class LoggingHandler : DelegatingHandler
     {
         private Writer _writer;
+        private IList<string> _responses;
 
-        public LoggingHandler(HttpMessageHandler innerHandler, Writer writer)
+        public LoggingHandler(HttpMessageHandler innerHandler, Writer writer, IList<string> responses = null)
             : base(innerHandler)
         {
             _writer = writer;
+            _responses = responses;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ namespace CH.RescueGroupsImporter
                 string requestBody = await request.Content.ReadAsStringAsync();
                 if (requestBody.StartsWith("{"))
                 {
-                    _writer.WriteLine(JValue.Parse(requestBody).ToString(Formatting.Indented));
+                    _writer.WriteLine(JValue.Parse(requestBody).ToString(Formatting.Indented));                   
                 }
                 else
                 {
@@ -86,6 +86,10 @@ namespace CH.RescueGroupsImporter
                 if (responseBody.StartsWith("{"))
                 {
                     _writer.WriteLine(JValue.Parse(responseBody).ToString(Formatting.Indented));
+                    if (_responses != null)
+                    {
+                        _responses.Add(responseBody);
+                    }
                 }
                 else
                 {

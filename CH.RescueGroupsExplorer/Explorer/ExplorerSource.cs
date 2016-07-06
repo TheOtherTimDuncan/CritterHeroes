@@ -1,7 +1,7 @@
 ﻿using System;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsExplorer.Explorer
 {
     public class ExplorerSource : BaseSource
     {

@@ -10,7 +10,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CH.RescueGroupsExplorer.Helpers
+namespace CH.RescueGroupsExplorer.Explorer
 {
     public abstract class BaseStorageHelper<TEntity> where TEntity : BaseSource
     {

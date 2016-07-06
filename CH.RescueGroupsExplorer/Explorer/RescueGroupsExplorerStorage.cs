@@ -9,7 +9,7 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json.Linq;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsExplorer.Explorer
 {
     public class RescueGroupsExplorerStorage : RescueGroupsStorage<ExplorerSource>
     {

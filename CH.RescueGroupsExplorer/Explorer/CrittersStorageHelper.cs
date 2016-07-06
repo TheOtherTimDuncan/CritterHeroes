@@ -8,7 +8,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 
-namespace CH.RescueGroupsExplorer.Helpers
+namespace CH.RescueGroupsExplorer.Explorer
 {
     public class CrittersStorageHelper : BaseStorageHelper<CritterSource>
     {

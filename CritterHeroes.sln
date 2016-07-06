@@ -38,8 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configura
 		Configurations\RescueGroups.config = Configurations\RescueGroups.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH.RescueGroupsImporter", "CH.RescueGroupsImporter\CH.RescueGroupsImporter.csproj", "{44E79E60-6A9D-4304-AE07-846EB8B575FB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,10 +60,6 @@ Global
 		{11AE20E4-BAA7-4188-8CE1-A61757403F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11AE20E4-BAA7-4188-8CE1-A61757403F89}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{11AE20E4-BAA7-4188-8CE1-A61757403F89}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{44E79E60-6A9D-4304-AE07-846EB8B575FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44E79E60-6A9D-4304-AE07-846EB8B575FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44E79E60-6A9D-4304-AE07-846EB8B575FB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{44E79E60-6A9D-4304-AE07-846EB8B575FB}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
