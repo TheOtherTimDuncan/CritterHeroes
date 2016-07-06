@@ -7,9 +7,9 @@ using System.Windows.Forms;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using TOTD.Utility.UnitTestHelpers;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper
 {
-    public partial class RescueGroupsExplorer : Form
+    public partial class RescueGroupsHelper : Form
     {
         // Explorer
         private HttpClientProxy _client;
@@ -22,7 +22,7 @@ namespace CH.RescueGroupsExplorer
         private string _filePath;
         private Writer _importerWriter;
 
-        public RescueGroupsExplorer()
+        public RescueGroupsHelper()
         {
             InitializeComponent();
 

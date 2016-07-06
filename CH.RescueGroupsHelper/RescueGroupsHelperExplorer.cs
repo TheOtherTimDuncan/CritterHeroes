@@ -4,16 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CH.RescueGroupsExplorer.Explorer;
+using CH.RescueGroupsHelper.Explorer;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper
 {
-    public partial class RescueGroupsExplorer
+    public partial class RescueGroupsHelper
     {
         private async void btnExecute_Click(object sender, EventArgs e)
         {

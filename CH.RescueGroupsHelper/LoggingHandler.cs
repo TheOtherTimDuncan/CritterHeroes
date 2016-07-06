@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper
 {
     public class LoggingHandler : DelegatingHandler
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using CritterHeroes.Web.Contracts;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper
 {
     public class HttpClientProxy : HttpClient, IHttpClient
     {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CH.RescueGroupsHelper.Importer;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
@@ -17,9 +18,9 @@ using CritterHeroes.Web.Shared.Proxies.Configuration;
 using Newtonsoft.Json;
 using TOTD.Utility.EnumerableHelpers;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper
 {
-    public partial class RescueGroupsExplorer
+    public partial class RescueGroupsHelper
     {
         private async void btnImportWeb_Click(object sender, EventArgs e)
         {

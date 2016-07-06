@@ -4,7 +4,7 @@ using System.Linq;
 using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Shared.StateManagement;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper.Importer
 {
     public class ImporterOrganizationStateManager : IStateManager<OrganizationContext>
     {

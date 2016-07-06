@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CritterHeroes.Web.Contracts.Events;
 
-namespace CH.RescueGroupsExplorer
+namespace CH.RescueGroupsHelper
 {
     public class NullEventPublisher : IAppEventPublisher
     {

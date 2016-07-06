@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH.Test", "CH.Test\CH.Test.csproj", "{FFA1CD79-28D4-4514-8DB4-2EBB73338A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH.RescueGroupsExplorer", "CH.RescueGroupsExplorer\CH.RescueGroupsExplorer.csproj", "{7392F72B-38E5-4532-A906-9F23080D9ADB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH.RescueGroupsHelper", "CH.RescueGroupsHelper\CH.RescueGroupsHelper.csproj", "{7392F72B-38E5-4532-A906-9F23080D9ADB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CritterHeroes.Web", "CritterHeroes.Web\CritterHeroes.Web.csproj", "{F561F387-E413-4D7C-95FA-683A27B99B98}"
 EndProject

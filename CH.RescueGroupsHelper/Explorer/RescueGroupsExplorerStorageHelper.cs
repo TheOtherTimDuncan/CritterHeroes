@@ -6,7 +6,7 @@ using CritterHeroes.Web.Contracts.Configuration;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 
-namespace CH.RescueGroupsExplorer.Explorer
+namespace CH.RescueGroupsHelper.Explorer
 {
     public class RescueGroupsExplorerStorageHelper : BaseStorageHelper<ExplorerSource>
     {

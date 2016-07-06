@@ -1,6 +1,6 @@
-﻿namespace CH.RescueGroupsExplorer
+﻿namespace CH.RescueGroupsHelper
 {
-    partial class RescueGroupsExplorer
+    partial class RescueGroupsHelper
     {
         /// <summary>
         /// Required designer variable.
@@ -49,11 +49,11 @@
             this.txtKeyValue = new System.Windows.Forms.TextBox();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabExplorer = new System.Windows.Forms.TabPage();
+            this.txtExplorerLog = new System.Windows.Forms.TextBox();
             this.tabImporter = new System.Windows.Forms.TabPage();
             this.btnImportFile = new System.Windows.Forms.Button();
             this.btnImportWeb = new System.Windows.Forms.Button();
             this.txtImporterLog = new System.Windows.Forms.TextBox();
-            this.txtExplorerLog = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -187,7 +187,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtHttp);
             this.splitContainer1.Size = new System.Drawing.Size(770, 493);
-            this.splitContainer1.SplitterDistance = 245;
+            this.splitContainer1.SplitterDistance = 244;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 11;
             // 
@@ -197,7 +197,7 @@
             this.tree.Location = new System.Drawing.Point(0, 0);
             this.tree.Margin = new System.Windows.Forms.Padding(4);
             this.tree.Name = "tree";
-            this.tree.Size = new System.Drawing.Size(770, 245);
+            this.tree.Size = new System.Drawing.Size(770, 244);
             this.tree.TabIndex = 4;
             // 
             // txtHttp
@@ -208,7 +208,7 @@
             this.txtHttp.Multiline = true;
             this.txtHttp.Name = "txtHttp";
             this.txtHttp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtHttp.Size = new System.Drawing.Size(770, 243);
+            this.txtHttp.Size = new System.Drawing.Size(770, 244);
             this.txtHttp.TabIndex = 0;
             // 
             // clbFields
@@ -317,6 +317,18 @@
             this.tabExplorer.TabIndex = 0;
             this.tabExplorer.Text = "Explorer";
             // 
+            // txtExplorerLog
+            // 
+            this.txtExplorerLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtExplorerLog.Location = new System.Drawing.Point(27, 403);
+            this.txtExplorerLog.Margin = new System.Windows.Forms.Padding(4);
+            this.txtExplorerLog.Multiline = true;
+            this.txtExplorerLog.Name = "txtExplorerLog";
+            this.txtExplorerLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtExplorerLog.Size = new System.Drawing.Size(383, 108);
+            this.txtExplorerLog.TabIndex = 0;
+            // 
             // tabImporter
             // 
             this.tabImporter.BackColor = System.Drawing.SystemColors.Control;
@@ -365,27 +377,15 @@
             this.txtImporterLog.Size = new System.Drawing.Size(1188, 468);
             this.txtImporterLog.TabIndex = 0;
             // 
-            // txtExplorerLog
-            // 
-            this.txtExplorerLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtExplorerLog.Location = new System.Drawing.Point(27, 403);
-            this.txtExplorerLog.Margin = new System.Windows.Forms.Padding(4);
-            this.txtExplorerLog.Multiline = true;
-            this.txtExplorerLog.Name = "txtExplorerLog";
-            this.txtExplorerLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtExplorerLog.Size = new System.Drawing.Size(383, 108);
-            this.txtExplorerLog.TabIndex = 0;
-            // 
-            // RescueGroupsExplorer
+            // RescueGroupsHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1240, 571);
             this.Controls.Add(this.tabs);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "RescueGroupsExplorer";
-            this.Text = "Rescue Groups Explorer";
+            this.Name = "RescueGroupsHelper";
+            this.Text = "Rescue Groups Helper";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
