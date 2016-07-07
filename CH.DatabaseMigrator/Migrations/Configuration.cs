@@ -44,7 +44,7 @@ namespace CH.DatabaseMigrator.Migrations
 
             AppUserManager userManager = new AppUserManager(new AppUserStore(context));
             string seedEmail = ConfigurationManager.AppSettings["SeedEmail"];
-            string seedPassword = ConfigurationManager.AppSettings["SeedPassword"];
+            string seedPassword = ConfigurationManager.AppSettings[seedEmail];
 
             AppUser appUser = context.Users.SingleOrDefault(x => x.UserName == seedEmail);
             if (appUser == null)
@@ -122,11 +122,20 @@ namespace CH.DatabaseMigrator.Migrations
 
         public void SeedDatabaseUser(MigrationsDataContext context)
         {
-            string username = ConfigurationManager.AppSettings["DatabaseUser"];
-            string password = ConfigurationManager.AppSettings["DatabasePassword"];
+            string databaseServer = context.Database.Connection.DataSource;
+            string databaseName = context.Database.Connection.DataSource;
+            Logger.Verbose($"Seeding user for database {databaseName} on server {databaseServer}");
 
-            ExecuteSql(context.Database, $"IF NOT EXISTS (SELECT name FROM master.sys.server_principals WHERE name='{username}') BEGIN CREATE LOGIN [{username}] WITH PASSWORD=N'{password}'; END");
-            ExecuteSql(context.Database, $"USE {context.Database.Connection.Database}; IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name='{username}') BEGIN CREATE USER [{username}] FOR LOGIN [{username}]; END");
+            // Get database use and password for the server we're targeting
+            string username = ConfigurationManager.AppSettings[databaseServer];
+            string password = ConfigurationManager.AppSettings[username];
+
+            ExecuteSql(context.Database, $@"
+IF NOT EXISTS (SELECT name FROM master.sys.sql_logins WHERE name='{username}') BEGIN 
+    CREATE LOGIN [{username}] WITH PASSWORD=N'{password}'; 
+END
+");
+            ExecuteSql(context.Database, $"IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name='{username}') BEGIN CREATE USER [{username}] FOR LOGIN [{username}]; END");
             ExecuteSql(context.Database, $"EXEC sp_addrolemember 'db_datareader', '{username}'");
             ExecuteSql(context.Database, $"EXEC sp_addrolemember 'db_datawriter', '{username}'");
         }
