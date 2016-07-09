@@ -47,8 +47,16 @@ namespace CH.RescueGroupsHelper
 
             IEnumerable<CritterSource> sources = await source.GetAllAsync(filter);
 
-            //File.WriteAllText(_filePath, JsonConvert.SerializeObject(sources, Formatting.Indented));
-            //await ImportData(sources);
+            string json = File.ReadAllText(_filePath);
+            IEnumerable<CritterSource> existing = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
+
+            IEnumerable<CritterSource> merged =
+                existing.Where(x => !sources.Any(s => s.ID == x.ID))
+                .Concat(sources)
+                .OrderBy(x => x.ID);
+
+            File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
+            await ImportData(sources);
         }
 
         private async void btnImportFile_Click(object sender, EventArgs e)
@@ -56,7 +64,6 @@ namespace CH.RescueGroupsHelper
             string json = File.ReadAllText(_filePath);
             IEnumerable<CritterSource> sources = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
             await ImportData(sources);
-
         }
 
         private async Task ImportData(IEnumerable<CritterSource> sources)
