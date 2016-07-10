@@ -40,7 +40,7 @@ namespace CH.RescueGroupsHelper.Explorer
                 return new SearchFilter()
                 {
                     FieldName = x.Name,
-                    Criteria = SearchFilterOperation.NotBlank
+                    Operation = SearchFilterOperation.NotBlank
                 };
             });
 
