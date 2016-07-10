@@ -78,9 +78,9 @@ namespace CH.RescueGroupsHelper
 
             IEnumerable<CritterSource> merged = MergeUpdatedWithExisting(existing, sources, fieldNames, isPartial);
 
-            //File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
+            File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
 
-            //await ImportData(sources,fieldNames);
+            await ImportData(sources, fieldNames);
         }
 
         private IEnumerable<CritterSource> MergeUpdatedWithExisting(IEnumerable<CritterSource> existing, IEnumerable<CritterSource> updated, IEnumerable<string> fieldNames, bool isPartial)
