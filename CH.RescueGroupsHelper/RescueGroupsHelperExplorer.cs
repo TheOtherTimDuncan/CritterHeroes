@@ -103,7 +103,7 @@ namespace CH.RescueGroupsHelper
                 switch (cmbAction.Text)
                 {
                     case ObjectActions.Search:
-                        await storageHelper.SearchAsync(clbFields.CheckedItems);
+                        await storageHelper.SearchAsync(clbExplorerFields.CheckedItems);
                         break;
 
                     case "add/update":
@@ -175,7 +175,7 @@ namespace CH.RescueGroupsHelper
 
         private void cmbAction_SelectedIndexChanged(object sender, EventArgs e)
         {
-            clbFields.Items.Clear();
+            clbExplorerFields.Items.Clear();
 
             NullEventPublisher publisher = new NullEventPublisher();
 
@@ -215,9 +215,9 @@ namespace CH.RescueGroupsHelper
 
                 if (cmbAction.Text == ObjectActions.Search)
                 {
-                    clbFields.Enabled = true;
-                    clbFields.Items.AddRange(searchFields.Select(x => x.Name).ToArray());
-                    btnCheckAll_Click(sender, e);
+                    clbExplorerFields.Enabled = true;
+                    clbExplorerFields.Items.AddRange(searchFields.Select(x => x.Name).ToArray());
+                    ChangeCheckState(clbExplorerFields, CheckState.Checked);
                 }
                 else if (cmbAction.Text == "get")
                 {
@@ -228,11 +228,21 @@ namespace CH.RescueGroupsHelper
             }
             else
             {
-                clbFields.Enabled = false;
+                clbExplorerFields.Enabled = false;
                 lblKeyField.Enabled = false;
                 txtKeyValue.Enabled = false;
             }
 
+        }
+
+        private void btnUncheckAll_Click(object sender, EventArgs e)
+        {
+            ChangeCheckState(clbExplorerFields, CheckState.Unchecked);
+        }
+
+        private void btnCheckAll_Click(object sender, EventArgs e)
+        {
+            ChangeCheckState(clbExplorerFields, CheckState.Checked);
         }
     }
 }

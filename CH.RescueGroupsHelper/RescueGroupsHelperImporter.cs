@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CH.RescueGroupsHelper.Importer;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
@@ -38,35 +40,91 @@ namespace CH.RescueGroupsHelper
             HttpClientProxy client = new HttpClientProxy(_importerWriter);
             CritterSourceStorage source = new CritterSourceStorage(new RescueGroupsConfiguration(), client, publisher);
 
-            SearchFilter filter = new SearchFilter()
-            {
-                FieldName = "animalUpdatedDate",
-                Operation = SearchFilterOperation.GreaterThanOrEqual,
-                Criteria = lastUpdated.ToString("MM/dd/yyyy")
-            };
+            source.Fields.ForEach(x => x.IsSelected = (x.Name == "animalID"));
 
-            IEnumerable<CritterSource> sources = await source.GetAllAsync(filter);
+            IEnumerable<SearchFilter> filters = source.Fields.Where(x => clbImporterFields.CheckedItems.Contains(x.Name)).Select(x =>
+            {
+                x.IsSelected = true;
+                return new SearchFilter()
+                {
+                    FieldName = x.Name,
+                    Operation = SearchFilterOperation.NotBlank
+                };
+            });
+
+            bool isPartial = (filters.Count() != source.Fields.Count());
+
+            IEnumerable<CritterSource> sources;
+            if (isPartial)
+            {
+                source.FilterProcessing = string.Join(" or ", filters.Select((SearchFilter filter, int i) => i + 1));
+                sources = await source.GetAllAsync(filters.ToArray());
+            }
+            else
+            {
+                SearchFilter filter = new SearchFilter()
+                {
+                    FieldName = "animalUpdatedDate",
+                    Operation = SearchFilterOperation.GreaterThanOrEqual,
+                    Criteria = lastUpdated.ToString("MM/dd/yyyy")
+                };
+                sources = await source.GetAllAsync(filter);
+            }
+
+            IEnumerable<string> fieldNames = source.Fields.Where(x => x.IsSelected).Select(x => x.Name);
 
             string json = File.ReadAllText(_filePath);
             IEnumerable<CritterSource> existing = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
 
-            IEnumerable<CritterSource> merged =
-                existing.Where(x => !sources.Any(s => s.ID == x.ID))
-                .Concat(sources)
-                .OrderBy(x => x.ID);
+            IEnumerable<CritterSource> merged = MergeUpdatedWithExisting(existing, sources, fieldNames, isPartial);
 
-            File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
-            await ImportData(sources);
+            //File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
+
+            //await ImportData(sources,fieldNames);
+        }
+
+        private IEnumerable<CritterSource> MergeUpdatedWithExisting(IEnumerable<CritterSource> existing, IEnumerable<CritterSource> updated, IEnumerable<string> fieldNames, bool isPartial)
+        {
+            Type sourceType = typeof(CritterSource);
+            IEnumerable<PropertyInfo> sourceProperties = sourceType.GetProperties();
+
+            if (isPartial)
+            {
+                foreach (CritterSource original in existing)
+                {
+                    CritterSource source = updated.SingleOrDefault(x => x.ID == original.ID);
+                    if (source != null)
+                    {
+                        foreach (PropertyInfo property in sourceProperties)
+                        {
+                            JsonPropertyAttribute attribute = property.GetCustomAttributes<JsonPropertyAttribute>().Single();
+                            if (fieldNames.Contains(attribute.PropertyName))
+                            {
+                                object value = property.GetValue(source);
+                                property.SetValue(original, value);
+                            }
+                        }
+                    }
+                }
+                return existing;
+            }
+            else
+            {
+                return existing.Where(x => !updated.Any(s => s.ID == x.ID))
+                    .Concat(updated)
+                    .OrderBy(x => x.ID);
+            }
         }
 
         private async void btnImportFile_Click(object sender, EventArgs e)
         {
             string json = File.ReadAllText(_filePath);
             IEnumerable<CritterSource> sources = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
-            await ImportData(sources);
+            IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_importerWriter), new NullEventPublisher()).Fields.Select(x => x.Name);
+            await ImportData(sources, fieldNames);
         }
 
-        private async Task ImportData(IEnumerable<CritterSource> sources)
+        private async Task ImportData(IEnumerable<CritterSource> sources, IEnumerable<string> fieldNames)
         {
             _importerWriter.WriteLine($"Importing {sources.Count()}");
 
@@ -76,7 +134,6 @@ namespace CH.RescueGroupsHelper
 
             Guid organizationID = new Guid("71A22C0B-23FB-4FC0-96A8-792474C80953");
 
-            IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_importerWriter), new NullEventPublisher()).Fields.Select(x => x.Name);
 
             using (CritterBatchStorageContext critterStorage = new CritterBatchStorageContext(publisher))
             {
@@ -323,6 +380,16 @@ namespace CH.RescueGroupsHelper
             }
 
             return color;
+        }
+
+        private void btnImporterCheckAll_Click(object sender, EventArgs e)
+        {
+            ChangeCheckState(clbImporterFields, CheckState.Checked);
+        }
+
+        private void btnImporterUncheckAll_Click(object sender, EventArgs e)
+        {
+            ChangeCheckState(clbImporterFields, CheckState.Unchecked);
         }
     }
 }

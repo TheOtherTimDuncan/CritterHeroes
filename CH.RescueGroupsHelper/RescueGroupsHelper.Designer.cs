@@ -40,7 +40,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tree = new System.Windows.Forms.TreeView();
             this.txtHttp = new System.Windows.Forms.TextBox();
-            this.clbFields = new System.Windows.Forms.CheckedListBox();
+            this.clbExplorerFields = new System.Windows.Forms.CheckedListBox();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.btnUncheckAll = new System.Windows.Forms.Button();
             this.cmbKeyField = new System.Windows.Forms.ComboBox();
@@ -51,9 +51,12 @@
             this.tabExplorer = new System.Windows.Forms.TabPage();
             this.txtExplorerLog = new System.Windows.Forms.TextBox();
             this.tabImporter = new System.Windows.Forms.TabPage();
+            this.clbImporterFields = new System.Windows.Forms.CheckedListBox();
             this.btnImportFile = new System.Windows.Forms.Button();
             this.btnImportWeb = new System.Windows.Forms.Button();
             this.txtImporterLog = new System.Windows.Forms.TextBox();
+            this.btnImporterCheckAll = new System.Windows.Forms.Button();
+            this.btnImporterUncheckAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -187,7 +190,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtHttp);
             this.splitContainer1.Size = new System.Drawing.Size(770, 493);
-            this.splitContainer1.SplitterDistance = 244;
+            this.splitContainer1.SplitterDistance = 243;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 11;
             // 
@@ -197,7 +200,7 @@
             this.tree.Location = new System.Drawing.Point(0, 0);
             this.tree.Margin = new System.Windows.Forms.Padding(4);
             this.tree.Name = "tree";
-            this.tree.Size = new System.Drawing.Size(770, 244);
+            this.tree.Size = new System.Drawing.Size(770, 243);
             this.tree.TabIndex = 4;
             // 
             // txtHttp
@@ -208,17 +211,17 @@
             this.txtHttp.Multiline = true;
             this.txtHttp.Name = "txtHttp";
             this.txtHttp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtHttp.Size = new System.Drawing.Size(770, 244);
+            this.txtHttp.Size = new System.Drawing.Size(770, 245);
             this.txtHttp.TabIndex = 0;
             // 
-            // clbFields
+            // clbExplorerFields
             // 
-            this.clbFields.Enabled = false;
-            this.clbFields.FormattingEnabled = true;
-            this.clbFields.Location = new System.Drawing.Point(28, 144);
-            this.clbFields.Name = "clbFields";
-            this.clbFields.Size = new System.Drawing.Size(379, 140);
-            this.clbFields.TabIndex = 12;
+            this.clbExplorerFields.Enabled = false;
+            this.clbExplorerFields.FormattingEnabled = true;
+            this.clbExplorerFields.Location = new System.Drawing.Point(28, 144);
+            this.clbExplorerFields.Name = "clbExplorerFields";
+            this.clbExplorerFields.Size = new System.Drawing.Size(379, 140);
+            this.clbExplorerFields.TabIndex = 12;
             // 
             // btnCheckAll
             // 
@@ -298,7 +301,7 @@
             this.tabExplorer.Controls.Add(this.lblKeyField);
             this.tabExplorer.Controls.Add(this.btnUncheckAll);
             this.tabExplorer.Controls.Add(this.btnCheckAll);
-            this.tabExplorer.Controls.Add(this.clbFields);
+            this.tabExplorer.Controls.Add(this.clbExplorerFields);
             this.tabExplorer.Controls.Add(this.splitContainer1);
             this.tabExplorer.Controls.Add(this.btnLoadJson);
             this.tabExplorer.Controls.Add(this.btnClear);
@@ -332,6 +335,9 @@
             // tabImporter
             // 
             this.tabImporter.BackColor = System.Drawing.SystemColors.Control;
+            this.tabImporter.Controls.Add(this.btnImporterUncheckAll);
+            this.tabImporter.Controls.Add(this.btnImporterCheckAll);
+            this.tabImporter.Controls.Add(this.clbImporterFields);
             this.tabImporter.Controls.Add(this.btnImportFile);
             this.tabImporter.Controls.Add(this.btnImportWeb);
             this.tabImporter.Controls.Add(this.txtImporterLog);
@@ -341,6 +347,16 @@
             this.tabImporter.Size = new System.Drawing.Size(1208, 518);
             this.tabImporter.TabIndex = 1;
             this.tabImporter.Text = "Importer";
+            // 
+            // clbImporterFields
+            // 
+            this.clbImporterFields.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.clbImporterFields.FormattingEnabled = true;
+            this.clbImporterFields.Location = new System.Drawing.Point(12, 42);
+            this.clbImporterFields.Name = "clbImporterFields";
+            this.clbImporterFields.Size = new System.Drawing.Size(268, 429);
+            this.clbImporterFields.TabIndex = 3;
             // 
             // btnImportFile
             // 
@@ -369,13 +385,33 @@
             this.txtImporterLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImporterLog.Location = new System.Drawing.Point(14, 45);
+            this.txtImporterLog.Location = new System.Drawing.Point(286, 10);
             this.txtImporterLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtImporterLog.Multiline = true;
             this.txtImporterLog.Name = "txtImporterLog";
             this.txtImporterLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtImporterLog.Size = new System.Drawing.Size(1188, 468);
+            this.txtImporterLog.Size = new System.Drawing.Size(916, 497);
             this.txtImporterLog.TabIndex = 0;
+            // 
+            // btnImporterCheckAll
+            // 
+            this.btnImporterCheckAll.Location = new System.Drawing.Point(12, 480);
+            this.btnImporterCheckAll.Name = "btnImporterCheckAll";
+            this.btnImporterCheckAll.Size = new System.Drawing.Size(132, 27);
+            this.btnImporterCheckAll.TabIndex = 4;
+            this.btnImporterCheckAll.Text = "Check All";
+            this.btnImporterCheckAll.UseVisualStyleBackColor = true;
+            this.btnImporterCheckAll.Click += new System.EventHandler(this.btnImporterCheckAll_Click);
+            // 
+            // btnImporterUncheckAll
+            // 
+            this.btnImporterUncheckAll.Location = new System.Drawing.Point(148, 480);
+            this.btnImporterUncheckAll.Name = "btnImporterUncheckAll";
+            this.btnImporterUncheckAll.Size = new System.Drawing.Size(132, 27);
+            this.btnImporterUncheckAll.TabIndex = 5;
+            this.btnImporterUncheckAll.Text = "Uncheck All";
+            this.btnImporterUncheckAll.UseVisualStyleBackColor = true;
+            this.btnImporterUncheckAll.Click += new System.EventHandler(this.btnImporterUncheckAll_Click);
             // 
             // RescueGroupsHelper
             // 
@@ -413,7 +449,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView tree;
         private System.Windows.Forms.TextBox txtHttp;
-        private System.Windows.Forms.CheckedListBox clbFields;
+        private System.Windows.Forms.CheckedListBox clbExplorerFields;
         private System.Windows.Forms.Button btnCheckAll;
         private System.Windows.Forms.Button btnUncheckAll;
         private System.Windows.Forms.ComboBox cmbKeyField;
@@ -427,6 +463,9 @@
         private System.Windows.Forms.Button btnImportWeb;
         private System.Windows.Forms.Button btnImportFile;
         private System.Windows.Forms.TextBox txtExplorerLog;
+        private System.Windows.Forms.CheckedListBox clbImporterFields;
+        private System.Windows.Forms.Button btnImporterUncheckAll;
+        private System.Windows.Forms.Button btnImporterCheckAll;
     }
 }
 
