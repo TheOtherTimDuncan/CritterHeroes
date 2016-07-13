@@ -28,7 +28,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Storage
                 new SearchField("animalGroups"),
                 new SearchField("animalKillDate"),
                 new SearchField("animalKillReason"),
-                new SearchField("animalLocationID","locationName"),
+                new SearchField("animalLocationID","locationName","locationAddress","locationCity","locationPostalcode","locationPhone","locationUrl"),
                 new SearchField("animalMicrochipped"),
                 new SearchField("animalName"),
                 new SearchField("animalNotes"),

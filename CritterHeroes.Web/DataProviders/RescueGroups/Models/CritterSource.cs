@@ -136,6 +136,54 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        [JsonProperty(PropertyName = "locationAddress")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string LocationAddress
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "locationCity")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string LocationCity
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "locationState")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string LocationState
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "locationPostalcode")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string LocationZip
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "locationPhone")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string LocationPhone
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty(PropertyName = "locationUrl")]
+        [JsonConverter(typeof(EmptyToNullStringConverter))]
+        public string LocationUrl
+        {
+            get;
+            set;
+        }
+
         [JsonProperty(PropertyName = "animalPictures")]
         public CritterPictureSource[] PictureSources
         {

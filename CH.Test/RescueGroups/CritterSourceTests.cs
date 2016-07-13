@@ -44,6 +44,12 @@ namespace CH.Test.RescueGroups
                 EuthanasiaReason = "KillReason1",
                 LocationID = 14,
                 LocationName = "Location1",
+                LocationAddress = "LocationAddress1",
+                LocationCity = "LocationCity1",
+                LocationState = "LocationState1",
+                LocationZip = "LocationZip1",
+                LocationPhone = "LocationPhone1",
+                LocationUrl = "LocationUrl1",
                 IsMicrochipped = true,
                 Name = "Name1",
                 Notes = "Notes1",
@@ -85,6 +91,12 @@ namespace CH.Test.RescueGroups
                 EuthanasiaReason = "KillReason2",
                 LocationID = 24,
                 LocationName = "Location2",
+                LocationAddress = "LocationAddress2",
+                LocationCity = "LocationCity2",
+                LocationState = "LocationState2",
+                LocationZip = "LocationZip2",
+                LocationPhone = "LocationPhone2",
+                LocationUrl = "LocationUrl2",
                 IsMicrochipped = true,
                 Name = "Name2",
                 Notes = "Notes2",
@@ -128,6 +140,12 @@ namespace CH.Test.RescueGroups
         ""locationName"": ""Location1"",
         ""animalMicrochipped"": ""Yes"",
         ""animalName"": ""Name1"",
+        ""locationAddress"": ""LocationAddress1"",
+        ""locationCity"": ""LocationCity1"",
+        ""locationState"": ""LocationState1"",
+        ""locationPostalcode"": ""LocationZip1"",
+        ""locationPhone"": ""LocationPhone1"",
+        ""locationUrl"": ""LocationUrl1"",
         ""animalNotes"": ""Notes1"",
         ""animalOKWithCats"": ""No"",
         ""animalOKWithDogs"": ""Yes"",
@@ -164,6 +182,12 @@ namespace CH.Test.RescueGroups
         ""animalKillReason"": ""KillReason2"",
         ""animalLocationID"": ""24"",
         ""locationName"": ""Location2"",
+        ""locationAddress"": ""LocationAddress2"",
+        ""locationCity"": ""LocationCity2"",
+        ""locationState"": ""LocationState2"",
+        ""locationPostalcode"": ""LocationZip2"",
+        ""locationPhone"": ""LocationPhone2"",
+        ""locationUrl"": ""LocationUrl2"",
         ""animalMicrochipped"": ""Yes"",
         ""animalName"": ""Name2"",
         ""animalNotes"": ""Notes2"",
@@ -216,6 +240,12 @@ namespace CH.Test.RescueGroups
             result1.EuthanasiaReason.Should().Be(critterSource1.EuthanasiaReason);
             result1.LocationID.Should().Be(critterSource1.LocationID);
             result1.LocationName.Should().Be(critterSource1.LocationName);
+            result1.LocationAddress.Should().Be(critterSource1.LocationAddress);
+            result1.LocationCity.Should().Be(critterSource1.LocationCity);
+            result1.LocationState.Should().Be(critterSource1.LocationState);
+            result1.LocationZip.Should().Be(critterSource1.LocationZip);
+            result1.LocationPhone.Should().Be(critterSource1.LocationPhone);
+            result1.LocationUrl.Should().Be(critterSource1.LocationUrl);
             result1.IsMicrochipped.Should().Be(critterSource1.IsMicrochipped);
             result1.Name.Should().Be(critterSource1.Name);
             result1.Notes.Should().Be(critterSource1.Notes);
@@ -255,6 +285,12 @@ namespace CH.Test.RescueGroups
             result2.EuthanasiaReason.Should().Be(critterSource2.EuthanasiaReason);
             result2.LocationID.Should().Be(critterSource2.LocationID);
             result2.LocationName.Should().Be(critterSource2.LocationName);
+            result2.LocationAddress.Should().Be(critterSource2.LocationAddress);
+            result2.LocationCity.Should().Be(critterSource2.LocationCity);
+            result2.LocationState.Should().Be(critterSource2.LocationState);
+            result2.LocationZip.Should().Be(critterSource2.LocationZip);
+            result2.LocationPhone.Should().Be(critterSource2.LocationPhone);
+            result2.LocationUrl.Should().Be(critterSource2.LocationUrl);
             result2.IsMicrochipped.Should().Be(critterSource2.IsMicrochipped);
             result2.Name.Should().Be(critterSource2.Name);
             result2.Notes.Should().Be(critterSource2.Notes);
