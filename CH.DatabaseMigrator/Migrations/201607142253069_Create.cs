@@ -216,6 +216,12 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     ID = c.Int(nullable: false, identity: true),
                     Name = c.String(maxLength: 50),
+                    Address = c.String(maxLength: 50),
+                    City = c.String(maxLength: 20),
+                    State = c.String(maxLength: 2, unicode: false),
+                    Zip = c.String(maxLength: 10, unicode: false),
+                    Phone = c.String(maxLength: 14, unicode: false),
+                    Website = c.String(maxLength: 200, unicode: false),
                     RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)

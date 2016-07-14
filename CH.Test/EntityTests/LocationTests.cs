@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
 {
@@ -34,6 +32,12 @@ namespace CH.Test.EntityTests
                 result.Should().NotBeNull();
 
                 result.Name.Should().Be(location.Name);
+                result.Address.Should().Be(location.Address);
+                result.City.Should().Be(location.City);
+                result.State.Should().Be(location.State);
+                result.Zip.Should().Be(location.Zip);
+                result.Phone.Should().Be(location.Phone);
+                result.Website.Should().Be(location.Website);
                 result.RescueGroupsID.Should().Be(location.RescueGroupsID);
 
                 storageContext.Delete(result);

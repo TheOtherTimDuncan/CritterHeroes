@@ -30,6 +30,42 @@ namespace CritterHeroes.Web.Data.Models
             private set;
         }
 
+        public string Address
+        {
+            get;
+            set;
+        }
+
+        public string City
+        {
+            get;
+            set;
+        }
+
+        public string State
+        {
+            get;
+            set;
+        }
+
+        public string Zip
+        {
+            get;
+            set;
+        }
+
+        public string Phone
+        {
+            get;
+            set;
+        }
+
+        public string Website
+        {
+            get;
+            set;
+        }
+
         public int? RescueGroupsID
         {
             get;
