@@ -71,19 +71,19 @@ namespace CH.RescueGroupsHelper
                 sources = await source.GetAllAsync(filter);
             }
 
-            IEnumerable<string> fieldNames = source.Fields.Where(x => x.IsSelected).Select(x => x.Name);
+            IEnumerable<SearchField> fields = source.Fields.Where(x => x.IsSelected);
 
             string json = File.ReadAllText(_filePath);
             IEnumerable<CritterSource> existing = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
 
-            IEnumerable<CritterSource> merged = MergeUpdatedWithExisting(existing, sources, fieldNames, isPartial);
+            IEnumerable<CritterSource> merged = MergeUpdatedWithExisting(existing, sources, fields, isPartial);
 
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
 
-            await ImportData(sources, fieldNames);
+            await ImportData(sources, fields.Select(x => x.Name));
         }
 
-        private IEnumerable<CritterSource> MergeUpdatedWithExisting(IEnumerable<CritterSource> existing, IEnumerable<CritterSource> updated, IEnumerable<string> fieldNames, bool isPartial)
+        private IEnumerable<CritterSource> MergeUpdatedWithExisting(IEnumerable<CritterSource> existing, IEnumerable<CritterSource> updated, IEnumerable<SearchField> fields, bool isPartial)
         {
             Type sourceType = typeof(CritterSource);
             IEnumerable<PropertyInfo> sourceProperties = sourceType.GetProperties();
@@ -98,7 +98,8 @@ namespace CH.RescueGroupsHelper
                         foreach (PropertyInfo property in sourceProperties)
                         {
                             JsonPropertyAttribute attribute = property.GetCustomAttributes<JsonPropertyAttribute>().Single();
-                            if (fieldNames.Contains(attribute.PropertyName))
+
+                            if (fields.Any(x => x.Name == attribute.PropertyName || x.SupportingFields.Contains(attribute.PropertyName)))
                             {
                                 object value = property.GetValue(source);
                                 property.SetValue(original, value);
@@ -134,7 +135,6 @@ namespace CH.RescueGroupsHelper
 
             Guid organizationID = new Guid("71A22C0B-23FB-4FC0-96A8-792474C80953");
 
-
             using (CritterBatchStorageContext critterStorage = new CritterBatchStorageContext(publisher))
             {
                 foreach (CritterSource source in sources)
@@ -145,7 +145,7 @@ namespace CH.RescueGroupsHelper
                     {
                         Status = await GetCritterStatusAsync(critterStorage, source.StatusID, source.Status),
                         Breed = await GetBreedAsync(critterStorage, source.PrimaryBreedID, source.PrimaryBreed, source.Species),
-                        Location = await GetLocationAsync(critterStorage, source.LocationID, source.LocationName),
+                        Location = await GetLocationAsync(critterStorage, source.LocationID, source),
                         Foster = await GetFosterAsync(critterStorage, source.FosterContactID, source.FosterFirstName, source.FosterLastName, source.FosterEmail),
                         Color = await GetColorAsync(critterStorage, source.ColorID, source.Color)
                     };
@@ -340,7 +340,7 @@ namespace CH.RescueGroupsHelper
             return person;
         }
 
-        private async Task<Location> GetLocationAsync(CritterBatchStorageContext critterStorage, int? locationID, string locationName)
+        private async Task<Location> GetLocationAsync(CritterBatchStorageContext critterStorage, int? locationID, CritterSource source)
         {
             if (locationID == null)
             {
@@ -351,12 +351,19 @@ namespace CH.RescueGroupsHelper
 
             if (location == null)
             {
-                _importerWriter.WriteLine($"Added location {locationName}");
-                location = new Location(locationName)
+                _importerWriter.WriteLine($"Added location {source.LocationName}");
+                location = new Location(source.LocationName)
                 {
                     RescueGroupsID = locationID
                 };
             }
+
+            location.Address = source.LocationAddress;
+            location.City = source.LocationCity;
+            location.State = source.LocationState;
+            location.Zip = source.LocationZip;
+            location.Phone = source.LocationPhone;
+            location.Website = source.LocationUrl;
 
             return location;
         }
