@@ -40,7 +40,7 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Commands
             if (!sources.IsNullOrEmpty())
             {
                 IEnumerable<PhoneType> phoneTypes = await _phoneTypeStorage.GetAllAsync();
-                PhoneType phoneTypeFax = phoneTypes.Single(x => x.Name.SafeEquals("Fax"));
+                PhoneType phoneTypeFax = phoneTypes.Single(x => x.Name.SafeEquals(PhoneTypeNames.Fax));
 
                 foreach (BusinessSource source in sources)
                 {

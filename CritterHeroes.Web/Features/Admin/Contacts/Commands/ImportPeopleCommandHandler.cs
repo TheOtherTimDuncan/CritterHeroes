@@ -40,10 +40,10 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Commands
             if (!sources.IsNullOrEmpty())
             {
                 IEnumerable<PhoneType> phoneTypes = await _phoneTypeStorage.GetAllAsync();
-                PhoneType phoneTypeHome = phoneTypes.Single(x => x.Name.SafeEquals("Home"));
-                PhoneType phoneTypeWork = phoneTypes.Single(x => x.Name.SafeEquals("Work"));
-                PhoneType phoneTypeCell = phoneTypes.Single(x => x.Name.SafeEquals("Cell"));
-                PhoneType phoneTypeFax = phoneTypes.Single(x => x.Name.SafeEquals("Fax"));
+                PhoneType phoneTypeHome = phoneTypes.Single(x => x.Name.SafeEquals(PhoneTypeNames.Home));
+                PhoneType phoneTypeWork = phoneTypes.Single(x => x.Name.SafeEquals(PhoneTypeNames.Work));
+                PhoneType phoneTypeCell = phoneTypes.Single(x => x.Name.SafeEquals(PhoneTypeNames.Cell));
+                PhoneType phoneTypeFax = phoneTypes.Single(x => x.Name.SafeEquals(PhoneTypeNames.Fax));
 
                 foreach (PersonSource source in sources)
                 {

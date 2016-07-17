@@ -23,6 +23,33 @@ namespace CH.Test.RescueGroups
         }
 
         [TestMethod]
+        public void CanSplitExtendedZipIntoPostalCodeAndPlus4()
+        {
+            PersonSource source = new PersonSource();
+            source.Zip = "123456789";
+            source.PostalCode.Should().Be("12345");
+            source.PostalPlus4.Should().Be("6789");
+        }
+
+        [TestMethod]
+        public void SetsPostalCodeToShortZip()
+        {
+            PersonSource source = new PersonSource();
+            source.Zip = "12345";
+            source.PostalCode.Should().Be("12345");
+            source.PostalPlus4.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void CombinesPostalCodeAndPlus4IntoZip()
+        {
+            PersonSource source = new PersonSource();
+            source.PostalCode = "12345";
+            source.PostalPlus4 = "6789";
+            source.Zip.Should().Be("123456789");
+        }
+
+        [TestMethod]
         public async Task ConvertsJsonToModel()
         {
             PersonSource source1 = new PersonSource()
@@ -46,7 +73,6 @@ namespace CH.Test.RescueGroups
             };
 
             source1.GroupNames.Should().Equal(new[] { "group1", "group2" });
-            source1.Zip.Should().Be("Zip11234");
 
             PersonSource source2 = new PersonSource()
             {

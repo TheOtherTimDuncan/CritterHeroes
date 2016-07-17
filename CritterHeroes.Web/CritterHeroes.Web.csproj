@@ -443,6 +443,7 @@
     <Compile Include="App_Start\Startup.Middleware.cs" />
     <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
+    <Compile Include="DataProviders\RescueGroups\Mappers\PersonMapper.cs" />
     <Compile Include="Features\Account\AccountController.cs" />
     <Compile Include="Features\Account\Commands\ConfirmEmailCommandHandler.cs" />
     <Compile Include="Features\Account\Commands\EditProfileLoginCommandHandler.cs" />

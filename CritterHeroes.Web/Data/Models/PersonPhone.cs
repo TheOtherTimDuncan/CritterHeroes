@@ -12,7 +12,7 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         internal PersonPhone(Person person, int phoneTypeID, string phoneNumber, string phoneExtension)
-            : this(person, phoneNumber, null)
+            : this(person, phoneNumber, phoneExtension)
         {
             this.PhoneType = null;
             this.PhoneTypeID = phoneTypeID;

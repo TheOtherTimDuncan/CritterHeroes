@@ -212,9 +212,7 @@ END
 
         private void SeedPhoneTypes(MigrationsDataContext context)
         {
-            string[] seeds = new[] { "Home", "Work", "Cell", "Fax" };
-
-            foreach (string seed in seeds)
+            foreach (string seed in PhoneTypeNames.GetAll())
             {
                 PhoneType phoneType = context.PhoneTypes.SingleOrDefault(x => x.Name == seed);
                 if (phoneType == null)

@@ -71,6 +71,22 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             {
                 return PostalCode + PostalPlus4;
             }
+            set
+            {
+                if (!value.IsNullOrEmpty())
+                {
+                    PostalCode = value?.Substring(0, 5);
+                    if (value.Length > 5)
+                    {
+                        PostalPlus4 = value.Substring(5);
+                    }
+                }
+                else
+                {
+                    PostalCode = null;
+                    PostalPlus4 = null;
+                }
+            }
         }
 
         [JsonProperty(PropertyName = "contactPhoneWork")]

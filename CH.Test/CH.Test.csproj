@@ -314,6 +314,7 @@
     <Compile Include="RescueGroups\CritterMapperTests.cs" />
     <Compile Include="RescueGroups\CritterSourceTests.cs" />
     <Compile Include="RescueGroups\CritterStatusSourceTests.cs" />
+    <Compile Include="RescueGroups\PersonMapperTests.cs" />
     <Compile Include="RescueGroups\PersonSourceTests.cs" />
     <Compile Include="RescueGroups\SpeciesSourceTests.cs" />
     <Compile Include="RescueGroups\ConfigurationTests.cs" />
