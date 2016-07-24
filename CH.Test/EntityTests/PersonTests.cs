@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
 {
@@ -34,7 +32,7 @@ namespace CH.Test.EntityTests
 
             using (TestSqlStorageContext<Person> storageContext = new TestSqlStorageContext<Person>())
             {
-                storageContext.FillWithTestData(person, "ID", "State");
+                storageContext.FillWithTestData(person, "State");
                 storageContext.Add(person);
                 await storageContext.SaveChangesAsync();
             }

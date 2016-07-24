@@ -4,19 +4,14 @@ using System.Linq;
 
 namespace CritterHeroes.Web.Data.Models
 {
-    public class Person
+    public class Person : BaseContact
     {
-        public Person()
+        public Person() :
+            base()
         {
             Groups = new List<PersonGroup>();
             PhoneNumbers = new List<PersonPhone>();
             IsActive = true;
-        }
-
-        public int ID
-        {
-            get;
-            private set;
         }
 
         public string FirstName
@@ -44,36 +39,6 @@ namespace CritterHeroes.Web.Data.Models
         }
 
         public bool IsEmailConfirmed
-        {
-            get;
-            set;
-        }
-
-        public string Address
-        {
-            get;
-            set;
-        }
-
-        public string City
-        {
-            get;
-            set;
-        }
-
-        public string State
-        {
-            get;
-            set;
-        }
-
-        public string Zip
-        {
-            get;
-            set;
-        }
-
-        public int? RescueGroupsID
         {
             get;
             set;
