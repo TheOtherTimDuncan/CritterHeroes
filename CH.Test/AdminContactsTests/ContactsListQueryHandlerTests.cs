@@ -212,12 +212,11 @@ namespace CH.Test.AdminContactsTests
 
             model.Paging.Should().NotBeNull();
 
-            model.Contacts.Select(x => x.ContactID).Should()
-                .NotContain(testPeople.Where(x => !x.IsActive).Select(x => x.ID))
-                .And
-                .Contain(person.ID);
+            IEnumerable<int> contactIDs = model.Contacts.Select(x => x.ContactID);
+            contactIDs.Should().NotContain(testPeople.Where(x => x.IsActive).Select(x => x.ID));
+            contactIDs.Should().Contain(person.ID);
 
-            model.Contacts.Select(x => x.ContactID).Should().Contain(testBusinesses.Select(x => x.ID));
+            contactIDs.Should().Contain(testBusinesses.Select(x => x.ID));
         }
 
         [TestMethod]
@@ -235,7 +234,7 @@ namespace CH.Test.AdminContactsTests
             model.Paging.Should().NotBeNull();
 
             model.Contacts.Select(x => x.ContactID).Should()
-                .Contain(testPeople.Where(x => x.Groups.Any(g => g.GroupID == query.GroupID)).Select(x=>x.ID))
+                .Contain(testPeople.Where(x => x.Groups.Any(g => g.GroupID == query.GroupID)).Select(x => x.ID))
                 .And
                 .NotContain(testPeople.Where(x => x.Groups.Any(g => g.GroupID != query.GroupID)).Select(x => x.ID));
 
