@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -19,6 +20,7 @@ using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
 using CritterHeroes.Web.Shared.Proxies.Configuration;
 using Newtonsoft.Json;
 using TOTD.Utility.EnumerableHelpers;
+using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.RescueGroupsHelper
 {
@@ -80,7 +82,98 @@ namespace CH.RescueGroupsHelper
 
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
 
-            await ImportData(sources, fields.Select(x => x.Name));
+            await ImportCritters(sources, fields.Select(x => x.Name));
+        }
+
+        private async void btnImportFile_Click(object sender, EventArgs e)
+        {
+            string json = File.ReadAllText(_filePath);
+            IEnumerable<CritterSource> sources = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
+            IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_importerWriter), new NullEventPublisher()).Fields.Select(x => x.Name);
+            await ImportCritters(sources, fieldNames);
+        }
+
+        private async void btnImportPeople_Click(object sender, EventArgs e)
+        {
+            NullEventPublisher publisher = new NullEventPublisher();
+
+            PersonSourceStorage sourceStorage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_importerWriter), publisher);
+            IEnumerable<PersonSource> sources = await sourceStorage.GetAllAsync();
+
+            if (!sources.IsNullOrEmpty())
+            {
+                File.WriteAllText(Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "people.json"), JsonConvert.SerializeObject(sources, Formatting.Indented));
+
+                IEnumerable<PhoneType> phoneTypes;
+                using (SqlStorageContext<PhoneType> storageContext = new SqlStorageContext<PhoneType>(publisher))
+                {
+                    phoneTypes = await storageContext.GetAllAsync();
+                }
+
+                //IEnumerable<Group> groups;
+                //{
+                //    groups = await storageContext.GetAllAsync();
+                //}
+
+                PersonMapper mapper = new PersonMapper();
+
+                using (SqlStorageContext<Person> storagePeople = new SqlStorageContext<Person>(publisher))
+                using (SqlStorageContext<Group> storageGroups = new SqlStorageContext<Group>(publisher))
+                {
+                    foreach (PersonSource source in sources)
+                    {
+                        Person person = await storagePeople.Entities.FindByRescueGroupsIDAsync(source.ID);
+                        if (person == null)
+                        {
+                            person = new Person()
+                            {
+                                RescueGroupsID = source.ID
+                            };
+                            storagePeople.Add(person);
+                            _importerWriter.WriteLine($"Added {source.ID} - {source.FirstName} {source.LastName}");
+                        }
+                        else
+                        {
+                            _importerWriter.WriteLine($"Updated {source.ID} - {source.FirstName} {source.LastName}");
+                        }
+
+                        if (!source.GroupNames.IsNullOrEmpty())
+                        {
+                            foreach (string groupName in source.GroupNames)
+                            {
+                                Group group = await storageGroups.Entities.Where(x => x.Name == groupName).SingleOrDefaultAsync();
+                                if (group == null)
+                                {
+                                    group = new Group(groupName);
+                                    storageGroups.Add(group);
+                                }
+                                group.IsPerson = true;
+                                await storageGroups.SaveChangesAsync();
+                            }
+                        }
+
+                        PersonMapperContext context = new PersonMapperContext(source, person, publisher)
+                        {
+                            PhoneTypes = phoneTypes,
+                            Groups = await storageGroups.GetAllAsync()
+                        };
+
+                        mapper.MapSourceToTarget(context, sourceStorage.Fields.Select(x => x.Name));
+
+                        await storagePeople.SaveChangesAsync();
+                    }
+                }
+            }
+        }
+
+        private void btnImporterCheckAll_Click(object sender, EventArgs e)
+        {
+            ChangeCheckState(clbImporterFields, CheckState.Checked);
+        }
+
+        private void btnImporterUncheckAll_Click(object sender, EventArgs e)
+        {
+            ChangeCheckState(clbImporterFields, CheckState.Unchecked);
         }
 
         private IEnumerable<CritterSource> MergeUpdatedWithExisting(IEnumerable<CritterSource> existing, IEnumerable<CritterSource> updated, IEnumerable<SearchField> fields, bool isPartial)
@@ -117,15 +210,7 @@ namespace CH.RescueGroupsHelper
             }
         }
 
-        private async void btnImportFile_Click(object sender, EventArgs e)
-        {
-            string json = File.ReadAllText(_filePath);
-            IEnumerable<CritterSource> sources = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
-            IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_importerWriter), new NullEventPublisher()).Fields.Select(x => x.Name);
-            await ImportData(sources, fieldNames);
-        }
-
-        private async Task ImportData(IEnumerable<CritterSource> sources, IEnumerable<string> fieldNames)
+        private async Task ImportCritters(IEnumerable<CritterSource> sources, IEnumerable<string> fieldNames)
         {
             _importerWriter.WriteLine($"Importing {sources.Count()}");
 
@@ -387,16 +472,6 @@ namespace CH.RescueGroupsHelper
             }
 
             return color;
-        }
-
-        private void btnImporterCheckAll_Click(object sender, EventArgs e)
-        {
-            ChangeCheckState(clbImporterFields, CheckState.Checked);
-        }
-
-        private void btnImporterUncheckAll_Click(object sender, EventArgs e)
-        {
-            ChangeCheckState(clbImporterFields, CheckState.Unchecked);
         }
     }
 }

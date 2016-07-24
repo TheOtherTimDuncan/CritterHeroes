@@ -51,12 +51,13 @@
             this.tabExplorer = new System.Windows.Forms.TabPage();
             this.txtExplorerLog = new System.Windows.Forms.TextBox();
             this.tabImporter = new System.Windows.Forms.TabPage();
+            this.btnImporterUncheckAll = new System.Windows.Forms.Button();
+            this.btnImporterCheckAll = new System.Windows.Forms.Button();
             this.clbImporterFields = new System.Windows.Forms.CheckedListBox();
             this.btnImportFile = new System.Windows.Forms.Button();
             this.btnImportWeb = new System.Windows.Forms.Button();
             this.txtImporterLog = new System.Windows.Forms.TextBox();
-            this.btnImporterCheckAll = new System.Windows.Forms.Button();
-            this.btnImporterUncheckAll = new System.Windows.Forms.Button();
+            this.btnImportPeople = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -335,6 +336,7 @@
             // tabImporter
             // 
             this.tabImporter.BackColor = System.Drawing.SystemColors.Control;
+            this.tabImporter.Controls.Add(this.btnImportPeople);
             this.tabImporter.Controls.Add(this.btnImporterUncheckAll);
             this.tabImporter.Controls.Add(this.btnImporterCheckAll);
             this.tabImporter.Controls.Add(this.clbImporterFields);
@@ -347,6 +349,26 @@
             this.tabImporter.Size = new System.Drawing.Size(1208, 518);
             this.tabImporter.TabIndex = 1;
             this.tabImporter.Text = "Importer";
+            // 
+            // btnImporterUncheckAll
+            // 
+            this.btnImporterUncheckAll.Location = new System.Drawing.Point(148, 480);
+            this.btnImporterUncheckAll.Name = "btnImporterUncheckAll";
+            this.btnImporterUncheckAll.Size = new System.Drawing.Size(132, 27);
+            this.btnImporterUncheckAll.TabIndex = 5;
+            this.btnImporterUncheckAll.Text = "Uncheck All";
+            this.btnImporterUncheckAll.UseVisualStyleBackColor = true;
+            this.btnImporterUncheckAll.Click += new System.EventHandler(this.btnImporterUncheckAll_Click);
+            // 
+            // btnImporterCheckAll
+            // 
+            this.btnImporterCheckAll.Location = new System.Drawing.Point(12, 480);
+            this.btnImporterCheckAll.Name = "btnImporterCheckAll";
+            this.btnImporterCheckAll.Size = new System.Drawing.Size(132, 27);
+            this.btnImporterCheckAll.TabIndex = 4;
+            this.btnImporterCheckAll.Text = "Check All";
+            this.btnImporterCheckAll.UseVisualStyleBackColor = true;
+            this.btnImporterCheckAll.Click += new System.EventHandler(this.btnImporterCheckAll_Click);
             // 
             // clbImporterFields
             // 
@@ -385,33 +407,23 @@
             this.txtImporterLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImporterLog.Location = new System.Drawing.Point(286, 10);
+            this.txtImporterLog.Location = new System.Drawing.Point(286, 42);
             this.txtImporterLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtImporterLog.Multiline = true;
             this.txtImporterLog.Name = "txtImporterLog";
             this.txtImporterLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtImporterLog.Size = new System.Drawing.Size(916, 497);
+            this.txtImporterLog.Size = new System.Drawing.Size(916, 465);
             this.txtImporterLog.TabIndex = 0;
             // 
-            // btnImporterCheckAll
+            // btnImportPeople
             // 
-            this.btnImporterCheckAll.Location = new System.Drawing.Point(12, 480);
-            this.btnImporterCheckAll.Name = "btnImporterCheckAll";
-            this.btnImporterCheckAll.Size = new System.Drawing.Size(132, 27);
-            this.btnImporterCheckAll.TabIndex = 4;
-            this.btnImporterCheckAll.Text = "Check All";
-            this.btnImporterCheckAll.UseVisualStyleBackColor = true;
-            this.btnImporterCheckAll.Click += new System.EventHandler(this.btnImporterCheckAll_Click);
-            // 
-            // btnImporterUncheckAll
-            // 
-            this.btnImporterUncheckAll.Location = new System.Drawing.Point(148, 480);
-            this.btnImporterUncheckAll.Name = "btnImporterUncheckAll";
-            this.btnImporterUncheckAll.Size = new System.Drawing.Size(132, 27);
-            this.btnImporterUncheckAll.TabIndex = 5;
-            this.btnImporterUncheckAll.Text = "Uncheck All";
-            this.btnImporterUncheckAll.UseVisualStyleBackColor = true;
-            this.btnImporterUncheckAll.Click += new System.EventHandler(this.btnImporterUncheckAll_Click);
+            this.btnImportPeople.Location = new System.Drawing.Point(287, 10);
+            this.btnImportPeople.Name = "btnImportPeople";
+            this.btnImportPeople.Size = new System.Drawing.Size(125, 27);
+            this.btnImportPeople.TabIndex = 6;
+            this.btnImportPeople.Text = "Import People";
+            this.btnImportPeople.UseVisualStyleBackColor = true;
+            this.btnImportPeople.Click += new System.EventHandler(this.btnImportPeople_Click);
             // 
             // RescueGroupsHelper
             // 
@@ -466,6 +478,7 @@
         private System.Windows.Forms.CheckedListBox clbImporterFields;
         private System.Windows.Forms.Button btnImporterUncheckAll;
         private System.Windows.Forms.Button btnImporterCheckAll;
+        private System.Windows.Forms.Button btnImportPeople;
     }
 }
 

@@ -65,10 +65,15 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        [JsonIgnore]
         public string Zip
         {
             get
             {
+                if (PostalCode.IsNullOrEmpty())
+                {
+                    return null;
+                }
                 return PostalCode + PostalPlus4;
             }
             set
@@ -120,6 +125,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
             set;
         }
 
+        [JsonIgnore]
         public IEnumerable<string> GroupNames
         {
             get
