@@ -82,7 +82,10 @@
     <Compile Include="Explorer\SpeciesStorageHelper.cs" />
     <Compile Include="Explorer\StatusStorageHelper.cs" />
     <Compile Include="HttpClientProxy.cs" />
+    <Compile Include="Importer\BaseContactImporter.cs" />
+    <Compile Include="Importer\CritterImporter.cs" />
     <Compile Include="Importer\ImporterOrganizationStateManager.cs" />
+    <Compile Include="Importer\PersonImporter.cs" />
     <Compile Include="LoggingHandler.cs" />
     <Compile Include="NullEventPublisher.cs" />
     <Compile Include="RescueGroupsHelper.cs">
