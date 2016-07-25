@@ -51,13 +51,14 @@
             this.tabExplorer = new System.Windows.Forms.TabPage();
             this.txtExplorerLog = new System.Windows.Forms.TextBox();
             this.tabImporter = new System.Windows.Forms.TabPage();
+            this.btnImportPeopleFile = new System.Windows.Forms.Button();
+            this.btnImportPeopleWeb = new System.Windows.Forms.Button();
             this.btnImporterUncheckAll = new System.Windows.Forms.Button();
             this.btnImporterCheckAll = new System.Windows.Forms.Button();
             this.clbImporterFields = new System.Windows.Forms.CheckedListBox();
             this.btnImportFile = new System.Windows.Forms.Button();
             this.btnImportWeb = new System.Windows.Forms.Button();
             this.txtImporterLog = new System.Windows.Forms.TextBox();
-            this.btnImportPeople = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -336,7 +337,8 @@
             // tabImporter
             // 
             this.tabImporter.BackColor = System.Drawing.SystemColors.Control;
-            this.tabImporter.Controls.Add(this.btnImportPeople);
+            this.tabImporter.Controls.Add(this.btnImportPeopleFile);
+            this.tabImporter.Controls.Add(this.btnImportPeopleWeb);
             this.tabImporter.Controls.Add(this.btnImporterUncheckAll);
             this.tabImporter.Controls.Add(this.btnImporterCheckAll);
             this.tabImporter.Controls.Add(this.clbImporterFields);
@@ -349,6 +351,26 @@
             this.tabImporter.Size = new System.Drawing.Size(1208, 518);
             this.tabImporter.TabIndex = 1;
             this.tabImporter.Text = "Importer";
+            // 
+            // btnImportPeopleFile
+            // 
+            this.btnImportPeopleFile.Location = new System.Drawing.Point(473, 10);
+            this.btnImportPeopleFile.Name = "btnImportPeopleFile";
+            this.btnImportPeopleFile.Size = new System.Drawing.Size(180, 27);
+            this.btnImportPeopleFile.TabIndex = 7;
+            this.btnImportPeopleFile.Text = "Import People From File";
+            this.btnImportPeopleFile.UseVisualStyleBackColor = true;
+            this.btnImportPeopleFile.Click += new System.EventHandler(this.btnImportPeopleFile_Click);
+            // 
+            // btnImportPeopleWeb
+            // 
+            this.btnImportPeopleWeb.Location = new System.Drawing.Point(287, 10);
+            this.btnImportPeopleWeb.Name = "btnImportPeopleWeb";
+            this.btnImportPeopleWeb.Size = new System.Drawing.Size(180, 27);
+            this.btnImportPeopleWeb.TabIndex = 6;
+            this.btnImportPeopleWeb.Text = "Import People From Web";
+            this.btnImportPeopleWeb.UseVisualStyleBackColor = true;
+            this.btnImportPeopleWeb.Click += new System.EventHandler(this.btnImportPeopleWeb_Click);
             // 
             // btnImporterUncheckAll
             // 
@@ -415,16 +437,6 @@
             this.txtImporterLog.Size = new System.Drawing.Size(916, 465);
             this.txtImporterLog.TabIndex = 0;
             // 
-            // btnImportPeople
-            // 
-            this.btnImportPeople.Location = new System.Drawing.Point(287, 10);
-            this.btnImportPeople.Name = "btnImportPeople";
-            this.btnImportPeople.Size = new System.Drawing.Size(125, 27);
-            this.btnImportPeople.TabIndex = 6;
-            this.btnImportPeople.Text = "Import People";
-            this.btnImportPeople.UseVisualStyleBackColor = true;
-            this.btnImportPeople.Click += new System.EventHandler(this.btnImportPeople_Click);
-            // 
             // RescueGroupsHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -478,7 +490,8 @@
         private System.Windows.Forms.CheckedListBox clbImporterFields;
         private System.Windows.Forms.Button btnImporterUncheckAll;
         private System.Windows.Forms.Button btnImporterCheckAll;
-        private System.Windows.Forms.Button btnImportPeople;
+        private System.Windows.Forms.Button btnImportPeopleWeb;
+        private System.Windows.Forms.Button btnImportPeopleFile;
     }
 }
 

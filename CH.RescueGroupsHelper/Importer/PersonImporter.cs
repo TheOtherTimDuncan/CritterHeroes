@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
@@ -20,60 +21,72 @@ namespace CH.RescueGroupsHelper.Importer
     {
         private Writer _writer;
         private string _path;
+        private IAppEventPublisher _publisher;
 
         public PersonImporter(Writer writer)
         {
             this._writer = writer;
             this._path = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "people.json");
+            this._publisher = new NullEventPublisher();
         }
 
-        public async Task ImportAsync()
+        public async Task ImportWebAsync()
         {
-            NullEventPublisher publisher = new NullEventPublisher();
-
-            PersonSourceStorage sourceStorage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_writer), publisher);
+            PersonSourceStorage sourceStorage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_writer), _publisher);
             IEnumerable<PersonSource> sources = await sourceStorage.GetAllAsync();
 
             if (!sources.IsNullOrEmpty())
             {
                 File.WriteAllText(_path, JsonConvert.SerializeObject(sources, Formatting.Indented));
+                await ImportData(sources, sourceStorage.Fields.Select(x => x.Name));
+            }
+        }
 
-                IEnumerable<PhoneType> phoneTypes = await GetPhoneTypesAsync();
+        public async Task ImportFileAsync()
+        {
+            string json = File.ReadAllText(_path);
+            IEnumerable<PersonSource> sources = JsonConvert.DeserializeObject<IEnumerable<PersonSource>>(json);
+            PersonSourceStorage sourceStorage = new PersonSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_writer), _publisher);
+            await ImportData(sources, sourceStorage.Fields.Select(x => x.Name));
+        }
 
-                PersonMapper mapper = new PersonMapper();
+        private async Task ImportData(IEnumerable<PersonSource> sources, IEnumerable<string> fieldNames)
+        {
+            IEnumerable<PhoneType> phoneTypes = await GetPhoneTypesAsync();
 
-                using (SqlStorageContext<Person> storagePeople = new SqlStorageContext<Person>(publisher))
-                using (SqlStorageContext<Group> storageGroups = new SqlStorageContext<Group>(publisher))
+            PersonMapper mapper = new PersonMapper();
+
+            using (SqlStorageContext<Person> storagePeople = new SqlStorageContext<Person>(_publisher))
+            using (SqlStorageContext<Group> storageGroups = new SqlStorageContext<Group>(_publisher))
+            {
+                foreach (PersonSource source in sources)
                 {
-                    foreach (PersonSource source in sources)
+                    Person person = await storagePeople.Entities.FindByRescueGroupsIDAsync(source.ID);
+                    if (person == null)
                     {
-                        Person person = await storagePeople.Entities.FindByRescueGroupsIDAsync(source.ID);
-                        if (person == null)
+                        person = new Person()
                         {
-                            person = new Person()
-                            {
-                                RescueGroupsID = source.ID
-                            };
-                            storagePeople.Add(person);
-                            _writer.WriteLine($"Added {source.ID} - {source.FirstName} {source.LastName}");
-                        }
-                        else
-                        {
-                            _writer.WriteLine($"Updated {source.ID} - {source.FirstName} {source.LastName}");
-                        }
-
-                        await AddOrUpdateGroupsAsync(storageGroups, source.GroupNames);
-
-                        PersonMapperContext context = new PersonMapperContext(source, person, publisher)
-                        {
-                            PhoneTypes = phoneTypes,
-                            Groups = await storageGroups.GetAllAsync()
+                            RescueGroupsID = source.ID
                         };
-
-                        mapper.MapSourceToTarget(context, sourceStorage.Fields.Select(x => x.Name));
-
-                        await storagePeople.SaveChangesAsync();
+                        storagePeople.Add(person);
+                        _writer.WriteLine($"Added {source.ID} - {source.FirstName} {source.LastName}");
                     }
+                    else
+                    {
+                        _writer.WriteLine($"Updated {source.ID} - {source.FirstName} {source.LastName}");
+                    }
+
+                    await AddOrUpdateGroupsAsync(storageGroups, source.GroupNames);
+
+                    PersonMapperContext context = new PersonMapperContext(source, person, _publisher)
+                    {
+                        PhoneTypes = phoneTypes,
+                        Groups = await storageGroups.GetAllAsync()
+                    };
+
+                    mapper.MapSourceToTarget(context, fieldNames);
+
+                    await storagePeople.SaveChangesAsync();
                 }
             }
         }

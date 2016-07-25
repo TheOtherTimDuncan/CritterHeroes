@@ -21,10 +21,16 @@ namespace CH.RescueGroupsHelper
             await importer.ImportFromFileAsync();
         }
 
-        private async void btnImportPeople_Click(object sender, EventArgs e)
+        private async void btnImportPeopleWeb_Click(object sender, EventArgs e)
         {
             PersonImporter importer = new PersonImporter(_importerWriter);
-            await importer.ImportAsync();
+            await importer.ImportWebAsync();
+        }
+
+        private async void btnImportPeopleFile_Click(object sender, EventArgs e)
+        {
+            PersonImporter importer = new PersonImporter(_importerWriter);
+            await importer.ImportFileAsync();
         }
 
         private void btnImporterCheckAll_Click(object sender, EventArgs e)
