@@ -314,6 +314,7 @@
     <Compile Include="MiddlewareTests\OrganizationContextMiddlewareTests.cs" />
     <Compile Include="MiddlewareTests\UserContextMiddlewareTests.cs" />
     <Compile Include="RescueGroups\BreedSourceTests.cs" />
+    <Compile Include="RescueGroups\BusinessMapperTests.cs" />
     <Compile Include="RescueGroups\BusinessSourceTests.cs" />
     <Compile Include="RescueGroups\CritterMapperTests.cs" />
     <Compile Include="RescueGroups\CritterSourceTests.cs" />
