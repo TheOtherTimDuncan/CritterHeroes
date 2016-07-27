@@ -32,7 +32,6 @@ namespace CH.RescueGroupsHelper.Importer
                         group = new Group(groupName);
                         storageGroups.Add(group);
                     }
-                    group.IsPerson = true;
                     await storageGroups.SaveChangesAsync();
                 }
             }

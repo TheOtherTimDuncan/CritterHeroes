@@ -105,6 +105,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
             foreach (string groupName in sourceGroups)
             {
                 Group group = targetGroups.Single(x => x.Name == groupName);
+                group.IsBusiness = true;
                 if (!business.Groups.Any(x => x.GroupID == group.ID))
                 {
                     business.AddGroup(group.ID);

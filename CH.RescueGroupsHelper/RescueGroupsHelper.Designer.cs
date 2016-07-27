@@ -51,6 +51,8 @@
             this.tabExplorer = new System.Windows.Forms.TabPage();
             this.txtExplorerLog = new System.Windows.Forms.TextBox();
             this.tabImporter = new System.Windows.Forms.TabPage();
+            this.btnImportBusinessessFile = new System.Windows.Forms.Button();
+            this.btnImportBusinessesWeb = new System.Windows.Forms.Button();
             this.btnImportPeopleFile = new System.Windows.Forms.Button();
             this.btnImportPeopleWeb = new System.Windows.Forms.Button();
             this.btnImporterUncheckAll = new System.Windows.Forms.Button();
@@ -337,6 +339,8 @@
             // tabImporter
             // 
             this.tabImporter.BackColor = System.Drawing.SystemColors.Control;
+            this.tabImporter.Controls.Add(this.btnImportBusinessessFile);
+            this.tabImporter.Controls.Add(this.btnImportBusinessesWeb);
             this.tabImporter.Controls.Add(this.btnImportPeopleFile);
             this.tabImporter.Controls.Add(this.btnImportPeopleWeb);
             this.tabImporter.Controls.Add(this.btnImporterUncheckAll);
@@ -351,6 +355,26 @@
             this.tabImporter.Size = new System.Drawing.Size(1208, 518);
             this.tabImporter.TabIndex = 1;
             this.tabImporter.Text = "Importer";
+            // 
+            // btnImportBusinessessFile
+            // 
+            this.btnImportBusinessessFile.Location = new System.Drawing.Point(1005, 10);
+            this.btnImportBusinessessFile.Name = "btnImportBusinessessFile";
+            this.btnImportBusinessessFile.Size = new System.Drawing.Size(200, 27);
+            this.btnImportBusinessessFile.TabIndex = 9;
+            this.btnImportBusinessessFile.Text = "Import Businesses From File";
+            this.btnImportBusinessessFile.UseVisualStyleBackColor = true;
+            this.btnImportBusinessessFile.Click += new System.EventHandler(this.btnImportBusinessessFile_Click);
+            // 
+            // btnImportBusinessesWeb
+            // 
+            this.btnImportBusinessesWeb.Location = new System.Drawing.Point(789, 10);
+            this.btnImportBusinessesWeb.Name = "btnImportBusinessesWeb";
+            this.btnImportBusinessesWeb.Size = new System.Drawing.Size(210, 27);
+            this.btnImportBusinessesWeb.TabIndex = 8;
+            this.btnImportBusinessesWeb.Text = "Import Businesses From Web";
+            this.btnImportBusinessesWeb.UseVisualStyleBackColor = true;
+            this.btnImportBusinessesWeb.Click += new System.EventHandler(this.btnImportBusinessesWeb_Click);
             // 
             // btnImportPeopleFile
             // 
@@ -492,6 +516,8 @@
         private System.Windows.Forms.Button btnImporterCheckAll;
         private System.Windows.Forms.Button btnImportPeopleWeb;
         private System.Windows.Forms.Button btnImportPeopleFile;
+        private System.Windows.Forms.Button btnImportBusinessessFile;
+        private System.Windows.Forms.Button btnImportBusinessesWeb;
     }
 }
 

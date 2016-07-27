@@ -130,6 +130,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
             foreach (string groupName in sourceGroups)
             {
                 Group group = targetGroups.Single(x => x.Name == groupName);
+                group.IsPerson = true;
                 if (!person.Groups.Any(x => x.GroupID == group.ID))
                 {
                     person.AddGroup(group.ID);

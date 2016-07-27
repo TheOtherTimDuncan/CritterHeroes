@@ -83,6 +83,7 @@
     <Compile Include="Explorer\StatusStorageHelper.cs" />
     <Compile Include="HttpClientProxy.cs" />
     <Compile Include="Importer\BaseContactImporter.cs" />
+    <Compile Include="Importer\BusinessImporter.cs" />
     <Compile Include="Importer\CritterImporter.cs" />
     <Compile Include="Importer\ImporterOrganizationStateManager.cs" />
     <Compile Include="Importer\PersonImporter.cs" />

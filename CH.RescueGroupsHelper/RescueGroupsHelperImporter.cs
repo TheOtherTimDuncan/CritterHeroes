@@ -33,6 +33,18 @@ namespace CH.RescueGroupsHelper
             await importer.ImportFileAsync();
         }
 
+        private async void btnImportBusinessessFile_Click(object sender, EventArgs e)
+        {
+            BusinessImporter importer = new BusinessImporter(_importerWriter);
+            await importer.ImportFileAsync();
+        }
+
+        private async void btnImportBusinessesWeb_Click(object sender, EventArgs e)
+        {
+            BusinessImporter importer = new BusinessImporter(_importerWriter);
+            await importer.ImportWebAsync();
+        }
+
         private void btnImporterCheckAll_Click(object sender, EventArgs e)
         {
             ChangeCheckState(clbImporterFields, CheckState.Checked);
