@@ -298,6 +298,7 @@
     <Compile Include="Mocks\MockHttpClient.cs" />
     <Compile Include="Mocks\MockHttpContext.cs" />
     <Compile Include="Mocks\MockRescueGroupsStorageContext.cs" />
+    <Compile Include="Mocks\MockSqlQueryStorageContext.cs" />
     <Compile Include="Mocks\MockSqlStorageContext.cs" />
     <Compile Include="Mocks\MockUrlGenerator.cs" />
     <Compile Include="Mocks\MockUrlHelper.cs" />
