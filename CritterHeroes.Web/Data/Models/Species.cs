@@ -22,7 +22,7 @@ namespace CritterHeroes.Web.Data.Models
             this.YoungPlural = youngPlural;
             this.YoungSingular = youngSingular;
 
-            this.Breeds = new List<Breed>();
+            this.Breeds = new HashSet<Breed>();
         }
 
         public int ID

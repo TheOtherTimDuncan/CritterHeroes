@@ -15,7 +15,7 @@ namespace CritterHeroes.Web.Data.Models
         public Organization(Guid organizationID)
         {
             this.ID = organizationID;
-            SupportedCritters = new List<OrganizationSupportedCritter>();
+            SupportedCritters = new HashSet<OrganizationSupportedCritter>();
         }
 
         public Guid ID

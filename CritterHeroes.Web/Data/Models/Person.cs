@@ -9,8 +9,8 @@ namespace CritterHeroes.Web.Data.Models
         public Person() :
             base()
         {
-            Groups = new List<PersonGroup>();
-            PhoneNumbers = new List<PersonPhone>();
+            Groups = new HashSet<PersonGroup>();
+            PhoneNumbers = new HashSet<PersonPhone>();
             IsActive = true;
         }
 

@@ -32,7 +32,7 @@ namespace CritterHeroes.Web.Data.Models
             this.WhenCreated = DateTimeOffset.UtcNow;
             this.WhenUpdated = this.WhenCreated;
 
-            this.Pictures = new List<CritterPicture>();
+            this.Pictures = new HashSet<CritterPicture>();
         }
 
         public int ID

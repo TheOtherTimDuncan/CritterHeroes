@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Data.Models
             this.FileSize = fileSize;
 
             this.WhenCreated = DateTimeOffset.UtcNow;
-            this.ChildPictures = new List<PictureChild>();
+            this.ChildPictures = new HashSet<PictureChild>();
         }
 
         public int ID

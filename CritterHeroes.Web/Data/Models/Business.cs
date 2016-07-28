@@ -9,8 +9,8 @@ namespace CritterHeroes.Web.Data.Models
         public Business()
             : base()
         {
-            Groups = new List<BusinessGroup>();
-            PhoneNumbers = new List<BusinessPhone>();
+            Groups = new HashSet<BusinessGroup>();
+            PhoneNumbers = new HashSet<BusinessPhone>();
         }
 
         public string Name
