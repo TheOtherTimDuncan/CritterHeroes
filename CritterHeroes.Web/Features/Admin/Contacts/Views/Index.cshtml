@@ -51,22 +51,6 @@
     </section>
 </div>
 
-@if (Model.ShowImports)
-{
-    <div>
-        <form action="@Url.AdminPeopleImportAction()" method="post" class="pull-right">
-            @Html.AntiForgeryToken()
-            <input type="submit" class="btn btn-primary" value="Import People">
-        </form>
-
-        <form action="@Url.AdminBusinessImportAction()" method="post" class="pull-right">
-            @Html.AntiForgeryToken()
-            <input type="submit" class="btn btn-primary" value="Import Businesses">
-        </form>
-
-    </div>
-}
-
 <div id="contacts-container" class="flex-table" data-url="@Url.AdminContactsListAction()">
 </div>
 

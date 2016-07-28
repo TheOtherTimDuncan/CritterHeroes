@@ -6,12 +6,6 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Models
 {
     public class ContactsModel
     {
-        public bool ShowImports
-        {
-            get;
-            set;
-        }
-
         public ContactsQuery Query
         {
             get;

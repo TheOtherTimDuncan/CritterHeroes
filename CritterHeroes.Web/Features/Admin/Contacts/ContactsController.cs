@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using CritterHeroes.Web.Contracts.Commands;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
-using CritterHeroes.Web.Features.Admin.Contacts.Commands;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
 using CritterHeroes.Web.Features.Shared;
@@ -35,24 +34,6 @@ namespace CritterHeroes.Web.Features.Admin.Contacts
         {
             ContactsListModel model = await QueryDispatcher.DispatchAsync(query);
             return JsonCamelCase(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = UserRole.MasterAdmin)]
-        public async Task<ActionResult> ImportPeople(ImportPeopleCommand command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = UserRole.MasterAdmin)]
-        public async Task<ActionResult> ImportBusinesses(ImportBusinessCommand command)
-        {
-            await CommandDispatcher.DispatchAsync(command);
-            return RedirectToAction("Index");
         }
     }
 }

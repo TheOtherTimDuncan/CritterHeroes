@@ -493,8 +493,6 @@
     <Compile Include="Features\Admin\Organizations\ModelValidators.cs" />
     <Compile Include="Features\Admin\Organizations\OrganizationController.cs" />
     <Compile Include="Features\Admin\Organizations\Queries\EditProfileQueryHandler.cs" />
-    <Compile Include="Features\Admin\Contacts\Commands\ImportBusinessCommandHandler.cs" />
-    <Compile Include="Features\Admin\Contacts\Commands\ImportPeopleCommandHandler.cs" />
     <Compile Include="Features\Admin\Contacts\ContactsController.cs" />
     <Compile Include="Features\Components\ComponentsController.cs" />
     <Compile Include="Features\Components\Models\CancelButtonModel.cs" />
@@ -789,7 +787,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Features\Admin\Contacts\Commands\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

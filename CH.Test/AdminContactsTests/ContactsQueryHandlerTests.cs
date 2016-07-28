@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
-using CritterHeroes.Web.Shared.Identity;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -19,7 +17,7 @@ namespace CH.Test.AdminContactsTests
     public class ContactsQueryHandlerTests
     {
         [TestMethod]
-        public async Task ReturnsViewModelForMasterAdmin()
+        public async Task ReturnsViewModel()
         {
             Group group1 = new Group("group1")
             {
@@ -38,16 +36,12 @@ namespace CH.Test.AdminContactsTests
                 GroupID = group2.ID
             };
 
-            Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
-            mockHttpUser.Setup(x => x.IsInRole(IdentityRole.MasterAdmin)).Returns(true);
-
             MockSqlStorageContext<Group> mockGroupStorage = new MockSqlStorageContext<Group>(group1, group2);
 
-            ContactsQueryHandler handler = new ContactsQueryHandler(mockHttpUser.Object, mockGroupStorage.Object);
+            ContactsQueryHandler handler = new ContactsQueryHandler(mockGroupStorage.Object);
             ContactsModel model = await handler.ExecuteAsync(query);
 
             model.Query.Should().Be(query);
-            model.ShowImports.Should().BeTrue();
 
             model.GroupItems.Should().HaveCount(2);
 
@@ -58,30 +52,12 @@ namespace CH.Test.AdminContactsTests
             groupModel1.IsPerson.Should().Be(group1.IsPerson);
             groupModel1.IsSelected.Should().BeFalse();
 
-
             GroupSelectOptionModel groupModel2 = model.GroupItems.SingleOrDefault(x => x.Value == group2.ID);
             groupModel2.Should().NotBeNull();
             groupModel2.Text.Should().Be(group2.Name);
             groupModel2.IsBusiness.Should().Be(group2.IsBusiness);
             groupModel2.IsPerson.Should().Be(group2.IsPerson);
             groupModel2.IsSelected.Should().BeTrue();
-        }
-
-        [TestMethod]
-        public async Task ReturnsViewModelForAllRolesExceptMasterAdmin()
-        {
-            Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
-            MockSqlStorageContext<Group> mockGroupStorage = new MockSqlStorageContext<Group>();
-
-            foreach (string roleName in IdentityRole.All.Where(x => x != IdentityRole.MasterAdmin))
-            {
-                mockHttpUser.Setup(x => x.IsInRole(roleName)).Returns(true);
-
-                ContactsQueryHandler handler = new ContactsQueryHandler(mockHttpUser.Object, mockGroupStorage.Object);
-                ContactsModel model = await handler.ExecuteAsync(new ContactsQuery());
-
-                model.ShowImports.Should().BeFalse();
-            }
         }
     }
 }

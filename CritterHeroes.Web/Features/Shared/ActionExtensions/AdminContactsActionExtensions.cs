@@ -16,15 +16,5 @@ namespace CritterHeroes.Web.Features.Shared.ActionExtensions
         {
             return urlHelper.Action(nameof(ContactsController.List), ContactsController.Route, AreaName.AdminRouteValue);
         }
-
-        public static string AdminPeopleImportAction(this UrlHelper urlHelper)
-        {
-            return urlHelper.Action(nameof(ContactsController.ImportPeople), ContactsController.Route, AreaName.AdminRouteValue);
-        }
-
-        public static string AdminBusinessImportAction(this UrlHelper urlHelper)
-        {
-            return urlHelper.Action(nameof(ContactsController.ImportBusinesses), ContactsController.Route, AreaName.AdminRouteValue);
-        }
     }
 }

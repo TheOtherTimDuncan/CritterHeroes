@@ -8,14 +8,14 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Models
 {
     public class PersonSource : BaseContactSource
     {
-        [JsonProperty(PropertyName = "contactFirstName")]
+        [JsonProperty(PropertyName = "contactFirstname")]
         public string FirstName
         {
             get;
             set;
         }
 
-        [JsonProperty(PropertyName = "contactLastName")]
+        [JsonProperty(PropertyName = "contactLastname")]
         public string LastName
         {
             get;
