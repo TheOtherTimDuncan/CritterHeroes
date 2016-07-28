@@ -27,13 +27,13 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
             configuration
                 .ForField
                 (
-                    fieldName: "contactFirstName",
+                    fieldName: "contactFirstname",
                     fromAction: context => context.Source.FirstName = context.Target.FirstName,
                     toAction: context => context.Target.FirstName = context.Source.FirstName
                 )
                 .ForField
                 (
-                    fieldName: "contactLastName",
+                    fieldName: "contactLastname",
                     fromAction: context => context.Source.LastName = context.Target.LastName,
                     toAction: context => context.Target.LastName = context.Source.LastName
                 )
