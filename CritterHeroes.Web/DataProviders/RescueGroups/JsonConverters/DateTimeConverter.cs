@@ -13,7 +13,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.JsonConverters
         {
             get
             {
-                return false;
+                return true;
             }
         }
 
@@ -41,7 +41,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.JsonConverters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            writer.WriteValue(String.Format("{0:MM/dd/yyyy hh:mm:ss}", value));
         }
     }
 }
