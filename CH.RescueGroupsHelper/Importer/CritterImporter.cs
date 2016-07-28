@@ -26,11 +26,13 @@ namespace CH.RescueGroupsHelper.Importer
     {
         private Writer _writer;
         private string _path;
+        private string _filePath;
 
         public CritterImporter(Writer writer)
         {
             this._writer = writer;
-            _path = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "Critters", "critters.json");
+            _path = Path.Combine(UnitTestHelper.GetSolutionRoot(), ".vs", "Critters");
+            _filePath = Path.Combine(_path, "critters.json");
         }
 
         public async Task ImportFromWebAsync(CheckedListBox.CheckedItemCollection checkedFileldNames)
@@ -82,19 +84,19 @@ namespace CH.RescueGroupsHelper.Importer
 
             IEnumerable<SearchField> fields = source.Fields.Where(x => x.IsSelected);
 
-            string json = File.ReadAllText(_path);
+            string json = File.ReadAllText(_filePath);
             IEnumerable<CritterSource> existing = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
 
             IEnumerable<CritterSource> merged = MergeUpdatedWithExisting(existing, sources, fields, isPartial);
 
-            File.WriteAllText(_path, JsonConvert.SerializeObject(merged, Formatting.Indented));
+            File.WriteAllText(_filePath, JsonConvert.SerializeObject(merged, Formatting.Indented));
 
             await ImportCrittersAsync(sources, fields.Select(x => x.Name));
         }
 
         public async Task ImportFromFileAsync()
         {
-            string json = File.ReadAllText(_path);
+            string json = File.ReadAllText(_filePath);
             IEnumerable<CritterSource> sources = JsonConvert.DeserializeObject<IEnumerable<CritterSource>>(json);
             IEnumerable<string> fieldNames = new CritterSourceStorage(new RescueGroupsConfiguration(), new HttpClientProxy(_writer), new NullEventPublisher()).Fields.Select(x => x.Name);
             await ImportCrittersAsync(sources, fieldNames);
