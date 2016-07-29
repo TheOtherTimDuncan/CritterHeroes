@@ -239,6 +239,7 @@
     <Compile Include="ActionResultTests\RedirectToPreviousTests.cs" />
     <Compile Include="AdminContactsTests\ContactsListQueryHandlerTests.cs" />
     <Compile Include="AdminContactsTests\ContactsQueryHandlerTests.cs" />
+    <Compile Include="AdminContactsTests\PersonEditQueryHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\CrittersQueryHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\CritterSummaryQueryHandlerTests.cs" />
     <Compile Include="AdminCrittersTests\CritttersListQueryHandlerTests.cs" />

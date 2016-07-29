@@ -24,6 +24,7 @@ namespace CH.Test.ControllerTests
                 .WithCallTo(x => x.Index(query))
                 .VerifyQueryDispatcher()
                 .ShouldReturnViewResult()
+                .HavingDefaultView()
                 .HavingModel(model);
         }
 
@@ -38,6 +39,21 @@ namespace CH.Test.ControllerTests
                 .WithCallTo(x => x.List(query))
                 .VerifyQueryDispatcher()
                 .ShouldReturnJsonCamelCase()
+                .HavingModel(model);
+        }
+
+        [TestMethod]
+        public void PersonGetReturnsViewWithModel()
+        {
+            PersonEditModel model = new PersonEditModel();
+            PersonEditQuery query = new PersonEditQuery();
+
+            ControllerTester.UsingController<ContactsController>()
+                .SetupQueryDispatcherAsync(model, query)
+                .WithCallTo(x => x.Person(query))
+                .VerifyQueryDispatcher()
+                .ShouldReturnViewResult()
+                .HavingDefaultView()
                 .HavingModel(model);
         }
     }

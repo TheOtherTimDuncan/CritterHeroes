@@ -35,5 +35,12 @@ namespace CritterHeroes.Web.Features.Admin.Contacts
             ContactsListModel model = await QueryDispatcher.DispatchAsync(query);
             return JsonCamelCase(model);
         }
+
+        [AuthorizeRoles(UserRole.MasterAdmin, UserRole.Admin)]
+        public async Task<ActionResult> Person(PersonEditQuery query)
+        {
+            PersonEditModel model = await QueryDispatcher.DispatchAsync(query);
+            return View(model);
+        }
     }
 }

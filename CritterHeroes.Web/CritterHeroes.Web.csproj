@@ -473,6 +473,8 @@
     <Compile Include="Features\Account\ModelValidators.cs" />
     <Compile Include="Features\Admin\BaseAdminController.cs" />
     <Compile Include="Features\Admin\Contacts\Models\GroupSelectOptionModel.cs" />
+    <Compile Include="Features\Admin\Contacts\Models\PersonEditModel.cs" />
+    <Compile Include="Features\Admin\Contacts\Queries\PersonEditQueryHandler.cs" />
     <Compile Include="Features\Admin\Critters\Models\CritterEditModel.cs" />
     <Compile Include="Features\Admin\Critters\Models\CritterImportModel.cs" />
     <Compile Include="Features\Admin\Critters\Queries\CritterEditQueryHandler.cs" />
@@ -519,6 +521,7 @@
     <Compile Include="Features\Shared\Models\BaseSelectOptionModel.cs" />
     <Compile Include="Features\Shared\Models\PagingModel.cs" />
     <Compile Include="Features\Shared\Models\SelectOptionModel.cs" />
+    <Compile Include="Features\Shared\Models\StateOptionModel.cs" />
     <Compile Include="Features\Shared\Queries\PagingQuery.cs" />
     <Compile Include="Features\Shared\UrlGenerator.cs" />
     <Compile Include="Features\Admin\Contacts\Queries\ContactsListQueryHandler.cs" />
