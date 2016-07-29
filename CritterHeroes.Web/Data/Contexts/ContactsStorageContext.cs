@@ -37,7 +37,7 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             get
             {
-                return _Businesses;
+                return _Businesses.AsNoTracking();
             }
         }
 
@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             get
             {
-                return _Groups;
+                return _Groups.AsNoTracking();
             }
         }
 
@@ -53,7 +53,7 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             get
             {
-                return _People;
+                return _People.AsNoTracking();
             }
         }
     }
