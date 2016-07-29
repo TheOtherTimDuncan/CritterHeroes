@@ -17,9 +17,9 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 
     public class CritterSummaryQueryHandler : IAsyncQueryHandler<CritterSummaryQuery, CritterSummaryModel>
     {
-        private ISqlStorageContext<Critter> _critterStorage;
+        private ISqlQueryStorageContext<Critter> _critterStorage;
 
-        public CritterSummaryQueryHandler(ISqlStorageContext<Critter> critterStorage)
+        public CritterSummaryQueryHandler(ISqlQueryStorageContext<Critter> critterStorage)
         {
             this._critterStorage = critterStorage;
         }

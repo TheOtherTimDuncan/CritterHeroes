@@ -29,9 +29,9 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
 
     public class ContactsQueryHandler : IAsyncQueryHandler<ContactsQuery, ContactsModel>
     {
-        public ISqlStorageContext<Group> _groupStorage;
+        public ISqlQueryStorageContext<Group> _groupStorage;
 
-        public ContactsQueryHandler(ISqlStorageContext<Group> groupStorage)
+        public ContactsQueryHandler(ISqlQueryStorageContext<Group> groupStorage)
         {
             this._groupStorage = groupStorage;
         }
@@ -42,14 +42,16 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
 
             model.Query = query;
 
-            model.GroupItems = await _groupStorage.Entities.OrderBy(x => x.Name).SelectToListAsync(x => new GroupSelectOptionModel()
-            {
-                Value = x.ID,
-                Text = x.Name,
-                IsBusiness = x.IsBusiness,
-                IsPerson = x.IsPerson,
-                IsSelected = (x.ID == query.GroupID)
-            });
+            model.GroupItems = await _groupStorage.Entities
+                .OrderBy(x => x.Name)
+                .SelectToListAsync(x => new GroupSelectOptionModel()
+                {
+                    Value = x.ID,
+                    Text = x.Name,
+                    IsBusiness = x.IsBusiness,
+                    IsPerson = x.IsPerson,
+                    IsSelected = (x.ID == query.GroupID)
+                });
 
             return model;
         }

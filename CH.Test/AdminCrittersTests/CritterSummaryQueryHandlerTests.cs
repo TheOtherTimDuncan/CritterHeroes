@@ -41,7 +41,7 @@ namespace CH.Test.AdminCrittersTests
                 critters.Add(new Critter($"critter2-{c}", status2, breed, organizationID));
             }
 
-            MockSqlStorageContext<Critter> mockCritterStorage = new MockSqlStorageContext<Critter>(critters);
+            MockSqlQueryStorageContext<Critter> mockCritterStorage = new MockSqlQueryStorageContext<Critter>(critters);
 
             CritterSummaryQueryHandler handler = new CritterSummaryQueryHandler(mockCritterStorage.Object);
             CritterSummaryModel model = await handler.ExecuteAsync(new CritterSummaryQuery());

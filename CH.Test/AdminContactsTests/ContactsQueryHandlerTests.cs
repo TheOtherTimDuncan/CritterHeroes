@@ -36,7 +36,7 @@ namespace CH.Test.AdminContactsTests
                 GroupID = group2.ID
             };
 
-            MockSqlStorageContext<Group> mockGroupStorage = new MockSqlStorageContext<Group>(group1, group2);
+            MockSqlQueryStorageContext<Group> mockGroupStorage = new MockSqlQueryStorageContext<Group>(group1, group2);
 
             ContactsQueryHandler handler = new ContactsQueryHandler(mockGroupStorage.Object);
             ContactsModel model = await handler.ExecuteAsync(query);

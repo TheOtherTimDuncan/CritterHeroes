@@ -21,10 +21,10 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 
     public class CrittersListQueryHandler : IAsyncQueryHandler<CrittersListQuery, CrittersListModel>
     {
-        private ISqlStorageContext<Critter> _critterStorage;
+        private ISqlQueryStorageContext<Critter> _critterStorage;
         private IUrlGenerator _urlGenerator;
 
-        public CrittersListQueryHandler(ISqlStorageContext<Critter> critterStorage, IUrlGenerator urlGenerator)
+        public CrittersListQueryHandler(ISqlQueryStorageContext<Critter> critterStorage, IUrlGenerator urlGenerator)
         {
             this._critterStorage = critterStorage;
             this._urlGenerator = urlGenerator;
@@ -45,7 +45,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 
             critters = critters.OrderBy(x => x.Name);
 
-            model.Critters = await
+            model.Critters = await 
             (
                 from x in critters
                 select new CritterModel()

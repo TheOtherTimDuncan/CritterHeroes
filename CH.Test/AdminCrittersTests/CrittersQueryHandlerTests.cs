@@ -25,7 +25,7 @@ namespace CH.Test.AdminCrittersTests
             CritterStatus status1 = new CritterStatus("status1", "description1").SetEntityID(x => x.ID);
             CritterStatus status2 = new CritterStatus("status2", "description2").SetEntityID(x => x.ID);
 
-            MockSqlStorageContext<CritterStatus> mockStatusStorage = new MockSqlStorageContext<CritterStatus>(status1, status2);
+            MockSqlQueryStorageContext<CritterStatus> mockStatusStorage = new MockSqlQueryStorageContext<CritterStatus>(status1, status2);
 
             Mock<IHttpUser> mockUser = new Mock<IHttpUser>();
 

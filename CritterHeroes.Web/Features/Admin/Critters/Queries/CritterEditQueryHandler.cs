@@ -21,9 +21,9 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 
     public class CritterEditQueryHandler : IAsyncQueryHandler<CritterEditQuery, CritterEditModel>
     {
-        private ISqlStorageContext<Critter> _storageCritters;
+        private ISqlQueryStorageContext<Critter> _storageCritters;
 
-        public CritterEditQueryHandler(ISqlStorageContext<Critter> storageCritters)
+        public CritterEditQueryHandler(ISqlQueryStorageContext<Critter> storageCritters)
         {
             this._storageCritters = storageCritters;
         }

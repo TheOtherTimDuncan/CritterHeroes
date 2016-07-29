@@ -20,10 +20,10 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 
     public class CrittersQueryHandler : IAsyncQueryHandler<CrittersQuery, CrittersModel>
     {
-        private ISqlStorageContext<CritterStatus> _statusStorage;
+        private ISqlQueryStorageContext<CritterStatus> _statusStorage;
         private IHttpUser _user;
 
-        public CrittersQueryHandler(ISqlStorageContext<CritterStatus> statusStorage, IHttpUser user)
+        public CrittersQueryHandler(ISqlQueryStorageContext<CritterStatus> statusStorage, IHttpUser user)
         {
             this._statusStorage = statusStorage;
             this._user = user;

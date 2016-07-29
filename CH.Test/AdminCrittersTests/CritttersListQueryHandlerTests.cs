@@ -42,7 +42,7 @@ namespace CH.Test.AdminCrittersTests
 
             CrittersListQuery query = new CrittersListQuery();
 
-            MockSqlStorageContext<Critter> mockCritterStorage = new MockSqlStorageContext<Critter>(critter);
+            MockSqlQueryStorageContext<Critter> mockCritterStorage = new MockSqlQueryStorageContext<Critter>(critter);
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
@@ -95,7 +95,7 @@ namespace CH.Test.AdminCrittersTests
                 StatusID = status1.ID
             };
 
-            MockSqlStorageContext<Critter> mockCritterStorage = new MockSqlStorageContext<Critter>(critter1);
+            MockSqlQueryStorageContext<Critter> mockCritterStorage = new MockSqlQueryStorageContext<Critter>(critter1);
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 

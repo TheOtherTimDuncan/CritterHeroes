@@ -18,10 +18,10 @@ namespace CritterHeroes.Web.Features.Admin.Organizations.Queries
     public class EditProfileQueryHandler : IAsyncQueryHandler<EditProfileQuery, EditProfileModel>
     {
         private IAppConfiguration _appConfiguration;
-        private ISqlStorageContext<Organization> _storageContext;
+        private ISqlQueryStorageContext<Organization> _storageContext;
         private IOrganizationLogoService _logoService;
 
-        public EditProfileQueryHandler(IAppConfiguration appConfiguration, ISqlStorageContext<Organization> storageContext, IOrganizationLogoService logoService)
+        public EditProfileQueryHandler(IAppConfiguration appConfiguration, ISqlQueryStorageContext<Organization> storageContext, IOrganizationLogoService logoService)
         {
             this._appConfiguration = appConfiguration;
             this._storageContext = storageContext;

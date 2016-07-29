@@ -32,7 +32,7 @@ namespace CH.Test.AdminOrganizationTests
             Mock<IAppConfiguration> mockAppConfiguration = new Mock<IAppConfiguration>();
             mockAppConfiguration.SetupGet(x => x.OrganizationID).Returns(org.ID);
 
-            MockSqlStorageContext<Organization> mockStorageContext = new MockSqlStorageContext<Organization>(org);
+            MockSqlQueryStorageContext<Organization> mockStorageContext = new MockSqlQueryStorageContext<Organization>(org);
 
             Mock<IOrganizationLogoService> mockLogoService = new Mock<IOrganizationLogoService>();
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns(logoUrl);
