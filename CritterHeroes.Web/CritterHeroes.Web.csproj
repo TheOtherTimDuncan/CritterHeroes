@@ -443,6 +443,7 @@
     <Compile Include="App_Start\Startup.Middleware.cs" />
     <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
+    <Compile Include="Contracts\Queries\IQueryRebuilder.cs" />
     <Compile Include="Contracts\Storage\ISqlQueryStorageContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Mappers\BaseContactMapper.cs" />
     <Compile Include="DataProviders\RescueGroups\Mappers\BusinessMapper.cs" />

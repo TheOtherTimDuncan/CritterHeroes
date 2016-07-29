@@ -8,5 +8,8 @@ namespace CritterHeroes.Web.Contracts.Queries
     {
         Task<TResult> DispatchAsync<TResult>(IAsyncQuery<TResult> query);
         TResult Dispatch<TResult>(IQuery<TResult> query);
+
+        Task RebuildAsync<TResult>(TResult queryResult) where TResult : class;
+        void Rebuild<TResult>(TResult queryResult) where TResult : class;
     }
 }

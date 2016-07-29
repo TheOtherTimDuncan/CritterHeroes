@@ -31,5 +31,17 @@ namespace CritterHeroes.Web.Shared.Dispatchers
             dynamic handler = _container.GetInstance(handlerType);
             return handler.Execute((dynamic)query);
         }
+
+        public async Task RebuildAsync<TResult>(TResult queryResult) where TResult : class
+        {
+            IAsyncQueryRebuilder<TResult> handler = _container.GetInstance<IAsyncQueryRebuilder<TResult>>();
+            await handler.RebuildAsync(queryResult);
+        }
+
+        public void Rebuild<TResult>(TResult queryResult) where TResult : class
+        {
+            IQueryRebuilder<TResult> handler = _container.GetInstance<IQueryRebuilder<TResult>>();
+            handler.Rebuild(queryResult);
+        }
     }
 }

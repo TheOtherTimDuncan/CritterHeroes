@@ -119,6 +119,9 @@ namespace CritterHeroes.Web
             container.Register(typeof(IQueryHandler<,>), defaultAssemblies);
             container.Register(typeof(IAsyncQueryHandler<,>), defaultAssemblies);
 
+            container.Register(typeof(IQueryRebuilder<>), defaultAssemblies);
+            container.Register(typeof(IAsyncQueryRebuilder<>), defaultAssemblies);
+
             container.Register(typeof(ICommandHandler<>), defaultAssemblies);
             container.Register(typeof(IAsyncCommandHandler<>), defaultAssemblies);
 
