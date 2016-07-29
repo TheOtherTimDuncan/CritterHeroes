@@ -21,7 +21,7 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
         }
     }
 
-    public class PersonEditQueryHandler : IAsyncQueryHandler<PersonEditQuery, PersonEditModel>
+    public class PersonEditQueryHandler : IAsyncQueryHandler<PersonEditQuery, PersonEditModel>, IAsyncQueryRebuilder<PersonEditModel>
     {
         private ISqlQueryStorageContext<Person> _storagePeople;
         private ISqlQueryStorageContext<State> _storageStates;
@@ -53,6 +53,13 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
                 Zip = person.Zip
             };
 
+            await RebuildAsync(model);
+
+            return model;
+        }
+
+        public async Task RebuildAsync(PersonEditModel model)
+        {
             model.StateOptions = await _storageStates.Entities
                 .OrderBy(x => x.Name)
                 .SelectToListAsync(x => new StateOptionModel()
@@ -61,8 +68,6 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
                     Text = x.Name,
                     IsSelected = (x.Abbreviation == model.State)
                 });
-
-            return model;
         }
     }
 }
