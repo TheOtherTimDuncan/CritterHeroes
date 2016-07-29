@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CH.Test.Mocks;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
+using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using EntityFramework.Testing;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -91,12 +93,14 @@ namespace CH.Test.AdminContactsTests
         [TestMethod]
         public async Task ReturnsViewModelWithListOfPeopleAndBusinesses()
         {
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             ContactsListQuery query = new ContactsListQuery()
             {
                 Show = ContactsQuery.ShowKeys.All
             };
 
-            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object);
+            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object, mockUrlGenerator.Object);
             ContactsListModel model = await handler.ExecuteAsync(query);
 
             model.Paging.Should().NotBeNull();
@@ -115,6 +119,7 @@ namespace CH.Test.AdminContactsTests
                 contactModel.IsActive.Should().Be(person.IsActive);
                 contactModel.IsPerson.Should().BeTrue();
                 contactModel.IsBusiness.Should().BeFalse();
+                contactModel.EditUrl.Should().Be(mockUrlGenerator.Object.GeneratePersonEditUrl(contactModel.ContactID));
             }
 
             foreach (Business business in testBusinesses)
@@ -131,18 +136,21 @@ namespace CH.Test.AdminContactsTests
                 contactModel.IsActive.Should().BeTrue();
                 contactModel.IsPerson.Should().BeFalse();
                 contactModel.IsBusiness.Should().BeTrue();
+                contactModel.EditUrl.Should().Be(mockUrlGenerator.Object.GenerateBusinessEditUrl(contactModel.ContactID));
             }
         }
 
         [TestMethod]
         public async Task ReturnsViewModelWithOnlyPeopleIfBusinessesExcluded()
         {
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             ContactsListQuery query = new ContactsListQuery()
             {
                 Show = ContactsQuery.ShowKeys.People
             };
 
-            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object);
+            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object, mockUrlGenerator.Object);
             ContactsListModel model = await handler.ExecuteAsync(query);
 
             model.Paging.Should().NotBeNull();
@@ -154,12 +162,14 @@ namespace CH.Test.AdminContactsTests
         [TestMethod]
         public async Task ReturnsViewModelWithOnlyBusinessesIfPeopleExcluded()
         {
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             ContactsListQuery query = new ContactsListQuery()
             {
                 Show = ContactsQuery.ShowKeys.Businesses
             };
 
-            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object);
+            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object, mockUrlGenerator.Object);
             ContactsListModel model = await handler.ExecuteAsync(query);
 
             model.Paging.Should().NotBeNull();
@@ -171,6 +181,8 @@ namespace CH.Test.AdminContactsTests
         [TestMethod]
         public async Task ReturnsViewModelWithOnlyActivePeopleIfInactivesExcluded()
         {
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             ContactsListQuery query = new ContactsListQuery()
             {
                 Show = ContactsQuery.ShowKeys.All,
@@ -182,7 +194,7 @@ namespace CH.Test.AdminContactsTests
             Person person = testPeople.First();
             person.IsActive = false;
 
-            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object);
+            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object, mockUrlGenerator.Object);
             ContactsListModel model = await handler.ExecuteAsync(query);
 
             model.Paging.Should().NotBeNull();
@@ -198,6 +210,8 @@ namespace CH.Test.AdminContactsTests
         [TestMethod]
         public async Task ReturnsViewModelWithOnlyInaActivePeopleIfActivesExcluded()
         {
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             ContactsListQuery query = new ContactsListQuery()
             {
                 Show = ContactsQuery.ShowKeys.All,
@@ -207,7 +221,7 @@ namespace CH.Test.AdminContactsTests
             Person person = testPeople.First();
             person.IsActive = false;
 
-            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object);
+            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object, mockUrlGenerator.Object);
             ContactsListModel model = await handler.ExecuteAsync(query);
 
             model.Paging.Should().NotBeNull();
@@ -222,13 +236,15 @@ namespace CH.Test.AdminContactsTests
         [TestMethod]
         public async Task ReturnsViewModelWithOnlyPeopleAndBusinessesInSpecifiedGroup()
         {
+            MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
+
             ContactsListQuery query = new ContactsListQuery()
             {
                 Show = ContactsQuery.ShowKeys.All,
                 GroupID = group1.ID
             };
 
-            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object);
+            ContactsListQueryHandler handler = new ContactsListQueryHandler(mockContactsStorage.Object, mockUrlGenerator.Object);
             ContactsListModel model = await handler.ExecuteAsync(query);
 
             model.Paging.Should().NotBeNull();

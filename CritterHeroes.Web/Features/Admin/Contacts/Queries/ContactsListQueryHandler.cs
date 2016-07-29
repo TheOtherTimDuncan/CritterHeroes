@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Features.Admin.Contacts.Models;
+using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Features.Shared.Models;
 using TOTD.EntityFramework;
 using TOTD.Utility.StringHelpers;
@@ -19,10 +21,12 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
     public class ContactsListQueryHandler : IAsyncQueryHandler<ContactsListQuery, ContactsListModel>
     {
         private IContactsStorageContext _storageContacts;
+        private IUrlGenerator _urlGenerator;
 
-        public ContactsListQueryHandler(IContactsStorageContext storageContacts)
+        public ContactsListQueryHandler(IContactsStorageContext storageContacts, IUrlGenerator urlGenerator)
         {
             this._storageContacts = storageContacts;
+            this._urlGenerator = urlGenerator;
         }
 
         public async Task<ContactsListModel> ExecuteAsync(ContactsListQuery query)
@@ -129,10 +133,12 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Queries
                 if (contactModel.IsPerson)
                 {
                     contactModel.Groups = string.Join(", ", personGroups.Where(x => x.PersonID == contactModel.ContactID).Select(x => x.Name));
+                    contactModel.EditUrl = _urlGenerator.GeneratePersonEditUrl(contactModel.ContactID);
                 }
                 else
                 {
                     contactModel.Groups = string.Join(", ", businessGroups.Where(x => x.BusinessID == contactModel.ContactID).Select(x => x.Name));
+                    contactModel.EditUrl = _urlGenerator.GenerateBusinessEditUrl(contactModel.ContactID);
                 }
             }
 

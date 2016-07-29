@@ -3,6 +3,7 @@
     <div class="flex-table-cell flex-cell-s2">Address</div>
     <div class="flex-table-cell flex-cell-s2">Email</div>
     <div class="flex-table-cell flex-cell-s1">Groups</div>
+    <div class="flex-table-cell flex-cell-s1">&nbsp;</div>
 </div>
 <div class="flex-table-body">
     {{#each contacts}}
@@ -31,6 +32,9 @@
         <div class="flex-table-cell flex-cell-s1">
             <span class="flex-table-cell-header flex-table-cell-header-md">Groups</span>
             <span>{{groups}}</span>
+        </div>
+        <div class="flex-table-cell flex-cell-s1">
+            <span><a href="{{editUrl}}">Edit</a></span>
         </div>
     </div>
     {{else}}

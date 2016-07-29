@@ -71,5 +71,11 @@ namespace CritterHeroes.Web.Features.Admin.Contacts.Models
             get;
             set;
         }
+
+        public string EditUrl
+        {
+            get;
+            set;
+        }
     }
 }
