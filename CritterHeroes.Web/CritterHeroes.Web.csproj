@@ -448,6 +448,7 @@
     <Compile Include="DataProviders\RescueGroups\Mappers\BusinessMapper.cs" />
     <Compile Include="DataProviders\RescueGroups\Mappers\PersonMapper.cs" />
     <Compile Include="Data\Configurations\BaseContactConfiguration.cs" />
+    <Compile Include="Data\Contexts\AppUserQueryStorageContext.cs" />
     <Compile Include="Data\Contexts\SqlQueryStorageContext.cs" />
     <Compile Include="Data\Models\BaseContact.cs" />
     <Compile Include="Features\Account\AccountController.cs" />
