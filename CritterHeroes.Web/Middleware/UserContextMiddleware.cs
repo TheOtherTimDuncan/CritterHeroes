@@ -48,7 +48,7 @@ namespace CritterHeroes.Web.Middleware
                 if (userContext == null)
                 {
                     // It must not exist so let's create it
-                    ISqlStorageContext<AppUser> userStorageContext = _dependencyResolver.GetService<ISqlStorageContext<AppUser>>();
+                    ISqlQueryStorageContext<AppUser> userStorageContext = _dependencyResolver.GetService<ISqlQueryStorageContext<AppUser>>();
                     AppUser user = await userStorageContext.Entities.FindByUsernameAsync(context.Request.User.Identity.Name);
                     userContext = UserContext.FromUser(user);
 

@@ -117,12 +117,12 @@ namespace CH.Test.MiddlewareTests
             Mock<IStateManager<UserContext>> mockStateManager = new Mock<IStateManager<UserContext>>();
             mockStateManager.Setup(x => x.GetContext()).Returns((UserContext)null);
 
-            MockSqlStorageContext<AppUser> mockUserStorageContext = new MockSqlStorageContext<AppUser>(user);
+            MockSqlCommandStorageContext<AppUser> mockUserStorageContext = new MockSqlCommandStorageContext<AppUser>(user);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<UserContext>))).Returns(mockStateManager.Object);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<AppUser>))).Returns(mockUserStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<AppUser>))).Returns(mockUserStorageContext.Object);
 
             Mock<IOwinContext> mockOwinContext = GetMockOwinContext();
             mockOwinContext.Setup(x => x.Request.User).Returns(principal);
@@ -138,7 +138,7 @@ namespace CH.Test.MiddlewareTests
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<UserContext>()), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<UserContext>)), Times.Once);
-            mockResolver.Verify(x => x.GetService(typeof(ISqlStorageContext<AppUser>)), Times.Once);
+            mockResolver.Verify(x => x.GetService(typeof(ISqlCommandStorageContext<AppUser>)), Times.Once);
         }
 
         private Mock<IOwinContext> GetMockOwinContext()
