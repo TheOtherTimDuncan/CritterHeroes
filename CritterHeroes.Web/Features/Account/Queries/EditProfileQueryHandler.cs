@@ -14,12 +14,12 @@ namespace CritterHeroes.Web.Features.Account.Queries
 {
     public class EditProfileQueryHandler : IAsyncQueryHandler<UserIDQuery, EditProfileModel>
     {
-        private ISqlStorageContext<AppUser> _userStorageContext;
+        private ISqlQueryStorageContext<AppUser> _userStorage;
         private IHttpUser _httpUser;
 
-        public EditProfileQueryHandler(IHttpUser httpUser, ISqlStorageContext<AppUser> userStorageContext)
+        public EditProfileQueryHandler(IHttpUser httpUser, ISqlQueryStorageContext<AppUser> userStorageContext)
         {
-            this._userStorageContext = userStorageContext;
+            this._userStorage = userStorageContext;
             this._httpUser = httpUser;
         }
 
@@ -27,7 +27,7 @@ namespace CritterHeroes.Web.Features.Account.Queries
         {
             EditProfileModel model = new EditProfileModel();
 
-            AppUser user = await _userStorageContext.Entities.FindByUsernameAsync(_httpUser.Username);
+            AppUser user = await _userStorage.Entities.FindByUsernameAsync(_httpUser.Username);
             model.FirstName = user.Person.FirstName;
             model.LastName = user.Person.LastName;
             model.Email = user.Email;

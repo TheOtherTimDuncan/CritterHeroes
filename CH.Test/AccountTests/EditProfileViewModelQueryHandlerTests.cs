@@ -27,7 +27,7 @@ namespace CH.Test.AccountTests
             Mock<IHttpUser> mockHttpUser = new Mock<IHttpUser>();
             mockHttpUser.Setup(x => x.Username).Returns(user.UserName);
 
-            MockSqlStorageContext<AppUser> mockUserStorageContext = new MockSqlStorageContext<AppUser>(user);
+            MockSqlQueryStorageContext<AppUser> mockUserStorageContext = new MockSqlQueryStorageContext<AppUser>(user);
 
             EditProfileQueryHandler handler = new EditProfileQueryHandler(mockHttpUser.Object, mockUserStorageContext.Object);
             EditProfileModel model = await handler.ExecuteAsync(new UserIDQuery());

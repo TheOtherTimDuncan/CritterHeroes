@@ -22,5 +22,33 @@ namespace CH.Test.Mocks
             this.Setup(x => x.GetAll()).Returns(() => _dbset.Object.ToList());
             this.Setup(x => x.GetAllAsync()).Returns(async () => await _dbset.Object.ToListAsync());
         }
+
+        public MockSqlQueryStorageContext(T entity)
+            : this()
+        {
+            AddEntity(entity);
+        }
+
+        public MockSqlQueryStorageContext(params T[] entities)
+            : this()
+        {
+            AddEntities(entities);
+        }
+
+        public MockSqlQueryStorageContext(IEnumerable<T> entities)
+            : this()
+        {
+            AddEntities(entities);
+        }
+
+        public void AddEntity(T entity)
+        {
+            AddEntities(new[] { entity });
+        }
+
+        public void AddEntities(IEnumerable<T> entities)
+        {
+            _dbset.SetupSeedData(entities);
+        }
     }
 }
