@@ -299,7 +299,7 @@
     <Compile Include="Mocks\MockHttpContext.cs" />
     <Compile Include="Mocks\MockRescueGroupsStorageContext.cs" />
     <Compile Include="Mocks\MockSqlQueryStorageContext.cs" />
-    <Compile Include="Mocks\MockSqlStorageContext.cs" />
+    <Compile Include="Mocks\MockSqlCommandStorageContext.cs" />
     <Compile Include="Mocks\MockUrlGenerator.cs" />
     <Compile Include="Mocks\MockUrlHelper.cs" />
     <Compile Include="PagingModelTests.cs" />

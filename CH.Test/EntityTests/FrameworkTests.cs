@@ -17,7 +17,7 @@ namespace CH.Test.EntityTests
         public void AllEntityClassesShouldHaveDefaultEmptyConstructor()
         {
             var modelTypes =
-                from t in typeof(ISqlStorageContext<>).Assembly.GetExportedTypes()
+                from t in typeof(ISqlCommandStorageContext<>).Assembly.GetExportedTypes()
                 where t.Namespace.StartsWith("CritterHeroes.Web.Data.Models") && t.IsClass && t.IsPublic && !t.IsAbstract
                 select new
                 {

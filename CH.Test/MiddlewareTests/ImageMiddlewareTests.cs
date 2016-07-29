@@ -59,14 +59,14 @@ namespace CH.Test.MiddlewareTests
 
             ReadableStringCollection requestQuery = new ReadableStringCollection(queryValues);
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>();
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>();
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetNotFoundUrl()).Returns(notFound);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
@@ -98,14 +98,14 @@ namespace CH.Test.MiddlewareTests
             string filename = "test.jpg";
             string url = "redirect";
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>();
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>();
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetPictureUrl(critterID, filename)).Returns(url);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
@@ -142,14 +142,14 @@ namespace CH.Test.MiddlewareTests
 
             ReadableStringCollection requestQuery = new ReadableStringCollection(queryValues);
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>(critter);
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>(critter);
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetNotFoundUrl()).Returns(notFound);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
@@ -188,14 +188,14 @@ namespace CH.Test.MiddlewareTests
 
             ReadableStringCollection requestQuery = new ReadableStringCollection(queryValues);
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>(critter);
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>(critter);
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetPictureUrl(critter.ID, filename)).Returns(url);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
@@ -234,14 +234,14 @@ namespace CH.Test.MiddlewareTests
 
             ReadableStringCollection requestQuery = new ReadableStringCollection(queryValues);
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>(critter);
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>(critter);
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetPictureUrl(critter.ID, filename)).Returns(url);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
@@ -283,14 +283,14 @@ namespace CH.Test.MiddlewareTests
 
             ReadableStringCollection requestQuery = new ReadableStringCollection(queryValues);
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>(critter);
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>(critter);
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetPictureUrl(critter.ID, childPicture.Filename)).Returns(childPicture.Filename);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();
@@ -332,14 +332,14 @@ namespace CH.Test.MiddlewareTests
 
             ReadableStringCollection requestQuery = new ReadableStringCollection(queryValues);
 
-            MockSqlStorageContext<Critter> mockStorageContext = new MockSqlStorageContext<Critter>(critter);
+            MockSqlCommandStorageContext<Critter> mockStorageContext = new MockSqlCommandStorageContext<Critter>(critter);
 
             Mock<ICritterPictureService> mockPictureService = new Mock<ICritterPictureService>();
             mockPictureService.Setup(x => x.GetPictureUrl(critter.ID, childPicture.Filename)).Returns(childPicture.Filename);
 
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlStorageContext<Critter>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Critter>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(ICritterPictureService))).Returns(mockPictureService.Object);
 
             Mock<IOwinRequest> mockRequest = new Mock<IOwinRequest>();

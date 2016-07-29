@@ -8,6 +8,7 @@ using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Emails.Models;
+using CritterHeroes.Web.Shared;
 using CritterHeroes.Web.Shared.Commands;
 using TOTD.EntityFramework;
 using TOTD.Utility.StringHelpers;
@@ -25,10 +26,10 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
 
     public class EmailQueryHandler : IAsyncQueryHandler<EmailQuery, Models.EmailModel>
     {
-        private ISqlStorageContext<Critter> _critterStorage;
+        private ISqlQueryStorageContext<Critter> _critterStorage;
         private IEmailService _emailService;
 
-        public EmailQueryHandler(ISqlStorageContext<Critter> critterStorage, IEmailService emailService)
+        public EmailQueryHandler(ISqlQueryStorageContext<Critter> critterStorage, IEmailService emailService)
         {
             this._critterStorage = critterStorage;
             this._emailService = emailService;
@@ -51,6 +52,8 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                     FosterEmail = x.Foster.Email,
                     LocationName = x.Location.Name,
                     GeneralAge = x.GeneralAge,
+                    BirthDate = x.BirthDate,
+                    SpeciesName = x.Breed.Species.Name,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 });
 
@@ -91,13 +94,17 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 emailSummary.AddTo("catmamadiane@yahoo.co");
 
                 emailSummary.EmailData.Critters = data
-                    .Select(x => new
+                    .Select(x =>
                     {
-                        Foster = x.Foster,
-                        Baby = (x.GeneralAge.SafeEquals("Baby") ? 1 : 0),
-                        Young = (x.GeneralAge.SafeEquals("Young") ? 1 : 0),
-                        Adult = (x.GeneralAge.SafeEquals("Adult") ? 1 : 0),
-                        Senior = (x.GeneralAge.SafeEquals("Senior") ? 1 : 0)
+                        string lifeStage = AgeHelper.GetLifeStage(x.SpeciesName, x.BirthDate, x.GeneralAge);
+                        return new
+                        {
+                            Foster = x.Foster,
+                            Baby = (lifeStage.SafeEquals("Kitten")|| lifeStage.SafeEquals("Puppy") ? 1 : 0),
+                            Young = (lifeStage.SafeEquals("Young") ? 1 : 0),
+                            Adult = (lifeStage.SafeEquals("Adult") ? 1 : 0),
+                            Senior = (lifeStage.SafeEquals("Senior") ? 1 : 0)
+                        };
                     })
                     .OrderBy(x => x.Foster)
                     .GroupBy(x => x.Foster)

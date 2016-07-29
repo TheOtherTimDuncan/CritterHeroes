@@ -63,11 +63,11 @@ namespace CritterHeroes.Web
 
             // Register AppUserStorageContext for the one entity SqlStorageContext<> can't handle
             // then register SqlStorageContext<> as a fallback registration for ISqlStorageContext<>
-            container.Register<ISqlStorageContext<AppUser>>(() => new AppUserStorageContext(container.GetInstance<IAppEventPublisher>()), Lifestyle.Scoped);
+            container.Register<ISqlCommandStorageContext<AppUser>>(() => new AppUserCommandStorageContext(container.GetInstance<IAppEventPublisher>()), Lifestyle.Scoped);
             container.Register<ISqlQueryStorageContext<AppUser>>(() => new AppUserQueryStorageContext(container.GetInstance<IAppEventPublisher>()), Lifestyle.Scoped);
 
             container.Register<IContactsStorageContext, ContactsStorageContext>(Lifestyle.Scoped);
-            container.RegisterConditional(typeof(ISqlStorageContext<>), typeof(SqlStorageContext<>), Lifestyle.Scoped, (c) => !c.Handled);
+            container.RegisterConditional(typeof(ISqlCommandStorageContext<>), typeof(SqlCommandStorageContext<>), Lifestyle.Scoped, (c) => !c.Handled);
             container.RegisterConditional(typeof(ISqlQueryStorageContext<>), typeof(SqlQueryStorageContext<>), Lifestyle.Scoped, (c) => !c.Handled);
 
             container.Register<ICritterBatchSqlStorageContext, CritterBatchStorageContext>(Lifestyle.Scoped);
@@ -109,7 +109,7 @@ namespace CritterHeroes.Web
         public static void RegisterIdentityInterfaces(Container container)
         {
             container.Register<IAppSignInManager, AppSignInManager>(Lifestyle.Scoped);
-            container.Register<AppUserStorageContext>(() => new AppUserStorageContext(container.GetInstance<IAppEventPublisher>()), Lifestyle.Scoped);
+            container.Register<AppUserCommandStorageContext>(() => new AppUserCommandStorageContext(container.GetInstance<IAppEventPublisher>()), Lifestyle.Scoped);
             container.Register<IAppUserStore, AppUserStore>(Lifestyle.Scoped);
             container.Register<IAppUserManager, AppUserManager>(Lifestyle.Scoped);
         }

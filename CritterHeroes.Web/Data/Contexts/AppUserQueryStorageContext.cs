@@ -9,7 +9,7 @@ using CritterHeroes.Web.Data.Models.Identity;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
-    public class AppUserQueryStorageContext : BaseDbContext<AppUserStorageContext>, ISqlQueryStorageContext<AppUser>
+    public class AppUserQueryStorageContext : BaseDbContext<AppUserQueryStorageContext>, ISqlQueryStorageContext<AppUser>
     {
         public AppUserQueryStorageContext(IAppEventPublisher publisher)
             : base(publisher)

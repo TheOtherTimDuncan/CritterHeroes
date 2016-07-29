@@ -13,9 +13,9 @@ using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
 {
-    public class TestSqlStorageContext<T> : ISqlStorageContext<T> where T : class
+    public class TestSqlStorageContext<T> : ISqlCommandStorageContext<T> where T : class
     {
-        private SqlStorageContext<T> _storageContext;
+        private SqlCommandStorageContext<T> _storageContext;
         private ILogger _logger;
 
         public TestSqlStorageContext()
@@ -40,7 +40,7 @@ namespace CH.Test.EntityTests
                     .Write(logEvent.Level, logEvent.MessageTemplate, logEvent.MessageValues);
             });
 
-            this._storageContext = new SqlStorageContext<T>(this.MockPublisher.Object);
+            this._storageContext = new SqlCommandStorageContext<T>(this.MockPublisher.Object);
         }
 
         public IQueryable<T> Entities
@@ -88,16 +88,6 @@ namespace CH.Test.EntityTests
         public void Delete(T entity)
         {
             _storageContext.Delete(entity);
-        }
-
-        public IEnumerable<T> GetAll()
-        {
-            return _storageContext.GetAll();
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _storageContext.GetAllAsync();
         }
 
         public int SaveChanges()

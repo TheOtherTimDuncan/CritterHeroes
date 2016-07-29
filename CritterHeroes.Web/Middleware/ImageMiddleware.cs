@@ -65,7 +65,7 @@ namespace CritterHeroes.Web.Middleware
                 return;
             }
 
-            ISqlStorageContext<Critter> critterStorage = _dependencyResolver.GetService<ISqlStorageContext<Critter>>();
+            ISqlCommandStorageContext<Critter> critterStorage = _dependencyResolver.GetService<ISqlCommandStorageContext<Critter>>();
 
             Critter critter = await critterStorage.Entities.FindByIDAsync(critterID);
             if (critter == null)

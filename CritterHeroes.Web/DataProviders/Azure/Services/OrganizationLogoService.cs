@@ -13,13 +13,13 @@ namespace CritterHeroes.Web.DataProviders.Azure.Services
 {
     public class OrganizationLogoService : IOrganizationLogoService
     {
-        private ISqlStorageContext<Organization> _storageContext;
+        private ISqlCommandStorageContext<Organization> _storageContext;
         private IStateManager<OrganizationContext> _organizationStateManager;
         private IAzureService _azureService;
 
         private const bool isPrivate = false;
 
-        public OrganizationLogoService(IStateManager<OrganizationContext> organizationStateManager, IAzureService azureService, ISqlStorageContext<Organization> storageContext)
+        public OrganizationLogoService(IStateManager<OrganizationContext> organizationStateManager, IAzureService azureService, ISqlCommandStorageContext<Organization> storageContext)
         {
             this._storageContext = storageContext;
             this._organizationStateManager = organizationStateManager;

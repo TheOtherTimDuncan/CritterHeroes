@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,8 +57,8 @@ namespace CH.RescueGroupsHelper.Importer
 
             BusinessMapper mapper = new BusinessMapper();
 
-            using (SqlStorageContext<Business> storageBusinesses = new SqlStorageContext<Business>(_publisher))
-            using (SqlStorageContext<Group> storageGroups = new SqlStorageContext<Group>(_publisher))
+            using (SqlCommandStorageContext<Business> storageBusinesses = new SqlCommandStorageContext<Business>(_publisher))
+            using (SqlCommandStorageContext<Group> storageGroups = new SqlCommandStorageContext<Group>(_publisher))
             {
                 foreach (BusinessSource source in sources)
                 {
@@ -81,7 +82,7 @@ namespace CH.RescueGroupsHelper.Importer
                     BusinessMapperContext context = new BusinessMapperContext(source, business, _publisher)
                     {
                         PhoneTypes = phoneTypes,
-                        Groups = await storageGroups.GetAllAsync()
+                        Groups = await storageGroups.Entities.ToListAsync()
                     };
 
                     mapper.MapSourceToTarget(context, fieldNames);

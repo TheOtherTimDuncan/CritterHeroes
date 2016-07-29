@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,8 +57,8 @@ namespace CH.RescueGroupsHelper.Importer
 
             PersonMapper mapper = new PersonMapper();
 
-            using (SqlStorageContext<Person> storagePeople = new SqlStorageContext<Person>(_publisher))
-            using (SqlStorageContext<Group> storageGroups = new SqlStorageContext<Group>(_publisher))
+            using (SqlCommandStorageContext<Person> storagePeople = new SqlCommandStorageContext<Person>(_publisher))
+            using (SqlCommandStorageContext<Group> storageGroups = new SqlCommandStorageContext<Group>(_publisher))
             {
                 foreach (PersonSource source in sources)
                 {
@@ -81,7 +82,7 @@ namespace CH.RescueGroupsHelper.Importer
                     PersonMapperContext context = new PersonMapperContext(source, person, _publisher)
                     {
                         PhoneTypes = phoneTypes,
-                        Groups = await storageGroups.GetAllAsync()
+                        Groups = await storageGroups.Entities.ToListAsync()
                     };
 
                     mapper.MapSourceToTarget(context, fieldNames);

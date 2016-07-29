@@ -37,7 +37,7 @@ namespace CH.Test.Azure
             Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
 
-            MockSqlStorageContext<Organization> mockOrgStorageContext = new MockSqlStorageContext<Organization>(org);
+            MockSqlCommandStorageContext<Organization> mockOrgStorageContext = new MockSqlCommandStorageContext<Organization>(org);
 
             Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
             mockAzureService.Setup(x => x.UploadBlobAsync(filename, isPrivate, contentType, stream)).Returns((string path, bool callbackIsPrivate, string callbackContentType, Stream callbackStream) =>
@@ -78,7 +78,7 @@ namespace CH.Test.Azure
             Mock<IStateManager<OrganizationContext>> mockOrgStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockOrgStateManager.Setup(x => x.GetContext()).Returns(orgContext);
 
-            MockSqlStorageContext<Organization> mockOrgStorageContext = new MockSqlStorageContext<Organization>(org);
+            MockSqlCommandStorageContext<Organization> mockOrgStorageContext = new MockSqlCommandStorageContext<Organization>(org);
 
             Mock<IAzureService> mockAzureService = new Mock<IAzureService>();
             mockAzureService.Setup(x => x.UploadBlobAsync(filename, isPrivate, contentType, stream)).Returns((string path, bool callbackIsPrivate, string callbackContentType, Stream callbackStream) =>

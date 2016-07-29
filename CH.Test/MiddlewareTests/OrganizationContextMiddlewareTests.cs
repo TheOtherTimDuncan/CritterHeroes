@@ -72,7 +72,7 @@ namespace CH.Test.MiddlewareTests
             Mock<IStateManager<OrganizationContext>> mockStateManager = new Mock<IStateManager<OrganizationContext>>();
             mockStateManager.Setup(x => x.GetContext()).Returns((OrganizationContext)null);
 
-            MockSqlCommandStorageContext<Organization> mockStorageContext = new MockSqlCommandStorageContext<Organization>(organization);
+            MockSqlQueryStorageContext<Organization> mockStorageContext = new MockSqlQueryStorageContext<Organization>(organization);
 
             Mock<IAppConfiguration> mockConfiguration = new Mock<IAppConfiguration>();
             mockConfiguration.Setup(x => x.OrganizationID).Returns(organization.ID);
@@ -80,7 +80,7 @@ namespace CH.Test.MiddlewareTests
             // Only the setup methods for mockResolver should be called
             Mock<IDependencyResolver> mockResolver = new Mock<IDependencyResolver>(MockBehavior.Strict);
             mockResolver.Setup(x => x.GetService(typeof(IStateManager<OrganizationContext>))).Returns(mockStateManager.Object);
-            mockResolver.Setup(x => x.GetService(typeof(ISqlCommandStorageContext<Organization>))).Returns(mockStorageContext.Object);
+            mockResolver.Setup(x => x.GetService(typeof(ISqlQueryStorageContext<Organization>))).Returns(mockStorageContext.Object);
             mockResolver.Setup(x => x.GetService(typeof(IAppConfiguration))).Returns(mockConfiguration.Object);
 
             Mock<IOwinContext> mockOwinContext = new Mock<IOwinContext>();
@@ -97,7 +97,7 @@ namespace CH.Test.MiddlewareTests
             mockStateManager.Verify(x => x.GetContext(), Times.Once);
             mockStateManager.Verify(x => x.SaveContext(It.IsAny<OrganizationContext>()), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IStateManager<OrganizationContext>)), Times.Once);
-            mockResolver.Verify(x => x.GetService(typeof(ISqlCommandStorageContext<Organization>)), Times.Once);
+            mockResolver.Verify(x => x.GetService(typeof(ISqlQueryStorageContext<Organization>)), Times.Once);
             mockResolver.Verify(x => x.GetService(typeof(IAppConfiguration)), Times.Once);
         }
     }

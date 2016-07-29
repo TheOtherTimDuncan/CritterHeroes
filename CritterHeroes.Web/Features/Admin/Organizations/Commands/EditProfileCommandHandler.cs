@@ -17,11 +17,11 @@ namespace CritterHeroes.Web.Features.Admin.Organizations.Commands
     public class EditProfileCommandHandler : IAsyncCommandHandler<EditProfileModel>
     {
         private IAppConfiguration _appConfiguration;
-        private ISqlStorageContext<Organization> _storageContext;
+        private ISqlCommandStorageContext<Organization> _storageContext;
         private IOrganizationLogoService _logoService;
         private IStateManager<OrganizationContext> _stateManager;
 
-        public EditProfileCommandHandler(IAppConfiguration appConfiguration, ISqlStorageContext<Organization> storageContext, IOrganizationLogoService logoService, IStateManager<OrganizationContext> stateManager)
+        public EditProfileCommandHandler(IAppConfiguration appConfiguration, ISqlCommandStorageContext<Organization> storageContext, IOrganizationLogoService logoService, IStateManager<OrganizationContext> stateManager)
         {
             this._appConfiguration = appConfiguration;
             this._storageContext = storageContext;

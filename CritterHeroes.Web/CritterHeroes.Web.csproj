@@ -623,7 +623,7 @@
     <Compile Include="Contracts\Storage\ICritterBatchSqlStorageContext.cs" />
     <Compile Include="Contracts\Storage\ICritterPictureService.cs" />
     <Compile Include="Contracts\Storage\IOrganizationLogoService.cs" />
-    <Compile Include="Contracts\Storage\ISqlStorageContext.cs" />
+    <Compile Include="Contracts\Storage\ISqlCommandStorageContext.cs" />
     <Compile Include="DataProviders\Azure\AzureConfiguration.cs" />
     <Compile Include="Shared\Email\EmailConfiguration.cs" />
     <Compile Include="Shared\Proxies\FakeAuthenticationManager.cs" />
@@ -708,8 +708,8 @@
     <Compile Include="Data\Contexts\BaseDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Contexts\AppUserStorageContext.cs" />
-    <Compile Include="Data\Contexts\SqlStorageContext.cs" />
+    <Compile Include="Data\Contexts\AppUserCommandStorageContext.cs" />
+    <Compile Include="Data\Contexts\SqlCommandStorageContext.cs" />
     <Compile Include="Data\Extensions\BusinessExtensions.cs" />
     <Compile Include="Data\Extensions\CritterStatusExtensions.cs" />
     <Compile Include="Data\Extensions\BreedExtensions.cs" />

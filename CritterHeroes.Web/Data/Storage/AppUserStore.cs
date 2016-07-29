@@ -11,7 +11,7 @@ namespace CritterHeroes.Web.Data.Storage
 {
     public class AppUserStore : UserStore<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim>, IAppUserStore, IDisposable
     {
-        public AppUserStore(AppUserStorageContext context)
+        public AppUserStore(AppUserCommandStorageContext context)
             : base(context)
         {
         }

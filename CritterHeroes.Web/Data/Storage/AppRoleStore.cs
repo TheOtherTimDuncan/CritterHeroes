@@ -10,7 +10,7 @@ namespace CritterHeroes.Web.Data.Storage
 {
     public class AppRoleStore : RoleStore<AppRole, int, AppUserRole>, IQueryableRoleStore<AppRole, int>, IRoleStore<AppRole, int>, IDisposable
     {
-        public AppRoleStore(AppUserStorageContext context)
+        public AppRoleStore(AppUserCommandStorageContext context)
             : base(context)
         {
         }

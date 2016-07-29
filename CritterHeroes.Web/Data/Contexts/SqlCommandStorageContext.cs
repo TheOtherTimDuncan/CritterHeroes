@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Storage;
 
 namespace CritterHeroes.Web.Data.Contexts
 {
-    public class SqlQueryStorageContext<T> : BaseDbContext<SqlQueryStorageContext<T>>, ISqlQueryStorageContext<T> where T : class
+    public class SqlCommandStorageContext<T> : BaseDbContext<SqlCommandStorageContext<T>>, ISqlCommandStorageContext<T> where T : class
     {
-        public SqlQueryStorageContext(IAppEventPublisher publisher)
+        public SqlCommandStorageContext(IAppEventPublisher publisher)
             : base(publisher)
         {
         }
@@ -25,18 +24,18 @@ namespace CritterHeroes.Web.Data.Contexts
         {
             get
             {
-                return _Entities.AsNoTracking();
+                return _Entities;
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual void Add(T entity)
         {
-            return Entities.ToList();
+            _Entities.Add(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual void Delete(T entity)
         {
-            return await Entities.ToListAsync();
+            _Entities.Remove(entity);
         }
     }
 }

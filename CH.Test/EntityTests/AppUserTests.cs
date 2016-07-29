@@ -29,7 +29,7 @@ namespace CH.Test.EntityTests
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext(mockPublisher.Object))
+            using (AppUserCommandStorageContext userContext = new AppUserCommandStorageContext(mockPublisher.Object))
             {
                 userContext.FillWithTestData(appUser, "Id", "PasswordHash", "Email", "UserName");
 
@@ -42,7 +42,7 @@ namespace CH.Test.EntityTests
                 resetResult.Succeeded.Should().BeTrue(string.Join(", ", resetResult.Errors));
             }
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext(mockPublisher.Object))
+            using (AppUserCommandStorageContext userContext = new AppUserCommandStorageContext(mockPublisher.Object))
             {
                 AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
                 result.Should().NotBeNull();
@@ -79,13 +79,13 @@ namespace CH.Test.EntityTests
 
             Mock<IAppEventPublisher> mockPublisher = new Mock<IAppEventPublisher>();
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext(mockPublisher.Object))
+            using (AppUserCommandStorageContext userContext = new AppUserCommandStorageContext(mockPublisher.Object))
             {
                 userContext.Users.Add(appUser);
                 await userContext.SaveChangesAsync();
             }
 
-            using (AppUserStorageContext userContext = new AppUserStorageContext(mockPublisher.Object))
+            using (AppUserCommandStorageContext userContext = new AppUserCommandStorageContext(mockPublisher.Object))
             {
                 AppUser result = await userContext.Entities.FindByIDAsync(appUser.Id);
                 result.Should().NotBeNull();

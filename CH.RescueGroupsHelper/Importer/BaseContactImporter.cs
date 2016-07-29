@@ -14,13 +14,13 @@ namespace CH.RescueGroupsHelper.Importer
     {
         protected async Task<IEnumerable<PhoneType>> GetPhoneTypesAsync()
         {
-            using (SqlStorageContext<PhoneType> storageContext = new SqlStorageContext<PhoneType>(new NullEventPublisher()))
+            using (SqlQueryStorageContext<PhoneType> storageContext = new SqlQueryStorageContext<PhoneType>(new NullEventPublisher()))
             {
                 return await storageContext.GetAllAsync();
             }
         }
 
-        protected async Task AddOrUpdateGroupsAsync(ISqlStorageContext<Group> storageGroups, IEnumerable<string> groupNames)
+        protected async Task AddOrUpdateGroupsAsync(ISqlCommandStorageContext<Group> storageGroups, IEnumerable<string> groupNames)
         {
             if (!groupNames.IsNullOrEmpty())
             {
