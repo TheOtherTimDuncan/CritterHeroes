@@ -60,7 +60,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters
         }
 
         [HttpGet]
-        [Route("critter/{CritterID}")]
+        [Route("Critter/{" + nameof(CritterEditQuery.CritterID) + "}")]
         [AuthorizeRoles(UserRole.Admin, UserRole.MasterAdmin)]
         public async Task<ActionResult> Edit(CritterEditQuery query)
         {

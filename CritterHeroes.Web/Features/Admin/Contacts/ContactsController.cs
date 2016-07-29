@@ -37,6 +37,7 @@ namespace CritterHeroes.Web.Features.Admin.Contacts
         }
 
         [AuthorizeRoles(UserRole.MasterAdmin, UserRole.Admin)]
+        [Route("Person/{" + nameof(PersonEditQuery.PersonID) + "}")]
         public async Task<ActionResult> Person(PersonEditQuery query)
         {
             PersonEditModel model = await QueryDispatcher.DispatchAsync(query);
@@ -44,6 +45,7 @@ namespace CritterHeroes.Web.Features.Admin.Contacts
         }
 
         [AuthorizeRoles(UserRole.MasterAdmin, UserRole.Admin)]
+        [Route("Business/{" + nameof(BusinessEditQuery.BusinessID) + "}")]
         public async Task<ActionResult> Business(BusinessEditQuery query)
         {
             BusinessEditModel model = await QueryDispatcher.DispatchAsync(query);
