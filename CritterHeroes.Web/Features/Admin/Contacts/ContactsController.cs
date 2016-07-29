@@ -42,5 +42,12 @@ namespace CritterHeroes.Web.Features.Admin.Contacts
             PersonEditModel model = await QueryDispatcher.DispatchAsync(query);
             return View(model);
         }
+
+        [AuthorizeRoles(UserRole.MasterAdmin, UserRole.Admin)]
+        public async Task<ActionResult> Business(BusinessEditQuery query)
+        {
+            BusinessEditModel model = await QueryDispatcher.DispatchAsync(query);
+            return View(model);
+        }
     }
 }

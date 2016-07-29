@@ -56,5 +56,20 @@ namespace CH.Test.ControllerTests
                 .HavingDefaultView()
                 .HavingModel(model);
         }
+
+        [TestMethod]
+        public void BusinessGetReturnsViewWithModel()
+        {
+            BusinessEditModel model = new BusinessEditModel();
+            BusinessEditQuery query = new BusinessEditQuery();
+
+            ControllerTester.UsingController<ContactsController>()
+                .SetupQueryDispatcherAsync(model, query)
+                .WithCallTo(x => x.Business(query))
+                .VerifyQueryDispatcher()
+                .ShouldReturnViewResult()
+                .HavingDefaultView()
+                .HavingModel(model);
+        }
     }
 }

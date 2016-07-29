@@ -237,6 +237,7 @@
   <ItemGroup>
     <Compile Include="ActionResultTests\RedirectToLocalTests.cs" />
     <Compile Include="ActionResultTests\RedirectToPreviousTests.cs" />
+    <Compile Include="AdminContactsTests\BusinessEditQueryHandlerTests.cs" />
     <Compile Include="AdminContactsTests\ContactsListQueryHandlerTests.cs" />
     <Compile Include="AdminContactsTests\ContactsQueryHandlerTests.cs" />
     <Compile Include="AdminContactsTests\PersonEditQueryHandlerTests.cs" />
