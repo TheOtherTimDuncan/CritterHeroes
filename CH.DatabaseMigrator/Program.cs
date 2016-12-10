@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using CH.DatabaseMigrator.Migrations;
 
 namespace CH.DatabaseMigrator
 {
@@ -13,6 +14,8 @@ namespace CH.DatabaseMigrator
         [STAThread]
         static void Main()
         {
+            MigrationsDataContext.SetDatabaseDirectory();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new EntityFramework.DatabaseMigrator.DatabaseMigrator());

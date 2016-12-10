@@ -117,7 +117,7 @@ namespace CH.DatabaseMigrator.Migrations
 
         public void SeedDatabaseOptions(MigrationsDataContext context)
         {
-            ExecuteSql(context.Database, $"ALTER DATABASE {context.Database.Connection.Database} SET COMPATIBILITY_LEVEL=120, ANSI_NULLS ON, ANSI_PADDING ON, ARITHABORT ON, CONCAT_NULL_YIELDS_NULL ON", TransactionalBehavior.DoNotEnsureTransaction);
+            ExecuteSql(context.Database, $"ALTER DATABASE CURRENT SET COMPATIBILITY_LEVEL=130, ANSI_NULLS ON, ANSI_PADDING ON, ARITHABORT ON, CONCAT_NULL_YIELDS_NULL ON", TransactionalBehavior.DoNotEnsureTransaction);
         }
 
         public void SeedDatabaseUser(MigrationsDataContext context)

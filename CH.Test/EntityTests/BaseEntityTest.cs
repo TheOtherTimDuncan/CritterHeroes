@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CH.DatabaseMigrator.Migrations;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Contexts;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -21,6 +20,8 @@ namespace CH.Test.EntityTests
         [TestInitialize]
         public void CleanDatabase()
         {
+            MigrationsDataContext.SetDatabaseDirectory();
+
             using (MigrationsDataContext dbContext = new MigrationsDataContext())
             {
                 Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MigrationsDataContext>());
