@@ -236,7 +236,7 @@ namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
                 )
                 .ForField
                 (
-                    fieldName: "animalSpeciesID",
+                    fieldName: "animalSpecies",
                     fromAction: context =>
                     {
                         context.Source.Species = context.Target.Breed.Species.Name;
