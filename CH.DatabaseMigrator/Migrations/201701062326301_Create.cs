@@ -143,12 +143,12 @@ namespace CH.DatabaseMigrator.Migrations
                     Email = c.String(maxLength: 256),
                     NewEmail = c.String(maxLength: 256),
                     IsEmailConfirmed = c.Boolean(nullable: false),
+                    IsActive = c.Boolean(nullable: false),
                     Address = c.String(maxLength: 100),
                     City = c.String(maxLength: 100),
                     State = c.String(maxLength: 2, unicode: false),
                     Zip = c.String(maxLength: 10, unicode: false),
                     RescueGroupsID = c.Int(),
-                    IsActive = c.Boolean(nullable: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
@@ -258,6 +258,7 @@ namespace CH.DatabaseMigrator.Migrations
                     WhenCreated = c.DateTimeOffset(nullable: false, precision: 7),
                     RescueGroupsCreated = c.DateTimeOffset(precision: 7),
                     RescueGroupsID = c.Int(),
+                    SourceUrl = c.String(maxLength: 1000, unicode: false),
                 })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.RescueGroupsID);
@@ -407,11 +408,11 @@ namespace CH.DatabaseMigrator.Migrations
                 {
                     ID = c.Int(nullable: false, identity: true),
                     Name = c.String(maxLength: 100),
+                    Email = c.String(maxLength: 256),
                     Address = c.String(maxLength: 100),
                     City = c.String(maxLength: 100),
                     State = c.String(maxLength: 2, unicode: false),
                     Zip = c.String(maxLength: 10, unicode: false),
-                    Email = c.String(maxLength: 256),
                     RescueGroupsID = c.Int(),
                 })
                 .PrimaryKey(t => t.ID)

@@ -87,6 +87,12 @@ namespace CritterHeroes.Web.Data.Models
             set;
         }
 
+        public string SourceUrl
+        {
+            get;
+            set;
+        }
+
         public virtual ICollection<PictureChild> ChildPictures
         {
             get;

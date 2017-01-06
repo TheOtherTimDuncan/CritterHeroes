@@ -56,7 +56,8 @@ namespace CH.Test.EntityTests
                     "Species",
                     "CritterColor",
                     "State",
-                    "PhoneType"
+                    "PhoneType",
+                    "Picture"
                 }
                     .Select(x => $"DELETE FROM [{x}]");
 
