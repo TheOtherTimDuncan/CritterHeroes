@@ -199,7 +199,8 @@ namespace CH.RescueGroupsHelper.Importer
                         {
                             RescueGroupsID = pictureSource.ID,
                             RescueGroupsCreated = DateTime.Parse(pictureSource.LastUpdated),
-                            DisplayOrder = pictureSource.DisplayOrder
+                            DisplayOrder = pictureSource.DisplayOrder,
+                            SourceUrl = pictureSource.Url
                         };
 
                         if (
@@ -224,6 +225,7 @@ namespace CH.RescueGroupsHelper.Importer
                     }
                     else
                     {
+                        critterPicture.Picture.SourceUrl = pictureSource.Url;
                         bool pictureExists = await pictureService.PictureExistsAsync(context.Target.ID, critterPicture.Picture.Filename);
                         if (!pictureExists)
                         {
