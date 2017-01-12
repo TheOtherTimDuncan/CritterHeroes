@@ -195,6 +195,14 @@
       <HintPath>..\packages\TOTD.EntityFramework.4.3.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="TOTD.Mailer.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mailer.Core.1.0.0\lib\net462\TOTD.Mailer.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TOTD.Mailer.Templates, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mailer.Core.1.0.0\lib\net462\TOTD.Mailer.Templates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="TOTD.Mvc, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TOTD.Mvc.4.3.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
       <Private>True</Private>
