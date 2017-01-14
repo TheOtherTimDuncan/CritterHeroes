@@ -278,6 +278,7 @@
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="EmailTests\ResetPasswordAttemptEmailBuilderTests.cs" />
     <Compile Include="EmailTests\ResetPasswordEmailBuilderTests.cs" />
+    <Compile Include="EmailTests\ResetPasswordNotificationEmailBuilderTests.cs" />
     <Compile Include="EntityTests\BusinessTests.cs" />
     <Compile Include="EntityTests\CritterColorTests.cs" />
     <Compile Include="EntityTests\CritterStatusTests.cs" />
