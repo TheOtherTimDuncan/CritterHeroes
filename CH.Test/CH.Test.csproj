@@ -274,6 +274,7 @@
     <Compile Include="ControllerTests\TestHelpers\RedirectToRouteResultTester.cs" />
     <Compile Include="ControllerTests\TestHelpers\ViewResultTester.cs" />
     <Compile Include="DependencyTests.cs" />
+    <Compile Include="EmailTests\ConfirmEmailEmailBuilderTests.cs" />
     <Compile Include="EmailTests\EmailBuilderBaseTest.cs" />
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
     <Compile Include="EmailTests\ResetPasswordAttemptEmailBuilderTests.cs" />

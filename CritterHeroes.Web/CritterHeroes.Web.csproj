@@ -547,6 +547,7 @@
     <Compile Include="Shared\AgeHelper.cs" />
     <Compile Include="Shared\BaseException.cs" />
     <Compile Include="Shared\Commands\FosterSummaryEmailCommand.cs" />
+    <Compile Include="Shared\Email\ConfirmEmailEmailBuilder.cs" />
     <Compile Include="Shared\Email\EmailBuilderBase.cs" />
     <Compile Include="Shared\Email\ResetPasswordAttemptEmailBuilder.cs" />
     <Compile Include="Shared\Email\ResetPasswordEmailBuilder.cs" />
