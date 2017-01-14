@@ -195,12 +195,12 @@
       <HintPath>..\packages\TOTD.EntityFramework.4.3.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Mailer.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Mailer.Core.1.1.0\lib\net462\TOTD.Mailer.Core.dll</HintPath>
+    <Reference Include="TOTD.Mailer.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mailer.Core.1.2.0\lib\net462\TOTD.Mailer.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TOTD.Mailer.Templates, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TOTD.Mailer.Core.1.1.0\lib\net462\TOTD.Mailer.Templates.dll</HintPath>
+    <Reference Include="TOTD.Mailer.Templates, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mailer.Core.1.2.0\lib\net462\TOTD.Mailer.Templates.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TOTD.Mvc, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -443,6 +443,7 @@
     <Compile Include="App_Start\Startup.Middleware.cs" />
     <Compile Include="App_Start\ValidationConfig.cs" />
     <Compile Include="App_Start\ViewEngineConfig.cs" />
+    <Compile Include="Contracts\Email\IEmailBuilder.cs" />
     <Compile Include="Contracts\Queries\IQueryRebuilder.cs" />
     <Compile Include="Contracts\Storage\ISqlQueryStorageContext.cs" />
     <Compile Include="DataProviders\RescueGroups\Mappers\BaseContactMapper.cs" />
@@ -546,6 +547,8 @@
     <Compile Include="Shared\AgeHelper.cs" />
     <Compile Include="Shared\BaseException.cs" />
     <Compile Include="Shared\Commands\FosterSummaryEmailCommand.cs" />
+    <Compile Include="Shared\Email\EmailBuilderBase.cs" />
+    <Compile Include="Shared\Email\ResetPasswordAttemptEmailBuilder.cs" />
     <Compile Include="Shared\Events\AppEventPublisher.cs" />
     <Compile Include="Shared\Events\AppLogEventHandler.cs" />
     <Compile Include="Shared\ListSink.cs" />

@@ -205,6 +205,14 @@
       <HintPath>..\packages\TOTD.EntityFramework.4.3.0.0\lib\net451\TOTD.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="TOTD.Mailer.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mailer.Core.1.2.0\lib\net462\TOTD.Mailer.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TOTD.Mailer.Templates, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TOTD.Mailer.Core.1.2.0\lib\net462\TOTD.Mailer.Templates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="TOTD.Mvc, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TOTD.Mvc.4.3.0.0\lib\net451\TOTD.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -266,7 +274,9 @@
     <Compile Include="ControllerTests\TestHelpers\RedirectToRouteResultTester.cs" />
     <Compile Include="ControllerTests\TestHelpers\ViewResultTester.cs" />
     <Compile Include="DependencyTests.cs" />
+    <Compile Include="EmailTests\EmailBuilderBaseTest.cs" />
     <Compile Include="EmailTests\EmailHandlerTests.cs" />
+    <Compile Include="EmailTests\ResetPasswordAttemptEmailBuilderTests.cs" />
     <Compile Include="EntityTests\BusinessTests.cs" />
     <Compile Include="EntityTests\CritterColorTests.cs" />
     <Compile Include="EntityTests\CritterStatusTests.cs" />
