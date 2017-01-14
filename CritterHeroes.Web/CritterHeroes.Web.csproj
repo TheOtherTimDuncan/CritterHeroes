@@ -549,6 +549,7 @@
     <Compile Include="Shared\Commands\FosterSummaryEmailCommand.cs" />
     <Compile Include="Shared\Email\EmailBuilderBase.cs" />
     <Compile Include="Shared\Email\ResetPasswordAttemptEmailBuilder.cs" />
+    <Compile Include="Shared\Email\ResetPasswordEmailBuilder.cs" />
     <Compile Include="Shared\Events\AppEventPublisher.cs" />
     <Compile Include="Shared\Events\AppLogEventHandler.cs" />
     <Compile Include="Shared\ListSink.cs" />

@@ -6,7 +6,9 @@ using TOTD.Mailer.Core;
 
 namespace CritterHeroes.Web.Contracts.Email
 {
-    public interface IEmailBuilder<TCommand> where TCommand : EmailCommand<BaseEmailData>
+    public interface IEmailBuilder<TCommand, TEmailData>
+        where TCommand : EmailCommand<TEmailData>
+        where TEmailData : BaseEmailData, new()
     {
         EmailMessage BuildEmail(TCommand command);
     }

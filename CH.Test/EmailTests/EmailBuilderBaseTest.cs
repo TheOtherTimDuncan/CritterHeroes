@@ -13,13 +13,15 @@ namespace CH.Test.EmailTests
 {
     public class EmailBuilderBaseTest
     {
-        public TCommand CreateTestCommand<TCommand>() where TCommand : EmailCommand<BaseEmailData>
+        public TCommand CreateTestCommand<TCommand, TEmailData>()
+            where TCommand : EmailCommand<TEmailData>
+            where TEmailData : BaseEmailData, new()
         {
             TCommand command = (TCommand)Activator.CreateInstance(typeof(TCommand), "to@to.com");
 
             command.EmailFrom = "from@from.com";
             command.EmailData.UrlHome = "urlhome";
-            command.EmailData.UrlLogo = "urlLogo";
+            command.EmailData.UrlLogo = "http://127.0.0.1:10000/devstoreaccount1/emails/logo - optimized.svg";
             command.EmailData.OrganizationFullName = "orgfullname";
 
             return command;

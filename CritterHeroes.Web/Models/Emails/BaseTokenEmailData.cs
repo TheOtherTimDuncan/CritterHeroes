@@ -24,7 +24,7 @@ namespace CritterHeroes.Web.Models.Emails
         {
             get
             {
-                return string.Format("{0} hours", TokenLifespan.TotalHours);
+                return string.Format($"{TokenLifespan.TotalHours} hours");
             }
         }
     }
