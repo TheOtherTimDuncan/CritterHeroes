@@ -56,7 +56,7 @@ namespace CritterHeroes.Web.Shared.Email
                     builder.AddText(data.FosterName);
                     if (!data.FosterEmail.IsNullOrEmpty())
                     {
-                        builder.AddLineBreak();
+                        builder.AddLineBreak(textAlternative: ", ");
                         builder.AddText(data.FosterEmail);
                     }
                 }
