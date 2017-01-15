@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Models.Emails;
 
 namespace CritterHeroes.Web.Shared.Commands
 {
-    public class ResetPasswordEmailCommand : EmailCommand<ResetPasswordEmailCommand.ResetPasswordEmailData>
+    public class ResetPasswordEmailCommand : EmailTokenCommandBase
     {
         public ResetPasswordEmailCommand(string emailTo)
-            : base(nameof(ResetPasswordEmailCommand), emailTo)
+            : base(emailTo)
         {
         }
 
-        public class ResetPasswordEmailData : BaseTokenEmailData
+        public string UrlReset
         {
-            public string UrlReset
-            {
-                get;
-                set;
-            }
+            get;
+            set;
         }
     }
 }

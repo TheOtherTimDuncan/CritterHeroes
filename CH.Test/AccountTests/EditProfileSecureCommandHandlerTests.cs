@@ -57,10 +57,10 @@ namespace CH.Test.AccountTests
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
-            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
-            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>())).Returns((ConfirmEmailEmailCommand emailCommand) =>
+            Mock<IEmailService<ConfirmEmailEmailCommand>> mockEmailService = new Mock<IEmailService<ConfirmEmailEmailCommand>>();
+            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ConfirmEmailEmailCommand>())).Returns((ConfirmEmailEmailCommand emailCommand) =>
             {
-                emailCommand.EmailData.UrlConfirm.Should().Be(mockUrlGenerator.Object.GenerateConfirmEmailAbsoluteUrl(model.NewEmail, emailCommand.EmailData.Token));
+                emailCommand.UrlConfirm.Should().Be(mockUrlGenerator.Object.GenerateConfirmEmailAbsoluteUrl(model.NewEmail, emailCommand.Token));
 
                 return Task.FromResult(CommandResult.Success());
             });

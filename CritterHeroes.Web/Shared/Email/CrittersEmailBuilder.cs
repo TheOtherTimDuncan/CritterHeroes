@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Shared.Commands;
+using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Mailer.Core;
 using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Shared.Email
 {
-    public class CrittersEmailBuilder : EmailBuilderBase<CrittersEmailCommand, CrittersEmailCommand.CrittersEmailData>
+    public class CrittersEmailBuilder : EmailBuilderBase<CrittersEmailCommand>
     {
+        public CrittersEmailBuilder(IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailConfiguration emailConfiguration)
+            : base(urlGenerator, stateManager, logoService, emailConfiguration)
+        {
+        }
+
         protected override EmailBuilder BuildEmail(EmailBuilder builder, CrittersEmailCommand command)
         {
             EmailBuilder result = builder
@@ -25,7 +35,7 @@ namespace CritterHeroes.Web.Shared.Email
                         .AddTableHeader(String.Empty)
                     .EndTableRow();
 
-            foreach (var data in command.EmailData.Critters)
+            foreach (var data in command.Critters)
             {
                 builder.BeginTableRow();
 
@@ -74,7 +84,7 @@ namespace CritterHeroes.Web.Shared.Email
 
             result = result
                 .EndTable()
-                .WithSubject($"Critters Update - {command.EmailData.OrganizationFullName}");
+                .WithSubject($"Critters Update - {command.OrganizationFullName}");
 
             return result;
         }

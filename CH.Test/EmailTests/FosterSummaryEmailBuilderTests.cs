@@ -14,7 +14,7 @@ namespace CH.Test.EmailTests
         [TestMethod]
         public void GeneratesCorrectHtml()
         {
-            FosterSummaryEmailCommand command = CreateTestCommand<FosterSummaryEmailCommand, FosterSummaryEmailCommand.FosterSummaryEmailData>();
+            FosterSummaryEmailCommand command = new FosterSummaryEmailCommand("to@to.com");
 
             var summary1 = new FosterSummaryEmailCommand.Summary()
             {
@@ -34,12 +34,12 @@ namespace CH.Test.EmailTests
                 SeniorCount = 8
             };
 
-            command.EmailData.Critters = new[] { summary1, summary2 };
+            command.Summaries = new[] { summary1, summary2 };
 
-            FosterSummaryEmailBuilder builder = new FosterSummaryEmailBuilder();
+            FosterSummaryEmailBuilder builder = new FosterSummaryEmailBuilder(mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailConfiguration.Object);
             EmailMessage message = builder.BuildEmail(command);
 
-            WriteEmailMessage(message, "FosterSummary");
+            VerifyEmailMessage(command, message, "FosterSummary");
         }
     }
 }

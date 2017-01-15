@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Shared.Commands;
+using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Mailer.Core;
 
 namespace CritterHeroes.Web.Shared.Email
 {
-    public class FosterSummaryEmailBuilder : EmailBuilderBase<FosterSummaryEmailCommand, FosterSummaryEmailCommand.FosterSummaryEmailData>
+    public class FosterSummaryEmailBuilder : EmailBuilderBase<FosterSummaryEmailCommand>
     {
+        public FosterSummaryEmailBuilder(IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailConfiguration emailConfiguration)
+            : base(urlGenerator, stateManager, logoService, emailConfiguration)
+        {
+        }
+
         protected override EmailBuilder BuildEmail(EmailBuilder builder, FosterSummaryEmailCommand command)
         {
             EmailBuilder result = builder
@@ -20,7 +30,7 @@ namespace CritterHeroes.Web.Shared.Email
                         .AddTableHeader("Senior")
                     .EndTableRow();
 
-            foreach (var summary in command.EmailData.Critters)
+            foreach (var summary in command.Summaries)
             {
                 builder.BeginTableRow();
                 builder.AddTableCell(summary.FosterName);
@@ -33,7 +43,7 @@ namespace CritterHeroes.Web.Shared.Email
 
             return result = result
                 .EndTable()
-                .WithSubject($"Critters Summary - {command.EmailData.OrganizationFullName}");
+                .WithSubject($"Critters Summary - {command.OrganizationFullName}");
         }
     }
 }

@@ -153,7 +153,7 @@ namespace CH.Test.AccountTests
             Mock<IAppSignInManager> mockSigninManager = new Mock<IAppSignInManager>();
             mockSigninManager.Setup(x => x.PasswordSignInAsync(model.Email, model.Password)).Returns(Task.FromResult(SignInStatus.Success));
 
-            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
+            Mock<IEmailService<ResetPasswordNotificationEmailCommand>> mockEmailService = new Mock<IEmailService<ResetPasswordNotificationEmailCommand>>();
 
             ResetPasswordCommandHandler handler = new ResetPasswordCommandHandler(mockPublisher.Object, mockSigninManager.Object, mockUserManager.Object, mockEmailService.Object);
             CommandResult result = await handler.ExecuteAsync(model);

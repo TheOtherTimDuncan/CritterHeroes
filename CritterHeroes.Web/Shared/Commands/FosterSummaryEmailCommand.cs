@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Models.Emails;
 
 namespace CritterHeroes.Web.Shared.Commands
 {
-    public class FosterSummaryEmailCommand : EmailCommand<FosterSummaryEmailCommand.FosterSummaryEmailData>
+    public class FosterSummaryEmailCommand : EmailCommandBase
     {
         public FosterSummaryEmailCommand(string emailTo)
-            : base(nameof(FosterSummaryEmailCommand), emailTo)
+            : base(emailTo)
         {
         }
 
-        public class FosterSummaryEmailData : BaseEmailData
+        public IEnumerable<Summary> Summaries
         {
-            public IEnumerable<Summary> Critters
-            {
-                get;
-                set;
-            }
+            get;
+            set;
         }
 
         public class Summary

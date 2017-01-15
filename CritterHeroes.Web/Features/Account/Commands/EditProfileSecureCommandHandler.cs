@@ -25,9 +25,9 @@ namespace CritterHeroes.Web.Features.Account.Commands
         private IHttpUser _httpUser;
         private IStateManager<UserContext> _userContextManager;
         private IUrlGenerator _urlGenerator;
-        private IEmailService _emailService;
+        private IEmailService<ConfirmEmailEmailCommand> _emailService;
 
-        public EditProfileSecureCommandHandler(IAppUserManager userManager, IAppEventPublisher publisher, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService emailService)
+        public EditProfileSecureCommandHandler(IAppUserManager userManager, IAppEventPublisher publisher, IHttpUser httpUser, IStateManager<UserContext> userContextManager, IUrlGenerator urlGenerator, IEmailService<ConfirmEmailEmailCommand> emailService)
         {
             this._userManager = userManager;
             this._publisher = publisher;
@@ -55,9 +55,9 @@ namespace CritterHeroes.Web.Features.Account.Commands
             _publisher.Publish(UserLogEvent.Action("Email changed from {OldEmail} to {NewEmail}", user.Email, command.NewEmail));
 
             ConfirmEmailEmailCommand emailCommand = new ConfirmEmailEmailCommand(command.NewEmail);
-            emailCommand.EmailData.TokenLifespan = _userManager.TokenLifespan;
-            emailCommand.EmailData.Token = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            emailCommand.EmailData.UrlConfirm = _urlGenerator.GenerateConfirmEmailAbsoluteUrl(command.NewEmail, emailCommand.EmailData.Token);
+            emailCommand.TokenLifespan = _userManager.TokenLifespan;
+            emailCommand.Token = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            emailCommand.UrlConfirm = _urlGenerator.GenerateConfirmEmailAbsoluteUrl(command.NewEmail, emailCommand.Token);
             await _emailService.SendEmailAsync(emailCommand);
 
             return CommandResult.Success();

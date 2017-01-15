@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.Contracts.Email;
-using CritterHeroes.Web.Models.Emails;
+using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Shared.Commands;
+using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Mailer.Core;
 
 namespace CritterHeroes.Web.Shared.Email
 {
-    public abstract class EmailBuilderBase<TCommand, TEmailData> : IEmailBuilder<TCommand, TEmailData>
-        where TCommand : EmailCommand<TEmailData>
-        where TEmailData : BaseEmailData, new()
+    public abstract class EmailBuilderBase<TCommand> : IEmailBuilder<TCommand> where TCommand : EmailCommandBase
     {
+        private IStateManager<OrganizationContext> _stateManager;
+        private IOrganizationLogoService _logoService;
+        private IUrlGenerator _urlGenerator;
+        private IEmailConfiguration _emailConfiguration;
+
         private const string _styles = @"
     .critters-list {
       width: 100%;
@@ -27,22 +34,38 @@ namespace CritterHeroes.Web.Shared.Email
       border: darkgray 1px solid;
     }
 ";
+        public EmailBuilderBase(IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailConfiguration emailConfiguration)
+        {
+            this._urlGenerator = urlGenerator;
+            this._stateManager = stateManager;
+            this._logoService = logoService;
+            this._emailConfiguration = emailConfiguration;
+        }
+
         protected abstract EmailBuilder BuildEmail(EmailBuilder builder, TCommand command);
 
         public EmailMessage BuildEmail(TCommand command)
         {
+            OrganizationContext organizationContext = _stateManager.GetContext();
+            command.OrganizationFullName = organizationContext.FullName;
+            command.OrganizationShortName = organizationContext.ShortName;
+
+            command.UrlLogo = _logoService.GetLogoUrl();
+
+            command.UrlHome = _urlGenerator.GenerateAbsoluteHomeUrl();
+
             EmailMessage emailMessage = BuildEmail(EmailBuilder.Begin(), command)
                 .AddStyles(_styles)
                 .BeginParagraph()
                     .AddText("Thanks,")
                     .AddLineBreak()
-                    .AddText(command.EmailData.OrganizationFullName)
+                    .AddText(command.OrganizationFullName)
                     .AddLineBreak()
-                    .AddLink(command.EmailData.UrlHome, command.EmailData.UrlHome)
+                    .AddLink(command.UrlHome, command.UrlHome)
                 .EndParagraph()
-                .AddImage(command.EmailData.UrlLogo, "Logo")
+                .AddImage(command.UrlLogo, "Logo")
                 .To(command.EmailTo)
-                .From(command.EmailFrom)
+                .From(command.EmailFrom ?? _emailConfiguration.DefaultFrom)
                 .ToEmail();
 
             return emailMessage;

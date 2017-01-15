@@ -41,16 +41,18 @@ namespace CH.Test.AccountTests
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
-            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
+            Mock<IEmailService<ResetPasswordEmailCommand>> mockResetEmailService = new Mock<IEmailService<ResetPasswordEmailCommand>>();
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockPublisher.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
+            Mock<IEmailService<ResetPasswordAttemptEmailCommand>> mockAttemptEmailService = new Mock<IEmailService<ResetPasswordAttemptEmailCommand>>();
+
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockPublisher.Object, mockUserManager.Object, mockResetEmailService.Object, mockUrlGenerator.Object, mockAttemptEmailService.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
             mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(email), Times.Once);
-            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Never);
-            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Once);
+            mockResetEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Never);
+            mockAttemptEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Once);
         }
 
         [TestMethod]
@@ -80,12 +82,12 @@ namespace CH.Test.AccountTests
 
             MockUrlGenerator mockUrlGenerator = new MockUrlGenerator();
 
-            Mock<IEmailService> mockEmailService = new Mock<IEmailService>();
-            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
+            Mock<IEmailService<ResetPasswordEmailCommand>> mockResetEmailService = new Mock<IEmailService<ResetPasswordEmailCommand>>();
+            mockResetEmailService.Setup(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>())).Returns((ResetPasswordEmailCommand emailCommand) =>
             {
-                emailCommand.EmailData.Token.Should().Be(code);
+                emailCommand.Token.Should().Be(code);
 
-                emailCommand.EmailData.UrlReset.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountController.Route, new
+                emailCommand.UrlReset.Should().Be(mockUrlGenerator.UrlHelper.AbsoluteAction(nameof(AccountController.ResetPassword), AccountController.Route, new
                 {
                     code = code
                 }));
@@ -93,15 +95,17 @@ namespace CH.Test.AccountTests
                 return Task.FromResult(CommandResult.Success());
             });
 
-            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockPublisher.Object, mockUserManager.Object, mockEmailService.Object, mockUrlGenerator.Object);
+            Mock<IEmailService<ResetPasswordAttemptEmailCommand>> mockAttemptEmailService = new Mock<IEmailService<ResetPasswordAttemptEmailCommand>>();
+
+            ForgotPasswordCommandHandler handler = new ForgotPasswordCommandHandler(mockPublisher.Object, mockUserManager.Object, mockResetEmailService.Object, mockUrlGenerator.Object, mockAttemptEmailService.Object);
             CommandResult result = await handler.ExecuteAsync(command);
             result.Succeeded.Should().BeTrue();
 
             mockPublisher.Verify(x => x.Publish(It.IsAny<UserLogEvent>()), Times.Once);
             mockUserManager.Verify(x => x.FindByEmailAsync(command.ResetPasswordEmail), Times.Once);
             mockUserManager.Verify(x => x.GeneratePasswordResetTokenAsync(user.Id), Times.Once);
-            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
-            mockEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Never);
+            mockResetEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordEmailCommand>()), Times.Once);
+            mockAttemptEmailService.Verify(x => x.SendEmailAsync(It.IsAny<ResetPasswordAttemptEmailCommand>()), Times.Never);
         }
     }
 }

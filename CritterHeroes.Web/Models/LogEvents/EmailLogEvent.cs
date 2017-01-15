@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Models.Emails;
 using Serilog.Events;
+using TOTD.Mailer.Core;
 
 namespace CritterHeroes.Web.Models.LogEvents
 {
     public class EmailLogEvent : AppLogEvent
     {
-        public static EmailLogEvent Create(Guid emailID, EmailModel email)
+        public static EmailLogEvent Create(Guid emailID, EmailMessage emailMessage)
         {
             EmailContext context = new EmailContext(emailID);
-            return new EmailLogEvent(context, "Sent email from {From} to {To}", email.From, email.To);
+            return new EmailLogEvent(context, "Sent email from {From} to {To}", emailMessage.From, emailMessage.To);
         }
 
         private EmailLogEvent(EmailContext context, string messageTemplate, params object[] messageValues)

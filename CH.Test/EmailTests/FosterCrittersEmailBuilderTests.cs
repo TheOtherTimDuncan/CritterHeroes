@@ -14,7 +14,7 @@ namespace CH.Test.EmailTests
         [TestMethod]
         public void GeneratesCorrectHtml()
         {
-            FosterCrittersEmailCommand command = CreateTestCommand<FosterCrittersEmailCommand, FosterCrittersEmailCommand.FosterCrittersEmailData>();
+            FosterCrittersEmailCommand command = new FosterCrittersEmailCommand("to@to.com");
 
             var critter1 = new FosterCrittersEmailCommand.Critter()
             {
@@ -36,12 +36,12 @@ namespace CH.Test.EmailTests
                 ThumbnailUrl = "thumbnail2"
             };
 
-            command.EmailData.Critters = new[] { critter1, critter2 };
+            command.Critters = new[] { critter1, critter2 };
 
-            FosterCrittersEmailBuilder builder = new FosterCrittersEmailBuilder();
+            FosterCrittersEmailBuilder builder = new FosterCrittersEmailBuilder(mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailConfiguration.Object);
             EmailMessage message = builder.BuildEmail(command);
 
-            WriteEmailMessage(message, "FosterCritters");
+            VerifyEmailMessage(command, message, "FosterCritters");
         }
     }
 }

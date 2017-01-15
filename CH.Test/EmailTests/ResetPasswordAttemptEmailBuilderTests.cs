@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Models.Emails;
 using CritterHeroes.Web.Shared.Commands;
 using CritterHeroes.Web.Shared.Email;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,12 +14,12 @@ namespace CH.Test.EmailTests
         [TestMethod]
         public void GeneratesCorrectHtml()
         {
-            ResetPasswordAttemptEmailCommand command = CreateTestCommand<ResetPasswordAttemptEmailCommand, BaseEmailData>();
+            ResetPasswordAttemptEmailCommand command = new ResetPasswordAttemptEmailCommand("to@to.com");
 
-            ResetPasswordAttemptEmailBuilder builder = new ResetPasswordAttemptEmailBuilder();
+            ResetPasswordAttemptEmailBuilder builder = new ResetPasswordAttemptEmailBuilder(mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailConfiguration.Object);
             EmailMessage message = builder.BuildEmail(command);
 
-            WriteEmailMessage(message, "ResetPasswordAttempt");
+            VerifyEmailMessage(command, message, "ResetPasswordAttempt");
         }
     }
 }

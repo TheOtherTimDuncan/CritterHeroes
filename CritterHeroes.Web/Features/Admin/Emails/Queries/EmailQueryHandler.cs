@@ -27,12 +27,16 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
     public class EmailQueryHandler : IAsyncQueryHandler<EmailQuery, Models.EmailModel>
     {
         private ISqlQueryStorageContext<Critter> _critterStorage;
-        private IEmailService _emailService;
+        private IEmailService<CrittersEmailCommand> _crittersEmailService;
+        private IEmailService<FosterCrittersEmailCommand> _fostersEmailService;
+        private IEmailService<FosterSummaryEmailCommand> _summaryEmailService;
 
-        public EmailQueryHandler(ISqlQueryStorageContext<Critter> critterStorage, IEmailService emailService)
+        public EmailQueryHandler(ISqlQueryStorageContext<Critter> critterStorage, IEmailService<CrittersEmailCommand> emailService, IEmailService<FosterCrittersEmailCommand> fostersEmailService, IEmailService<FosterSummaryEmailCommand> summaryEmailService)
         {
             this._critterStorage = critterStorage;
-            this._emailService = emailService;
+            this._crittersEmailService = emailService;
+            this._fostersEmailService = fostersEmailService;
+            this._summaryEmailService = summaryEmailService;
         }
 
         public async Task<Models.EmailModel> ExecuteAsync(EmailQuery query)
@@ -65,7 +69,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 emailCommandCritters.AddTo("uponastar9@yahoo.com");
                 emailCommandCritters.AddTo("pchapman72@yahoo.com");
 
-                emailCommandCritters.EmailData.Critters = data.Select(x =>
+                emailCommandCritters.Critters = data.Select(x =>
                 {
 
                     string urlThumbnail = null;
@@ -88,12 +92,12 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                     };
                 });
 
-                await _emailService.SendEmailAsync(emailCommandCritters);
+                await _crittersEmailService.SendEmailAsync(emailCommandCritters);
 
                 FosterSummaryEmailCommand emailSummary = new FosterSummaryEmailCommand("tduncan72@gmail.com");
                 emailSummary.AddTo("catmamadiane@yahoo.co");
 
-                emailSummary.EmailData.Critters = data
+                emailSummary.Summaries = data
                     .Select(x =>
                     {
                         string lifeStage = AgeHelper.GetLifeStage(x.SpeciesName, x.BirthDate, x.GeneralAge);
@@ -118,14 +122,14 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                     })
                     .ToList();
 
-                await _emailService.SendEmailAsync(emailSummary);
+                await _summaryEmailService.SendEmailAsync(emailSummary);
 
                 IEnumerable<string> fosterEmails = data.Where(x => !x.FosterEmail.IsNullOrEmpty()).Select(x => x.FosterEmail).Distinct();
                 foreach (string email in fosterEmails)
                 {
 
                     FosterCrittersEmailCommand emailcommandFosterCritters = new FosterCrittersEmailCommand(email);
-                    emailcommandFosterCritters.EmailData.Critters = data.Where(x => x.FosterEmail == email).Select(x =>
+                    emailcommandFosterCritters.Critters = data.Where(x => x.FosterEmail == email).Select(x =>
                     {
 
                         string urlThumbnail = null;
@@ -145,7 +149,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                         };
                     });
 
-                    await _emailService.SendEmailAsync(emailcommandFosterCritters);
+                    await _fostersEmailService.SendEmailAsync(emailcommandFosterCritters);
                 }
             }
 

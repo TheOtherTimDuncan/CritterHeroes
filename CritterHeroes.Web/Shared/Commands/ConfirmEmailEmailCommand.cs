@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using CritterHeroes.Web.Models.Emails;
 
 namespace CritterHeroes.Web.Shared.Commands
 {
-    public class ConfirmEmailEmailCommand : EmailCommand<ConfirmEmailEmailCommand.ConfirmEmailData>
+    public class ConfirmEmailEmailCommand : EmailTokenCommandBase
     {
         public ConfirmEmailEmailCommand(string emailTo)
-            : base(nameof(ConfirmEmailEmailCommand), emailTo)
+            : base(emailTo)
         {
         }
 
-        public class ConfirmEmailData : BaseTokenEmailData
+        public string UrlConfirm
         {
-            public string UrlConfirm
-            {
-                get;
-                set;
-            }
+            get;
+            set;
         }
     }
 }

@@ -546,6 +546,7 @@
     <Compile Include="Shared\ActionResults\RedirectToPreviousResult.cs" />
     <Compile Include="Shared\AgeHelper.cs" />
     <Compile Include="Shared\BaseException.cs" />
+    <Compile Include="Shared\Commands\EmailTokenCommandBase.cs" />
     <Compile Include="Shared\Commands\FosterSummaryEmailCommand.cs" />
     <Compile Include="Shared\Email\ConfirmEmailEmailBuilder.cs" />
     <Compile Include="Shared\Email\FosterCrittersEmailBuilder.cs" />
@@ -590,8 +591,6 @@
     <Compile Include="Data\Configurations\CritterColorConfiguration.cs" />
     <Compile Include="Data\Extensions\CritterColorExtensions.cs" />
     <Compile Include="Data\Models\CritterColor.cs" />
-    <Compile Include="Models\Emails\BaseEmailData.cs" />
-    <Compile Include="Models\Emails\BaseTokenEmailData.cs" />
     <Compile Include="Shared\Commands\CrittersEmailCommand.cs" />
     <Compile Include="Shared\Commands\FosterCrittersEmailCommand.cs" />
     <Compile Include="Shared\Commands\ResetPasswordAttemptEmailCommand.cs" />
@@ -599,7 +598,7 @@
     <Compile Include="Shared\Commands\ResetPasswordNotificationEmailCommand.cs" />
     <Compile Include="Shared\Dispatchers\CommandDispatcher.cs" />
     <Compile Include="Shared\Dispatchers\QueryDispatcher.cs" />
-    <Compile Include="Shared\Commands\EmailCommand.cs" />
+    <Compile Include="Shared\Commands\EmailCommandBase.cs" />
     <Compile Include="Shared\Commands\ConfirmEmailEmailCommand.cs" />
     <Compile Include="Shared\Email\EmailService.cs" />
     <Compile Include="Shared\Identity\AppUserManager.cs" />
@@ -765,7 +764,6 @@
     <Compile Include="Data\Models\CritterStatus.cs" />
     <Compile Include="Data\Models\Breed.cs" />
     <Compile Include="Data\Models\Species.cs" />
-    <Compile Include="Models\Emails\EmailModel.cs" />
     <Compile Include="Data\Models\Organization.cs" />
     <Compile Include="Models\LogEvents\CritterLogEvent.cs" />
     <Compile Include="Models\LogEvents\EmailLogEvent.cs" />

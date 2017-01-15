@@ -19,14 +19,16 @@ namespace CritterHeroes.Web.Features.Account.Commands
     {
         private IAppEventPublisher _publisher;
         private IAppUserManager _appUserManager;
-        private IEmailService _emailService;
+        private IEmailService<ResetPasswordEmailCommand> _resetEmailService;
+        private IEmailService<ResetPasswordAttemptEmailCommand> _attemptEmailService;
         private IUrlGenerator _urlGenerator;
 
-        public ForgotPasswordCommandHandler(IAppEventPublisher publisher, IAppUserManager userManager, IEmailService emailService, IUrlGenerator urlGenerator)
+        public ForgotPasswordCommandHandler(IAppEventPublisher publisher, IAppUserManager userManager, IEmailService<ResetPasswordEmailCommand> resetEmailService, IUrlGenerator urlGenerator, IEmailService<ResetPasswordAttemptEmailCommand> attempEmailService)
         {
             this._publisher = publisher;
             this._appUserManager = userManager;
-            this._emailService = emailService;
+            this._resetEmailService = resetEmailService;
+            this._attemptEmailService = attempEmailService;
             this._urlGenerator = urlGenerator;
         }
 
@@ -39,18 +41,18 @@ namespace CritterHeroes.Web.Features.Account.Commands
                 // We don't want to reveal whether or not the username or email address are valid
                 // so if the user isn't found send an email to the entered email address and just return success
                 ResetPasswordAttemptEmailCommand emailAttempt = new ResetPasswordAttemptEmailCommand(command.ResetPasswordEmail);
-                await _emailService.SendEmailAsync(emailAttempt);
+                await _attemptEmailService.SendEmailAsync(emailAttempt);
                 _publisher.Publish(UserLogEvent.Error("{Email} not found for forgot password", command.ResetPasswordEmail));
                 return CommandResult.Success();
             }
 
             ResetPasswordEmailCommand emailCommand = new ResetPasswordEmailCommand(user.Email);
 
-            emailCommand.EmailData.TokenLifespan = _appUserManager.TokenLifespan;
-            emailCommand.EmailData.Token = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
-            emailCommand.EmailData.UrlReset = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.EmailData.Token);
+            emailCommand.TokenLifespan = _appUserManager.TokenLifespan;
+            emailCommand.Token = await _appUserManager.GeneratePasswordResetTokenAsync(user.Id);
+            emailCommand.UrlReset = _urlGenerator.GenerateResetPasswordAbsoluteUrl(emailCommand.Token);
 
-            await _emailService.SendEmailAsync(emailCommand);
+            await _resetEmailService.SendEmailAsync(emailCommand);
             _publisher.Publish(UserLogEvent.Action("{Email} found for forgot password", user.Email));
 
             return CommandResult.Success();

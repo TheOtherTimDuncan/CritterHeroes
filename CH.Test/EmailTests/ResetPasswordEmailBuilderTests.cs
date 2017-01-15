@@ -14,15 +14,15 @@ namespace CH.Test.EmailTests
         [TestMethod]
         public void GeneratesCorrectHtml()
         {
-            ResetPasswordEmailCommand command = CreateTestCommand<ResetPasswordEmailCommand, ResetPasswordEmailCommand.ResetPasswordEmailData>();
-            command.EmailData.UrlReset = "urlreset";
-            command.EmailData.Token = "token";
-            command.EmailData.TokenLifespan = TimeSpan.FromHours(4);
+            ResetPasswordEmailCommand command = new ResetPasswordEmailCommand("to@to.com");
+            command.UrlReset = "urlreset";
+            command.Token = "token";
+            command.TokenLifespan = TimeSpan.FromHours(4);
 
-            ResetPasswordEmailBuilder builder = new ResetPasswordEmailBuilder();
+            ResetPasswordEmailBuilder builder = new ResetPasswordEmailBuilder(mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailConfiguration.Object);
             EmailMessage message = builder.BuildEmail(command);
 
-            WriteEmailMessage(message, "ResetPassword");
+            VerifyEmailMessage(command, message, "ResetPassword");
         }
     }
 }

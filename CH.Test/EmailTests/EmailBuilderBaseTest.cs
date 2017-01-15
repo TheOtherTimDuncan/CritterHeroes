@@ -2,34 +2,62 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CritterHeroes.Web.Models.Emails;
+using CH.Test.Mocks;
+using CritterHeroes.Web.Contracts.Email;
+using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Shared.Commands;
+using CritterHeroes.Web.Shared.StateManagement;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json;
 using TOTD.Mailer.Core;
 using TOTD.Utility.UnitTestHelpers;
 
 namespace CH.Test.EmailTests
 {
+    [TestClass]
     public class EmailBuilderBaseTest
     {
-        public TCommand CreateTestCommand<TCommand, TEmailData>()
-            where TCommand : EmailCommand<TEmailData>
-            where TEmailData : BaseEmailData, new()
+        private string urlLogo = "http://127.0.0.1:10000/devstoreaccount1/fflah/logo%20-%20optimized.svg";
+
+        protected OrganizationContext organizationContext;
+        protected Mock<IEmailConfiguration> mockEmailConfiguration;
+        protected MockUrlGenerator mockUrlGenerator;
+        protected Mock<IStateManager<OrganizationContext>> mockOrganizationStateManager;
+        protected Mock<IOrganizationLogoService> mockLogoService;
+
+        [TestInitialize]
+        public void InitializeTest()
         {
-            TCommand command = (TCommand)Activator.CreateInstance(typeof(TCommand), "to@to.com");
+            organizationContext = new OrganizationContext()
+            {
+                FullName = "FullName",
+                ShortName = "ShortName"
+            };
 
-            command.EmailFrom = "from@from.com";
-            command.EmailData.UrlHome = "urlhome";
-            command.EmailData.UrlLogo = "http://127.0.0.1:10000/devstoreaccount1/fflah/logo%20-%20optimized.svg";
-            command.EmailData.OrganizationFullName = "orgfullname";
+            mockEmailConfiguration = new Mock<IEmailConfiguration>();
 
-            return command;
+            mockUrlGenerator = new MockUrlGenerator();
+
+            mockOrganizationStateManager = new Mock<IStateManager<OrganizationContext>>();
+            mockOrganizationStateManager.Setup(x => x.GetContext()).Returns(organizationContext);
+
+            mockLogoService = new Mock<IOrganizationLogoService>();
+            mockLogoService.Setup(x => x.GetLogoUrl()).Returns(urlLogo);
         }
 
-        public void WriteEmailMessage(EmailMessage emailMessage, string emailTitle)
+        public void VerifyEmailMessage(EmailCommandBase emailCommand, EmailMessage emailMessage, string emailTitle)
         {
+            emailCommand.OrganizationFullName.Should().Be(organizationContext.FullName);
+            emailCommand.OrganizationShortName.Should().Be(organizationContext.ShortName);
+            emailCommand.UrlLogo.Should().Be(urlLogo);
+            emailCommand.UrlHome.Should().NotBeNullOrEmpty();
+
             emailMessage.Subject.Should().NotBeNullOrEmpty();
+            emailMessage.To.Should().Equal(emailCommand.EmailTo);
+            emailMessage.From.Should().Be(emailCommand.EmailFrom);
 
             string folder = Path.Combine(UnitTestHelper.GetSolutionRoot(), "TestResults");
             File.WriteAllText(Path.Combine(folder, $"{emailTitle}.html"), emailMessage.HtmlBody);

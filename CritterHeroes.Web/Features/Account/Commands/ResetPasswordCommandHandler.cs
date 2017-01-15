@@ -20,9 +20,9 @@ namespace CritterHeroes.Web.Features.Account.Commands
         private IAppUserManager _userManager;
         private IAppSignInManager _signinManager;
         private IAppEventPublisher _publisher;
-        private IEmailService _emailService;
+        private IEmailService<ResetPasswordNotificationEmailCommand> _emailService;
 
-        public ResetPasswordCommandHandler(IAppEventPublisher publisher, IAppSignInManager signinManager, IAppUserManager userManager, IEmailService emailService)
+        public ResetPasswordCommandHandler(IAppEventPublisher publisher, IAppSignInManager signinManager, IAppUserManager userManager, IEmailService<ResetPasswordNotificationEmailCommand> emailService)
         {
             this._userManager = userManager;
             this._signinManager = signinManager;

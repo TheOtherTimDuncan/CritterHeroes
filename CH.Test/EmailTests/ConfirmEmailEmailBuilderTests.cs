@@ -14,15 +14,15 @@ namespace CH.Test.EmailTests
         [TestMethod]
         public void GeneratesCorrectHtml()
         {
-            ConfirmEmailEmailCommand command = CreateTestCommand<ConfirmEmailEmailCommand, ConfirmEmailEmailCommand.ConfirmEmailData>();
-            command.EmailData.UrlConfirm = "urlconfirm";
-            command.EmailData.Token = "token";
-            command.EmailData.TokenLifespan = TimeSpan.FromHours(4);
+            ConfirmEmailEmailCommand command = new ConfirmEmailEmailCommand("to@to.com");
+            command.UrlConfirm = "urlconfirm";
+            command.Token = "token";
+            command.TokenLifespan = TimeSpan.FromHours(4);
 
-            ConfirmEmailEmailBuilder builder = new ConfirmEmailEmailBuilder();
+            ConfirmEmailEmailBuilder builder = new ConfirmEmailEmailBuilder(mockUrlGenerator.Object, mockOrganizationStateManager.Object, mockLogoService.Object, mockEmailConfiguration.Object);
             EmailMessage message = builder.BuildEmail(command);
 
-            WriteEmailMessage(message, "ConfirmEmail");
+            VerifyEmailMessage(command, message, "ConfirmEmail");
         }
     }
 }

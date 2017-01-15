@@ -5,7 +5,6 @@ using System.Net;
 using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Contracts.Logging;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Models.Emails;
 using CritterHeroes.Web.Models.LogEvents;
 using CritterHeroes.Web.Shared.Events;
 using CritterHeroes.Web.Shared.Logging;
@@ -17,6 +16,7 @@ using Moq;
 using Newtonsoft.Json;
 using Serilog;
 using SimpleInjector;
+using TOTD.Mailer.Core;
 
 namespace CH.Test
 {
@@ -317,18 +317,18 @@ namespace CH.Test
 
             string[] emailTo = new[] { "to@to.com" };
 
-            EmailModel email = new EmailModel()
+            EmailMessage emailMessage = new EmailMessage()
             {
                 To = emailTo,
                 From = "from@from.com"
             };
 
-            EmailLogEvent logEvent = EmailLogEvent.Create(emailID, email);
+            EmailLogEvent logEvent = EmailLogEvent.Create(emailID, emailMessage);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.Email);
             logEvent.MessageValues.Any(x => emailTo.Equals(x)).Should().BeTrue();
-            logEvent.MessageValues.Should().Contain(email.From);
+            logEvent.MessageValues.Should().Contain(emailMessage.From);
 
             logEvent.Context.Should().BeOfType<EmailLogEvent.EmailContext>();
             EmailLogEvent.EmailContext context = logEvent.Context as EmailLogEvent.EmailContext;

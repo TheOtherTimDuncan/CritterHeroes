@@ -59,6 +59,7 @@ namespace CritterHeroes.Web
 
             container.Register(typeof(IStateManager<>), defaultAssemblies, Lifestyle.Scoped);
             container.Register(typeof(IRescueGroupsStorageContext<>), defaultAssemblies);
+            container.Register(typeof(IEmailBuilder<>), defaultAssemblies);
             container.Register<IFileSystem, FileSystemProxy>(Lifestyle.Scoped);
 
             // Register AppUserStorageContext for the one entity SqlStorageContext<> can't handle
@@ -89,7 +90,7 @@ namespace CritterHeroes.Web
             container.Register<ICritterPictureService, CritterPictureService>();
             container.Register<ICommandDispatcher, CommandDispatcher>(Lifestyle.Scoped);
             container.Register<IQueryDispatcher, QueryDispatcher>(Lifestyle.Scoped);
-            container.Register<IEmailService, EmailService>();
+            container.Register(typeof(IEmailService<>), typeof(EmailService<>));
             container.Register<IAppEventPublisher, AppEventPublisher>(Lifestyle.Scoped);
 
             container.Register<IAppLogEventEnricherFactory>(() => new AppLogEventEnricherFactory(container), Lifestyle.Scoped);
