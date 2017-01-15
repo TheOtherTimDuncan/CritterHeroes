@@ -21,7 +21,7 @@ namespace CH.Test.EmailTests
 
             command.EmailFrom = "from@from.com";
             command.EmailData.UrlHome = "urlhome";
-            command.EmailData.UrlLogo = "http://127.0.0.1:10000/devstoreaccount1/emails/logo - optimized.svg";
+            command.EmailData.UrlLogo = "http://127.0.0.1:10000/devstoreaccount1/fflah/logo%20-%20optimized.svg";
             command.EmailData.OrganizationFullName = "orgfullname";
 
             return command;

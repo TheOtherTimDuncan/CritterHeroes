@@ -97,24 +97,24 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                     .Select(x =>
                     {
                         string lifeStage = AgeHelper.GetLifeStage(x.SpeciesName, x.BirthDate, x.GeneralAge);
-                        return new
+                        return new FosterSummaryEmailCommand.Summary()
                         {
-                            Foster = x.Foster,
-                            Baby = (lifeStage.SafeEquals("Kitten")|| lifeStage.SafeEquals("Puppy") ? 1 : 0),
-                            Young = (lifeStage.SafeEquals("Young") ? 1 : 0),
-                            Adult = (lifeStage.SafeEquals("Adult") ? 1 : 0),
-                            Senior = (lifeStage.SafeEquals("Senior") ? 1 : 0)
+                            FosterName = x.Foster,
+                            BabyCount = (lifeStage.SafeEquals("Kitten") || lifeStage.SafeEquals("Puppy") ? 1 : 0),
+                            YoungCount = (lifeStage.SafeEquals("Young") ? 1 : 0),
+                            AdultCount = (lifeStage.SafeEquals("Adult") ? 1 : 0),
+                            SeniorCount = (lifeStage.SafeEquals("Senior") ? 1 : 0)
                         };
                     })
-                    .OrderBy(x => x.Foster)
-                    .GroupBy(x => x.Foster)
-                    .Select(g => new
+                    .OrderBy(x => x.FosterName)
+                    .GroupBy(x => x.FosterName)
+                    .Select(g => new FosterSummaryEmailCommand.Summary()
                     {
-                        Name = g.Key,
-                        Baby = g.Sum(x => x.Baby),
-                        Young = g.Sum(x => x.Young),
-                        Adult = g.Sum(x => x.Adult),
-                        Senior = g.Sum(x => x.Senior)
+                        FosterName = g.Key,
+                        BabyCount = g.Sum(x => x.BabyCount),
+                        YoungCount = g.Sum(x => x.YoungCount),
+                        AdultCount = g.Sum(x => x.AdultCount),
+                        SeniorCount = g.Sum(x => x.SeniorCount)
                     })
                     .ToList();
 

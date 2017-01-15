@@ -9,26 +9,9 @@ namespace CritterHeroes.Web.Shared.Email
 {
     public class FosterCrittersEmailBuilder : EmailBuilderBase<FosterCrittersEmailCommand, FosterCrittersEmailCommand.FosterCrittersEmailData>
     {
-        private const string _styles = @"
-    .critters-list {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 15px;
-    }
-    .critters-list th {
-      text-align: center;
-    }
-    .critters-list td,.critters-list th {
-      padding: 5px 5px;
-      text-align: left;
-      border: darkgray 1px solid;
-    }
-";
-
         protected override EmailBuilder BuildEmail(EmailBuilder builder, FosterCrittersEmailCommand command)
         {
             EmailBuilder result = builder
-                .AddStyles(_styles)
                 .AddParagraph("The following are the critters in the status Available, Not Available or Sponsorship status.")
                 .BeginTable(className: "critters-list")
                     .BeginTableRow()
@@ -39,7 +22,8 @@ namespace CritterHeroes.Web.Shared.Email
                         .AddTableHeader("ID")
                         .AddTableHeader("Foster or Location")
                         .AddTableHeader(String.Empty)
-                        .AddTableHeader(String.Empty);
+                        .AddTableHeader(String.Empty)
+                    .EndTableRow();
 
             foreach (var data in command.EmailData.Critters)
             {
