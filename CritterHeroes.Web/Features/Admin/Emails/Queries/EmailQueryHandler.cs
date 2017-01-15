@@ -134,9 +134,9 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                             urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
                         }
 
-                        return new
+                        return new FosterCrittersEmailCommand.Critter()
                         {
-                            UrlThumbnail = urlThumbnail,
+                            ThumbnailUrl = urlThumbnail,
                             Name = x.Name,
                             Status = x.Status,
                             RescueID = x.RescueID,
