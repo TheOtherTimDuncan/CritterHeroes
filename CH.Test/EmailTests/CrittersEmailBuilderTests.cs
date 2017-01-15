@@ -9,14 +9,14 @@ using TOTD.Mailer.Core;
 namespace CH.Test.EmailTests
 {
     [TestClass]
-    public class FosterCrittersEmailBuilderTests : EmailBuilderBaseTest
+    public class CrittersEmailBuilderTests : EmailBuilderBaseTest
     {
         [TestMethod]
         public void GeneratesCorrectHtml()
         {
-            FosterCrittersEmailCommand command = CreateTestCommand<FosterCrittersEmailCommand, FosterCrittersEmailCommand.FosterCrittersEmailData>();
+            CrittersEmailCommand command = CreateTestCommand<CrittersEmailCommand, CrittersEmailCommand.CrittersEmailData>();
 
-            var critter1 = new FosterCrittersEmailCommand.Critter()
+            var critter1 = new CrittersEmailCommand.Critter()
             {
                 FosterEmail = "email1",
                 FosterName = "foster1",
@@ -28,7 +28,7 @@ namespace CH.Test.EmailTests
                 ThumbnailUrl = "thumbnail1"
             };
 
-            var critter2 = new FosterCrittersEmailCommand.Critter()
+            var critter2 = new CrittersEmailCommand.Critter()
             {
                 Location = "location2",
                 Name = "Name2",
@@ -41,10 +41,10 @@ namespace CH.Test.EmailTests
 
             command.EmailData.Critters = new[] { critter1, critter2 };
 
-            FosterCrittersEmailBuilder builder = new FosterCrittersEmailBuilder();
+            CrittersEmailBuilder builder = new CrittersEmailBuilder();
             EmailMessage message = builder.BuildEmail(command);
 
-            WriteEmailMessage(message, "FosterCritters");
+            WriteEmailMessage(message, "Critters");
         }
     }
 }

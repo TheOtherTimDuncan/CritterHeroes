@@ -7,9 +7,9 @@ using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Shared.Email
 {
-    public class FosterCrittersEmailBuilder : EmailBuilderBase<FosterCrittersEmailCommand, FosterCrittersEmailCommand.FosterCrittersEmailData>
+    public class CrittersEmailBuilder : EmailBuilderBase<CrittersEmailCommand, CrittersEmailCommand.CrittersEmailData>
     {
-        protected override EmailBuilder BuildEmail(EmailBuilder builder, FosterCrittersEmailCommand command)
+        protected override EmailBuilder BuildEmail(EmailBuilder builder, CrittersEmailCommand command)
         {
             EmailBuilder result = builder
                 .AddParagraph("The following are the critters in the status Available, Not Available or Sponsorship status.")
