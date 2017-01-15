@@ -58,24 +58,6 @@ namespace CritterHeroes.Web.Shared.Commands
                 get;
                 set;
             }
-
-            public string Location
-            {
-                get;
-                set;
-            }
-
-            public string FosterName
-            {
-                get;
-                set;
-            }
-
-            public string FosterEmail
-            {
-                get;
-                set;
-            }
         }
     }
 }
