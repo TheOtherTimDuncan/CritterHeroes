@@ -1,3 +1,0 @@
-This is a notification that your password has been successfuly reset.
-
--- {{organizationFullName}}

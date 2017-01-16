@@ -1,5 +1,0 @@
-Your password for your account at {{organizationFullName}} has been reset. To complete resetting your password, visit {{organizationFullName}} and copy the code into the provided form. This code will be valid for {{tokenLifespan}}.
-
-Confirmation Code: {{token}}
-
--- {{organizationFullName}}

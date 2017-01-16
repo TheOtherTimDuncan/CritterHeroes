@@ -326,14 +326,12 @@
     <None Include="src\css\fontawesome\_rotated-flipped.scss" />
     <None Include="src\css\fontawesome\_stacked.scss" />
     <None Include="src\css\fontawesome\_variables.scss" />
-    <Content Include="src\Emails\FosterSummary\example.json" />
     <None Include="src\templates\ch.contacts-template.hb" />
     <None Include="src\templates\ch.critters-template.hb">
       <SubType>Designer</SubType>
     </None>
     <None Include="src\css\site.scss" />
     <None Include="gulpfile.js" />
-    <None Include="gulp-tasks\emails.js" />
     <None Include="gulp-tasks\scripts.js" />
     <Content Include="mstile-144x144.png">
       <DependentUpon>favicon.ico</DependentUpon>
@@ -369,25 +367,6 @@
     <None Include="bower.json" />
     <None Include="package.json" />
     <None Include="src\_references.js" />
-    <None Include="src\Emails\ConfirmEmail\Body.html" />
-    <None Include="src\Emails\ConfirmEmail\Body.txt" />
-    <None Include="src\Emails\ConfirmEmail\Subject.txt" />
-    <None Include="src\Emails\Critters\Body.html" />
-    <None Include="src\Emails\Critters\Body.txt" />
-    <None Include="src\Emails\Critters\Subject.txt" />
-    <None Include="src\Emails\FosterCritters\Body.html" />
-    <None Include="src\Emails\FosterCritters\Body.txt" />
-    <None Include="src\Emails\FosterCritters\Subject.txt" />
-    <None Include="src\Emails\ResetPasswordAttempt\Body.html" />
-    <None Include="src\Emails\ResetPasswordAttempt\Body.txt" />
-    <None Include="src\Emails\ResetPasswordAttempt\Subject.txt" />
-    <None Include="src\Emails\ResetPasswordNotification\Body.html" />
-    <None Include="src\Emails\ResetPasswordNotification\Body.txt" />
-    <None Include="src\Emails\ResetPasswordNotification\Subject.txt" />
-    <None Include="src\Emails\ResetPassword\Body.html" />
-    <None Include="src\Emails\ResetPassword\Body.txt" />
-    <None Include="src\Emails\ResetPassword\Subject.txt" />
-    <None Include="src\Emails\styles.css" />
     <None Include="src\lib\dropzone.js" />
     <None Include="src\lib\dropzone.min.js">
       <DependentUpon>dropzone.js</DependentUpon>
@@ -409,9 +388,6 @@
     <None Include="src\css\site.css">
       <DependentUpon>site.scss</DependentUpon>
     </None>
-    <Content Include="src\Emails\FosterSummary\Body.html" />
-    <Content Include="src\Emails\FosterSummary\Body.txt" />
-    <Content Include="src\Emails\FosterSummary\Subject.txt" />
     <Content Include="src\js-tests\ch.cookie.tests.js" />
     <Content Include="src\js-tests\ch.data.tests.js" />
     <Content Include="src\js-tests\ch.pubsub.tests.js" />
@@ -782,12 +758,6 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="src\Emails\ConfirmEmail\example.json" />
-    <None Include="src\Emails\Critters\example.json" />
-    <None Include="src\Emails\FosterCritters\example.json" />
-    <None Include="src\Emails\ResetPasswordAttempt\example.json" />
-    <None Include="src\Emails\ResetPasswordNotification\example.json" />
-    <None Include="src\Emails\ResetPassword\example.json" />
     <None Include="src\lib\jquery.validate.unobtrusive.min.js">
       <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
     </None>

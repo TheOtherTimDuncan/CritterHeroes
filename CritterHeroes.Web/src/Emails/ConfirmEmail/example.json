@@ -1,8 +1,0 @@
-{
-    "organizationFullName": "Friends For Life Animal Haven",
-    "tokenLifespan": "24 hours",
-    "token": "62%2FWCv%2Bw2SRub8JxrJLKmFPAEAPulLf6GpkmS1Z%2BG0qR%2BXRyV%2F4MRWfCLtpsKtw%2BtMreWgZaW47NUHu1GwBisrz9m1%2BilPOtpFbP9t5CNqloHa5d36YfA4FDCe9v5vj62XkcgrHkZai7xasaNeXI4g%3D%3D",
-    "urlHome": "https://localhost:44301/debug/",
-    "urlConfirm": "https://localhost:44301/debug/Account/ConfirmEmail?email=test%40gmail.com&confirmationCode=62%2FWCv%2Bw2SRub8JxrJLKmFPAEAPulLf6GpkmS1Z%2BG0qR%2BXRyV%2F4MRWfCLtpsKtw%2BtMreWgZaW47NUHu1GwBisrz9m1%2BilPOtpFbP9t5CNqloHa5d36YfA4FDCe9v5vj62XkcgrHkZai7xasaNeXI4g%3D%3D",
-    "urlLogo": "http://127.0.0.1:10000/devstoreaccount1/fflah/logo.svg"
-}
