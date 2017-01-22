@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CritterHeroes.Web.Contracts.Email;
 using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Features.Admin.Emails.Models;
 using CritterHeroes.Web.Shared;
@@ -39,7 +38,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
             this._summaryEmailService = summaryEmailService;
         }
 
-        public async Task<Models.EmailModel> ExecuteAsync(EmailQuery query)
+        public async Task<EmailModel> ExecuteAsync(EmailQuery query)
         {
             var data = await _critterStorage.Entities
                 .OrderBy(x => x.Name)
@@ -94,8 +93,8 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
 
                 await _crittersEmailService.SendEmailAsync(emailCommandCritters);
 
-                FosterSummaryEmailCommand emailSummary = new FosterSummaryEmailCommand("tduncan72@gmail.com");
-                emailSummary.AddTo("catmamadiane@yahoo.co");
+                FosterSummaryEmailCommand emailSummary = new FosterSummaryEmailCommand("catmamadiane@yahoo.com");
+                emailSummary.EmailBcc = "tduncan72@gmail.com";
 
                 emailSummary.Summaries = data
                     .Select(x =>
@@ -129,6 +128,8 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 {
 
                     FosterCrittersEmailCommand emailcommandFosterCritters = new FosterCrittersEmailCommand(email);
+                    emailcommandFosterCritters.EmailBcc = "nan3176165@aol.com";
+
                     emailcommandFosterCritters.Critters = data.Where(x => x.FosterEmail == email).Select(x =>
                     {
 
@@ -153,7 +154,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 }
             }
 
-            Models.EmailModel model = new Models.EmailModel();
+            EmailModel model = new EmailModel();
             return model;
         }
     }

@@ -9,6 +9,7 @@ using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Shared.Commands;
 using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Mailer.Core;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Shared.Email
 {
@@ -65,6 +66,7 @@ namespace CritterHeroes.Web.Shared.Email
                 .EndParagraph()
                 .AddImage(command.UrlLogo, "Logo")
                 .To(command.EmailTo)
+                .Bcc(command.EmailBcc)
                 .From(command.EmailFrom ?? _emailConfiguration.DefaultFrom)
                 .ToEmail();
 

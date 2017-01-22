@@ -21,6 +21,12 @@ namespace CritterHeroes.Web.Shared.Commands
             set;
         }
 
+        public string EmailBcc
+        {
+            get;
+            set;
+        }
+
         public string OrganizationFullName
         {
             get;
