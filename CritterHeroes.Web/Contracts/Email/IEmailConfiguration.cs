@@ -9,15 +9,5 @@ namespace CritterHeroes.Web.Contracts.Email
         {
             get;
         }
-
-        string Username
-        {
-            get;
-        }
-
-        string Password
-        {
-            get;
-        }
     }
 }

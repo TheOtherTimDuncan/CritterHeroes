@@ -313,8 +313,6 @@ namespace CH.Test
         [TestMethod]
         public void EmailLogEventLogsEmail()
         {
-            Guid emailID = Guid.NewGuid();
-
             string[] emailTo = new[] { "to@to.com" };
 
             EmailMessage emailMessage = new EmailMessage()
@@ -323,16 +321,12 @@ namespace CH.Test
                 From = "from@from.com"
             };
 
-            EmailLogEvent logEvent = EmailLogEvent.Create(emailID, emailMessage);
+            EmailLogEvent logEvent = EmailLogEvent.Create(emailMessage);
 
             logEvent.Level.Should().Be(Serilog.Events.LogEventLevel.Information);
             logEvent.Category.Should().Be(LogEventCategory.Email);
             logEvent.MessageValues.Any(x => emailTo.Equals(x)).Should().BeTrue();
             logEvent.MessageValues.Should().Contain(emailMessage.From);
-
-            logEvent.Context.Should().BeOfType<EmailLogEvent.EmailContext>();
-            EmailLogEvent.EmailContext context = logEvent.Context as EmailLogEvent.EmailContext;
-            context.EmailID.Should().Be(emailID);
         }
 
         private class TestContext

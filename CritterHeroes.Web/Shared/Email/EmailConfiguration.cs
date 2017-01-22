@@ -12,23 +12,7 @@ namespace CritterHeroes.Web.Shared.Email
         {
             get
             {
-                return ConfigurationManager.AppSettings["DefaultEmailFrom"]; ;
-            }
-        }
-
-        public string Username
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SendGridUsername"];
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SendGridPassword"];
+                return ConfigurationManager.AppSettings["DefaultEmailFrom"];
             }
         }
     }
