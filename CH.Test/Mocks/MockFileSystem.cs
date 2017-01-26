@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using Moq;
 
 namespace CH.Test.Mocks

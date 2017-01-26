@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
-using Serilog.Formatting.Json;
 using TOTD.Utility.EnumerableHelpers;
 
 namespace CritterHeroes.Web.DataProviders.Azure.Logging

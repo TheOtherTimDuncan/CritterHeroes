@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Logging;
+using CritterHeroes.Web.Domain.Contracts.Logging;
 using CritterHeroes.Web.Models.LogEvents;
 using Microsoft.Owin;
 using Serilog;

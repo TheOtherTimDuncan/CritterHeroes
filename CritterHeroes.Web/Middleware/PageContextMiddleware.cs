@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using CritterHeroes.Web.Shared.OwinExtensions;
 using CritterHeroes.Web.Shared.StateManagement;
 using Microsoft.Owin;

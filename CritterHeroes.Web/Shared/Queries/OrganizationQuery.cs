@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CritterHeroes.Web.Domain.Contracts.Queries;
 using CritterHeroes.Web.Shared.StateManagement;
-using CritterHeroes.Web.Contracts.Queries;
 
 namespace CritterHeroes.Web.Shared.Queries
 {

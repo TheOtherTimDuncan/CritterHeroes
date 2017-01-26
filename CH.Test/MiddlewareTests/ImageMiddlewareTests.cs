@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Middleware;
 using FluentAssertions;
 using Microsoft.Owin;

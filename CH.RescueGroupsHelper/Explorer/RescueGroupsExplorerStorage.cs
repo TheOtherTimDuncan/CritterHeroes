@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
+using CritterHeroes.Web.Domain.Contracts;
+using CritterHeroes.Web.Domain.Contracts.Configuration;
+using CritterHeroes.Web.Domain.Contracts.Events;
 using Newtonsoft.Json.Linq;
 
 namespace CH.RescueGroupsHelper.Explorer

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using Microsoft.Owin;
 using TOTD.Utility.ExceptionHelpers;
 using TOTD.Utility.StringHelpers;

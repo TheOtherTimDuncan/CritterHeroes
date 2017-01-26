@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.Configuration;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Admin.Organizations.Models;
 using CritterHeroes.Web.Shared.Commands;
 using CritterHeroes.Web.Shared.StateManagement;

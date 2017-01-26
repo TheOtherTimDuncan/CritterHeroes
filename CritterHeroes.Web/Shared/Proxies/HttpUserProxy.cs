@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using CritterHeroes.Web.Shared.Identity;
 using Microsoft.Owin;
 

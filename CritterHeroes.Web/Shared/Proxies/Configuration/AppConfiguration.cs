@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Configuration;
+using CritterHeroes.Web.Domain.Contracts.Configuration;
 
 namespace CritterHeroes.Web.Shared.Proxies.Configuration
 {

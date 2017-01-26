@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Data.Models

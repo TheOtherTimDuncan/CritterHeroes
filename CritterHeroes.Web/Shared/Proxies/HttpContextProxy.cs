@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Shared.Proxies
@@ -10,7 +10,7 @@ namespace CritterHeroes.Web.Shared.Proxies
     public class HttpContextProxy : IHttpContext
     {
         private HttpContextBase _httpContext;
-        
+
         // We need to late-bind to HttpContext rather than do it in the constructor to assist with validating the dependency container
         private HttpContextBase Context
         {

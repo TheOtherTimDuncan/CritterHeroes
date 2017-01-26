@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using CritterHeroes.Web.Shared.StateManagement;
 using FluentAssertions;
 using Microsoft.Owin;

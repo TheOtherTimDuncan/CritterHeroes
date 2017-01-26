@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using EntityFramework.Testing.Moq;
 using Moq;
 

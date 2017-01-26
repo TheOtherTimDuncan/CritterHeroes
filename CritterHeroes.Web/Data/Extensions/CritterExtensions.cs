@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
 
 namespace CritterHeroes.Web.Data.Extensions

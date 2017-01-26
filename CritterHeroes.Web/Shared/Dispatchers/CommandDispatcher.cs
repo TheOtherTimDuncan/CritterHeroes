@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.Commands;
 using CritterHeroes.Web.Shared.Commands;
 using SimpleInjector;
 using TOTD.Utility.ExceptionHelpers;

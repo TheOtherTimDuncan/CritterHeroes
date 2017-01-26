@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Routing;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using Moq;
 
 namespace CH.Test.Mocks

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 
 namespace CH.RescueGroupsHelper
 {

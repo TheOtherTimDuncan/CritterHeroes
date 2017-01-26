@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Queries;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Domain.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.Queries;
 
 namespace CritterHeroes.Web.Features.Admin.ErrorLog
 {

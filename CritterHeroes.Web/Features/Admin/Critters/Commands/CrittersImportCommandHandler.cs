@@ -5,14 +5,14 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Events;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Mappers;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using CritterHeroes.Web.Domain.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.Events;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
 using CritterHeroes.Web.Models.LogEvents;
 using CritterHeroes.Web.Shared.Commands;
@@ -217,7 +217,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Commands
 
                 mapper.MapSourceToTarget(context, fieldNames.ToArray());
 
-                // Save changes before transferring pictures since we'll need Critter.ID 
+                // Save changes before transferring pictures since we'll need Critter.ID
                 await _critterStorage.SaveChangesAsync();
 
                 await ImportPictures(context);

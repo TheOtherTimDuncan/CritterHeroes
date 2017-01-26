@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts;
+using CritterHeroes.Web.Domain.Contracts.Queries;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
 using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Features.Shared.Models;
@@ -45,7 +44,7 @@ namespace CritterHeroes.Web.Features.Admin.Critters.Queries
 
             critters = critters.OrderBy(x => x.Name);
 
-            model.Critters = await 
+            model.Critters = await
             (
                 from x in critters
                 select new CritterModel()

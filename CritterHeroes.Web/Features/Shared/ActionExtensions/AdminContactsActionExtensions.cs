@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using CritterHeroes.Web.Features.Admin.Contacts;
 using CritterHeroes.Web.Features.Admin.Contacts.Queries;
 

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
-using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Contexts;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

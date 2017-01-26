@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using TOTD.Utility.ExceptionHelpers;
 
 namespace CritterHeroes.Web.Features.Shared

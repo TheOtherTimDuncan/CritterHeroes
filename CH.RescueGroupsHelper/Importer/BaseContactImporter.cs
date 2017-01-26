@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using TOTD.Utility.EnumerableHelpers;
 
 namespace CH.RescueGroupsHelper.Importer

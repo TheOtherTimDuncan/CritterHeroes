@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.DataProviders.RescueGroups;
 using CritterHeroes.Web.DataProviders.RescueGroups.Configuration;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Storage;
+using CritterHeroes.Web.Domain.Contracts;
+using CritterHeroes.Web.Domain.Contracts.Configuration;
+using CritterHeroes.Web.Domain.Contracts.Events;
 using CritterHeroes.Web.Models.LogEvents;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json.Linq;
 
 namespace CH.Test.RescueGroups
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Domain.Contracts;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Home.Models;
 using CritterHeroes.Web.Features.Home.Queries;
 using CritterHeroes.Web.Shared.StateManagement;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using CritterHeroes.Web.Shared.VersionedStatics;
 using SimpleInjector.Integration.Web.Mvc;
 

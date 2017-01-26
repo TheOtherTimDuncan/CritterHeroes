@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Home.Models;
 using CritterHeroes.Web.Features.Home.Queries;
 using FluentAssertions;
@@ -20,7 +20,7 @@ namespace CH.Test.HomeTests
             mockLogoService.Setup(x => x.GetLogoUrl()).Returns("http://root/azure/logo.svg");
 
             HeaderQueryHandler handler = new HeaderQueryHandler(mockLogoService.Object);
-            HeaderModel model = handler.Execute(new HeaderQuery()); 
+            HeaderModel model = handler.Execute(new HeaderQuery());
 
             model.Should().NotBeNull();
             model.LogoUrl.Should().Be("http://root/azure/logo.svg");

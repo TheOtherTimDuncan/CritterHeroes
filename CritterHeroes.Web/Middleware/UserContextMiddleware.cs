@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Shared.StateManagement;
 using Microsoft.Owin;
 using Owin;
@@ -37,7 +37,7 @@ namespace CritterHeroes.Web.Middleware
         public override async Task Invoke(IOwinContext context)
         {
             // While logging out user is still authenticated until the request is complete
-            // so we have to double-check the request path to avoid re-creating the cookie 
+            // so we have to double-check the request path to avoid re-creating the cookie
             // while logging out
 
             if (context.Request.User.Identity.IsAuthenticated && !context.Request.Path.ToString().SafeEquals("/Account/Logout"))

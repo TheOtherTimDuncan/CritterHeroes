@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Shared.Commands;
 using CritterHeroes.Web.Shared.StateManagement;

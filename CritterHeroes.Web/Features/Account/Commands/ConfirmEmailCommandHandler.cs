@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Events;
-using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Domain.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.Events;
+using CritterHeroes.Web.Domain.Contracts.Identity;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Models.LogEvents;
 using CritterHeroes.Web.Shared.Commands;

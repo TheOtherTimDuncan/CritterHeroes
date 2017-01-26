@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Identity;
 using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Models.Identity;
-using Microsoft.AspNet.Identity;
+using CritterHeroes.Web.Domain.Contracts.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CritterHeroes.Web.Data.Storage

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CH.Test.Mocks;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using CritterHeroes.Web.Data.Models.Identity;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Features.Account.Queries;

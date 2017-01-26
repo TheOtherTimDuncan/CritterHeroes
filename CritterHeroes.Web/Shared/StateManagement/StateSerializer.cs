@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using Newtonsoft.Json;
 
 namespace CritterHeroes.Web.Shared.StateManagement

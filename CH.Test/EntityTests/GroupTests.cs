@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Data.Contexts;
 using CritterHeroes.Web.Data.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using TOTD.EntityFramework;
 
 namespace CH.Test.EntityTests
 {

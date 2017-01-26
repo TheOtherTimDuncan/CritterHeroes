@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using CritterHeroes.Web.Contracts.Events;
-using CritterHeroes.Web.Contracts.Logging;
-using CritterHeroes.Web.Contracts.Storage;
+using CritterHeroes.Web.Domain.Contracts.Events;
+using CritterHeroes.Web.Domain.Contracts.Logging;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Models.LogEvents;
 using CritterHeroes.Web.Shared.Events;
 using CritterHeroes.Web.Shared.Logging;

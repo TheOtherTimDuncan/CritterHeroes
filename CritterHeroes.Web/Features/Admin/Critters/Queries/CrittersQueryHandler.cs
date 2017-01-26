@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.Storage;
-using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Domain.Contracts;
+using CritterHeroes.Web.Domain.Contracts.Queries;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Admin.Critters.Models;
 using TOTD.EntityFramework;
 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Email;
-using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.Email;
+using CritterHeroes.Web.Domain.Contracts.Queries;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Admin.Emails.Models;
 using CritterHeroes.Web.Shared;
 using CritterHeroes.Web.Shared.Commands;

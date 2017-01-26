@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Events;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.Events;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 
 namespace CritterHeroes.Web.Data.Contexts
 {

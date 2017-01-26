@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Events;
+using CritterHeroes.Web.Domain.Contracts.Events;
 
 namespace CH.RescueGroupsHelper
 {

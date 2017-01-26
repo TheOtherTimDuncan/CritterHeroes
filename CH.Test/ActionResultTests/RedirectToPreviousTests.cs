@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using CritterHeroes.Web.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using CritterHeroes.Web.Shared.ActionResults;
 using CritterHeroes.Web.Shared.StateManagement;
 using FluentAssertions;
@@ -32,7 +32,7 @@ namespace CH.Test.ActionResultTests
             DependencyResolver.SetResolver(mockDependencyResolver.Object);
 
             Mock<HttpResponseBase> mockResponse = new Mock<HttpResponseBase>();
-            
+
             Mock<HttpContextBase> mockHttpContext = new Mock<HttpContextBase>();
             mockHttpContext.Setup(x => x.Response).Returns(mockResponse.Object);
 

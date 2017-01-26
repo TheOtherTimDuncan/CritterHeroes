@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using CritterHeroes.Web.Domain.Contracts;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -102,7 +102,7 @@ namespace CH.Test.Mocks
         ""recordMessages"": []
     }},
     ""foundRows"": ""0"",
-    ""data"": 
+    ""data"":
         {jsonData}
 }}
 ";

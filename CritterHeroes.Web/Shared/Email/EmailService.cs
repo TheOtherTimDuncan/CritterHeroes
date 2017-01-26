@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Email;
-using CritterHeroes.Web.Contracts.Events;
+using CritterHeroes.Web.Domain.Contracts.Email;
+using CritterHeroes.Web.Domain.Contracts.Events;
 using CritterHeroes.Web.Models.LogEvents;
 using CritterHeroes.Web.Shared.Commands;
 using TOTD.Mailer.Core;

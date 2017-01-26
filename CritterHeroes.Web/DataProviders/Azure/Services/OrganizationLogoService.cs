@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.StateManagement;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Utility.StringHelpers;
 

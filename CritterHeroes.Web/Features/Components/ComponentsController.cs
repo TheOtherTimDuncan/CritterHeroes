@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using CritterHeroes.Web.Contracts.Commands;
-using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Domain.Contracts.Commands;
+using CritterHeroes.Web.Domain.Contracts.Queries;
 using CritterHeroes.Web.Features.Components.Models;
 using CritterHeroes.Web.Features.Components.Queries;
 using CritterHeroes.Web.Features.Shared;

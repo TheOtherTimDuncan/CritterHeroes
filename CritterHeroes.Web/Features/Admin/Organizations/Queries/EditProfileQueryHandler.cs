@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts.Configuration;
-using CritterHeroes.Web.Contracts.Queries;
-using CritterHeroes.Web.Contracts.Storage;
 using CritterHeroes.Web.Data.Extensions;
 using CritterHeroes.Web.Data.Models;
+using CritterHeroes.Web.Domain.Contracts.Configuration;
+using CritterHeroes.Web.Domain.Contracts.Queries;
+using CritterHeroes.Web.Domain.Contracts.Storage;
 using CritterHeroes.Web.Features.Admin.Organizations.Models;
 
 namespace CritterHeroes.Web.Features.Admin.Organizations.Queries

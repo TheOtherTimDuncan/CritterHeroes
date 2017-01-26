@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CritterHeroes.Web.Contracts;
-using CritterHeroes.Web.Contracts.Identity;
-using CritterHeroes.Web.Contracts.StateManagement;
 using CritterHeroes.Web.Data.Models.Identity;
+using CritterHeroes.Web.Domain.Contracts;
+using CritterHeroes.Web.Domain.Contracts.Identity;
+using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using CritterHeroes.Web.Features.Account.Commands;
 using CritterHeroes.Web.Features.Account.Models;
 using CritterHeroes.Web.Shared.Commands;

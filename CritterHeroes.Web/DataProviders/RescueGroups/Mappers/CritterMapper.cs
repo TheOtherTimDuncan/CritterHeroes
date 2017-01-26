@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Events;
 using CritterHeroes.Web.Data.Models;
 using CritterHeroes.Web.DataProviders.RescueGroups.Models;
+using CritterHeroes.Web.Domain.Contracts.Events;
 using CritterHeroes.Web.Models.LogEvents;
 using TOTD.Utility.Misc;
-using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.DataProviders.RescueGroups.Mappers
 {

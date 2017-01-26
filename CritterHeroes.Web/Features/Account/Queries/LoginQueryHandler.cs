@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CritterHeroes.Web.Contracts.Queries;
+using CritterHeroes.Web.Domain.Contracts.Queries;
 using CritterHeroes.Web.Features.Account.Models;
 
 namespace CritterHeroes.Web.Features.Account.Queries

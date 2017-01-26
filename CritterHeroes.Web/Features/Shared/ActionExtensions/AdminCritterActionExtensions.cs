@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using CritterHeroes.Web.Contracts;
+using CritterHeroes.Web.Domain.Contracts;
 using CritterHeroes.Web.Features.Admin.Critters;
 using CritterHeroes.Web.Features.Admin.Critters.Queries;
 using TOTD.Mvc;
