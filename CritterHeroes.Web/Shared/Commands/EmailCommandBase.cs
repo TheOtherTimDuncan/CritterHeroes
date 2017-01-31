@@ -21,7 +21,7 @@ namespace CritterHeroes.Web.Shared.Commands
             set;
         }
 
-        public string EmailBcc
+        public string EmailCc
         {
             get;
             set;

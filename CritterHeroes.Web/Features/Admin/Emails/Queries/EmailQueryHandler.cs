@@ -97,7 +97,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 await _crittersEmailService.SendEmailAsync(emailCommandCritters);
 
                 FosterSummaryEmailCommand emailSummary = new FosterSummaryEmailCommand("catmamadiane@yahoo.com");
-                emailSummary.EmailBcc = "tduncan72@gmail.com";
+                emailSummary.EmailCc = "tduncan72@gmail.com";
 
                 emailSummary.Summaries = data
                     .Select(x =>
@@ -131,7 +131,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 {
 
                     FosterCrittersEmailCommand emailcommandFosterCritters = new FosterCrittersEmailCommand(email);
-                    emailcommandFosterCritters.EmailBcc = "nan3176165@aol.com";
+                    emailcommandFosterCritters.EmailCc = "nan3176165@aol.com";
 
                     emailcommandFosterCritters.Critters = data.Where(x => x.FosterEmail == email).Select(x =>
                     {

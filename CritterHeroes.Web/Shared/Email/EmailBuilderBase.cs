@@ -65,7 +65,7 @@ namespace CritterHeroes.Web.Shared.Email
                 .EndParagraph()
                 .AddImage(command.UrlLogo, "Logo")
                 .To(command.EmailTo)
-                .Bcc(command.EmailBcc)
+                .Cc(command.EmailCc)
                 .From(command.EmailFrom ?? _emailConfiguration.DefaultFrom)
                 .ToEmail();
 
