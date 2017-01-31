@@ -15,6 +15,15 @@ namespace CritterHeroes.Web.Shared.Email
 {
     public class CrittersEmailBuilder : EmailBuilderBase<CrittersEmailCommand>
     {
+        private const string _styles = @"
+    .container {
+      width: 780px !important;
+      max-width: 780px !important;
+    }
+    .content {
+           max-width: 780px !important;
+    }
+";
         public CrittersEmailBuilder(IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailConfiguration emailConfiguration)
             : base(urlGenerator, stateManager, logoService, emailConfiguration)
         {
@@ -23,6 +32,7 @@ namespace CritterHeroes.Web.Shared.Email
         protected override EmailBuilder BuildEmail(EmailBuilder builder, CrittersEmailCommand command)
         {
             EmailBuilder result = builder
+                .AddStyles(_styles)
                 .AddParagraph("The following are the critters in the status Available, Not Available or Sponsorship status.")
                 .BeginTable(className: "critters-list")
                     .BeginTableRow()

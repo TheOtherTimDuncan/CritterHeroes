@@ -14,6 +14,15 @@ namespace CritterHeroes.Web.Shared.Email
 {
     public class FosterCrittersEmailBuilder : EmailBuilderBase<FosterCrittersEmailCommand>
     {
+        private const string _styles = @"
+    .container {
+      width: 780px !important;
+      max-width: 780px !important;
+    }
+    .content {
+           max-width: 780px !important;
+    }
+";
         public FosterCrittersEmailBuilder(IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailConfiguration emailConfiguration)
             : base(urlGenerator, stateManager, logoService, emailConfiguration)
         {
@@ -22,6 +31,7 @@ namespace CritterHeroes.Web.Shared.Email
         protected override EmailBuilder BuildEmail(EmailBuilder builder, FosterCrittersEmailCommand command)
         {
             EmailBuilder result = builder
+                .AddStyles(_styles)
                 .AddParagraph($"According to {command.OrganizationShortName} records, the following critters are currently in your care. If any of this information is out of date, please respond to this email with what needs changed.")
                 .BeginTable(className: "critters-list")
                     .BeginTableRow()
