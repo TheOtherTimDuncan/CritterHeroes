@@ -51,5 +51,26 @@ namespace CritterHeroes.Web.Shared
                     throw new ArgumentOutOfRangeException(nameof(speciesName), speciesName);
             }
         }
+
+        public static string GetAge(DateTime? birthdate, bool isExact = true)
+        {
+            if (birthdate == null)
+            {
+                return "Unknown";
+            }
+
+
+            int years = DateTime.Now.Year - birthdate.Value.Year;
+            DateTime now = DateTime.Now;
+            if (birthdate.Value.Month <= now.Month && birthdate.Value.Day <= now.Day)
+            {
+                years++;
+            }
+
+            string approximate = isExact ? String.Empty : " (approximate)";
+            string plural = years > 1 ? "s" : String.Empty;
+
+            return $"{years} year{plural} old{approximate}";
+        }
     }
 }

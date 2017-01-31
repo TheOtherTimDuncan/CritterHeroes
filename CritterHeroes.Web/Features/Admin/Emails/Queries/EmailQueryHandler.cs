@@ -56,6 +56,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                     LocationName = x.Location.Name,
                     GeneralAge = x.GeneralAge,
                     BirthDate = x.BirthDate,
+                    IsBirthDateExact = x.IsBirthDateExact,
                     SpeciesName = x.Breed.Species.Name,
                     PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
                 });
@@ -87,7 +88,9 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                         RescueGroupsID = x.RescueGroupsID,
                         Location = x.LocationName,
                         FosterName = x.Foster,
-                        FosterEmail = x.FosterEmail
+                        FosterEmail = x.FosterEmail,
+                        IsBirthDateExact = x.IsBirthDateExact ?? false,
+                        Birthdate = x.BirthDate
                     };
                 });
 
@@ -146,7 +149,9 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                             Status = x.Status,
                             RescueID = x.RescueID,
                             Sex = x.Sex,
-                            RescueGroupsID = x.RescueGroupsID
+                            RescueGroupsID = x.RescueGroupsID,
+                            IsBirthDateExact = x.IsBirthDateExact ?? false,
+                            Birthdate = x.BirthDate
                         };
                     });
 

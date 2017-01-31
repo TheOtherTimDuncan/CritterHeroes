@@ -29,6 +29,7 @@ namespace CritterHeroes.Web.Shared.Email
                         .AddTableHeader("Name")
                         .AddTableHeader("Status")
                         .AddTableHeader("Sex")
+                        .AddTableHeader("Age")
                         .AddTableHeader("ID")
                         .AddTableHeader(String.Empty)
                     .EndTableRow();
@@ -52,6 +53,7 @@ namespace CritterHeroes.Web.Shared.Email
                 builder.AddTableCell(data.Name);
                 builder.AddTableCell(data.Status);
                 builder.AddTableCell(data.Sex);
+                builder.AddTableCell(AgeHelper.GetAge(data.Birthdate, data.IsBirthDateExact));
                 builder.AddTableCell(data.RescueID);
 
                 builder.

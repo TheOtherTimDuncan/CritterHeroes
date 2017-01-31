@@ -5,6 +5,7 @@ using CritterHeroes.Web.Domain.Contracts;
 using CritterHeroes.Web.Domain.Contracts.Email;
 using CritterHeroes.Web.Domain.Contracts.StateManagement;
 using CritterHeroes.Web.Domain.Contracts.Storage;
+using CritterHeroes.Web.Shared;
 using CritterHeroes.Web.Shared.Commands;
 using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Mailer.Core;
@@ -30,6 +31,7 @@ namespace CritterHeroes.Web.Shared.Email
                         .AddTableHeader("Status")
                         .AddTableHeader("Sex")
                         .AddTableHeader("ID")
+                        .AddTableHeader("Age")
                         .AddTableHeader("Foster or Location")
                         .AddTableHeader(String.Empty)
                         .AddTableHeader(String.Empty)
@@ -55,6 +57,7 @@ namespace CritterHeroes.Web.Shared.Email
                 builder.AddTableCell(data.Status);
                 builder.AddTableCell(data.Sex);
                 builder.AddTableCell(data.RescueID);
+                builder.AddTableCell(AgeHelper.GetAge(data.Birthdate, data.IsBirthDateExact));
 
                 if (!data.Location.IsNullOrEmpty())
                 {

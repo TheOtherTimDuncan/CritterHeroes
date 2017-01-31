@@ -72,6 +72,18 @@ namespace CritterHeroes.Web.Shared.Commands
                 get;
                 set;
             }
+
+            public DateTime? Birthdate
+            {
+                get;
+                set;
+            }
+
+            public bool IsBirthDateExact
+            {
+                get;
+                set;
+            }
         }
     }
 }

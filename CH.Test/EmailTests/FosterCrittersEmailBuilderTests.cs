@@ -23,7 +23,9 @@ namespace CH.Test.EmailTests
                 RescueID = "rescueid1",
                 Sex = "sex1",
                 Status = "status1",
-                ThumbnailUrl = "thumbnail1"
+                ThumbnailUrl = "thumbnail1",
+                IsBirthDateExact = true,
+                Birthdate = DateTime.Now.AddDays(-1).AddYears(-2)
             };
 
             var critter2 = new FosterCrittersEmailCommand.Critter()
@@ -33,7 +35,9 @@ namespace CH.Test.EmailTests
                 RescueID = "rescueid2",
                 Sex = "sex2",
                 Status = "status2",
-                ThumbnailUrl = "thumbnail2"
+                ThumbnailUrl = "thumbnail2",
+                IsBirthDateExact = false,
+                Birthdate = DateTime.Now.AddDays(1).AddYears(-1)
             };
 
             command.Critters = new[] { critter1, critter2 };
