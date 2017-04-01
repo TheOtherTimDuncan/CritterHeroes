@@ -17,11 +17,11 @@ namespace CritterHeroes.Web.Shared.Email
     {
         private const string _styles = @"
     .container {
-      width: 780px !important;
-      max-width: 780px !important;
+      width: 900px !important;
+      max-width: 900px !important;
     }
     .content {
-           max-width: 780px !important;
+           max-width: 900px !important;
     }
 ";
         public CrittersEmailBuilder(IUrlGenerator urlGenerator, IStateManager<OrganizationContext> stateManager, IOrganizationLogoService logoService, IEmailConfiguration emailConfiguration)
@@ -41,7 +41,7 @@ namespace CritterHeroes.Web.Shared.Email
                         .AddTableHeader("Status")
                         .AddTableHeader("Sex")
                         .AddTableHeader("ID")
-                        .AddTableHeader("Age")
+                        .AddTableHeader("Birthdate")
                         .AddTableHeader("Foster or Location")
                         .AddTableHeader(String.Empty)
                         .AddTableHeader(String.Empty)
@@ -67,7 +67,16 @@ namespace CritterHeroes.Web.Shared.Email
                 builder.AddTableCell(data.Status);
                 builder.AddTableCell(data.Sex);
                 builder.AddTableCell(data.RescueID);
-                builder.AddTableCell(AgeHelper.GetAge(data.Birthdate, data.IsBirthDateExact));
+
+                //builder.AddText(AgeHelper.GetAge(data.Birthdate, data.IsBirthDateExact));
+                builder.BeginTableCell();
+                builder.AddText($"{data.Birthdate:MM/dd/yyyy}");
+                if (data.Birthdate != null && !data.IsBirthDateExact)
+                {
+                    builder.AddLineBreak();
+                    builder.AddText("(approximate)");
+                }
+                builder.EndTableCell();
 
                 if (!data.Location.IsNullOrEmpty())
                 {

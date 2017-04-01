@@ -9,6 +9,7 @@ using CritterHeroes.Web.Features.Shared.ActionExtensions;
 using CritterHeroes.Web.Shared.Commands;
 using CritterHeroes.Web.Shared.StateManagement;
 using TOTD.Mailer.Core;
+using TOTD.Utility.StringHelpers;
 
 namespace CritterHeroes.Web.Shared.Email
 {
@@ -27,6 +28,9 @@ namespace CritterHeroes.Web.Shared.Email
     }
     .critters-list th {
       text-align: center;
+    }
+    .critters-list img{
+        width: 50px;
     }
     .critters-list td,.critters-list th {
       padding: 5px 5px;
@@ -54,7 +58,14 @@ namespace CritterHeroes.Web.Shared.Email
 
             command.UrlHome = _urlGenerator.GenerateAbsoluteHomeUrl();
 
-            EmailMessage emailMessage = BuildEmail(EmailBuilder.Begin(), command)
+            EmailBuilder builder = EmailBuilder.Begin();
+
+            if (!command.EmailCc.IsNullOrEmpty())
+            {
+                builder.Cc(command.EmailCc);
+            }
+
+            EmailMessage emailMessage = BuildEmail(builder, command)
                 .AddStyles(_styles)
                 .BeginParagraph()
                     .AddText("Thanks,")
@@ -65,7 +76,6 @@ namespace CritterHeroes.Web.Shared.Email
                 .EndParagraph()
                 .AddImage(command.UrlLogo, "Logo")
                 .To(command.EmailTo)
-                .Cc(command.EmailCc)
                 .From(command.EmailFrom ?? _emailConfiguration.DefaultFrom)
                 .ToEmail();
 
