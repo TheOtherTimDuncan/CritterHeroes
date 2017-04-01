@@ -58,7 +58,7 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                     BirthDate = x.BirthDate,
                     IsBirthDateExact = x.IsBirthDateExact,
                     SpeciesName = x.Breed.Species.Name,
-                    PictureFilename = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.Filename
+                    SourceUrl = x.Pictures.FirstOrDefault(p => p.Picture.DisplayOrder == 1).Picture.SourceUrl
                 });
 
             if (query.SendEmail)
@@ -69,18 +69,10 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                 emailCommandCritters.AddTo("uponastar9@yahoo.com");
                 emailCommandCritters.AddTo("pchapman72@yahoo.com");
 
-                emailCommandCritters.Critters = data.Select(x =>
-                {
-
-                    string urlThumbnail = null;
-                    if (!x.PictureFilename.IsNullOrEmpty())
+                emailCommandCritters.Critters = data
+                    .Select(x => new CrittersEmailCommand.Critter()
                     {
-                        urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
-                    }
-
-                    return new CrittersEmailCommand.Critter()
-                    {
-                        ThumbnailUrl = urlThumbnail,
+                        ThumbnailUrl = x.SourceUrl,
                         Name = x.Name,
                         Status = x.Status,
                         RescueID = x.RescueID,
@@ -91,8 +83,8 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
                         FosterEmail = x.FosterEmail,
                         IsBirthDateExact = x.IsBirthDateExact ?? false,
                         Birthdate = x.BirthDate
-                    };
-                });
+                    })
+                    .ToList();
 
                 await _crittersEmailService.SendEmailAsync(emailCommandCritters);
 
@@ -135,16 +127,9 @@ namespace CritterHeroes.Web.Features.Admin.Emails.Queries
 
                     emailcommandFosterCritters.Critters = data.Where(x => x.FosterEmail == email).Select(x =>
                     {
-
-                        string urlThumbnail = null;
-                        if (!x.PictureFilename.IsNullOrEmpty())
-                        {
-                            urlThumbnail = "https://s3.amazonaws.com/filestore.rescuegroups.org/1211/pictures/animals/" + x.RescueGroupsID.ToString().Substring(0, 4) + "/" + x.RescueGroupsID + "/" + x.PictureFilename;
-                        }
-
                         return new FosterCrittersEmailCommand.Critter()
                         {
-                            ThumbnailUrl = urlThumbnail,
+                            ThumbnailUrl = x.SourceUrl,
                             Name = x.Name,
                             Status = x.Status,
                             RescueID = x.RescueID,
