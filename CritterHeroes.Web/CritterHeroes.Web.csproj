@@ -297,7 +297,8 @@
     <Content Include="Features\Home\Views\Index.cshtml" />
     <Content Include="Features\Home\Views\_Header.cshtml" />
     <Content Include="Features\Home\Views\_Menu.cshtml" />
-    <Content Include="gulp-tasks\handlebars.js" />
+    <None Include="gulp-tasks\handlebars.js" />
+    <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="RescueGroups.config" />
     <None Include="src\css\cheroes\box-sizing.scss" />
     <None Include="src\css\cheroes\buttons.scss" />
@@ -306,7 +307,7 @@
     <None Include="src\css\cheroes\flex.scss" />
     <None Include="src\css\cheroes\fontawesome.scss" />
     <None Include="src\css\cheroes\forms.scss" />
-    <Content Include="src\css\cheroes\mixins.scss" />
+    <None Include="src\css\cheroes\mixins.scss" />
     <None Include="src\css\cheroes\modals.scss" />
     <None Include="src\css\cheroes\nav.scss" />
     <None Include="src\css\cheroes\paging.scss" />
@@ -371,22 +372,22 @@
     <None Include="bower.json" />
     <None Include="package.json" />
     <None Include="src\_references.js" />
-    <None Include="src\lib\dropzone.js" />
-    <None Include="src\lib\dropzone.min.js">
+    <Content Include="src\lib\dropzone.js" />
+    <Content Include="src\lib\dropzone.min.js">
       <DependentUpon>dropzone.js</DependentUpon>
-    </None>
-    <None Include="src\lib\jquery.js" />
-    <None Include="src\lib\jquery.min.js">
+    </Content>
+    <Content Include="src\lib\jquery.js" />
+    <Content Include="src\lib\jquery.min.js">
       <DependentUpon>jquery.js</DependentUpon>
-    </None>
-    <None Include="src\lib\jquery.min.map">
+    </Content>
+    <Content Include="src\lib\jquery.min.map">
       <DependentUpon>jquery.js</DependentUpon>
-    </None>
-    <None Include="src\lib\jquery.validate.js" />
-    <None Include="src\lib\jquery.validate.min.js">
+    </Content>
+    <Content Include="src\lib\jquery.validate.js" />
+    <Content Include="src\lib\jquery.validate.min.js">
       <DependentUpon>jquery.validate.js</DependentUpon>
-    </None>
-    <None Include="src\lib\jquery.validate.unobtrusive.js" />
+    </Content>
+    <Content Include="src\lib\jquery.validate.unobtrusive.js" />
     <None Include="src\js\bundled\ch.pubsub.js" />
     <None Include="src\js-tests\tests.html" />
     <None Include="src\css\site.css">
@@ -413,7 +414,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs">
+    <Compile Include="..\build\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Start\DIConfig.cs" />
@@ -759,12 +760,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config">
+    <None Include="packages.config">
       <SubType>Designer</SubType>
-    </Content>
-    <None Include="src\lib\jquery.validate.unobtrusive.min.js">
-      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
     </None>
+    <Content Include="src\lib\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
     <None Include="tsd.json" />
     <Content Include="versioned-lib.json" />
     <Content Include="versioned-js.json" />
@@ -805,7 +806,8 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)|$(Configuration)'=='true|Debug'">
+    <Message Text="Building views..." Importance="high" />
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -815,11 +817,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="DeepClean" BeforeTargets="Clean">
+    <CallTarget Targets="CleanWebsitesPackage" />
+    <CallTarget Targets="CleanWebsitesWPPAllFilesInSingleFolder" />
+    <CallTarget Targets="CleanWebPublishPipelineIntermediateOutput"/>
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
